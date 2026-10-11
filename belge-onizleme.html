@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <!--
-  WEICON ASİST — BELGE ÖNİZLEME v2
+  WEICON ASİST — BELGE ÖNİZLEME v2 — VERSİYON: WG.111026.1455.765
   ====================================
   WEICON logosu tek başına üstte, CARİ BİLGİ şeridi (isim, vade/fatura/
   kargo, fatura adresi, teslimat adresi, yetkili bilgisi), tablo başlığında
   Tür·Kod·Tarih bir arada, ürün tablosu (SIRA|ÜRÜN|ADET|LİSTE|İSK|NET|
   TOPLAM|PRİM), GENEL TOPLAM ve MÜDÜR PRİMİ şeritleri.
   Raporlar → Son İşlemler'den bir kayda "📄 Belgeyi Görüntüle" ile gelinir.
+
+  11.10.2026 (Abdullah'ın isteğiyle, mockup üzerinden onaylandı) — görsel
+  yeniden tasarım: yeni renk/tipografi/boşluk dili belge-onizleme-style-v2.css
+  dosyasında, SADECE ".belge-onizleme-sayfa" (bkz. <body>) kapsamında
+  tanımlı — belge-style.css'i paylaşan cart.html/send.html/customer-detail.html
+  ETKİLENMEDİ. HTML yapısı ve belge-render.js'in ürettiği class'lar DEĞİŞMEDİ.
 -->
 <html lang="tr">
 <head>
@@ -23,8 +29,9 @@
 <link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
 <link rel="stylesheet" href="belge-style.css?v=WG.081026.0120.751">
 <link rel="stylesheet" href="reports-style.css?v=WG.071026.2350.750">
+<link rel="stylesheet" href="belge-onizleme-style-v2.css?v=WG.111026.1455.765">
 </head>
-<body>
+<body class="belge-onizleme-sayfa">
 
 <div class="app-ust-sabit">
 <header class="app-header">
@@ -170,7 +177,7 @@
 <script src="reports-data.js?v=WG.071026.2200.747"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1523.89"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
-<script src="product-data.js?v=WG.130926.2010.553"></script>
+<script src="product-data.js?v=WG.111026.1250.763"></script>
 <script src="hareket-tablo.js?v=WG.071026.2350.750"></script>
 <script src="belge-render.js?v=WG.081026.0120.751"></script>
 </body>

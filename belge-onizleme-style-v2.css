@@ -1,0 +1,264 @@
+/*
+  belge-onizleme-style-v2.css — WG.111026.1455.765
+  ===================================================
+  AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026,
+  Abdullah'ın isteğiyle — mockup üzerinden onaylandı).
+
+  ÖNEMLİ — KAPSAM: belge-style.css DÖRT sayfa tarafından paylaşılıyor
+  (belge-onizleme.html, cart.html, customer-detail.html, send.html).
+  Bu dosyadaki TÜM kurallar, SADECE bu sayfaya has ".belge-onizleme-sayfa"
+  body sınıfı altında tanımlı — Sepet/Gönder/Müşteri Detay ekranlarının
+  (aynı sınıf isimlerini kullanan .belge-para-sayi, .belge-kosul-alan vb.)
+  görünümüne KESİNLİKLE dokunmuyor. Bu dosya SADECE belge-onizleme.html'e
+  bağlı (bkz. o dosyadaki <link>).
+
+  HTML/JS yapısı DEĞİŞMEDİ — belge-render.js'in ürettiği class isimleri
+  birebir aynı; bu sadece bir görünüm (CSS) katmanı. İş mantığı, hesaplama,
+  Firebase/localStorage katmanlarına dokunulmadı.
+*/
+
+.belge-onizleme-sayfa {
+  --brand-primary: #073B70;
+  --brand-blue: #0866C6;
+  --brand-blue-light: #DCEBFA;
+  --page-bg: #F4F8FC;
+  --surface: #FFFFFF;
+  --text-primary: #15243B;
+  --text-secondary: #64748B;
+  --border-color: #D8E4F0;
+  --success: #07834F;
+  --danger: #D92D20;
+  --warning: #F28C28;
+  font-size: 14px;
+}
+
+.belge-onizleme-sayfa .sayfa { background: var(--page-bg); padding: 12px 16px 16px; }
+
+/* ---- Kartlar ---- */
+.belge-onizleme-sayfa .belge-kart {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.belge-onizleme-sayfa .belge-kutu--sorunlu { border: 2px solid var(--danger); }
+
+/* ---- Önceki belge zinciri çipi ---- */
+.belge-onizleme-sayfa .belge-gecmis-cip-satir {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+/* ---- Müşteri kartı üst şeridi (SİPARİŞ / WEICON) ---- */
+.belge-onizleme-sayfa .belge-musteri-baslik {
+  background: var(--brand-blue-light);
+  color: var(--brand-primary);
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .4px;
+  border-bottom: 1px solid var(--border-color);
+}
+.belge-onizleme-sayfa .belge-logo-mini {
+  background: var(--brand-primary);
+  border: none;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 6px;
+}
+
+.belge-onizleme-sayfa .belge-musteri-govde { padding: 14px 16px; }
+.belge-onizleme-sayfa .belge-musteri-ad {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  padding-left: 0;
+}
+.belge-onizleme-sayfa .ck-isim-nokta { display: none; }
+
+.belge-onizleme-sayfa .belge-kosul-grid { gap: 8px; padding-bottom: 14px; margin-bottom: 4px; }
+.belge-onizleme-sayfa .belge-kosul-alan {
+  background: var(--page-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 9px;
+  padding: 10px 6px;
+}
+.belge-onizleme-sayfa .belge-kosul-ikon {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+.belge-onizleme-sayfa .belge-kosul-etiket {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: .3px;
+  text-transform: uppercase;
+}
+.belge-onizleme-sayfa .belge-kosul-deger {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.25;
+}
+
+/* Adres/yetkili blokları — etiketlerdeki emoji ikonlar (🧾/🚚/👤) zaten
+   belge-render.js'in ürettiği HTML metninin içinde var; burada sadece
+   renk/boyut/boşluk yenileniyor, ikon tekrar eklenmiyor. */
+.belge-onizleme-sayfa .belge-adres-blok,
+.belge-onizleme-sayfa .belge-adres-blok-teslimat,
+.belge-onizleme-sayfa .belge-yetkili-blok {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  padding-top: 14px;
+  padding-bottom: 2px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 2px;
+}
+.belge-onizleme-sayfa .belge-adres-etiket-fatura,
+.belge-onizleme-sayfa .belge-adres-etiket-teslimat,
+.belge-onizleme-sayfa .belge-adres-etiket-yetkili {
+  color: var(--brand-blue);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .4px;
+  margin-bottom: 6px;
+}
+.belge-onizleme-sayfa .belge-adres-govde { padding-left: 0; font-size: 14px; color: var(--text-primary); }
+.belge-onizleme-sayfa .belge-adres-bos { color: var(--text-secondary); }
+
+.belge-onizleme-sayfa .belge-yetkili-satir { font-size: 14px; color: var(--text-primary); font-weight: 400; }
+.belge-onizleme-sayfa .belge-yetkili-blok .belge-yetkili-satir { padding-left: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.belge-onizleme-sayfa .belge-yetkili-satir b { font-weight: 700; }
+.belge-onizleme-sayfa .belge-yetkili-detay { color: var(--text-secondary); font-size: 13px; font-weight: 400; }
+
+/* ---- Sipariş başlığı şeridi ---- */
+.belge-onizleme-sayfa .belge-ust-bilgi-serit {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: 14px 16px;
+}
+.belge-onizleme-sayfa .belge-ust-bilgi-baslik {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: normal;
+}
+.belge-onizleme-sayfa .belge-ust-kur-notu {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-top: 3px;
+  white-space: normal;
+}
+.belge-onizleme-sayfa .belge-ust-kur-sayi { color: var(--brand-blue); font-weight: 700; }
+.belge-onizleme-sayfa .belge-ust-bilgi-serit .belge-logo-mini { background: var(--brand-primary); }
+
+/* ---- Ürün tablosu — 8 sütun telefon genişliğine (390px) kaydırmasız
+   sığıyor (mockup onayı: Seçenek B). ---- */
+.belge-onizleme-sayfa .data-table-container { border: none; border-radius: 0; margin-bottom: 0; }
+.belge-onizleme-sayfa .belge-urun-tablo { font-size: 11px; table-layout: fixed; }
+.belge-onizleme-sayfa .belge-urun-tablo th {
+  background: var(--brand-blue-light);
+  color: var(--brand-primary);
+  padding: 7px 3px;
+  font-size: 9.6px;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border-color);
+}
+.belge-onizleme-sayfa .belge-urun-tablo td {
+  padding: 7px 4px;
+  border-top: 1px solid var(--border-color);
+  font-size: 11px;
+  color: var(--text-primary);
+}
+.belge-onizleme-sayfa .belge-urun-tablo th,
+.belge-onizleme-sayfa .belge-urun-tablo td { border-right: 1px solid var(--border-color); }
+.belge-onizleme-sayfa .belge-urun-tablo tbody tr:not(.hareket-satir--sari):not(.hareket-satir--yesil):nth-child(even) td { background: var(--page-bg); }
+
+.belge-onizleme-sayfa .belge-td-sira { color: var(--text-secondary); font-size: 9.6px; }
+.belge-onizleme-sayfa .belge-td-urun-kod { font-size: 7.5px; font-weight: 700; white-space: nowrap; overflow: hidden; }
+.belge-onizleme-sayfa .kod-blok--b { color: var(--danger); }
+.belge-onizleme-sayfa .kod-blok--a { color: var(--brand-blue); }
+.belge-onizleme-sayfa .belge-td-urun-ad { font-size: 11.5px; font-weight: 600; color: var(--text-primary); margin-top: 2px; }
+
+.belge-onizleme-sayfa .belge-para-sayi { font-size: 11.5px; font-weight: 600; color: var(--text-primary); display: block; white-space: nowrap; }
+.belge-onizleme-sayfa .belge-para-birim { font-size: 8px; font-weight: 600; color: var(--text-secondary); display: block; }
+.belge-onizleme-sayfa .rozet-net { color: var(--success); }
+.belge-onizleme-sayfa .belge-isk-metin .belge-para-sayi,
+.belge-onizleme-sayfa .belge-isk-metin .belge-para-birim { color: var(--danger) !important; }
+.belge-onizleme-sayfa .belge-net-tl { color: var(--text-secondary); font-size: 8.5px; }
+.belge-onizleme-sayfa .belge-td-toplam { color: var(--text-primary); }
+.belge-onizleme-sayfa .belge-para-sayi--buyuk { font-size: .84em; }
+.belge-onizleme-sayfa .belge-td-prim-tek .belge-para-sayi { font-size: 9.5px; }
+.belge-onizleme-sayfa .belge-td-prim-tek .belge-para-birim { font-size: 7px; }
+
+/* ---- Genel toplam + PRİM (Abdullah onayı: PRİM şeridi korunuyor, aynı
+   kartın alt köşelerini birlikte kapatıyor) ---- */
+.belge-onizleme-sayfa .belge-genel-toplam-serit--duz {
+  background: var(--brand-primary);
+  padding: 16px;
+}
+.belge-onizleme-sayfa .belge-gt-etiket { font-size: 13px; font-weight: 700; letter-spacing: .3px; }
+.belge-onizleme-sayfa .belge-gt-deger { font-size: 28px; font-weight: 700; }
+.belge-onizleme-sayfa .belge-gt-deger-alt { font-size: 13px; font-weight: 500; color: #AEC9E8; margin-top: 2px; }
+
+.belge-onizleme-sayfa .belge-prim-serit {
+  background: #052b52;
+  padding: 10px 16px;
+  border-top: 1px solid rgba(255,255,255,.12);
+  border-radius: 0 0 12px 12px;
+}
+.belge-onizleme-sayfa .belge-prim-etiket { font-size: 11px; font-weight: 700; letter-spacing: .3px; color: #AEC9E8; }
+.belge-onizleme-sayfa .belge-prim-deger { font-size: 14px; font-weight: 700; color: #ffffff; }
+
+/* ---- Belge geçmişi ---- */
+.belge-onizleme-sayfa .belge-gecmis-kutu {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+}
+.belge-onizleme-sayfa .belge-gecmis-baslik { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+.belge-onizleme-sayfa .belge-gecmis-alt { font-size: 12px; color: var(--text-secondary); font-weight: 500; margin-bottom: 16px; }
+.belge-onizleme-sayfa .belge-gecmis-nokta { box-shadow: 0 0 0 4px var(--surface); }
+.belge-onizleme-sayfa .belge-gecmis-adim--baglantili::before { background: var(--border-color); border: none; width: 2px; }
+.belge-onizleme-sayfa .belge-gecmis-tarih { color: var(--text-secondary); font-weight: 600; }
+.belge-onizleme-sayfa .belge-gecmis-kart { border-radius: 10px; border-width: 1px; }
+.belge-onizleme-sayfa .belge-gecmis-kart-baslik { font-size: 14px; font-weight: 600; }
+.belge-onizleme-sayfa .belge-gecmis-suan { background: var(--success); border: none; }
+
+/* ---- Alt buton çubuğu — "Yazdır" burada yok (zaten yoktu); güvenli alan
+   payı korunuyor. ---- */
+.belge-onizleme-sayfa .belge-alt-buton-satir {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.belge-onizleme-sayfa .belge-kapat-buton {
+  background: var(--surface);
+  color: var(--danger);
+  border: 1.5px solid var(--danger);
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.belge-onizleme-sayfa .belge-islemler-buton {
+  background: var(--brand-blue);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* ---- Bakiye ürün bloğu (mevcut işlev korunuyor, sadece renk/tipografi) ---- */
+.belge-onizleme-sayfa .belge-bakiye-kucuk-etiket { background: #FDF1E3; color: var(--warning); font-weight: 700; }
+.belge-onizleme-sayfa .belge-bakiye-toplam-serit { background: #FDF1E3; color: var(--warning); }
