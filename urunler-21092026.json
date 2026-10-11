@@ -1,0 +1,5900 @@
+[
+ {
+  "abas": "10054381",
+  "berta": "10000002",
+  "urun": "WEICON Plastik-Metal A 200 g",
+  "fiyat": 55.1
+ },
+ {
+  "abas": "10032081",
+  "berta": "10000005-39",
+  "urun": "WECON Plastik çelik A 0,5 kg",
+  "fiyat": 90.7
+ },
+ {
+  "abas": "10033018",
+  "berta": "10000020-39",
+  "urun": "WEICON Plastik-Metal A TR/GB 2 kg",
+  "fiyat": 286.8
+ },
+ {
+  "abas": "10054384",
+  "berta": "10050002",
+  "urun": "WEICON Plastik-Metal B 200 g",
+  "fiyat": 55.1
+ },
+ {
+  "abas": "10033019",
+  "berta": "10050005-39",
+  "urun": "WEICON Plastik çelik B TR/GB 0,5 kg",
+  "fiyat": 90.7
+ },
+ {
+  "abas": "10033023",
+  "berta": "10050020-39",
+  "urun": "WEICON Plastik çelik B TR/GB 2 kg",
+  "fiyat": 286.9
+ },
+ {
+  "abas": "10051209",
+  "berta": "10100002",
+  "urun": "Plastik-Metal C Reçine 0,2 kg",
+  "fiyat": 65.4
+ },
+ {
+  "abas": "10032082",
+  "berta": "10100005-39",
+  "urun": "WEICON Plastik çelik C TR/GB 0,5 kg",
+  "fiyat": 114.0
+ },
+ {
+  "abas": "10000033",
+  "berta": "10100020",
+  "urun": "WEICON Plastik çelik C Reçine 2 kg",
+  "fiyat": 341.0
+ },
+ {
+  "abas": "10048518",
+  "berta": "10110030-39",
+  "urun": "Plastik-Metal CBC TR/GB 3 kg",
+  "fiyat": 442.2
+ },
+ {
+  "abas": "10045019",
+  "berta": "10110110",
+  "urun": "Plastik-Metal WEICON CBC 10 kg",
+  "fiyat": 1305.5
+ },
+ {
+  "abas": "10060972",
+  "berta": "10120002-39",
+  "urun": "WEICON Plastik-Metal HC220 TR/GB 0,2kg",
+  "fiyat": 99.7
+ },
+ {
+  "abas": "10060982",
+  "berta": "10120005-39",
+  "urun": "WEICON Plastik-Metal HC220 TR/GB 0,5kg",
+  "fiyat": 176.9
+ },
+ {
+  "abas": "10060988",
+  "berta": "10120020-39",
+  "urun": "WEICON Plastik-Metal HC 220 TR/GB 2 kg",
+  "fiyat": 564.7
+ },
+ {
+  "abas": "10054387",
+  "berta": "10150002",
+  "urun": "WEICON Plastik-Metal F 200 g",
+  "fiyat": 56.6
+ },
+ {
+  "abas": "10032084",
+  "berta": "10150005-39",
+  "urun": "WEICON F Plastik çelik TR/GB 0,5 kg",
+  "fiyat": 94.8
+ },
+ {
+  "abas": "10000041",
+  "berta": "10150020",
+  "urun": "WEICON Plastik çelik F Reçine 2 kg",
+  "fiyat": 295.7
+ },
+ {
+  "abas": "10033029",
+  "berta": "10200020-39",
+  "urun": "WEICON Plastik çelik F2 TR/GB 2 kg",
+  "fiyat": 450.4
+ },
+ {
+  "abas": "10009769",
+  "berta": "10250002",
+  "urun": "Plastik-Metal SF 200 g",
+  "fiyat": 61.8
+ },
+ {
+  "abas": "10033030",
+  "berta": "10250005-39",
+  "urun": "WEICON Plastik çelik SF TR/GB 0,5 kg",
+  "fiyat": 99.5
+ },
+ {
+  "abas": "10033031",
+  "berta": "10250020-39",
+  "urun": "WEICON Plastik çelik SF TR/GB 2 kg",
+  "fiyat": 310.7
+ },
+ {
+  "abas": "10063258",
+  "berta": "10260002-39",
+  "urun": "WEICON HT 111 TR/GB 0,2 kg",
+  "fiyat": 79.1
+ },
+ {
+  "abas": "10063265",
+  "berta": "10260005-39",
+  "urun": "WEICON HT 111 TR/GB 0,5 kg",
+  "fiyat": 115.3
+ },
+ {
+  "abas": "10063273",
+  "berta": "10260010-39",
+  "urun": "WEICON HT 111 TR/GB 1 kg",
+  "fiyat": 221.9
+ },
+ {
+  "abas": "",
+  "berta": "10210002",
+  "urun": "WEICON Plastik-Stahl WPG-19 0,2 kg",
+  "fiyat": 42.2
+ },
+ {
+  "abas": "10210005",
+  "berta": "10103061",
+  "urun": "WEICON Plastik-Stahl WPG-19 0,5 kg",
+  "fiyat": 199.5
+ },
+ {
+  "abas": "10103073",
+  "berta": "10210020",
+  "urun": "WEICON Plastik-Stahl WPG-19 2 kg",
+  "fiyat": 765.4
+ },
+ {
+  "abas": "10102149",
+  "berta": "10360002",
+  "urun": "Havuz Onarım Kiti TR/GB 0,2 kg",
+  "fiyat": 99.7
+ },
+ {
+  "abas": "10054400",
+  "berta": "10300002",
+  "urun": "WEICON Plastik-Metal WR 200 g",
+  "fiyat": 65.3
+ },
+ {
+  "abas": "10033032",
+  "berta": "10300005-39",
+  "urun": "WEICON Plastik çelik WR TR/GB 0,5 kg",
+  "fiyat": 114.0
+ },
+ {
+  "abas": "10000078",
+  "berta": "10300020",
+  "urun": "WEICON Plastik çelik WR Reçine 2 kg",
+  "fiyat": 344.9
+ },
+ {
+  "abas": "10103713",
+  "berta": "10310010-39",
+  "urun": "WEICON TB Flex HTJ TR/GB 1 kg",
+  "fiyat": 329.2
+ },
+ {
+  "abas": "10054401",
+  "berta": "10350002",
+  "urun": "WEICON Plastik-Metal WR2 200 g",
+  "fiyat": 56.6
+ },
+ {
+  "abas": "10033034",
+  "berta": "10350005-39",
+  "urun": "WEICON Plastik çelik WR2 TR/GB 0,5 kg",
+  "fiyat": 94.8
+ },
+ {
+  "abas": "10000088",
+  "berta": "10350020",
+  "urun": "WEICON Plastik çelik WR2 2 kg",
+  "fiyat": 295.7
+ },
+ {
+  "abas": "10068668",
+  "berta": "10380002-39",
+  "urun": "WEICON WL TR/GB 0,2 kg",
+  "fiyat": 85.6
+ },
+ {
+  "abas": "10068675",
+  "berta": "10380005-39",
+  "urun": "WEICON WL TR/GB 0,5 kg",
+  "fiyat": 148.0
+ },
+ {
+  "abas": "10067887",
+  "berta": "10380020",
+  "urun": "WEICON WL 2 kg",
+  "fiyat": 452.9
+ },
+ {
+  "abas": "10054393",
+  "berta": "10390002",
+  "urun": "WEICON Plastik-Metal HP 200 g",
+  "fiyat": 99.7
+ },
+ {
+  "abas": "10054003",
+  "berta": "10390005",
+  "urun": "Plastik-Metal HP 0,5 kg",
+  "fiyat": 179.1
+ },
+ {
+  "abas": "10054004",
+  "berta": "10390020",
+  "urun": "Plastik-Metal HP 2 kg",
+  "fiyat": 570.4
+ },
+ {
+  "abas": "10054394",
+  "berta": "10400002",
+  "urun": "WEICON Plastik-Metal BL 200 g",
+  "fiyat": 99.7
+ },
+ {
+  "abas": "10033037",
+  "berta": "10400005-39",
+  "urun": "WEICON Plastik çelik BL TR/GB 0,5 kg",
+  "fiyat": 176.9
+ },
+ {
+  "abas": "10033038",
+  "berta": "10400020-39",
+  "urun": "WEICON Plastik çelik BL TR/GB 2 kg",
+  "fiyat": 564.7
+ },
+ {
+  "abas": "10054396",
+  "berta": "10410002",
+  "urun": "WEICON Plastik-Metal ST 200 g",
+  "fiyat": 84.4
+ },
+ {
+  "abas": "10033041",
+  "berta": "10410005-39",
+  "urun": "WEICON Plastik çelik ST TR/GB 0,5 kg",
+  "fiyat": 136.1
+ },
+ {
+  "abas": "10000903",
+  "berta": "10410020",
+  "urun": "WEICON Plastik çelik ST Reçine 2 kg",
+  "fiyat": 451.2
+ },
+ {
+  "abas": "10054386",
+  "berta": "10420002",
+  "urun": "WEICON Plastik-Metal BR 200 g",
+  "fiyat": 75.8
+ },
+ {
+  "abas": "10033043",
+  "berta": "10420005-39",
+  "urun": "WEICON plastik çelik BR TR/GB 0,5 kg",
+  "fiyat": 129.5
+ },
+ {
+  "abas": "10012670",
+  "berta": "10420020",
+  "urun": "WEICON plastik çelik BR Reçine 1,6 kg",
+  "fiyat": 425.1
+ },
+ {
+  "abas": "10054397",
+  "berta": "10430002",
+  "urun": "WEICON Plastik-Metal TI 200 g",
+  "fiyat": 84.4
+ },
+ {
+  "abas": "10032085",
+  "berta": "10430005-39",
+  "urun": "WEICON plastik çelik TI TR/GB 0,5 kg",
+  "fiyat": 148.6
+ },
+ {
+  "abas": "10013475",
+  "berta": "10430020",
+  "urun": "WEICON plastik çelik TI Reçine 2 kg",
+  "fiyat": 487.1
+ },
+ {
+  "abas": "10054398",
+  "berta": "10440002",
+  "urun": "WEICON Plastik-Metal UW 200 g",
+  "fiyat": 80.0
+ },
+ {
+  "abas": "10032083",
+  "berta": "10440005-39",
+  "urun": "WEICON UW TR/GB 0,5 kg",
+  "fiyat": 141.9
+ },
+ {
+  "abas": "10000936",
+  "berta": "10440020",
+  "urun": "WEICON UW Reçine 2 kg",
+  "fiyat": 442.5
+ },
+ {
+  "abas": "10004472",
+  "berta": "10450002",
+  "urun": "Plastik-Metal HB300 200 g",
+  "fiyat": 79.6
+ },
+ {
+  "abas": "10058243",
+  "berta": "10450005-39",
+  "urun": "WEICON HB300 TR/GB 0,5 kg",
+  "fiyat": 115.3
+ },
+ {
+  "abas": "10033047",
+  "berta": "10450010-39",
+  "urun": "WEICON HB 300 TR/GB 1 kg",
+  "fiyat": 221.9
+ },
+ {
+  "abas": "10054395",
+  "berta": "10460002",
+  "urun": "WEICON Plastik-Metal W 200 g",
+  "fiyat": 99.7
+ },
+ {
+  "abas": "10033048",
+  "berta": "10460005-39",
+  "urun": "WEICON plastik çelik W TR/GB 0,5 kg",
+  "fiyat": 177.6
+ },
+ {
+  "abas": "10012233",
+  "berta": "10460020",
+  "urun": "WEICON plastik çelik W Reçine 2 kg",
+  "fiyat": 567.3
+ },
+ {
+  "abas": "10020990",
+  "berta": "10470020",
+  "urun": "Plastik-Metal WAL04 Reçine 2 kg",
+  "fiyat": 291.0
+ },
+ {
+  "abas": "10033051",
+  "berta": "10480020-39",
+  "urun": "WEICON Plastik çelik WAL06 TR/GB 2 kg",
+  "fiyat": 571.5
+ },
+ {
+  "abas": "10054399",
+  "berta": "10490002",
+  "urun": "WEICON Plastik-Metal WP 200 g",
+  "fiyat": 99.7
+ },
+ {
+  "abas": "10034684",
+  "berta": "10490020-39",
+  "urun": "Plastik-Metal WP TR/GB 2 kg",
+  "fiyat": 578.9
+ },
+ {
+  "abas": "10032939",
+  "berta": "10490100",
+  "urun": "Plastikstahl WP",
+  "fiyat": 2528.2
+ },
+ {
+  "abas": "10033558",
+  "berta": "10500100-39",
+  "urun": "Epoksi-Reçine Kiti TR/GB 100 g",
+  "fiyat": 31.5
+ },
+ {
+  "abas": "10000104",
+  "berta": "10500400",
+  "urun": "Epoksi-Reçine Kiti 400g",
+  "fiyat": 55.0
+ },
+ {
+  "abas": "10033560",
+  "berta": "10500800-39",
+  "urun": "Epoksi-Reçine Kiti TR/GB 800 g",
+  "fiyat": 83.3
+ },
+ {
+  "abas": "10033055",
+  "berta": "10514005-39",
+  "urun": "Üretan Reçine 45 TR/GB 0,5 kg",
+  "fiyat": 123.4
+ },
+ {
+  "abas": "10033056",
+  "berta": "10516005-39",
+  "urun": "Üretan Reçine 60 TR/GB 0,5 kg",
+  "fiyat": 123.4
+ },
+ {
+  "abas": "10033057",
+  "berta": "10518005-39",
+  "urun": "Üretan Reçine 80 TR/GB 0,5 kg",
+  "fiyat": 119.1
+ },
+ {
+  "abas": "10053974",
+  "berta": "10519005",
+  "urun": "Ürehan 90 SF 550 g",
+  "fiyat": 119.1
+ },
+ {
+  "abas": "10024676",
+  "berta": "10519250",
+  "urun": "Üretan Renk macunu siyah 250 g",
+  "fiyat": 138.5
+ },
+ {
+  "abas": "10054402",
+  "berta": "10520002",
+  "urun": "WEICON Dökme Reçinesi MS 1000",
+  "fiyat": 57.9
+ },
+ {
+  "abas": "10037313",
+  "berta": "10520005-39",
+  "urun": "Plastik-Metal MS1000 0,5 kg",
+  "fiyat": 63.0
+ },
+ {
+  "abas": "10033058",
+  "berta": "10520010-39",
+  "urun": "WEICON MS 1000 TR/GB 1,0 kg",
+  "fiyat": 112.7
+ },
+ {
+  "abas": "10061001",
+  "berta": "10523002-39",
+  "urun": "Dökme reçinesi +90 TR/GB 0,2 kg",
+  "fiyat": 65.8
+ },
+ {
+  "abas": "10061007",
+  "berta": "10523005-39",
+  "urun": "Dökme reçinesi +90 TR/GB 0,5 kg",
+  "fiyat": 93.6
+ },
+ {
+  "abas": "10061014",
+  "berta": "10523010-39",
+  "urun": "Dökme reçinesi +90 TR/GB 1 kg",
+  "fiyat": 158.2
+ },
+ {
+  "abas": "10038324",
+  "berta": "10530057-39",
+  "urun": "Tamir Çubukları Bakır TR/GB 57 g",
+  "fiyat": 18.1
+ },
+ {
+  "abas": "10038325",
+  "berta": "10530115-39",
+  "urun": "Tamir Çubukları Bakır TR/GB 115 g",
+  "fiyat": 34.9
+ },
+ {
+  "abas": "10038326",
+  "berta": "10531057-39",
+  "urun": "Tamir Çubukları Aqua TR/GB 57 g",
+  "fiyat": 18.0
+ },
+ {
+  "abas": "10038327",
+  "berta": "10531115-39",
+  "urun": "Tamir Çubukları Aqua TR/GB 115 g",
+  "fiyat": 34.9
+ },
+ {
+  "abas": "10010237",
+  "berta": "10532057",
+  "urun": "Tamir Çubukları Ahşap 28 g",
+  "fiyat": 18.1
+ },
+ {
+  "abas": "10038329",
+  "berta": "10532115-39",
+  "urun": "Tamir Çubukları Ahşap TR/GB 56 g",
+  "fiyat": 34.9
+ },
+ {
+  "abas": "10038330",
+  "berta": "10533057-39",
+  "urun": "Tamir Çubukları Çelik TR/GB 57 g",
+  "fiyat": 18.1
+ },
+ {
+  "abas": "10038331",
+  "berta": "10533115-39",
+  "urun": "Tamir Çubukları Çelik TR/GB 115 g",
+  "fiyat": 34.9
+ },
+ {
+  "abas": "10038332",
+  "berta": "10534057-39",
+  "urun": "Tamir Çubukları Alüminyum TR/GB 57 g",
+  "fiyat": 18.1
+ },
+ {
+  "abas": "10038333",
+  "berta": "10534115-39",
+  "urun": "Tamir Çubukları Alüminyum TR/GB 115 g",
+  "fiyat": 34.9
+ },
+ {
+  "abas": "10038334",
+  "berta": "10535057-39",
+  "urun": "Tamir Çubukları Titanyum TR/GB 57 g",
+  "fiyat": 23.0
+ },
+ {
+  "abas": "10038335",
+  "berta": "10535115-39",
+  "urun": "Tamir Çubukları Titanyum TR/GB 115 g",
+  "fiyat": 38.4
+ },
+ {
+  "abas": "10038336",
+  "berta": "10536057-39",
+  "urun": "Tamir Çubukları Plastik TR/GB 57 g",
+  "fiyat": 18.1
+ },
+ {
+  "abas": "10017334",
+  "berta": "10536115",
+  "urun": "Tamir Çubukları Plastik 115 g",
+  "fiyat": 34.9
+ },
+ {
+  "abas": "10025685",
+  "berta": "10537057",
+  "urun": "Tamir Çubukları Beton 57g",
+  "fiyat": 18.1
+ },
+ {
+  "abas": "10038339",
+  "berta": "10537115-39",
+  "urun": "Tamir Çubukları Beton TR/GB 115 g",
+  "fiyat": 34.9
+ },
+ {
+  "abas": "10038340",
+  "berta": "10538057-39",
+  "urun": "Tamir Çubukları Çelik TR/GB 57 g",
+  "fiyat": 23.0
+ },
+ {
+  "abas": "10038341",
+  "berta": "10538115-39",
+  "urun": "Tamir Çubukları Çelik TR/Gb 115 g",
+  "fiyat": 38.4
+ },
+ {
+  "abas": "10054130",
+  "berta": "10539057-39",
+  "urun": "Tamir Çubuğu Multi TR/GB 57 gr.",
+  "fiyat": 24.1
+ },
+ {
+  "abas": "10068562",
+  "berta": "10539115-39",
+  "urun": "Tamir Çubuğu Multi TR/GB 115 g",
+  "fiyat": 41.4
+ },
+ {
+  "abas": "10044962",
+  "berta": "10550024-39",
+  "urun": "Epoksi-Dakika Yap. TR/GB 24 ml",
+  "fiyat": 18.8
+ },
+ {
+  "abas": "10058840",
+  "berta": "10550025-39",
+  "urun": "Epoksi Dak. Yap. Set TR/GB 24ml",
+  "fiyat": 21.3
+ },
+ {
+  "abas": "10044961",
+  "berta": "10551024-39",
+  "urun": "Fast Metal TR/GB 24 ml",
+  "fiyat": 23.9
+ },
+ {
+  "abas": "10058777",
+  "berta": "10551025",
+  "urun": "Fast-Metal Set 24 ml",
+  "fiyat": 25.7
+ },
+ {
+  "abas": "10056754",
+  "berta": "10552024-39",
+  "urun": "Alüminyum Dakika Yapış TR/GB .24 ML",
+  "fiyat": 25.2
+ },
+ {
+  "abas": "10058776",
+  "berta": "10552025",
+  "urun": "Alü.Dakika Yapıştırıcısı Set",
+  "fiyat": 28.4
+ },
+ {
+  "abas": "10033420",
+  "berta": "10560060-39",
+  "urun": "RK 1300 Yapısal Yap. TR/GB 60 g",
+  "fiyat": 43.6
+ },
+ {
+  "abas": "10007508",
+  "berta": "10560330",
+  "urun": "RK 1300 Yapısal Yap. 330g",
+  "fiyat": 158.0
+ },
+ {
+  "abas": "10007378",
+  "berta": "10560800",
+  "urun": "RK-1300 Yapısal Yap. 1,0 kg",
+  "fiyat": 381.6
+ },
+ {
+  "abas": "10100094",
+  "berta": "10561906",
+  "urun": "RK 1300 6 kg",
+  "fiyat": 1524.4
+ },
+ {
+  "abas": "10000128",
+  "berta": "10562100",
+  "urun": "RK-1300/RK-1500 için Aktivatör 100 ml",
+  "fiyat": 72.7
+ },
+ {
+  "abas": "10000131",
+  "berta": "10562901",
+  "urun": "RK-1300/RK-1500 Aktivatör 1L",
+  "fiyat": 711.0
+ },
+ {
+  "abas": "10016249",
+  "berta": "10563330",
+  "urun": "RK-1500 310g",
+  "fiyat": 252.9
+ },
+ {
+  "abas": "10002622",
+  "berta": "10563800",
+  "urun": "RK-1500 1,0 kg",
+  "fiyat": 554.8
+ },
+ {
+  "abas": "10033456",
+  "berta": "10563860-39",
+  "urun": "RK 1500 TR/GB 60 g",
+  "fiyat": 47.8
+ },
+ {
+  "abas": "10100180",
+  "berta": "10563906",
+  "urun": "RK 1500 6 kg",
+  "fiyat": 2050.8
+ },
+ {
+  "abas": "10034979",
+  "berta": "10564050-39",
+  "urun": "RK-7200 TR/GB 50 g",
+  "fiyat": 61.6
+ },
+ {
+  "abas": "10018558",
+  "berta": "10565024",
+  "urun": "Plastic-Bond 24 ml",
+  "fiyat": 25.7
+ },
+ {
+  "abas": "10058780",
+  "berta": "10565025",
+  "urun": "Plastic-Bond Set, 24 ml",
+  "fiyat": 41.8
+ },
+ {
+  "abas": "10018563",
+  "berta": "10565050",
+  "urun": "RK-7000 50g",
+  "fiyat": 54.8
+ },
+ {
+  "abas": "10032834",
+  "berta": "10566050-39",
+  "urun": "RK-7100 Süper Bond TR/GB 50g",
+  "fiyat": 53.4
+ },
+ {
+  "abas": "10058263",
+  "berta": "10566150-39",
+  "urun": "RK-7100 Siyah TR/GB 50 gr",
+  "fiyat": 53.4
+ },
+ {
+  "abas": "10048549",
+  "berta": "10569050-39",
+  "urun": "Easy-Mix RK 7300 All Bond TR/GB 50 g",
+  "fiyat": 59.6
+ },
+ {
+  "abas": "10026167",
+  "berta": "10604000",
+  "urun": "Kalıp Ayırıcı F 1000 1L",
+  "fiyat": 150.2
+ },
+ {
+  "abas": "10026647",
+  "berta": "10604025",
+  "urun": "Kalıp Ayırıcı F 1000 250 ml",
+  "fiyat": 47.2
+ },
+ {
+  "abas": "10026171",
+  "berta": "10604500",
+  "urun": "Kalıp Ayırıcı Mumu P500 0,5 kg",
+  "fiyat": 125.1
+ },
+ {
+  "abas": "10026712",
+  "berta": "10604515",
+  "urun": "Kalıp Ayırıcı Mumu 150g",
+  "fiyat": 46.8
+ },
+ {
+  "abas": "10005236",
+  "berta": "10650001",
+  "urun": "Karıştırma Ağızlık Quadro",
+  "fiyat": 3.7
+ },
+ {
+  "abas": "10026925",
+  "berta": "10650002",
+  "urun": "Easy-Mix Metal Karıştırma Ağızlığı PE",
+  "fiyat": 5.1
+ },
+ {
+  "abas": "10029793",
+  "berta": "10650005",
+  "urun": "Karıştırma Ağızlık Quadro",
+  "fiyat": 4.1
+ },
+ {
+  "abas": "10030395",
+  "berta": "10650006",
+  "urun": "Karıştırma Ağızlık Helix",
+  "fiyat": 4.2
+ },
+ {
+  "abas": "10056710",
+  "berta": "10650026",
+  "urun": "Helix Karıştırma Ağızlık 400ml",
+  "fiyat": 11.7
+ },
+ {
+  "abas": "10057191",
+  "berta": "10650027",
+  "urun": "Karıştırma ucu MFHX",
+  "fiyat": 11.3
+ },
+ {
+  "abas": "10063091",
+  "berta": "10650031",
+  "urun": "Karıştırma ucu VA 2407 10 g",
+  "fiyat": 7.8
+ },
+ {
+  "abas": "10045355",
+  "berta": "10650050-39",
+  "urun": "Easy-Mix S 50 TR/GB 50 ml",
+  "fiyat": 37.5
+ },
+ {
+  "abas": "10045350",
+  "berta": "10650150-39",
+  "urun": "Easy-Mix N 50 TR/GB 50 ml",
+  "fiyat": 37.5
+ },
+ {
+  "abas": "10045349",
+  "berta": "10650250-39",
+  "urun": "Easy-Mix N 5000 TR/GB 50ml",
+  "fiyat": 37.5
+ },
+ {
+  "abas": "10048558",
+  "berta": "10650850-39",
+  "urun": "Easy Mix HT 180 TR/GB 50 ml",
+  "fiyat": 41.3
+ },
+ {
+  "abas": "10061027",
+  "berta": "10650855-39",
+  "urun": "Easy-Mix HT 250 TR/GB 50 ml",
+  "fiyat": 49.1
+ },
+ {
+  "abas": "10045356",
+  "berta": "10652050-39",
+  "urun": "Easy-Mix Metal Reçinesi TR/GB 50ml",
+  "fiyat": 37.5
+ },
+ {
+  "abas": "10102849",
+  "berta": "10653052",
+  "urun": "Dozaj tabancası D50 1:1 TR",
+  "fiyat": 80.8
+ },
+ {
+  "abas": "10022280",
+  "berta": "10653101",
+  "urun": "Easy-Mix D50 1:1 Piston",
+  "fiyat": 8.3
+ },
+ {
+  "abas": "10101999",
+  "berta": "10653150",
+  "urun": "Manuel Dağıtıcı",
+  "fiyat": 30.7
+ },
+ {
+  "abas": "10102860",
+  "berta": "10653151",
+  "urun": "50 ml için 10:1 el dozajlayıcı",
+  "fiyat": 21.9
+ },
+ {
+  "abas": "10028608",
+  "berta": "10653400",
+  "urun": "Easy-Mix Tabanca 400 ml",
+  "fiyat": 454.1
+ },
+ {
+  "abas": "10057514",
+  "berta": "10653491",
+  "urun": "Tabanca 500ml",
+  "fiyat": 264.2
+ },
+ {
+  "abas": "10023115",
+  "berta": "10660002",
+  "urun": "Karıştırma nozulu 10:1 B-System",
+  "fiyat": 7.1
+ },
+ {
+  "abas": "10058275",
+  "berta": "10660045-39",
+  "urun": "Easy-Mix PE-PP 45 TR/GB 45 ml",
+  "fiyat": 123.5
+ },
+ {
+  "abas": "10059295",
+  "berta": "10663045",
+  "urun": "Easy-Mix PE-PP El Tabancası",
+  "fiyat": 97.9
+ },
+ {
+  "abas": "10023341",
+  "berta": "10663110",
+  "urun": "Sürgü D50 10:1",
+  "fiyat": 17.1
+ },
+ {
+  "abas": "10062465",
+  "berta": "10665024-39",
+  "urun": "Easy-Mix PE-PP 50 TR/GB 24 ml",
+  "fiyat": 52.8
+ },
+ {
+  "abas": "10062146",
+  "berta": "10665025",
+  "urun": "Easy-Mix PE-PP 50 Set 24 ml",
+  "fiyat": 63.3
+ },
+ {
+  "abas": "10061040",
+  "berta": "10665050-39",
+  "urun": "Easy-Mix PE-PP 50, TR/GB 50 ml",
+  "fiyat": 87.3
+ },
+ {
+  "abas": "10057791",
+  "berta": "10700002",
+  "urun": "WEICON Plasitk-Meatl GL 200 g",
+  "fiyat": 99.7
+ },
+ {
+  "abas": "10057714",
+  "berta": "10700005",
+  "urun": "WEICON Plasitk-Meatl GL 0,5 kg",
+  "fiyat": 170.4
+ },
+ {
+  "abas": "10057800",
+  "berta": "10700010",
+  "urun": "WEICON Plastik-Metal GL 1 kg",
+  "fiyat": 341.0
+ },
+ {
+  "abas": "10061054",
+  "berta": "10705002-39",
+  "urun": "WEICON Plastik-Metal GL-S TR/GB 0,2 kg",
+  "fiyat": 102.3
+ },
+ {
+  "abas": "10061061",
+  "berta": "10705005-39",
+  "urun": "WEICON Plastik-Metal GL-S TR/GB 0,5 kg",
+  "fiyat": 172.4
+ },
+ {
+  "abas": "10061067",
+  "berta": "10705020-39",
+  "urun": "WEICON Plastik-Metal GL-S TR/GB 2 kg",
+  "fiyat": 562.2
+ },
+ {
+  "abas": "10065460",
+  "berta": "10710001-39",
+  "urun": "Pipe Repair-Kit 5/15 türkisch/englisch",
+  "fiyat": 51.4
+ },
+ {
+  "abas": "10065461",
+  "berta": "10710002-39",
+  "urun": "Pipe Repair-Kit 5/35 TR/GB",
+  "fiyat": 56.3
+ },
+ {
+  "abas": "10065462",
+  "berta": "10710003-39",
+  "urun": "WEICON Pipe Repair-Kit 10/35",
+  "fiyat": 71.3
+ },
+ {
+  "abas": "10058305",
+  "berta": "10710004-39",
+  "urun": "Boru tamir takımı 4 12/100 TR/GB",
+  "fiyat": 189.7
+ },
+ {
+  "abas": "10057453",
+  "berta": "10710515",
+  "urun": "Tamir bandı 5 cm x 1.5 m",
+  "fiyat": 36.3
+ },
+ {
+  "abas": "10065457",
+  "berta": "10710536-39",
+  "urun": "WEICON Repair-Tape 5 cm x 3,5 m",
+  "fiyat": 41.0
+ },
+ {
+  "abas": "10065458",
+  "berta": "10711036-39",
+  "urun": "WEICON Repair-Tape 10 cm x 3,5 m",
+  "fiyat": 60.7
+ },
+ {
+  "abas": "10102461",
+  "berta": "10711210-39",
+  "urun": "Tamir bandı 12 cm x 10 m TR/GB",
+  "fiyat": 114.2
+ },
+ {
+  "abas": "10032817",
+  "berta": "10751050-39",
+  "urun": "Easy-Mix PU 90 TR/GB 50 ml",
+  "fiyat": 41.9
+ },
+ {
+  "abas": "10032818",
+  "berta": "10753050-39",
+  "urun": "Easy-Mix PU 240 TR/GB 50 ml",
+  "fiyat": 41.9
+ },
+ {
+  "abas": "10058318",
+  "berta": "10758050-39",
+  "urun": "Easy-Mix PU Kristal TR/GB 50 ml",
+  "fiyat": 47.8
+ },
+ {
+  "abas": "10058330",
+  "berta": "10800005-39",
+  "urun": "Üretan 85 TR/GB 500 g",
+  "fiyat": 234.7
+ },
+ {
+  "abas": "10058343",
+  "berta": "10800540-39",
+  "urun": "Üretan 85 Kartuş TR/GB 540 g",
+  "fiyat": 246.0
+ },
+ {
+  "abas": "10063301",
+  "berta": "10810540-39",
+  "urun": "Üretan 85 SF Kartuş TR/GB 540 g",
+  "fiyat": 240.7
+ },
+ {
+  "abas": "10000913",
+  "berta": "10850005",
+  "urun": "Fiber Kumaş 50 mm",
+  "fiyat": 7.3
+ },
+ {
+  "abas": "10045342",
+  "berta": "10851001",
+  "urun": "Acil Durum Onarım Kiti 1",
+  "fiyat": 826.6
+ },
+ {
+  "abas": "10045343",
+  "berta": "10851002",
+  "urun": "Acil Durum Onarım Kiti 2",
+  "fiyat": 1473.3
+ },
+ {
+  "abas": "10045344",
+  "berta": "10851003",
+  "urun": "Acil Durum Onarım Kiti 3",
+  "fiyat": 2637.4
+ },
+ {
+  "abas": "10058383",
+  "berta": "10851005-39",
+  "urun": "Konveyör Tamir Seti 550 TR/GB 550 g",
+  "fiyat": 328.0
+ },
+ {
+  "abas": "10045523",
+  "berta": "10851010",
+  "urun": "Processing Kit",
+  "fiyat": 153.1
+ },
+ {
+  "abas": "10058391",
+  "berta": "10851015-39",
+  "urun": "Konveyör Tamir Seti 590 TR/GB 590 g",
+  "fiyat": 340.4
+ },
+ {
+  "abas": "10057667",
+  "berta": "10851020",
+  "urun": "Enjeksiyon sistem seti",
+  "fiyat": 81.7
+ },
+ {
+  "abas": "10057730",
+  "berta": "10851021",
+  "urun": "Enjeksiyon sistem seti Kare Alu",
+  "fiyat": 67.0
+ },
+ {
+  "abas": "10057731",
+  "berta": "10851022",
+  "urun": "Enjeksiyon sistem seti Düz",
+  "fiyat": 42.6
+ },
+ {
+  "abas": "10063853",
+  "berta": "10852015-39",
+  "urun": "WEICON Kit SF TR/GB 590 g",
+  "fiyat": 285.8
+ },
+ {
+  "abas": "10010887",
+  "berta": "10953001",
+  "urun": "Spatula mavi kısa tip",
+  "fiyat": 7.2
+ },
+ {
+  "abas": "10022562",
+  "berta": "10953003",
+  "urun": "Spatula mavi uzun tip",
+  "fiyat": 7.9
+ },
+ {
+  "abas": "10039185",
+  "berta": "10953008",
+  "urun": "Universal Spatula Beyaz",
+  "fiyat": 8.8
+ },
+ {
+  "abas": "10001978",
+  "berta": "10953010",
+  "urun": "Karıştırma Çubuğu (paslanmaz çelik)",
+  "fiyat": 65.5
+ },
+ {
+  "abas": "10010066",
+  "berta": "10953020",
+  "urun": "FLEXY Spatulası",
+  "fiyat": 13.3
+ },
+ {
+  "abas": "10059417",
+  "berta": "10953021",
+  "urun": "Doğal kıllı düz fırça",
+  "fiyat": 8.2
+ },
+ {
+  "abas": "10065455",
+  "berta": "10953022",
+  "urun": "Uzun Fırça 35, CA",
+  "fiyat": 6.6
+ },
+ {
+  "abas": "10068373",
+  "berta": "10953036",
+  "urun": "Brush 60, short, flat, Plastic Metal",
+  "fiyat": 8.7
+ },
+ {
+  "abas": "10028464",
+  "berta": "11000400-39",
+  "urun": "Çinko Sprey Litho TR/GB 400 ml",
+  "fiyat": 20.1
+ },
+ {
+  "abas": "10028465",
+  "berta": "11001400-39",
+  "urun": "Çinko Sprey özel açik TR/GB 400ml",
+  "fiyat": 20.1
+ },
+ {
+  "abas": "10028466",
+  "berta": "11002400-39",
+  "urun": "Çinko-Alüminyum Sprey TR/GB 400 ml",
+  "fiyat": 17.5
+ },
+ {
+  "abas": "10037415",
+  "berta": "11005400-39",
+  "urun": "Galvaniz Sprey 400 ml",
+  "fiyat": 16.2
+ },
+ {
+  "abas": "10028577",
+  "berta": "11012400-39",
+  "urun": "P.Koruma 2000 PLUS ant.TR/GB 400 ml",
+  "fiyat": 22.3
+ },
+ {
+  "abas": "10028578",
+  "berta": "11013400-39",
+  "urun": "P.Koruma 2000 PLUS gri TR/GB 400 ml",
+  "fiyat": 23.3
+ },
+ {
+  "abas": "10028467",
+  "berta": "11050400-39",
+  "urun": "Alüminyum Sprey A-100 TR/GB 400ml",
+  "fiyat": 21.7
+ },
+ {
+  "abas": "10028468",
+  "berta": "11051400-39",
+  "urun": "Alüminyum Sprey A-400 TR/GB 400ml",
+  "fiyat": 21.7
+ },
+ {
+  "abas": "10028472",
+  "berta": "11100400-39",
+  "urun": "Paslanmaz Çelik Sprey TR/GB 400ml",
+  "fiyat": 21.9
+ },
+ {
+  "abas": "10028473",
+  "berta": "11101400-39",
+  "urun": "Bakır Sprey TR/GB 400 ml",
+  "fiyat": 22.5
+ },
+ {
+  "abas": "10028474",
+  "berta": "11102400-39",
+  "urun": "Pirinç Sprey TR/GB 400 ml",
+  "fiyat": 22.5
+ },
+ {
+  "abas": "10028475",
+  "berta": "11103400-39",
+  "urun": "Krom-Gümüş Sprey TR/GB 400 ml",
+  "fiyat": 20.5
+ },
+ {
+  "abas": "10032104",
+  "berta": "11104400-39",
+  "urun": "P.Çelik Sprey Özel Açık TR/GB 400ml",
+  "fiyat": 21.9
+ },
+ {
+  "abas": "10047557",
+  "berta": "11105400",
+  "urun": "Altın Sprey 400 ml",
+  "fiyat": 26.8
+ },
+ {
+  "abas": "10028476",
+  "berta": "11150400-39",
+  "urun": "Pas Sökücü Sprey TR/GB 400 ml",
+  "fiyat": 12.5
+ },
+ {
+  "abas": "10028477",
+  "berta": "11151400-39",
+  "urun": "Pas Şok Sprey TR/GB 400 ml",
+  "fiyat": 23.5
+ },
+ {
+  "abas": "10028478",
+  "berta": "11152400-39",
+  "urun": "Kontak Sprey TR/GB 400 ml",
+  "fiyat": 12.0
+ },
+ {
+  "abas": "10040285",
+  "berta": "11154400-39",
+  "urun": "Pas Sökücü Fluid TR/GB 400 ml",
+  "fiyat": 14.7
+ },
+ {
+  "abas": "10048551",
+  "berta": "11155400-39",
+  "urun": "Pas Dönüştürücü TR/GB 400 ml",
+  "fiyat": 21.3
+ },
+ {
+  "abas": "10028479",
+  "berta": "11200400-39",
+  "urun": "Multi Köpük Sprey TR/GB 400 ml",
+  "fiyat": 15.0
+ },
+ {
+  "abas": "10028480",
+  "berta": "11202400-39",
+  "urun": "Silikon ve Yap. Sökücü TR/GB 400 ml",
+  "fiyat": 18.6
+ },
+ {
+  "abas": "10028481",
+  "berta": "11202500-39",
+  "urun": "Temizleyici S Sprey 500 ml",
+  "fiyat": 13.3
+ },
+ {
+  "abas": "10028482",
+  "berta": "11203500-39",
+  "urun": "Fren temizleyici TR/GB 500 ml",
+  "fiyat": 12.4
+ },
+ {
+  "abas": "10028576",
+  "berta": "11203550-39",
+  "urun": "Kalıp Temizleyici Sprey TR/GB 500 ml",
+  "fiyat": 13.5
+ },
+ {
+  "abas": "10028483",
+  "berta": "11204500-39",
+  "urun": "Plastik Temizl. Sprey TR/GB 500 ml",
+  "fiyat": 13.1
+ },
+ {
+  "abas": "10033065",
+  "berta": "11205500-39",
+  "urun": "Brülör Temizleyici TR/GB 500ml",
+  "fiyat": 13.8
+ },
+ {
+  "abas": "10028484",
+  "berta": "11206500-39",
+  "urun": "Etiket Çıkartıcı Sprey TR/GB 500 ml",
+  "fiyat": 17.6
+ },
+ {
+  "abas": "10024317",
+  "berta": "11207150",
+  "urun": "Yüzey Temizleyici Sprey 150 ml",
+  "fiyat": 10.2
+ },
+ {
+  "abas": "10028485",
+  "berta": "11207400-39",
+  "urun": "Yüzey Temizleyici Sprey TR/GB 400 ml",
+  "fiyat": 14.5
+ },
+ {
+  "abas": "10028486",
+  "berta": "11208200-39",
+  "urun": "Ekran Temizl. TR/GB 200 ml",
+  "fiyat": 14.6
+ },
+ {
+  "abas": "10051975",
+  "berta": "11209400-39",
+  "urun": "Köpük Temizleyici TR/GB 400 ml",
+  "fiyat": 15.5
+ },
+ {
+  "abas": "10030714",
+  "berta": "11210400-39",
+  "urun": "Elektro Temizl. Sprey TR/GB 400 ml",
+  "fiyat": 21.2
+ },
+ {
+  "abas": "10030715",
+  "berta": "11211200-39",
+  "urun": "Vizör Temizleyici Sprey TR/GB 200 ml",
+  "fiyat": 15.6
+ },
+ {
+  "abas": "10040305",
+  "berta": "11212500-39",
+  "urun": "Hızlı Temizleyici TR/GB 500 ml",
+  "fiyat": 17.2
+ },
+ {
+  "abas": "10044890",
+  "berta": "11213500-39",
+  "urun": "Genel Temizleyici TR/DE 500 ml",
+  "fiyat": 11.2
+ },
+ {
+  "abas": "10056197",
+  "berta": "11215500-39",
+  "urun": "Endüstriyel Temizleyici TR/GB 500 ml",
+  "fiyat": 13.3
+ },
+ {
+  "abas": "10032105",
+  "berta": "11217400-39",
+  "urun": "Citrus Temizleyici TR/GB 400 ml",
+  "fiyat": 19.9
+ },
+ {
+  "abas": "10000149",
+  "berta": "11250150",
+  "urun": "AT-44 Sprey 150ml",
+  "fiyat": 11.6
+ },
+ {
+  "abas": "10028489",
+  "berta": "11250400-39",
+  "urun": "AT-44 Sprey TR/GB 400 ml",
+  "fiyat": 22.1
+ },
+ {
+  "abas": "10061646",
+  "berta": "11251050-39",
+  "urun": "W 44 T sprey TR/GB 50 ml",
+  "fiyat": 8.9
+ },
+ {
+  "abas": "10015286",
+  "berta": "11251200",
+  "urun": "WEICON W44T Multi-Spray 200 ml DE/EN",
+  "fiyat": 8.9
+ },
+ {
+  "abas": "10028490",
+  "berta": "11251400-39",
+  "urun": "W44T Sprey TR/GB 400 ml",
+  "fiyat": 13.0
+ },
+ {
+  "abas": "10039121",
+  "berta": "11251550",
+  "urun": "W44T Multi Başlık Sprey 500 ml",
+  "fiyat": 13.0
+ },
+ {
+  "abas": "10040268",
+  "berta": "11253400-39",
+  "urun": "W 44 T-Fluid TR/GB 400 ml",
+  "fiyat": 13.4
+ },
+ {
+  "abas": "10048528",
+  "berta": "11260400-39",
+  "urun": "Pneuma-Lube Sprey TR/GB 400 ml",
+  "fiyat": 22.1
+ },
+ {
+  "abas": "10028491",
+  "berta": "11300400-39",
+  "urun": "PTFE-Sprey TR/GB 400 ml",
+  "fiyat": 23.9
+ },
+ {
+  "abas": "10040227",
+  "berta": "11301400-39",
+  "urun": "PTFE-Fluid TR/GB 400 ml",
+  "fiyat": 30.2
+ },
+ {
+  "abas": "10000152",
+  "berta": "11350400",
+  "urun": "Silikon Sprey 400ml",
+  "fiyat": 15.7
+ },
+ {
+  "abas": "10057676",
+  "berta": "11351400-39SK",
+  "urun": "Silikon Sprey NSF TR/GB 400 ml",
+  "fiyat": 15.7
+ },
+ {
+  "abas": "10028495",
+  "berta": "11400400-39",
+  "urun": "Kokpit Sprey TR/GB 400 ml",
+  "fiyat": 15.8
+ },
+ {
+  "abas": "10000154",
+  "berta": "11450400",
+  "urun": "Kalıp Ayırıcı Sprey 400ml",
+  "fiyat": 17.9
+ },
+ {
+  "abas": "10028497",
+  "berta": "11451400-39",
+  "urun": "Alüminyum Zımpara Koruma 400 ml",
+  "fiyat": 18.1
+ },
+ {
+  "abas": "10028499",
+  "berta": "11510400-39",
+  "urun": "Top-Lube Sprey TR/GB 400 ml",
+  "fiyat": 23.6
+ },
+ {
+  "abas": "10031611",
+  "berta": "11511400-39",
+  "urun": "V-Kayış Spreyi TR/GB 400 ml",
+  "fiyat": 18.8
+ },
+ {
+  "abas": "10040244",
+  "berta": "11512400-39",
+  "urun": "Top-Lube-Fluid TR/GB 400 ml",
+  "fiyat": 23.5
+ },
+ {
+  "abas": "10028500",
+  "berta": "11520400-39",
+  "urun": "Sıkma Yağ Sprey Beyaz TR/GB 400 ml",
+  "fiyat": 18.2
+ },
+ {
+  "abas": "10028501",
+  "berta": "11530400-39",
+  "urun": "MoS2'li Sıkma Yağ Sprey TR/GB 400 ml",
+  "fiyat": 21.8
+ },
+ {
+  "abas": "10032208",
+  "berta": "11539400-39",
+  "urun": "AL-MoS2 +400C Lack Sp. TR/GB 400 ml",
+  "fiyat": 35.5
+ },
+ {
+  "abas": "10028502",
+  "berta": "11540400-39",
+  "urun": "Tutuş Sıkma Yağ Sprey TR/GB 400 ml",
+  "fiyat": 21.8
+ },
+ {
+  "abas": "10028503",
+  "berta": "11541400-39",
+  "urun": "Sıvı Gres -Gıda H1- Sprey TR/GB 400 m",
+  "fiyat": 32.7
+ },
+ {
+  "abas": "10028504",
+  "berta": "11550400-39",
+  "urun": "Korozyon önleyici wax TR/GB 400 ml",
+  "fiyat": 20.5
+ },
+ {
+  "abas": "10053565",
+  "berta": "11551400-39",
+  "urun": "İzoelektro Sprey TR/GB 400 ml",
+  "fiyat": 20.1
+ },
+ {
+  "abas": "10052262",
+  "berta": "11553400-39",
+  "urun": "Tamir Spreyi Beyaz TR/GB 400 ml",
+  "fiyat": 27.1
+ },
+ {
+  "abas": "10052263",
+  "berta": "11554400-39",
+  "urun": "Tamir Spreyi Siyah TR/GB 400ml",
+  "fiyat": 27.1
+ },
+ {
+  "abas": "10051974",
+  "berta": "11555400-39",
+  "urun": "Tamir Spreyi Gri TR/GB 400ml",
+  "fiyat": 27.1
+ },
+ {
+  "abas": "10028235",
+  "berta": "11560200",
+  "urun": "Menteşe ve Kilit Spreyi 200 ml",
+  "fiyat": 20.4
+ },
+ {
+  "abas": "10028505",
+  "berta": "11580400-39",
+  "urun": "Metal-Fluid Sprey TR/GB 400 ml",
+  "fiyat": 22.7
+ },
+ {
+  "abas": "10013907",
+  "berta": "11590050",
+  "urun": "Paslanmaz Çelik Bakim Sprey 1 L",
+  "fiyat": 11.2
+ },
+ {
+  "abas": "10028506",
+  "berta": "11590400-39",
+  "urun": "P.Çelik Bakım Sprey TR/GB 400 ml",
+  "fiyat": 21.8
+ },
+ {
+  "abas": "10061082",
+  "berta": "11591400-39",
+  "urun": "P.Çelik Bakım NSF TR/GB 400ml",
+  "fiyat": 25.7
+ },
+ {
+  "abas": "10061095",
+  "berta": "11600200-39",
+  "urun": "Bio-Fluid-Sprey TR/GB 200 ml",
+  "fiyat": 19.5
+ },
+ {
+  "abas": "10028507",
+  "berta": "11600500-39",
+  "urun": "Bio-Fluid Sprey TR/GB 500ml",
+  "fiyat": 21.2
+ },
+ {
+  "abas": "10028508",
+  "berta": "11610400-39",
+  "urun": "Soğutucu Sprey TR/GB 400 ml",
+  "fiyat": 26.7
+ },
+ {
+  "abas": "10028575",
+  "berta": "11620400-39",
+  "urun": "Basınçlı Hava Sprey TR/GB 400 m",
+  "fiyat": 22.4
+ },
+ {
+  "abas": "10028509",
+  "berta": "11630400-39",
+  "urun": "Sakız Çıkartıcı Sprey TR/GB 400 ml",
+  "fiyat": 28.1
+ },
+ {
+  "abas": "10032329",
+  "berta": "11640150-39",
+  "urun": "Duman det. test Spreyi TR/GB 150 ml",
+  "fiyat": 27.9
+ },
+ {
+  "abas": "10032332",
+  "berta": "11640250-39",
+  "urun": "Duman det. test Spreyi TR/GB 250 ml",
+  "fiyat": 39.3
+ },
+ {
+  "abas": "10061107",
+  "berta": "11641250-39",
+  "urun": "Duman Dedektör Test TR/GB 250ml",
+  "fiyat": 60.0
+ },
+ {
+  "abas": "10028510",
+  "berta": "11651400-39",
+  "urun": "Kaçak Arama Sprey TR/GB 400ml",
+  "fiyat": 16.7
+ },
+ {
+  "abas": "10046666",
+  "berta": "11652400-39",
+  "urun": "Kaçak Arama Spr S TR/GB 400ml",
+  "fiyat": 15.7
+ },
+ {
+  "abas": "10033507",
+  "berta": "11653400",
+  "urun": "Kaçak Arama Sprey kalın",
+  "fiyat": 17.1
+ },
+ {
+  "abas": "10061428",
+  "berta": "11654400-39",
+  "urun": "Kaçak Arama Sprey TR/GB 400 ml",
+  "fiyat": 16.4
+ },
+ {
+  "abas": "10033339",
+  "berta": "11660400-39",
+  "urun": "Marş Sprey TR/GB 400 ml",
+  "fiyat": 19.4
+ },
+ {
+  "abas": "10048557",
+  "berta": "11690500-39",
+  "urun": "Çatlak Kontrol S Dif.Mad. TR/GB 500 ml",
+  "fiyat": 34.1
+ },
+ {
+  "abas": "10048556",
+  "berta": "11691500-39",
+  "urun": "Kont. Özel Geliş TR/GB 500 ml",
+  "fiyat": 32.9
+ },
+ {
+  "abas": "10048553",
+  "berta": "11692500-39",
+  "urun": "Çatlak Kont.Temizl. TR/GB 500ml",
+  "fiyat": 21.0
+ },
+ {
+  "abas": "10028511",
+  "berta": "11700400-39",
+  "urun": "Kaynak Koruma Sprey TR/GB 400 ml",
+  "fiyat": 11.3
+ },
+ {
+  "abas": "10060743",
+  "berta": "11702400-39",
+  "urun": "Seramik Kaynak Koruma S. TR/GB 400 ml",
+  "fiyat": 50.1
+ },
+ {
+  "abas": "10102439",
+  "berta": "11720400-39",
+  "urun": "Kaynak Koruma Spreyi HP TR/GB 400 ml",
+  "fiyat": 10.9
+ },
+ {
+  "abas": "10028512",
+  "berta": "11750400-39",
+  "urun": "Bio-Cut Sprey TR/GB 400 ml",
+  "fiyat": 25.1
+ },
+ {
+  "abas": "10028513",
+  "berta": "11800500-39",
+  "urun": "Yapıştırıcı Sprey güçlü TR/GB 500 ml",
+  "fiyat": 22.7
+ },
+ {
+  "abas": "10028514",
+  "berta": "11801500-39",
+  "urun": "Yapışt. Sprey Çok güçlü TR/GB 500 ml",
+  "fiyat": 26.2
+ },
+ {
+  "abas": "10028515",
+  "berta": "11802500-39",
+  "urun": "Yapıştırıcı çöz. TR/GB 500ml",
+  "fiyat": 21.3
+ },
+ {
+  "abas": "10028516",
+  "berta": "11850200-39",
+  "urun": "El Koruma Köpüğü 250 ml TR/EN",
+  "fiyat": 28.2
+ },
+ {
+  "abas": "10044969",
+  "berta": "11953058",
+  "urun": "Double Nozzle",
+  "fiyat": 3.1
+ },
+ {
+  "abas": "10049664",
+  "berta": "12000020-39",
+  "urun": "VA 20 TR/GB 20 g",
+  "fiyat": 18.1
+ },
+ {
+  "abas": "10016618",
+  "berta": "12000030",
+  "urun": "Contact VA 20 30 g",
+  "fiyat": 24.7
+ },
+ {
+  "abas": "10019781",
+  "berta": "12000060",
+  "urun": "Contact VA 20 60 g",
+  "fiyat": 46.0
+ },
+ {
+  "abas": "10033229",
+  "berta": "12000500-39",
+  "urun": "VA 20 TR/GB 500 g",
+  "fiyat": 263.4
+ },
+ {
+  "abas": "10001191",
+  "berta": "12050001",
+  "urun": "Contact VA 100 3g",
+  "fiyat": 8.4
+ },
+ {
+  "abas": "10032873",
+  "berta": "12050020-39",
+  "urun": "VA 100 mavi TR/GB 20 g",
+  "fiyat": 18.0
+ },
+ {
+  "abas": "10039326",
+  "berta": "12050030-39",
+  "urun": "Contact VA 100 TR/GB 30 g",
+  "fiyat": 24.8
+ },
+ {
+  "abas": "10041261",
+  "berta": "12050060-39",
+  "urun": "Contact VA 100 TR/GB 60 g",
+  "fiyat": 46.1
+ },
+ {
+  "abas": "10033230",
+  "berta": "12050500-39",
+  "urun": "Contact VA 100 TR/GB 500 g",
+  "fiyat": 262.3
+ },
+ {
+  "abas": "10031926",
+  "berta": "12052030",
+  "urun": "Contact VA 110 30g",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10033865",
+  "berta": "12052060",
+  "urun": "Contact VA 110 60 g",
+  "fiyat": 65.3
+ },
+ {
+  "abas": "10031927",
+  "berta": "12052500",
+  "urun": "Contact VA 110 500g",
+  "fiyat": 610.3
+ },
+ {
+  "abas": "10033171",
+  "berta": "12054020-39",
+  "urun": "Contact VA 1401 TR/GB 20 g",
+  "fiyat": 20.3
+ },
+ {
+  "abas": "10039327",
+  "berta": "12054030-39",
+  "urun": "Contact VA 1401 TR/GB 30 g",
+  "fiyat": 26.7
+ },
+ {
+  "abas": "10039324",
+  "berta": "12054060-39",
+  "urun": "Contact VA 1401 TR/GB 60 g",
+  "fiyat": 51.2
+ },
+ {
+  "abas": "10033231",
+  "berta": "12054500-39",
+  "urun": "Contact VA 1401 TR/GB 500g",
+  "fiyat": 266.9
+ },
+ {
+  "abas": "10049665",
+  "berta": "12100020-39",
+  "urun": "Contact VA 300 mavi TR/GB 20 g",
+  "fiyat": 19.5
+ },
+ {
+  "abas": "10016510",
+  "berta": "12100030",
+  "urun": "Contact VA 300 30 g",
+  "fiyat": 29.6
+ },
+ {
+  "abas": "10019789",
+  "berta": "12100060",
+  "urun": "Contact VA 300 60 g",
+  "fiyat": 57.7
+ },
+ {
+  "abas": "10049190",
+  "berta": "12100500-39",
+  "urun": "Contact VA 300 TR/GB 500 g",
+  "fiyat": 297.9
+ },
+ {
+  "abas": "10000235",
+  "berta": "12150020",
+  "urun": "Contact VA 1500 20 g",
+  "fiyat": 19.1
+ },
+ {
+  "abas": "10016434",
+  "berta": "12150030",
+  "urun": "Contact VA 1500 30 g",
+  "fiyat": 24.7
+ },
+ {
+  "abas": "10019791",
+  "berta": "12150060",
+  "urun": "Contact VA 1500 60 g",
+  "fiyat": 45.7
+ },
+ {
+  "abas": "10039333",
+  "berta": "12150500-39",
+  "urun": "Contact VA 1500 TR/GB 500 g",
+  "fiyat": 261.4
+ },
+ {
+  "abas": "10049666",
+  "berta": "12200020-39",
+  "urun": "Contact VA 8312 TR/GB 20 g",
+  "fiyat": 17.9
+ },
+ {
+  "abas": "10039328",
+  "berta": "12200030-39",
+  "urun": "Contact VA 8312 TR/GB 30 g",
+  "fiyat": 24.7
+ },
+ {
+  "abas": "10019793",
+  "berta": "12200060",
+  "urun": "Contact VA 8312 60 g",
+  "fiyat": 45.7
+ },
+ {
+  "abas": "10000242",
+  "berta": "12200500",
+  "urun": "Contact VA 8312 500 g",
+  "fiyat": 261.4
+ },
+ {
+  "abas": "10101681",
+  "berta": "12204003",
+  "urun": "Contact VA 8406 3 g",
+  "fiyat": 9.3
+ },
+ {
+  "abas": "10033687",
+  "berta": "12204020-39",
+  "urun": "Contact VA 8406 TR/GB 20 g",
+  "fiyat": 20.2
+ },
+ {
+  "abas": "10039332",
+  "berta": "12204030-39",
+  "urun": "VA 8406 TR/GB 30 g",
+  "fiyat": 26.7
+ },
+ {
+  "abas": "10042187",
+  "berta": "12204060-39",
+  "urun": "Contact VA 8406 TR/GB 60 g",
+  "fiyat": 51.2
+ },
+ {
+  "abas": "10033232",
+  "berta": "12204500-39",
+  "urun": "Contact VA 8406 TR/GB 500 g",
+  "fiyat": 266.9
+ },
+ {
+  "abas": "10103433",
+  "berta": "12210500-39",
+  "urun": "Contact VA 1400 TR/GB 500g",
+  "fiyat": 278.1
+ },
+ {
+  "abas": "10016514",
+  "berta": "12250030",
+  "urun": "Contact VA 1460 30 g",
+  "fiyat": 28.3
+ },
+ {
+  "abas": "10019796",
+  "berta": "12250060",
+  "urun": "Contact VA 1460 60 g",
+  "fiyat": 55.0
+ },
+ {
+  "abas": "10000247",
+  "berta": "12250500",
+  "urun": "Contact VA 1460 500 g",
+  "fiyat": 284.0
+ },
+ {
+  "abas": "10016512",
+  "berta": "12252030",
+  "urun": "Contact VA 1403 30 g",
+  "fiyat": 28.3
+ },
+ {
+  "abas": "10019798",
+  "berta": "12252060",
+  "urun": "Contact VA 1403 60 g",
+  "fiyat": 55.0
+ },
+ {
+  "abas": "10049194",
+  "berta": "12252500-39",
+  "urun": "ContactVA 1403 TR/GB 500 g",
+  "fiyat": 286.3
+ },
+ {
+  "abas": "10015975",
+  "berta": "12253020",
+  "urun": "WEICON Contact VA 1408 20 g",
+  "fiyat": 20.5
+ },
+ {
+  "abas": "10042176",
+  "berta": "12253030-39",
+  "urun": "Contact VA 1408 TR/GB 30 g",
+  "fiyat": 28.3
+ },
+ {
+  "abas": "10019800",
+  "berta": "12253060",
+  "urun": "Contact VA 1408 60 g",
+  "fiyat": 55.0
+ },
+ {
+  "abas": "10039334",
+  "berta": "12253500-39",
+  "urun": "Contact VA 1408 TR/GB 500 g",
+  "fiyat": 284.2
+ },
+ {
+  "abas": "10000251",
+  "berta": "12300020",
+  "urun": "WEICON Contact VM 20 20 g",
+  "fiyat": 20.2
+ },
+ {
+  "abas": "10019853",
+  "berta": "12300030",
+  "urun": "Contact VM 20 30 g",
+  "fiyat": 27.8
+ },
+ {
+  "abas": "10019857",
+  "berta": "12300060",
+  "urun": "Contact VM 20 60 g",
+  "fiyat": 52.8
+ },
+ {
+  "abas": "10000254",
+  "berta": "12300500",
+  "urun": "Contact VM 20 500 g",
+  "fiyat": 276.2
+ },
+ {
+  "abas": "10000258",
+  "berta": "12350020",
+  "urun": "Contact VM 120 20 g",
+  "fiyat": 20.3
+ },
+ {
+  "abas": "10019859",
+  "berta": "12350030",
+  "urun": "Contact VM 120 30 g",
+  "fiyat": 27.3
+ },
+ {
+  "abas": "10019863",
+  "berta": "12350060",
+  "urun": "Contact VM 120 60 g",
+  "fiyat": 52.8
+ },
+ {
+  "abas": "10000262",
+  "berta": "12350500",
+  "urun": "Contact VM 120 500 g",
+  "fiyat": 274.7
+ },
+ {
+  "abas": "10039329",
+  "berta": "12400030-39",
+  "urun": "Contact VM 2000 TR/GB 30 g",
+  "fiyat": 27.7
+ },
+ {
+  "abas": "10042193",
+  "berta": "12400060-39",
+  "urun": "Contact VM 2000 TR/GB 60 g",
+  "fiyat": 50.8
+ },
+ {
+  "abas": "10000270",
+  "berta": "12400500",
+  "urun": "Contact VM 2000 500 g",
+  "fiyat": 276.1
+ },
+ {
+  "abas": "10034123",
+  "berta": "12450010-39",
+  "urun": "Contact Primer TR/GB 10 ml",
+  "fiyat": 24.7
+ },
+ {
+  "abas": "10033266",
+  "berta": "12450100-39",
+  "urun": "Contact Primer TR/GB 100 ml",
+  "fiyat": 202.8
+ },
+ {
+  "abas": "10059034",
+  "berta": "12470012",
+  "urun": "CA-Sökücü 12ml Pen",
+  "fiyat": 25.1
+ },
+ {
+  "abas": "10051358",
+  "berta": "12470030",
+  "urun": "CA-Sökücü 30ml Pen",
+  "fiyat": 41.7
+ },
+ {
+  "abas": "10033481",
+  "berta": "12500120-39",
+  "urun": "Contact GEL TR/GB 20 g",
+  "fiyat": 21.2
+ },
+ {
+  "abas": "10018589",
+  "berta": "12500130",
+  "urun": "Contact Jöle 30 g",
+  "fiyat": 29.4
+ },
+ {
+  "abas": "10033730",
+  "berta": "12500150-39",
+  "urun": "CA-Activatör Sprey TR/GB 150 ml",
+  "fiyat": 26.5
+ },
+ {
+  "abas": "10065735",
+  "berta": "12502150-39",
+  "urun": "CA-Activator PS TR/GB 150 ml",
+  "fiyat": 26.5
+ },
+ {
+  "abas": "10065811",
+  "berta": "12505150-39",
+  "urun": "CA-Activatör Sprey AC TR/GB 150 ml",
+  "fiyat": 24.5
+ },
+ {
+  "abas": "10012295",
+  "berta": "12550020",
+  "urun": "WEICON Contact VA 2500HT 20 g",
+  "fiyat": 34.6
+ },
+ {
+  "abas": "10016398",
+  "berta": "12550030",
+  "urun": "Contact VA 2500 H 30 g",
+  "fiyat": 41.2
+ },
+ {
+  "abas": "10019803",
+  "berta": "12550060",
+  "urun": "Contact VA 2500 HT 60 g",
+  "fiyat": 72.1
+ },
+ {
+  "abas": "10012291",
+  "berta": "12550500",
+  "urun": "Contact VA 2500 HT",
+  "fiyat": 584.8
+ },
+ {
+  "abas": "10033690",
+  "berta": "12600020-39",
+  "urun": "VA 250 Siyah TR/GB 20 g",
+  "fiyat": 28.4
+ },
+ {
+  "abas": "10039330",
+  "berta": "12600030-39",
+  "urun": "WEICON VA 250 siyah TR/GB 30 g",
+  "fiyat": 40.1
+ },
+ {
+  "abas": "10019805",
+  "berta": "12600060",
+  "urun": "Contact VA 250 siyah 60 g",
+  "fiyat": 78.8
+ },
+ {
+  "abas": "10033238",
+  "berta": "12600500-39",
+  "urun": "VA 250 black TR/GB 500 g",
+  "fiyat": 657.7
+ },
+ {
+  "abas": "10033695",
+  "berta": "12603020-39",
+  "urun": "VA 30 black TR/GB 20 g",
+  "fiyat": 26.2
+ },
+ {
+  "abas": "10039325",
+  "berta": "12603030-39",
+  "urun": "Contact VA 30 Siyah TR/GB 30 g",
+  "fiyat": 40.1
+ },
+ {
+  "abas": "10056909",
+  "berta": "12603050-39",
+  "urun": "Contact VA 30 siyah TR/GB 50 g",
+  "fiyat": 62.7
+ },
+ {
+  "abas": "10025829",
+  "berta": "12603060",
+  "urun": "Contact VA 30 Siyah 60 g",
+  "fiyat": 82.8
+ },
+ {
+  "abas": "10033463",
+  "berta": "12603500-39",
+  "urun": "Contact VA 30 Siyah TR/GB 500 g",
+  "fiyat": 644.9
+ },
+ {
+  "abas": "10012382",
+  "berta": "12650030",
+  "urun": "Contact Doldurucu 30 g",
+  "fiyat": 17.0
+ },
+ {
+  "abas": "10063334",
+  "berta": "12651030-39",
+  "urun": "WEICON Kontakt Dolgu Siyah TR/GB 30 g",
+  "fiyat": 11.8
+ },
+ {
+  "abas": "10063885",
+  "berta": "12800010-39",
+  "urun": "VA 2407 TR/GB 10 g",
+  "fiyat": 42.6
+ },
+ {
+  "abas": "10063909",
+  "berta": "12800050-39",
+  "urun": "VA 2407 TR/GB 50 g",
+  "fiyat": 152.1
+ },
+ {
+  "abas": "10063367",
+  "berta": "12890001-39",
+  "urun": "WEICON Kontakt Dolgu Set Şeffaf TR/GB",
+  "fiyat": 40.2
+ },
+ {
+  "abas": "10063375",
+  "berta": "12891001-39",
+  "urun": "WEICON Kontakt Dolgu Set Siyah TR/GB",
+  "fiyat": 40.2
+ },
+ {
+  "abas": "10019777",
+  "berta": "12955032",
+  "urun": "Weicon Şişe 60 gr",
+  "fiyat": 0.8
+ },
+ {
+  "abas": "10068262",
+  "berta": "12955170",
+  "urun": "Dozaj Ucu boyut 0",
+  "fiyat": 3.1
+ },
+ {
+  "abas": "10068261",
+  "berta": "12955175",
+  "urun": "Dozaj Ucu Tipo A",
+  "fiyat": 5.9
+ },
+ {
+  "abas": "10002106",
+  "berta": "12955311",
+  "urun": "VA 500 g Şeffaf Uç",
+  "fiyat": 33.1
+ },
+ {
+  "abas": "10000408",
+  "berta": "13000085",
+  "urun": "Silikon A şeffaf 85ml",
+  "fiyat": 16.8
+ },
+ {
+  "abas": "10028559",
+  "berta": "13000310-39",
+  "urun": "Silikon A şeffaf TR/GB 310ml",
+  "fiyat": 30.6
+ },
+ {
+  "abas": "10028560",
+  "berta": "13001310-39",
+  "urun": "Silikon A beyaz DE/GB/TR 310 ml",
+  "fiyat": 30.6
+ },
+ {
+  "abas": "10000418",
+  "berta": "13002310",
+  "urun": "Silikon A alüminyum gri 310ml",
+  "fiyat": 30.6
+ },
+ {
+  "abas": "10028562",
+  "berta": "13003310-39",
+  "urun": "Silikon A siyah TR/GB/DE 310ml",
+  "fiyat": 30.6
+ },
+ {
+  "abas": "10061146",
+  "berta": "13008310-39",
+  "urun": "Silikon LP transparan TR/GB 310 ml",
+  "fiyat": 41.4
+ },
+ {
+  "abas": "10054135",
+  "berta": "13009310-39",
+  "urun": "Silikon LP BEYAZ TR/GB 310 ml",
+  "fiyat": 39.8
+ },
+ {
+  "abas": "10049785",
+  "berta": "13050085-39",
+  "urun": "Silikon HT-300 TR/GB 85 ml",
+  "fiyat": 18.1
+ },
+ {
+  "abas": "10028558",
+  "berta": "13050310-39",
+  "urun": "Silikon HT 300 TR/GB/DE 310 ml",
+  "fiyat": 29.6
+ },
+ {
+  "abas": "10049786",
+  "berta": "13051085-39",
+  "urun": "Black-Seal özel Silikon TR/GB 85ml",
+  "fiyat": 18.6
+ },
+ {
+  "abas": "10028544",
+  "berta": "13051200-39",
+  "urun": "Black-Seal Özel Silikon TR/GB 200 ml",
+  "fiyat": 43.5
+ },
+ {
+  "abas": "10028545",
+  "berta": "13051310-39",
+  "urun": "Black-Seal Özel Silikon TR/GB 310 ml",
+  "fiyat": 32.2
+ },
+ {
+  "abas": "10031260",
+  "berta": "13200310-39",
+  "urun": "Silikon F şeffaf TR/GB 310 ml",
+  "fiyat": 37.3
+ },
+ {
+  "abas": "10000441",
+  "berta": "13250001",
+  "urun": "Kartüş Tabancası standard",
+  "fiyat": 44.7
+ },
+ {
+  "abas": "10020751",
+  "berta": "13250002",
+  "urun": "Kartüş Tabancası özel",
+  "fiyat": 133.6
+ },
+ {
+  "abas": "10028547",
+  "berta": "13300310-39",
+  "urun": "Flex 310 beyaz 300 ml DE/GB/TR",
+  "fiyat": 24.8
+ },
+ {
+  "abas": "10028548",
+  "berta": "13301310-39",
+  "urun": "Flex 310 siyah TR/GB 300 ml",
+  "fiyat": 24.8
+ },
+ {
+  "abas": "10002573",
+  "berta": "13302310",
+  "urun": "Flex 310 gri 300ml",
+  "fiyat": 24.8
+ },
+ {
+  "abas": "10057238",
+  "berta": "13303200",
+  "urun": "Flex 310 M Klasik Presspack 200 ml",
+  "fiyat": 44.3
+ },
+ {
+  "abas": "10028555",
+  "berta": "13303310-39",
+  "urun": "Flex 310 M Klasik beyaz TR/GB 310 ml",
+  "fiyat": 30.7
+ },
+ {
+  "abas": "10057245",
+  "berta": "13304200",
+  "urun": "Flex 310 M siyah Presspack 200ml",
+  "fiyat": 44.3
+ },
+ {
+  "abas": "10028556",
+  "berta": "13304310-39",
+  "urun": "Flex 310 M Klasik siyah TR/GB 310 ml",
+  "fiyat": 30.7
+ },
+ {
+  "abas": "10057240",
+  "berta": "13305200",
+  "urun": "Flex 310 M Klasik gri Presspack 200 ml",
+  "fiyat": 41.8
+ },
+ {
+  "abas": "10032070",
+  "berta": "13305250-39",
+  "urun": "Flex 310M 2K hızlı sert. TR/GB 250 ml",
+  "fiyat": 71.6
+ },
+ {
+  "abas": "10028557",
+  "berta": "13305310-39",
+  "urun": "Flex 310 M Klasik gri TR/GB 310 ml",
+  "fiyat": 30.7
+ },
+ {
+  "abas": "10062367",
+  "berta": "13305400-39",
+  "urun": "Flex 310M 2K hızlı sert TR/GB 400 ml",
+  "fiyat": 117.9
+ },
+ {
+  "abas": "10103245",
+  "berta": "13306310-39",
+  "urun": "GT Flex 310 M F1X gri TR/GB 280 ml",
+  "fiyat": 24.2
+ },
+ {
+  "abas": "10057247",
+  "berta": "13308200",
+  "urun": "Flex 310 M Kristal Presspack 200 ml",
+  "fiyat": 43.5
+ },
+ {
+  "abas": "10028552",
+  "berta": "13308310-39",
+  "urun": "Flex 310 M Kristal TR/GB 310 ml",
+  "fiyat": 31.0
+ },
+ {
+  "abas": "10015372",
+  "berta": "13309310",
+  "urun": "Fast-Bond 310ml",
+  "fiyat": 24.9
+ },
+ {
+  "abas": "10027692",
+  "berta": "13309997",
+  "urun": "Flex 310 M >2K< karıştırma ucu",
+  "fiyat": 11.0
+ },
+ {
+  "abas": "10049781",
+  "berta": "13350085-39",
+  "urun": "Flex+bond Beyaz TR/GB 85 ml",
+  "fiyat": 20.2
+ },
+ {
+  "abas": "10049782",
+  "berta": "13351085-39",
+  "urun": "Flex+bond gri TR/GB 85 ml",
+  "fiyat": 20.2
+ },
+ {
+  "abas": "10049783",
+  "berta": "13352085-39",
+  "urun": "Flex+bond siyah TR/GB 85 ml",
+  "fiyat": 20.2
+ },
+ {
+  "abas": "10039396",
+  "berta": "13352200",
+  "urun": "Flex+Bond Siyah 200ml",
+  "fiyat": 37.8
+ },
+ {
+  "abas": "10049784",
+  "berta": "13353085-39",
+  "urun": "Flex+bond şeffaf TR/GB 85 ml",
+  "fiyat": 20.2
+ },
+ {
+  "abas": "10061159",
+  "berta": "13372310-39",
+  "urun": "Flex 310 M Pro Yapıştırıcı TR/GB 310ml",
+  "fiyat": 35.0
+ },
+ {
+  "abas": "10061172",
+  "berta": "13375310-39",
+  "urun": "Flex 310 M FireSeal TR/GB 310 ml",
+  "fiyat": 42.2
+ },
+ {
+  "abas": "10031259",
+  "berta": "13400310-39",
+  "urun": "Silikon N şeffaf TR/GB 310 ml",
+  "fiyat": 27.2
+ },
+ {
+  "abas": "10061187",
+  "berta": "13550102-39",
+  "urun": "Primer M 100 TR/GB 25 ml",
+  "fiyat": 16.1
+ },
+ {
+  "abas": "10033067",
+  "berta": "13550125-39",
+  "urun": "Primer M 100 TR/GB 250 ml",
+  "fiyat": 63.8
+ },
+ {
+  "abas": "10061200",
+  "berta": "13550202-39",
+  "urun": "Primer K 200 TR/GB 25 ml",
+  "fiyat": 16.1
+ },
+ {
+  "abas": "10033068",
+  "berta": "13550225-39",
+  "urun": "Primer K 200 TR/GB 250 ml",
+  "fiyat": 64.2
+ },
+ {
+  "abas": "10061213",
+  "berta": "13550302-39",
+  "urun": "Primer S 300 TR/GB 25 ml",
+  "fiyat": 19.9
+ },
+ {
+  "abas": "10023568",
+  "berta": "13550325",
+  "urun": "Primer S 300 250 ml",
+  "fiyat": 67.7
+ },
+ {
+  "abas": "10061226",
+  "berta": "13550402-39",
+  "urun": "Primer P 400 TR/GB 25 ml",
+  "fiyat": 15.4
+ },
+ {
+  "abas": "10033070",
+  "berta": "13550425-39",
+  "urun": "Primer P 400 TR/GB 250 ml",
+  "fiyat": 61.8
+ },
+ {
+  "abas": "10063399",
+  "berta": "13551400-39",
+  "urun": "Aktivatör Temizleyici TR/GB 400 ml",
+  "fiyat": 22.6
+ },
+ {
+  "abas": "10061238",
+  "berta": "13558002-39",
+  "urun": "Primer E 500 TR/GB 25 ml",
+  "fiyat": 23.6
+ },
+ {
+  "abas": "10035220",
+  "berta": "13558025",
+  "urun": "Primer E 500 250 ml",
+  "fiyat": 95.6
+ },
+ {
+  "abas": "10038838",
+  "berta": "13559500",
+  "urun": "Düzeltme malzemesi Basınçlı püskürtücü",
+  "fiyat": 20.4
+ },
+ {
+  "abas": "10039360",
+  "berta": "13559505",
+  "urun": "Düzeltme malzemesi 5 L",
+  "fiyat": 101.3
+ },
+ {
+  "abas": "10028563",
+  "berta": "13600310-39",
+  "urun": "Speed Flex beyaz TR/GB 310 ml",
+  "fiyat": 34.0
+ },
+ {
+  "abas": "10019652",
+  "berta": "13601310",
+  "urun": "Speed-Flex siyah 310 ml",
+  "fiyat": 32.6
+ },
+ {
+  "abas": "10028564",
+  "berta": "13602310-39",
+  "urun": "Speed Flex gri TR/GB 310 ml",
+  "fiyat": 34.0
+ },
+ {
+  "abas": "10045357",
+  "berta": "13608310-39",
+  "urun": "Speed-Flex Kristal TR/GB 310ml",
+  "fiyat": 33.0
+ },
+ {
+  "abas": "10028553",
+  "berta": "13650290-39",
+  "urun": "Flex 310 M Süper Tutuş TR/GB 290 ml",
+  "fiyat": 34.1
+ },
+ {
+  "abas": "10028554",
+  "berta": "13652290-39",
+  "urun": "Flex 310M Süper T. gri TR/GB 290 ml",
+  "fiyat": 34.1
+ },
+ {
+  "abas": "10028551",
+  "berta": "13655310-39",
+  "urun": "Flex 310 M HT200 gri TR/GB 310 ml",
+  "fiyat": 35.1
+ },
+ {
+  "abas": "10050040",
+  "berta": "13656310-39",
+  "urun": "Flex 310M Paslanmaz Çelik TR/GB 310 ml",
+  "fiyat": 30.8
+ },
+ {
+  "abas": "10102394",
+  "berta": "13657290-39",
+  "urun": "Doğal taş yapıştırıcı gri TR/GB 290 ml",
+  "fiyat": 30.9
+ },
+ {
+  "abas": "10102398",
+  "berta": "13658290-39",
+  "urun": "Doğal taş yap. beyaz TR/GB 290ml",
+  "fiyat": 30.9
+ },
+ {
+  "abas": "10028541",
+  "berta": "13700310-39",
+  "urun": "Aqua-Flex beyaz TR/GB 310 ml",
+  "fiyat": 31.1
+ },
+ {
+  "abas": "10028542",
+  "berta": "13701310-39",
+  "urun": "Aqua-Flex siyah TR/GB 310 ml",
+  "fiyat": 31.1
+ },
+ {
+  "abas": "10028543",
+  "berta": "13702310-39",
+  "urun": "Aqua-Flex gri TR/GB 310ml",
+  "fiyat": 31.1
+ },
+ {
+  "abas": "10061258",
+  "berta": "13706310-39",
+  "urun": "Flex 310M sıvı siyah TR/GB 310 ml",
+  "fiyat": 55.5
+ },
+ {
+  "abas": "10058069",
+  "berta": "13711200",
+  "urun": "Pencere Yapıştırıcı siy. bas.K 200 ml",
+  "fiyat": 46.5
+ },
+ {
+  "abas": "10058067",
+  "berta": "13711310",
+  "urun": "Pencere Yapıştırıcı siy. Kartuş 310 ml",
+  "fiyat": 29.2
+ },
+ {
+  "abas": "10025036",
+  "berta": "13750290",
+  "urun": "Solar-Flex beyaz 290ml",
+  "fiyat": 34.5
+ },
+ {
+  "abas": "10025038",
+  "berta": "13752290",
+  "urun": "Solar-Flex gri 290 ml",
+  "fiyat": 34.5
+ },
+ {
+  "abas": "10104275",
+  "berta": "13800280-39",
+  "urun": "Green Tube Flex 310M beyaz TR/GB 280ml",
+  "fiyat": 30.7
+ },
+ {
+  "abas": "10104319",
+  "berta": "13802280-39",
+  "urun": "GT Flex 310 M kristal TR/GB 280 ml",
+  "fiyat": 31.0
+ },
+ {
+  "abas": "10104289",
+  "berta": "13804280-39",
+  "urun": "Green Tube Flex 310 M gri TR/GB 280 ml",
+  "fiyat": 30.7
+ },
+ {
+  "abas": "10104303",
+  "berta": "13806280-39",
+  "urun": "Green Tube Felx 310M siyah TR/GB 280ml",
+  "fiyat": 30.7
+ },
+ {
+  "abas": "10105468",
+  "berta": "13814280-39",
+  "urun": "WEICON Green Tube gri HT200 280 ml",
+  "fiyat": 35.1
+ },
+ {
+  "abas": "10104333",
+  "berta": "13810280-39",
+  "urun": "Green Tube HT-300 TR/GB 280 ml",
+  "fiyat": 29.6
+ },
+ {
+  "abas": "10104347",
+  "berta": "13812280-39",
+  "urun": "Green Tube Black-Seal TR/GB 280 ml",
+  "fiyat": 32.2
+ },
+ {
+  "abas": "10060345",
+  "berta": "13890002",
+  "urun": "Ergo Connect 10 luk paket",
+  "fiyat": 4.0
+ },
+ {
+  "abas": "10025241",
+  "berta": "13955031",
+  "urun": "V-Tip ucu",
+  "fiyat": 3.1
+ },
+ {
+  "abas": "10032350",
+  "berta": "13955050",
+  "urun": "Primer fırçası",
+  "fiyat": 5.3
+ },
+ {
+  "abas": "10045037",
+  "berta": "13955072",
+  "urun": "Press pack Sırınğa",
+  "fiyat": 4.5
+ },
+ {
+  "abas": "10050551",
+  "berta": "14050319",
+  "urun": "Montaj Bandı Gri",
+  "fiyat": 27.5
+ },
+ {
+  "abas": "10050553",
+  "berta": "14100319",
+  "urun": "Montaj Bandı Şef.",
+  "fiyat": 25.5
+ },
+ {
+  "abas": "10033202",
+  "berta": "15000375-39",
+  "urun": "Çinko toz boyası TR/GB 375 ml",
+  "fiyat": 56.3
+ },
+ {
+  "abas": "10033206",
+  "berta": "15000750-39",
+  "urun": "Çinko toz boyası TR/GB 750 ml",
+  "fiyat": 111.6
+ },
+ {
+  "abas": "10000403",
+  "berta": "15000902",
+  "urun": "Çinko toz boyası 2,5l",
+  "fiyat": 301.2
+ },
+ {
+  "abas": "10033200",
+  "berta": "15001375-39",
+  "urun": "Çinko kaplama boyası TR/GB 375 ml",
+  "fiyat": 51.1
+ },
+ {
+  "abas": "10033201",
+  "berta": "15001750-39",
+  "urun": "Çinko kaplama boyası TR/GB 750 ml",
+  "fiyat": 97.3
+ },
+ {
+  "abas": "10000404",
+  "berta": "15001902",
+  "urun": "Çinko Kaplama Boyası 2,5 l",
+  "fiyat": 278.5
+ },
+ {
+  "abas": "10027113",
+  "berta": "15002375",
+  "urun": "Alüminyum boyası 375 ml",
+  "fiyat": 48.1
+ },
+ {
+  "abas": "10012085",
+  "berta": "15002750",
+  "urun": "Alüminyum boyası 750 ml",
+  "fiyat": 90.9
+ },
+ {
+  "abas": "10000351",
+  "berta": "15050001",
+  "urun": "Kaynak koruması 1 l",
+  "fiyat": 38.3
+ },
+ {
+  "abas": "10032990",
+  "berta": "15050005-39",
+  "urun": "Kaynak Koruması TR/GB 5 l",
+  "fiyat": 120.7
+ },
+ {
+  "abas": "10000338",
+  "berta": "15050010",
+  "urun": "Bio Kaynak Koruma 10 l",
+  "fiyat": 228.4
+ },
+ {
+  "abas": "10053449",
+  "berta": "15050028",
+  "urun": "Bio-Kaynak Koruması 28 L",
+  "fiyat": 581.3
+ },
+ {
+  "abas": "10007609",
+  "berta": "15150001",
+  "urun": "Pas çözücü 1 L",
+  "fiyat": 42.2
+ },
+ {
+  "abas": "10032521",
+  "berta": "15150005-39",
+  "urun": "Pas Sökücü TR/GB 5 l",
+  "fiyat": 206.9
+ },
+ {
+  "abas": "10032522",
+  "berta": "15150010-39",
+  "urun": "Pas Sökücü TR/GB 10 l",
+  "fiyat": 381.8
+ },
+ {
+  "abas": "10053451",
+  "berta": "15150028",
+  "urun": "Pas Sökücü 28 L",
+  "fiyat": 1130.6
+ },
+ {
+  "abas": "10068564",
+  "berta": "15152001-39",
+  "urun": "Pas Dönüştürücü TR/GB 1 kg",
+  "fiyat": 72.7
+ },
+ {
+  "abas": "10053605",
+  "berta": "15152005",
+  "urun": "Pas Dönüştürücü 5 KG",
+  "fiyat": 300.3
+ },
+ {
+  "abas": "10053607",
+  "berta": "15152010",
+  "urun": "Pas Dönüştürücü 10 KG",
+  "fiyat": 536.2
+ },
+ {
+  "abas": "10053611",
+  "berta": "15152028",
+  "urun": "Pas Dönüştürücü 28 KG",
+  "fiyat": 1406.0
+ },
+ {
+  "abas": "10102422",
+  "berta": "15153001-39",
+  "urun": "Pas Sökücü Sıvı TR/GB 1 L",
+  "fiyat": 43.1
+ },
+ {
+  "abas": "10102426",
+  "berta": "15153005-39",
+  "urun": "Pas Sökücü Sıvı TR/GB 5 L",
+  "fiyat": 204.8
+ },
+ {
+  "abas": "10102434",
+  "berta": "15154005-39",
+  "urun": "Pas Sökücü Jel TR/GB 5 L",
+  "fiyat": 204.1
+ },
+ {
+  "abas": "10102430",
+  "berta": "15154750-39",
+  "urun": "Pas Sökücü Jel TR/GB 1 L",
+  "fiyat": 42.8
+ },
+ {
+  "abas": "10007611",
+  "berta": "15200001",
+  "urun": "Temizleyici S 1 L",
+  "fiyat": 32.7
+ },
+ {
+  "abas": "10032518",
+  "berta": "15200005-39",
+  "urun": "Süper Temizleyici S TR/GB 5 L",
+  "fiyat": 102.2
+ },
+ {
+  "abas": "10000348",
+  "berta": "15200010",
+  "urun": "Süper Temizleyici S 10 l",
+  "fiyat": 199.3
+ },
+ {
+  "abas": "10053455",
+  "berta": "15200028",
+  "urun": "Temizleyici S 28 L",
+  "fiyat": 556.5
+ },
+ {
+  "abas": "10007612",
+  "berta": "15201001",
+  "urun": "Fren temizleyici 1 L",
+  "fiyat": 30.5
+ },
+ {
+  "abas": "10032472",
+  "berta": "15201005-39",
+  "urun": "Fren Balata Temizleyici TR/GB 5 l",
+  "fiyat": 91.3
+ },
+ {
+  "abas": "10032473",
+  "berta": "15201010-39",
+  "urun": "Fren Balata Temizleyici TR/GB 10 l",
+  "fiyat": 185.0
+ },
+ {
+  "abas": "10053857",
+  "berta": "15201028-39",
+  "urun": "Fren Balata TR/GB 28 l",
+  "fiyat": 517.7
+ },
+ {
+  "abas": "10037688",
+  "berta": "15203501",
+  "urun": "Kalıp Temizleyici 5 l",
+  "fiyat": 43.3
+ },
+ {
+  "abas": "10025839",
+  "berta": "15203505",
+  "urun": "Kalıp Temizleyici 5 l",
+  "fiyat": 139.5
+ },
+ {
+  "abas": "10025840",
+  "berta": "15203510",
+  "urun": "Kalıp Temizleyici 10 l",
+  "fiyat": 273.2
+ },
+ {
+  "abas": "10053459",
+  "berta": "15203528",
+  "urun": "Kalıp Temizleyici 28 l",
+  "fiyat": 757.0
+ },
+ {
+  "abas": "10019559",
+  "berta": "15204001",
+  "urun": "Plastik Temizleyici 1 L",
+  "fiyat": 34.3
+ },
+ {
+  "abas": "10019356",
+  "berta": "15204005",
+  "urun": "Plastik Temizleyici 5 l",
+  "fiyat": 106.2
+ },
+ {
+  "abas": "10019357",
+  "berta": "15204010",
+  "urun": "Plastik Temizleyici 10 l",
+  "fiyat": 201.9
+ },
+ {
+  "abas": "10053461",
+  "berta": "15204028",
+  "urun": "Plastik Temizleyici 28 L",
+  "fiyat": 564.2
+ },
+ {
+  "abas": "10102402",
+  "berta": "15204101-39",
+  "urun": "Fren ve Balata Temizl. AF TR/GB 1 L",
+  "fiyat": 22.2
+ },
+ {
+  "abas": "10102406",
+  "berta": "15204105-39",
+  "urun": "Fren & Balata Temizl. AF TR/GB 5 L",
+  "fiyat": 90.7
+ },
+ {
+  "abas": "10102410",
+  "berta": "15204110-39",
+  "urun": "Fren ve Balata Temizl. AF TR/GB 10 L",
+  "fiyat": 185.0
+ },
+ {
+  "abas": "10102414",
+  "berta": "15204128-39",
+  "urun": "Fren ve Balata Temizl. AF TR/GB 28 L",
+  "fiyat": 517.7
+ },
+ {
+  "abas": "10028258",
+  "berta": "15205001",
+  "urun": "Atölye Temizleyici 1 L",
+  "fiyat": 43.3
+ },
+ {
+  "abas": "10032999",
+  "berta": "15205005-39",
+  "urun": "Atölye Temizleyici TR/GB 5 l",
+  "fiyat": 134.1
+ },
+ {
+  "abas": "10016798",
+  "berta": "15205010",
+  "urun": "Atölye Temizleyici 10 l",
+  "fiyat": 260.8
+ },
+ {
+  "abas": "10053870",
+  "berta": "15205028-39",
+  "urun": "Atölye Temizleyici TR/GB 28 l",
+  "fiyat": 721.0
+ },
+ {
+  "abas": "10016977",
+  "berta": "15205500",
+  "urun": "Atölye Temizleyici 500 ml",
+  "fiyat": 24.1
+ },
+ {
+  "abas": "10019556",
+  "berta": "15206001",
+  "urun": "Etiket Çıkartıcı 1 l",
+  "fiyat": 36.8
+ },
+ {
+  "abas": "10019359",
+  "berta": "15206005",
+  "urun": "Etiket Çıkartıcı 5 l",
+  "fiyat": 106.7
+ },
+ {
+  "abas": "10019362",
+  "berta": "15206010",
+  "urun": "Etiket Çıkartıcı 10 l",
+  "fiyat": 217.3
+ },
+ {
+  "abas": "10053465",
+  "berta": "15206028",
+  "urun": "Etiket Çıkartıcı 28 L",
+  "fiyat": 606.4
+ },
+ {
+  "abas": "10025301",
+  "berta": "15207001",
+  "urun": "Yüzey Temizleyici 1 l",
+  "fiyat": 48.6
+ },
+ {
+  "abas": "10025288",
+  "berta": "15207005",
+  "urun": "Yüzey Temizleyici 5 l",
+  "fiyat": 154.7
+ },
+ {
+  "abas": "10025292",
+  "berta": "15207010",
+  "urun": "Yüzey Temizleyici 10 l",
+  "fiyat": 306.5
+ },
+ {
+  "abas": "10053467",
+  "berta": "15207028",
+  "urun": "Yüzey Temizleyici 28 LT",
+  "fiyat": 854.7
+ },
+ {
+  "abas": "10031802",
+  "berta": "15210001",
+  "urun": "Narenciye Temizleyici 1 L",
+  "fiyat": 60.9
+ },
+ {
+  "abas": "10033568",
+  "berta": "15210005",
+  "urun": "Citrus-Temizleyici 5 l",
+  "fiyat": 294.9
+ },
+ {
+  "abas": "10033570",
+  "berta": "15210010",
+  "urun": "Citrus-Temizleyici 10 l",
+  "fiyat": 596.2
+ },
+ {
+  "abas": "10053469",
+  "berta": "15210028",
+  "urun": "Citrus-Temizleyici 28 L",
+  "fiyat": 1680.3
+ },
+ {
+  "abas": "10027840",
+  "berta": "15211001",
+  "urun": "Parça ve Montaj Temizleyici 1 L",
+  "fiyat": 35.4
+ },
+ {
+  "abas": "10032530",
+  "berta": "15211005-39",
+  "urun": "Parça ve Montaj Temizleyici TR/GB 5 l",
+  "fiyat": 125.3
+ },
+ {
+  "abas": "10032531",
+  "berta": "15211010-39",
+  "urun": "Parça & Montaj Temizl. TR/GB 10L",
+  "fiyat": 243.8
+ },
+ {
+  "abas": "10053471",
+  "berta": "15211028",
+  "urun": "Parça ve Montaj Temizleyici 28 L",
+  "fiyat": 564.6
+ },
+ {
+  "abas": "10029981",
+  "berta": "15212001",
+  "urun": "Elektro Temizleyici 1 l",
+  "fiyat": 54.2
+ },
+ {
+  "abas": "10032482",
+  "berta": "15212005-39",
+  "urun": "Elektro Temizleyici TR/GB 5 l",
+  "fiyat": 172.6
+ },
+ {
+  "abas": "10032483",
+  "berta": "15212010-39",
+  "urun": "Elektro Temizleyici TR/GB 10 l",
+  "fiyat": 344.0
+ },
+ {
+  "abas": "10053473",
+  "berta": "15212028",
+  "urun": "Elektro Temizleyici 28 L",
+  "fiyat": 957.6
+ },
+ {
+  "abas": "10048254",
+  "berta": "15215001",
+  "urun": "Hızlı temizleyici 1 L",
+  "fiyat": 53.0
+ },
+ {
+  "abas": "10047373",
+  "berta": "15215005",
+  "urun": "Hızlı Temizleyici 5 lt",
+  "fiyat": 182.6
+ },
+ {
+  "abas": "10047376",
+  "berta": "15215010",
+  "urun": "Hızlı Temizleyici 10 lt",
+  "fiyat": 327.8
+ },
+ {
+  "abas": "10053477",
+  "berta": "15215028",
+  "urun": "Hızlı Temizleyici 28 L",
+  "fiyat": 771.0
+ },
+ {
+  "abas": "10061274",
+  "berta": "15225001-39",
+  "urun": "Temizleyici M TR/GB 1 L",
+  "fiyat": 34.4
+ },
+ {
+  "abas": "10061289",
+  "berta": "15225005-39",
+  "urun": "Temizleyici M TR/GB 5 L",
+  "fiyat": 118.8
+ },
+ {
+  "abas": "10061296",
+  "berta": "15225010-39",
+  "urun": "Temizleyici M TR/GB 10 L",
+  "fiyat": 230.5
+ },
+ {
+  "abas": "10061301",
+  "berta": "15225028-39",
+  "urun": "Temizleyici M TR/GB 28 L",
+  "fiyat": 659.7
+ },
+ {
+  "abas": "10007614",
+  "berta": "15250001",
+  "urun": "AT-44 1 L",
+  "fiyat": 58.5
+ },
+ {
+  "abas": "10000356",
+  "berta": "15250005",
+  "urun": "AT-44 5 l",
+  "fiyat": 182.4
+ },
+ {
+  "abas": "10000357",
+  "berta": "15250010",
+  "urun": "AT-44 10 l",
+  "fiyat": 363.1
+ },
+ {
+  "abas": "10053479",
+  "berta": "15250028",
+  "urun": "AT-44 28 L",
+  "fiyat": 1008.5
+ },
+ {
+  "abas": "10011715",
+  "berta": "15251001",
+  "urun": "W 44 T 1 L",
+  "fiyat": 38.8
+ },
+ {
+  "abas": "10032535",
+  "berta": "15251005-39",
+  "urun": "W 44 T Sıvı Aktif Maddesi TR/GB 5 l",
+  "fiyat": 109.6
+ },
+ {
+  "abas": "10011348",
+  "berta": "15251010",
+  "urun": "W44T Turbo-Power-Yağ 10 l",
+  "fiyat": 211.6
+ },
+ {
+  "abas": "10053483",
+  "berta": "15251028",
+  "urun": "W44T Turbo-Power-Yağ 28 l",
+  "fiyat": 615.5
+ },
+ {
+  "abas": "10011816",
+  "berta": "15260001",
+  "urun": "Pneuma-Lube 1 L",
+  "fiyat": 57.9
+ },
+ {
+  "abas": "10010554",
+  "berta": "15260005",
+  "urun": "Pneuma-Lube 5 L",
+  "fiyat": 198.1
+ },
+ {
+  "abas": "10010555",
+  "berta": "15260010",
+  "urun": "Pneuma-Lube 10 L",
+  "fiyat": 386.8
+ },
+ {
+  "abas": "10053485",
+  "berta": "15260028",
+  "urun": "AT-44 Sıvı Aktif Maddesi 28 l",
+  "fiyat": 955.4
+ },
+ {
+  "abas": "10006760",
+  "berta": "15350001",
+  "urun": "Silikon 1 L",
+  "fiyat": 49.2
+ },
+ {
+  "abas": "10032527",
+  "berta": "15350005-39",
+  "urun": "Silikon TR/GB 5 l",
+  "fiyat": 176.9
+ },
+ {
+  "abas": "10000361",
+  "berta": "15350010",
+  "urun": "Silikon 10 l",
+  "fiyat": 354.4
+ },
+ {
+  "abas": "10053488",
+  "berta": "15350028",
+  "urun": "Silikon 28 l",
+  "fiyat": 872.6
+ },
+ {
+  "abas": "10007597",
+  "berta": "15400001",
+  "urun": "Sızıntı detektörü 1 L",
+  "fiyat": 28.2
+ },
+ {
+  "abas": "10032507",
+  "berta": "15400005-39",
+  "urun": "Kaçak Arama TR/GB 5 l",
+  "fiyat": 69.3
+ },
+ {
+  "abas": "10032508",
+  "berta": "15400010-39",
+  "urun": "Kaçak Arama TR/GB 10 l",
+  "fiyat": 140.3
+ },
+ {
+  "abas": "10053921",
+  "berta": "15400028-39",
+  "urun": "Kaçak Arama TR/GB 28 l",
+  "fiyat": 393.4
+ },
+ {
+  "abas": "10051105",
+  "berta": "15403001",
+  "urun": "Kaçak Arama Sprey kalın 1 l",
+  "fiyat": 41.5
+ },
+ {
+  "abas": "10051106",
+  "berta": "15403005",
+  "urun": "Kaçak Arama Sprey kalın 5 l",
+  "fiyat": 139.1
+ },
+ {
+  "abas": "10051108",
+  "berta": "15403010",
+  "urun": "Kaçak Arama Sprey kalın 10 l",
+  "fiyat": 252.8
+ },
+ {
+  "abas": "10053493",
+  "berta": "15403028",
+  "urun": "Kaçak Arama Sprey kalın 28 l",
+  "fiyat": 624.5
+ },
+ {
+  "abas": "10051092",
+  "berta": "15404001",
+  "urun": "Kaçak Arama Sprey don.day 1 l",
+  "fiyat": 51.7
+ },
+ {
+  "abas": "10051093",
+  "berta": "15404005",
+  "urun": "Kaçak Arama Sprey don.day 5 l",
+  "fiyat": 194.0
+ },
+ {
+  "abas": "10051095",
+  "berta": "15404010",
+  "urun": "Kaçak Arama Sprey don.day 10 l",
+  "fiyat": 347.7
+ },
+ {
+  "abas": "10053497",
+  "berta": "15404028",
+  "urun": "Kaçak Arama Sprey don.day 28 l",
+  "fiyat": 916.0
+ },
+ {
+  "abas": "10007616",
+  "berta": "15450001",
+  "urun": "Kalıp ayırıcı 1 L",
+  "fiyat": 76.8
+ },
+ {
+  "abas": "10032501",
+  "berta": "15450005-39",
+  "urun": "Kalıp Ayırıcı TR/GB 5 L",
+  "fiyat": 251.1
+ },
+ {
+  "abas": "10000364",
+  "berta": "15450010",
+  "urun": "Kalıp Ayırıcı 10 l",
+  "fiyat": 483.5
+ },
+ {
+  "abas": "10053498",
+  "berta": "15450028",
+  "urun": "Kalıp Ayırıcı 28 L",
+  "fiyat": 1336.2
+ },
+ {
+  "abas": "10007619",
+  "berta": "15550001",
+  "urun": "Corro Koruma 1 L",
+  "fiyat": 69.8
+ },
+ {
+  "abas": "10032849",
+  "berta": "15550005-39",
+  "urun": "Korozyon Önleyici (WAX) TR/GB 5 l",
+  "fiyat": 240.6
+ },
+ {
+  "abas": "10032850",
+  "berta": "15550010-39",
+  "urun": "Korozyon önleyici wax TR/GB 10 l",
+  "fiyat": 437.6
+ },
+ {
+  "abas": "10053931",
+  "berta": "15550028-39",
+  "urun": "Korozyon önleyici wax TR/GB 28 l",
+  "fiyat": 1171.4
+ },
+ {
+  "abas": "10033119",
+  "berta": "15580001",
+  "urun": "Metal sıvısı 1 L",
+  "fiyat": 55.5
+ },
+ {
+  "abas": "10016345",
+  "berta": "15580005",
+  "urun": "Metal-Fluid 5 l",
+  "fiyat": 165.4
+ },
+ {
+  "abas": "10016352",
+  "berta": "15580010",
+  "urun": "Metal-Fluid 10 l",
+  "fiyat": 318.1
+ },
+ {
+  "abas": "10053506",
+  "berta": "15580028",
+  "urun": "Metal-Fluid 28 L",
+  "fiyat": 880.4
+ },
+ {
+  "abas": "10017352",
+  "berta": "15580100",
+  "urun": "Metal-Fluid 100 ml",
+  "fiyat": 22.4
+ },
+ {
+  "abas": "10028117",
+  "berta": "15580500",
+  "urun": "Metal-Fluid El püskürt. 500 ml",
+  "fiyat": 41.3
+ },
+ {
+  "abas": "10013812",
+  "berta": "15590001",
+  "urun": "Paslanmaz çelik bakımı Etken madde 1 L",
+  "fiyat": 49.2
+ },
+ {
+  "abas": "10013730",
+  "berta": "15590005",
+  "urun": "Paslanmaz Çelik Bakım 5 l",
+  "fiyat": 157.2
+ },
+ {
+  "abas": "10032478",
+  "berta": "15590010-39",
+  "urun": "Paslanmaz Çelik Bakım TR/GB 10 l",
+  "fiyat": 309.0
+ },
+ {
+  "abas": "10053512",
+  "berta": "15590028",
+  "urun": "Paslanmaz Çelik Bakım 30 l",
+  "fiyat": 852.0
+ },
+ {
+  "abas": "10007622",
+  "berta": "15600001",
+  "urun": "Bio-Fluid 1 L",
+  "fiyat": 56.4
+ },
+ {
+  "abas": "10000365",
+  "berta": "15600005",
+  "urun": "Bio-Fluid 5 l",
+  "fiyat": 187.1
+ },
+ {
+  "abas": "10000366",
+  "berta": "15600010",
+  "urun": "Bio-Fluid 10 l",
+  "fiyat": 359.6
+ },
+ {
+  "abas": "10053514",
+  "berta": "15600028",
+  "urun": "Bio-Fluid 28 L",
+  "fiyat": 961.5
+ },
+ {
+  "abas": "10000394",
+  "berta": "15750001",
+  "urun": "Bio-Cut 1 l",
+  "fiyat": 55.1
+ },
+ {
+  "abas": "10011167",
+  "berta": "15750002",
+  "urun": "Bio-Cut 250 ml",
+  "fiyat": 31.0
+ },
+ {
+  "abas": "10032466",
+  "berta": "15750005-39",
+  "urun": "Bio-Cut TR/GB 5 l",
+  "fiyat": 168.4
+ },
+ {
+  "abas": "10000369",
+  "berta": "15750010",
+  "urun": "Bio-Cut 10 l",
+  "fiyat": 335.1
+ },
+ {
+  "abas": "10053516",
+  "berta": "15750028",
+  "urun": "Bio-Cut 28 l",
+  "fiyat": 895.1
+ },
+ {
+  "abas": "10000393",
+  "berta": "15810001",
+  "urun": "WSD 400 doldurma adaptör",
+  "fiyat": 25.9
+ },
+ {
+  "abas": "10009303",
+  "berta": "15811002",
+  "urun": "WSD 400 Sprey kafa set",
+  "fiyat": 10.0
+ },
+ {
+  "abas": "10009301",
+  "berta": "15811400",
+  "urun": "WSD 400 Sprey Kutusu",
+  "fiyat": 96.0
+ },
+ {
+  "abas": "10000398",
+  "berta": "15831001",
+  "urun": "Dosajlama Ağızlığı 30 l",
+  "fiyat": 33.2
+ },
+ {
+  "abas": "10016002",
+  "berta": "15841500",
+  "urun": "WPS 1500 pompalı püskürtücü",
+  "fiyat": 83.4
+ },
+ {
+  "abas": "10016213",
+  "berta": "15841501",
+  "urun": "WPS 1500 uzatma borusu",
+  "fiyat": 17.5
+ },
+ {
+  "abas": "10055884",
+  "berta": "15842001-39",
+  "urun": "El püskürtücü TR/GB 500 ml",
+  "fiyat": 13.1
+ },
+ {
+  "abas": "10000402",
+  "berta": "15843001",
+  "urun": "El püskürtücü özel 500 ml",
+  "fiyat": 19.4
+ },
+ {
+  "abas": "10029662",
+  "berta": "16100185",
+  "urun": "GMK 2410 185 gr",
+  "fiyat": 35.1
+ },
+ {
+  "abas": "10028908",
+  "berta": "16100300",
+  "urun": "GMK 2410 300 gr",
+  "fiyat": 42.5
+ },
+ {
+  "abas": "10030358",
+  "berta": "16100350",
+  "urun": "GMK 2410 fırçalı kutu 350 gr",
+  "fiyat": 45.6
+ },
+ {
+  "abas": "10032039",
+  "berta": "16100700-39",
+  "urun": "GMK 2410 TR/GB 700 g",
+  "fiyat": 80.6
+ },
+ {
+  "abas": "10029718",
+  "berta": "16100905",
+  "urun": "GMK 2410 5 kg",
+  "fiyat": 406.9
+ },
+ {
+  "abas": "10029720",
+  "berta": "16100925",
+  "urun": "GMK 2410 25 kg",
+  "fiyat": 1663.1
+ },
+ {
+  "abas": "10039649",
+  "berta": "16200324",
+  "urun": "GMK 2510 324gr.",
+  "fiyat": 69.8
+ },
+ {
+  "abas": "10034480",
+  "berta": "16200690",
+  "urun": "GMK 2510 690gr.",
+  "fiyat": 112.0
+ },
+ {
+  "abas": "10062643",
+  "berta": "16500310-39",
+  "urun": "Montaj yapıştırıcısı TR/GB 310ml",
+  "fiyat": 14.7
+ },
+ {
+  "abas": "10102418",
+  "berta": "16600280-39",
+  "urun": "Green Tube Montaj Yap. TR/GB 280 ml",
+  "fiyat": 20.5
+ },
+ {
+  "abas": "10063413",
+  "berta": "17000002-39",
+  "urun": "WEICON Fire Safe TR/GB 0,2 kg",
+  "fiyat": 88.9
+ },
+ {
+  "abas": "10063422",
+  "berta": "17000005-39",
+  "urun": "WEICON Fire Safe TR/GB 0,5 kg",
+  "fiyat": 140.2
+ },
+ {
+  "abas": "10063429",
+  "berta": "17000010-39",
+  "urun": "WEICON Fire Safe TR/GB 1 kg",
+  "fiyat": 328.6
+ },
+ {
+  "abas": "10063446",
+  "berta": "17050002-39",
+  "urun": "WEICON Food Grade TR/GB 0,2 kg",
+  "fiyat": 84.0
+ },
+ {
+  "abas": "10063453",
+  "berta": "17050005-39",
+  "urun": "WEICON Food Grade TR/GB 0,5 kg",
+  "fiyat": 124.5
+ },
+ {
+  "abas": "10063460",
+  "berta": "17050020-39",
+  "urun": "WEICON Food Grade TR/GB 2 kg",
+  "fiyat": 415.8
+ },
+ {
+  "abas": "10063476",
+  "berta": "17100002-39",
+  "urun": "WEICON Anti-Statik TR/GB 0,2 kg",
+  "fiyat": 80.9
+ },
+ {
+  "abas": "10063483",
+  "berta": "17100005-39",
+  "urun": "WEICON Anti-Statik TR/GB 0,5 kg",
+  "fiyat": 120.1
+ },
+ {
+  "abas": "10063490",
+  "berta": "17100020-39",
+  "urun": "WEICON Anti-Statik TR/GB 2 kg",
+  "fiyat": 397.4
+ },
+ {
+  "abas": "10063504",
+  "berta": "17150002-39",
+  "urun": "WEICON Anti-Stick TR/GB 0,2 kg",
+  "fiyat": 85.1
+ },
+ {
+  "abas": "10063511",
+  "berta": "17150005-39",
+  "urun": "WEICON Anti-Stick TR/GB 0,5 kg",
+  "fiyat": 122.1
+ },
+ {
+  "abas": "10063518",
+  "berta": "17150020-39",
+  "urun": "WEICON Anti-Stick TR/GB 2 kg",
+  "fiyat": 399.8
+ },
+ {
+  "abas": "10063591",
+  "berta": "18050001-39",
+  "urun": "WEICON S 180W Plus TR/GB 1 l",
+  "fiyat": 95.8
+ },
+ {
+  "abas": "10000170",
+  "berta": "26000001",
+  "urun": "AS sırınga 10 g",
+  "fiyat": 9.5
+ },
+ {
+  "abas": "10015175",
+  "berta": "26000003",
+  "urun": "AS Pen 30g",
+  "fiyat": 13.1
+ },
+ {
+  "abas": "10040341",
+  "berta": "26000012-39",
+  "urun": "AS fırçalı kutu TR/GB 120g",
+  "fiyat": 22.7
+ },
+ {
+  "abas": "10000173",
+  "berta": "26000040",
+  "urun": "AS 400g kartuş",
+  "fiyat": 42.2
+ },
+ {
+  "abas": "10040395",
+  "berta": "26000045-39",
+  "urun": "AS 4 TR/GB 450g kova",
+  "fiyat": 49.1
+ },
+ {
+  "abas": "10033196",
+  "berta": "26000050-39",
+  "urun": "AS fırçalı kutu TR/GB 500 g",
+  "fiyat": 51.7
+ },
+ {
+  "abas": "10047467",
+  "berta": "26000085",
+  "urun": "AS Tüp 85 g",
+  "fiyat": 17.8
+ },
+ {
+  "abas": "10033215",
+  "berta": "26000100-39",
+  "urun": "AS kova TR/GB 1 kg",
+  "fiyat": 102.0
+ },
+ {
+  "abas": "10000178",
+  "berta": "26000180",
+  "urun": "AS 1,8 kg teneke",
+  "fiyat": 184.4
+ },
+ {
+  "abas": "10025465",
+  "berta": "26000200",
+  "urun": "AS 200 PR 200 ml",
+  "fiyat": 57.2
+ },
+ {
+  "abas": "10000181",
+  "berta": "26000500",
+  "urun": "AS teneke 5 kg",
+  "fiyat": 495.9
+ },
+ {
+  "abas": "10000182",
+  "berta": "26000910",
+  "urun": "AS teneke 10 kg",
+  "fiyat": 925.8
+ },
+ {
+  "abas": "10000183",
+  "berta": "26000920",
+  "urun": "AS teneke 20 kg",
+  "fiyat": 1653.1
+ },
+ {
+  "abas": "10048520",
+  "berta": "26050012-39",
+  "urun": "Anti-Seize ASN TR/GB 120 P",
+  "fiyat": 43.8
+ },
+ {
+  "abas": "10000185",
+  "berta": "26050040",
+  "urun": "ASN 400 K 400 g",
+  "fiyat": 89.9
+ },
+ {
+  "abas": "10048519",
+  "berta": "26050045-39",
+  "urun": "ASN 450 TR/GB 450 g",
+  "fiyat": 95.1
+ },
+ {
+  "abas": "10047560",
+  "berta": "26050050",
+  "urun": "ASN Fırça Kutusu 500 g",
+  "fiyat": 121.1
+ },
+ {
+  "abas": "10000192",
+  "berta": "26050100",
+  "urun": "ASN 1000 1,0 kg",
+  "fiyat": 211.9
+ },
+ {
+  "abas": "10000187",
+  "berta": "26050180",
+  "urun": "ASN 1800 1,8 kg",
+  "fiyat": 380.5
+ },
+ {
+  "abas": "10000189",
+  "berta": "26050500",
+  "urun": "ASN 5000 5 kg",
+  "fiyat": 953.3
+ },
+ {
+  "abas": "10000190",
+  "berta": "26050910",
+  "urun": "ASN 10000 10 kg",
+  "fiyat": 2102.0
+ },
+ {
+  "abas": "10000191",
+  "berta": "26050920",
+  "urun": "ASN 20000 20 kg",
+  "fiyat": 3718.4
+ },
+ {
+  "abas": "10015179",
+  "berta": "26100003",
+  "urun": "ASW Pen-Sistem 30 g",
+  "fiyat": 18.4
+ },
+ {
+  "abas": "10031277",
+  "berta": "26100005",
+  "urun": "Anti-Seize High-Tech 5 gr",
+  "fiyat": 4.7
+ },
+ {
+  "abas": "10040583",
+  "berta": "26100012-39",
+  "urun": "ASW fırçalı kutu TR/GB 120g",
+  "fiyat": 32.5
+ },
+ {
+  "abas": "10000195",
+  "berta": "26100040",
+  "urun": "ASW 400g kartuş",
+  "fiyat": 66.3
+ },
+ {
+  "abas": "10040036",
+  "berta": "26100045-39",
+  "urun": "ASW TR/GB 450g kova",
+  "fiyat": 71.6
+ },
+ {
+  "abas": "10033198",
+  "berta": "26100050-39",
+  "urun": "ASW fırçalı kutu TR/GB 500 g",
+  "fiyat": 78.9
+ },
+ {
+  "abas": "10047469",
+  "berta": "26100085",
+  "urun": "ASW Tüp 85 g",
+  "fiyat": 25.8
+ },
+ {
+  "abas": "10033221",
+  "berta": "26100100-39",
+  "urun": "ASW-High-Tec TR/GB 1 kg",
+  "fiyat": 152.4
+ },
+ {
+  "abas": "10000199",
+  "berta": "26100180",
+  "urun": "ASW teneke 1,8 kg",
+  "fiyat": 277.8
+ },
+ {
+  "abas": "10000202",
+  "berta": "26100500",
+  "urun": "ASW teneke 5 kg",
+  "fiyat": 720.1
+ },
+ {
+  "abas": "10000204",
+  "berta": "26100910",
+  "urun": "ASW teneke 10 kg",
+  "fiyat": 1362.8
+ },
+ {
+  "abas": "10000205",
+  "berta": "26100920",
+  "urun": "ASW teneke 20kg",
+  "fiyat": 2445.1
+ },
+ {
+  "abas": "10067867",
+  "berta": "26150012",
+  "urun": "ASK 120 P 120 g",
+  "fiyat": 28.8
+ },
+ {
+  "abas": "10067869",
+  "berta": "26150045",
+  "urun": "ASK 450 450 g",
+  "fiyat": 75.1
+ },
+ {
+  "abas": "10000208",
+  "berta": "26150100",
+  "urun": "ASK 1000 Seramik macunu 1 kg",
+  "fiyat": 152.0
+ },
+ {
+  "abas": "10025928",
+  "berta": "26200003",
+  "urun": "Bakır Macunu Pen-System 30g",
+  "fiyat": 11.0
+ },
+ {
+  "abas": "10040857",
+  "berta": "26200012-39",
+  "urun": "Bakır Macunu fırçalı kutu TR/GB 120 g",
+  "fiyat": 21.3
+ },
+ {
+  "abas": "10040029",
+  "berta": "26200040",
+  "urun": "Bakır macunu Kartu. 400 g",
+  "fiyat": 33.0
+ },
+ {
+  "abas": "10033211",
+  "berta": "26200045-39",
+  "urun": "Bakır Macunu TR/GB 450 g",
+  "fiyat": 44.8
+ },
+ {
+  "abas": "10033199",
+  "berta": "26200050-39",
+  "urun": "Bakır Macunu fırçalı kutu TR/GB 500 g",
+  "fiyat": 48.1
+ },
+ {
+  "abas": "10047468",
+  "berta": "26200085",
+  "urun": "Weicon Bakır Macunu Tüp 85 gr",
+  "fiyat": 16.8
+ },
+ {
+  "abas": "10033212",
+  "berta": "26200100-39",
+  "urun": "Bakır Macunu TR/GB 1 kg",
+  "fiyat": 92.2
+ },
+ {
+  "abas": "10002942",
+  "berta": "26200910",
+  "urun": "Bakır Macunu 10 kg",
+  "fiyat": 837.3
+ },
+ {
+  "abas": "10063812",
+  "berta": "26300045-39",
+  "urun": "Silikon Yağı HV TR/GB 450 g",
+  "fiyat": 106.2
+ },
+ {
+  "abas": "10063768",
+  "berta": "26300100-39",
+  "urun": "Silikon Yağı HV TR/GB 1 kg",
+  "fiyat": 211.2
+ },
+ {
+  "abas": "10063784",
+  "berta": "26300500-39",
+  "urun": "Silikon Yağı HV TR/GB 5 kg",
+  "fiyat": 950.1
+ },
+ {
+  "abas": "10063798",
+  "berta": "26300925-39",
+  "urun": "Silikon Yağı HV TR/GB 25 kg",
+  "fiyat": 4461.5
+ },
+ {
+  "abas": "10053151",
+  "berta": "26350005",
+  "urun": "Silikon yağı 5 gr",
+  "fiyat": 14.7
+ },
+ {
+  "abas": "10050558",
+  "berta": "26350045",
+  "urun": "Silikon Yağı 450g",
+  "fiyat": 73.0
+ },
+ {
+  "abas": "10052100",
+  "berta": "26350085-39",
+  "urun": "Silikon Yağı TR/GB 85 g",
+  "fiyat": 41.6
+ },
+ {
+  "abas": "10051980",
+  "berta": "26350100-39",
+  "urun": "Silikon Yağı TR/GB 1 kg",
+  "fiyat": 136.4
+ },
+ {
+  "abas": "10051113",
+  "berta": "26350500",
+  "urun": "Silikon Yağı 5kg",
+  "fiyat": 656.8
+ },
+ {
+  "abas": "10051118",
+  "berta": "26350925",
+  "urun": "Silikon Yağı 25kg",
+  "fiyat": 3240.5
+ },
+ {
+  "abas": "10033361",
+  "berta": "26400040-39",
+  "urun": "AL-M 400 K TR/GB kartüş 400 g",
+  "fiyat": 24.0
+ },
+ {
+  "abas": "10033362",
+  "berta": "26400100-39",
+  "urun": "AL-M 1000 1 kg TR/GB",
+  "fiyat": 50.3
+ },
+ {
+  "abas": "10033363",
+  "berta": "26400500-39",
+  "urun": "AL-M 5000 TR/GB 5 kg",
+  "fiyat": 249.5
+ },
+ {
+  "abas": "10016739",
+  "berta": "26400925",
+  "urun": "AL-M 25000 25 kg",
+  "fiyat": 1156.8
+ },
+ {
+  "abas": "10033368",
+  "berta": "26450040-39",
+  "urun": "AL-W 400 K kartüş TR/GB 400 g",
+  "fiyat": 27.7
+ },
+ {
+  "abas": "10033369",
+  "berta": "26450100-39",
+  "urun": "AL-W 1000 TR/GB 1 kg",
+  "fiyat": 56.9
+ },
+ {
+  "abas": "10016754",
+  "berta": "26450500",
+  "urun": "AL-W 5000 5 kg",
+  "fiyat": 261.8
+ },
+ {
+  "abas": "10016756",
+  "berta": "26450925",
+  "urun": "AL-W 25000 25 kg",
+  "fiyat": 1233.5
+ },
+ {
+  "abas": "10033372",
+  "berta": "26500040-39",
+  "urun": "AL-H 400 K TR/GB 400 g",
+  "fiyat": 57.4
+ },
+ {
+  "abas": "10033374",
+  "berta": "26500100-39",
+  "urun": "AL-H 1000 TR/GB 1 kg",
+  "fiyat": 124.4
+ },
+ {
+  "abas": "10016766",
+  "berta": "26500500",
+  "urun": "AL-H 5000 5 kg",
+  "fiyat": 603.7
+ },
+ {
+  "abas": "10033376",
+  "berta": "26500925-39",
+  "urun": "AL-H 25000 TR/GB 25 kg",
+  "fiyat": 2868.8
+ },
+ {
+  "abas": "10017515",
+  "berta": "26550035",
+  "urun": "AL-F 350g",
+  "fiyat": 26.4
+ },
+ {
+  "abas": "10033377",
+  "berta": "26550040-39",
+  "urun": "AL-F 400 K kartüş TR/GB 400 g",
+  "fiyat": 33.6
+ },
+ {
+  "abas": "10033378",
+  "berta": "26550100-39",
+  "urun": "AL-F 1000 TR/GB 1 kg",
+  "fiyat": 62.7
+ },
+ {
+  "abas": "10016781",
+  "berta": "26550500",
+  "urun": "AL-F 5000 5 kg",
+  "fiyat": 297.7
+ },
+ {
+  "abas": "10016784",
+  "berta": "26550925",
+  "urun": "AL-F 25000 25 kg",
+  "fiyat": 1375.2
+ },
+ {
+  "abas": "10033381",
+  "berta": "26600040-39",
+  "urun": "AL-T 400 K TR/GB 400 g",
+  "fiyat": 21.7
+ },
+ {
+  "abas": "10033382",
+  "berta": "26600100-39",
+  "urun": "AL-T 1000 TR/GB 1 kg",
+  "fiyat": 49.7
+ },
+ {
+  "abas": "10018595",
+  "berta": "26600500",
+  "urun": "AL-T 5 kg",
+  "fiyat": 242.4
+ },
+ {
+  "abas": "10018599",
+  "berta": "26600925",
+  "urun": "AL-T 25 kg",
+  "fiyat": 1124.6
+ },
+ {
+  "abas": "10045486",
+  "berta": "26955007",
+  "urun": "Düz fırça ucu AS Pressp",
+  "fiyat": 12.0
+ },
+ {
+  "abas": "10000216",
+  "berta": "27000100",
+  "urun": "ASA Montaj Sprey 100ml",
+  "fiyat": 15.8
+ },
+ {
+  "abas": "10028565",
+  "berta": "27000400-39",
+  "urun": "ASA Montaj Sprey TR/GB 400 ml",
+  "fiyat": 38.9
+ },
+ {
+  "abas": "10028566",
+  "berta": "27050400-39",
+  "urun": "ASW Sprey TR/GB 400 ml",
+  "fiyat": 48.7
+ },
+ {
+  "abas": "10033120",
+  "berta": "27200400-39",
+  "urun": "Bakır Montaj Sprey TR/GB 400 ml",
+  "fiyat": 33.9
+ },
+ {
+  "abas": "10033442",
+  "berta": "30000090-39",
+  "urun": "Plast-o-Seal TR/GB 90 g",
+  "fiyat": 25.2
+ },
+ {
+  "abas": "10033443",
+  "berta": "30000120-39",
+  "urun": "Plast-o-Seal TR/GB 120 g",
+  "fiyat": 33.0
+ },
+ {
+  "abas": "10039427",
+  "berta": "30000230",
+  "urun": "Plast-o-Seal 230 g Presspack",
+  "fiyat": 92.3
+ },
+ {
+  "abas": "10033444",
+  "berta": "30000300-39",
+  "urun": "Plast-o-Seal TR/GB 300 g",
+  "fiyat": 76.8
+ },
+ {
+  "abas": "10027184",
+  "berta": "30010175-39",
+  "urun": "DF 175 Diş Sızdırmazlık Ipliği TR/GB",
+  "fiyat": 37.8
+ },
+ {
+  "abas": "10048584",
+  "berta": "30020030-39",
+  "urun": "Garanti Mührü kırmızı TR/GB 30 g",
+  "fiyat": 32.9
+ },
+ {
+  "abas": "10048542",
+  "berta": "30020060-39",
+  "urun": "Garanti Mührü kırmızı TR/GB 60 g",
+  "fiyat": 53.8
+ },
+ {
+  "abas": "10048585",
+  "berta": "30021030-39",
+  "urun": "Garanti Mührü sari TR/GB 30 g",
+  "fiyat": 32.9
+ },
+ {
+  "abas": "10047485",
+  "berta": "30021060",
+  "urun": "Garanti Mührü sarı 60 g",
+  "fiyat": 53.8
+ },
+ {
+  "abas": "10048590",
+  "berta": "30022030-39",
+  "urun": "Garanti Mühürü Yeşil TR/GB 30 g",
+  "fiyat": 32.9
+ },
+ {
+  "abas": "10046906",
+  "berta": "30022060",
+  "urun": "Garanti Mührü yeşil 60g",
+  "fiyat": 53.8
+ },
+ {
+  "abas": "10051999",
+  "berta": "30100310-39",
+  "urun": "Gasketmaker kırmızı TR/GB 310 ml",
+  "fiyat": 24.1
+ },
+ {
+  "abas": "10051998",
+  "berta": "30101310-39",
+  "urun": "Gasketmaker siyah TR/GB 310 ml",
+  "fiyat": 23.4
+ },
+ {
+  "abas": "10026852",
+  "berta": "30138020",
+  "urun": "WEICONLOCK AN 301-38 20 ml",
+  "fiyat": 23.6
+ },
+ {
+  "abas": "10026846",
+  "berta": "30138150",
+  "urun": "WEICONLOCK AN 301-38 50 ml",
+  "fiyat": 55.3
+ },
+ {
+  "abas": "10026847",
+  "berta": "30138200",
+  "urun": "WEICONLOCK AN 301-38 200 ml",
+  "fiyat": 158.7
+ },
+ {
+  "abas": "10026819",
+  "berta": "30143020",
+  "urun": "WEICONLOCK AN 301-43 20 ml",
+  "fiyat": 24.8
+ },
+ {
+  "abas": "10043826",
+  "berta": "30143150-39",
+  "urun": "WEICONLOCK AN 301-43 TR/GB 50 m",
+  "fiyat": 51.6
+ },
+ {
+  "abas": "10026817",
+  "berta": "30143200",
+  "urun": "WEICONLOCK AN 301-43 200 ml",
+  "fiyat": 154.2
+ },
+ {
+  "abas": "10026859",
+  "berta": "30148020",
+  "urun": "WEICONLOCK AN 301-48 20 ml",
+  "fiyat": 23.6
+ },
+ {
+  "abas": "10026856",
+  "berta": "30148150",
+  "urun": "WEICONLOCK AN 301-48 50ml",
+  "fiyat": 51.3
+ },
+ {
+  "abas": "10026857",
+  "berta": "30148200",
+  "urun": "WEICONLOCK AN 301-48 200 ml",
+  "fiyat": 154.2
+ },
+ {
+  "abas": "10031782",
+  "berta": "30165150",
+  "urun": "WEICONLOCK AN 301-65 50ml",
+  "fiyat": 42.6
+ },
+ {
+  "abas": "10031783",
+  "berta": "30165200",
+  "urun": "WEICONLOCK AN 301-65 200ml",
+  "fiyat": 132.1
+ },
+ {
+  "abas": "10026829",
+  "berta": "30170020",
+  "urun": "WEICONLOCK AN 301-70 20 ml",
+  "fiyat": 24.8
+ },
+ {
+  "abas": "10026826",
+  "berta": "30170150",
+  "urun": "WEICONLOCK AN 301-70 50 ml",
+  "fiyat": 53.7
+ },
+ {
+  "abas": "10026827",
+  "berta": "30170200",
+  "urun": "WEICONLOCK AN 301-70 200 ml",
+  "fiyat": 154.2
+ },
+ {
+  "abas": "10026836",
+  "berta": "30172150",
+  "urun": "WEICONLOCK AN 301-72 50ml",
+  "fiyat": 53.3
+ },
+ {
+  "abas": "10026840",
+  "berta": "30172200",
+  "urun": "WEICONLOCK AN 301-72 200 ml",
+  "fiyat": 158.7
+ },
+ {
+  "abas": "10016416",
+  "berta": "30221020",
+  "urun": "WEICONLOCK AN 302-21 20 ml",
+  "fiyat": 16.3
+ },
+ {
+  "abas": "10017871",
+  "berta": "30221150",
+  "urun": "WEICONLOCK AN 302-21 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019881",
+  "berta": "30221200",
+  "urun": "WEICONLOCK AN 302-21 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10019885",
+  "berta": "30222020",
+  "urun": "WEICONLOCK AN 302-22 20 ml",
+  "fiyat": 15.7
+ },
+ {
+  "abas": "10038534",
+  "berta": "30222150-39",
+  "urun": "WEICONLOCK AN 302-22 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019889",
+  "berta": "30222200",
+  "urun": "WEICONLOCK AN 302-22 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10019891",
+  "berta": "30225150",
+  "urun": "WEICONLOCK AN 302-25 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019893",
+  "berta": "30225200",
+  "urun": "WEICONLOCK AN 302-25 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10019895",
+  "berta": "30240020",
+  "urun": "WEICONLOCK AN 302-40 20 ml",
+  "fiyat": 18.5
+ },
+ {
+  "abas": "10038498",
+  "berta": "30240150-39",
+  "urun": "WEICONLOCK AN 302-40 TR/GB 50 ml",
+  "fiyat": 40.3
+ },
+ {
+  "abas": "10019961",
+  "berta": "30240200",
+  "urun": "WEICONLOCK AN 302-40 200 ml",
+  "fiyat": 124.8
+ },
+ {
+  "abas": "10017318",
+  "berta": "30241020",
+  "urun": "WEICONLOCK AN 302-41 20 ml",
+  "fiyat": 16.2
+ },
+ {
+  "abas": "10017873",
+  "berta": "30241150",
+  "urun": "WEICONLOCK AN 302-41 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019964",
+  "berta": "30241200",
+  "urun": "WEICONLOCK AN 302-41 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10017324",
+  "berta": "30242020",
+  "urun": "WEICONLOCK AN 302-42 20 ml",
+  "fiyat": 16.4
+ },
+ {
+  "abas": "10038499",
+  "berta": "30242150-39",
+  "urun": "WEICONLOCK AN 302-42 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10038500",
+  "berta": "30242200-39",
+  "urun": "WEICONLOCK AN 302-42 TR/GB 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10000611",
+  "berta": "30243003",
+  "urun": "WEICONLOCK AN 302-43 gevşek 3 ml",
+  "fiyat": 11.5
+ },
+ {
+  "abas": "10038501",
+  "berta": "30243020-39",
+  "urun": "WEICONLOCK AN 302-43 TR/GB 20 ml",
+  "fiyat": 16.4
+ },
+ {
+  "abas": "10038502",
+  "berta": "30243110-39",
+  "urun": "WEICONLOCK AN 302-43 TR/GB 10 ml",
+  "fiyat": 14.6
+ },
+ {
+  "abas": "10038503",
+  "berta": "30243150-39",
+  "urun": "WEICONLOCK AN 302-43 TR/GB 50 ml",
+  "fiyat": 38.1
+ },
+ {
+  "abas": "10019968",
+  "berta": "30243200",
+  "urun": "WEICONLOCK AN 302-43 200 ml",
+  "fiyat": 106.5
+ },
+ {
+  "abas": "10031905",
+  "berta": "30243250-39",
+  "urun": "WEICONLOCK AN 302-43 mavi TR/GB 250 ml",
+  "fiyat": 126.4
+ },
+ {
+  "abas": "10037361",
+  "berta": "30244020",
+  "urun": "WEICONLOCK AN 302-44 20 ml",
+  "fiyat": 18.5
+ },
+ {
+  "abas": "10037167",
+  "berta": "30244150",
+  "urun": "WEICONLOCK AN 302-44 50 ml",
+  "fiyat": 40.1
+ },
+ {
+  "abas": "10037363",
+  "berta": "30244200",
+  "urun": "WEICONLOCK AN 302-44 200 ml",
+  "fiyat": 124.3
+ },
+ {
+  "abas": "10019925",
+  "berta": "30245150",
+  "urun": "WEICONLOCK AN 302-45 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019970",
+  "berta": "30245200",
+  "urun": "WEICONLOCK AN 302-45 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10019897",
+  "berta": "30250020",
+  "urun": "WEICONLOCK AN 302-50 20 ml",
+  "fiyat": 18.5
+ },
+ {
+  "abas": "10019929",
+  "berta": "30250150",
+  "urun": "WEICONLOCK AN 302-50 50 ml",
+  "fiyat": 40.3
+ },
+ {
+  "abas": "10019972",
+  "berta": "30250200",
+  "urun": "WEICONLOCK AN 302-50 200 ml",
+  "fiyat": 124.8
+ },
+ {
+  "abas": "10016436",
+  "berta": "30260020",
+  "urun": "WEICONLOCK AN 302-60 20ml",
+  "fiyat": 18.6
+ },
+ {
+  "abas": "10038504",
+  "berta": "30260150-39",
+  "urun": "WEICONLOCK AN 302-60 TR/GB 50 ml",
+  "fiyat": 40.3
+ },
+ {
+  "abas": "10019974",
+  "berta": "30260200",
+  "urun": "WEICONLOCK AN 302-60 200 ml",
+  "fiyat": 124.8
+ },
+ {
+  "abas": "10019899",
+  "berta": "30262020",
+  "urun": "WEICONLOCK AN 302-62 20 ml",
+  "fiyat": 17.1
+ },
+ {
+  "abas": "10057304",
+  "berta": "30262150-39",
+  "urun": "WEICONLOCK AN 302-62 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10057280",
+  "berta": "30262200-39",
+  "urun": "WEICONLOCK AN 302-62 TR/GB 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10038505",
+  "berta": "30270020-39",
+  "urun": "WEICONLOCK AN 302-70 TR/GB 20 ml",
+  "fiyat": 16.4
+ },
+ {
+  "abas": "10038506",
+  "berta": "30270110-39",
+  "urun": "WEICONLOCK AN 302-70 TR/GB 10 ml",
+  "fiyat": 14.6
+ },
+ {
+  "abas": "10038507",
+  "berta": "30270150-39",
+  "urun": "WEICONLOCK AN 302-70 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10038508",
+  "berta": "30270200-39",
+  "urun": "WEICONLOCK AN 302-70 TR/GB 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10068357",
+  "berta": "30270901",
+  "urun": "WEICONLOCK AN 302-70 1 L",
+  "fiyat": 552.2
+ },
+ {
+  "abas": "10017326",
+  "berta": "30271020",
+  "urun": "WEICONLOCK AN 302-71 20 ml",
+  "fiyat": 17.1
+ },
+ {
+  "abas": "10017886",
+  "berta": "30271150",
+  "urun": "WEICONLOCK AN 302-71 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019980",
+  "berta": "30271200",
+  "urun": "WEICONLOCK AN 302-71 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10019901",
+  "berta": "30272020",
+  "urun": "WEICONLOCK AN 302-72 20 ml",
+  "fiyat": 17.9
+ },
+ {
+  "abas": "10038509",
+  "berta": "30272150-39",
+  "urun": "WEICONLOCK AN 302-72 TR/GB 50 ml",
+  "fiyat": 40.3
+ },
+ {
+  "abas": "10038510",
+  "berta": "30272200-39",
+  "urun": "WEICONLOCK AN 302-72 TR/GB 200 ml",
+  "fiyat": 120.0
+ },
+ {
+  "abas": "10019933",
+  "berta": "30275150",
+  "urun": "WEICONLOCK AN 302-75 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019987",
+  "berta": "30275200",
+  "urun": "WEICONLOCK AN 302-75 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10019935",
+  "berta": "30277150",
+  "urun": "WEICONLOCK® AN 302-77 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019989",
+  "berta": "30277200",
+  "urun": "WEICONLOCK AN 302-77 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10019903",
+  "berta": "30280020",
+  "urun": "WEICONLOCK AN 302-80 20 ml",
+  "fiyat": 18.6
+ },
+ {
+  "abas": "10017875",
+  "berta": "30280150",
+  "urun": "WEICONLOCK AN 302-80 50 ml",
+  "fiyat": 40.3
+ },
+ {
+  "abas": "10019991",
+  "berta": "30280200",
+  "urun": "WEICONLOCK AN 302-80 200 ml",
+  "fiyat": 124.8
+ },
+ {
+  "abas": "10019905",
+  "berta": "30290020",
+  "urun": "WEICONLOCK AN 302-90 20 ml",
+  "fiyat": 17.1
+ },
+ {
+  "abas": "10038511",
+  "berta": "30290150-39",
+  "urun": "WEICONLOCK AN 302-90 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019993",
+  "berta": "30290200",
+  "urun": "WEICONLOCK AN 302-90 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10038512",
+  "berta": "30290901-39",
+  "urun": "WEICONLOCK AN 302-90 TR/GB 1 l",
+  "fiyat": 448.6
+ },
+ {
+  "abas": "10052103",
+  "berta": "30331085-39",
+  "urun": "WEICONLOCK SI 303-31 TR/GB 85 ml",
+  "fiyat": 29.7
+ },
+ {
+  "abas": "10019937",
+  "berta": "30510150",
+  "urun": "WEICONLOCK AN 305-10 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019995",
+  "berta": "30510200",
+  "urun": "WEICONLOCK AN 305-10 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10000511",
+  "berta": "30510250",
+  "urun": "WEICONLOCK AN 305-10 250 ml",
+  "fiyat": 116.7
+ },
+ {
+  "abas": "10002596",
+  "berta": "30510300",
+  "urun": "WEICONLOCK AN 305-10 300 ml",
+  "fiyat": 136.5
+ },
+ {
+  "abas": "10038513",
+  "berta": "30511150-39",
+  "urun": "WEICONLOCK AN 305-11 Pen TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019997",
+  "berta": "30511200",
+  "urun": "WEICONLOCK AN 305-11 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10023823",
+  "berta": "30511300",
+  "urun": "AN 305-11 300 ml",
+  "fiyat": 141.5
+ },
+ {
+  "abas": "10038514",
+  "berta": "30518150-39",
+  "urun": "WEICONLOCK AN 305-18 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10019999",
+  "berta": "30518200",
+  "urun": "WEICONLOCK AN 305-18 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10061960",
+  "berta": "30518300-39",
+  "urun": "WEICONLOCK AN 305-18 TR/GB 300 ml",
+  "fiyat": 142.8
+ },
+ {
+  "abas": "10016437",
+  "berta": "30542020",
+  "urun": "WEICONLOCK AN 305-42 20 ml",
+  "fiyat": 20.2
+ },
+ {
+  "abas": "10038515",
+  "berta": "30542150-39",
+  "urun": "WEICONLOCK AN 305-42 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10038516",
+  "berta": "30542200-39",
+  "urun": "WEICONLOCK AN 305-42 TR/GB 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10032101",
+  "berta": "30567150",
+  "urun": "WEICONLOCK AN 305-67 50 ml",
+  "fiyat": 36.6
+ },
+ {
+  "abas": "10033883",
+  "berta": "30567200",
+  "urun": "WEICON AN 305-67 200 ml",
+  "fiyat": 102.3
+ },
+ {
+  "abas": "10038517",
+  "berta": "30572150-39",
+  "urun": "AN 305-72 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10020003",
+  "berta": "30572200",
+  "urun": "WEICONLOCK AN 305-72 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10026707",
+  "berta": "30572300",
+  "urun": "WEICONLOCK AN 305-72 300 ml",
+  "fiyat": 141.5
+ },
+ {
+  "abas": "10019945",
+  "berta": "30573150",
+  "urun": "WEICONLOCK AN 305-73 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10020005",
+  "berta": "30573200",
+  "urun": "WEICONLOCK AN 305-73 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10031472",
+  "berta": "30573300",
+  "urun": "AN 305-73 300ml",
+  "fiyat": 141.5
+ },
+ {
+  "abas": "10038518",
+  "berta": "30574150-39",
+  "urun": "WEICONLOCK AN 305-74 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10038519",
+  "berta": "30574200-39",
+  "urun": "WEICONLOCK AN 305-74 TR/GB 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10034146",
+  "berta": "30574300",
+  "urun": "WEICONLOCK AN 305-74 300 ml",
+  "fiyat": 160.3
+ },
+ {
+  "abas": "10059239",
+  "berta": "30574550-39",
+  "urun": "WEICONLOCK AN 305-74 TR/GB 50 ml",
+  "fiyat": 39.2
+ },
+ {
+  "abas": "10038520",
+  "berta": "30577150-39",
+  "urun": "WEICONLOCK AN 305-77 TR/GB 50 ml",
+  "fiyat": 38.3
+ },
+ {
+  "abas": "10020011",
+  "berta": "30577200",
+  "urun": "WEICONLOCK AN 305-77 200 ml",
+  "fiyat": 106.7
+ },
+ {
+  "abas": "10026918",
+  "berta": "30577250-39",
+  "urun": "WEICONLOCK AN 305-77 TR/GB 250 ml",
+  "fiyat": 129.7
+ },
+ {
+  "abas": "10034148",
+  "berta": "30577300",
+  "urun": "WEICONLOCK AN 305-77 300 ml",
+  "fiyat": 170.6
+ },
+ {
+  "abas": "10037168",
+  "berta": "30578150",
+  "urun": "WEICONLOCK AN 305-78 50 ml",
+  "fiyat": 41.3
+ },
+ {
+  "abas": "10037366",
+  "berta": "30578200",
+  "urun": "WEICONLOCK AN 305-78 200 ml",
+  "fiyat": 124.7
+ },
+ {
+  "abas": "10019907",
+  "berta": "30586020",
+  "urun": "WEICONLOCK AN 305-86 20 ml",
+  "fiyat": 16.3
+ },
+ {
+  "abas": "10017879",
+  "berta": "30586150",
+  "urun": "WEICONLOCK AN 305-86 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10020013",
+  "berta": "30586200",
+  "urun": "WEICONLOCK AN 305-86 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10019909",
+  "berta": "30600020",
+  "urun": "WEICONLOCK AN 306-00 20 ml",
+  "fiyat": 17.9
+ },
+ {
+  "abas": "10019951",
+  "berta": "30600150",
+  "urun": "WEICONLOCK AN 306-00 50 ml",
+  "fiyat": 38.8
+ },
+ {
+  "abas": "10020015",
+  "berta": "30600200",
+  "urun": "WEICONLOCK AN 306-00 200 ml",
+  "fiyat": 120.0
+ },
+ {
+  "abas": "10020045",
+  "berta": "30601020",
+  "urun": "WEICONLOCK AN 306-01 20 ml",
+  "fiyat": 19.8
+ },
+ {
+  "abas": "10017880",
+  "berta": "30601150",
+  "urun": "WEICONLOCK AN 306-01 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10020017",
+  "berta": "30601200",
+  "urun": "WEICONLOCK AN 306-01 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10020047",
+  "berta": "30603020",
+  "urun": "WEICONLOCK AN 306-03 20 ml",
+  "fiyat": 17.1
+ },
+ {
+  "abas": "10038521",
+  "berta": "30603150-39",
+  "urun": "WEICONLOCK AN 306-03 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10020019",
+  "berta": "30603200",
+  "urun": "WEICONLOCK AN 306-03 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10019911",
+  "berta": "30610020",
+  "urun": "WEICONLOCK AN 306-10 20 ml",
+  "fiyat": 18.6
+ },
+ {
+  "abas": "10017883",
+  "berta": "30610150",
+  "urun": "WEICONLOCK AN 306-10 50 ml",
+  "fiyat": 40.3
+ },
+ {
+  "abas": "10020021",
+  "berta": "30610200",
+  "urun": "WEICONLOCK AN 306-10 200 ml",
+  "fiyat": 124.8
+ },
+ {
+  "abas": "10017330",
+  "berta": "30620020",
+  "urun": "WEICONLOCK AN 306-20 20 ml",
+  "fiyat": 18.6
+ },
+ {
+  "abas": "10017885",
+  "berta": "30620150",
+  "urun": "WEICONLOCK AN 306-20 50 ml",
+  "fiyat": 36.6
+ },
+ {
+  "abas": "10038523",
+  "berta": "30620200-39",
+  "urun": "WEICONLOCK AN 306-20TR/GB 200 ml Pen S",
+  "fiyat": 106.7
+ },
+ {
+  "abas": "10016438",
+  "berta": "30630020",
+  "urun": "WEICONLOCK AN 306-30 20 ml",
+  "fiyat": 18.6
+ },
+ {
+  "abas": "10017887",
+  "berta": "30630150",
+  "urun": "WEICONLOCK AN 306-30 50 ml",
+  "fiyat": 40.3
+ },
+ {
+  "abas": "10020025",
+  "berta": "30630200",
+  "urun": "WEICONLOCK AN 306-30 200 ml",
+  "fiyat": 124.8
+ },
+ {
+  "abas": "10016443",
+  "berta": "30638020",
+  "urun": "WEICONLOCK AN 306-38 20 ml",
+  "fiyat": 15.7
+ },
+ {
+  "abas": "10030478",
+  "berta": "30638110",
+  "urun": "WEICONLOCK AN 306-38 10 ml",
+  "fiyat": 14.6
+ },
+ {
+  "abas": "10038525",
+  "berta": "30638150-39",
+  "urun": "WEICONLOCK AN 306-38 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10038526",
+  "berta": "30638200-39",
+  "urun": "WEICONLOCK AN 306-38 TR/GB 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10038540",
+  "berta": "30638901-39",
+  "urun": "WEICONLOCK AN 306-38 TR/GB 1 L",
+  "fiyat": 496.7
+ },
+ {
+  "abas": "10052559",
+  "berta": "30638907-39",
+  "urun": "WEICONLOCK AN 306-38 TR/GB 7 l",
+  "fiyat": 3774.1
+ },
+ {
+  "abas": "10020049",
+  "berta": "30640020",
+  "urun": "WEICONLOCK AN 306-40 20 ml",
+  "fiyat": 15.7
+ },
+ {
+  "abas": "10017890",
+  "berta": "30640150",
+  "urun": "WEICONLOCK AN 306-40 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10020031",
+  "berta": "30640200",
+  "urun": "WEICONLOCK AN 306-40 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10020029",
+  "berta": "30641020",
+  "urun": "WEICONLOCK AN 306-41 20 ml",
+  "fiyat": 17.1
+ },
+ {
+  "abas": "10038527",
+  "berta": "30641150-39",
+  "urun": "WEICONLOCK AN 306-41 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10020033",
+  "berta": "30641200",
+  "urun": "WEICONLOCK AN 306-41 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10016442",
+  "berta": "30648020",
+  "urun": "WEICONLOCK AN 306-48 20 ml",
+  "fiyat": 16.4
+ },
+ {
+  "abas": "10038528",
+  "berta": "30648150-39",
+  "urun": "WEICONLOCK AN 306-48 TR/GB 50 ml",
+  "fiyat": 38.0
+ },
+ {
+  "abas": "10038529",
+  "berta": "30648200-39",
+  "urun": "WEICONLOCK AN 306-48 TR/GB 200 ml",
+  "fiyat": 106.4
+ },
+ {
+  "abas": "10019955",
+  "berta": "30660150",
+  "urun": "WEICONLOCK AN 306-60 50 ml",
+  "fiyat": 38.8
+ },
+ {
+  "abas": "10020040",
+  "berta": "30660200",
+  "urun": "WEICONLOCK AN 306-60 200 ml",
+  "fiyat": 124.8
+ },
+ {
+  "abas": "10034150",
+  "berta": "30660300",
+  "urun": "WEICONLOCK AN 306-60 300 ml",
+  "fiyat": 295.8
+ },
+ {
+  "abas": "10055677",
+  "berta": "30700060",
+  "urun": "WEICONLOCK Aktivator F 60 ml Pen, flüssig",
+  "fiyat": 28.3
+ },
+ {
+  "abas": "10033446",
+  "berta": "30700200-39",
+  "urun": "Aktivatör F Sprey TR/GB 200 ml",
+  "fiyat": 37.7
+ },
+ {
+  "abas": "10068395",
+  "berta": "30700501",
+  "urun": "Aktivatör F sıvı 1 L",
+  "fiyat": 177.6
+ },
+ {
+  "abas": "10001256",
+  "berta": "30955172",
+  "urun": "Dosaj ucu Boy 1 Tip S",
+  "fiyat": 3.0
+ },
+ {
+  "abas": "10006784",
+  "berta": "50050116",
+  "urun": "Kablo Kesici No. 4-16",
+  "fiyat": 28.9
+ },
+ {
+  "abas": "10006805",
+  "berta": "50050227",
+  "urun": "Kablo Kesici No. 8-27",
+  "fiyat": 28.9
+ },
+ {
+  "abas": "10006830",
+  "berta": "50050435",
+  "urun": "Kablo Kesici No. 28-35",
+  "fiyat": 40.8
+ },
+ {
+  "abas": "10006839",
+  "berta": "50050450",
+  "urun": "Kablo Kesici No. 35-50",
+  "fiyat": 43.7
+ },
+ {
+  "abas": "10051155",
+  "berta": "50053116",
+  "urun": "Kablo Soyucu No.4-16",
+  "fiyat": 27.9
+ },
+ {
+  "abas": "10051157",
+  "berta": "50053227",
+  "urun": "Kablo Soyucu No.8-27",
+  "fiyat": 28.0
+ },
+ {
+  "abas": "10051159",
+  "berta": "50053328",
+  "urun": "Kablo Soyucu No.4-28H 1K",
+  "fiyat": 36.7
+ },
+ {
+  "abas": "10014222",
+  "berta": "50053328-L",
+  "urun": "Kablo Soyucu No .4-28 H Klasik 1K",
+  "fiyat": 36.7
+ },
+ {
+  "abas": "10012844",
+  "berta": "50054328",
+  "urun": "Kablo Kesici No. 4-28 H",
+  "fiyat": 36.7
+ },
+ {
+  "abas": "10012851",
+  "berta": "50054428",
+  "urun": "Kablo Kesici No. 4-28 G",
+  "fiyat": 31.7
+ },
+ {
+  "abas": "10021246",
+  "berta": "50055328",
+  "urun": "Kablo Kesici No. S 4-28",
+  "fiyat": 37.7
+ },
+ {
+  "abas": "10030001",
+  "berta": "50057328",
+  "urun": "Kablo Kesici No. S 4-28 Multi",
+  "fiyat": 35.6
+ },
+ {
+  "abas": "10068090",
+  "berta": "50058018",
+  "urun": "Düz ve yuvarlak kablo bicaklari",
+  "fiyat": 32.4
+ },
+ {
+  "abas": "10101939",
+  "berta": "50058328",
+  "urun": "No. S 4-28 Spiral",
+  "fiyat": 94.7
+ },
+ {
+  "abas": "10002962",
+  "berta": "50100001",
+  "urun": "Kablo soyucu yedek bıçağı",
+  "fiyat": 10.6
+ },
+ {
+  "abas": "10021379",
+  "berta": "50100002",
+  "urun": "Kablo soyucu yedek bıçağı Tip S",
+  "fiyat": 6.7
+ },
+ {
+  "abas": "10055930",
+  "berta": "51000002",
+  "urun": "Hassas Sıyırıcı S",
+  "fiyat": 55.4
+ },
+ {
+  "abas": "10100517",
+  "berta": "51000003",
+  "urun": "LED Çalışma Işığı Kırmızı",
+  "fiyat": 48.0
+ },
+ {
+  "abas": "10006786",
+  "berta": "51000005",
+  "urun": "Sıyırma Pensi No. 5",
+  "fiyat": 57.4
+ },
+ {
+  "abas": "10014847",
+  "berta": "51000006",
+  "urun": "No.6 1000V kırmızı/mavi",
+  "fiyat": 67.1
+ },
+ {
+  "abas": "10018202",
+  "berta": "51000007",
+  "urun": "Sıyırma Pensi No. 7-R",
+  "fiyat": 140.3
+ },
+ {
+  "abas": "10006798",
+  "berta": "51000100",
+  "urun": "Kablo Sıyırıcı No.100",
+  "fiyat": 39.6
+ },
+ {
+  "abas": "10007413",
+  "berta": "51000150",
+  "urun": "Mini-Duo No.150",
+  "fiyat": 46.0
+ },
+ {
+  "abas": "10006853",
+  "berta": "51000200",
+  "urun": "Duo-Sıyırıcı No.200",
+  "fiyat": 90.9
+ },
+ {
+  "abas": "10007406",
+  "berta": "51000300",
+  "urun": "Duo-Crimp No.300",
+  "fiyat": 142.8
+ },
+ {
+  "abas": "10001620",
+  "berta": "51000400",
+  "urun": "Çoklu-Sıyırıcı No.400",
+  "fiyat": 66.9
+ },
+ {
+  "abas": "10100516",
+  "berta": "51000600",
+  "urun": "Yüksük Sıkma Pensi ERGO",
+  "fiyat": 218.2
+ },
+ {
+  "abas": "10100515",
+  "berta": "51000700",
+  "urun": "Yüksük Sıkma Pensi MULTI",
+  "fiyat": 164.1
+ },
+ {
+  "abas": "10100514",
+  "berta": "51000800",
+  "urun": "Yüksük Sıkma Pensi MC4",
+  "fiyat": 106.7
+ },
+ {
+  "abas": "10100513",
+  "berta": "51000900",
+  "urun": "Yüksük Sıkma Pensi 16mm² HEX",
+  "fiyat": 159.8
+ },
+ {
+  "abas": "10006865",
+  "berta": "51001000",
+  "urun": "Kablo kesici HD No.1000",
+  "fiyat": 141.3
+ },
+ {
+  "abas": "10006673",
+  "berta": "51001002",
+  "urun": "WEICON ESD Hassas Sıyırıcı S",
+  "fiyat": 69.0
+ },
+ {
+  "abas": "10017050",
+  "berta": "51001007",
+  "urun": "No.7-F mavi/kırmızı",
+  "fiyat": 138.0
+ },
+ {
+  "abas": "10057551",
+  "berta": "51002002",
+  "urun": "Weicon LWL Hassas Sıyırıc S",
+  "fiyat": 77.2
+ },
+ {
+  "abas": "10025011",
+  "berta": "51002007",
+  "urun": "Sıyırma Pensi No. 7 Solar",
+  "fiyat": 149.4
+ },
+ {
+  "abas": "10056659",
+  "berta": "51003005",
+  "urun": "No.5 Klasik MAVİ",
+  "fiyat": 50.0
+ },
+ {
+  "abas": "10062070",
+  "berta": "51005005",
+  "urun": "No. 5 Pro",
+  "fiyat": 112.2
+ },
+ {
+  "abas": "10067897",
+  "berta": "51007005",
+  "urun": "Wire Stripper No. 5 Solar Pro",
+  "fiyat": 113.0
+ },
+ {
+  "abas": "10000288",
+  "berta": "51100002",
+  "urun": "Yedek bıcak seti No.5",
+  "fiyat": 15.2
+ },
+ {
+  "abas": "10025713",
+  "berta": "51100005",
+  "urun": "Yedek Bıçak Seti No.7 Solar",
+  "fiyat": 32.3
+ },
+ {
+  "abas": "10018335",
+  "berta": "51100006",
+  "urun": "Yedek Bıçak Seti No.7 Magic",
+  "fiyat": 20.0
+ },
+ {
+  "abas": "10017069",
+  "berta": "51100007",
+  "urun": "Yedek Bıçak Seti No.7-Flachka",
+  "fiyat": 20.9
+ },
+ {
+  "abas": "10002680",
+  "berta": "51100008",
+  "urun": "Yedek bıcak No.200",
+  "fiyat": 12.6
+ },
+ {
+  "abas": "10067899",
+  "berta": "51100112",
+  "urun": "Yedek Bıçak Seti No. 5 Solar Pro",
+  "fiyat": 34.7
+ },
+ {
+  "abas": "10006926",
+  "berta": "51953020",
+  "urun": "Yedek bıçak No.150-300",
+  "fiyat": 11.0
+ },
+ {
+  "abas": "10051150",
+  "berta": "52000001",
+  "urun": "Coax-Sıyırıcı No.1 F Plus",
+  "fiyat": 37.1
+ },
+ {
+  "abas": "10006875",
+  "berta": "52000002",
+  "urun": "Coax-Stripper No.2",
+  "fiyat": 37.3
+ },
+ {
+  "abas": "10013082",
+  "berta": "52000003",
+  "urun": "No.3 mavi/kırmızı",
+  "fiyat": 46.0
+ },
+ {
+  "abas": "10051142",
+  "berta": "52000010",
+  "urun": "Kablo Sıyırıcı No.10",
+  "fiyat": 33.3
+ },
+ {
+  "abas": "10006883",
+  "berta": "52000013",
+  "urun": "Yuvarlak kablo sıyırıcı No.13",
+  "fiyat": 33.8
+ },
+ {
+  "abas": "10038853",
+  "berta": "52000016",
+  "urun": "kablo sıyırıcı No.16",
+  "fiyat": 53.2
+ },
+ {
+  "abas": "10034292",
+  "berta": "52000025",
+  "urun": "Kablo sıyırıcı No.25",
+  "fiyat": 438.1
+ },
+ {
+  "abas": "10058056",
+  "berta": "52000029",
+  "urun": "Kablo Sıyırıcı No:4-29 Spıral",
+  "fiyat": 191.8
+ },
+ {
+  "abas": "10033530",
+  "berta": "52000030",
+  "urun": "Combi-Coax No.30",
+  "fiyat": 54.7
+ },
+ {
+  "abas": "10039667",
+  "berta": "52000035",
+  "urun": "Kablo bıçağı No. 35",
+  "fiyat": 68.5
+ },
+ {
+  "abas": "10100025",
+  "berta": "52000036",
+  "urun": "Kablo Makası XL",
+  "fiyat": 42.6
+ },
+ {
+  "abas": "10054013",
+  "berta": "52000040",
+  "urun": "LSA Sensör No.40",
+  "fiyat": 134.8
+ },
+ {
+  "abas": "10052731",
+  "berta": "52001001",
+  "urun": "Coax-Sıyırıcı No. 1 F Plus sarı",
+  "fiyat": 37.1
+ },
+ {
+  "abas": "10055142",
+  "berta": "52002001",
+  "urun": "No.1F Plus Mini Koaksiyel için",
+  "fiyat": 48.8
+ },
+ {
+  "abas": "10054014",
+  "berta": "52002002",
+  "urun": "Coax-Sıyırıcı No. 2 Cat",
+  "fiyat": 39.2
+ },
+ {
+  "abas": "10065750",
+  "berta": "52003003",
+  "urun": "Mini-Solar 1,5/2,5 mm²",
+  "fiyat": 74.5
+ },
+ {
+  "abas": "10049329",
+  "berta": "52003013",
+  "urun": "No. 13 Klasik",
+  "fiyat": 35.3
+ },
+ {
+  "abas": "10062190",
+  "berta": "52004002",
+  "urun": "Profibus Soyucu No. 2",
+  "fiyat": 56.7
+ },
+ {
+  "abas": "10065752",
+  "berta": "52004003",
+  "urun": "Mini-Solar 4/6 mm²",
+  "fiyat": 76.9
+ },
+ {
+  "abas": "10065754",
+  "berta": "52005003",
+  "urun": "Mini-Solar 10/16 mm²",
+  "fiyat": 76.9
+ },
+ {
+  "abas": "10051145",
+  "berta": "52100008",
+  "urun": "Modül ekleri No.1 F 6/4",
+  "fiyat": 19.5
+ },
+ {
+  "abas": "10051147",
+  "berta": "52100009",
+  "urun": "Modül ekleri No.1 F 6,5/6,5",
+  "fiyat": 19.5
+ },
+ {
+  "abas": "10055661",
+  "berta": "52100010",
+  "urun": "Modül ekleri No.1 F 6,5/6,5",
+  "fiyat": 34.5
+ },
+ {
+  "abas": "10044966",
+  "berta": "52800000",
+  "urun": "Multi Spatula Mavi",
+  "fiyat": 24.0
+ },
+ {
+  "abas": "10049687",
+  "berta": "52800001",
+  "urun": "Easy Opener sarı",
+  "fiyat": 19.6
+ },
+ {
+  "abas": "10035247",
+  "berta": "52880001",
+  "urun": "Profesyonel Başlangıç Seti",
+  "fiyat": 163.0
+ },
+ {
+  "abas": "10039670",
+  "berta": "52880002",
+  "urun": "Profi-Kıvrım Seti",
+  "fiyat": 255.4
+ },
+ {
+  "abas": "10035161",
+  "berta": "52953020",
+  "urun": "WEICON Kablo Sıyırıcı No.25",
+  "fiyat": 125.4
+ },
+ {
+  "abas": "10033650",
+  "berta": "52953030",
+  "urun": "Yedek Bıçak Seti No.30 Data-Strip",
+  "fiyat": 13.1
+ },
+ {
+  "abas": "10039790",
+  "berta": "52953040",
+  "urun": "No. 16 için Kancalı Bıçak",
+  "fiyat": 14.7
+ },
+ {
+  "abas": "10058057",
+  "berta": "52953050",
+  "urun": "4-29 Yedek Bıçak",
+  "fiyat": 131.6
+ },
+ {
+  "abas": "10061993",
+  "berta": "53051116",
+  "urun": "No. C 4-16 Green Line",
+  "fiyat": 30.7
+ },
+ {
+  "abas": "10061996",
+  "berta": "53051227",
+  "urun": "Kablo Soyucu No. 8-27 Green Line",
+  "fiyat": 30.7
+ },
+ {
+  "abas": "10061991",
+  "berta": "53054128",
+  "urun": "Kablo Soyucu No. 4-28 H Green Line",
+  "fiyat": 40.5
+ },
+ {
+  "abas": "10061987",
+  "berta": "53055328",
+  "urun": "No. S 4-28 Green Line",
+  "fiyat": 41.5
+ },
+ {
+  "abas": "10061989",
+  "berta": "53057328",
+  "urun": "Kablo Kesici No. S 4-28 Voltaj",
+  "fiyat": 39.4
+ },
+ {
+  "abas": "10062000",
+  "berta": "54000002",
+  "urun": "Kablo Kesici No. S 4-28 Voltaj",
+  "fiyat": 61.1
+ },
+ {
+  "abas": "10061997",
+  "berta": "54000005",
+  "urun": "Kablo Sıyırma Pensesi No. 5 Green Line",
+  "fiyat": 61.1
+ },
+ {
+  "abas": "10062016",
+  "berta": "54000100",
+  "urun": "Sıyırıcı No. 100 Green Line",
+  "fiyat": 43.5
+ },
+ {
+  "abas": "10062010",
+  "berta": "54000300",
+  "urun": "Duo-Crimp No. 300 Green Line",
+  "fiyat": 150.8
+ },
+ {
+  "abas": "10062014",
+  "berta": "54000400",
+  "urun": "Çoklu - Sıyırıcı No. 400",
+  "fiyat": 70.9
+ },
+ {
+  "abas": "10062002",
+  "berta": "55000001",
+  "urun": "Coax-Sıyırıcı No. 1 F Pluscc GreenLine",
+  "fiyat": 53.9
+ },
+ {
+  "abas": "10062004",
+  "berta": "55000002",
+  "urun": "Coax-Stripper No. 2 Green line",
+  "fiyat": 39.6
+ },
+ {
+  "abas": "10062008",
+  "berta": "55000013",
+  "urun": "No. 13 Green Line",
+  "fiyat": 35.5
+ },
+ {
+  "abas": "10062006",
+  "berta": "55000016",
+  "urun": "Quadro-Sıyırıcı No. 16 Green Line",
+  "fiyat": 58.7
+ },
+ {
+  "abas": "10062018",
+  "berta": "55880001",
+  "urun": "Kablo Soyma Aletleri Çantası",
+  "fiyat": 181.7
+ },
+ {
+  "abas": "10057743",
+  "berta": "99950251",
+  "urun": "Dişli Fırçası",
+  "fiyat": 11.8
+ },
+ {
+  "abas": "10057970",
+  "berta": "99950253",
+  "urun": "Bisiklet Anahtarı",
+  "fiyat": 8.0
+ },
+ {
+  "abas": "10105130",
+  "berta": "11539405",
+  "urun": "Lasermarkierungsspray",
+  "fiyat": 40.8
+ },
+ {
+  "abas": "10002010",
+  "berta": "12955000",
+  "urun": "Boş şişe 5 g",
+  "fiyat": 2.1
+ },
+ {
+  "abas": "10002012",
+  "berta": "12955002",
+  "urun": "Boş Şişe 20 g",
+  "fiyat": 3.5
+ },
+ {
+  "abas": "10002013",
+  "berta": "12955003",
+  "urun": "Boş Şişe 50 g",
+  "fiyat": 3.78
+ },
+ {
+  "abas": "10002014",
+  "berta": "12955004",
+  "urun": "Boş Şişe 500 g",
+  "fiyat": 4.52
+ },
+ {
+  "abas": "10026711",
+  "berta": "10650002-2",
+  "urun": "Easy-Mix Metal Karıştırma boş PE",
+  "fiyat": 5.2
+ },
+ {
+  "abas": "10002459",
+  "berta": "30955021",
+  "urun": "250 ml için kapak",
+  "fiyat": 4.2
+ },
+ {
+  "abas": "10002932",
+  "berta": "12955150-32",
+  "urun": "Vidalı kapak beyaz 10-50 g",
+  "fiyat": 2.1
+ },
+ {
+  "abas": "10012223",
+  "berta": "12955050-32",
+  "urun": "Weicon Kapak beyaz 10-60 g",
+  "fiyat": 3.8
+ },
+ {
+  "abas": "10016211",
+  "berta": "30955028",
+  "urun": "Kapak Weicon oval 50-250 ml",
+  "fiyat": 4.7
+ },
+ {
+  "abas": "10018787",
+  "berta": "12955040-12",
+  "urun": "Kapak mavi Kalem 12g",
+  "fiyat": 2.4
+ },
+ {
+  "abas": "10035253",
+  "berta": "12955312",
+  "urun": "VA 500 g Kapak",
+  "fiyat": 1.8
+ },
+ {
+  "abas": "10002106",
+  "berta": "12955311",
+  "urun": "VA 500 g Şeffaf Uç",
+  "fiyat": 4.0
+ },
+ {
+  "abas": "10014007",
+  "berta": "10660002-2",
+  "urun": "Karıştırma nozulu 10:1 turuncu",
+  "fiyat": 3.9
+ },
+ {
+  "abas": "10052920",
+  "berta": "10650021-2",
+  "urun": "Helix Karıştırma Ağızlık 400 ml",
+  "fiyat": 5.1
+ },
+ {
+  "abas": "10056710",
+  "berta": "10650026",
+  "urun": "Helix Karıştırma Ağızlık 400ml",
+  "fiyat": 5.0
+ },
+ {
+  "abas": "10001256",
+  "berta": "30955172",
+  "urun": "Dosaj ucu Boy 1 Tip S",
+  "fiyat": 1.9
+ },
+ {
+  "abas": "10012382",
+  "berta": "12650030",
+  "urun": "Contact Doldurucu 30 g",
+  "fiyat": 8.5
+ },
+ {
+  "abas": "10027692",
+  "berta": "13309997",
+  "urun": "Flex 310 M >2K< karıştırma ucu",
+  "fiyat": 6.9
+ },
+ {
+  "abas": "10057191",
+  "berta": "10650027",
+  "urun": "Karıştırma ucu MFHX",
+  "fiyat": 8.9
+ },
+ {
+  "abas": "10001258",
+  "berta": "12955175",
+  "urun": "Dozaj ucu Tipi A",
+  "fiyat": 3.6
+ },
+ {
+  "abas": "10068261",
+  "berta": "12955175",
+  "urun": "Dozaj Ucu Tipo A",
+  "fiyat": 3.8
+ },
+ {
+  "abas": "10001254",
+  "berta": "12955170-2",
+  "urun": "Dosaj ucu Boy 0 Tip S",
+  "fiyat": 3.7
+ },
+ {
+  "abas": "10012226",
+  "berta": "12955050-12",
+  "urun": "Hızlı Yapıştırıcı Kapağı 30-60g",
+  "fiyat": 3.5
+ },
+ {
+  "abas": "10047821",
+  "berta": "12955050-12A",
+  "urun": "Hızlı Yapıştırıcı Kapağı 10-60 e",
+  "fiyat": 3.7
+ }
+]

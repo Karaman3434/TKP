@@ -1,0 +1,5911 @@
+{
+  "kaynak_dosya": "2026_2192026_price_list_DUZELTILMIS.xlsx",
+  "urun_sayisi": 983,
+  "para_birimi": "EUR",
+  "alanlar": [
+    "ABAS No",
+    "Berta No",
+    "Mal Adı",
+    "Liste Fiyatı (€)"
+  ],
+  "urunler": [
+    {
+      "ABAS No": "10054381",
+      "Berta No": "10000002",
+      "Mal Adı": "WEICON Plastik-Metal A 200 g",
+      "Liste Fiyatı (€)": 55.1
+    },
+    {
+      "ABAS No": "10032081",
+      "Berta No": "10000005-39",
+      "Mal Adı": "WECON Plastik çelik A 0,5 kg",
+      "Liste Fiyatı (€)": 90.7
+    },
+    {
+      "ABAS No": "10033018",
+      "Berta No": "10000020-39",
+      "Mal Adı": "WEICON Plastik-Metal A TR/GB 2 kg",
+      "Liste Fiyatı (€)": 286.8
+    },
+    {
+      "ABAS No": "10054384",
+      "Berta No": "10050002",
+      "Mal Adı": "WEICON Plastik-Metal B 200 g",
+      "Liste Fiyatı (€)": 55.1
+    },
+    {
+      "ABAS No": "10033019",
+      "Berta No": "10050005-39",
+      "Mal Adı": "WEICON Plastik çelik B TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 90.7
+    },
+    {
+      "ABAS No": "10033023",
+      "Berta No": "10050020-39",
+      "Mal Adı": "WEICON Plastik çelik B TR/GB 2 kg",
+      "Liste Fiyatı (€)": 286.9
+    },
+    {
+      "ABAS No": "10051209",
+      "Berta No": "10100002",
+      "Mal Adı": "Plastik-Metal C Reçine 0,2 kg",
+      "Liste Fiyatı (€)": 65.4
+    },
+    {
+      "ABAS No": "10032082",
+      "Berta No": "10100005-39",
+      "Mal Adı": "WEICON Plastik çelik C TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 114
+    },
+    {
+      "ABAS No": "10000033",
+      "Berta No": "10100020",
+      "Mal Adı": "WEICON Plastik çelik C Reçine 2 kg",
+      "Liste Fiyatı (€)": 341
+    },
+    {
+      "ABAS No": "10048518",
+      "Berta No": "10110030-39",
+      "Mal Adı": "Plastik-Metal CBC TR/GB 3 kg",
+      "Liste Fiyatı (€)": 442.2
+    },
+    {
+      "ABAS No": "10045019",
+      "Berta No": "10110110",
+      "Mal Adı": "Plastik-Metal WEICON CBC 10 kg",
+      "Liste Fiyatı (€)": 1305.5
+    },
+    {
+      "ABAS No": "10060972",
+      "Berta No": "10120002-39",
+      "Mal Adı": "WEICON Plastik-Metal HC220 TR/GB 0,2kg",
+      "Liste Fiyatı (€)": 99.7
+    },
+    {
+      "ABAS No": "10060982",
+      "Berta No": "10120005-39",
+      "Mal Adı": "WEICON Plastik-Metal HC220 TR/GB 0,5kg",
+      "Liste Fiyatı (€)": 176.9
+    },
+    {
+      "ABAS No": "10060988",
+      "Berta No": "10120020-39",
+      "Mal Adı": "WEICON Plastik-Metal HC 220 TR/GB 2 kg",
+      "Liste Fiyatı (€)": 564.7
+    },
+    {
+      "ABAS No": "10054387",
+      "Berta No": "10150002",
+      "Mal Adı": "WEICON Plastik-Metal F 200 g",
+      "Liste Fiyatı (€)": 56.6
+    },
+    {
+      "ABAS No": "10032084",
+      "Berta No": "10150005-39",
+      "Mal Adı": "WEICON F Plastik çelik TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 94.8
+    },
+    {
+      "ABAS No": "10000041",
+      "Berta No": "10150020",
+      "Mal Adı": "WEICON Plastik çelik F Reçine 2 kg",
+      "Liste Fiyatı (€)": 295.7
+    },
+    {
+      "ABAS No": "10033029",
+      "Berta No": "10200020-39",
+      "Mal Adı": "WEICON Plastik çelik F2 TR/GB 2 kg",
+      "Liste Fiyatı (€)": 450.4
+    },
+    {
+      "ABAS No": "10009769",
+      "Berta No": "10250002",
+      "Mal Adı": "Plastik-Metal SF 200 g",
+      "Liste Fiyatı (€)": 61.8
+    },
+    {
+      "ABAS No": "10033030",
+      "Berta No": "10250005-39",
+      "Mal Adı": "WEICON Plastik çelik SF TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 99.5
+    },
+    {
+      "ABAS No": "10033031",
+      "Berta No": "10250020-39",
+      "Mal Adı": "WEICON Plastik çelik SF TR/GB 2 kg",
+      "Liste Fiyatı (€)": 310.7
+    },
+    {
+      "ABAS No": "10063258",
+      "Berta No": "10260002-39",
+      "Mal Adı": "WEICON HT 111 TR/GB 0,2 kg",
+      "Liste Fiyatı (€)": 79.1
+    },
+    {
+      "ABAS No": "10063265",
+      "Berta No": "10260005-39",
+      "Mal Adı": "WEICON HT 111 TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 115.3
+    },
+    {
+      "ABAS No": "10063273",
+      "Berta No": "10260010-39",
+      "Mal Adı": "WEICON HT 111 TR/GB 1 kg",
+      "Liste Fiyatı (€)": 221.9
+    },
+    {
+      "ABAS No": "10210002",
+      "Berta No": null,
+      "Mal Adı": "WEICON Plastik-Stahl WPG-19 0,2 kg",
+      "Liste Fiyatı (€)": 42.2
+    },
+    {
+      "ABAS No": "10210005",
+      "Berta No": "10103061",
+      "Mal Adı": "WEICON Plastik-Stahl WPG-19 0,5 kg",
+      "Liste Fiyatı (€)": 199.5
+    },
+    {
+      "ABAS No": "10103073",
+      "Berta No": "10210020",
+      "Mal Adı": "WEICON Plastik-Stahl WPG-19 2 kg",
+      "Liste Fiyatı (€)": 765.4
+    },
+    {
+      "ABAS No": "10102149",
+      "Berta No": "10360002",
+      "Mal Adı": "Havuz Onarım Kiti TR/GB 0,2 kg",
+      "Liste Fiyatı (€)": 99.7
+    },
+    {
+      "ABAS No": "10054400",
+      "Berta No": "10300002",
+      "Mal Adı": "WEICON Plastik-Metal WR 200 g",
+      "Liste Fiyatı (€)": 65.3
+    },
+    {
+      "ABAS No": "10033032",
+      "Berta No": "10300005-39",
+      "Mal Adı": "WEICON Plastik çelik WR TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 114
+    },
+    {
+      "ABAS No": "10000078",
+      "Berta No": "10300020",
+      "Mal Adı": "WEICON Plastik çelik WR Reçine 2 kg",
+      "Liste Fiyatı (€)": 344.9
+    },
+    {
+      "ABAS No": "10103713",
+      "Berta No": "10310010-39",
+      "Mal Adı": "WEICON TB Flex HTJ TR/GB 1 kg",
+      "Liste Fiyatı (€)": 329.2
+    },
+    {
+      "ABAS No": "10054401",
+      "Berta No": "10350002",
+      "Mal Adı": "WEICON Plastik-Metal WR2 200 g",
+      "Liste Fiyatı (€)": 56.6
+    },
+    {
+      "ABAS No": "10033034",
+      "Berta No": "10350005-39",
+      "Mal Adı": "WEICON Plastik çelik WR2 TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 94.8
+    },
+    {
+      "ABAS No": "10000088",
+      "Berta No": "10350020",
+      "Mal Adı": "WEICON Plastik çelik WR2 2 kg",
+      "Liste Fiyatı (€)": 295.7
+    },
+    {
+      "ABAS No": "10068668",
+      "Berta No": "10380002-39",
+      "Mal Adı": "WEICON WL TR/GB 0,2 kg",
+      "Liste Fiyatı (€)": 85.6
+    },
+    {
+      "ABAS No": "10068675",
+      "Berta No": "10380005-39",
+      "Mal Adı": "WEICON WL TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 148
+    },
+    {
+      "ABAS No": "10067887",
+      "Berta No": "10380020",
+      "Mal Adı": "WEICON WL 2 kg",
+      "Liste Fiyatı (€)": 452.9
+    },
+    {
+      "ABAS No": "10054393",
+      "Berta No": "10390002",
+      "Mal Adı": "WEICON Plastik-Metal HP 200 g",
+      "Liste Fiyatı (€)": 99.7
+    },
+    {
+      "ABAS No": "10054003",
+      "Berta No": "10390005",
+      "Mal Adı": "Plastik-Metal HP 0,5 kg",
+      "Liste Fiyatı (€)": 179.1
+    },
+    {
+      "ABAS No": "10054004",
+      "Berta No": "10390020",
+      "Mal Adı": "Plastik-Metal HP 2 kg",
+      "Liste Fiyatı (€)": 570.4
+    },
+    {
+      "ABAS No": "10054394",
+      "Berta No": "10400002",
+      "Mal Adı": "WEICON Plastik-Metal BL 200 g",
+      "Liste Fiyatı (€)": 99.7
+    },
+    {
+      "ABAS No": "10033037",
+      "Berta No": "10400005-39",
+      "Mal Adı": "WEICON Plastik çelik BL TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 176.9
+    },
+    {
+      "ABAS No": "10033038",
+      "Berta No": "10400020-39",
+      "Mal Adı": "WEICON Plastik çelik BL TR/GB 2 kg",
+      "Liste Fiyatı (€)": 564.7
+    },
+    {
+      "ABAS No": "10054396",
+      "Berta No": "10410002",
+      "Mal Adı": "WEICON Plastik-Metal ST 200 g",
+      "Liste Fiyatı (€)": 84.4
+    },
+    {
+      "ABAS No": "10033041",
+      "Berta No": "10410005-39",
+      "Mal Adı": "WEICON Plastik çelik ST TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 136.1
+    },
+    {
+      "ABAS No": "10000903",
+      "Berta No": "10410020",
+      "Mal Adı": "WEICON Plastik çelik ST Reçine 2 kg",
+      "Liste Fiyatı (€)": 451.2
+    },
+    {
+      "ABAS No": "10054386",
+      "Berta No": "10420002",
+      "Mal Adı": "WEICON Plastik-Metal BR 200 g",
+      "Liste Fiyatı (€)": 75.8
+    },
+    {
+      "ABAS No": "10033043",
+      "Berta No": "10420005-39",
+      "Mal Adı": "WEICON plastik çelik BR TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 129.5
+    },
+    {
+      "ABAS No": "10012670",
+      "Berta No": "10420020",
+      "Mal Adı": "WEICON plastik çelik BR Reçine 1,6 kg",
+      "Liste Fiyatı (€)": 425.1
+    },
+    {
+      "ABAS No": "10054397",
+      "Berta No": "10430002",
+      "Mal Adı": "WEICON Plastik-Metal TI 200 g",
+      "Liste Fiyatı (€)": 84.4
+    },
+    {
+      "ABAS No": "10032085",
+      "Berta No": "10430005-39",
+      "Mal Adı": "WEICON plastik çelik TI TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 148.6
+    },
+    {
+      "ABAS No": "10013475",
+      "Berta No": "10430020",
+      "Mal Adı": "WEICON plastik çelik TI Reçine 2 kg",
+      "Liste Fiyatı (€)": 487.1
+    },
+    {
+      "ABAS No": "10054398",
+      "Berta No": "10440002",
+      "Mal Adı": "WEICON Plastik-Metal UW 200 g",
+      "Liste Fiyatı (€)": 80
+    },
+    {
+      "ABAS No": "10032083",
+      "Berta No": "10440005-39",
+      "Mal Adı": "WEICON UW TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 141.9
+    },
+    {
+      "ABAS No": "10000936",
+      "Berta No": "10440020",
+      "Mal Adı": "WEICON UW Reçine 2 kg",
+      "Liste Fiyatı (€)": 442.5
+    },
+    {
+      "ABAS No": "10004472",
+      "Berta No": "10450002",
+      "Mal Adı": "Plastik-Metal HB300 200 g",
+      "Liste Fiyatı (€)": 79.6
+    },
+    {
+      "ABAS No": "10058243",
+      "Berta No": "10450005-39",
+      "Mal Adı": "WEICON HB300 TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 115.3
+    },
+    {
+      "ABAS No": "10033047",
+      "Berta No": "10450010-39",
+      "Mal Adı": "WEICON HB 300 TR/GB 1 kg",
+      "Liste Fiyatı (€)": 221.9
+    },
+    {
+      "ABAS No": "10054395",
+      "Berta No": "10460002",
+      "Mal Adı": "WEICON Plastik-Metal W 200 g",
+      "Liste Fiyatı (€)": 99.7
+    },
+    {
+      "ABAS No": "10033048",
+      "Berta No": "10460005-39",
+      "Mal Adı": "WEICON plastik çelik W TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 177.6
+    },
+    {
+      "ABAS No": "10012233",
+      "Berta No": "10460020",
+      "Mal Adı": "WEICON plastik çelik W Reçine 2 kg",
+      "Liste Fiyatı (€)": 567.3
+    },
+    {
+      "ABAS No": "10020990",
+      "Berta No": "10470020",
+      "Mal Adı": "Plastik-Metal WAL04 Reçine 2 kg",
+      "Liste Fiyatı (€)": 291
+    },
+    {
+      "ABAS No": "10033051",
+      "Berta No": "10480020-39",
+      "Mal Adı": "WEICON Plastik çelik WAL06 TR/GB 2 kg",
+      "Liste Fiyatı (€)": 571.5
+    },
+    {
+      "ABAS No": "10054399",
+      "Berta No": "10490002",
+      "Mal Adı": "WEICON Plastik-Metal WP 200 g",
+      "Liste Fiyatı (€)": 99.7
+    },
+    {
+      "ABAS No": "10034684",
+      "Berta No": "10490020-39",
+      "Mal Adı": "Plastik-Metal WP TR/GB 2 kg",
+      "Liste Fiyatı (€)": 578.9
+    },
+    {
+      "ABAS No": "10032939",
+      "Berta No": "10490100",
+      "Mal Adı": "Plastikstahl WP",
+      "Liste Fiyatı (€)": 2528.2
+    },
+    {
+      "ABAS No": "10033558",
+      "Berta No": "10500100-39",
+      "Mal Adı": "Epoksi-Reçine Kiti TR/GB 100 g",
+      "Liste Fiyatı (€)": 31.5
+    },
+    {
+      "ABAS No": "10000104",
+      "Berta No": "10500400",
+      "Mal Adı": "Epoksi-Reçine Kiti 400g",
+      "Liste Fiyatı (€)": 55
+    },
+    {
+      "ABAS No": "10033560",
+      "Berta No": "10500800-39",
+      "Mal Adı": "Epoksi-Reçine Kiti TR/GB 800 g",
+      "Liste Fiyatı (€)": 83.3
+    },
+    {
+      "ABAS No": "10033055",
+      "Berta No": "10514005-39",
+      "Mal Adı": "Üretan Reçine 45 TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 123.4
+    },
+    {
+      "ABAS No": "10033056",
+      "Berta No": "10516005-39",
+      "Mal Adı": "Üretan Reçine 60 TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 123.4
+    },
+    {
+      "ABAS No": "10033057",
+      "Berta No": "10518005-39",
+      "Mal Adı": "Üretan Reçine 80 TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 119.1
+    },
+    {
+      "ABAS No": "10053974",
+      "Berta No": "10519005",
+      "Mal Adı": "Ürehan 90 SF 550 g",
+      "Liste Fiyatı (€)": 119.1
+    },
+    {
+      "ABAS No": "10024676",
+      "Berta No": "10519250",
+      "Mal Adı": "Üretan Renk macunu siyah 250 g",
+      "Liste Fiyatı (€)": 138.5
+    },
+    {
+      "ABAS No": "10054402",
+      "Berta No": "10520002",
+      "Mal Adı": "WEICON Dökme Reçinesi MS 1000",
+      "Liste Fiyatı (€)": 57.9
+    },
+    {
+      "ABAS No": "10037313",
+      "Berta No": "10520005-39",
+      "Mal Adı": "Plastik-Metal MS1000 0,5 kg",
+      "Liste Fiyatı (€)": 63
+    },
+    {
+      "ABAS No": "10033058",
+      "Berta No": "10520010-39",
+      "Mal Adı": "WEICON MS 1000 TR/GB 1,0 kg",
+      "Liste Fiyatı (€)": 112.7
+    },
+    {
+      "ABAS No": "10061001",
+      "Berta No": "10523002-39",
+      "Mal Adı": "Dökme reçinesi +90 TR/GB 0,2 kg",
+      "Liste Fiyatı (€)": 65.8
+    },
+    {
+      "ABAS No": "10061007",
+      "Berta No": "10523005-39",
+      "Mal Adı": "Dökme reçinesi +90 TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 93.6
+    },
+    {
+      "ABAS No": "10061014",
+      "Berta No": "10523010-39",
+      "Mal Adı": "Dökme reçinesi +90 TR/GB 1 kg",
+      "Liste Fiyatı (€)": 158.2
+    },
+    {
+      "ABAS No": "10038324",
+      "Berta No": "10530057-39",
+      "Mal Adı": "Tamir Çubukları Bakır TR/GB 57 g",
+      "Liste Fiyatı (€)": 18.1
+    },
+    {
+      "ABAS No": "10038325",
+      "Berta No": "10530115-39",
+      "Mal Adı": "Tamir Çubukları Bakır TR/GB 115 g",
+      "Liste Fiyatı (€)": 34.9
+    },
+    {
+      "ABAS No": "10038326",
+      "Berta No": "10531057-39",
+      "Mal Adı": "Tamir Çubukları Aqua TR/GB 57 g",
+      "Liste Fiyatı (€)": 18
+    },
+    {
+      "ABAS No": "10038327",
+      "Berta No": "10531115-39",
+      "Mal Adı": "Tamir Çubukları Aqua TR/GB 115 g",
+      "Liste Fiyatı (€)": 34.9
+    },
+    {
+      "ABAS No": "10010237",
+      "Berta No": "10532057",
+      "Mal Adı": "Tamir Çubukları Ahşap 28 g",
+      "Liste Fiyatı (€)": 18.1
+    },
+    {
+      "ABAS No": "10038329",
+      "Berta No": "10532115-39",
+      "Mal Adı": "Tamir Çubukları Ahşap TR/GB 56 g",
+      "Liste Fiyatı (€)": 34.9
+    },
+    {
+      "ABAS No": "10038330",
+      "Berta No": "10533057-39",
+      "Mal Adı": "Tamir Çubukları Çelik TR/GB 57 g",
+      "Liste Fiyatı (€)": 18.1
+    },
+    {
+      "ABAS No": "10038331",
+      "Berta No": "10533115-39",
+      "Mal Adı": "Tamir Çubukları Çelik TR/GB 115 g",
+      "Liste Fiyatı (€)": 34.9
+    },
+    {
+      "ABAS No": "10038332",
+      "Berta No": "10534057-39",
+      "Mal Adı": "Tamir Çubukları Alüminyum TR/GB 57 g",
+      "Liste Fiyatı (€)": 18.1
+    },
+    {
+      "ABAS No": "10038333",
+      "Berta No": "10534115-39",
+      "Mal Adı": "Tamir Çubukları Alüminyum TR/GB 115 g",
+      "Liste Fiyatı (€)": 34.9
+    },
+    {
+      "ABAS No": "10038334",
+      "Berta No": "10535057-39",
+      "Mal Adı": "Tamir Çubukları Titanyum TR/GB 57 g",
+      "Liste Fiyatı (€)": 23
+    },
+    {
+      "ABAS No": "10038335",
+      "Berta No": "10535115-39",
+      "Mal Adı": "Tamir Çubukları Titanyum TR/GB 115 g",
+      "Liste Fiyatı (€)": 38.4
+    },
+    {
+      "ABAS No": "10038336",
+      "Berta No": "10536057-39",
+      "Mal Adı": "Tamir Çubukları Plastik TR/GB 57 g",
+      "Liste Fiyatı (€)": 18.1
+    },
+    {
+      "ABAS No": "10017334",
+      "Berta No": "10536115",
+      "Mal Adı": "Tamir Çubukları Plastik 115 g",
+      "Liste Fiyatı (€)": 34.9
+    },
+    {
+      "ABAS No": "10025685",
+      "Berta No": "10537057",
+      "Mal Adı": "Tamir Çubukları Beton 57g",
+      "Liste Fiyatı (€)": 18.1
+    },
+    {
+      "ABAS No": "10038339",
+      "Berta No": "10537115-39",
+      "Mal Adı": "Tamir Çubukları Beton TR/GB 115 g",
+      "Liste Fiyatı (€)": 34.9
+    },
+    {
+      "ABAS No": "10038340",
+      "Berta No": "10538057-39",
+      "Mal Adı": "Tamir Çubukları Çelik TR/GB 57 g",
+      "Liste Fiyatı (€)": 23
+    },
+    {
+      "ABAS No": "10038341",
+      "Berta No": "10538115-39",
+      "Mal Adı": "Tamir Çubukları Çelik TR/Gb 115 g",
+      "Liste Fiyatı (€)": 38.4
+    },
+    {
+      "ABAS No": "10054130",
+      "Berta No": "10539057-39",
+      "Mal Adı": "Tamir Çubuğu Multi TR/GB 57 gr.",
+      "Liste Fiyatı (€)": 24.1
+    },
+    {
+      "ABAS No": "10068562",
+      "Berta No": "10539115-39",
+      "Mal Adı": "Tamir Çubuğu Multi TR/GB 115 g",
+      "Liste Fiyatı (€)": 41.4
+    },
+    {
+      "ABAS No": "10044962",
+      "Berta No": "10550024-39",
+      "Mal Adı": "Epoksi-Dakika Yap. TR/GB 24 ml",
+      "Liste Fiyatı (€)": 18.8
+    },
+    {
+      "ABAS No": "10058840",
+      "Berta No": "10550025-39",
+      "Mal Adı": "Epoksi Dak. Yap. Set TR/GB 24ml",
+      "Liste Fiyatı (€)": 21.3
+    },
+    {
+      "ABAS No": "10044961",
+      "Berta No": "10551024-39",
+      "Mal Adı": "Fast Metal TR/GB 24 ml",
+      "Liste Fiyatı (€)": 23.9
+    },
+    {
+      "ABAS No": "10058777",
+      "Berta No": "10551025",
+      "Mal Adı": "Fast-Metal Set 24 ml",
+      "Liste Fiyatı (€)": 25.7
+    },
+    {
+      "ABAS No": "10056754",
+      "Berta No": "10552024-39",
+      "Mal Adı": "Alüminyum Dakika Yapış TR/GB .24 ML",
+      "Liste Fiyatı (€)": 25.2
+    },
+    {
+      "ABAS No": "10058776",
+      "Berta No": "10552025",
+      "Mal Adı": "Alü.Dakika Yapıştırıcısı Set",
+      "Liste Fiyatı (€)": 28.4
+    },
+    {
+      "ABAS No": "10033420",
+      "Berta No": "10560060-39",
+      "Mal Adı": "RK 1300 Yapısal Yap. TR/GB 60 g",
+      "Liste Fiyatı (€)": 43.6
+    },
+    {
+      "ABAS No": "10007508",
+      "Berta No": "10560330",
+      "Mal Adı": "RK 1300 Yapısal Yap. 330g",
+      "Liste Fiyatı (€)": 158
+    },
+    {
+      "ABAS No": "10007378",
+      "Berta No": "10560800",
+      "Mal Adı": "RK-1300 Yapısal Yap. 1,0 kg",
+      "Liste Fiyatı (€)": 381.6
+    },
+    {
+      "ABAS No": "10100094",
+      "Berta No": "10561906",
+      "Mal Adı": "RK 1300 6 kg",
+      "Liste Fiyatı (€)": 1524.4
+    },
+    {
+      "ABAS No": "10000128",
+      "Berta No": "10562100",
+      "Mal Adı": "RK-1300/RK-1500 için Aktivatör 100 ml",
+      "Liste Fiyatı (€)": 72.7
+    },
+    {
+      "ABAS No": "10000131",
+      "Berta No": "10562901",
+      "Mal Adı": "RK-1300/RK-1500 Aktivatör 1L",
+      "Liste Fiyatı (€)": 711
+    },
+    {
+      "ABAS No": "10016249",
+      "Berta No": "10563330",
+      "Mal Adı": "RK-1500 310g",
+      "Liste Fiyatı (€)": 252.9
+    },
+    {
+      "ABAS No": "10002622",
+      "Berta No": "10563800",
+      "Mal Adı": "RK-1500 1,0 kg",
+      "Liste Fiyatı (€)": 554.8
+    },
+    {
+      "ABAS No": "10033456",
+      "Berta No": "10563860-39",
+      "Mal Adı": "RK 1500 TR/GB 60 g",
+      "Liste Fiyatı (€)": 47.8
+    },
+    {
+      "ABAS No": "10100180",
+      "Berta No": "10563906",
+      "Mal Adı": "RK 1500 6 kg",
+      "Liste Fiyatı (€)": 2050.8
+    },
+    {
+      "ABAS No": "10034979",
+      "Berta No": "10564050-39",
+      "Mal Adı": "RK-7200 TR/GB 50 g",
+      "Liste Fiyatı (€)": 61.6
+    },
+    {
+      "ABAS No": "10018558",
+      "Berta No": "10565024",
+      "Mal Adı": "Plastic-Bond 24 ml",
+      "Liste Fiyatı (€)": 25.7
+    },
+    {
+      "ABAS No": "10058780",
+      "Berta No": "10565025",
+      "Mal Adı": "Plastic-Bond Set, 24 ml",
+      "Liste Fiyatı (€)": 41.8
+    },
+    {
+      "ABAS No": "10018563",
+      "Berta No": "10565050",
+      "Mal Adı": "RK-7000 50g",
+      "Liste Fiyatı (€)": 54.8
+    },
+    {
+      "ABAS No": "10032834",
+      "Berta No": "10566050-39",
+      "Mal Adı": "RK-7100 Süper Bond TR/GB 50g",
+      "Liste Fiyatı (€)": 53.4
+    },
+    {
+      "ABAS No": "10058263",
+      "Berta No": "10566150-39",
+      "Mal Adı": "RK-7100 Siyah TR/GB 50 gr",
+      "Liste Fiyatı (€)": 53.4
+    },
+    {
+      "ABAS No": "10048549",
+      "Berta No": "10569050-39",
+      "Mal Adı": "Easy-Mix RK 7300 All Bond TR/GB 50 g",
+      "Liste Fiyatı (€)": 59.6
+    },
+    {
+      "ABAS No": "10026167",
+      "Berta No": "10604000",
+      "Mal Adı": "Kalıp Ayırıcı F 1000 1L",
+      "Liste Fiyatı (€)": 150.2
+    },
+    {
+      "ABAS No": "10026647",
+      "Berta No": "10604025",
+      "Mal Adı": "Kalıp Ayırıcı F 1000 250 ml",
+      "Liste Fiyatı (€)": 47.2
+    },
+    {
+      "ABAS No": "10026171",
+      "Berta No": "10604500",
+      "Mal Adı": "Kalıp Ayırıcı Mumu P500 0,5 kg",
+      "Liste Fiyatı (€)": 125.1
+    },
+    {
+      "ABAS No": "10026712",
+      "Berta No": "10604515",
+      "Mal Adı": "Kalıp Ayırıcı Mumu 150g",
+      "Liste Fiyatı (€)": 46.8
+    },
+    {
+      "ABAS No": "10005236",
+      "Berta No": "10650001",
+      "Mal Adı": "Karıştırma Ağızlık Quadro",
+      "Liste Fiyatı (€)": 3.7
+    },
+    {
+      "ABAS No": "10026925",
+      "Berta No": "10650002",
+      "Mal Adı": "Easy-Mix Metal Karıştırma Ağızlığı PE",
+      "Liste Fiyatı (€)": 5.1
+    },
+    {
+      "ABAS No": "10029793",
+      "Berta No": "10650005",
+      "Mal Adı": "Karıştırma Ağızlık Quadro",
+      "Liste Fiyatı (€)": 4.1
+    },
+    {
+      "ABAS No": "10030395",
+      "Berta No": "10650006",
+      "Mal Adı": "Karıştırma Ağızlık Helix",
+      "Liste Fiyatı (€)": 4.2
+    },
+    {
+      "ABAS No": "10056710",
+      "Berta No": "10650026",
+      "Mal Adı": "Helix Karıştırma Ağızlık 400ml",
+      "Liste Fiyatı (€)": 11.7
+    },
+    {
+      "ABAS No": "10057191",
+      "Berta No": "10650027",
+      "Mal Adı": "Karıştırma ucu MFHX",
+      "Liste Fiyatı (€)": 11.3
+    },
+    {
+      "ABAS No": "10063091",
+      "Berta No": "10650031",
+      "Mal Adı": "Karıştırma ucu VA 2407 10 g",
+      "Liste Fiyatı (€)": 7.8
+    },
+    {
+      "ABAS No": "10045355",
+      "Berta No": "10650050-39",
+      "Mal Adı": "Easy-Mix S 50 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 37.5
+    },
+    {
+      "ABAS No": "10045350",
+      "Berta No": "10650150-39",
+      "Mal Adı": "Easy-Mix N 50 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 37.5
+    },
+    {
+      "ABAS No": "10045349",
+      "Berta No": "10650250-39",
+      "Mal Adı": "Easy-Mix N 5000 TR/GB 50ml",
+      "Liste Fiyatı (€)": 37.5
+    },
+    {
+      "ABAS No": "10048558",
+      "Berta No": "10650850-39",
+      "Mal Adı": "Easy Mix HT 180 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 41.3
+    },
+    {
+      "ABAS No": "10061027",
+      "Berta No": "10650855-39",
+      "Mal Adı": "Easy-Mix HT 250 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 49.1
+    },
+    {
+      "ABAS No": "10045356",
+      "Berta No": "10652050-39",
+      "Mal Adı": "Easy-Mix Metal Reçinesi TR/GB 50ml",
+      "Liste Fiyatı (€)": 37.5
+    },
+    {
+      "ABAS No": "10102849",
+      "Berta No": "10653052",
+      "Mal Adı": "Dozaj tabancası D50 1:1 TR",
+      "Liste Fiyatı (€)": 80.8
+    },
+    {
+      "ABAS No": "10022280",
+      "Berta No": "10653101",
+      "Mal Adı": "Easy-Mix D50 1:1 Piston",
+      "Liste Fiyatı (€)": 8.3
+    },
+    {
+      "ABAS No": "10101999",
+      "Berta No": "10653150",
+      "Mal Adı": "Manuel Dağıtıcı",
+      "Liste Fiyatı (€)": 30.7
+    },
+    {
+      "ABAS No": "10102860",
+      "Berta No": "10653151",
+      "Mal Adı": "50 ml için 10:1 el dozajlayıcı",
+      "Liste Fiyatı (€)": 21.9
+    },
+    {
+      "ABAS No": "10028608",
+      "Berta No": "10653400",
+      "Mal Adı": "Easy-Mix Tabanca 400 ml",
+      "Liste Fiyatı (€)": 454.1
+    },
+    {
+      "ABAS No": "10057514",
+      "Berta No": "10653491",
+      "Mal Adı": "Tabanca 500ml",
+      "Liste Fiyatı (€)": 264.2
+    },
+    {
+      "ABAS No": "10023115",
+      "Berta No": "10660002",
+      "Mal Adı": "Karıştırma nozulu 10:1 B-System",
+      "Liste Fiyatı (€)": 7.1
+    },
+    {
+      "ABAS No": "10058275",
+      "Berta No": "10660045-39",
+      "Mal Adı": "Easy-Mix PE-PP 45 TR/GB 45 ml",
+      "Liste Fiyatı (€)": 123.5
+    },
+    {
+      "ABAS No": "10059295",
+      "Berta No": "10663045",
+      "Mal Adı": "Easy-Mix PE-PP El Tabancası",
+      "Liste Fiyatı (€)": 97.9
+    },
+    {
+      "ABAS No": "10023341",
+      "Berta No": "10663110",
+      "Mal Adı": "Sürgü D50 10:1",
+      "Liste Fiyatı (€)": 17.1
+    },
+    {
+      "ABAS No": "10062465",
+      "Berta No": "10665024-39",
+      "Mal Adı": "Easy-Mix PE-PP 50 TR/GB 24 ml",
+      "Liste Fiyatı (€)": 52.8
+    },
+    {
+      "ABAS No": "10062146",
+      "Berta No": "10665025",
+      "Mal Adı": "Easy-Mix PE-PP 50 Set 24 ml",
+      "Liste Fiyatı (€)": 63.3
+    },
+    {
+      "ABAS No": "10061040",
+      "Berta No": "10665050-39",
+      "Mal Adı": "Easy-Mix PE-PP 50, TR/GB 50 ml",
+      "Liste Fiyatı (€)": 87.3
+    },
+    {
+      "ABAS No": "10057791",
+      "Berta No": "10700002",
+      "Mal Adı": "WEICON Plasitk-Meatl GL 200 g",
+      "Liste Fiyatı (€)": 99.7
+    },
+    {
+      "ABAS No": "10057714",
+      "Berta No": "10700005",
+      "Mal Adı": "WEICON Plasitk-Meatl GL 0,5 kg",
+      "Liste Fiyatı (€)": 170.4
+    },
+    {
+      "ABAS No": "10057800",
+      "Berta No": "10700010",
+      "Mal Adı": "WEICON Plastik-Metal GL 1 kg",
+      "Liste Fiyatı (€)": 341
+    },
+    {
+      "ABAS No": "10061054",
+      "Berta No": "10705002-39",
+      "Mal Adı": "WEICON Plastik-Metal GL-S TR/GB 0,2 kg",
+      "Liste Fiyatı (€)": 102.3
+    },
+    {
+      "ABAS No": "10061061",
+      "Berta No": "10705005-39",
+      "Mal Adı": "WEICON Plastik-Metal GL-S TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 172.4
+    },
+    {
+      "ABAS No": "10061067",
+      "Berta No": "10705020-39",
+      "Mal Adı": "WEICON Plastik-Metal GL-S TR/GB 2 kg",
+      "Liste Fiyatı (€)": 562.2
+    },
+    {
+      "ABAS No": "10065460",
+      "Berta No": "10710001-39",
+      "Mal Adı": "Pipe Repair-Kit 5/15 türkisch/englisch",
+      "Liste Fiyatı (€)": 51.4
+    },
+    {
+      "ABAS No": "10065461",
+      "Berta No": "10710002-39",
+      "Mal Adı": "Pipe Repair-Kit 5/35 TR/GB",
+      "Liste Fiyatı (€)": 56.3
+    },
+    {
+      "ABAS No": "10065462",
+      "Berta No": "10710003-39",
+      "Mal Adı": "WEICON Pipe Repair-Kit 10/35",
+      "Liste Fiyatı (€)": 71.3
+    },
+    {
+      "ABAS No": "10058305",
+      "Berta No": "10710004-39",
+      "Mal Adı": "Boru tamir takımı 4 12/100 TR/GB",
+      "Liste Fiyatı (€)": 189.7
+    },
+    {
+      "ABAS No": "10057453",
+      "Berta No": "10710515",
+      "Mal Adı": "Tamir bandı 5 cm x 1.5 m",
+      "Liste Fiyatı (€)": 36.3
+    },
+    {
+      "ABAS No": "10065457",
+      "Berta No": "10710536-39",
+      "Mal Adı": "WEICON Repair-Tape 5 cm x 3,5 m",
+      "Liste Fiyatı (€)": 41
+    },
+    {
+      "ABAS No": "10065458",
+      "Berta No": "10711036-39",
+      "Mal Adı": "WEICON Repair-Tape 10 cm x 3,5 m",
+      "Liste Fiyatı (€)": 60.7
+    },
+    {
+      "ABAS No": "10102461",
+      "Berta No": "10711210-39",
+      "Mal Adı": "Tamir bandı 12 cm x 10 m TR/GB",
+      "Liste Fiyatı (€)": 114.2
+    },
+    {
+      "ABAS No": "10032817",
+      "Berta No": "10751050-39",
+      "Mal Adı": "Easy-Mix PU 90 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 41.9
+    },
+    {
+      "ABAS No": "10032818",
+      "Berta No": "10753050-39",
+      "Mal Adı": "Easy-Mix PU 240 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 41.9
+    },
+    {
+      "ABAS No": "10058318",
+      "Berta No": "10758050-39",
+      "Mal Adı": "Easy-Mix PU Kristal TR/GB 50 ml",
+      "Liste Fiyatı (€)": 47.8
+    },
+    {
+      "ABAS No": "10058330",
+      "Berta No": "10800005-39",
+      "Mal Adı": "Üretan 85 TR/GB 500 g",
+      "Liste Fiyatı (€)": 234.7
+    },
+    {
+      "ABAS No": "10058343",
+      "Berta No": "10800540-39",
+      "Mal Adı": "Üretan 85 Kartuş TR/GB 540 g",
+      "Liste Fiyatı (€)": 246
+    },
+    {
+      "ABAS No": "10063301",
+      "Berta No": "10810540-39",
+      "Mal Adı": "Üretan 85 SF Kartuş TR/GB 540 g",
+      "Liste Fiyatı (€)": 240.7
+    },
+    {
+      "ABAS No": "10000913",
+      "Berta No": "10850005",
+      "Mal Adı": "Fiber Kumaş 50 mm",
+      "Liste Fiyatı (€)": 7.3
+    },
+    {
+      "ABAS No": "10045342",
+      "Berta No": "10851001",
+      "Mal Adı": "Acil Durum Onarım Kiti 1",
+      "Liste Fiyatı (€)": 826.6
+    },
+    {
+      "ABAS No": "10045343",
+      "Berta No": "10851002",
+      "Mal Adı": "Acil Durum Onarım Kiti 2",
+      "Liste Fiyatı (€)": 1473.3
+    },
+    {
+      "ABAS No": "10045344",
+      "Berta No": "10851003",
+      "Mal Adı": "Acil Durum Onarım Kiti 3",
+      "Liste Fiyatı (€)": 2637.4
+    },
+    {
+      "ABAS No": "10058383",
+      "Berta No": "10851005-39",
+      "Mal Adı": "Konveyör Tamir Seti 550 TR/GB 550 g",
+      "Liste Fiyatı (€)": 328
+    },
+    {
+      "ABAS No": "10045523",
+      "Berta No": "10851010",
+      "Mal Adı": "Processing Kit",
+      "Liste Fiyatı (€)": 153.1
+    },
+    {
+      "ABAS No": "10058391",
+      "Berta No": "10851015-39",
+      "Mal Adı": "Konveyör Tamir Seti 590 TR/GB 590 g",
+      "Liste Fiyatı (€)": 340.4
+    },
+    {
+      "ABAS No": "10057667",
+      "Berta No": "10851020",
+      "Mal Adı": "Enjeksiyon sistem seti",
+      "Liste Fiyatı (€)": 81.7
+    },
+    {
+      "ABAS No": "10057730",
+      "Berta No": "10851021",
+      "Mal Adı": "Enjeksiyon sistem seti Kare Alu",
+      "Liste Fiyatı (€)": 67
+    },
+    {
+      "ABAS No": "10057731",
+      "Berta No": "10851022",
+      "Mal Adı": "Enjeksiyon sistem seti Düz",
+      "Liste Fiyatı (€)": 42.6
+    },
+    {
+      "ABAS No": "10063853",
+      "Berta No": "10852015-39",
+      "Mal Adı": "WEICON Kit SF TR/GB 590 g",
+      "Liste Fiyatı (€)": 285.8
+    },
+    {
+      "ABAS No": "10010887",
+      "Berta No": "10953001",
+      "Mal Adı": "Spatula mavi kısa tip",
+      "Liste Fiyatı (€)": 7.2
+    },
+    {
+      "ABAS No": "10022562",
+      "Berta No": "10953003",
+      "Mal Adı": "Spatula mavi uzun tip",
+      "Liste Fiyatı (€)": 7.9
+    },
+    {
+      "ABAS No": "10039185",
+      "Berta No": "10953008",
+      "Mal Adı": "Universal Spatula Beyaz",
+      "Liste Fiyatı (€)": 8.8
+    },
+    {
+      "ABAS No": "10001978",
+      "Berta No": "10953010",
+      "Mal Adı": "Karıştırma Çubuğu (paslanmaz çelik)",
+      "Liste Fiyatı (€)": 65.5
+    },
+    {
+      "ABAS No": "10010066",
+      "Berta No": "10953020",
+      "Mal Adı": "FLEXY Spatulası",
+      "Liste Fiyatı (€)": 13.3
+    },
+    {
+      "ABAS No": "10059417",
+      "Berta No": "10953021",
+      "Mal Adı": "Doğal kıllı düz fırça",
+      "Liste Fiyatı (€)": 8.2
+    },
+    {
+      "ABAS No": "10065455",
+      "Berta No": "10953022",
+      "Mal Adı": "Uzun Fırça 35, CA",
+      "Liste Fiyatı (€)": 6.6
+    },
+    {
+      "ABAS No": "10068373",
+      "Berta No": "10953036",
+      "Mal Adı": "Brush 60, short, flat, Plastic Metal",
+      "Liste Fiyatı (€)": 8.7
+    },
+    {
+      "ABAS No": "10028464",
+      "Berta No": "11000400-39",
+      "Mal Adı": "Çinko Sprey Litho TR/GB 400 ml",
+      "Liste Fiyatı (€)": 20.1
+    },
+    {
+      "ABAS No": "10028465",
+      "Berta No": "11001400-39",
+      "Mal Adı": "Çinko Sprey özel açik TR/GB 400ml",
+      "Liste Fiyatı (€)": 20.1
+    },
+    {
+      "ABAS No": "10028466",
+      "Berta No": "11002400-39",
+      "Mal Adı": "Çinko-Alüminyum Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 17.5
+    },
+    {
+      "ABAS No": "10037415",
+      "Berta No": "11005400-39",
+      "Mal Adı": "Galvaniz Sprey 400 ml",
+      "Liste Fiyatı (€)": 16.2
+    },
+    {
+      "ABAS No": "10028577",
+      "Berta No": "11012400-39",
+      "Mal Adı": "P.Koruma 2000 PLUS ant.TR/GB 400 ml",
+      "Liste Fiyatı (€)": 22.3
+    },
+    {
+      "ABAS No": "10028578",
+      "Berta No": "11013400-39",
+      "Mal Adı": "P.Koruma 2000 PLUS gri TR/GB 400 ml",
+      "Liste Fiyatı (€)": 23.3
+    },
+    {
+      "ABAS No": "10028467",
+      "Berta No": "11050400-39",
+      "Mal Adı": "Alüminyum Sprey A-100 TR/GB 400ml",
+      "Liste Fiyatı (€)": 21.7
+    },
+    {
+      "ABAS No": "10028468",
+      "Berta No": "11051400-39",
+      "Mal Adı": "Alüminyum Sprey A-400 TR/GB 400ml",
+      "Liste Fiyatı (€)": 21.7
+    },
+    {
+      "ABAS No": "10028472",
+      "Berta No": "11100400-39",
+      "Mal Adı": "Paslanmaz Çelik Sprey TR/GB 400ml",
+      "Liste Fiyatı (€)": 21.9
+    },
+    {
+      "ABAS No": "10028473",
+      "Berta No": "11101400-39",
+      "Mal Adı": "Bakır Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 22.5
+    },
+    {
+      "ABAS No": "10028474",
+      "Berta No": "11102400-39",
+      "Mal Adı": "Pirinç Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 22.5
+    },
+    {
+      "ABAS No": "10028475",
+      "Berta No": "11103400-39",
+      "Mal Adı": "Krom-Gümüş Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 20.5
+    },
+    {
+      "ABAS No": "10032104",
+      "Berta No": "11104400-39",
+      "Mal Adı": "P.Çelik Sprey Özel Açık TR/GB 400ml",
+      "Liste Fiyatı (€)": 21.9
+    },
+    {
+      "ABAS No": "10047557",
+      "Berta No": "11105400",
+      "Mal Adı": "Altın Sprey 400 ml",
+      "Liste Fiyatı (€)": 26.8
+    },
+    {
+      "ABAS No": "10028476",
+      "Berta No": "11150400-39",
+      "Mal Adı": "Pas Sökücü Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 12.5
+    },
+    {
+      "ABAS No": "10028477",
+      "Berta No": "11151400-39",
+      "Mal Adı": "Pas Şok Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 23.5
+    },
+    {
+      "ABAS No": "10028478",
+      "Berta No": "11152400-39",
+      "Mal Adı": "Kontak Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 12
+    },
+    {
+      "ABAS No": "10040285",
+      "Berta No": "11154400-39",
+      "Mal Adı": "Pas Sökücü Fluid TR/GB 400 ml",
+      "Liste Fiyatı (€)": 14.7
+    },
+    {
+      "ABAS No": "10048551",
+      "Berta No": "11155400-39",
+      "Mal Adı": "Pas Dönüştürücü TR/GB 400 ml",
+      "Liste Fiyatı (€)": 21.3
+    },
+    {
+      "ABAS No": "10028479",
+      "Berta No": "11200400-39",
+      "Mal Adı": "Multi Köpük Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 15
+    },
+    {
+      "ABAS No": "10028480",
+      "Berta No": "11202400-39",
+      "Mal Adı": "Silikon ve Yap. Sökücü TR/GB 400 ml",
+      "Liste Fiyatı (€)": 18.6
+    },
+    {
+      "ABAS No": "10028481",
+      "Berta No": "11202500-39",
+      "Mal Adı": "Temizleyici S Sprey 500 ml",
+      "Liste Fiyatı (€)": 13.3
+    },
+    {
+      "ABAS No": "10028482",
+      "Berta No": "11203500-39",
+      "Mal Adı": "Fren temizleyici TR/GB 500 ml",
+      "Liste Fiyatı (€)": 12.4
+    },
+    {
+      "ABAS No": "10028576",
+      "Berta No": "11203550-39",
+      "Mal Adı": "Kalıp Temizleyici Sprey TR/GB 500 ml",
+      "Liste Fiyatı (€)": 13.5
+    },
+    {
+      "ABAS No": "10028483",
+      "Berta No": "11204500-39",
+      "Mal Adı": "Plastik Temizl. Sprey TR/GB 500 ml",
+      "Liste Fiyatı (€)": 13.1
+    },
+    {
+      "ABAS No": "10033065",
+      "Berta No": "11205500-39",
+      "Mal Adı": "Brülör Temizleyici TR/GB 500ml",
+      "Liste Fiyatı (€)": 13.8
+    },
+    {
+      "ABAS No": "10028484",
+      "Berta No": "11206500-39",
+      "Mal Adı": "Etiket Çıkartıcı Sprey TR/GB 500 ml",
+      "Liste Fiyatı (€)": 17.6
+    },
+    {
+      "ABAS No": "10024317",
+      "Berta No": "11207150",
+      "Mal Adı": "Yüzey Temizleyici Sprey 150 ml",
+      "Liste Fiyatı (€)": 10.2
+    },
+    {
+      "ABAS No": "10028485",
+      "Berta No": "11207400-39",
+      "Mal Adı": "Yüzey Temizleyici Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 14.5
+    },
+    {
+      "ABAS No": "10028486",
+      "Berta No": "11208200-39",
+      "Mal Adı": "Ekran Temizl. TR/GB 200 ml",
+      "Liste Fiyatı (€)": 14.6
+    },
+    {
+      "ABAS No": "10051975",
+      "Berta No": "11209400-39",
+      "Mal Adı": "Köpük Temizleyici TR/GB 400 ml",
+      "Liste Fiyatı (€)": 15.5
+    },
+    {
+      "ABAS No": "10030714",
+      "Berta No": "11210400-39",
+      "Mal Adı": "Elektro Temizl. Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 21.2
+    },
+    {
+      "ABAS No": "10030715",
+      "Berta No": "11211200-39",
+      "Mal Adı": "Vizör Temizleyici Sprey TR/GB 200 ml",
+      "Liste Fiyatı (€)": 15.6
+    },
+    {
+      "ABAS No": "10040305",
+      "Berta No": "11212500-39",
+      "Mal Adı": "Hızlı Temizleyici TR/GB 500 ml",
+      "Liste Fiyatı (€)": 17.2
+    },
+    {
+      "ABAS No": "10044890",
+      "Berta No": "11213500-39",
+      "Mal Adı": "Genel Temizleyici TR/DE 500 ml",
+      "Liste Fiyatı (€)": 11.2
+    },
+    {
+      "ABAS No": "10056197",
+      "Berta No": "11215500-39",
+      "Mal Adı": "Endüstriyel Temizleyici TR/GB 500 ml",
+      "Liste Fiyatı (€)": 13.3
+    },
+    {
+      "ABAS No": "10032105",
+      "Berta No": "11217400-39",
+      "Mal Adı": "Citrus Temizleyici TR/GB 400 ml",
+      "Liste Fiyatı (€)": 19.9
+    },
+    {
+      "ABAS No": "10000149",
+      "Berta No": "11250150",
+      "Mal Adı": "AT-44 Sprey 150ml",
+      "Liste Fiyatı (€)": 11.6
+    },
+    {
+      "ABAS No": "10028489",
+      "Berta No": "11250400-39",
+      "Mal Adı": "AT-44 Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 22.1
+    },
+    {
+      "ABAS No": "10061646",
+      "Berta No": "11251050-39",
+      "Mal Adı": "W 44 T sprey TR/GB 50 ml",
+      "Liste Fiyatı (€)": 8.9
+    },
+    {
+      "ABAS No": "10015286",
+      "Berta No": "11251200",
+      "Mal Adı": "WEICON W44T Multi-Spray 200 ml DE/EN",
+      "Liste Fiyatı (€)": 8.9
+    },
+    {
+      "ABAS No": "10028490",
+      "Berta No": "11251400-39",
+      "Mal Adı": "W44T Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 13
+    },
+    {
+      "ABAS No": "10039121",
+      "Berta No": "11251550",
+      "Mal Adı": "W44T Multi Başlık Sprey 500 ml",
+      "Liste Fiyatı (€)": 13
+    },
+    {
+      "ABAS No": "10040268",
+      "Berta No": "11253400-39",
+      "Mal Adı": "W 44 T-Fluid TR/GB 400 ml",
+      "Liste Fiyatı (€)": 13.4
+    },
+    {
+      "ABAS No": "10048528",
+      "Berta No": "11260400-39",
+      "Mal Adı": "Pneuma-Lube Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 22.1
+    },
+    {
+      "ABAS No": "10028491",
+      "Berta No": "11300400-39",
+      "Mal Adı": "PTFE-Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 23.9
+    },
+    {
+      "ABAS No": "10040227",
+      "Berta No": "11301400-39",
+      "Mal Adı": "PTFE-Fluid TR/GB 400 ml",
+      "Liste Fiyatı (€)": 30.2
+    },
+    {
+      "ABAS No": "10000152",
+      "Berta No": "11350400",
+      "Mal Adı": "Silikon Sprey 400ml",
+      "Liste Fiyatı (€)": 15.7
+    },
+    {
+      "ABAS No": "10057676",
+      "Berta No": "11351400-39SK",
+      "Mal Adı": "Silikon Sprey NSF TR/GB 400 ml",
+      "Liste Fiyatı (€)": 15.7
+    },
+    {
+      "ABAS No": "10028495",
+      "Berta No": "11400400-39",
+      "Mal Adı": "Kokpit Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 15.8
+    },
+    {
+      "ABAS No": "10000154",
+      "Berta No": "11450400",
+      "Mal Adı": "Kalıp Ayırıcı Sprey 400ml",
+      "Liste Fiyatı (€)": 17.9
+    },
+    {
+      "ABAS No": "10028497",
+      "Berta No": "11451400-39",
+      "Mal Adı": "Alüminyum Zımpara Koruma 400 ml",
+      "Liste Fiyatı (€)": 18.1
+    },
+    {
+      "ABAS No": "10028499",
+      "Berta No": "11510400-39",
+      "Mal Adı": "Top-Lube Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 23.6
+    },
+    {
+      "ABAS No": "10031611",
+      "Berta No": "11511400-39",
+      "Mal Adı": "V-Kayış Spreyi TR/GB 400 ml",
+      "Liste Fiyatı (€)": 18.8
+    },
+    {
+      "ABAS No": "10040244",
+      "Berta No": "11512400-39",
+      "Mal Adı": "Top-Lube-Fluid TR/GB 400 ml",
+      "Liste Fiyatı (€)": 23.5
+    },
+    {
+      "ABAS No": "10028500",
+      "Berta No": "11520400-39",
+      "Mal Adı": "Sıkma Yağ Sprey Beyaz TR/GB 400 ml",
+      "Liste Fiyatı (€)": 18.2
+    },
+    {
+      "ABAS No": "10028501",
+      "Berta No": "11530400-39",
+      "Mal Adı": "MoS2'li Sıkma Yağ Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 21.8
+    },
+    {
+      "ABAS No": "10032208",
+      "Berta No": "11539400-39",
+      "Mal Adı": "AL-MoS2 +400C Lack Sp. TR/GB 400 ml",
+      "Liste Fiyatı (€)": 35.5
+    },
+    {
+      "ABAS No": "10028502",
+      "Berta No": "11540400-39",
+      "Mal Adı": "Tutuş Sıkma Yağ Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 21.8
+    },
+    {
+      "ABAS No": "10028503",
+      "Berta No": "11541400-39",
+      "Mal Adı": "Sıvı Gres -Gıda H1- Sprey TR/GB 400 m",
+      "Liste Fiyatı (€)": 32.7
+    },
+    {
+      "ABAS No": "10028504",
+      "Berta No": "11550400-39",
+      "Mal Adı": "Korozyon önleyici wax TR/GB 400 ml",
+      "Liste Fiyatı (€)": 20.5
+    },
+    {
+      "ABAS No": "10053565",
+      "Berta No": "11551400-39",
+      "Mal Adı": "İzoelektro Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 20.1
+    },
+    {
+      "ABAS No": "10052262",
+      "Berta No": "11553400-39",
+      "Mal Adı": "Tamir Spreyi Beyaz TR/GB 400 ml",
+      "Liste Fiyatı (€)": 27.1
+    },
+    {
+      "ABAS No": "10052263",
+      "Berta No": "11554400-39",
+      "Mal Adı": "Tamir Spreyi Siyah TR/GB 400ml",
+      "Liste Fiyatı (€)": 27.1
+    },
+    {
+      "ABAS No": "10051974",
+      "Berta No": "11555400-39",
+      "Mal Adı": "Tamir Spreyi Gri TR/GB 400ml",
+      "Liste Fiyatı (€)": 27.1
+    },
+    {
+      "ABAS No": "10028235",
+      "Berta No": "11560200",
+      "Mal Adı": "Menteşe ve Kilit Spreyi 200 ml",
+      "Liste Fiyatı (€)": 20.4
+    },
+    {
+      "ABAS No": "10028505",
+      "Berta No": "11580400-39",
+      "Mal Adı": "Metal-Fluid Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 22.7
+    },
+    {
+      "ABAS No": "10013907",
+      "Berta No": "11590050",
+      "Mal Adı": "Paslanmaz Çelik Bakim Sprey 1 L",
+      "Liste Fiyatı (€)": 11.2
+    },
+    {
+      "ABAS No": "10028506",
+      "Berta No": "11590400-39",
+      "Mal Adı": "P.Çelik Bakım Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 21.8
+    },
+    {
+      "ABAS No": "10061082",
+      "Berta No": "11591400-39",
+      "Mal Adı": "P.Çelik Bakım NSF TR/GB 400ml",
+      "Liste Fiyatı (€)": 25.7
+    },
+    {
+      "ABAS No": "10061095",
+      "Berta No": "11600200-39",
+      "Mal Adı": "Bio-Fluid-Sprey TR/GB 200 ml",
+      "Liste Fiyatı (€)": 19.5
+    },
+    {
+      "ABAS No": "10028507",
+      "Berta No": "11600500-39",
+      "Mal Adı": "Bio-Fluid Sprey TR/GB 500ml",
+      "Liste Fiyatı (€)": 21.2
+    },
+    {
+      "ABAS No": "10028508",
+      "Berta No": "11610400-39",
+      "Mal Adı": "Soğutucu Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 26.7
+    },
+    {
+      "ABAS No": "10028575",
+      "Berta No": "11620400-39",
+      "Mal Adı": "Basınçlı Hava Sprey TR/GB 400 m",
+      "Liste Fiyatı (€)": 22.4
+    },
+    {
+      "ABAS No": "10028509",
+      "Berta No": "11630400-39",
+      "Mal Adı": "Sakız Çıkartıcı Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 28.1
+    },
+    {
+      "ABAS No": "10032329",
+      "Berta No": "11640150-39",
+      "Mal Adı": "Duman det. test Spreyi TR/GB 150 ml",
+      "Liste Fiyatı (€)": 27.9
+    },
+    {
+      "ABAS No": "10032332",
+      "Berta No": "11640250-39",
+      "Mal Adı": "Duman det. test Spreyi TR/GB 250 ml",
+      "Liste Fiyatı (€)": 39.3
+    },
+    {
+      "ABAS No": "10061107",
+      "Berta No": "11641250-39",
+      "Mal Adı": "Duman Dedektör Test TR/GB 250ml",
+      "Liste Fiyatı (€)": 60
+    },
+    {
+      "ABAS No": "10028510",
+      "Berta No": "11651400-39",
+      "Mal Adı": "Kaçak Arama Sprey TR/GB 400ml",
+      "Liste Fiyatı (€)": 16.7
+    },
+    {
+      "ABAS No": "10046666",
+      "Berta No": "11652400-39",
+      "Mal Adı": "Kaçak Arama Spr S TR/GB 400ml",
+      "Liste Fiyatı (€)": 15.7
+    },
+    {
+      "ABAS No": "10033507",
+      "Berta No": "11653400",
+      "Mal Adı": "Kaçak Arama Sprey kalın",
+      "Liste Fiyatı (€)": 17.1
+    },
+    {
+      "ABAS No": "10061428",
+      "Berta No": "11654400-39",
+      "Mal Adı": "Kaçak Arama Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 16.4
+    },
+    {
+      "ABAS No": "10033339",
+      "Berta No": "11660400-39",
+      "Mal Adı": "Marş Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 19.4
+    },
+    {
+      "ABAS No": "10048557",
+      "Berta No": "11690500-39",
+      "Mal Adı": "Çatlak Kontrol S Dif.Mad. TR/GB 500 ml",
+      "Liste Fiyatı (€)": 34.1
+    },
+    {
+      "ABAS No": "10048556",
+      "Berta No": "11691500-39",
+      "Mal Adı": "Kont. Özel Geliş TR/GB 500 ml",
+      "Liste Fiyatı (€)": 32.9
+    },
+    {
+      "ABAS No": "10048553",
+      "Berta No": "11692500-39",
+      "Mal Adı": "Çatlak Kont.Temizl. TR/GB 500ml",
+      "Liste Fiyatı (€)": 21
+    },
+    {
+      "ABAS No": "10028511",
+      "Berta No": "11700400-39",
+      "Mal Adı": "Kaynak Koruma Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 11.3
+    },
+    {
+      "ABAS No": "10060743",
+      "Berta No": "11702400-39",
+      "Mal Adı": "Seramik Kaynak Koruma S. TR/GB 400 ml",
+      "Liste Fiyatı (€)": 50.1
+    },
+    {
+      "ABAS No": "10102439",
+      "Berta No": "11720400-39",
+      "Mal Adı": "Kaynak Koruma Spreyi HP TR/GB 400 ml",
+      "Liste Fiyatı (€)": 10.9
+    },
+    {
+      "ABAS No": "10028512",
+      "Berta No": "11750400-39",
+      "Mal Adı": "Bio-Cut Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 25.1
+    },
+    {
+      "ABAS No": "10028513",
+      "Berta No": "11800500-39",
+      "Mal Adı": "Yapıştırıcı Sprey güçlü TR/GB 500 ml",
+      "Liste Fiyatı (€)": 22.7
+    },
+    {
+      "ABAS No": "10028514",
+      "Berta No": "11801500-39",
+      "Mal Adı": "Yapışt. Sprey Çok güçlü TR/GB 500 ml",
+      "Liste Fiyatı (€)": 26.2
+    },
+    {
+      "ABAS No": "10028515",
+      "Berta No": "11802500-39",
+      "Mal Adı": "Yapıştırıcı çöz. TR/GB 500ml",
+      "Liste Fiyatı (€)": 21.3
+    },
+    {
+      "ABAS No": "10028516",
+      "Berta No": "11850200-39",
+      "Mal Adı": "El Koruma Köpüğü 250 ml TR/EN",
+      "Liste Fiyatı (€)": 28.2
+    },
+    {
+      "ABAS No": "10044969",
+      "Berta No": "11953058",
+      "Mal Adı": "Double Nozzle",
+      "Liste Fiyatı (€)": 3.1
+    },
+    {
+      "ABAS No": "10049664",
+      "Berta No": "12000020-39",
+      "Mal Adı": "VA 20 TR/GB 20 g",
+      "Liste Fiyatı (€)": 18.1
+    },
+    {
+      "ABAS No": "10016618",
+      "Berta No": "12000030",
+      "Mal Adı": "Contact VA 20 30 g",
+      "Liste Fiyatı (€)": 24.7
+    },
+    {
+      "ABAS No": "10019781",
+      "Berta No": "12000060",
+      "Mal Adı": "Contact VA 20 60 g",
+      "Liste Fiyatı (€)": 46
+    },
+    {
+      "ABAS No": "10033229",
+      "Berta No": "12000500-39",
+      "Mal Adı": "VA 20 TR/GB 500 g",
+      "Liste Fiyatı (€)": 263.4
+    },
+    {
+      "ABAS No": "10001191",
+      "Berta No": "12050001",
+      "Mal Adı": "Contact VA 100 3g",
+      "Liste Fiyatı (€)": 8.4
+    },
+    {
+      "ABAS No": "10032873",
+      "Berta No": "12050020-39",
+      "Mal Adı": "VA 100 mavi TR/GB 20 g",
+      "Liste Fiyatı (€)": 18
+    },
+    {
+      "ABAS No": "10039326",
+      "Berta No": "12050030-39",
+      "Mal Adı": "Contact VA 100 TR/GB 30 g",
+      "Liste Fiyatı (€)": 24.8
+    },
+    {
+      "ABAS No": "10041261",
+      "Berta No": "12050060-39",
+      "Mal Adı": "Contact VA 100 TR/GB 60 g",
+      "Liste Fiyatı (€)": 46.1
+    },
+    {
+      "ABAS No": "10033230",
+      "Berta No": "12050500-39",
+      "Mal Adı": "Contact VA 100 TR/GB 500 g",
+      "Liste Fiyatı (€)": 262.3
+    },
+    {
+      "ABAS No": "10031926",
+      "Berta No": "12052030",
+      "Mal Adı": "Contact VA 110 30g",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10033865",
+      "Berta No": "12052060",
+      "Mal Adı": "Contact VA 110 60 g",
+      "Liste Fiyatı (€)": 65.3
+    },
+    {
+      "ABAS No": "10031927",
+      "Berta No": "12052500",
+      "Mal Adı": "Contact VA 110 500g",
+      "Liste Fiyatı (€)": 610.3
+    },
+    {
+      "ABAS No": "10033171",
+      "Berta No": "12054020-39",
+      "Mal Adı": "Contact VA 1401 TR/GB 20 g",
+      "Liste Fiyatı (€)": 20.3
+    },
+    {
+      "ABAS No": "10039327",
+      "Berta No": "12054030-39",
+      "Mal Adı": "Contact VA 1401 TR/GB 30 g",
+      "Liste Fiyatı (€)": 26.7
+    },
+    {
+      "ABAS No": "10039324",
+      "Berta No": "12054060-39",
+      "Mal Adı": "Contact VA 1401 TR/GB 60 g",
+      "Liste Fiyatı (€)": 51.2
+    },
+    {
+      "ABAS No": "10033231",
+      "Berta No": "12054500-39",
+      "Mal Adı": "Contact VA 1401 TR/GB 500g",
+      "Liste Fiyatı (€)": 266.9
+    },
+    {
+      "ABAS No": "10049665",
+      "Berta No": "12100020-39",
+      "Mal Adı": "Contact VA 300 mavi TR/GB 20 g",
+      "Liste Fiyatı (€)": 19.5
+    },
+    {
+      "ABAS No": "10016510",
+      "Berta No": "12100030",
+      "Mal Adı": "Contact VA 300 30 g",
+      "Liste Fiyatı (€)": 29.6
+    },
+    {
+      "ABAS No": "10019789",
+      "Berta No": "12100060",
+      "Mal Adı": "Contact VA 300 60 g",
+      "Liste Fiyatı (€)": 57.7
+    },
+    {
+      "ABAS No": "10049190",
+      "Berta No": "12100500-39",
+      "Mal Adı": "Contact VA 300 TR/GB 500 g",
+      "Liste Fiyatı (€)": 297.9
+    },
+    {
+      "ABAS No": "10000235",
+      "Berta No": "12150020",
+      "Mal Adı": "Contact VA 1500 20 g",
+      "Liste Fiyatı (€)": 19.1
+    },
+    {
+      "ABAS No": "10016434",
+      "Berta No": "12150030",
+      "Mal Adı": "Contact VA 1500 30 g",
+      "Liste Fiyatı (€)": 24.7
+    },
+    {
+      "ABAS No": "10019791",
+      "Berta No": "12150060",
+      "Mal Adı": "Contact VA 1500 60 g",
+      "Liste Fiyatı (€)": 45.7
+    },
+    {
+      "ABAS No": "10039333",
+      "Berta No": "12150500-39",
+      "Mal Adı": "Contact VA 1500 TR/GB 500 g",
+      "Liste Fiyatı (€)": 261.4
+    },
+    {
+      "ABAS No": "10049666",
+      "Berta No": "12200020-39",
+      "Mal Adı": "Contact VA 8312 TR/GB 20 g",
+      "Liste Fiyatı (€)": 17.9
+    },
+    {
+      "ABAS No": "10039328",
+      "Berta No": "12200030-39",
+      "Mal Adı": "Contact VA 8312 TR/GB 30 g",
+      "Liste Fiyatı (€)": 24.7
+    },
+    {
+      "ABAS No": "10019793",
+      "Berta No": "12200060",
+      "Mal Adı": "Contact VA 8312 60 g",
+      "Liste Fiyatı (€)": 45.7
+    },
+    {
+      "ABAS No": "10000242",
+      "Berta No": "12200500",
+      "Mal Adı": "Contact VA 8312 500 g",
+      "Liste Fiyatı (€)": 261.4
+    },
+    {
+      "ABAS No": "10101681",
+      "Berta No": "12204003",
+      "Mal Adı": "Contact VA 8406 3 g",
+      "Liste Fiyatı (€)": 9.3
+    },
+    {
+      "ABAS No": "10033687",
+      "Berta No": "12204020-39",
+      "Mal Adı": "Contact VA 8406 TR/GB 20 g",
+      "Liste Fiyatı (€)": 20.2
+    },
+    {
+      "ABAS No": "10039332",
+      "Berta No": "12204030-39",
+      "Mal Adı": "VA 8406 TR/GB 30 g",
+      "Liste Fiyatı (€)": 26.7
+    },
+    {
+      "ABAS No": "10042187",
+      "Berta No": "12204060-39",
+      "Mal Adı": "Contact VA 8406 TR/GB 60 g",
+      "Liste Fiyatı (€)": 51.2
+    },
+    {
+      "ABAS No": "10033232",
+      "Berta No": "12204500-39",
+      "Mal Adı": "Contact VA 8406 TR/GB 500 g",
+      "Liste Fiyatı (€)": 266.9
+    },
+    {
+      "ABAS No": "10103433",
+      "Berta No": "12210500-39",
+      "Mal Adı": "Contact VA 1400 TR/GB 500g",
+      "Liste Fiyatı (€)": 278.1
+    },
+    {
+      "ABAS No": "10016514",
+      "Berta No": "12250030",
+      "Mal Adı": "Contact VA 1460 30 g",
+      "Liste Fiyatı (€)": 28.3
+    },
+    {
+      "ABAS No": "10019796",
+      "Berta No": "12250060",
+      "Mal Adı": "Contact VA 1460 60 g",
+      "Liste Fiyatı (€)": 55
+    },
+    {
+      "ABAS No": "10000247",
+      "Berta No": "12250500",
+      "Mal Adı": "Contact VA 1460 500 g",
+      "Liste Fiyatı (€)": 284
+    },
+    {
+      "ABAS No": "10016512",
+      "Berta No": "12252030",
+      "Mal Adı": "Contact VA 1403 30 g",
+      "Liste Fiyatı (€)": 28.3
+    },
+    {
+      "ABAS No": "10019798",
+      "Berta No": "12252060",
+      "Mal Adı": "Contact VA 1403 60 g",
+      "Liste Fiyatı (€)": 55
+    },
+    {
+      "ABAS No": "10049194",
+      "Berta No": "12252500-39",
+      "Mal Adı": "ContactVA 1403 TR/GB 500 g",
+      "Liste Fiyatı (€)": 286.3
+    },
+    {
+      "ABAS No": "10015975",
+      "Berta No": "12253020",
+      "Mal Adı": "WEICON Contact VA 1408 20 g",
+      "Liste Fiyatı (€)": 20.5
+    },
+    {
+      "ABAS No": "10042176",
+      "Berta No": "12253030-39",
+      "Mal Adı": "Contact VA 1408 TR/GB 30 g",
+      "Liste Fiyatı (€)": 28.3
+    },
+    {
+      "ABAS No": "10019800",
+      "Berta No": "12253060",
+      "Mal Adı": "Contact VA 1408 60 g",
+      "Liste Fiyatı (€)": 55
+    },
+    {
+      "ABAS No": "10039334",
+      "Berta No": "12253500-39",
+      "Mal Adı": "Contact VA 1408 TR/GB 500 g",
+      "Liste Fiyatı (€)": 284.2
+    },
+    {
+      "ABAS No": "10000251",
+      "Berta No": "12300020",
+      "Mal Adı": "WEICON Contact VM 20 20 g",
+      "Liste Fiyatı (€)": 20.2
+    },
+    {
+      "ABAS No": "10019853",
+      "Berta No": "12300030",
+      "Mal Adı": "Contact VM 20 30 g",
+      "Liste Fiyatı (€)": 27.8
+    },
+    {
+      "ABAS No": "10019857",
+      "Berta No": "12300060",
+      "Mal Adı": "Contact VM 20 60 g",
+      "Liste Fiyatı (€)": 52.8
+    },
+    {
+      "ABAS No": "10000254",
+      "Berta No": "12300500",
+      "Mal Adı": "Contact VM 20 500 g",
+      "Liste Fiyatı (€)": 276.2
+    },
+    {
+      "ABAS No": "10000258",
+      "Berta No": "12350020",
+      "Mal Adı": "Contact VM 120 20 g",
+      "Liste Fiyatı (€)": 20.3
+    },
+    {
+      "ABAS No": "10019859",
+      "Berta No": "12350030",
+      "Mal Adı": "Contact VM 120 30 g",
+      "Liste Fiyatı (€)": 27.3
+    },
+    {
+      "ABAS No": "10019863",
+      "Berta No": "12350060",
+      "Mal Adı": "Contact VM 120 60 g",
+      "Liste Fiyatı (€)": 52.8
+    },
+    {
+      "ABAS No": "10000262",
+      "Berta No": "12350500",
+      "Mal Adı": "Contact VM 120 500 g",
+      "Liste Fiyatı (€)": 274.7
+    },
+    {
+      "ABAS No": "10039329",
+      "Berta No": "12400030-39",
+      "Mal Adı": "Contact VM 2000 TR/GB 30 g",
+      "Liste Fiyatı (€)": 27.7
+    },
+    {
+      "ABAS No": "10042193",
+      "Berta No": "12400060-39",
+      "Mal Adı": "Contact VM 2000 TR/GB 60 g",
+      "Liste Fiyatı (€)": 50.8
+    },
+    {
+      "ABAS No": "10000270",
+      "Berta No": "12400500",
+      "Mal Adı": "Contact VM 2000 500 g",
+      "Liste Fiyatı (€)": 276.1
+    },
+    {
+      "ABAS No": "10034123",
+      "Berta No": "12450010-39",
+      "Mal Adı": "Contact Primer TR/GB 10 ml",
+      "Liste Fiyatı (€)": 24.7
+    },
+    {
+      "ABAS No": "10033266",
+      "Berta No": "12450100-39",
+      "Mal Adı": "Contact Primer TR/GB 100 ml",
+      "Liste Fiyatı (€)": 202.8
+    },
+    {
+      "ABAS No": "10059034",
+      "Berta No": "12470012",
+      "Mal Adı": "CA-Sökücü 12ml Pen",
+      "Liste Fiyatı (€)": 25.1
+    },
+    {
+      "ABAS No": "10051358",
+      "Berta No": "12470030",
+      "Mal Adı": "CA-Sökücü 30ml Pen",
+      "Liste Fiyatı (€)": 41.7
+    },
+    {
+      "ABAS No": "10033481",
+      "Berta No": "12500120-39",
+      "Mal Adı": "Contact GEL TR/GB 20 g",
+      "Liste Fiyatı (€)": 21.2
+    },
+    {
+      "ABAS No": "10018589",
+      "Berta No": "12500130",
+      "Mal Adı": "Contact Jöle 30 g",
+      "Liste Fiyatı (€)": 29.4
+    },
+    {
+      "ABAS No": "10033730",
+      "Berta No": "12500150-39",
+      "Mal Adı": "CA-Activatör Sprey TR/GB 150 ml",
+      "Liste Fiyatı (€)": 26.5
+    },
+    {
+      "ABAS No": "10065735",
+      "Berta No": "12502150-39",
+      "Mal Adı": "CA-Activator PS TR/GB 150 ml",
+      "Liste Fiyatı (€)": 26.5
+    },
+    {
+      "ABAS No": "10065811",
+      "Berta No": "12505150-39",
+      "Mal Adı": "CA-Activatör Sprey AC TR/GB 150 ml",
+      "Liste Fiyatı (€)": 24.5
+    },
+    {
+      "ABAS No": "10012295",
+      "Berta No": "12550020",
+      "Mal Adı": "WEICON Contact VA 2500HT 20 g",
+      "Liste Fiyatı (€)": 34.6
+    },
+    {
+      "ABAS No": "10016398",
+      "Berta No": "12550030",
+      "Mal Adı": "Contact VA 2500 H 30 g",
+      "Liste Fiyatı (€)": 41.2
+    },
+    {
+      "ABAS No": "10019803",
+      "Berta No": "12550060",
+      "Mal Adı": "Contact VA 2500 HT 60 g",
+      "Liste Fiyatı (€)": 72.1
+    },
+    {
+      "ABAS No": "10012291",
+      "Berta No": "12550500",
+      "Mal Adı": "Contact VA 2500 HT",
+      "Liste Fiyatı (€)": 584.8
+    },
+    {
+      "ABAS No": "10033690",
+      "Berta No": "12600020-39",
+      "Mal Adı": "VA 250 Siyah TR/GB 20 g",
+      "Liste Fiyatı (€)": 28.4
+    },
+    {
+      "ABAS No": "10039330",
+      "Berta No": "12600030-39",
+      "Mal Adı": "WEICON VA 250 siyah TR/GB 30 g",
+      "Liste Fiyatı (€)": 40.1
+    },
+    {
+      "ABAS No": "10019805",
+      "Berta No": "12600060",
+      "Mal Adı": "Contact VA 250 siyah 60 g",
+      "Liste Fiyatı (€)": 78.8
+    },
+    {
+      "ABAS No": "10033238",
+      "Berta No": "12600500-39",
+      "Mal Adı": "VA 250 black TR/GB 500 g",
+      "Liste Fiyatı (€)": 657.7
+    },
+    {
+      "ABAS No": "10033695",
+      "Berta No": "12603020-39",
+      "Mal Adı": "VA 30 black TR/GB 20 g",
+      "Liste Fiyatı (€)": 26.2
+    },
+    {
+      "ABAS No": "10039325",
+      "Berta No": "12603030-39",
+      "Mal Adı": "Contact VA 30 Siyah TR/GB 30 g",
+      "Liste Fiyatı (€)": 40.1
+    },
+    {
+      "ABAS No": "10056909",
+      "Berta No": "12603050-39",
+      "Mal Adı": "Contact VA 30 siyah TR/GB 50 g",
+      "Liste Fiyatı (€)": 62.7
+    },
+    {
+      "ABAS No": "10025829",
+      "Berta No": "12603060",
+      "Mal Adı": "Contact VA 30 Siyah 60 g",
+      "Liste Fiyatı (€)": 82.8
+    },
+    {
+      "ABAS No": "10033463",
+      "Berta No": "12603500-39",
+      "Mal Adı": "Contact VA 30 Siyah TR/GB 500 g",
+      "Liste Fiyatı (€)": 644.9
+    },
+    {
+      "ABAS No": "10012382",
+      "Berta No": "12650030",
+      "Mal Adı": "Contact Doldurucu 30 g",
+      "Liste Fiyatı (€)": 17
+    },
+    {
+      "ABAS No": "10063334",
+      "Berta No": "12651030-39",
+      "Mal Adı": "WEICON Kontakt Dolgu Siyah TR/GB 30 g",
+      "Liste Fiyatı (€)": 11.8
+    },
+    {
+      "ABAS No": "10063885",
+      "Berta No": "12800010-39",
+      "Mal Adı": "VA 2407 TR/GB 10 g",
+      "Liste Fiyatı (€)": 42.6
+    },
+    {
+      "ABAS No": "10063909",
+      "Berta No": "12800050-39",
+      "Mal Adı": "VA 2407 TR/GB 50 g",
+      "Liste Fiyatı (€)": 152.1
+    },
+    {
+      "ABAS No": "10063367",
+      "Berta No": "12890001-39",
+      "Mal Adı": "WEICON Kontakt Dolgu Set Şeffaf TR/GB",
+      "Liste Fiyatı (€)": 40.2
+    },
+    {
+      "ABAS No": "10063375",
+      "Berta No": "12891001-39",
+      "Mal Adı": "WEICON Kontakt Dolgu Set Siyah TR/GB",
+      "Liste Fiyatı (€)": 40.2
+    },
+    {
+      "ABAS No": "10019777",
+      "Berta No": "12955032",
+      "Mal Adı": "Weicon Şişe 60 gr",
+      "Liste Fiyatı (€)": 0.8
+    },
+    {
+      "ABAS No": "10068262",
+      "Berta No": "12955170",
+      "Mal Adı": "Dozaj Ucu boyut 0",
+      "Liste Fiyatı (€)": 3.1
+    },
+    {
+      "ABAS No": "10068261",
+      "Berta No": "12955175",
+      "Mal Adı": "Dozaj Ucu Tipo A",
+      "Liste Fiyatı (€)": 5.9
+    },
+    {
+      "ABAS No": "10002106",
+      "Berta No": "12955311",
+      "Mal Adı": "VA 500 g Şeffaf Uç",
+      "Liste Fiyatı (€)": 33.1
+    },
+    {
+      "ABAS No": "10000408",
+      "Berta No": "13000085",
+      "Mal Adı": "Silikon A şeffaf 85ml",
+      "Liste Fiyatı (€)": 16.8
+    },
+    {
+      "ABAS No": "10028559",
+      "Berta No": "13000310-39",
+      "Mal Adı": "Silikon A şeffaf TR/GB 310ml",
+      "Liste Fiyatı (€)": 30.6
+    },
+    {
+      "ABAS No": "10028560",
+      "Berta No": "13001310-39",
+      "Mal Adı": "Silikon A beyaz DE/GB/TR 310 ml",
+      "Liste Fiyatı (€)": 30.6
+    },
+    {
+      "ABAS No": "10000418",
+      "Berta No": "13002310",
+      "Mal Adı": "Silikon A alüminyum gri 310ml",
+      "Liste Fiyatı (€)": 30.6
+    },
+    {
+      "ABAS No": "10028562",
+      "Berta No": "13003310-39",
+      "Mal Adı": "Silikon A siyah TR/GB/DE 310ml",
+      "Liste Fiyatı (€)": 30.6
+    },
+    {
+      "ABAS No": "10061146",
+      "Berta No": "13008310-39",
+      "Mal Adı": "Silikon LP transparan TR/GB 310 ml",
+      "Liste Fiyatı (€)": 41.4
+    },
+    {
+      "ABAS No": "10054135",
+      "Berta No": "13009310-39",
+      "Mal Adı": "Silikon LP BEYAZ TR/GB 310 ml",
+      "Liste Fiyatı (€)": 39.8
+    },
+    {
+      "ABAS No": "10049785",
+      "Berta No": "13050085-39",
+      "Mal Adı": "Silikon HT-300 TR/GB 85 ml",
+      "Liste Fiyatı (€)": 18.1
+    },
+    {
+      "ABAS No": "10028558",
+      "Berta No": "13050310-39",
+      "Mal Adı": "Silikon HT 300 TR/GB/DE 310 ml",
+      "Liste Fiyatı (€)": 29.6
+    },
+    {
+      "ABAS No": "10049786",
+      "Berta No": "13051085-39",
+      "Mal Adı": "Black-Seal özel Silikon TR/GB 85ml",
+      "Liste Fiyatı (€)": 18.6
+    },
+    {
+      "ABAS No": "10028544",
+      "Berta No": "13051200-39",
+      "Mal Adı": "Black-Seal Özel Silikon TR/GB 200 ml",
+      "Liste Fiyatı (€)": 43.5
+    },
+    {
+      "ABAS No": "10028545",
+      "Berta No": "13051310-39",
+      "Mal Adı": "Black-Seal Özel Silikon TR/GB 310 ml",
+      "Liste Fiyatı (€)": 32.2
+    },
+    {
+      "ABAS No": "10031260",
+      "Berta No": "13200310-39",
+      "Mal Adı": "Silikon F şeffaf TR/GB 310 ml",
+      "Liste Fiyatı (€)": 37.3
+    },
+    {
+      "ABAS No": "10000441",
+      "Berta No": "13250001",
+      "Mal Adı": "Kartüş Tabancası standard",
+      "Liste Fiyatı (€)": 44.7
+    },
+    {
+      "ABAS No": "10020751",
+      "Berta No": "13250002",
+      "Mal Adı": "Kartüş Tabancası özel",
+      "Liste Fiyatı (€)": 133.6
+    },
+    {
+      "ABAS No": "10028547",
+      "Berta No": "13300310-39",
+      "Mal Adı": "Flex 310 beyaz 300 ml DE/GB/TR",
+      "Liste Fiyatı (€)": 24.8
+    },
+    {
+      "ABAS No": "10028548",
+      "Berta No": "13301310-39",
+      "Mal Adı": "Flex 310 siyah TR/GB 300 ml",
+      "Liste Fiyatı (€)": 24.8
+    },
+    {
+      "ABAS No": "10002573",
+      "Berta No": "13302310",
+      "Mal Adı": "Flex 310 gri 300ml",
+      "Liste Fiyatı (€)": 24.8
+    },
+    {
+      "ABAS No": "10057238",
+      "Berta No": "13303200",
+      "Mal Adı": "Flex 310 M Klasik Presspack 200 ml",
+      "Liste Fiyatı (€)": 44.3
+    },
+    {
+      "ABAS No": "10028555",
+      "Berta No": "13303310-39",
+      "Mal Adı": "Flex 310 M Klasik beyaz TR/GB 310 ml",
+      "Liste Fiyatı (€)": 30.7
+    },
+    {
+      "ABAS No": "10057245",
+      "Berta No": "13304200",
+      "Mal Adı": "Flex 310 M siyah Presspack 200ml",
+      "Liste Fiyatı (€)": 44.3
+    },
+    {
+      "ABAS No": "10028556",
+      "Berta No": "13304310-39",
+      "Mal Adı": "Flex 310 M Klasik siyah TR/GB 310 ml",
+      "Liste Fiyatı (€)": 30.7
+    },
+    {
+      "ABAS No": "10057240",
+      "Berta No": "13305200",
+      "Mal Adı": "Flex 310 M Klasik gri Presspack 200 ml",
+      "Liste Fiyatı (€)": 41.8
+    },
+    {
+      "ABAS No": "10032070",
+      "Berta No": "13305250-39",
+      "Mal Adı": "Flex 310M 2K hızlı sert. TR/GB 250 ml",
+      "Liste Fiyatı (€)": 71.6
+    },
+    {
+      "ABAS No": "10028557",
+      "Berta No": "13305310-39",
+      "Mal Adı": "Flex 310 M Klasik gri TR/GB 310 ml",
+      "Liste Fiyatı (€)": 30.7
+    },
+    {
+      "ABAS No": "10062367",
+      "Berta No": "13305400-39",
+      "Mal Adı": "Flex 310M 2K hızlı sert TR/GB 400 ml",
+      "Liste Fiyatı (€)": 117.9
+    },
+    {
+      "ABAS No": "10103245",
+      "Berta No": "13306310-39",
+      "Mal Adı": "GT Flex 310 M F1X gri TR/GB 280 ml",
+      "Liste Fiyatı (€)": 24.2
+    },
+    {
+      "ABAS No": "10057247",
+      "Berta No": "13308200",
+      "Mal Adı": "Flex 310 M Kristal Presspack 200 ml",
+      "Liste Fiyatı (€)": 43.5
+    },
+    {
+      "ABAS No": "10028552",
+      "Berta No": "13308310-39",
+      "Mal Adı": "Flex 310 M Kristal TR/GB 310 ml",
+      "Liste Fiyatı (€)": 31
+    },
+    {
+      "ABAS No": "10015372",
+      "Berta No": "13309310",
+      "Mal Adı": "Fast-Bond 310ml",
+      "Liste Fiyatı (€)": 24.9
+    },
+    {
+      "ABAS No": "10027692",
+      "Berta No": "13309997",
+      "Mal Adı": "Flex 310 M >2K< karıştırma ucu",
+      "Liste Fiyatı (€)": 11
+    },
+    {
+      "ABAS No": "10049781",
+      "Berta No": "13350085-39",
+      "Mal Adı": "Flex+bond Beyaz TR/GB 85 ml",
+      "Liste Fiyatı (€)": 20.2
+    },
+    {
+      "ABAS No": "10049782",
+      "Berta No": "13351085-39",
+      "Mal Adı": "Flex+bond gri TR/GB 85 ml",
+      "Liste Fiyatı (€)": 20.2
+    },
+    {
+      "ABAS No": "10049783",
+      "Berta No": "13352085-39",
+      "Mal Adı": "Flex+bond siyah TR/GB 85 ml",
+      "Liste Fiyatı (€)": 20.2
+    },
+    {
+      "ABAS No": "10039396",
+      "Berta No": "13352200",
+      "Mal Adı": "Flex+Bond Siyah 200ml",
+      "Liste Fiyatı (€)": 37.8
+    },
+    {
+      "ABAS No": "10049784",
+      "Berta No": "13353085-39",
+      "Mal Adı": "Flex+bond şeffaf TR/GB 85 ml",
+      "Liste Fiyatı (€)": 20.2
+    },
+    {
+      "ABAS No": "10061159",
+      "Berta No": "13372310-39",
+      "Mal Adı": "Flex 310 M Pro Yapıştırıcı TR/GB 310ml",
+      "Liste Fiyatı (€)": 35
+    },
+    {
+      "ABAS No": "10061172",
+      "Berta No": "13375310-39",
+      "Mal Adı": "Flex 310 M FireSeal TR/GB 310 ml",
+      "Liste Fiyatı (€)": 42.2
+    },
+    {
+      "ABAS No": "10031259",
+      "Berta No": "13400310-39",
+      "Mal Adı": "Silikon N şeffaf TR/GB 310 ml",
+      "Liste Fiyatı (€)": 27.2
+    },
+    {
+      "ABAS No": "10061187",
+      "Berta No": "13550102-39",
+      "Mal Adı": "Primer M 100 TR/GB 25 ml",
+      "Liste Fiyatı (€)": 16.1
+    },
+    {
+      "ABAS No": "10033067",
+      "Berta No": "13550125-39",
+      "Mal Adı": "Primer M 100 TR/GB 250 ml",
+      "Liste Fiyatı (€)": 63.8
+    },
+    {
+      "ABAS No": "10061200",
+      "Berta No": "13550202-39",
+      "Mal Adı": "Primer K 200 TR/GB 25 ml",
+      "Liste Fiyatı (€)": 16.1
+    },
+    {
+      "ABAS No": "10033068",
+      "Berta No": "13550225-39",
+      "Mal Adı": "Primer K 200 TR/GB 250 ml",
+      "Liste Fiyatı (€)": 64.2
+    },
+    {
+      "ABAS No": "10061213",
+      "Berta No": "13550302-39",
+      "Mal Adı": "Primer S 300 TR/GB 25 ml",
+      "Liste Fiyatı (€)": 19.9
+    },
+    {
+      "ABAS No": "10023568",
+      "Berta No": "13550325",
+      "Mal Adı": "Primer S 300 250 ml",
+      "Liste Fiyatı (€)": 67.7
+    },
+    {
+      "ABAS No": "10061226",
+      "Berta No": "13550402-39",
+      "Mal Adı": "Primer P 400 TR/GB 25 ml",
+      "Liste Fiyatı (€)": 15.4
+    },
+    {
+      "ABAS No": "10033070",
+      "Berta No": "13550425-39",
+      "Mal Adı": "Primer P 400 TR/GB 250 ml",
+      "Liste Fiyatı (€)": 61.8
+    },
+    {
+      "ABAS No": "10063399",
+      "Berta No": "13551400-39",
+      "Mal Adı": "Aktivatör Temizleyici TR/GB 400 ml",
+      "Liste Fiyatı (€)": 22.6
+    },
+    {
+      "ABAS No": "10061238",
+      "Berta No": "13558002-39",
+      "Mal Adı": "Primer E 500 TR/GB 25 ml",
+      "Liste Fiyatı (€)": 23.6
+    },
+    {
+      "ABAS No": "10035220",
+      "Berta No": "13558025",
+      "Mal Adı": "Primer E 500 250 ml",
+      "Liste Fiyatı (€)": 95.6
+    },
+    {
+      "ABAS No": "10038838",
+      "Berta No": "13559500",
+      "Mal Adı": "Düzeltme malzemesi Basınçlı püskürtücü",
+      "Liste Fiyatı (€)": 20.4
+    },
+    {
+      "ABAS No": "10039360",
+      "Berta No": "13559505",
+      "Mal Adı": "Düzeltme malzemesi 5 L",
+      "Liste Fiyatı (€)": 101.3
+    },
+    {
+      "ABAS No": "10028563",
+      "Berta No": "13600310-39",
+      "Mal Adı": "Speed Flex beyaz TR/GB 310 ml",
+      "Liste Fiyatı (€)": 34
+    },
+    {
+      "ABAS No": "10019652",
+      "Berta No": "13601310",
+      "Mal Adı": "Speed-Flex siyah 310 ml",
+      "Liste Fiyatı (€)": 32.6
+    },
+    {
+      "ABAS No": "10028564",
+      "Berta No": "13602310-39",
+      "Mal Adı": "Speed Flex gri TR/GB 310 ml",
+      "Liste Fiyatı (€)": 34
+    },
+    {
+      "ABAS No": "10045357",
+      "Berta No": "13608310-39",
+      "Mal Adı": "Speed-Flex Kristal TR/GB 310ml",
+      "Liste Fiyatı (€)": 33
+    },
+    {
+      "ABAS No": "10028553",
+      "Berta No": "13650290-39",
+      "Mal Adı": "Flex 310 M Süper Tutuş TR/GB 290 ml",
+      "Liste Fiyatı (€)": 34.1
+    },
+    {
+      "ABAS No": "10028554",
+      "Berta No": "13652290-39",
+      "Mal Adı": "Flex 310M Süper T. gri TR/GB 290 ml",
+      "Liste Fiyatı (€)": 34.1
+    },
+    {
+      "ABAS No": "10028551",
+      "Berta No": "13655310-39",
+      "Mal Adı": "Flex 310 M HT200 gri TR/GB 310 ml",
+      "Liste Fiyatı (€)": 35.1
+    },
+    {
+      "ABAS No": "10050040",
+      "Berta No": "13656310-39",
+      "Mal Adı": "Flex 310M Paslanmaz Çelik TR/GB 310 ml",
+      "Liste Fiyatı (€)": 30.8
+    },
+    {
+      "ABAS No": "10102394",
+      "Berta No": "13657290-39",
+      "Mal Adı": "Doğal taş yapıştırıcı gri TR/GB 290 ml",
+      "Liste Fiyatı (€)": 30.9
+    },
+    {
+      "ABAS No": "10102398",
+      "Berta No": "13658290-39",
+      "Mal Adı": "Doğal taş yap. beyaz TR/GB 290ml",
+      "Liste Fiyatı (€)": 30.9
+    },
+    {
+      "ABAS No": "10028541",
+      "Berta No": "13700310-39",
+      "Mal Adı": "Aqua-Flex beyaz TR/GB 310 ml",
+      "Liste Fiyatı (€)": 31.1
+    },
+    {
+      "ABAS No": "10028542",
+      "Berta No": "13701310-39",
+      "Mal Adı": "Aqua-Flex siyah TR/GB 310 ml",
+      "Liste Fiyatı (€)": 31.1
+    },
+    {
+      "ABAS No": "10028543",
+      "Berta No": "13702310-39",
+      "Mal Adı": "Aqua-Flex gri TR/GB 310ml",
+      "Liste Fiyatı (€)": 31.1
+    },
+    {
+      "ABAS No": "10061258",
+      "Berta No": "13706310-39",
+      "Mal Adı": "Flex 310M sıvı siyah TR/GB 310 ml",
+      "Liste Fiyatı (€)": 55.5
+    },
+    {
+      "ABAS No": "10058069",
+      "Berta No": "13711200",
+      "Mal Adı": "Pencere Yapıştırıcı siy. bas.K 200 ml",
+      "Liste Fiyatı (€)": 46.5
+    },
+    {
+      "ABAS No": "10058067",
+      "Berta No": "13711310",
+      "Mal Adı": "Pencere Yapıştırıcı siy. Kartuş 310 ml",
+      "Liste Fiyatı (€)": 29.2
+    },
+    {
+      "ABAS No": "10025036",
+      "Berta No": "13750290",
+      "Mal Adı": "Solar-Flex beyaz 290ml",
+      "Liste Fiyatı (€)": 34.5
+    },
+    {
+      "ABAS No": "10025038",
+      "Berta No": "13752290",
+      "Mal Adı": "Solar-Flex gri 290 ml",
+      "Liste Fiyatı (€)": 34.5
+    },
+    {
+      "ABAS No": "10104275",
+      "Berta No": "13800280-39",
+      "Mal Adı": "Green Tube Flex 310M beyaz TR/GB 280ml",
+      "Liste Fiyatı (€)": 30.7
+    },
+    {
+      "ABAS No": "10104319",
+      "Berta No": "13802280-39",
+      "Mal Adı": "GT Flex 310 M kristal TR/GB 280 ml",
+      "Liste Fiyatı (€)": 31
+    },
+    {
+      "ABAS No": "10104289",
+      "Berta No": "13804280-39",
+      "Mal Adı": "Green Tube Flex 310 M gri TR/GB 280 ml",
+      "Liste Fiyatı (€)": 30.7
+    },
+    {
+      "ABAS No": "10104303",
+      "Berta No": "13806280-39",
+      "Mal Adı": "Green Tube Felx 310M siyah TR/GB 280ml",
+      "Liste Fiyatı (€)": 30.7
+    },
+    {
+      "ABAS No": "10105468",
+      "Berta No": "13814280-39",
+      "Mal Adı": "WEICON Green Tube gri HT200 280 ml",
+      "Liste Fiyatı (€)": 35.1
+    },
+    {
+      "ABAS No": "10104333",
+      "Berta No": "13810280-39",
+      "Mal Adı": "Green Tube HT-300 TR/GB 280 ml",
+      "Liste Fiyatı (€)": 29.6
+    },
+    {
+      "ABAS No": "10104347",
+      "Berta No": "13812280-39",
+      "Mal Adı": "Green Tube Black-Seal TR/GB 280 ml",
+      "Liste Fiyatı (€)": 32.2
+    },
+    {
+      "ABAS No": "10060345",
+      "Berta No": "13890002",
+      "Mal Adı": "Ergo Connect 10 luk paket",
+      "Liste Fiyatı (€)": 4
+    },
+    {
+      "ABAS No": "10025241",
+      "Berta No": "13955031",
+      "Mal Adı": "V-Tip ucu",
+      "Liste Fiyatı (€)": 3.1
+    },
+    {
+      "ABAS No": "10032350",
+      "Berta No": "13955050",
+      "Mal Adı": "Primer fırçası",
+      "Liste Fiyatı (€)": 5.3
+    },
+    {
+      "ABAS No": "10045037",
+      "Berta No": "13955072",
+      "Mal Adı": "Press pack Sırınğa",
+      "Liste Fiyatı (€)": 4.5
+    },
+    {
+      "ABAS No": "10050551",
+      "Berta No": "14050319",
+      "Mal Adı": "Montaj Bandı Gri",
+      "Liste Fiyatı (€)": 27.5
+    },
+    {
+      "ABAS No": "10050553",
+      "Berta No": "14100319",
+      "Mal Adı": "Montaj Bandı Şef.",
+      "Liste Fiyatı (€)": 25.5
+    },
+    {
+      "ABAS No": "10033202",
+      "Berta No": "15000375-39",
+      "Mal Adı": "Çinko toz boyası TR/GB 375 ml",
+      "Liste Fiyatı (€)": 56.3
+    },
+    {
+      "ABAS No": "10033206",
+      "Berta No": "15000750-39",
+      "Mal Adı": "Çinko toz boyası TR/GB 750 ml",
+      "Liste Fiyatı (€)": 111.6
+    },
+    {
+      "ABAS No": "10000403",
+      "Berta No": "15000902",
+      "Mal Adı": "Çinko toz boyası 2,5l",
+      "Liste Fiyatı (€)": 301.2
+    },
+    {
+      "ABAS No": "10033200",
+      "Berta No": "15001375-39",
+      "Mal Adı": "Çinko kaplama boyası TR/GB 375 ml",
+      "Liste Fiyatı (€)": 51.1
+    },
+    {
+      "ABAS No": "10033201",
+      "Berta No": "15001750-39",
+      "Mal Adı": "Çinko kaplama boyası TR/GB 750 ml",
+      "Liste Fiyatı (€)": 97.3
+    },
+    {
+      "ABAS No": "10000404",
+      "Berta No": "15001902",
+      "Mal Adı": "Çinko Kaplama Boyası 2,5 l",
+      "Liste Fiyatı (€)": 278.5
+    },
+    {
+      "ABAS No": "10027113",
+      "Berta No": "15002375",
+      "Mal Adı": "Alüminyum boyası 375 ml",
+      "Liste Fiyatı (€)": 48.1
+    },
+    {
+      "ABAS No": "10012085",
+      "Berta No": "15002750",
+      "Mal Adı": "Alüminyum boyası 750 ml",
+      "Liste Fiyatı (€)": 90.9
+    },
+    {
+      "ABAS No": "10000351",
+      "Berta No": "15050001",
+      "Mal Adı": "Kaynak koruması 1 l",
+      "Liste Fiyatı (€)": 38.3
+    },
+    {
+      "ABAS No": "10032990",
+      "Berta No": "15050005-39",
+      "Mal Adı": "Kaynak Koruması TR/GB 5 l",
+      "Liste Fiyatı (€)": 120.7
+    },
+    {
+      "ABAS No": "10000338",
+      "Berta No": "15050010",
+      "Mal Adı": "Bio Kaynak Koruma 10 l",
+      "Liste Fiyatı (€)": 228.4
+    },
+    {
+      "ABAS No": "10053449",
+      "Berta No": "15050028",
+      "Mal Adı": "Bio-Kaynak Koruması 28 L",
+      "Liste Fiyatı (€)": 581.3
+    },
+    {
+      "ABAS No": "10007609",
+      "Berta No": "15150001",
+      "Mal Adı": "Pas çözücü 1 L",
+      "Liste Fiyatı (€)": 42.2
+    },
+    {
+      "ABAS No": "10032521",
+      "Berta No": "15150005-39",
+      "Mal Adı": "Pas Sökücü TR/GB 5 l",
+      "Liste Fiyatı (€)": 206.9
+    },
+    {
+      "ABAS No": "10032522",
+      "Berta No": "15150010-39",
+      "Mal Adı": "Pas Sökücü TR/GB 10 l",
+      "Liste Fiyatı (€)": 381.8
+    },
+    {
+      "ABAS No": "10053451",
+      "Berta No": "15150028",
+      "Mal Adı": "Pas Sökücü 28 L",
+      "Liste Fiyatı (€)": 1130.6
+    },
+    {
+      "ABAS No": "10068564",
+      "Berta No": "15152001-39",
+      "Mal Adı": "Pas Dönüştürücü TR/GB 1 kg",
+      "Liste Fiyatı (€)": 72.7
+    },
+    {
+      "ABAS No": "10053605",
+      "Berta No": "15152005",
+      "Mal Adı": "Pas Dönüştürücü 5 KG",
+      "Liste Fiyatı (€)": 300.3
+    },
+    {
+      "ABAS No": "10053607",
+      "Berta No": "15152010",
+      "Mal Adı": "Pas Dönüştürücü 10 KG",
+      "Liste Fiyatı (€)": 536.2
+    },
+    {
+      "ABAS No": "10053611",
+      "Berta No": "15152028",
+      "Mal Adı": "Pas Dönüştürücü 28 KG",
+      "Liste Fiyatı (€)": 1406
+    },
+    {
+      "ABAS No": "10102422",
+      "Berta No": "15153001-39",
+      "Mal Adı": "Pas Sökücü Sıvı TR/GB 1 L",
+      "Liste Fiyatı (€)": 43.1
+    },
+    {
+      "ABAS No": "10102426",
+      "Berta No": "15153005-39",
+      "Mal Adı": "Pas Sökücü Sıvı TR/GB 5 L",
+      "Liste Fiyatı (€)": 204.8
+    },
+    {
+      "ABAS No": "10102434",
+      "Berta No": "15154005-39",
+      "Mal Adı": "Pas Sökücü Jel TR/GB 5 L",
+      "Liste Fiyatı (€)": 204.1
+    },
+    {
+      "ABAS No": "10102430",
+      "Berta No": "15154750-39",
+      "Mal Adı": "Pas Sökücü Jel TR/GB 1 L",
+      "Liste Fiyatı (€)": 42.8
+    },
+    {
+      "ABAS No": "10007611",
+      "Berta No": "15200001",
+      "Mal Adı": "Temizleyici S 1 L",
+      "Liste Fiyatı (€)": 32.7
+    },
+    {
+      "ABAS No": "10032518",
+      "Berta No": "15200005-39",
+      "Mal Adı": "Süper Temizleyici S TR/GB 5 L",
+      "Liste Fiyatı (€)": 102.2
+    },
+    {
+      "ABAS No": "10000348",
+      "Berta No": "15200010",
+      "Mal Adı": "Süper Temizleyici S 10 l",
+      "Liste Fiyatı (€)": 199.3
+    },
+    {
+      "ABAS No": "10053455",
+      "Berta No": "15200028",
+      "Mal Adı": "Temizleyici S 28 L",
+      "Liste Fiyatı (€)": 556.5
+    },
+    {
+      "ABAS No": "10007612",
+      "Berta No": "15201001",
+      "Mal Adı": "Fren temizleyici 1 L",
+      "Liste Fiyatı (€)": 30.5
+    },
+    {
+      "ABAS No": "10032472",
+      "Berta No": "15201005-39",
+      "Mal Adı": "Fren Balata Temizleyici TR/GB 5 l",
+      "Liste Fiyatı (€)": 91.3
+    },
+    {
+      "ABAS No": "10032473",
+      "Berta No": "15201010-39",
+      "Mal Adı": "Fren Balata Temizleyici TR/GB 10 l",
+      "Liste Fiyatı (€)": 185
+    },
+    {
+      "ABAS No": "10053857",
+      "Berta No": "15201028-39",
+      "Mal Adı": "Fren Balata TR/GB 28 l",
+      "Liste Fiyatı (€)": 517.7
+    },
+    {
+      "ABAS No": "10037688",
+      "Berta No": "15203501",
+      "Mal Adı": "Kalıp Temizleyici 5 l",
+      "Liste Fiyatı (€)": 43.3
+    },
+    {
+      "ABAS No": "10025839",
+      "Berta No": "15203505",
+      "Mal Adı": "Kalıp Temizleyici 5 l",
+      "Liste Fiyatı (€)": 139.5
+    },
+    {
+      "ABAS No": "10025840",
+      "Berta No": "15203510",
+      "Mal Adı": "Kalıp Temizleyici 10 l",
+      "Liste Fiyatı (€)": 273.2
+    },
+    {
+      "ABAS No": "10053459",
+      "Berta No": "15203528",
+      "Mal Adı": "Kalıp Temizleyici 28 l",
+      "Liste Fiyatı (€)": 757
+    },
+    {
+      "ABAS No": "10019559",
+      "Berta No": "15204001",
+      "Mal Adı": "Plastik Temizleyici 1 L",
+      "Liste Fiyatı (€)": 34.3
+    },
+    {
+      "ABAS No": "10019356",
+      "Berta No": "15204005",
+      "Mal Adı": "Plastik Temizleyici 5 l",
+      "Liste Fiyatı (€)": 106.2
+    },
+    {
+      "ABAS No": "10019357",
+      "Berta No": "15204010",
+      "Mal Adı": "Plastik Temizleyici 10 l",
+      "Liste Fiyatı (€)": 201.9
+    },
+    {
+      "ABAS No": "10053461",
+      "Berta No": "15204028",
+      "Mal Adı": "Plastik Temizleyici 28 L",
+      "Liste Fiyatı (€)": 564.2
+    },
+    {
+      "ABAS No": "10102402",
+      "Berta No": "15204101-39",
+      "Mal Adı": "Fren ve Balata Temizl. AF TR/GB 1 L",
+      "Liste Fiyatı (€)": 22.2
+    },
+    {
+      "ABAS No": "10102406",
+      "Berta No": "15204105-39",
+      "Mal Adı": "Fren & Balata Temizl. AF TR/GB 5 L",
+      "Liste Fiyatı (€)": 90.7
+    },
+    {
+      "ABAS No": "10102410",
+      "Berta No": "15204110-39",
+      "Mal Adı": "Fren ve Balata Temizl. AF TR/GB 10 L",
+      "Liste Fiyatı (€)": 185
+    },
+    {
+      "ABAS No": "10102414",
+      "Berta No": "15204128-39",
+      "Mal Adı": "Fren ve Balata Temizl. AF TR/GB 28 L",
+      "Liste Fiyatı (€)": 517.7
+    },
+    {
+      "ABAS No": "10028258",
+      "Berta No": "15205001",
+      "Mal Adı": "Atölye Temizleyici 1 L",
+      "Liste Fiyatı (€)": 43.3
+    },
+    {
+      "ABAS No": "10032999",
+      "Berta No": "15205005-39",
+      "Mal Adı": "Atölye Temizleyici TR/GB 5 l",
+      "Liste Fiyatı (€)": 134.1
+    },
+    {
+      "ABAS No": "10016798",
+      "Berta No": "15205010",
+      "Mal Adı": "Atölye Temizleyici 10 l",
+      "Liste Fiyatı (€)": 260.8
+    },
+    {
+      "ABAS No": "10053870",
+      "Berta No": "15205028-39",
+      "Mal Adı": "Atölye Temizleyici TR/GB 28 l",
+      "Liste Fiyatı (€)": 721
+    },
+    {
+      "ABAS No": "10016977",
+      "Berta No": "15205500",
+      "Mal Adı": "Atölye Temizleyici 500 ml",
+      "Liste Fiyatı (€)": 24.1
+    },
+    {
+      "ABAS No": "10019556",
+      "Berta No": "15206001",
+      "Mal Adı": "Etiket Çıkartıcı 1 l",
+      "Liste Fiyatı (€)": 36.8
+    },
+    {
+      "ABAS No": "10019359",
+      "Berta No": "15206005",
+      "Mal Adı": "Etiket Çıkartıcı 5 l",
+      "Liste Fiyatı (€)": 106.7
+    },
+    {
+      "ABAS No": "10019362",
+      "Berta No": "15206010",
+      "Mal Adı": "Etiket Çıkartıcı 10 l",
+      "Liste Fiyatı (€)": 217.3
+    },
+    {
+      "ABAS No": "10053465",
+      "Berta No": "15206028",
+      "Mal Adı": "Etiket Çıkartıcı 28 L",
+      "Liste Fiyatı (€)": 606.4
+    },
+    {
+      "ABAS No": "10025301",
+      "Berta No": "15207001",
+      "Mal Adı": "Yüzey Temizleyici 1 l",
+      "Liste Fiyatı (€)": 48.6
+    },
+    {
+      "ABAS No": "10025288",
+      "Berta No": "15207005",
+      "Mal Adı": "Yüzey Temizleyici 5 l",
+      "Liste Fiyatı (€)": 154.7
+    },
+    {
+      "ABAS No": "10025292",
+      "Berta No": "15207010",
+      "Mal Adı": "Yüzey Temizleyici 10 l",
+      "Liste Fiyatı (€)": 306.5
+    },
+    {
+      "ABAS No": "10053467",
+      "Berta No": "15207028",
+      "Mal Adı": "Yüzey Temizleyici 28 LT",
+      "Liste Fiyatı (€)": 854.7
+    },
+    {
+      "ABAS No": "10031802",
+      "Berta No": "15210001",
+      "Mal Adı": "Narenciye Temizleyici 1 L",
+      "Liste Fiyatı (€)": 60.9
+    },
+    {
+      "ABAS No": "10033568",
+      "Berta No": "15210005",
+      "Mal Adı": "Citrus-Temizleyici 5 l",
+      "Liste Fiyatı (€)": 294.9
+    },
+    {
+      "ABAS No": "10033570",
+      "Berta No": "15210010",
+      "Mal Adı": "Citrus-Temizleyici 10 l",
+      "Liste Fiyatı (€)": 596.2
+    },
+    {
+      "ABAS No": "10053469",
+      "Berta No": "15210028",
+      "Mal Adı": "Citrus-Temizleyici 28 L",
+      "Liste Fiyatı (€)": 1680.3
+    },
+    {
+      "ABAS No": "10027840",
+      "Berta No": "15211001",
+      "Mal Adı": "Parça ve Montaj Temizleyici 1 L",
+      "Liste Fiyatı (€)": 35.4
+    },
+    {
+      "ABAS No": "10032530",
+      "Berta No": "15211005-39",
+      "Mal Adı": "Parça ve Montaj Temizleyici TR/GB 5 l",
+      "Liste Fiyatı (€)": 125.3
+    },
+    {
+      "ABAS No": "10032531",
+      "Berta No": "15211010-39",
+      "Mal Adı": "Parça & Montaj Temizl. TR/GB 10L",
+      "Liste Fiyatı (€)": 243.8
+    },
+    {
+      "ABAS No": "10053471",
+      "Berta No": "15211028",
+      "Mal Adı": "Parça ve Montaj Temizleyici 28 L",
+      "Liste Fiyatı (€)": 564.6
+    },
+    {
+      "ABAS No": "10029981",
+      "Berta No": "15212001",
+      "Mal Adı": "Elektro Temizleyici 1 l",
+      "Liste Fiyatı (€)": 54.2
+    },
+    {
+      "ABAS No": "10032482",
+      "Berta No": "15212005-39",
+      "Mal Adı": "Elektro Temizleyici TR/GB 5 l",
+      "Liste Fiyatı (€)": 172.6
+    },
+    {
+      "ABAS No": "10032483",
+      "Berta No": "15212010-39",
+      "Mal Adı": "Elektro Temizleyici TR/GB 10 l",
+      "Liste Fiyatı (€)": 344
+    },
+    {
+      "ABAS No": "10053473",
+      "Berta No": "15212028",
+      "Mal Adı": "Elektro Temizleyici 28 L",
+      "Liste Fiyatı (€)": 957.6
+    },
+    {
+      "ABAS No": "10048254",
+      "Berta No": "15215001",
+      "Mal Adı": "Hızlı temizleyici 1 L",
+      "Liste Fiyatı (€)": 53
+    },
+    {
+      "ABAS No": "10047373",
+      "Berta No": "15215005",
+      "Mal Adı": "Hızlı Temizleyici 5 lt",
+      "Liste Fiyatı (€)": 182.6
+    },
+    {
+      "ABAS No": "10047376",
+      "Berta No": "15215010",
+      "Mal Adı": "Hızlı Temizleyici 10 lt",
+      "Liste Fiyatı (€)": 327.8
+    },
+    {
+      "ABAS No": "10053477",
+      "Berta No": "15215028",
+      "Mal Adı": "Hızlı Temizleyici 28 L",
+      "Liste Fiyatı (€)": 771
+    },
+    {
+      "ABAS No": "10061274",
+      "Berta No": "15225001-39",
+      "Mal Adı": "Temizleyici M TR/GB 1 L",
+      "Liste Fiyatı (€)": 34.4
+    },
+    {
+      "ABAS No": "10061289",
+      "Berta No": "15225005-39",
+      "Mal Adı": "Temizleyici M TR/GB 5 L",
+      "Liste Fiyatı (€)": 118.8
+    },
+    {
+      "ABAS No": "10061296",
+      "Berta No": "15225010-39",
+      "Mal Adı": "Temizleyici M TR/GB 10 L",
+      "Liste Fiyatı (€)": 230.5
+    },
+    {
+      "ABAS No": "10061301",
+      "Berta No": "15225028-39",
+      "Mal Adı": "Temizleyici M TR/GB 28 L",
+      "Liste Fiyatı (€)": 659.7
+    },
+    {
+      "ABAS No": "10007614",
+      "Berta No": "15250001",
+      "Mal Adı": "AT-44 1 L",
+      "Liste Fiyatı (€)": 58.5
+    },
+    {
+      "ABAS No": "10000356",
+      "Berta No": "15250005",
+      "Mal Adı": "AT-44 5 l",
+      "Liste Fiyatı (€)": 182.4
+    },
+    {
+      "ABAS No": "10000357",
+      "Berta No": "15250010",
+      "Mal Adı": "AT-44 10 l",
+      "Liste Fiyatı (€)": 363.1
+    },
+    {
+      "ABAS No": "10053479",
+      "Berta No": "15250028",
+      "Mal Adı": "AT-44 28 L",
+      "Liste Fiyatı (€)": 1008.5
+    },
+    {
+      "ABAS No": "10011715",
+      "Berta No": "15251001",
+      "Mal Adı": "W 44 T 1 L",
+      "Liste Fiyatı (€)": 38.8
+    },
+    {
+      "ABAS No": "10032535",
+      "Berta No": "15251005-39",
+      "Mal Adı": "W 44 T Sıvı Aktif Maddesi TR/GB 5 l",
+      "Liste Fiyatı (€)": 109.6
+    },
+    {
+      "ABAS No": "10011348",
+      "Berta No": "15251010",
+      "Mal Adı": "W44T Turbo-Power-Yağ 10 l",
+      "Liste Fiyatı (€)": 211.6
+    },
+    {
+      "ABAS No": "10053483",
+      "Berta No": "15251028",
+      "Mal Adı": "W44T Turbo-Power-Yağ 28 l",
+      "Liste Fiyatı (€)": 615.5
+    },
+    {
+      "ABAS No": "10011816",
+      "Berta No": "15260001",
+      "Mal Adı": "Pneuma-Lube 1 L",
+      "Liste Fiyatı (€)": 57.9
+    },
+    {
+      "ABAS No": "10010554",
+      "Berta No": "15260005",
+      "Mal Adı": "Pneuma-Lube 5 L",
+      "Liste Fiyatı (€)": 198.1
+    },
+    {
+      "ABAS No": "10010555",
+      "Berta No": "15260010",
+      "Mal Adı": "Pneuma-Lube 10 L",
+      "Liste Fiyatı (€)": 386.8
+    },
+    {
+      "ABAS No": "10053485",
+      "Berta No": "15260028",
+      "Mal Adı": "AT-44 Sıvı Aktif Maddesi 28 l",
+      "Liste Fiyatı (€)": 955.4
+    },
+    {
+      "ABAS No": "10006760",
+      "Berta No": "15350001",
+      "Mal Adı": "Silikon 1 L",
+      "Liste Fiyatı (€)": 49.2
+    },
+    {
+      "ABAS No": "10032527",
+      "Berta No": "15350005-39",
+      "Mal Adı": "Silikon TR/GB 5 l",
+      "Liste Fiyatı (€)": 176.9
+    },
+    {
+      "ABAS No": "10000361",
+      "Berta No": "15350010",
+      "Mal Adı": "Silikon 10 l",
+      "Liste Fiyatı (€)": 354.4
+    },
+    {
+      "ABAS No": "10053488",
+      "Berta No": "15350028",
+      "Mal Adı": "Silikon 28 l",
+      "Liste Fiyatı (€)": 872.6
+    },
+    {
+      "ABAS No": "10007597",
+      "Berta No": "15400001",
+      "Mal Adı": "Sızıntı detektörü 1 L",
+      "Liste Fiyatı (€)": 28.2
+    },
+    {
+      "ABAS No": "10032507",
+      "Berta No": "15400005-39",
+      "Mal Adı": "Kaçak Arama TR/GB 5 l",
+      "Liste Fiyatı (€)": 69.3
+    },
+    {
+      "ABAS No": "10032508",
+      "Berta No": "15400010-39",
+      "Mal Adı": "Kaçak Arama TR/GB 10 l",
+      "Liste Fiyatı (€)": 140.3
+    },
+    {
+      "ABAS No": "10053921",
+      "Berta No": "15400028-39",
+      "Mal Adı": "Kaçak Arama TR/GB 28 l",
+      "Liste Fiyatı (€)": 393.4
+    },
+    {
+      "ABAS No": "10051105",
+      "Berta No": "15403001",
+      "Mal Adı": "Kaçak Arama Sprey kalın 1 l",
+      "Liste Fiyatı (€)": 41.5
+    },
+    {
+      "ABAS No": "10051106",
+      "Berta No": "15403005",
+      "Mal Adı": "Kaçak Arama Sprey kalın 5 l",
+      "Liste Fiyatı (€)": 139.1
+    },
+    {
+      "ABAS No": "10051108",
+      "Berta No": "15403010",
+      "Mal Adı": "Kaçak Arama Sprey kalın 10 l",
+      "Liste Fiyatı (€)": 252.8
+    },
+    {
+      "ABAS No": "10053493",
+      "Berta No": "15403028",
+      "Mal Adı": "Kaçak Arama Sprey kalın 28 l",
+      "Liste Fiyatı (€)": 624.5
+    },
+    {
+      "ABAS No": "10051092",
+      "Berta No": "15404001",
+      "Mal Adı": "Kaçak Arama Sprey don.day 1 l",
+      "Liste Fiyatı (€)": 51.7
+    },
+    {
+      "ABAS No": "10051093",
+      "Berta No": "15404005",
+      "Mal Adı": "Kaçak Arama Sprey don.day 5 l",
+      "Liste Fiyatı (€)": 194
+    },
+    {
+      "ABAS No": "10051095",
+      "Berta No": "15404010",
+      "Mal Adı": "Kaçak Arama Sprey don.day 10 l",
+      "Liste Fiyatı (€)": 347.7
+    },
+    {
+      "ABAS No": "10053497",
+      "Berta No": "15404028",
+      "Mal Adı": "Kaçak Arama Sprey don.day 28 l",
+      "Liste Fiyatı (€)": 916
+    },
+    {
+      "ABAS No": "10007616",
+      "Berta No": "15450001",
+      "Mal Adı": "Kalıp ayırıcı 1 L",
+      "Liste Fiyatı (€)": 76.8
+    },
+    {
+      "ABAS No": "10032501",
+      "Berta No": "15450005-39",
+      "Mal Adı": "Kalıp Ayırıcı TR/GB 5 L",
+      "Liste Fiyatı (€)": 251.1
+    },
+    {
+      "ABAS No": "10000364",
+      "Berta No": "15450010",
+      "Mal Adı": "Kalıp Ayırıcı 10 l",
+      "Liste Fiyatı (€)": 483.5
+    },
+    {
+      "ABAS No": "10053498",
+      "Berta No": "15450028",
+      "Mal Adı": "Kalıp Ayırıcı 28 L",
+      "Liste Fiyatı (€)": 1336.2
+    },
+    {
+      "ABAS No": "10007619",
+      "Berta No": "15550001",
+      "Mal Adı": "Corro Koruma 1 L",
+      "Liste Fiyatı (€)": 69.8
+    },
+    {
+      "ABAS No": "10032849",
+      "Berta No": "15550005-39",
+      "Mal Adı": "Korozyon Önleyici (WAX) TR/GB 5 l",
+      "Liste Fiyatı (€)": 240.6
+    },
+    {
+      "ABAS No": "10032850",
+      "Berta No": "15550010-39",
+      "Mal Adı": "Korozyon önleyici wax TR/GB 10 l",
+      "Liste Fiyatı (€)": 437.6
+    },
+    {
+      "ABAS No": "10053931",
+      "Berta No": "15550028-39",
+      "Mal Adı": "Korozyon önleyici wax TR/GB 28 l",
+      "Liste Fiyatı (€)": 1171.4
+    },
+    {
+      "ABAS No": "10033119",
+      "Berta No": "15580001",
+      "Mal Adı": "Metal sıvısı 1 L",
+      "Liste Fiyatı (€)": 55.5
+    },
+    {
+      "ABAS No": "10016345",
+      "Berta No": "15580005",
+      "Mal Adı": "Metal-Fluid 5 l",
+      "Liste Fiyatı (€)": 165.4
+    },
+    {
+      "ABAS No": "10016352",
+      "Berta No": "15580010",
+      "Mal Adı": "Metal-Fluid 10 l",
+      "Liste Fiyatı (€)": 318.1
+    },
+    {
+      "ABAS No": "10053506",
+      "Berta No": "15580028",
+      "Mal Adı": "Metal-Fluid 28 L",
+      "Liste Fiyatı (€)": 880.4
+    },
+    {
+      "ABAS No": "10017352",
+      "Berta No": "15580100",
+      "Mal Adı": "Metal-Fluid 100 ml",
+      "Liste Fiyatı (€)": 22.4
+    },
+    {
+      "ABAS No": "10028117",
+      "Berta No": "15580500",
+      "Mal Adı": "Metal-Fluid El püskürt. 500 ml",
+      "Liste Fiyatı (€)": 41.3
+    },
+    {
+      "ABAS No": "10013812",
+      "Berta No": "15590001",
+      "Mal Adı": "Paslanmaz çelik bakımı Etken madde 1 L",
+      "Liste Fiyatı (€)": 49.2
+    },
+    {
+      "ABAS No": "10013730",
+      "Berta No": "15590005",
+      "Mal Adı": "Paslanmaz Çelik Bakım 5 l",
+      "Liste Fiyatı (€)": 157.2
+    },
+    {
+      "ABAS No": "10032478",
+      "Berta No": "15590010-39",
+      "Mal Adı": "Paslanmaz Çelik Bakım TR/GB 10 l",
+      "Liste Fiyatı (€)": 309
+    },
+    {
+      "ABAS No": "10053512",
+      "Berta No": "15590028",
+      "Mal Adı": "Paslanmaz Çelik Bakım 30 l",
+      "Liste Fiyatı (€)": 852
+    },
+    {
+      "ABAS No": "10007622",
+      "Berta No": "15600001",
+      "Mal Adı": "Bio-Fluid 1 L",
+      "Liste Fiyatı (€)": 56.4
+    },
+    {
+      "ABAS No": "10000365",
+      "Berta No": "15600005",
+      "Mal Adı": "Bio-Fluid 5 l",
+      "Liste Fiyatı (€)": 187.1
+    },
+    {
+      "ABAS No": "10000366",
+      "Berta No": "15600010",
+      "Mal Adı": "Bio-Fluid 10 l",
+      "Liste Fiyatı (€)": 359.6
+    },
+    {
+      "ABAS No": "10053514",
+      "Berta No": "15600028",
+      "Mal Adı": "Bio-Fluid 28 L",
+      "Liste Fiyatı (€)": 961.5
+    },
+    {
+      "ABAS No": "10000394",
+      "Berta No": "15750001",
+      "Mal Adı": "Bio-Cut 1 l",
+      "Liste Fiyatı (€)": 55.1
+    },
+    {
+      "ABAS No": "10011167",
+      "Berta No": "15750002",
+      "Mal Adı": "Bio-Cut 250 ml",
+      "Liste Fiyatı (€)": 31
+    },
+    {
+      "ABAS No": "10032466",
+      "Berta No": "15750005-39",
+      "Mal Adı": "Bio-Cut TR/GB 5 l",
+      "Liste Fiyatı (€)": 168.4
+    },
+    {
+      "ABAS No": "10000369",
+      "Berta No": "15750010",
+      "Mal Adı": "Bio-Cut 10 l",
+      "Liste Fiyatı (€)": 335.1
+    },
+    {
+      "ABAS No": "10053516",
+      "Berta No": "15750028",
+      "Mal Adı": "Bio-Cut 28 l",
+      "Liste Fiyatı (€)": 895.1
+    },
+    {
+      "ABAS No": "10000393",
+      "Berta No": "15810001",
+      "Mal Adı": "WSD 400 doldurma adaptör",
+      "Liste Fiyatı (€)": 25.9
+    },
+    {
+      "ABAS No": "10009303",
+      "Berta No": "15811002",
+      "Mal Adı": "WSD 400 Sprey kafa set",
+      "Liste Fiyatı (€)": 10
+    },
+    {
+      "ABAS No": "10009301",
+      "Berta No": "15811400",
+      "Mal Adı": "WSD 400 Sprey Kutusu",
+      "Liste Fiyatı (€)": 96
+    },
+    {
+      "ABAS No": "10000398",
+      "Berta No": "15831001",
+      "Mal Adı": "Dosajlama Ağızlığı 30 l",
+      "Liste Fiyatı (€)": 33.2
+    },
+    {
+      "ABAS No": "10016002",
+      "Berta No": "15841500",
+      "Mal Adı": "WPS 1500 pompalı püskürtücü",
+      "Liste Fiyatı (€)": 83.4
+    },
+    {
+      "ABAS No": "10016213",
+      "Berta No": "15841501",
+      "Mal Adı": "WPS 1500 uzatma borusu",
+      "Liste Fiyatı (€)": 17.5
+    },
+    {
+      "ABAS No": "10055884",
+      "Berta No": "15842001-39",
+      "Mal Adı": "El püskürtücü TR/GB 500 ml",
+      "Liste Fiyatı (€)": 13.1
+    },
+    {
+      "ABAS No": "10000402",
+      "Berta No": "15843001",
+      "Mal Adı": "El püskürtücü özel 500 ml",
+      "Liste Fiyatı (€)": 19.4
+    },
+    {
+      "ABAS No": "10029662",
+      "Berta No": "16100185",
+      "Mal Adı": "GMK 2410 185 gr",
+      "Liste Fiyatı (€)": 35.1
+    },
+    {
+      "ABAS No": "10028908",
+      "Berta No": "16100300",
+      "Mal Adı": "GMK 2410 300 gr",
+      "Liste Fiyatı (€)": 42.5
+    },
+    {
+      "ABAS No": "10030358",
+      "Berta No": "16100350",
+      "Mal Adı": "GMK 2410 fırçalı kutu 350 gr",
+      "Liste Fiyatı (€)": 45.6
+    },
+    {
+      "ABAS No": "10032039",
+      "Berta No": "16100700-39",
+      "Mal Adı": "GMK 2410 TR/GB 700 g",
+      "Liste Fiyatı (€)": 80.6
+    },
+    {
+      "ABAS No": "10029718",
+      "Berta No": "16100905",
+      "Mal Adı": "GMK 2410 5 kg",
+      "Liste Fiyatı (€)": 406.9
+    },
+    {
+      "ABAS No": "10029720",
+      "Berta No": "16100925",
+      "Mal Adı": "GMK 2410 25 kg",
+      "Liste Fiyatı (€)": 1663.1
+    },
+    {
+      "ABAS No": "10039649",
+      "Berta No": "16200324",
+      "Mal Adı": "GMK 2510 324gr.",
+      "Liste Fiyatı (€)": 69.8
+    },
+    {
+      "ABAS No": "10034480",
+      "Berta No": "16200690",
+      "Mal Adı": "GMK 2510 690gr.",
+      "Liste Fiyatı (€)": 112
+    },
+    {
+      "ABAS No": "10062643",
+      "Berta No": "16500310-39",
+      "Mal Adı": "Montaj yapıştırıcısı TR/GB 310ml",
+      "Liste Fiyatı (€)": 14.7
+    },
+    {
+      "ABAS No": "10102418",
+      "Berta No": "16600280-39",
+      "Mal Adı": "Green Tube Montaj Yap. TR/GB 280 ml",
+      "Liste Fiyatı (€)": 20.5
+    },
+    {
+      "ABAS No": "10063413",
+      "Berta No": "17000002-39",
+      "Mal Adı": "WEICON Fire Safe TR/GB 0,2 kg",
+      "Liste Fiyatı (€)": 88.9
+    },
+    {
+      "ABAS No": "10063422",
+      "Berta No": "17000005-39",
+      "Mal Adı": "WEICON Fire Safe TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 140.2
+    },
+    {
+      "ABAS No": "10063429",
+      "Berta No": "17000010-39",
+      "Mal Adı": "WEICON Fire Safe TR/GB 1 kg",
+      "Liste Fiyatı (€)": 328.6
+    },
+    {
+      "ABAS No": "10063446",
+      "Berta No": "17050002-39",
+      "Mal Adı": "WEICON Food Grade TR/GB 0,2 kg",
+      "Liste Fiyatı (€)": 84
+    },
+    {
+      "ABAS No": "10063453",
+      "Berta No": "17050005-39",
+      "Mal Adı": "WEICON Food Grade TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 124.5
+    },
+    {
+      "ABAS No": "10063460",
+      "Berta No": "17050020-39",
+      "Mal Adı": "WEICON Food Grade TR/GB 2 kg",
+      "Liste Fiyatı (€)": 415.8
+    },
+    {
+      "ABAS No": "10063476",
+      "Berta No": "17100002-39",
+      "Mal Adı": "WEICON Anti-Statik TR/GB 0,2 kg",
+      "Liste Fiyatı (€)": 80.9
+    },
+    {
+      "ABAS No": "10063483",
+      "Berta No": "17100005-39",
+      "Mal Adı": "WEICON Anti-Statik TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 120.1
+    },
+    {
+      "ABAS No": "10063490",
+      "Berta No": "17100020-39",
+      "Mal Adı": "WEICON Anti-Statik TR/GB 2 kg",
+      "Liste Fiyatı (€)": 397.4
+    },
+    {
+      "ABAS No": "10063504",
+      "Berta No": "17150002-39",
+      "Mal Adı": "WEICON Anti-Stick TR/GB 0,2 kg",
+      "Liste Fiyatı (€)": 85.1
+    },
+    {
+      "ABAS No": "10063511",
+      "Berta No": "17150005-39",
+      "Mal Adı": "WEICON Anti-Stick TR/GB 0,5 kg",
+      "Liste Fiyatı (€)": 122.1
+    },
+    {
+      "ABAS No": "10063518",
+      "Berta No": "17150020-39",
+      "Mal Adı": "WEICON Anti-Stick TR/GB 2 kg",
+      "Liste Fiyatı (€)": 399.8
+    },
+    {
+      "ABAS No": "10063591",
+      "Berta No": "18050001-39",
+      "Mal Adı": "WEICON S 180W Plus TR/GB 1 l",
+      "Liste Fiyatı (€)": 95.8
+    },
+    {
+      "ABAS No": "10000170",
+      "Berta No": "26000001",
+      "Mal Adı": "AS sırınga 10 g",
+      "Liste Fiyatı (€)": 9.5
+    },
+    {
+      "ABAS No": "10015175",
+      "Berta No": "26000003",
+      "Mal Adı": "AS Pen 30g",
+      "Liste Fiyatı (€)": 13.1
+    },
+    {
+      "ABAS No": "10040341",
+      "Berta No": "26000012-39",
+      "Mal Adı": "AS fırçalı kutu TR/GB 120g",
+      "Liste Fiyatı (€)": 22.7
+    },
+    {
+      "ABAS No": "10000173",
+      "Berta No": "26000040",
+      "Mal Adı": "AS 400g kartuş",
+      "Liste Fiyatı (€)": 42.2
+    },
+    {
+      "ABAS No": "10040395",
+      "Berta No": "26000045-39",
+      "Mal Adı": "AS 4 TR/GB 450g kova",
+      "Liste Fiyatı (€)": 49.1
+    },
+    {
+      "ABAS No": "10033196",
+      "Berta No": "26000050-39",
+      "Mal Adı": "AS fırçalı kutu TR/GB 500 g",
+      "Liste Fiyatı (€)": 51.7
+    },
+    {
+      "ABAS No": "10047467",
+      "Berta No": "26000085",
+      "Mal Adı": "AS Tüp 85 g",
+      "Liste Fiyatı (€)": 17.8
+    },
+    {
+      "ABAS No": "10033215",
+      "Berta No": "26000100-39",
+      "Mal Adı": "AS kova TR/GB 1 kg",
+      "Liste Fiyatı (€)": 102
+    },
+    {
+      "ABAS No": "10000178",
+      "Berta No": "26000180",
+      "Mal Adı": "AS 1,8 kg teneke",
+      "Liste Fiyatı (€)": 184.4
+    },
+    {
+      "ABAS No": "10025465",
+      "Berta No": "26000200",
+      "Mal Adı": "AS 200 PR 200 ml",
+      "Liste Fiyatı (€)": 57.2
+    },
+    {
+      "ABAS No": "10000181",
+      "Berta No": "26000500",
+      "Mal Adı": "AS teneke 5 kg",
+      "Liste Fiyatı (€)": 495.9
+    },
+    {
+      "ABAS No": "10000182",
+      "Berta No": "26000910",
+      "Mal Adı": "AS teneke 10 kg",
+      "Liste Fiyatı (€)": 925.8
+    },
+    {
+      "ABAS No": "10000183",
+      "Berta No": "26000920",
+      "Mal Adı": "AS teneke 20 kg",
+      "Liste Fiyatı (€)": 1653.1
+    },
+    {
+      "ABAS No": "10048520",
+      "Berta No": "26050012-39",
+      "Mal Adı": "Anti-Seize ASN TR/GB 120 P",
+      "Liste Fiyatı (€)": 43.8
+    },
+    {
+      "ABAS No": "10000185",
+      "Berta No": "26050040",
+      "Mal Adı": "ASN 400 K 400 g",
+      "Liste Fiyatı (€)": 89.9
+    },
+    {
+      "ABAS No": "10048519",
+      "Berta No": "26050045-39",
+      "Mal Adı": "ASN 450 TR/GB 450 g",
+      "Liste Fiyatı (€)": 95.1
+    },
+    {
+      "ABAS No": "10047560",
+      "Berta No": "26050050",
+      "Mal Adı": "ASN Fırça Kutusu 500 g",
+      "Liste Fiyatı (€)": 121.1
+    },
+    {
+      "ABAS No": "10000192",
+      "Berta No": "26050100",
+      "Mal Adı": "ASN 1000 1,0 kg",
+      "Liste Fiyatı (€)": 211.9
+    },
+    {
+      "ABAS No": "10000187",
+      "Berta No": "26050180",
+      "Mal Adı": "ASN 1800 1,8 kg",
+      "Liste Fiyatı (€)": 380.5
+    },
+    {
+      "ABAS No": "10000189",
+      "Berta No": "26050500",
+      "Mal Adı": "ASN 5000 5 kg",
+      "Liste Fiyatı (€)": 953.3
+    },
+    {
+      "ABAS No": "10000190",
+      "Berta No": "26050910",
+      "Mal Adı": "ASN 10000 10 kg",
+      "Liste Fiyatı (€)": 2102
+    },
+    {
+      "ABAS No": "10000191",
+      "Berta No": "26050920",
+      "Mal Adı": "ASN 20000 20 kg",
+      "Liste Fiyatı (€)": 3718.4
+    },
+    {
+      "ABAS No": "10015179",
+      "Berta No": "26100003",
+      "Mal Adı": "ASW Pen-Sistem 30 g",
+      "Liste Fiyatı (€)": 18.4
+    },
+    {
+      "ABAS No": "10031277",
+      "Berta No": "26100005",
+      "Mal Adı": "Anti-Seize High-Tech 5 gr",
+      "Liste Fiyatı (€)": 4.7
+    },
+    {
+      "ABAS No": "10040583",
+      "Berta No": "26100012-39",
+      "Mal Adı": "ASW fırçalı kutu TR/GB 120g",
+      "Liste Fiyatı (€)": 32.5
+    },
+    {
+      "ABAS No": "10000195",
+      "Berta No": "26100040",
+      "Mal Adı": "ASW 400g kartuş",
+      "Liste Fiyatı (€)": 66.3
+    },
+    {
+      "ABAS No": "10040036",
+      "Berta No": "26100045-39",
+      "Mal Adı": "ASW TR/GB 450g kova",
+      "Liste Fiyatı (€)": 71.6
+    },
+    {
+      "ABAS No": "10033198",
+      "Berta No": "26100050-39",
+      "Mal Adı": "ASW fırçalı kutu TR/GB 500 g",
+      "Liste Fiyatı (€)": 78.9
+    },
+    {
+      "ABAS No": "10047469",
+      "Berta No": "26100085",
+      "Mal Adı": "ASW Tüp 85 g",
+      "Liste Fiyatı (€)": 25.8
+    },
+    {
+      "ABAS No": "10033221",
+      "Berta No": "26100100-39",
+      "Mal Adı": "ASW-High-Tec TR/GB 1 kg",
+      "Liste Fiyatı (€)": 152.4
+    },
+    {
+      "ABAS No": "10000199",
+      "Berta No": "26100180",
+      "Mal Adı": "ASW teneke 1,8 kg",
+      "Liste Fiyatı (€)": 277.8
+    },
+    {
+      "ABAS No": "10000202",
+      "Berta No": "26100500",
+      "Mal Adı": "ASW teneke 5 kg",
+      "Liste Fiyatı (€)": 720.1
+    },
+    {
+      "ABAS No": "10000204",
+      "Berta No": "26100910",
+      "Mal Adı": "ASW teneke 10 kg",
+      "Liste Fiyatı (€)": 1362.8
+    },
+    {
+      "ABAS No": "10000205",
+      "Berta No": "26100920",
+      "Mal Adı": "ASW teneke 20kg",
+      "Liste Fiyatı (€)": 2445.1
+    },
+    {
+      "ABAS No": "10067867",
+      "Berta No": "26150012",
+      "Mal Adı": "ASK 120 P 120 g",
+      "Liste Fiyatı (€)": 28.8
+    },
+    {
+      "ABAS No": "10067869",
+      "Berta No": "26150045",
+      "Mal Adı": "ASK 450 450 g",
+      "Liste Fiyatı (€)": 75.1
+    },
+    {
+      "ABAS No": "10000208",
+      "Berta No": "26150100",
+      "Mal Adı": "ASK 1000 Seramik macunu 1 kg",
+      "Liste Fiyatı (€)": 152
+    },
+    {
+      "ABAS No": "10025928",
+      "Berta No": "26200003",
+      "Mal Adı": "Bakır Macunu Pen-System 30g",
+      "Liste Fiyatı (€)": 11
+    },
+    {
+      "ABAS No": "10040857",
+      "Berta No": "26200012-39",
+      "Mal Adı": "Bakır Macunu fırçalı kutu TR/GB 120 g",
+      "Liste Fiyatı (€)": 21.3
+    },
+    {
+      "ABAS No": "10040029",
+      "Berta No": "26200040",
+      "Mal Adı": "Bakır macunu Kartu. 400 g",
+      "Liste Fiyatı (€)": 33
+    },
+    {
+      "ABAS No": "10033211",
+      "Berta No": "26200045-39",
+      "Mal Adı": "Bakır Macunu TR/GB 450 g",
+      "Liste Fiyatı (€)": 44.8
+    },
+    {
+      "ABAS No": "10033199",
+      "Berta No": "26200050-39",
+      "Mal Adı": "Bakır Macunu fırçalı kutu TR/GB 500 g",
+      "Liste Fiyatı (€)": 48.1
+    },
+    {
+      "ABAS No": "10047468",
+      "Berta No": "26200085",
+      "Mal Adı": "Weicon Bakır Macunu Tüp 85 gr",
+      "Liste Fiyatı (€)": 16.8
+    },
+    {
+      "ABAS No": "10033212",
+      "Berta No": "26200100-39",
+      "Mal Adı": "Bakır Macunu TR/GB 1 kg",
+      "Liste Fiyatı (€)": 92.2
+    },
+    {
+      "ABAS No": "10002942",
+      "Berta No": "26200910",
+      "Mal Adı": "Bakır Macunu 10 kg",
+      "Liste Fiyatı (€)": 837.3
+    },
+    {
+      "ABAS No": "10063812",
+      "Berta No": "26300045-39",
+      "Mal Adı": "Silikon Yağı HV TR/GB 450 g",
+      "Liste Fiyatı (€)": 106.2
+    },
+    {
+      "ABAS No": "10063768",
+      "Berta No": "26300100-39",
+      "Mal Adı": "Silikon Yağı HV TR/GB 1 kg",
+      "Liste Fiyatı (€)": 211.2
+    },
+    {
+      "ABAS No": "10063784",
+      "Berta No": "26300500-39",
+      "Mal Adı": "Silikon Yağı HV TR/GB 5 kg",
+      "Liste Fiyatı (€)": 950.1
+    },
+    {
+      "ABAS No": "10063798",
+      "Berta No": "26300925-39",
+      "Mal Adı": "Silikon Yağı HV TR/GB 25 kg",
+      "Liste Fiyatı (€)": 4461.5
+    },
+    {
+      "ABAS No": "10053151",
+      "Berta No": "26350005",
+      "Mal Adı": "Silikon yağı 5 gr",
+      "Liste Fiyatı (€)": 14.7
+    },
+    {
+      "ABAS No": "10050558",
+      "Berta No": "26350045",
+      "Mal Adı": "Silikon Yağı 450g",
+      "Liste Fiyatı (€)": 73
+    },
+    {
+      "ABAS No": "10052100",
+      "Berta No": "26350085-39",
+      "Mal Adı": "Silikon Yağı TR/GB 85 g",
+      "Liste Fiyatı (€)": 41.6
+    },
+    {
+      "ABAS No": "10051980",
+      "Berta No": "26350100-39",
+      "Mal Adı": "Silikon Yağı TR/GB 1 kg",
+      "Liste Fiyatı (€)": 136.4
+    },
+    {
+      "ABAS No": "10051113",
+      "Berta No": "26350500",
+      "Mal Adı": "Silikon Yağı 5kg",
+      "Liste Fiyatı (€)": 656.8
+    },
+    {
+      "ABAS No": "10051118",
+      "Berta No": "26350925",
+      "Mal Adı": "Silikon Yağı 25kg",
+      "Liste Fiyatı (€)": 3240.5
+    },
+    {
+      "ABAS No": "10033361",
+      "Berta No": "26400040-39",
+      "Mal Adı": "AL-M 400 K TR/GB kartüş 400 g",
+      "Liste Fiyatı (€)": 24
+    },
+    {
+      "ABAS No": "10033362",
+      "Berta No": "26400100-39",
+      "Mal Adı": "AL-M 1000 1 kg TR/GB",
+      "Liste Fiyatı (€)": 50.3
+    },
+    {
+      "ABAS No": "10033363",
+      "Berta No": "26400500-39",
+      "Mal Adı": "AL-M 5000 TR/GB 5 kg",
+      "Liste Fiyatı (€)": 249.5
+    },
+    {
+      "ABAS No": "10016739",
+      "Berta No": "26400925",
+      "Mal Adı": "AL-M 25000 25 kg",
+      "Liste Fiyatı (€)": 1156.8
+    },
+    {
+      "ABAS No": "10033368",
+      "Berta No": "26450040-39",
+      "Mal Adı": "AL-W 400 K kartüş TR/GB 400 g",
+      "Liste Fiyatı (€)": 27.7
+    },
+    {
+      "ABAS No": "10033369",
+      "Berta No": "26450100-39",
+      "Mal Adı": "AL-W 1000 TR/GB 1 kg",
+      "Liste Fiyatı (€)": 56.9
+    },
+    {
+      "ABAS No": "10016754",
+      "Berta No": "26450500",
+      "Mal Adı": "AL-W 5000 5 kg",
+      "Liste Fiyatı (€)": 261.8
+    },
+    {
+      "ABAS No": "10016756",
+      "Berta No": "26450925",
+      "Mal Adı": "AL-W 25000 25 kg",
+      "Liste Fiyatı (€)": 1233.5
+    },
+    {
+      "ABAS No": "10033372",
+      "Berta No": "26500040-39",
+      "Mal Adı": "AL-H 400 K TR/GB 400 g",
+      "Liste Fiyatı (€)": 57.4
+    },
+    {
+      "ABAS No": "10033374",
+      "Berta No": "26500100-39",
+      "Mal Adı": "AL-H 1000 TR/GB 1 kg",
+      "Liste Fiyatı (€)": 124.4
+    },
+    {
+      "ABAS No": "10016766",
+      "Berta No": "26500500",
+      "Mal Adı": "AL-H 5000 5 kg",
+      "Liste Fiyatı (€)": 603.7
+    },
+    {
+      "ABAS No": "10033376",
+      "Berta No": "26500925-39",
+      "Mal Adı": "AL-H 25000 TR/GB 25 kg",
+      "Liste Fiyatı (€)": 2868.8
+    },
+    {
+      "ABAS No": "10017515",
+      "Berta No": "26550035",
+      "Mal Adı": "AL-F 350g",
+      "Liste Fiyatı (€)": 26.4
+    },
+    {
+      "ABAS No": "10033377",
+      "Berta No": "26550040-39",
+      "Mal Adı": "AL-F 400 K kartüş TR/GB 400 g",
+      "Liste Fiyatı (€)": 33.6
+    },
+    {
+      "ABAS No": "10033378",
+      "Berta No": "26550100-39",
+      "Mal Adı": "AL-F 1000 TR/GB 1 kg",
+      "Liste Fiyatı (€)": 62.7
+    },
+    {
+      "ABAS No": "10016781",
+      "Berta No": "26550500",
+      "Mal Adı": "AL-F 5000 5 kg",
+      "Liste Fiyatı (€)": 297.7
+    },
+    {
+      "ABAS No": "10016784",
+      "Berta No": "26550925",
+      "Mal Adı": "AL-F 25000 25 kg",
+      "Liste Fiyatı (€)": 1375.2
+    },
+    {
+      "ABAS No": "10033381",
+      "Berta No": "26600040-39",
+      "Mal Adı": "AL-T 400 K TR/GB 400 g",
+      "Liste Fiyatı (€)": 21.7
+    },
+    {
+      "ABAS No": "10033382",
+      "Berta No": "26600100-39",
+      "Mal Adı": "AL-T 1000 TR/GB 1 kg",
+      "Liste Fiyatı (€)": 49.7
+    },
+    {
+      "ABAS No": "10018595",
+      "Berta No": "26600500",
+      "Mal Adı": "AL-T 5 kg",
+      "Liste Fiyatı (€)": 242.4
+    },
+    {
+      "ABAS No": "10018599",
+      "Berta No": "26600925",
+      "Mal Adı": "AL-T 25 kg",
+      "Liste Fiyatı (€)": 1124.6
+    },
+    {
+      "ABAS No": "10045486",
+      "Berta No": "26955007",
+      "Mal Adı": "Düz fırça ucu AS Pressp",
+      "Liste Fiyatı (€)": 12
+    },
+    {
+      "ABAS No": "10000216",
+      "Berta No": "27000100",
+      "Mal Adı": "ASA Montaj Sprey 100ml",
+      "Liste Fiyatı (€)": 15.8
+    },
+    {
+      "ABAS No": "10028565",
+      "Berta No": "27000400-39",
+      "Mal Adı": "ASA Montaj Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 38.9
+    },
+    {
+      "ABAS No": "10028566",
+      "Berta No": "27050400-39",
+      "Mal Adı": "ASW Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 48.7
+    },
+    {
+      "ABAS No": "10033120",
+      "Berta No": "27200400-39",
+      "Mal Adı": "Bakır Montaj Sprey TR/GB 400 ml",
+      "Liste Fiyatı (€)": 33.9
+    },
+    {
+      "ABAS No": "10033442",
+      "Berta No": "30000090-39",
+      "Mal Adı": "Plast-o-Seal TR/GB 90 g",
+      "Liste Fiyatı (€)": 25.2
+    },
+    {
+      "ABAS No": "10033443",
+      "Berta No": "30000120-39",
+      "Mal Adı": "Plast-o-Seal TR/GB 120 g",
+      "Liste Fiyatı (€)": 33
+    },
+    {
+      "ABAS No": "10039427",
+      "Berta No": "30000230",
+      "Mal Adı": "Plast-o-Seal 230 g Presspack",
+      "Liste Fiyatı (€)": 92.3
+    },
+    {
+      "ABAS No": "10033444",
+      "Berta No": "30000300-39",
+      "Mal Adı": "Plast-o-Seal TR/GB 300 g",
+      "Liste Fiyatı (€)": 76.8
+    },
+    {
+      "ABAS No": "10027184",
+      "Berta No": "30010175-39",
+      "Mal Adı": "DF 175 Diş Sızdırmazlık Ipliği TR/GB",
+      "Liste Fiyatı (€)": 37.8
+    },
+    {
+      "ABAS No": "10048584",
+      "Berta No": "30020030-39",
+      "Mal Adı": "Garanti Mührü kırmızı TR/GB 30 g",
+      "Liste Fiyatı (€)": 32.9
+    },
+    {
+      "ABAS No": "10048542",
+      "Berta No": "30020060-39",
+      "Mal Adı": "Garanti Mührü kırmızı TR/GB 60 g",
+      "Liste Fiyatı (€)": 53.8
+    },
+    {
+      "ABAS No": "10048585",
+      "Berta No": "30021030-39",
+      "Mal Adı": "Garanti Mührü sari TR/GB 30 g",
+      "Liste Fiyatı (€)": 32.9
+    },
+    {
+      "ABAS No": "10047485",
+      "Berta No": "30021060",
+      "Mal Adı": "Garanti Mührü sarı 60 g",
+      "Liste Fiyatı (€)": 53.8
+    },
+    {
+      "ABAS No": "10048590",
+      "Berta No": "30022030-39",
+      "Mal Adı": "Garanti Mühürü Yeşil TR/GB 30 g",
+      "Liste Fiyatı (€)": 32.9
+    },
+    {
+      "ABAS No": "10046906",
+      "Berta No": "30022060",
+      "Mal Adı": "Garanti Mührü yeşil 60g",
+      "Liste Fiyatı (€)": 53.8
+    },
+    {
+      "ABAS No": "10051999",
+      "Berta No": "30100310-39",
+      "Mal Adı": "Gasketmaker kırmızı TR/GB 310 ml",
+      "Liste Fiyatı (€)": 24.1
+    },
+    {
+      "ABAS No": "10051998",
+      "Berta No": "30101310-39",
+      "Mal Adı": "Gasketmaker siyah TR/GB 310 ml",
+      "Liste Fiyatı (€)": 23.4
+    },
+    {
+      "ABAS No": "10026852",
+      "Berta No": "30138020",
+      "Mal Adı": "WEICONLOCK AN 301-38 20 ml",
+      "Liste Fiyatı (€)": 23.6
+    },
+    {
+      "ABAS No": "10026846",
+      "Berta No": "30138150",
+      "Mal Adı": "WEICONLOCK AN 301-38 50 ml",
+      "Liste Fiyatı (€)": 55.3
+    },
+    {
+      "ABAS No": "10026847",
+      "Berta No": "30138200",
+      "Mal Adı": "WEICONLOCK AN 301-38 200 ml",
+      "Liste Fiyatı (€)": 158.7
+    },
+    {
+      "ABAS No": "10026819",
+      "Berta No": "30143020",
+      "Mal Adı": "WEICONLOCK AN 301-43 20 ml",
+      "Liste Fiyatı (€)": 24.8
+    },
+    {
+      "ABAS No": "10043826",
+      "Berta No": "30143150-39",
+      "Mal Adı": "WEICONLOCK AN 301-43 TR/GB 50 m",
+      "Liste Fiyatı (€)": 51.6
+    },
+    {
+      "ABAS No": "10026817",
+      "Berta No": "30143200",
+      "Mal Adı": "WEICONLOCK AN 301-43 200 ml",
+      "Liste Fiyatı (€)": 154.2
+    },
+    {
+      "ABAS No": "10026859",
+      "Berta No": "30148020",
+      "Mal Adı": "WEICONLOCK AN 301-48 20 ml",
+      "Liste Fiyatı (€)": 23.6
+    },
+    {
+      "ABAS No": "10026856",
+      "Berta No": "30148150",
+      "Mal Adı": "WEICONLOCK AN 301-48 50ml",
+      "Liste Fiyatı (€)": 51.3
+    },
+    {
+      "ABAS No": "10026857",
+      "Berta No": "30148200",
+      "Mal Adı": "WEICONLOCK AN 301-48 200 ml",
+      "Liste Fiyatı (€)": 154.2
+    },
+    {
+      "ABAS No": "10031782",
+      "Berta No": "30165150",
+      "Mal Adı": "WEICONLOCK AN 301-65 50ml",
+      "Liste Fiyatı (€)": 42.6
+    },
+    {
+      "ABAS No": "10031783",
+      "Berta No": "30165200",
+      "Mal Adı": "WEICONLOCK AN 301-65 200ml",
+      "Liste Fiyatı (€)": 132.1
+    },
+    {
+      "ABAS No": "10026829",
+      "Berta No": "30170020",
+      "Mal Adı": "WEICONLOCK AN 301-70 20 ml",
+      "Liste Fiyatı (€)": 24.8
+    },
+    {
+      "ABAS No": "10026826",
+      "Berta No": "30170150",
+      "Mal Adı": "WEICONLOCK AN 301-70 50 ml",
+      "Liste Fiyatı (€)": 53.7
+    },
+    {
+      "ABAS No": "10026827",
+      "Berta No": "30170200",
+      "Mal Adı": "WEICONLOCK AN 301-70 200 ml",
+      "Liste Fiyatı (€)": 154.2
+    },
+    {
+      "ABAS No": "10026836",
+      "Berta No": "30172150",
+      "Mal Adı": "WEICONLOCK AN 301-72 50ml",
+      "Liste Fiyatı (€)": 53.3
+    },
+    {
+      "ABAS No": "10026840",
+      "Berta No": "30172200",
+      "Mal Adı": "WEICONLOCK AN 301-72 200 ml",
+      "Liste Fiyatı (€)": 158.7
+    },
+    {
+      "ABAS No": "10016416",
+      "Berta No": "30221020",
+      "Mal Adı": "WEICONLOCK AN 302-21 20 ml",
+      "Liste Fiyatı (€)": 16.3
+    },
+    {
+      "ABAS No": "10017871",
+      "Berta No": "30221150",
+      "Mal Adı": "WEICONLOCK AN 302-21 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019881",
+      "Berta No": "30221200",
+      "Mal Adı": "WEICONLOCK AN 302-21 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10019885",
+      "Berta No": "30222020",
+      "Mal Adı": "WEICONLOCK AN 302-22 20 ml",
+      "Liste Fiyatı (€)": 15.7
+    },
+    {
+      "ABAS No": "10038534",
+      "Berta No": "30222150-39",
+      "Mal Adı": "WEICONLOCK AN 302-22 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019889",
+      "Berta No": "30222200",
+      "Mal Adı": "WEICONLOCK AN 302-22 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10019891",
+      "Berta No": "30225150",
+      "Mal Adı": "WEICONLOCK AN 302-25 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019893",
+      "Berta No": "30225200",
+      "Mal Adı": "WEICONLOCK AN 302-25 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10019895",
+      "Berta No": "30240020",
+      "Mal Adı": "WEICONLOCK AN 302-40 20 ml",
+      "Liste Fiyatı (€)": 18.5
+    },
+    {
+      "ABAS No": "10038498",
+      "Berta No": "30240150-39",
+      "Mal Adı": "WEICONLOCK AN 302-40 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 40.3
+    },
+    {
+      "ABAS No": "10019961",
+      "Berta No": "30240200",
+      "Mal Adı": "WEICONLOCK AN 302-40 200 ml",
+      "Liste Fiyatı (€)": 124.8
+    },
+    {
+      "ABAS No": "10017318",
+      "Berta No": "30241020",
+      "Mal Adı": "WEICONLOCK AN 302-41 20 ml",
+      "Liste Fiyatı (€)": 16.2
+    },
+    {
+      "ABAS No": "10017873",
+      "Berta No": "30241150",
+      "Mal Adı": "WEICONLOCK AN 302-41 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019964",
+      "Berta No": "30241200",
+      "Mal Adı": "WEICONLOCK AN 302-41 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10017324",
+      "Berta No": "30242020",
+      "Mal Adı": "WEICONLOCK AN 302-42 20 ml",
+      "Liste Fiyatı (€)": 16.4
+    },
+    {
+      "ABAS No": "10038499",
+      "Berta No": "30242150-39",
+      "Mal Adı": "WEICONLOCK AN 302-42 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10038500",
+      "Berta No": "30242200-39",
+      "Mal Adı": "WEICONLOCK AN 302-42 TR/GB 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10000611",
+      "Berta No": "30243003",
+      "Mal Adı": "WEICONLOCK AN 302-43 gevşek 3 ml",
+      "Liste Fiyatı (€)": 11.5
+    },
+    {
+      "ABAS No": "10038501",
+      "Berta No": "30243020-39",
+      "Mal Adı": "WEICONLOCK AN 302-43 TR/GB 20 ml",
+      "Liste Fiyatı (€)": 16.4
+    },
+    {
+      "ABAS No": "10038502",
+      "Berta No": "30243110-39",
+      "Mal Adı": "WEICONLOCK AN 302-43 TR/GB 10 ml",
+      "Liste Fiyatı (€)": 14.6
+    },
+    {
+      "ABAS No": "10038503",
+      "Berta No": "30243150-39",
+      "Mal Adı": "WEICONLOCK AN 302-43 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38.1
+    },
+    {
+      "ABAS No": "10019968",
+      "Berta No": "30243200",
+      "Mal Adı": "WEICONLOCK AN 302-43 200 ml",
+      "Liste Fiyatı (€)": 106.5
+    },
+    {
+      "ABAS No": "10031905",
+      "Berta No": "30243250-39",
+      "Mal Adı": "WEICONLOCK AN 302-43 mavi TR/GB 250 ml",
+      "Liste Fiyatı (€)": 126.4
+    },
+    {
+      "ABAS No": "10037361",
+      "Berta No": "30244020",
+      "Mal Adı": "WEICONLOCK AN 302-44 20 ml",
+      "Liste Fiyatı (€)": 18.5
+    },
+    {
+      "ABAS No": "10037167",
+      "Berta No": "30244150",
+      "Mal Adı": "WEICONLOCK AN 302-44 50 ml",
+      "Liste Fiyatı (€)": 40.1
+    },
+    {
+      "ABAS No": "10037363",
+      "Berta No": "30244200",
+      "Mal Adı": "WEICONLOCK AN 302-44 200 ml",
+      "Liste Fiyatı (€)": 124.3
+    },
+    {
+      "ABAS No": "10019925",
+      "Berta No": "30245150",
+      "Mal Adı": "WEICONLOCK AN 302-45 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019970",
+      "Berta No": "30245200",
+      "Mal Adı": "WEICONLOCK AN 302-45 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10019897",
+      "Berta No": "30250020",
+      "Mal Adı": "WEICONLOCK AN 302-50 20 ml",
+      "Liste Fiyatı (€)": 18.5
+    },
+    {
+      "ABAS No": "10019929",
+      "Berta No": "30250150",
+      "Mal Adı": "WEICONLOCK AN 302-50 50 ml",
+      "Liste Fiyatı (€)": 40.3
+    },
+    {
+      "ABAS No": "10019972",
+      "Berta No": "30250200",
+      "Mal Adı": "WEICONLOCK AN 302-50 200 ml",
+      "Liste Fiyatı (€)": 124.8
+    },
+    {
+      "ABAS No": "10016436",
+      "Berta No": "30260020",
+      "Mal Adı": "WEICONLOCK AN 302-60 20ml",
+      "Liste Fiyatı (€)": 18.6
+    },
+    {
+      "ABAS No": "10038504",
+      "Berta No": "30260150-39",
+      "Mal Adı": "WEICONLOCK AN 302-60 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 40.3
+    },
+    {
+      "ABAS No": "10019974",
+      "Berta No": "30260200",
+      "Mal Adı": "WEICONLOCK AN 302-60 200 ml",
+      "Liste Fiyatı (€)": 124.8
+    },
+    {
+      "ABAS No": "10019899",
+      "Berta No": "30262020",
+      "Mal Adı": "WEICONLOCK AN 302-62 20 ml",
+      "Liste Fiyatı (€)": 17.1
+    },
+    {
+      "ABAS No": "10057304",
+      "Berta No": "30262150-39",
+      "Mal Adı": "WEICONLOCK AN 302-62 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10057280",
+      "Berta No": "30262200-39",
+      "Mal Adı": "WEICONLOCK AN 302-62 TR/GB 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10038505",
+      "Berta No": "30270020-39",
+      "Mal Adı": "WEICONLOCK AN 302-70 TR/GB 20 ml",
+      "Liste Fiyatı (€)": 16.4
+    },
+    {
+      "ABAS No": "10038506",
+      "Berta No": "30270110-39",
+      "Mal Adı": "WEICONLOCK AN 302-70 TR/GB 10 ml",
+      "Liste Fiyatı (€)": 14.6
+    },
+    {
+      "ABAS No": "10038507",
+      "Berta No": "30270150-39",
+      "Mal Adı": "WEICONLOCK AN 302-70 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10038508",
+      "Berta No": "30270200-39",
+      "Mal Adı": "WEICONLOCK AN 302-70 TR/GB 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10068357",
+      "Berta No": "30270901",
+      "Mal Adı": "WEICONLOCK AN 302-70 1 L",
+      "Liste Fiyatı (€)": 552.2
+    },
+    {
+      "ABAS No": "10017326",
+      "Berta No": "30271020",
+      "Mal Adı": "WEICONLOCK AN 302-71 20 ml",
+      "Liste Fiyatı (€)": 17.1
+    },
+    {
+      "ABAS No": "10017886",
+      "Berta No": "30271150",
+      "Mal Adı": "WEICONLOCK AN 302-71 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019980",
+      "Berta No": "30271200",
+      "Mal Adı": "WEICONLOCK AN 302-71 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10019901",
+      "Berta No": "30272020",
+      "Mal Adı": "WEICONLOCK AN 302-72 20 ml",
+      "Liste Fiyatı (€)": 17.9
+    },
+    {
+      "ABAS No": "10038509",
+      "Berta No": "30272150-39",
+      "Mal Adı": "WEICONLOCK AN 302-72 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 40.3
+    },
+    {
+      "ABAS No": "10038510",
+      "Berta No": "30272200-39",
+      "Mal Adı": "WEICONLOCK AN 302-72 TR/GB 200 ml",
+      "Liste Fiyatı (€)": 120
+    },
+    {
+      "ABAS No": "10019933",
+      "Berta No": "30275150",
+      "Mal Adı": "WEICONLOCK AN 302-75 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019987",
+      "Berta No": "30275200",
+      "Mal Adı": "WEICONLOCK AN 302-75 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10019935",
+      "Berta No": "30277150",
+      "Mal Adı": "WEICONLOCK® AN 302-77 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019989",
+      "Berta No": "30277200",
+      "Mal Adı": "WEICONLOCK AN 302-77 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10019903",
+      "Berta No": "30280020",
+      "Mal Adı": "WEICONLOCK AN 302-80 20 ml",
+      "Liste Fiyatı (€)": 18.6
+    },
+    {
+      "ABAS No": "10017875",
+      "Berta No": "30280150",
+      "Mal Adı": "WEICONLOCK AN 302-80 50 ml",
+      "Liste Fiyatı (€)": 40.3
+    },
+    {
+      "ABAS No": "10019991",
+      "Berta No": "30280200",
+      "Mal Adı": "WEICONLOCK AN 302-80 200 ml",
+      "Liste Fiyatı (€)": 124.8
+    },
+    {
+      "ABAS No": "10019905",
+      "Berta No": "30290020",
+      "Mal Adı": "WEICONLOCK AN 302-90 20 ml",
+      "Liste Fiyatı (€)": 17.1
+    },
+    {
+      "ABAS No": "10038511",
+      "Berta No": "30290150-39",
+      "Mal Adı": "WEICONLOCK AN 302-90 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019993",
+      "Berta No": "30290200",
+      "Mal Adı": "WEICONLOCK AN 302-90 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10038512",
+      "Berta No": "30290901-39",
+      "Mal Adı": "WEICONLOCK AN 302-90 TR/GB 1 l",
+      "Liste Fiyatı (€)": 448.6
+    },
+    {
+      "ABAS No": "10052103",
+      "Berta No": "30331085-39",
+      "Mal Adı": "WEICONLOCK SI 303-31 TR/GB 85 ml",
+      "Liste Fiyatı (€)": 29.7
+    },
+    {
+      "ABAS No": "10019937",
+      "Berta No": "30510150",
+      "Mal Adı": "WEICONLOCK AN 305-10 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019995",
+      "Berta No": "30510200",
+      "Mal Adı": "WEICONLOCK AN 305-10 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10000511",
+      "Berta No": "30510250",
+      "Mal Adı": "WEICONLOCK AN 305-10 250 ml",
+      "Liste Fiyatı (€)": 116.7
+    },
+    {
+      "ABAS No": "10002596",
+      "Berta No": "30510300",
+      "Mal Adı": "WEICONLOCK AN 305-10 300 ml",
+      "Liste Fiyatı (€)": 136.5
+    },
+    {
+      "ABAS No": "10038513",
+      "Berta No": "30511150-39",
+      "Mal Adı": "WEICONLOCK AN 305-11 Pen TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019997",
+      "Berta No": "30511200",
+      "Mal Adı": "WEICONLOCK AN 305-11 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10023823",
+      "Berta No": "30511300",
+      "Mal Adı": "AN 305-11 300 ml",
+      "Liste Fiyatı (€)": 141.5
+    },
+    {
+      "ABAS No": "10038514",
+      "Berta No": "30518150-39",
+      "Mal Adı": "WEICONLOCK AN 305-18 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10019999",
+      "Berta No": "30518200",
+      "Mal Adı": "WEICONLOCK AN 305-18 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10061960",
+      "Berta No": "30518300-39",
+      "Mal Adı": "WEICONLOCK AN 305-18 TR/GB 300 ml",
+      "Liste Fiyatı (€)": 142.8
+    },
+    {
+      "ABAS No": "10016437",
+      "Berta No": "30542020",
+      "Mal Adı": "WEICONLOCK AN 305-42 20 ml",
+      "Liste Fiyatı (€)": 20.2
+    },
+    {
+      "ABAS No": "10038515",
+      "Berta No": "30542150-39",
+      "Mal Adı": "WEICONLOCK AN 305-42 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10038516",
+      "Berta No": "30542200-39",
+      "Mal Adı": "WEICONLOCK AN 305-42 TR/GB 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10032101",
+      "Berta No": "30567150",
+      "Mal Adı": "WEICONLOCK AN 305-67 50 ml",
+      "Liste Fiyatı (€)": 36.6
+    },
+    {
+      "ABAS No": "10033883",
+      "Berta No": "30567200",
+      "Mal Adı": "WEICON AN 305-67 200 ml",
+      "Liste Fiyatı (€)": 102.3
+    },
+    {
+      "ABAS No": "10038517",
+      "Berta No": "30572150-39",
+      "Mal Adı": "AN 305-72 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10020003",
+      "Berta No": "30572200",
+      "Mal Adı": "WEICONLOCK AN 305-72 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10026707",
+      "Berta No": "30572300",
+      "Mal Adı": "WEICONLOCK AN 305-72 300 ml",
+      "Liste Fiyatı (€)": 141.5
+    },
+    {
+      "ABAS No": "10019945",
+      "Berta No": "30573150",
+      "Mal Adı": "WEICONLOCK AN 305-73 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10020005",
+      "Berta No": "30573200",
+      "Mal Adı": "WEICONLOCK AN 305-73 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10031472",
+      "Berta No": "30573300",
+      "Mal Adı": "AN 305-73 300ml",
+      "Liste Fiyatı (€)": 141.5
+    },
+    {
+      "ABAS No": "10038518",
+      "Berta No": "30574150-39",
+      "Mal Adı": "WEICONLOCK AN 305-74 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10038519",
+      "Berta No": "30574200-39",
+      "Mal Adı": "WEICONLOCK AN 305-74 TR/GB 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10034146",
+      "Berta No": "30574300",
+      "Mal Adı": "WEICONLOCK AN 305-74 300 ml",
+      "Liste Fiyatı (€)": 160.3
+    },
+    {
+      "ABAS No": "10059239",
+      "Berta No": "30574550-39",
+      "Mal Adı": "WEICONLOCK AN 305-74 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 39.2
+    },
+    {
+      "ABAS No": "10038520",
+      "Berta No": "30577150-39",
+      "Mal Adı": "WEICONLOCK AN 305-77 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38.3
+    },
+    {
+      "ABAS No": "10020011",
+      "Berta No": "30577200",
+      "Mal Adı": "WEICONLOCK AN 305-77 200 ml",
+      "Liste Fiyatı (€)": 106.7
+    },
+    {
+      "ABAS No": "10026918",
+      "Berta No": "30577250-39",
+      "Mal Adı": "WEICONLOCK AN 305-77 TR/GB 250 ml",
+      "Liste Fiyatı (€)": 129.7
+    },
+    {
+      "ABAS No": "10034148",
+      "Berta No": "30577300",
+      "Mal Adı": "WEICONLOCK AN 305-77 300 ml",
+      "Liste Fiyatı (€)": 170.6
+    },
+    {
+      "ABAS No": "10037168",
+      "Berta No": "30578150",
+      "Mal Adı": "WEICONLOCK AN 305-78 50 ml",
+      "Liste Fiyatı (€)": 41.3
+    },
+    {
+      "ABAS No": "10037366",
+      "Berta No": "30578200",
+      "Mal Adı": "WEICONLOCK AN 305-78 200 ml",
+      "Liste Fiyatı (€)": 124.7
+    },
+    {
+      "ABAS No": "10019907",
+      "Berta No": "30586020",
+      "Mal Adı": "WEICONLOCK AN 305-86 20 ml",
+      "Liste Fiyatı (€)": 16.3
+    },
+    {
+      "ABAS No": "10017879",
+      "Berta No": "30586150",
+      "Mal Adı": "WEICONLOCK AN 305-86 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10020013",
+      "Berta No": "30586200",
+      "Mal Adı": "WEICONLOCK AN 305-86 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10019909",
+      "Berta No": "30600020",
+      "Mal Adı": "WEICONLOCK AN 306-00 20 ml",
+      "Liste Fiyatı (€)": 17.9
+    },
+    {
+      "ABAS No": "10019951",
+      "Berta No": "30600150",
+      "Mal Adı": "WEICONLOCK AN 306-00 50 ml",
+      "Liste Fiyatı (€)": 38.8
+    },
+    {
+      "ABAS No": "10020015",
+      "Berta No": "30600200",
+      "Mal Adı": "WEICONLOCK AN 306-00 200 ml",
+      "Liste Fiyatı (€)": 120
+    },
+    {
+      "ABAS No": "10020045",
+      "Berta No": "30601020",
+      "Mal Adı": "WEICONLOCK AN 306-01 20 ml",
+      "Liste Fiyatı (€)": 19.8
+    },
+    {
+      "ABAS No": "10017880",
+      "Berta No": "30601150",
+      "Mal Adı": "WEICONLOCK AN 306-01 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10020017",
+      "Berta No": "30601200",
+      "Mal Adı": "WEICONLOCK AN 306-01 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10020047",
+      "Berta No": "30603020",
+      "Mal Adı": "WEICONLOCK AN 306-03 20 ml",
+      "Liste Fiyatı (€)": 17.1
+    },
+    {
+      "ABAS No": "10038521",
+      "Berta No": "30603150-39",
+      "Mal Adı": "WEICONLOCK AN 306-03 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10020019",
+      "Berta No": "30603200",
+      "Mal Adı": "WEICONLOCK AN 306-03 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10019911",
+      "Berta No": "30610020",
+      "Mal Adı": "WEICONLOCK AN 306-10 20 ml",
+      "Liste Fiyatı (€)": 18.6
+    },
+    {
+      "ABAS No": "10017883",
+      "Berta No": "30610150",
+      "Mal Adı": "WEICONLOCK AN 306-10 50 ml",
+      "Liste Fiyatı (€)": 40.3
+    },
+    {
+      "ABAS No": "10020021",
+      "Berta No": "30610200",
+      "Mal Adı": "WEICONLOCK AN 306-10 200 ml",
+      "Liste Fiyatı (€)": 124.8
+    },
+    {
+      "ABAS No": "10017330",
+      "Berta No": "30620020",
+      "Mal Adı": "WEICONLOCK AN 306-20 20 ml",
+      "Liste Fiyatı (€)": 18.6
+    },
+    {
+      "ABAS No": "10017885",
+      "Berta No": "30620150",
+      "Mal Adı": "WEICONLOCK AN 306-20 50 ml",
+      "Liste Fiyatı (€)": 36.6
+    },
+    {
+      "ABAS No": "10038523",
+      "Berta No": "30620200-39",
+      "Mal Adı": "WEICONLOCK AN 306-20TR/GB 200 ml Pen S",
+      "Liste Fiyatı (€)": 106.7
+    },
+    {
+      "ABAS No": "10016438",
+      "Berta No": "30630020",
+      "Mal Adı": "WEICONLOCK AN 306-30 20 ml",
+      "Liste Fiyatı (€)": 18.6
+    },
+    {
+      "ABAS No": "10017887",
+      "Berta No": "30630150",
+      "Mal Adı": "WEICONLOCK AN 306-30 50 ml",
+      "Liste Fiyatı (€)": 40.3
+    },
+    {
+      "ABAS No": "10020025",
+      "Berta No": "30630200",
+      "Mal Adı": "WEICONLOCK AN 306-30 200 ml",
+      "Liste Fiyatı (€)": 124.8
+    },
+    {
+      "ABAS No": "10016443",
+      "Berta No": "30638020",
+      "Mal Adı": "WEICONLOCK AN 306-38 20 ml",
+      "Liste Fiyatı (€)": 15.7
+    },
+    {
+      "ABAS No": "10030478",
+      "Berta No": "30638110",
+      "Mal Adı": "WEICONLOCK AN 306-38 10 ml",
+      "Liste Fiyatı (€)": 14.6
+    },
+    {
+      "ABAS No": "10038525",
+      "Berta No": "30638150-39",
+      "Mal Adı": "WEICONLOCK AN 306-38 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10038526",
+      "Berta No": "30638200-39",
+      "Mal Adı": "WEICONLOCK AN 306-38 TR/GB 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10038540",
+      "Berta No": "30638901-39",
+      "Mal Adı": "WEICONLOCK AN 306-38 TR/GB 1 L",
+      "Liste Fiyatı (€)": 496.7
+    },
+    {
+      "ABAS No": "10052559",
+      "Berta No": "30638907-39",
+      "Mal Adı": "WEICONLOCK AN 306-38 TR/GB 7 l",
+      "Liste Fiyatı (€)": 3774.1
+    },
+    {
+      "ABAS No": "10020049",
+      "Berta No": "30640020",
+      "Mal Adı": "WEICONLOCK AN 306-40 20 ml",
+      "Liste Fiyatı (€)": 15.7
+    },
+    {
+      "ABAS No": "10017890",
+      "Berta No": "30640150",
+      "Mal Adı": "WEICONLOCK AN 306-40 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10020031",
+      "Berta No": "30640200",
+      "Mal Adı": "WEICONLOCK AN 306-40 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10020029",
+      "Berta No": "30641020",
+      "Mal Adı": "WEICONLOCK AN 306-41 20 ml",
+      "Liste Fiyatı (€)": 17.1
+    },
+    {
+      "ABAS No": "10038527",
+      "Berta No": "30641150-39",
+      "Mal Adı": "WEICONLOCK AN 306-41 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10020033",
+      "Berta No": "30641200",
+      "Mal Adı": "WEICONLOCK AN 306-41 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10016442",
+      "Berta No": "30648020",
+      "Mal Adı": "WEICONLOCK AN 306-48 20 ml",
+      "Liste Fiyatı (€)": 16.4
+    },
+    {
+      "ABAS No": "10038528",
+      "Berta No": "30648150-39",
+      "Mal Adı": "WEICONLOCK AN 306-48 TR/GB 50 ml",
+      "Liste Fiyatı (€)": 38
+    },
+    {
+      "ABAS No": "10038529",
+      "Berta No": "30648200-39",
+      "Mal Adı": "WEICONLOCK AN 306-48 TR/GB 200 ml",
+      "Liste Fiyatı (€)": 106.4
+    },
+    {
+      "ABAS No": "10019955",
+      "Berta No": "30660150",
+      "Mal Adı": "WEICONLOCK AN 306-60 50 ml",
+      "Liste Fiyatı (€)": 38.8
+    },
+    {
+      "ABAS No": "10020040",
+      "Berta No": "30660200",
+      "Mal Adı": "WEICONLOCK AN 306-60 200 ml",
+      "Liste Fiyatı (€)": 124.8
+    },
+    {
+      "ABAS No": "10034150",
+      "Berta No": "30660300",
+      "Mal Adı": "WEICONLOCK AN 306-60 300 ml",
+      "Liste Fiyatı (€)": 295.8
+    },
+    {
+      "ABAS No": "10055677",
+      "Berta No": "30700060",
+      "Mal Adı": "WEICONLOCK Aktivator F 60 ml Pen, flüssig",
+      "Liste Fiyatı (€)": 28.3
+    },
+    {
+      "ABAS No": "10033446",
+      "Berta No": "30700200-39",
+      "Mal Adı": "Aktivatör F Sprey TR/GB 200 ml",
+      "Liste Fiyatı (€)": 37.7
+    },
+    {
+      "ABAS No": "10068395",
+      "Berta No": "30700501",
+      "Mal Adı": "Aktivatör F sıvı 1 L",
+      "Liste Fiyatı (€)": 177.6
+    },
+    {
+      "ABAS No": "10001256",
+      "Berta No": "30955172",
+      "Mal Adı": "Dosaj ucu Boy 1 Tip S",
+      "Liste Fiyatı (€)": 3
+    },
+    {
+      "ABAS No": "10006784",
+      "Berta No": "50050116",
+      "Mal Adı": "Kablo Kesici No. 4-16",
+      "Liste Fiyatı (€)": 28.9
+    },
+    {
+      "ABAS No": "10006805",
+      "Berta No": "50050227",
+      "Mal Adı": "Kablo Kesici No. 8-27",
+      "Liste Fiyatı (€)": 28.9
+    },
+    {
+      "ABAS No": "10006830",
+      "Berta No": "50050435",
+      "Mal Adı": "Kablo Kesici No. 28-35",
+      "Liste Fiyatı (€)": 40.8
+    },
+    {
+      "ABAS No": "10006839",
+      "Berta No": "50050450",
+      "Mal Adı": "Kablo Kesici No. 35-50",
+      "Liste Fiyatı (€)": 43.7
+    },
+    {
+      "ABAS No": "10051155",
+      "Berta No": "50053116",
+      "Mal Adı": "Kablo Soyucu No.4-16",
+      "Liste Fiyatı (€)": 27.9
+    },
+    {
+      "ABAS No": "10051157",
+      "Berta No": "50053227",
+      "Mal Adı": "Kablo Soyucu No.8-27",
+      "Liste Fiyatı (€)": 28
+    },
+    {
+      "ABAS No": "10051159",
+      "Berta No": "50053328",
+      "Mal Adı": "Kablo Soyucu No.4-28H 1K",
+      "Liste Fiyatı (€)": 36.7
+    },
+    {
+      "ABAS No": "10014222",
+      "Berta No": "50053328-L",
+      "Mal Adı": "Kablo Soyucu No .4-28 H Klasik 1K",
+      "Liste Fiyatı (€)": 36.7
+    },
+    {
+      "ABAS No": "10012844",
+      "Berta No": "50054328",
+      "Mal Adı": "Kablo Kesici No. 4-28 H",
+      "Liste Fiyatı (€)": 36.7
+    },
+    {
+      "ABAS No": "10012851",
+      "Berta No": "50054428",
+      "Mal Adı": "Kablo Kesici No. 4-28 G",
+      "Liste Fiyatı (€)": 31.7
+    },
+    {
+      "ABAS No": "10021246",
+      "Berta No": "50055328",
+      "Mal Adı": "Kablo Kesici No. S 4-28",
+      "Liste Fiyatı (€)": 37.7
+    },
+    {
+      "ABAS No": "10030001",
+      "Berta No": "50057328",
+      "Mal Adı": "Kablo Kesici No. S 4-28 Multi",
+      "Liste Fiyatı (€)": 35.6
+    },
+    {
+      "ABAS No": "10068090",
+      "Berta No": "50058018",
+      "Mal Adı": "Düz ve yuvarlak kablo bicaklari",
+      "Liste Fiyatı (€)": 32.4
+    },
+    {
+      "ABAS No": "10101939",
+      "Berta No": "50058328",
+      "Mal Adı": "No. S 4-28 Spiral",
+      "Liste Fiyatı (€)": 94.7
+    },
+    {
+      "ABAS No": "10002962",
+      "Berta No": "50100001",
+      "Mal Adı": "Kablo soyucu yedek bıçağı",
+      "Liste Fiyatı (€)": 10.6
+    },
+    {
+      "ABAS No": "10021379",
+      "Berta No": "50100002",
+      "Mal Adı": "Kablo soyucu yedek bıçağı Tip S",
+      "Liste Fiyatı (€)": 6.7
+    },
+    {
+      "ABAS No": "10055930",
+      "Berta No": "51000002",
+      "Mal Adı": "Hassas Sıyırıcı S",
+      "Liste Fiyatı (€)": 55.4
+    },
+    {
+      "ABAS No": "10100517",
+      "Berta No": "51000003",
+      "Mal Adı": "LED Çalışma Işığı Kırmızı",
+      "Liste Fiyatı (€)": 48
+    },
+    {
+      "ABAS No": "10006786",
+      "Berta No": "51000005",
+      "Mal Adı": "Sıyırma Pensi No. 5",
+      "Liste Fiyatı (€)": 57.4
+    },
+    {
+      "ABAS No": "10014847",
+      "Berta No": "51000006",
+      "Mal Adı": "No.6 1000V kırmızı/mavi",
+      "Liste Fiyatı (€)": 67.1
+    },
+    {
+      "ABAS No": "10018202",
+      "Berta No": "51000007",
+      "Mal Adı": "Sıyırma Pensi No. 7-R",
+      "Liste Fiyatı (€)": 140.3
+    },
+    {
+      "ABAS No": "10006798",
+      "Berta No": "51000100",
+      "Mal Adı": "Kablo Sıyırıcı No.100",
+      "Liste Fiyatı (€)": 39.6
+    },
+    {
+      "ABAS No": "10007413",
+      "Berta No": "51000150",
+      "Mal Adı": "Mini-Duo No.150",
+      "Liste Fiyatı (€)": 46
+    },
+    {
+      "ABAS No": "10006853",
+      "Berta No": "51000200",
+      "Mal Adı": "Duo-Sıyırıcı No.200",
+      "Liste Fiyatı (€)": 90.9
+    },
+    {
+      "ABAS No": "10007406",
+      "Berta No": "51000300",
+      "Mal Adı": "Duo-Crimp No.300",
+      "Liste Fiyatı (€)": 142.8
+    },
+    {
+      "ABAS No": "10001620",
+      "Berta No": "51000400",
+      "Mal Adı": "Çoklu-Sıyırıcı No.400",
+      "Liste Fiyatı (€)": 66.9
+    },
+    {
+      "ABAS No": "10100516",
+      "Berta No": "51000600",
+      "Mal Adı": "Yüksük Sıkma Pensi ERGO",
+      "Liste Fiyatı (€)": 218.2
+    },
+    {
+      "ABAS No": "10100515",
+      "Berta No": "51000700",
+      "Mal Adı": "Yüksük Sıkma Pensi MULTI",
+      "Liste Fiyatı (€)": 164.1
+    },
+    {
+      "ABAS No": "10100514",
+      "Berta No": "51000800",
+      "Mal Adı": "Yüksük Sıkma Pensi MC4",
+      "Liste Fiyatı (€)": 106.7
+    },
+    {
+      "ABAS No": "10100513",
+      "Berta No": "51000900",
+      "Mal Adı": "Yüksük Sıkma Pensi 16mm² HEX",
+      "Liste Fiyatı (€)": 159.8
+    },
+    {
+      "ABAS No": "10006865",
+      "Berta No": "51001000",
+      "Mal Adı": "Kablo kesici HD No.1000",
+      "Liste Fiyatı (€)": 141.3
+    },
+    {
+      "ABAS No": "10006673",
+      "Berta No": "51001002",
+      "Mal Adı": "WEICON ESD Hassas Sıyırıcı S",
+      "Liste Fiyatı (€)": 69
+    },
+    {
+      "ABAS No": "10017050",
+      "Berta No": "51001007",
+      "Mal Adı": "No.7-F mavi/kırmızı",
+      "Liste Fiyatı (€)": 138
+    },
+    {
+      "ABAS No": "10057551",
+      "Berta No": "51002002",
+      "Mal Adı": "Weicon LWL Hassas Sıyırıc S",
+      "Liste Fiyatı (€)": 77.2
+    },
+    {
+      "ABAS No": "10025011",
+      "Berta No": "51002007",
+      "Mal Adı": "Sıyırma Pensi No. 7 Solar",
+      "Liste Fiyatı (€)": 149.4
+    },
+    {
+      "ABAS No": "10056659",
+      "Berta No": "51003005",
+      "Mal Adı": "No.5 Klasik MAVİ",
+      "Liste Fiyatı (€)": 50
+    },
+    {
+      "ABAS No": "10062070",
+      "Berta No": "51005005",
+      "Mal Adı": "No. 5 Pro",
+      "Liste Fiyatı (€)": 112.2
+    },
+    {
+      "ABAS No": "10067897",
+      "Berta No": "51007005",
+      "Mal Adı": "Wire Stripper No. 5 Solar Pro",
+      "Liste Fiyatı (€)": 113
+    },
+    {
+      "ABAS No": "10000288",
+      "Berta No": "51100002",
+      "Mal Adı": "Yedek bıcak seti No.5",
+      "Liste Fiyatı (€)": 15.2
+    },
+    {
+      "ABAS No": "10025713",
+      "Berta No": "51100005",
+      "Mal Adı": "Yedek Bıçak Seti No.7 Solar",
+      "Liste Fiyatı (€)": 32.3
+    },
+    {
+      "ABAS No": "10018335",
+      "Berta No": "51100006",
+      "Mal Adı": "Yedek Bıçak Seti No.7 Magic",
+      "Liste Fiyatı (€)": 20
+    },
+    {
+      "ABAS No": "10017069",
+      "Berta No": "51100007",
+      "Mal Adı": "Yedek Bıçak Seti No.7-Flachka",
+      "Liste Fiyatı (€)": 20.9
+    },
+    {
+      "ABAS No": "10002680",
+      "Berta No": "51100008",
+      "Mal Adı": "Yedek bıcak No.200",
+      "Liste Fiyatı (€)": 12.6
+    },
+    {
+      "ABAS No": "10067899",
+      "Berta No": "51100112",
+      "Mal Adı": "Yedek Bıçak Seti No. 5 Solar Pro",
+      "Liste Fiyatı (€)": 34.7
+    },
+    {
+      "ABAS No": "10006926",
+      "Berta No": "51953020",
+      "Mal Adı": "Yedek bıçak No.150-300",
+      "Liste Fiyatı (€)": 11
+    },
+    {
+      "ABAS No": "10051150",
+      "Berta No": "52000001",
+      "Mal Adı": "Coax-Sıyırıcı No.1 F Plus",
+      "Liste Fiyatı (€)": 37.1
+    },
+    {
+      "ABAS No": "10006875",
+      "Berta No": "52000002",
+      "Mal Adı": "Coax-Stripper No.2",
+      "Liste Fiyatı (€)": 37.3
+    },
+    {
+      "ABAS No": "10013082",
+      "Berta No": "52000003",
+      "Mal Adı": "No.3 mavi/kırmızı",
+      "Liste Fiyatı (€)": 46
+    },
+    {
+      "ABAS No": "10051142",
+      "Berta No": "52000010",
+      "Mal Adı": "Kablo Sıyırıcı No.10",
+      "Liste Fiyatı (€)": 33.3
+    },
+    {
+      "ABAS No": "10006883",
+      "Berta No": "52000013",
+      "Mal Adı": "Yuvarlak kablo sıyırıcı No.13",
+      "Liste Fiyatı (€)": 33.8
+    },
+    {
+      "ABAS No": "10038853",
+      "Berta No": "52000016",
+      "Mal Adı": "kablo sıyırıcı No.16",
+      "Liste Fiyatı (€)": 53.2
+    },
+    {
+      "ABAS No": "10034292",
+      "Berta No": "52000025",
+      "Mal Adı": "Kablo sıyırıcı No.25",
+      "Liste Fiyatı (€)": 438.1
+    },
+    {
+      "ABAS No": "10058056",
+      "Berta No": "52000029",
+      "Mal Adı": "Kablo Sıyırıcı No:4-29 Spıral",
+      "Liste Fiyatı (€)": 191.8
+    },
+    {
+      "ABAS No": "10033530",
+      "Berta No": "52000030",
+      "Mal Adı": "Combi-Coax No.30",
+      "Liste Fiyatı (€)": 54.7
+    },
+    {
+      "ABAS No": "10039667",
+      "Berta No": "52000035",
+      "Mal Adı": "Kablo bıçağı No. 35",
+      "Liste Fiyatı (€)": 68.5
+    },
+    {
+      "ABAS No": "10100025",
+      "Berta No": "52000036",
+      "Mal Adı": "Kablo Makası XL",
+      "Liste Fiyatı (€)": 42.6
+    },
+    {
+      "ABAS No": "10054013",
+      "Berta No": "52000040",
+      "Mal Adı": "LSA Sensör No.40",
+      "Liste Fiyatı (€)": 134.8
+    },
+    {
+      "ABAS No": "10052731",
+      "Berta No": "52001001",
+      "Mal Adı": "Coax-Sıyırıcı No. 1 F Plus sarı",
+      "Liste Fiyatı (€)": 37.1
+    },
+    {
+      "ABAS No": "10055142",
+      "Berta No": "52002001",
+      "Mal Adı": "No.1F Plus Mini Koaksiyel için",
+      "Liste Fiyatı (€)": 48.8
+    },
+    {
+      "ABAS No": "10054014",
+      "Berta No": "52002002",
+      "Mal Adı": "Coax-Sıyırıcı No. 2 Cat",
+      "Liste Fiyatı (€)": 39.2
+    },
+    {
+      "ABAS No": "10065750",
+      "Berta No": "52003003",
+      "Mal Adı": "Mini-Solar 1,5/2,5 mm²",
+      "Liste Fiyatı (€)": 74.5
+    },
+    {
+      "ABAS No": "10049329",
+      "Berta No": "52003013",
+      "Mal Adı": "No. 13 Klasik",
+      "Liste Fiyatı (€)": 35.3
+    },
+    {
+      "ABAS No": "10062190",
+      "Berta No": "52004002",
+      "Mal Adı": "Proﬁbus Soyucu No. 2",
+      "Liste Fiyatı (€)": 56.7
+    },
+    {
+      "ABAS No": "10065752",
+      "Berta No": "52004003",
+      "Mal Adı": "Mini-Solar 4/6 mm²",
+      "Liste Fiyatı (€)": 76.9
+    },
+    {
+      "ABAS No": "10065754",
+      "Berta No": "52005003",
+      "Mal Adı": "Mini-Solar 10/16 mm²",
+      "Liste Fiyatı (€)": 76.9
+    },
+    {
+      "ABAS No": "10051145",
+      "Berta No": "52100008",
+      "Mal Adı": "Modül ekleri No.1 F 6/4",
+      "Liste Fiyatı (€)": 19.5
+    },
+    {
+      "ABAS No": "10051147",
+      "Berta No": "52100009",
+      "Mal Adı": "Modül ekleri No.1 F 6,5/6,5",
+      "Liste Fiyatı (€)": 19.5
+    },
+    {
+      "ABAS No": "10055661",
+      "Berta No": "52100010",
+      "Mal Adı": "Modül ekleri No.1 F 6,5/6,5",
+      "Liste Fiyatı (€)": 34.5
+    },
+    {
+      "ABAS No": "10044966",
+      "Berta No": "52800000",
+      "Mal Adı": "Multi Spatula Mavi",
+      "Liste Fiyatı (€)": 24
+    },
+    {
+      "ABAS No": "10049687",
+      "Berta No": "52800001",
+      "Mal Adı": "Easy Opener sarı",
+      "Liste Fiyatı (€)": 19.6
+    },
+    {
+      "ABAS No": "10035247",
+      "Berta No": "52880001",
+      "Mal Adı": "Profesyonel Başlangıç Seti",
+      "Liste Fiyatı (€)": 163
+    },
+    {
+      "ABAS No": "10039670",
+      "Berta No": "52880002",
+      "Mal Adı": "Profi-Kıvrım Seti",
+      "Liste Fiyatı (€)": 255.4
+    },
+    {
+      "ABAS No": "10035161",
+      "Berta No": "52953020",
+      "Mal Adı": "WEICON Kablo Sıyırıcı No.25",
+      "Liste Fiyatı (€)": 125.4
+    },
+    {
+      "ABAS No": "10033650",
+      "Berta No": "52953030",
+      "Mal Adı": "Yedek Bıçak Seti No.30 Data-Strip",
+      "Liste Fiyatı (€)": 13.1
+    },
+    {
+      "ABAS No": "10039790",
+      "Berta No": "52953040",
+      "Mal Adı": "No. 16 için Kancalı Bıçak",
+      "Liste Fiyatı (€)": 14.7
+    },
+    {
+      "ABAS No": "10058057",
+      "Berta No": "52953050",
+      "Mal Adı": "4-29 Yedek Bıçak",
+      "Liste Fiyatı (€)": 131.6
+    },
+    {
+      "ABAS No": "10061993",
+      "Berta No": "53051116",
+      "Mal Adı": "No. C 4-16 Green Line",
+      "Liste Fiyatı (€)": 30.7
+    },
+    {
+      "ABAS No": "10061996",
+      "Berta No": "53051227",
+      "Mal Adı": "Kablo Soyucu No. 8-27 Green Line",
+      "Liste Fiyatı (€)": 30.7
+    },
+    {
+      "ABAS No": "10061991",
+      "Berta No": "53054128",
+      "Mal Adı": "Kablo Soyucu No. 4-28 H Green Line",
+      "Liste Fiyatı (€)": 40.5
+    },
+    {
+      "ABAS No": "10061987",
+      "Berta No": "53055328",
+      "Mal Adı": "No. S 4-28 Green Line",
+      "Liste Fiyatı (€)": 41.5
+    },
+    {
+      "ABAS No": "10061989",
+      "Berta No": "53057328",
+      "Mal Adı": "Kablo Kesici No. S 4-28 Voltaj",
+      "Liste Fiyatı (€)": 39.4
+    },
+    {
+      "ABAS No": "10062000",
+      "Berta No": "54000002",
+      "Mal Adı": "Kablo Kesici No. S 4-28 Voltaj",
+      "Liste Fiyatı (€)": 61.1
+    },
+    {
+      "ABAS No": "10061997",
+      "Berta No": "54000005",
+      "Mal Adı": "Kablo Sıyırma Pensesi No. 5 Green Line",
+      "Liste Fiyatı (€)": 61.1
+    },
+    {
+      "ABAS No": "10062016",
+      "Berta No": "54000100",
+      "Mal Adı": "Sıyırıcı No. 100 Green Line",
+      "Liste Fiyatı (€)": 43.5
+    },
+    {
+      "ABAS No": "10062010",
+      "Berta No": "54000300",
+      "Mal Adı": "Duo-Crimp No. 300 Green Line",
+      "Liste Fiyatı (€)": 150.8
+    },
+    {
+      "ABAS No": "10062014",
+      "Berta No": "54000400",
+      "Mal Adı": "Çoklu - Sıyırıcı No. 400",
+      "Liste Fiyatı (€)": 70.9
+    },
+    {
+      "ABAS No": "10062002",
+      "Berta No": "55000001",
+      "Mal Adı": "Coax-Sıyırıcı No. 1 F Pluscc GreenLine",
+      "Liste Fiyatı (€)": 53.9
+    },
+    {
+      "ABAS No": "10062004",
+      "Berta No": "55000002",
+      "Mal Adı": "Coax-Stripper No. 2 Green line",
+      "Liste Fiyatı (€)": 39.6
+    },
+    {
+      "ABAS No": "10062008",
+      "Berta No": "55000013",
+      "Mal Adı": "No. 13 Green Line",
+      "Liste Fiyatı (€)": 35.5
+    },
+    {
+      "ABAS No": "10062006",
+      "Berta No": "55000016",
+      "Mal Adı": "Quadro-Sıyırıcı No. 16 Green Line",
+      "Liste Fiyatı (€)": 58.7
+    },
+    {
+      "ABAS No": "10062018",
+      "Berta No": "55880001",
+      "Mal Adı": "Kablo Soyma Aletleri Çantası",
+      "Liste Fiyatı (€)": 181.7
+    },
+    {
+      "ABAS No": "10057743",
+      "Berta No": "99950251",
+      "Mal Adı": "Dişli Fırçası",
+      "Liste Fiyatı (€)": 11.8
+    },
+    {
+      "ABAS No": "10057970",
+      "Berta No": "99950253",
+      "Mal Adı": "Bisiklet Anahtarı",
+      "Liste Fiyatı (€)": 8
+    },
+    {
+      "ABAS No": "10105130",
+      "Berta No": "11539405",
+      "Mal Adı": "Lasermarkierungsspray",
+      "Liste Fiyatı (€)": 40.8
+    },
+    {
+      "ABAS No": "10002010",
+      "Berta No": "12955000",
+      "Mal Adı": "Boş şişe 5 g",
+      "Liste Fiyatı (€)": 2.1
+    },
+    {
+      "ABAS No": "10002012",
+      "Berta No": "12955002",
+      "Mal Adı": "Boş Şişe 20 g",
+      "Liste Fiyatı (€)": 3.5
+    },
+    {
+      "ABAS No": "10002013",
+      "Berta No": "12955003",
+      "Mal Adı": "Boş Şişe 50 g",
+      "Liste Fiyatı (€)": 3.78
+    },
+    {
+      "ABAS No": "10002014",
+      "Berta No": "12955004",
+      "Mal Adı": "Boş Şişe 500 g",
+      "Liste Fiyatı (€)": 4.52
+    },
+    {
+      "ABAS No": "10026711",
+      "Berta No": "10650002-2",
+      "Mal Adı": "Easy-Mix Metal Karıştırma boş PE",
+      "Liste Fiyatı (€)": 5.2
+    },
+    {
+      "ABAS No": "10002459",
+      "Berta No": "30955021",
+      "Mal Adı": "250 ml için kapak",
+      "Liste Fiyatı (€)": 4.2
+    },
+    {
+      "ABAS No": "10002932",
+      "Berta No": "12955150-32",
+      "Mal Adı": "Vidalı kapak beyaz 10-50 g",
+      "Liste Fiyatı (€)": 2.1
+    },
+    {
+      "ABAS No": "10012223",
+      "Berta No": "12955050-32",
+      "Mal Adı": "Weicon Kapak beyaz 10-60 g",
+      "Liste Fiyatı (€)": 3.8
+    },
+    {
+      "ABAS No": "10016211",
+      "Berta No": "30955028",
+      "Mal Adı": "Kapak Weicon oval 50-250 ml",
+      "Liste Fiyatı (€)": 4.7
+    },
+    {
+      "ABAS No": "10018787",
+      "Berta No": "12955040-12",
+      "Mal Adı": "Kapak mavi Kalem 12g",
+      "Liste Fiyatı (€)": 2.4
+    },
+    {
+      "ABAS No": "10035253",
+      "Berta No": "12955312",
+      "Mal Adı": "VA 500 g Kapak",
+      "Liste Fiyatı (€)": 1.8
+    },
+    {
+      "ABAS No": "10002106",
+      "Berta No": "12955311",
+      "Mal Adı": "VA 500 g Şeffaf Uç",
+      "Liste Fiyatı (€)": 4
+    },
+    {
+      "ABAS No": "10014007",
+      "Berta No": "10660002-2",
+      "Mal Adı": "Karıştırma nozulu 10:1 turuncu",
+      "Liste Fiyatı (€)": 3.9
+    },
+    {
+      "ABAS No": "10052920",
+      "Berta No": "10650021-2",
+      "Mal Adı": "Helix Karıştırma Ağızlık 400 ml",
+      "Liste Fiyatı (€)": 5.1
+    },
+    {
+      "ABAS No": "10056710",
+      "Berta No": "10650026",
+      "Mal Adı": "Helix Karıştırma Ağızlık 400ml",
+      "Liste Fiyatı (€)": 5
+    },
+    {
+      "ABAS No": "10001256",
+      "Berta No": "30955172",
+      "Mal Adı": "Dosaj ucu Boy 1 Tip S",
+      "Liste Fiyatı (€)": 1.9
+    },
+    {
+      "ABAS No": "10012382",
+      "Berta No": "12650030",
+      "Mal Adı": "Contact Doldurucu 30 g",
+      "Liste Fiyatı (€)": 8.5
+    },
+    {
+      "ABAS No": "10027692",
+      "Berta No": "13309997",
+      "Mal Adı": "Flex 310 M >2K< karıştırma ucu",
+      "Liste Fiyatı (€)": 6.9
+    },
+    {
+      "ABAS No": "10057191",
+      "Berta No": "10650027",
+      "Mal Adı": "Karıştırma ucu MFHX",
+      "Liste Fiyatı (€)": 8.9
+    },
+    {
+      "ABAS No": "10001258",
+      "Berta No": "12955175",
+      "Mal Adı": "Dozaj ucu Tipi A",
+      "Liste Fiyatı (€)": 3.6
+    },
+    {
+      "ABAS No": "10068261",
+      "Berta No": "12955175",
+      "Mal Adı": "Dozaj Ucu Tipo A",
+      "Liste Fiyatı (€)": 3.8
+    },
+    {
+      "ABAS No": "10001254",
+      "Berta No": "12955170-2",
+      "Mal Adı": "Dosaj ucu Boy 0 Tip S",
+      "Liste Fiyatı (€)": 3.7
+    },
+    {
+      "ABAS No": "10012226",
+      "Berta No": "12955050-12",
+      "Mal Adı": "Hızlı Yapıştırıcı Kapağı 30-60g",
+      "Liste Fiyatı (€)": 3.5
+    },
+    {
+      "ABAS No": "10047821",
+      "Berta No": "12955050-12A",
+      "Mal Adı": "Hızlı Yapıştırıcı Kapağı 10-60 e",
+      "Liste Fiyatı (€)": 3.7
+    }
+  ]
+}
