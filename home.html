@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- WEICON ASİST V2 — VERSİYON: WG.101026.1325.759 — home.html -->
+<!-- WEICON ASİST V2 — VERSİYON: WG.111026.1055.761 — home.html -->
 <!--
   WEICON ASİST — ANA SAYFA v5 (sade "flat" tasarım + gerçek hedef ilerlemesi)
   =============================================================================
@@ -49,7 +49,7 @@
 <title>WEICON ASİST — Ana Sayfa</title>
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.071026.1445.745">
-<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.101026.1135.758">
+<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.111026.1055.761">
 </head>
 <body>
 
@@ -95,7 +95,6 @@
     </div>
     <div class="as-isgunu-panel">
       <div>
-        <span class="as-isgunu-ikon" aria-hidden="true">📅</span>
         <div class="as-isgunu-etiket">İş günü<br>kaldı</div>
       </div>
       <div class="as-isgunu-deger" id="isGunuDeger">-</div>
@@ -110,7 +109,6 @@
     <div class="as-hedef-kart" onclick="window.location.href='satis-listesi.html?kapsam=ay'">
       <div class="as-hedef-ust-satir">
         <span class="as-hedef-ay-etiket" id="anaSayfaAyEtiketi">Eylül 2026 satışı</span>
-        <span class="as-hedef-rozet" id="asHedefRozet" onclick="event.stopPropagation(); window.location.href='ayarlar.html';" hidden>-</span>
       </div>
       <div class="as-hedef-deger-satir">
         <span class="as-hedef-birim">EURO</span>
@@ -120,10 +118,16 @@
            sayfasındaki "SATIŞ (TL)" ile aynı hesap (bkz. home-data.js
            buAyinVerisi().toplamEuroTl). -->
       <div class="as-hedef-tl-karsilik" id="anaSayfaSatisToplamTl">≈ 0,00 TL</div>
+      <!-- 11.10.2026: Hedef metni bara ÜSTTEN bitişik, %hedef rozeti bara
+           ALTTAN bitişik (Abdullah'ın isteğiyle, önceki düzende hedef metni
+           barın altındaydı ve rozet üst satırdaydı). -->
+      <div class="as-hedef-alt-yazi" id="asHedefAltYazi" hidden></div>
       <div class="as-hedef-bar-track" id="asHedefBarTrack" hidden>
         <div class="as-hedef-bar-dolu" id="asHedefBarDolu"></div>
       </div>
-      <div class="as-hedef-alt-yazi" id="asHedefAltYazi" hidden></div>
+      <div class="as-hedef-rozet-satir">
+        <span class="as-hedef-rozet" id="asHedefRozet" onclick="event.stopPropagation(); window.location.href='ayarlar.html';" hidden>-</span>
+      </div>
 
       <div class="as-hedef-ayrac"></div>
       <div class="as-prim-etiket" id="anaSayfaPrimEtiketi">Eylül 2026 primi</div>
@@ -212,7 +216,7 @@
       <a class="as-drawer-oge" href="kisisel.html"><span class="as-drawer-ikon" style="color:#f5c451;" aria-hidden="true">🔒</span><span class="as-drawer-etiket">Kişisel</span><span class="as-drawer-ok" aria-hidden="true">›</span></a>
     </nav>
 
-    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** WEİCON ASİST WG.101026.1325.759 ***</div>
+    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** WEİCON ASİST WG.111026.1055.761 ***</div>
 
     <div class="as-drawer-ayarlar-blok">
       <a class="as-drawer-oge" href="menu.html"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">⚙️</span><span class="as-drawer-etiket">Ayarlar</span><span class="as-drawer-hata-rozet" id="asAyarlarHataRozeti" hidden>0</span></a>
