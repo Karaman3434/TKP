@@ -90,8 +90,11 @@ function mesajMetniOlustur(musteri, sepet, tip, kanal){
 // Yeni sınıflar SADECE bu dosyada kullanılır — belge-render.js (Belge
 // Önizleme) eski .belge-kosul-grid / .belge-musteri-baslik yapısını korur.
 var FORM_BASLIK = {numune:"NUMUNE FORMU", teklif:"FİYAT TEKLİFİ FORMU", proforma:"PROFORMA FORMU", siparis:"SİPARİŞ FORMU"};
+// TÜRE ÖZEL RENK (12.10.2026, Abdullah onayı): "tip-<tip>" sınıfı eklendi —
+// gerçek renk belge-style.css'teki .belge-form-baslik.tip-* kurallarından
+// geliyor, bu şerit artık belgenin tek renkli göstergesi.
 function formBaslikHtml(tip){
-  return "<div class='belge-form-baslik'>" + (FORM_BASLIK[tip]||"SİPARİŞ FORMU") + "</div>";
+  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'>" + (FORM_BASLIK[tip]||"SİPARİŞ FORMU") + "</div>";
 }
 // VADE artık Müşteri Kartı'nda SAYI (gün) olarak tutuluyor (21.09.2026);
 // burada okunaklı gösterim için "45" -> "45 gün" biçimine çevrilir. Eski

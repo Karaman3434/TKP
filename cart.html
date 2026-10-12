@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- WEICON ASİST V2 — VERSİYON: WG.121026.1400.772 — cart.html -->
+<!-- WEICON ASİST V2 — VERSİYON: WG.121026.1435.775 — cart.html -->
 <!--
   WEICON ASİST — BİRLEŞİK SAYFA: ÜRÜN BUL + HIZLI HESAPLA + SEPET v6
   ================================================================
@@ -27,18 +27,23 @@
 <link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
 <link rel="stylesheet" href="product-style.css?v=WG.061026.2220.740">
 <link rel="stylesheet" href="calc-style.css?v=WG.061026.2220.740">
-<link rel="stylesheet" href="belge-style.css?v=WG.121026.1400.772">
+<link rel="stylesheet" href="belge-style.css?v=WG.121026.1435.775">
 <link rel="stylesheet" href="musteri-serit.css?v=WG.121026.1345.771">
 <link rel="stylesheet" href="cart-style.css?v=WG.071026.2350.750">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
 <link rel="stylesheet" href="ai-urun-panel.css?v=WG.111026.1150.762">
+<!-- YENİ (12.10.2026, Abdullah onayı) — Belge Önizleme'de onaylanan açık
+     gri zemin + türe-özel rozet renk tasarımı Sepet tablosuna taşındı.
+     SADECE .cart-sayfa altında (calc.html/send.html'in paylaştığı
+     belge-style.css/cart-style.css ETKİLENMEDİ). -->
+<link rel="stylesheet" href="cart-tablo-style-v2.css?v=WG.121026.1420.773">
 <!-- YENİ (06.10.2026, Abdullah'ın isteğiyle) — SADECE bu sayfada: iPad/tablet
      genişliğinde (>640px) içerik artık home.html'deki kuralla AYNI şekilde
      kenardan kenara — genel "body{max-width:640px}" burada geçersiz
      kılınıyor. Telefon genişliği HİÇ ETKİLENMİYOR. -->
 <style>@media (min-width:641px){ body{ max-width:none !important; } } </style>
 </head>
-<body>
+<body class="cart-sayfa">
 
 <div class="app-ust-sabit">
 <header class="app-header">
@@ -362,7 +367,7 @@
 <script src="auth.js?v=WG.051026.1055.730"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="ayarlar-sync.js?v=WG.091026.2250.757"></script>
-<script src="hareket-tablo.js?v=WG.121026.1400.772"></script>
+<script src="hareket-tablo.js?v=WG.121026.1420.773"></script>
 <script src="cart-data.js?v=WG.091026.2250.757"></script>
 <script src="product-data.js?v=WG.111026.1250.763"></script>
 <script src="customer-data.js?v=WG.300926.1130.675"></script>
@@ -373,7 +378,7 @@
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
-<script src="cart-render.js?v=WG.121026.1345.771"></script>
+<script src="cart-render.js?v=WG.121026.1420.773"></script>
 <script src="ai-urun-panel.js?v=WG.111026.1150.762"></script>
 <script src="urun-arama.js?v=WG.111026.1150.762"></script>
 <script src="hesapla-popup.js?v=WG.121026.1345.771"></script>

@@ -42,14 +42,21 @@
    renkli etiket + normal ağırlıklı değer düzeni. Bu tasarım hem Cari Kart
    ekranında hem de Mail/WhatsApp gönderiminde (send-render.js'in
    cariKutulariHtml'i) BİREBİR AYNI — artık standart cari kart görünümü. */
+/* GRİ KUTU TASARIMI (12.10.2026, Abdullah onayı — mockup üzerinden):
+   Belge Önizleme'de onaylanan "açık gri zemin + koyu lacivert etiket"
+   dili bu karta da taşındı — 27.09'daki "kutusuz" tasarım yerini aldı.
+   Bu dosya hem Müşteri Cari Kartı (customer-cari-kart.html) hem de
+   Gönder ekranının önizlemesi/gönderilen görseli (send-render.js'in
+   cariKutulariHtml'i) tarafından paylaşıldığı için değişiklik HER
+   İKİSİNDE birden görünür. */
 .ozet-alan {
-  background: none;
+  background: #EEF0F3;
   border: none;
-  border-radius: 0;
-  padding: 0;
+  border-radius: 8px;
+  padding: 7px 8px;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   text-align: left;
   gap: 6px;
 }
@@ -58,7 +65,7 @@
 .ozet-baslik {
   font-size: 11px;
   font-weight: 700;
-  color: #0c447c;
+  color: #0a2f5c;
   letter-spacing: .2px;
 }
 .ozet-deger {
@@ -88,7 +95,7 @@
 .ck-blok-etiket--yetkili,
 .ck-blok-etiket--teslimat,
 .ck-blok-etiket--not,
-.ck-blok-etiket--temel { background: none; border: none; color: #0c447c; }
+.ck-blok-etiket--temel { background: none; border: none; color: #0a2f5c; }
 .ck-blok-etiket--temel { margin-top: 0; margin-bottom: 4px; }
 /* Temel Bilgiler bloğunun ilk satırı — müşteri ticari/cari ismi
    (27.09.2026) — sadece isim ayrı bir şerit olarak görünmeyen sayfalarda
@@ -134,15 +141,14 @@
    blok artık düz zeminde, altında ince bir çizgiyle bir sonraki bloktan
    ayrılıyor (tam genişlik ayraç). */
 .ck-blok {
-  background: none;
+  background: #EFF1F4;
   border: none;
-  border-radius: 0;
-  padding: 0 0 6px;
-  margin-bottom: 1px;
-  border-bottom: 1px solid #e1e6ea;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
 }
-.ozet-satir-3--birlesik { border-radius: 0; overflow: visible; margin-top: 0; padding-bottom: 4px; border-bottom: 1px solid #e1e6ea; }
-.ozet-satir-3--birlesik .ozet-alan { border-radius: 0; border-top: none; }
+.ozet-satir-3--birlesik { border-radius: 0; overflow: visible; margin-top: 0; padding-bottom: 0; border-bottom: none; gap: 8px; }
+.ozet-satir-3--birlesik .ozet-alan { border-top: none; }
 
 .ck-mini-input {
   width: 100%;
@@ -330,11 +336,11 @@
 
 .ck-kart-liste { display: flex; flex-direction: column; }
 .ck-kart {
-  padding: 4px 0 4px 10px;
+  padding: 4px 0;
   font-size: 12.5px;
   color: #1a2733;
 }
-.ck-kart + .ck-kart { border-top: 1px solid #eef1f5; }
+.ck-kart + .ck-kart { border-top: 1px solid #dde3ea; }
 .ck-kart--secilebilir + .ck-kart--secilebilir { border-top: none; }
 .ck-kart-bos { padding: 10px 12px; color: #8b95a1; font-style: italic; font-size: 12px; }
 .ck-kart-ust { font-size: 13.5px; font-weight: 500; color: #1a2a3a; }

@@ -108,7 +108,12 @@ var HareketTablo = (function(){
     // etiket şeridi eski soluk sarıdan canlı turuncuya çevrildi.
     var etiketRenk = opts.etiketRenkOzel || "#ffffff";
     var etiketBg = opts.etiketBgOzel || (opts.zeminSinifi === "hareket-satir--sari" ? "#ff8a3d" : "#3bb273");
-    var etiketRozetHtml = opts.etiketRozet ? ("<span class='hareket-grup-etiket-rozet" + (opts.etiketRozetSinifi ? " hareket-grup-etiket-rozet--" + opts.etiketRozetSinifi : (opts.etiketRozet==="WEICON" ? " hareket-grup-etiket-rozet--weicon" : "")) + "'>" + opts.etiketRozet + "</span>") : "";
+    // TÜRE ÖZEL ROZET RENGİ (12.10.2026, Abdullah onayı — Belge Önizleme'deki
+    // "bir tabloda bir işlem için sadece bir renk" kuralı Sepet/Gönder'e de
+    // taşınıyor): opts.tip verilirse rozete "tip-<tip>" sınıfı eklenir,
+    // gerçek renk cart-tablo-style-v2.css (SADECE .cart-sayfa altında) ile
+    // geliyor — opts.tip verilmezse eski davranış (sabit renk) AYNEN kalır.
+    var etiketRozetHtml = opts.etiketRozet ? ("<span class='hareket-grup-etiket-rozet" + (opts.etiketRozetSinifi ? " hareket-grup-etiket-rozet--" + opts.etiketRozetSinifi : (opts.etiketRozet==="WEICON" ? " hareket-grup-etiket-rozet--weicon" : "")) + (opts.tip ? " tip-" + opts.tip : "") + "'>" + opts.etiketRozet + "</span>") : "";
     // ETİKET ORTADA + ROZET KENARDA (02.10.2026, Abdullah'ın isteğiyle): eskiden
     // etiketOrtali:true verildiğinde rozet VARSA ikisi birlikte tek blok olarak
     // ortalanıyordu. Artık rozet de verilmişse (SADECE bu durumda — cart-render.js'in

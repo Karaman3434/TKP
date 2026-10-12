@@ -1,0 +1,24 @@
+/*
+  cart-tablo-style-v2.css — WG.121026.1420.773
+  ================================================================
+  Belge Önizleme'de onaylanan tasarım dili (açık gri zemin + türün
+  rengi SADECE kendi rozetinde) Sepet/Hesapla tablosuna taşındı
+  (12.10.2026, Abdullah onayı — mockup üzerinden). SADECE
+  body.cart-sayfa altında — calc.html ve send.html'in de paylaştığı
+  belge-style.css/cart-style.css unscoped kalıyor, bu dosya onları
+  ETKİLEMEZ. Renkler TIP_RENK_BELGE (belge-render.js) ile birebir aynı.
+*/
+body.cart-sayfa .belge-urun-tablo th { background: #EEF0F3; }
+body.cart-sayfa .belge-urun-tablo tbody tr:not(.hareket-satir--sari):not(.hareket-satir--yesil):nth-child(even) td { background: #EFF1F4; }
+
+/* GENEL TOPLAM kutusu — dikey yükseklik ~%20 azaltıldı, yazı boyutlarına dokunulmadı */
+body.cart-sayfa .belge-gt-satir { padding: 10px 16px; }
+
+/* HESAPLANDI satırındaki işlem türü rozeti — artık türün kendi rengini
+   taşıyor (sabit yeşil yerine). opts.tip verilmeyen diğer kullanımlar
+   (send-render.js önizlemesi vb.) hiç etkilenmiyor — "tip-*" sınıfı
+   sadece opts.tip geçildiğinde ekleniyor (bkz. hareket-tablo.js). */
+body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-teklif   { background:#1f9d55; border-color:#17793f; }
+body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-siparis  { background:#003a70; border-color:#002a52; }
+body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-proforma { background:#8e44ad; border-color:#6f3587; }
+body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-numune   { background:#b7601f; border-color:#8f4a18; }

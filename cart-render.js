@@ -266,6 +266,7 @@ function sayfayiCiz(){
       etiketOrtali: true,
       etiketRozet: TIP_ETIKET_ROZET[secilenTip],
       etiketRozetSinifi: "islem-tipi",
+      tip: secilenTip,
       urunler: hesaplananlar,
       hesapla: hesapla,
       zeminSinifi: "hareket-satir--yesil",

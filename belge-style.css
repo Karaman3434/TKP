@@ -765,6 +765,14 @@
   background: #eaf2fc;
   border-bottom: 1px solid #cfe0f5;
 }
+/* TÜRE ÖZEL RENK (12.10.2026, Abdullah onayı — mockup üzerinden): bu şerit
+   artık belgenin TEK renk taşıyan yeri — işlem türüne göre renkleniyor,
+   yazı beyaza döndü. Renkler TIP_RENK_BELGE (belge-render.js) ile birebir
+   aynı. (bkz. send-render.js formBaslikHtml — "tip-<tip>" sınıfı ekliyor) */
+.belge-form-baslik.tip-teklif   { background:#1f9d55; border-bottom-color:#17793f; color:#fff; }
+.belge-form-baslik.tip-siparis  { background:#003a70; border-bottom-color:#002a52; color:#fff; }
+.belge-form-baslik.tip-proforma { background:#8e44ad; border-bottom-color:#6f3587; color:#fff; }
+.belge-form-baslik.tip-numune   { background:#b7601f; border-bottom-color:#8f4a18; color:#fff; }
 .belge-kosul-satir {
   white-space: nowrap;
   overflow: hidden;
