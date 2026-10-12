@@ -208,6 +208,13 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<!-- HEIC/HEIF → JPEG dönüştürücü (12.10.2026, Abdullah'ın isteğiyle) —
+     iPhone galerisinden gelen HEIC fotoğrafları artık hata vermek yerine
+     burada otomatik JPEG'e çevrilip normal akışa (resimSikistir) devam
+     ediyor. Kütüphane yüklenemezse (ör. CDN'e erişilemezse) kod bunu
+     algılayıp kullanıcıya galeri formatını değiştirmesini öneren eski
+     uyarıya düşüyor — bkz. ziyaret-render.js resimSikistir(). -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js"></script>
 <script src="firebase-config.js?v=WG.011026.2340.706"></script>
 <script src="auth.js?v=WG.051026.1055.730"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
@@ -215,6 +222,6 @@
 <script src="reports-data.js?v=WG.071026.2200.747"></script>
 <script src="ajanda-data.js?v=WG.091026.1725.756"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
-<script src="ziyaret-render.js?v=WG.121026.1129.767"></script>
+<script src="ziyaret-render.js?v=WG.121026.1150.768"></script>
 </body>
 </html>

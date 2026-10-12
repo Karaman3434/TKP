@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: WG.121026.1129.767
+  ziyaret-render.js — VERSİYON: WG.121026.1150.768
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -324,57 +324,88 @@ function firmaAramaCiz(){
 // DÜZELTME (12.10.2026, Abdullah'ın isteğiyle) — galeri erişimi açılınca
 // (bkz. 11.10.2026 düzeltmesi) iPhone'ların varsayılan kaydettiği HEIC/HEIF
 // formatındaki fotoğraflar <img> ile çözülemiyor ve "Fotoğraf işlenemedi"
-// hatası veriyordu; eskiden sadece kamera kullanılabildiği için bu yol hiç
-// tetiklenmiyordu. Artık: (1) gerçek hata ayrıntısı sessizce HataLog'a
-// yazılıyor (önceden geriBildir(null) ile tamamen kayboluyordu), (2) dosya
-// adı/MIME türünden HEIC/HEIF şüphesi varsa geriBildir'e "format" bilgisi
-// geçiliyor ki arayüz kullanıcıya somut bir öneri gösterebilsin.
+// hatası veriyordu. İlk düzeltmede sadece somut bir uyarı gösteriliyordu;
+// Abdullah bunun yerine fotoğrafın YİNE DE kaydedilmesini istedi. Şimdi:
+// dosya HEIC/HEIF ise önce heic2any kütüphanesiyle (ziyaret.html'de CDN'den
+// yükleniyor) JPEG'e çevriliyor, sonra her zamanki küçültme/sıkıştırma
+// adımına devam ediliyor — kullanıcı hiçbir şey fark etmeden fotoğraf
+// kaydediliyor. Kütüphane bir nedenle yüklenemediyse veya dönüştürme
+// başarısız olursa, eski "format" uyarısına geri dönülüyor. Her hata
+// ayrıntısı sessizce HataLog'a yazılıyor.
 function resimSikistir(file, geriBildir){
   function sessizKaydet(asama, detay){
     if(typeof HataLog !== "undefined"){
       HataLog.kaydet("Ajanda fotoğrafı işlenemedi (" + asama + ")", detay);
     }
   }
-  function muhtemelenDesteklenmeyenFormat(){
+  function muhtemelenHeic(){
     var ad = ((file && file.name) || "").toLowerCase();
     var tur = ((file && file.type) || "").toLowerCase();
     return ad.indexOf(".heic") !== -1 || ad.indexOf(".heif") !== -1
       || tur.indexOf("heic") !== -1 || tur.indexOf("heif") !== -1;
   }
-  try{
-    var reader = new FileReader();
-    reader.onload = function(e){
-      var img = new Image();
-      img.onload = function(){
-        try{
-          var maxGenislik = 1100;
-          var olcek = Math.min(1, maxGenislik / img.width);
-          var canvas = document.createElement("canvas");
-          canvas.width = Math.max(1, Math.round(img.width * olcek));
-          canvas.height = Math.max(1, Math.round(img.height * olcek));
-          var ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          geriBildir(canvas.toDataURL("image/jpeg", 0.65), null);
-        }catch(e){
-          sessizKaydet("canvas", e && e.message);
-          geriBildir(null, muhtemelenDesteklenmeyenFormat() ? "format" : "genel");
-        }
+
+  // Küçültme/sıkıştırma adımı — hem doğrudan seçilen dosya hem de
+  // heic2any'den çıkan JPEG blob'u için aynı yol kullanılır.
+  function sikistir(islenecekDosya){
+    try{
+      var reader = new FileReader();
+      reader.onload = function(e){
+        var img = new Image();
+        img.onload = function(){
+          try{
+            var maxGenislik = 1100;
+            var olcek = Math.min(1, maxGenislik / img.width);
+            var canvas = document.createElement("canvas");
+            canvas.width = Math.max(1, Math.round(img.width * olcek));
+            canvas.height = Math.max(1, Math.round(img.height * olcek));
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            geriBildir(canvas.toDataURL("image/jpeg", 0.65), null);
+          }catch(e){
+            sessizKaydet("canvas", e && e.message);
+            geriBildir(null, "genel");
+          }
+        };
+        img.onerror = function(){
+          sessizKaydet("img.onerror", "dosya: " + ((file && file.name) || "?") + ", tür: " + ((file && file.type) || "?"));
+          geriBildir(null, muhtemelenHeic() ? "format" : "genel");
+        };
+        img.src = e.target.result;
       };
-      img.onerror = function(){
-        sessizKaydet("img.onerror", "dosya: " + ((file && file.name) || "?") + ", tür: " + ((file && file.type) || "?"));
-        geriBildir(null, muhtemelenDesteklenmeyenFormat() ? "format" : "genel");
+      reader.onerror = function(){
+        sessizKaydet("FileReader", reader.error && reader.error.message);
+        geriBildir(null, "genel");
       };
-      img.src = e.target.result;
-    };
-    reader.onerror = function(){
-      sessizKaydet("FileReader", reader.error && reader.error.message);
-      geriBildir(null, "genel");
-    };
-    reader.readAsDataURL(file);
-  }catch(e){
-    sessizKaydet("try/catch dış", e && e.message);
-    geriBildir(null, muhtemelenDesteklenmeyenFormat() ? "format" : "genel");
+      reader.readAsDataURL(islenecekDosya);
+    }catch(e){
+      sessizKaydet("try/catch dış", e && e.message);
+      geriBildir(null, muhtemelenHeic() ? "format" : "genel");
+    }
   }
+
+  if(muhtemelenHeic()){
+    if(typeof heic2any === "undefined"){
+      sessizKaydet("heic2any-yuklenmedi", "kütüphane tanımsız — CDN'den yüklenememiş olabilir (çevrimdışı mı?)");
+      geriBildir(null, "format");
+      return;
+    }
+    try{
+      heic2any({ blob: file, toType: "image/jpeg", quality: 0.85 }).then(function(sonuc){
+        var jpegBlob = Array.isArray(sonuc) ? sonuc[0] : sonuc;
+        sikistir(jpegBlob);
+      }).catch(function(e){
+        sessizKaydet("heic2any", e && e.message);
+        geriBildir(null, "format");
+      });
+    }catch(e){
+      sessizKaydet("heic2any try/catch", e && e.message);
+      geriBildir(null, "format");
+    }
+    return;
+  }
+
+  sikistir(file);
 }
 
 // Film şeridini TÜM sayfalardan (kronolojik) kurar, hedef tarihe en
@@ -505,7 +536,7 @@ function ajOnizleHataGoster(hataAyrinti){
   var hataEl = document.getElementById("ajOnizleHata");
   hataEl.hidden = false;
   hataEl.textContent = (hataAyrinti === "format")
-    ? "⚠️ Bu fotoğraf formatı işlenemedi (muhtemelen HEIC). Galeri ayarlarından \"En Uyumlu\" (JPEG) formatını seçip tekrar dener misin?"
+    ? "⚠️ Bu fotoğraf (muhtemelen HEIC) otomatik dönüştürme sonrasında da işlenemedi. Galeri ayarlarından \"En Uyumlu\" (JPEG) formatını seçip tekrar dener misin?"
     : "⚠️ Fotoğraf işlenemedi, tekrar dener misin?";
   document.getElementById("btnAjOnizleKaydet").hidden = true;
   document.getElementById("btnAjOnizleVazgec").style.flex = "1";
