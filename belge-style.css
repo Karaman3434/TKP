@@ -177,7 +177,7 @@
   text-align: center;
 }
 .belge-kosul-ikon { display: none; }
-.belge-kosul-etiket { display: block; font-size: 9.5px; font-weight: 600; color: #667085; margin-bottom: 2px; }
+.belge-kosul-etiket { display: block; font-size: 7.6px; font-weight: 600; color: #667085; margin-bottom: 2px; }
 .belge-kosul-deger {
   display: block;
   font-size: 11px;
@@ -433,6 +433,7 @@
   border: 1.5px solid #0b8059;
   color: #ffffff;
   font-weight: 900;
+  font-size: 10.8px; /* %20 büyütüldü (12.10.2026, Abdullah'ın isteğiyle) — kutu (padding/köşe) sabit kaldı */
 }
 /* Gönder ekranının tablo etiketi artık ortalı + belge tipi/tarih birlikte
    (27.09.2026) — rozet yok, bkz. send-render.js tamOnizlemeHtmlOlustur. */
@@ -537,7 +538,7 @@
    hareket-tablo.js'in (Sepet/Gönder ürün tablosu) kullandığı dıştaki kutu;
    içindeki GENEL TOPLAM satırı .belge-gt-satir ile aynı görünümü üretir. */
 .belge-gt-kutu {
-  background: #003a70;
+  background: #38469a; /* RENK GÜNCELLEMESİ (12.10.2026) — kurumsal/yumuşatılmış "Seçenek B" mavisi */
   border-radius: 10px;
   overflow: hidden;
 }
@@ -779,10 +780,14 @@
    artık belgenin TEK renk taşıyan yeri — işlem türüne göre renkleniyor,
    yazı beyaza döndü. Renkler TIP_RENK_BELGE (belge-render.js) ile birebir
    aynı. (bkz. send-render.js formBaslikHtml — "tip-<tip>" sınıfı ekliyor) */
-.belge-form-baslik.tip-teklif   { background:#1f9d55; border-bottom-color:#17793f; color:#fff; }
-.belge-form-baslik.tip-siparis  { background:#003a70; border-bottom-color:#002a52; color:#fff; }
-.belge-form-baslik.tip-proforma { background:#8e44ad; border-bottom-color:#6f3587; color:#fff; }
-.belge-form-baslik.tip-numune   { background:#b7601f; border-bottom-color:#8f4a18; color:#fff; }
+/* RENK GÜNCELLEMESİ (12.10.2026, Abdullah onayı — kurumsal/yumuşatılmış
+   "Seçenek B" paleti). Teklif hariç hepsi dolu zemin + kontrast gereği
+   koyu/beyaz yazı (sarı zeminde beyaz okunmadığı için koyu yazı kullanıyor;
+   bkz. aynı kural belge-onizleme-style-v2.css'te de). */
+.belge-form-baslik.tip-teklif   { background:#f3f5f8; border-bottom-color:#e1e5ec; color:#249147; }
+.belge-form-baslik.tip-siparis  { background:#38469a; border-bottom-color:#2c3774; color:#fff; }
+.belge-form-baslik.tip-proforma { background:#dcb13c; border-bottom-color:#c99a2e; color:#2b2300; }
+.belge-form-baslik.tip-numune   { background:#c0453a; border-bottom-color:#a8382e; color:#fff; }
 .belge-kosul-satir {
   white-space: nowrap;
   overflow: hidden;

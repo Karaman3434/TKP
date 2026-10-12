@@ -151,7 +151,10 @@ window.addEventListener("error", function(ev){
 });
 
 var TIP_ETIKET_URUN = {siparis:"SP", teklif:"FT", proforma:"PF", numune:"NM"};
-var TIP_RENK_URUN = {siparis:"#003a70", teklif:"#1f9d55", proforma:"#8e44ad", numune:"#b7601f"};
+// RENK GÜNCELLEMESİ (12.10.2026, Abdullah onayı — kurumsal/yumuşatılmış "Seçenek B").
+var TIP_RENK_URUN = {siparis:"#38469a", teklif:"#249147", proforma:"#dcb13c", numune:"#c0453a"};
+// Sarı (proforma) zemininde beyaz yazı okunmuyor (kontrast ~2:1) — sadece bu rozette metin rengi geçiliyor.
+var TIP_METIN_RENK_URUN = {proforma:"#2b2300"};
 
 function urunSatisGecmisiGetir(berta, abas){
   var tipler = ["siparis","teklif","proforma","numune"];
@@ -190,7 +193,7 @@ function urunSatisGecmisiniAc(berta, abas, ad){
       kapsayici.innerHTML = gecmis.map(function(g){
         return "<div class='urun-gecmis-satir'>"
           + "<div class='urun-gecmis-satir-ust'>"
-          + "<span class='urun-gecmis-tip-rozet' style='background:" + (TIP_RENK_URUN[g.tip]||"#2d3540") + ";'>" + (TIP_ETIKET_URUN[g.tip]||"") + "</span>"
+          + "<span class='urun-gecmis-tip-rozet' style='background:" + (TIP_RENK_URUN[g.tip]||"#2d3540") + ";color:" + (TIP_METIN_RENK_URUN[g.tip]||"#ffffff") + ";'>" + (TIP_ETIKET_URUN[g.tip]||"") + "</span>"
           + "<span class='urun-gecmis-musteri'>" + htmlEsc(g.musteri) + "</span>"
           + "<span class='urun-gecmis-tarih'>" + htmlEsc(g.tarih) + "</span>"
           + "</div>"

@@ -1,5 +1,5 @@
 /*
-  urun-arama.js — WG.041026.1121.726
+  urun-arama.js — WG.121026.1820.779
   ===================================
   04.10.2026 (Abdullah'ın isteğiyle) — Ürün Satış Geçmişi / Hit Ürünler
   listesi açıkken sepetin "boş" mesajı ve Kaydet/Görüntüle ve Gönder
@@ -83,6 +83,11 @@ function uaSonuclariCiz(){
     var webAcVarMi = uaIzinVarMi("sepetWebAc");
     var hesaplaVarMi = uaIzinVarMi("sepetHesaplaAc");
     var secVarMi = uaIzinVarMi("sepetSec");
+    // AŞAMA 2 (11.10.2026) — AI Ürün Asistanı: ai-urun-panel.js yüklü
+    // değilse (örn. başka bir sayfa) veya izin kapalıysa hem uzun basma
+    // hem erişilebilir 🤖 düğmesi tamamen devre dışı kalır, satırın
+    // mevcut davranışı (kısa dokunma → WEICON sayfası) DEĞİŞMEDEN çalışır.
+    var aiVarMi = uaIzinVarMi("sepetAiAc") && (typeof AiUrunPanel !== "undefined");
 
     var html = "";
     for(var i=0;i<sonuclar.length;i++){
@@ -98,6 +103,7 @@ function uaSonuclariCiz(){
         + "<span class='urun-fiyat-yazi'>" + bilgi.fiyat.toFixed(2) + " €</span>"
         + (hesaplaVarMi ? "<button class='btn-hesapla-ac' data-idx='" + idx + "' title='Hızlı Hesapla' aria-label='Hızlı Hesapla'>H</button>" : "")
         + (secVarMi ? "<button class='btn-add' data-idx='" + idx + "'>SEÇ</button>" : "")
+        + (aiVarMi ? "<button class='btn-ai-ac' data-idx='" + idx + "' title='AI Ürün Asistanı' aria-label='AI Ürün Asistanını aç'>🤖</button>" : "")
         + "</div></td>"
         + "</tr>";
     }
@@ -150,11 +156,37 @@ function uaSonuclariCiz(){
         };
       });
     }
+
+    // AŞAMA 2 (11.10.2026) — AI Ürün Asistanı: erişilebilir 🤖 düğmesi
+    // (klavye/ekran okuyucu için, uzun basmaya alternatif) + ürün
+    // hücresine uzun basma dinleyicileri. Her çizimde (her tuş vuruşunda)
+    // satırlar yeniden oluşturulduğu için eski <td>/<button> elemanları
+    // (ve üzerlerindeki eski dinleyicileri) DOM'dan tamamen düşer — bu
+    // yüzden burada yeniden bağlamak güvenlidir (diğer bloklarla aynı
+    // desen, sızıntı/çakışma riski yok).
+    if(aiVarMi){
+      liste.querySelectorAll(".btn-ai-ac").forEach(function(btn){
+        btn.onclick = function(e){
+          e.stopPropagation();
+          var realIdx = parseInt(this.getAttribute("data-idx"), 10);
+          var bilgi = ProductData.urunBilgisi(sonuclar.find(function(s){return s.idx===realIdx;}).item);
+          AiUrunPanel.ac(this.closest("tr"), bilgi);
+        };
+      });
+      liste.querySelectorAll(".product-cell").forEach(function(td){
+        var realIdx = parseInt(td.getAttribute("data-idx"), 10);
+        var bilgi = ProductData.urunBilgisi(sonuclar.find(function(s){return s.idx===realIdx;}).item);
+        AiUrunPanel.uzunBasmaBagla(td, td.closest("tr"), bilgi);
+      });
+    }
   }catch(e){ hataGoster("Arama sonuçları çizilemedi: " + e.message); }
 }
 
 var TIP_ETIKET_URUN = {siparis:"SP", teklif:"FT", proforma:"PF", numune:"NM"};
-var TIP_RENK_URUN = {siparis:"#003a70", teklif:"#1f9d55", proforma:"#8e44ad", numune:"#b7601f"};
+// RENK GÜNCELLEMESİ (12.10.2026, Abdullah onayı — kurumsal/yumuşatılmış "Seçenek B").
+var TIP_RENK_URUN = {siparis:"#38469a", teklif:"#249147", proforma:"#dcb13c", numune:"#c0453a"};
+// Sarı (proforma) zemininde beyaz yazı okunmuyor (kontrast ~2:1) — sadece bu rozette metin rengi geçiliyor.
+var TIP_METIN_RENK_URUN = {proforma:"#2b2300"};
 
 function uaUrunSatisGecmisiGetir(berta, abas){
   var tipler = ["siparis","teklif","proforma","numune"];
@@ -193,7 +225,7 @@ function uaUrunSatisGecmisiniAc(berta, abas, ad){
       kapsayici.innerHTML = gecmis.map(function(g){
         return "<div class='urun-gecmis-satir'>"
           + "<div class='urun-gecmis-satir-ust'>"
-          + "<span class='urun-gecmis-tip-rozet' style='background:" + (TIP_RENK_URUN[g.tip]||"#2d3540") + ";'>" + (TIP_ETIKET_URUN[g.tip]||"") + "</span>"
+          + "<span class='urun-gecmis-tip-rozet' style='background:" + (TIP_RENK_URUN[g.tip]||"#2d3540") + ";color:" + (TIP_METIN_RENK_URUN[g.tip]||"#ffffff") + ";'>" + (TIP_ETIKET_URUN[g.tip]||"") + "</span>"
           + "<span class='urun-gecmis-musteri'>" + htmlEsc(g.musteri) + "</span>"
           + "<span class='urun-gecmis-tarih'>" + htmlEsc(g.tarih) + "</span>"
           + "</div>"

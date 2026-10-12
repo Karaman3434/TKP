@@ -1,5 +1,5 @@
 /*
-  belge-render.js
+  belge-render.js — WG.121026.1820.779
   ===============
   "weiconv2_goruntulenen_belge" localStorage anahtarından {tip, ts} okur,
   ReportsData.sonIslemler() içinden o kaydı bulur, eski uygulamanın
@@ -203,7 +203,7 @@ function belgeyiCiz(kayit, musteri){
     var sehir = (musteri && musteri.sehir) || "";
     var yetkiliBilgiHtml = yetkililer.map(function(k){ return yetkiliSatiriHtml(k.isim, k.telefon, k.eposta); }).join("");
 
-    var musteriBlokHtml = "<div class='belge-musteri-baslik belge-musteri-baslik--logolu'><span>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + "</span><span class='belge-logo-mini'>WEICON</span></div>"
+    var musteriBlokHtml = "<div class='belge-musteri-baslik belge-musteri-baslik--logolu tip-" + (kayit.tip||"siparis") + "'><span>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + "</span><span class='belge-logo-mini'>WEICON</span></div>"
       + "<div class='belge-musteri-govde'>"
       // DÜZELTME (07.10.2026, Abdullah'ın isteğiyle, mockup üzerinden
       // onaylandı): firma ismi başına kalın • işareti + etiketler satır
@@ -217,22 +217,17 @@ function belgeyiCiz(kayit, musteri){
       + (yetkiliBilgiHtml ? "<div class='belge-yetkili-blok'><b class='belge-adres-etiket-yetkili'>👤 YETKİLİ BİLGİSİ</b>" + yetkiliBilgiHtml + "</div>" : "")
       + "</div>";
 
-    // DÜZELTME (12.10.2026, Abdullah onayı): bu şeritte artık tür adı
-    // ("FİYAT TEKLİFİ" vb.) YOK — aynı türün rengi/adı zaten yukarıdaki
-    // müşteri bloğu üst şeridinde bir kere gösteriliyor; burada tekrar
-    // etmek karışıklık yaratıyordu. Sadece kod + tarih/saat kalıyor.
-    var belgeBaslikMetni = (kayit.kod ? kayit.kod + " · " : "") + htmlEsc(kayit.tarih) + (kayit.revizeZamani ? " · 🔄 REVİZE" : "");
-
-    // ÜST BİLGİ ŞERİDİ (08.10.2026, Abdullah'ın isteğiyle) — SİPARİŞ/TEKLİF
-    // başlığı + "Bu işlemde X kuru kullanıldı" notu + WEICON logosu artık tek,
-    // kompakt bir şeritte birleşik (eskiden kur notu GENEL TOPLAM şeridinin
-    // içindeydi, hem boşluk sorunu çıkarıyordu hem satır kayıyordu). SADECE
-    // bu sayfa (belge-onizleme.html) için — Sepet/Gönder tarafındaki paylaşılan
-    // .belge-gt-kutu kur gösterimi (hareket-tablo.js) ETKİLENMEDİ.
-    // KISALTMA (12.10.2026, Abdullah'ın isteğiyle): "Bu işlemde X kuru
-    // kullanıldı" -> "Bu işlem kuru: X EURO" (daha kısa, aynı anlam).
-    var ustKurHtml = kayit.kur
-      ? "<div class='belge-ust-kur-notu'>" + (kayit.kurManuel ? "✏️ " : "") + "Bu işlem kuru: <span class='belge-ust-kur-sayi'>" + fmt(kayit.kur) + "</span><span class='belge-ust-kur-birim'>EURO</span></div>"
+    // DÜZELTME (12.10.2026, Abdullah onayı — tam yeniden tasarım): tür adı
+    // ("FİYAT TEKLİFİ" vb.) burada YOK — zaten yukarıdaki müşteri bloğu üst
+    // şeridinde bir kere gösteriliyor. Kod artık KENDİ AYRI, tür renginde
+    // kutusunda (bkz. aşağıdaki .belge-ust-bilgi-kutu) — tarih/saat burada
+    // ARTIK GÖSTERİLMİYOR (Gönder ekranındaki aynı kararla tutarlı, bkz.
+    // send-render.js kodEtiketHtml). "Bu işlem kuru" artık GENEL TOPLAM
+    // kutusunun İÇİNDE, Sepet/Gönder ile AYNI .belge-gt-kutu/.belge-gt-satir
+    // yapısıyla (aşağıda).
+    var belgeBaslikMetni = (kayit.kod || "") + (kayit.revizeZamani ? " · 🔄 REVİZE" : "");
+    var kurIcHtml = kayit.kur
+      ? "<span class='belge-gt-kur-ic" + (kayit.kurManuel ? " belge-gt-kur-ic--manuel" : "") + "'><span class='belge-gt-kur-etiket'>" + (kayit.kurManuel ? "✏️ " : "") + "Bu işlem kuru</span><br><span class='belge-gt-kur-deger'>" + fmt(kayit.kur) + " EURO</span></span>"
       : "";
 
     // BAKİYE ÜRÜN BLOĞU — sadece bakiyede kalan ürün varsa gösterilir. Ana
@@ -263,21 +258,16 @@ function belgeyiCiz(kayit, musteri){
       + musteriBlokHtml
       + "</div>"
       + "<div class='belge-kart-ayrac'></div>"
-      + "<div class='belge-kart'>"
-      + "<div class='belge-ust-bilgi-serit'>"
-      + "<div class='belge-ust-bilgi-metin'>"
-      + "<div class='belge-ust-bilgi-baslik'>" + htmlEsc(belgeBaslikMetni) + "</div>"
-      + ustKurHtml
-      + "</div>"
-      + "</div>"
+      + (belgeBaslikMetni ? "<div class='belge-ust-bilgi-kutu tip-" + (kayit.tip||"siparis") + "'>" + htmlEsc(belgeBaslikMetni) + "</div>" : "")
+      + "<div class='belge-kart belge-kart--ustduz'>"
       + "<div class='data-table-container'><table class='belge-urun-tablo'>"
       + "<thead><tr><th style='width:3.6%;'>SR</th><th style='width:29.2%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:13%;'>NET</th><th style='width:13%;'>TOPLAM</th><th style='width:11.2%;'>PRİM</th></tr></thead>"
       + "<tbody>" + satirlarHtml + "</tbody>"
       + "</table></div>"
-      + "<div class='belge-genel-toplam-serit belge-genel-toplam-serit--duz'>"
-      + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
-      + "<span class='belge-gt-deger'>" + fmt(netEuro) + " EURO<span class='belge-gt-deger-alt'>≈ " + Math.round(netEuro*(kayit.kur||0)).toLocaleString("tr-TR") + " TL</span></span>"
-      + "</div>"
+      + "<div class='belge-gt-kutu belge-gt-kutu--altduz'><div class='belge-gt-satir'>"
+      + kurIcHtml
+      + "<span class='belge-gt-etiket-deger-grup'><span class='belge-gt-etiket'>GENEL TOPLAM</span><span class='belge-gt-deger'>" + fmt(netEuro) + " EURO<span class='belge-gt-deger-alt'>≈ " + Math.round(netEuro*(kayit.kur||0)).toLocaleString("tr-TR") + " TL</span></span></span>"
+      + "</div></div>"
       + "<div class='belge-prim-serit'>"
       + "<span class='belge-prim-etiket'>PRİM</span><span class='belge-prim-deger'>" + (toplamPrim<0?"Prim yok":Math.round(toplamPrimTl).toLocaleString("tr-TR")+" TL") + "</span>"
       + "</div>"
@@ -301,7 +291,13 @@ function belgeyiCiz(kayit, musteri){
 
 var TIP_ETIKET_UZUN = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma Fatura", siparis:"Sipariş"};
 var TIP_IKON_BELGE = {numune:"🧪", teklif:"📝", proforma:"🧾", siparis:"📦"};
-var TIP_RENK_BELGE = {numune:"#b7601f", teklif:"#1f9d55", proforma:"#8e44ad", siparis:"#003a70"};
+// RENK GÜNCELLEMESİ (12.10.2026, Abdullah onayı — kurumsal/yumuşatılmış
+// "Seçenek B" paleti, swatch fotoğraflarından örneklenip yumuşatıldı).
+var TIP_RENK_BELGE = {numune:"#c0453a", teklif:"#249147", proforma:"#dcb13c", siparis:"#38469a"};
+// Sarı (proforma) açık zeminde/zeminin soluk tonunda METİN olarak
+// kullanıldığında okunmuyor (kontrast ~2:1) — bu yüzden metin rengi için
+// ayrı, koyu bir karşılık tanımlı; zemin/nokta/çerçeve hâlâ TIP_RENK_BELGE.
+var TIP_METIN_RENK_BELGE = {proforma:"#5c4600"};
 
 function belgeZinciriBul(kayit){
   var hepsi = [];
@@ -373,6 +369,7 @@ function belgeGecmisiniCiz(kayit){
     + "<div class='belge-gecmis-alt'>" + htmlEsc(zincir[0].musteri) + " — bu iş için " + zincir.length + " belge bulundu</div>";
   zincir.forEach(function(adim, i){
     var renk = TIP_RENK_BELGE[adim.tip] || "#3569b8";
+    var metinRenk = TIP_METIN_RENK_BELGE[adim.tip] || renk;
     var aktifMi = (adim.tip===kayit.tip && adim.ts===kayit.ts);
     var sonMu = (i===zincir.length-1);
     var durumEk = adim.revizeZamani ? " · 🔄 revize edildi" : "";
@@ -383,10 +380,10 @@ function belgeGecmisiniCiz(kayit){
       + "<div class='belge-gecmis-nokta' style='background:" + renk + ";'></div>"
       + "<div class='belge-gecmis-tarih'>" + htmlEsc(adim.tarih) + "</div>"
       + "<div class='belge-gecmis-kart' style='background:" + renk + "18;border-color:" + renk + "55;' data-tip='" + adim.tip + "' data-ts='" + adim.ts + "'>"
-      + "<div class='belge-gecmis-kart-baslik' style='color:" + renk + ";'>" + (TIP_IKON_BELGE[adim.tip]||"") + " " + TIP_ETIKET_UZUN[adim.tip]
+      + "<div class='belge-gecmis-kart-baslik' style='color:" + metinRenk + ";'>" + (TIP_IKON_BELGE[adim.tip]||"") + " " + TIP_ETIKET_UZUN[adim.tip]
       + (aktifMi ? "<span class='belge-gecmis-suan'>ŞU AN BURADASIN</span>" : "")
       + "</div>"
-      + "<div class='belge-gecmis-kart-alt' style='color:" + renk + ";'>" + htmlEsc(adim.kod||"") + " · " + adim.adet + " ürün" + durumEk + "</div>"
+      + "<div class='belge-gecmis-kart-alt' style='color:" + metinRenk + ";'>" + htmlEsc(adim.kod||"") + " · " + adim.adet + " ürün" + durumEk + "</div>"
       + "</div>"
       + "</div>";
   });
