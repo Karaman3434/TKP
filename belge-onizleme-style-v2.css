@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.121026.1820.779
+  belge-onizleme-style-v2.css — WG.121026.1951.780
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026,
   Abdullah'ın isteğiyle — mockup üzerinden onaylandı).
@@ -199,10 +199,13 @@
 .belge-onizleme-sayfa .belge-ust-bilgi-kutu {
   border-radius: 10px 10px 0 0;
   padding: 10px 16px;
-  text-align: center;
+  text-align: left; /* DÜZELTME (12.10.2026, Abdullah'ın isteğiyle) — satır başından başlasın, ortalı değil */
   font-size: 13px;
   font-weight: 800;
   letter-spacing: .6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-teklif   { background: #f3f5f8; color: #249147; border: 1px solid #e1e5ec; border-bottom: none; }
 .belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-siparis  { background: #38469a; color: #ffffff; }

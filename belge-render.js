@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.121026.1820.779
+  belge-render.js — WG.121026.1951.780
   ===============
   "weiconv2_goruntulenen_belge" localStorage anahtarından {tip, ts} okur,
   ReportsData.sonIslemler() içinden o kaydı bulur, eski uygulamanın
@@ -39,11 +39,18 @@ var ONEK_RENK_BELGE = {
   "P.FAT": {yazi:"#5b3a86", bg:"#f1ecf9"},
   "NUM": {yazi:"#b7601f", bg:"#fff4e5"}
 };
+// RENK GÜNCELLEMESİ (12.10.2026): kod formatı değişti (v3 — artık önek
+// hemen ardından 3 haneli günlük sıra, "FT001   12.10.2026   15:45" gibi;
+// eskiden "F.TEK.010126.1300" gibi nokta ayraçlıydı). Nokta sayarak önek
+// ayıklamak yerine, önek HER ZAMAN baştaki harflerden oluştuğu için onu
+// regex ile alıyoruz — hem eski hem yeni formatla çalışır.
 function kodOnekiAyiklaBelge(kod){
   if(!kod) return null;
-  var parcalar = kod.split(".");
-  if(parcalar.length < 3) return kod;
-  return parcalar.slice(0, parcalar.length-2).join(".");
+  var m = kod.match(/^[A-ZÇĞİÖŞÜ.]+?(?=[0-9])/);
+  if(m && m[0]){
+    return m[0].replace(/\.+$/, ""); // sondaki olası tek noktayı at ("F.TEK." gibi eski önekler)
+  }
+  return kod;
 }
 function gecmisCipSatiriHtml(kayit){
   if(!kayit.oncekiKod) return "";

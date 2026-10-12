@@ -1,5 +1,5 @@
 /*
-  send-data.js
+  send-data.js — WG.121026.1951.780
   ============
   TEK görevi: sepeti + seçili müşteriyi + belge türünü alıp Firebase
   arşivine ESKİ UYGULAMAYLA UYUMLU bir kayıt yazmak. Uyumluluk önemli:
@@ -27,39 +27,68 @@ var SendData = (function(){
       String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
   }
 
-  // Belge kodu formatı (v2): {ÖNEK}.{GGAAYY}.{SSDD} — örn. "SİP.010126.1300"
-  // (01.01.26 günü, saat 13:00'te oluşturulan sipariş). Önekler:
-  // Numune→NUM, Fiyat Teklifi→F.TEK, Proforma Fatura→P.FAT, Sipariş→SİP.
-  // Bu önek, belgenin O ANKİ türünü gösterir; bir belge Numune'den
-  // Teklif'e, Teklif'ten Sipariş'e İLERLEDİKÇE tarih.saat kısmı SABİT
-  // kalır (bkz. reports-data.js revizeBaslat/ilerletmeyiTamamla), sadece
-  // önek güncellenir — böylece aynı iş fırsatı hep aynı "numara" ile
-  // takip edilebilir.
+  // Belge kodu formatı (v3, 12.10.2026 — Abdullah'ın isteğiyle):
+  // {ÖNEK}{SSS}   {GG.AA.YYYY}   {SS:DD} — örn. "FT001   12.10.2026   15:45"
+  // (günün İLK belgesi — numune/teklif/proforma/sipariş FARK ETMEKSİZİN
+  // GÜNLÜK ORTAK sayaç — ikincisi 002, ...; her gün 001'den başlar, bkz.
+  // gunlukSiraNoAl()). Önekler: Numune→NM, Fiyat Teklifi→FT,
+  // Proforma Fatura→PF, Sipariş→SP — her zaman 2 harf. Bu önek, belgenin
+  // O ANKİ türünü gösterir; bir belge Numune'den Teklif'e, Teklif'ten
+  // Sipariş'e İLERLEDİKÇE sıra/tarih/saat kısmı SABİT kalır (bkz.
+  // reports-data.js revizeBaslat/ilerletmeyiTamamla), sadece önek
+  // güncellenir — böylece aynı iş fırsatı hep aynı "numara" ile takip
+  // edilebilir. Kod STORED haliyle zaten görüntülenmeye hazır (gerçek
+  // boşluklarla) — ekranlarda ayrıca biçimlendirme gerekmez.
   var KOD_ONEK = {numune:"NM", teklif:"FT", proforma:"PF", siparis:"SP"};
 
-  // varTarihSaatKismi verilirse (bir önceki aşamadan devralınan belge),
-  // yeni tarih/saat üretmek yerine onu aynen korur — sadece önek değişir.
-  function kodUret(tip, varTarihSaatKismi){
-    var onek = KOD_ONEK[tip] || "KY";
-    var tarihSaatKismi = varTarihSaatKismi;
-    if(!tarihSaatKismi){
+  // Günlük, TÜRDEN BAĞIMSIZ ortak sayaç — "gunlukKodSayaci/{YYYYAAGG}"
+  // düğümünde Firebase transaction ile atomik artırılır (iki cihaz aynı
+  // anda kod üretirse çakışma olmaz, Firebase otomatik tekrar dener).
+  // İnternet gerektirir — bkz. kaydet() içindeki çağrı noktası.
+  function gunlukSiraNoAl(cb){
+    try{
       var d = new Date();
-      var tarihKismi = String(d.getDate()).padStart(2,"0") + String(d.getMonth()+1).padStart(2,"0") + String(d.getFullYear()).slice(-2);
-      var saatKismi = String(d.getHours()).padStart(2,"0") + String(d.getMinutes()).padStart(2,"0");
-      tarihSaatKismi = tarihKismi + "." + saatKismi;
+      var gunAnahtari = d.getFullYear() + String(d.getMonth()+1).padStart(2,"0") + String(d.getDate()).padStart(2,"0");
+      var db = firebase.database();
+      db.ref("gunlukKodSayaci/" + gunAnahtari).transaction(function(mevcut){
+        return (mevcut||0) + 1;
+      }).then(function(sonuc){
+        if(!sonuc || !sonuc.committed){ cb(null); return; }
+        cb(sonuc.snapshot.val());
+      }).catch(function(err){
+        console.error("Günlük sıra no alınamadı:", err);
+        cb(null);
+      });
+    }catch(e){
+      console.error("Günlük sıra no hatası:", e);
+      cb(null);
     }
-    return onek + "." + tarihSaatKismi;
   }
 
-  // Bir kod string'inden ("F.TEK.010126.1300") tarih.saat kısmını
-  // ("010126.1300") ayıklar — önekin kaç parça olduğuna bakmaksızın,
-  // son iki noktalı parçayı alır (GGAAYY ve SSDD her zaman sabit
-  // uzunlukta: 6 ve 4 rakam).
+  // sira verilirse (günün o anki ortak sıra numarası) yeni bir kod gövdesi
+  // (sıra + tarih + saat) üretir — "001   12.10.2026   15:45" gibi.
+  function kodGovdesiOlustur(sira){
+    var d = new Date();
+    var tarihKismi = String(d.getDate()).padStart(2,"0") + "." + String(d.getMonth()+1).padStart(2,"0") + "." + d.getFullYear();
+    var saatKismi = String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+    return String(sira).padStart(3,"0") + "   " + tarihKismi + "   " + saatKismi;
+  }
+
+  // Önek + gövde birleştirir. varGovde HER ZAMAN önceden hazır olmalı —
+  // ya bir önceki aşamadan devralınmış (bkz. kodTarihSaatKismiAyikla), ya
+  // da kaydet() içinde gunlukSiraNoAl()'dan gelen sırayla kodGovdesiOlustur()
+  // ile az önce üretilmiş.
+  function kodUret(tip, varGovde){
+    var onek = KOD_ONEK[tip] || "KY";
+    return onek + (varGovde || "");
+  }
+
+  // Bir kod string'inden önek dışındaki gövdeyi ayıklar — önek HER ZAMAN
+  // 2 harf (NM/FT/PF/SP) olduğu için basitçe ilk 2 karakteri atar. Eski
+  // (v2, nokta tabanlı) kodlarla da uyumlu — önek yine ilk 2 karakterde.
   function kodTarihSaatKismiAyikla(kod){
     if(!kod) return null;
-    var parcalar = kod.split(".");
-    if(parcalar.length < 2) return null;
-    return parcalar[parcalar.length-2] + "." + parcalar[parcalar.length-1];
+    return kod.slice(2);
   }
 
   function urunSetiImzaOlustur(urunler){
@@ -144,86 +173,104 @@ var SendData = (function(){
       var yeniImza = urunSetiImzaOlustur(urunlerKaydi);
       var simdi = Date.now();
       // Bir önceki aşamadan (Numune→Teklif→Sipariş) devralınan kod varsa,
-      // tarih.saat kısmı korunur — sadece önek yeni türe göre değişir.
-      var devralinanTarihSaat = devralinanKod ? kodTarihSaatKismiAyikla(devralinanKod) : null;
+      // sıra/tarih/saat gövdesi korunur — sadece önek yeni türe göre değişir.
+      // Yoksa (taze belge) günlük ORTAK sırayı Firebase'den almamız gerekiyor
+      // — bu adım asenkron (internet gerektirir), bu yüzden asıl kayıt
+      // işlemi (devamEt) bu adım tamamlanana kadar bekliyor.
+      var devralinanGovde = devralinanKod ? kodTarihSaatKismiAyikla(devralinanKod) : null;
 
-      // GÜVENLİ YAZMA (transaction): iki cihaz neredeyse aynı anda kayıt
-      // yaparsa, Firebase güncel veriyle fonksiyonu otomatik tekrar
-      // çalıştırır — sessizce birbirini ezme riski yok.
-      var db = firebase.database();
-      var ref = db.ref("arsiv/" + tip);
-      var otomatikRevizeMi = false;
-      var kaydedilenKayit = null;
-      var mutateHatasi = null;
+      function devamEt(govde){
+        // GÜVENLİ YAZMA (transaction): iki cihaz neredeyse aynı anda kayıt
+        // yaparsa, Firebase güncel veriyle fonksiyonu otomatik tekrar
+        // çalıştırır — sessizce birbirini ezme riski yok.
+        var db = firebase.database();
+        var ref = db.ref("arsiv/" + tip);
+        var otomatikRevizeMi = false;
+        var kaydedilenKayit = null;
+        var mutateHatasi = null;
 
-      ref.transaction(function(currentData){
-        try{
-          var liste = currentData ? (Array.isArray(currentData) ? currentData.filter(Boolean) : Object.values(currentData)) : [];
+        ref.transaction(function(currentData){
+          try{
+            var liste = currentData ? (Array.isArray(currentData) ? currentData.filter(Boolean) : Object.values(currentData)) : [];
 
-          // AYNI GÜN + AYNI MÜŞTERİ + BİREBİR AYNI ÜRÜN SETİ (Berta/Abas) varsa,
-          // yeni kayıt açmak yerine mevcut kaydı REVİZE olarak güncelle.
-          var eslesenIdx = -1;
-          for(var i=0;i<liste.length;i++){
-            var aday = liste[i];
-            if(!aday || !aday.ts) continue;
-            var ayniMusteriMi = musteri.id && aday.musteriId ? (aday.musteriId===musteri.id) : (aday.musteri===musteri.ad);
-            if(!ayniMusteriMi) continue;
-            if(!ayniGunMu(aday.ts, simdi)) continue;
-            if(urunSetiImzaOlustur(aday.urunler) !== yeniImza) continue;
-            eslesenIdx = i;
-            break;
-          }
-
-          if(eslesenIdx >= 0){
-            var eskiKayit = liste[eslesenIdx];
-            var eskiToplam = (eskiKayit.urunler||[]).reduce(function(s,u){ return s+(u.toplamEuro||0); }, 0);
-            if(!eskiKayit.revizeGecmisi) eskiKayit.revizeGecmisi = [];
-            eskiKayit.revizeGecmisi.push({ts: eskiKayit.revizeZamani||eskiKayit.ts, toplamEuro:eskiToplam, urunSayisi:(eskiKayit.urunler||[]).length});
-            eskiKayit.urunler = urunlerKaydi;
-            eskiKayit.revizeZamani = simdi;
-            eskiKayit.kur = kur; // her revize, o anki kuru kalıcı olarak günceller
-            eskiKayit.kurManuel = !!kurManuelMi;
-            eskiKayit.kdv = kdv || 0;
-            if(adresler && adresler.faturaAdresi) eskiKayit.faturaAdresi = adresler.faturaAdresi;
-            if(adresler && adresler.teslimatAdresi) eskiKayit.teslimatAdresi = adresler.teslimatAdresi;
-            if(adresler && adresler.yetkili && adresler.yetkili.isim) eskiKayit.gorunecekYetkililer = [adresler.yetkili.isim];
-            if(!eskiKayit.musteriId && musteri.id) eskiKayit.musteriId = musteri.id;
-            otomatikRevizeMi = true;
-            kaydedilenKayit = eskiKayit;
-          } else {
-            kaydedilenKayit = {
-              tarih: tarihStr(), ts: simdi, kod: kodUret(tip, devralinanTarihSaat),
-              musteri: musteri.ad, musteriId: musteri.id || null, sehir: musteri.sehir || "",
-              mod: tip, urunler: urunlerKaydi, kur: kur, kurManuel: !!kurManuelMi, kdv: kdv || 0,
-              faturaAdresi: (adresler && adresler.faturaAdresi) || null,
-              teslimatAdresi: (adresler && adresler.teslimatAdresi) || null,
-              gorunecekYetkililer: (adresler && adresler.yetkili && adresler.yetkili.isim) ? [adresler.yetkili.isim] : null
-            };
-            if(devralinanKod){
-              kaydedilenKayit.oncekiKod = devralinanKod;
-              if(devralinanTarih) kaydedilenKayit.oncekiTarih = devralinanTarih;
+            // AYNI GÜN + AYNI MÜŞTERİ + BİREBİR AYNI ÜRÜN SETİ (Berta/Abas) varsa,
+            // yeni kayıt açmak yerine mevcut kaydı REVİZE olarak güncelle.
+            var eslesenIdx = -1;
+            for(var i=0;i<liste.length;i++){
+              var aday = liste[i];
+              if(!aday || !aday.ts) continue;
+              var ayniMusteriMi = musteri.id && aday.musteriId ? (aday.musteriId===musteri.id) : (aday.musteri===musteri.ad);
+              if(!ayniMusteriMi) continue;
+              if(!ayniGunMu(aday.ts, simdi)) continue;
+              if(urunSetiImzaOlustur(aday.urunler) !== yeniImza) continue;
+              eslesenIdx = i;
+              break;
             }
-            liste.unshift(kaydedilenKayit);
-            otomatikRevizeMi = false;
-          }
 
-          liste.sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
-          return liste;
-        }catch(e){
-          mutateHatasi = e;
-          return; // undefined = transaction'ı iptal et, yarım veri yazılmaz.
-        }
-      }).then(function(result){
-        if(mutateHatasi){ cb(false, mutateHatasi); return; }
-        if(!result || !result.committed){
-          cb(false, new Error("Kayıt işlenemedi — başka bir cihazdaki değişiklikle çakıştı, lütfen tekrar dene."));
-          return;
-        }
-        cb(true, kaydedilenKayit, otomatikRevizeMi);
-      }).catch(function(err){
-        console.error("Arşive kaydetme hatası:", err);
-        cb(false, err);
-      });
+            if(eslesenIdx >= 0){
+              var eskiKayit = liste[eslesenIdx];
+              var eskiToplam = (eskiKayit.urunler||[]).reduce(function(s,u){ return s+(u.toplamEuro||0); }, 0);
+              if(!eskiKayit.revizeGecmisi) eskiKayit.revizeGecmisi = [];
+              eskiKayit.revizeGecmisi.push({ts: eskiKayit.revizeZamani||eskiKayit.ts, toplamEuro:eskiToplam, urunSayisi:(eskiKayit.urunler||[]).length});
+              eskiKayit.urunler = urunlerKaydi;
+              eskiKayit.revizeZamani = simdi;
+              eskiKayit.kur = kur; // her revize, o anki kuru kalıcı olarak günceller
+              eskiKayit.kurManuel = !!kurManuelMi;
+              eskiKayit.kdv = kdv || 0;
+              if(adresler && adresler.faturaAdresi) eskiKayit.faturaAdresi = adresler.faturaAdresi;
+              if(adresler && adresler.teslimatAdresi) eskiKayit.teslimatAdresi = adresler.teslimatAdresi;
+              if(adresler && adresler.yetkili && adresler.yetkili.isim) eskiKayit.gorunecekYetkililer = [adresler.yetkili.isim];
+              if(!eskiKayit.musteriId && musteri.id) eskiKayit.musteriId = musteri.id;
+              otomatikRevizeMi = true;
+              kaydedilenKayit = eskiKayit;
+            } else {
+              kaydedilenKayit = {
+                tarih: tarihStr(), ts: simdi, kod: kodUret(tip, govde),
+                musteri: musteri.ad, musteriId: musteri.id || null, sehir: musteri.sehir || "",
+                mod: tip, urunler: urunlerKaydi, kur: kur, kurManuel: !!kurManuelMi, kdv: kdv || 0,
+                faturaAdresi: (adresler && adresler.faturaAdresi) || null,
+                teslimatAdresi: (adresler && adresler.teslimatAdresi) || null,
+                gorunecekYetkililer: (adresler && adresler.yetkili && adresler.yetkili.isim) ? [adresler.yetkili.isim] : null
+              };
+              if(devralinanKod){
+                kaydedilenKayit.oncekiKod = devralinanKod;
+                if(devralinanTarih) kaydedilenKayit.oncekiTarih = devralinanTarih;
+              }
+              liste.unshift(kaydedilenKayit);
+              otomatikRevizeMi = false;
+            }
+
+            liste.sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
+            return liste;
+          }catch(e){
+            mutateHatasi = e;
+            return; // undefined = transaction'ı iptal et, yarım veri yazılmaz.
+          }
+        }).then(function(result){
+          if(mutateHatasi){ cb(false, mutateHatasi); return; }
+          if(!result || !result.committed){
+            cb(false, new Error("Kayıt işlenemedi — başka bir cihazdaki değişiklikle çakıştı, lütfen tekrar dene."));
+            return;
+          }
+          cb(true, kaydedilenKayit, otomatikRevizeMi);
+        }).catch(function(err){
+          console.error("Arşive kaydetme hatası:", err);
+          cb(false, err);
+        });
+      }
+
+      if(devralinanGovde){
+        devamEt(devralinanGovde);
+      } else {
+        // Taze belge — günlük ortak sıra numarasını al, SONRA kaydet.
+        gunlukSiraNoAl(function(sira){
+          if(sira == null){
+            cb(false, new Error("Belge numarası alınamadı — internet bağlantınızı kontrol edip tekrar deneyin."));
+            return;
+          }
+          devamEt(kodGovdesiOlustur(sira));
+        });
+      }
     }catch(e){
       console.error("Kaydet hatası:", e);
       cb(false, e);
