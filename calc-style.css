@@ -1,4 +1,4 @@
-/* calc-style.css — WG.121026.2340.785
+/* calc-style.css — WG.121026.2358.786
    tek tip kutu sistemi: tüm alanlar aynı boy/font
    (turuncu iskonto kutuları hariç — onlar kasıtlı olarak biraz daha
    büyük, sayı boyu %20 daha büyük). */
@@ -189,7 +189,7 @@
    (bkz. gecmisAlimIpucunuGuncelle). */
 .gecmis-alim-ipucu {
   background: #FC8D33;
-  border: 1.5px solid #ffffff;
+  border: 3px solid #c0392b;
   border-radius: 9px;
   padding: 8.6px;
   font-size: 13.2px;

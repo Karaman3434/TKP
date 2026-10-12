@@ -1,4 +1,4 @@
-/* musteri-serit.css — WG.220926.2300.603
+/* musteri-serit.css — WG.121026.2358.786
    ============================================================
    TEK KURAL (22.09.2026): Müşteri adının (ticari unvan) göründüğü HER
    yerde — Sepet, Ürün Bul, Müşteri Hub, Cari Bilgi, İşlemler, Gönder
@@ -34,33 +34,40 @@
   text-overflow: ellipsis;
 }
 .musteri-serit .ms-kod { color: #c0392b; font-weight: 800; }
+/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup üzerinden): isim ile
+   ilçe/il artık AYRI bir flex eleman değil, ms-ad'ın İÇİNDE tek satırda
+   ("İsim - İlçe, İl") — uzunsa hepsi birlikte ellipsis ile kesilir. */
+.musteri-serit .ms-ayrac { color: #0a2f5c; font-weight: 800; margin: 0 3px; }
 .musteri-serit .ms-sehir {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: #556170;
-  flex-shrink: 0;
 }
 /* Bazı sayfalarda bu şerit koşullu olarak gizlenir (örn. müşteri seçili
    değilken). display:flex, tarayıcının varsayılan [hidden] davranışını
    (display:none) eziyor — bu satır olmadan "hidden" hiçbir şey yapmaz. */
 .musteri-serit[hidden] { display: none; }
 
-/* "🕓" Geçmiş butonu (12.10.2026, Abdullah onayı) — SADECE
+/* "🕓 GEÇMİŞ" butonu (12.10.2026, Abdullah onayı) — SADECE
    MusteriSeridi.html(musteri, {gecmisButonu:true}) çağıran sayfalarda
-   görünür (bkz. musteri-serit.js). Sadece ikon — yazılı hali uzun isim/
-   şehirle aynı satırda ismi erken kesiyordu, testte düzeltildi. */
+   görünür (bkz. musteri-serit.js). DEĞİŞİKLİK (12.10.2026, ikinci
+   revizyon, mockup üzerinden): ikonun yanına "GEÇMİŞ" yazısı eklendi —
+   artık isim+şehir TEK satırda (ms-ad) kesildiği için bu butonla yarışma
+   sorunu kalmadı, sabit genişlikli daire yerine metinli hap şekline
+   geçildi. */
 .musteri-serit .ms-gecmis-btn {
   flex-shrink: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 26px;
+  gap: 5px;
   height: 26px;
+  padding: 0 10px;
   background: #fff;
   color: #0a2f5c;
   border: 1.5px solid #b7d3ef;
   border-radius: 999px;
-  font-size: 13px;
-  padding: 0;
+  font-size: 12px;
+  font-weight: 800;
   cursor: pointer;
 }
+.musteri-serit .ms-gecmis-etiket { font-size: 11px; font-weight: 800; }

@@ -1,5 +1,5 @@
 /*
-  musteri-serit.js — WG.220926.2300.603
+  musteri-serit.js — WG.121026.2358.786
   ========================================
   TEK KURAL (22.09.2026): Müşteri adının göründüğü hiçbir sayfa kendi
   HTML'ini elle yazmaz — hepsi MusteriSeridi.html(musteri) çağırır. Yeni
@@ -16,22 +16,23 @@ var MusteriSeridi = (function(){
 
   // musteri: {id, ad, sehir} — id ve sehir opsiyonel.
   // opts.gecmisButonu (12.10.2026, Abdullah onayı): true verilirse şeridin
-  // sonuna "🕓 Geçmiş" butonu eklenir (id='btnMusteriGecmis') — SADECE bunu
+  // sonuna "🕓 GEÇMİŞ" butonu eklenir (id='btnMusteriGecmis') — SADECE bunu
   // isteyen sayfalar (şimdilik cart.html) bunu açıkça true geçer, diğer
   // tüm sayfalar (parametre verilmezse) HİÇBİR ŞEKİLDE etkilenmez.
+  //
+  // DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup üzerinden, ikinci
+  // revizyon): isim ile ilçe/il bilgisi artık AYRI birer flex eleman değil
+  // — isim bitince hemen " - " ayracı, sonra ilçe/il, hepsi TEK bir satır
+  // (ms-ad) içinde; uzun olursa SATIRIN TAMAMI (isim+ayraç+şehir) birlikte
+  // ellipsis ile kesiliyor. "🕓" butonu artık yanında "GEÇMİŞ" yazısı da
+  // taşıyor (eskiden sadece ikondu).
   function html(musteri, opts){
     if(!musteri) return "";
     var kod = musteri.id ? "<b class='ms-kod'>" + esc(musteri.id) + "</b> " : "";
-    var sehir = musteri.sehir ? "<span class='ms-sehir'>" + esc(musteri.sehir) + "</span>" : "";
-    // DÜZELTME (12.10.2026, test sırasında fark edildi): "🕓 Geçmiş" yazılı
-    // buton, uzun müşteri ismi + şehir ile aynı satırda yarıştığında ismi
-    // erken kesiyordu (ellipsis). Sadece ikon (🕓) kullanarak yer kazanıldı
-    // — isim artık normal şekilde görünüyor (bkz. .ms-gecmis-btn CSS'inde
-    // title ile "İşlem Geçmişi" ipucu da eklendi).
-    var gecmisBtn = (opts && opts.gecmisButonu) ? "<button type='button' class='ms-gecmis-btn' id='btnMusteriGecmis' title='İşlem Geçmişi' aria-label='İşlem Geçmişi'>🕓</button>" : "";
+    var sehir = musteri.sehir ? "<span class='ms-ayrac'>-</span><span class='ms-sehir'>" + esc(musteri.sehir) + "</span>" : "";
+    var gecmisBtn = (opts && opts.gecmisButonu) ? "<button type='button' class='ms-gecmis-btn' id='btnMusteriGecmis' title='İşlem Geçmişi' aria-label='İşlem Geçmişi'>🕓<span class='ms-gecmis-etiket'>GEÇMİŞ</span></button>" : "";
     return "<div class='musteri-serit'>"
-      + "<span class='ms-ad'>" + kod + esc(musteri.ad) + "</span>"
-      + sehir
+      + "<span class='ms-ad'>" + kod + esc(musteri.ad) + sehir + "</span>"
       + gecmisBtn
       + "</div>";
   }
