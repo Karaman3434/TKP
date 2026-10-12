@@ -1,5 +1,5 @@
 /*
-  cart-style.css — WG.041026.1345.728
+  cart-style.css — WG.121026.2340.785
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -604,6 +604,35 @@
   font-weight: 800;
   color: #0e6b34;
   margin-right: 6px;
+}
+
+/* PRİM kutusu — etiket artık değerin ÜSTÜNDE değil, SOLUNDA aynı satırda
+   (12.10.2026, Abdullah onayı — mockup üzerinden). */
+.hesapla-kutu .hc-kutu--prim {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.hesapla-kutu .hc-kutu--prim .hc-kutu-etiket {
+  order: 0;
+  width: auto;
+  text-align: left;
+}
+.hesapla-kutu .hc-kutu--prim .hc-kutu-deger {
+  order: 1;
+  width: auto;
+  text-align: right;
+}
+
+/* İSK (%) kutusu — kutu YÜKSEKLİĞİ aynı kaldı, sadece girilen sayı ~%30
+   büyüdü (20px -> 26px); dikey dolgu azaltılarak kutu boyu telafi edildi
+   (12.10.2026, Abdullah onayı — mockup üzerinden). */
+.hesapla-kutu .hc-kutu--isk {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.hesapla-kutu .hc-kutu--isk input {
+  font-size: 26px;
 }
 
 /* 4) Listeye Ekle — hesaplanmadan ÖNCE (geçerli bir sonuç yokken) turuncu,

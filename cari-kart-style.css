@@ -1,3 +1,4 @@
+/* cari-kart-style.css — WG.121026.2340.785 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -83,19 +84,24 @@
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: .2px;
-  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 8px;
   margin-top: 8px;
-  margin-bottom: 3px;
+  margin-bottom: 6px;
 }
-/* TEK RENK KURALI: tüm bilgi bloğu etiketleri (Temel Bilgiler/Fatura/
-   Teslimat/Yetkili/Not) artık dolgu kutusu değil, düz zeminde kalın mavi
-   yazı — ince bir alt çizgi (bkz. .ck-blok / .ozet-satir-3--birlesik)
-   bölümleri birbirinden ayırıyor. */
+/* AÇIK GRİ ZEMİN (12.10.2026, Abdullah onayı — mockup üzerinden):
+   etiket satırının zemini artık tablolarımızda kullandığımız açık gri
+   (#f3f5f8) — ÇERÇEVE/KENARLIK YOK (Abdullah'ın isteğiyle: bundan sonra
+   hiçbir tasarımda çerçeve çizgisi kullanılmıyor). Tüm bilgi bloğu
+   etiketleri (Temel Bilgiler/Fatura/Teslimat/Yetkili/Not) aynı dili
+   paylaşıyor — bkz. .ck-blok (kutu kaldırıldı, ince ayraç da yok). */
 .ck-blok-etiket--fatura,
 .ck-blok-etiket--yetkili,
 .ck-blok-etiket--teslimat,
 .ck-blok-etiket--not,
-.ck-blok-etiket--temel { background: none; border: none; color: #0a2f5c; }
+.ck-blok-etiket--temel { background: #f3f5f8; border: none; color: #0a2f5c; }
 .ck-blok-etiket--temel { margin-top: 0; margin-bottom: 4px; }
 /* Temel Bilgiler bloğunun ilk satırı — müşteri ticari/cari ismi
    (27.09.2026) — sadece isim ayrı bir şerit olarak görünmeyen sayfalarda
@@ -140,12 +146,16 @@
 /* MİNİMAL/KURUMSAL TASARIM (27.09.2026): kutu/kenarlık kaldırıldı — her
    blok artık düz zeminde, altında ince bir çizgiyle bir sonraki bloktan
    ayrılıyor (tam genişlik ayraç). */
+/* KUTU KALDIRILDI (12.10.2026, Abdullah onayı): "kutu içinde kutu"
+   görünümü istenmiyor — zemin/kenarlık/köşe yuvarlama kaldırıldı, sadece
+   ince bir alt dolgu bırakıldı. Bu kural bundan sonra TÜM tasarımlar
+   için geçerli, bir daha çerçeve/kutu zemini eklenmeyecek. */
 .ck-blok {
-  background: #EFF1F4;
+  background: none;
   border: none;
-  border-radius: 8px;
-  padding: 8px 10px;
-  margin-bottom: 10px;
+  border-radius: 0;
+  padding: 0 2px 8px;
+  margin-bottom: 2px;
 }
 .ozet-satir-3--birlesik { border-radius: 0; overflow: visible; margin-top: 0; padding-bottom: 0; border-bottom: none; gap: 8px; }
 .ozet-satir-3--birlesik .ozet-alan { border-top: none; }
@@ -400,6 +410,65 @@
 }
 .ck-tik--secili { background: #0e6b34; border-color: #0e6b34; border: 1.5px solid #0e6b34;}
 .ck-kart-govde { min-width: 0; }
+
+/* KAYIT ADEDİ ROZETİ + DARALTMA (12.10.2026, Abdullah onayı — mockup
+   üzerinden): Fatura/Teslimat/Yetkili bloklarında 2'den fazla kayıt
+   varsa etiketin yanında "N kayıt" rozeti çıkar — SADECE PROGRAMDA
+   (cari-kart-render.js tarafından eklenir); mail/WhatsApp gönderim
+   görseline (send-render.js, aynı CSS'i paylaşıyor ama bu rozeti hiç
+   üretmiyor) hiç eklenmez. Varsayılan: sadece ilk 2 kayıt görünür;
+   rozete dokununca tümü (en fazla 3) açılır. */
+.ck-kayit-rozet {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #dbe6f2;
+  color: #0a2f5c;
+  font-size: 11px;
+  font-weight: 800;
+  border-radius: 20px;
+  padding: 1px 8px 1px 7px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.ck-kayit-rozet[hidden] { display: none; }
+.ck-kayit-rozet-ok { font-size: 9px; display: inline-block; transition: transform .18s ease; }
+.ck-kayit-rozet--acik .ck-kayit-rozet-ok { transform: rotate(180deg); }
+
+/* TABLO/EXCEL SATIRI TASARIMI (12.10.2026, Abdullah onayı — mockup
+   üzerinden): Fatura/Teslimat/Yetkili bloklarında artık her kayıt
+   TEK SATIRDA (seçim tiki + etiket + detay) — dikeyde çok daha az yer
+   kaplıyor. "Not" bloğu ve mail/WhatsApp gönderimi (send-render.js)
+   hâlâ eski .ck-kart tasarımını kullanıyor, DEĞİŞMEDİ. Seçim tiki
+   artık akıştan bağımsız HER ZAMAN görünür (eskiden sadece "İşlem Yap"
+   akışında görünürdü). */
+.ck-satir {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+.ck-satir--secilebilir { cursor: pointer; }
+.ck-satir-tik {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1.5px solid #c0392b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 900;
+  color: #fff;
+}
+.ck-satir-tik--secili { background: #0e6b34; border-color: #0e6b34; }
+.ck-satir-metin { min-width: 0; flex: 1; display: flex; flex-direction: column; line-height: 1.25; }
+.ck-satir-etiket { font-size: 12px; font-weight: 700; color: #1a2a3a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ck-satir-detay { font-size: 11px; color: #556170; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ck-satir--gizli { display: none; }
 
 /* "Yeni Bilgi Ekle" popup'ı — her kategori satırında Ekle/Sil/Düzenle */
 .yb-kategori-satir {

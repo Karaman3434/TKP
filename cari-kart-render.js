@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.061026.0935.732
+  cari-kart-render.js — WG.121026.2340.785
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -43,6 +43,15 @@ var TIP_META = {
   yetkili:  {baslik:"Yetkili Kişi",    tekil:"yetkili kişi",    ikon:"👤"},
   not:      {baslik:"Not",             tekil:"not",             ikon:"📝"}
 };
+
+// DARALTILMIŞ PANEL + ADET ROZETİ (12.10.2026, Abdullah onayı — mockup
+// üzerinden): Fatura/Teslimat/Yetkili bloklarında en fazla KAYIT_LIMIT
+// kadar kayıt eklenebilir; varsayılan olarak sadece ilk VARSAYILAN_GORUNUR
+// kadarı görünür, fazlası etiketin yanındaki "N kayıt" rozetine
+// dokununca açılır (bkz. anaSayfayiRenderEt / rozetTiklariniBagla).
+var KAYIT_LIMIT = { fatura: 3, teslimat: 3, yetkili: 3 };
+var VARSAYILAN_GORUNUR = 2;
+var genisletilmis = { fatura: false, teslimat: false, yetkili: false };
 
 var aktifTip = null, aktifEylem = null, aktifIndex = null;
 var silTip = null, silIndex = null;
@@ -88,10 +97,11 @@ function kayitAltMetin(tip, kayit){
 // okuyup varsayılan ilk kayıt yerine SENİN işaretlediğini kullanır.
 var secimler = {fatura:0, teslimat:0, yetkili:0};
 
-// HATA DÜZELTME (WG.100926.196): bu artık modül seviyesinde, tek sefer
-// okunuyor — "İşlem Yap" akışından gelinmediyse (düz görüntüleme),
-// fatura/teslimat/yetkili kartlarında SEÇİM ARAYÜZÜ hiç gösterilmemeli,
-// sadece bilgi. Seçim arayüzü SADECE bu akıştan gelince aktif olur.
+// DEĞİŞİKLİK (12.10.2026, Abdullah onayı): seçim tiki artık akıştan
+// bağımsız HER ZAMAN görünür/tıklanabilir (eskiden SADECE "İşlem Yap"
+// akışında görünüyordu, bkz. akistanGeldiMi). akistanGeldiMi hâlâ
+// bölüm-eylem popup'ının (Ekle/Sil/Güncelle) gizlenmesi ve alt "İşleme
+// Devam Et" butonu için kullanılıyor, DEĞİŞMEDİ.
 var akistanGeldiMi = localStorage.getItem("weiconv2_islem_yap_akisi") === "1";
 
 function anaSayfayiRenderEt(){
@@ -99,37 +109,80 @@ function anaSayfayiRenderEt(){
   ["fatura","teslimat","yetkili","not"].forEach(function(tip){
     var liste = kayitlariGetir(m, tip);
     var kapsayici = document.getElementById(tip + "Listesi");
+    var rozetEl = document.getElementById(tip + "Rozet");
     if(liste.length === 0){
       kapsayici.innerHTML = "<div class='ck-kart-bos'>Henüz " + TIP_META[tip].tekil + " eklenmemiş.</div>";
+      if(rozetEl) rozetEl.hidden = true;
       return;
     }
-    var secilebilirMi = akistanGeldiMi && tip !== "not" && liste.length > 1;
+
+    // "Not" bloğu TASARIM DIŞI bırakıldı — eski .ck-kart görünümü,
+    // rozet/daraltma yok, mail/WhatsApp gönderimiyle (send-render.js)
+    // aynı şekilde DEĞİŞMEDİ.
+    if(tip === "not"){
+      kapsayici.innerHTML = liste.map(function(k){
+        return "<div class='ck-kart'><div class='ck-kart-ust'>" + escapeText(kayitBaslik(tip,k)) + "</div><div class='ck-kart-alt'>" + escapeText(kayitAltMetin(tip,k)) + "</div></div>";
+      }).join("");
+      return;
+    }
+
     if(secimler[tip] >= liste.length) secimler[tip] = 0;
+    var acikMi = !!genisletilmis[tip];
+    var tiklanabilirMi = liste.length > 1;
+
+    if(rozetEl){
+      if(liste.length > VARSAYILAN_GORUNUR){
+        rozetEl.hidden = false;
+        rozetEl.classList.toggle("ck-kayit-rozet--acik", acikMi);
+        rozetEl.innerHTML = "<span>" + liste.length + " kayıt</span><span class='ck-kayit-rozet-ok'>▾</span>";
+      } else {
+        rozetEl.hidden = true;
+        rozetEl.classList.remove("ck-kayit-rozet--acik");
+      }
+    }
+
     kapsayici.innerHTML = liste.map(function(k, i){
-      var govde = "<div class='ck-kart-ust'>" + escapeText(kayitBaslik(tip,k)) + "</div><div class='ck-kart-alt'>" + escapeText(kayitAltMetin(tip,k)) + "</div>";
-      // Şirket telefonu/e-postası SADECE ilk fatura adresi kartına, en alta
-      // ekleniyor — müşteri seviyesinde tek bir bilgi, her adres kartında
-      // tekrar etmesin diye.
-      if(tip === "fatura" && i === 0) govde += faturaIletisimSatiri();
-      if(!secilebilirMi) return "<div class='ck-kart'>" + govde + "</div>";
       var seciliMi = secimler[tip] === i;
-      return "<div class='ck-kart ck-kart--secilebilir" + (seciliMi ? " ck-kart--secili" : "") + "' data-tip='" + tip + "' data-i='" + i + "'>"
-        + "<div class='ck-tik" + (seciliMi ? " ck-tik--secili" : "") + "'>" + (seciliMi ? "✓" : "") + "</div>"
-        + "<div class='ck-kart-govde'>" + govde + "</div>"
+      var gizliMi = !acikMi && i >= VARSAYILAN_GORUNUR;
+      var classes = "ck-satir" + (tiklanabilirMi ? " ck-satir--secilebilir" : "") + (seciliMi ? " ck-satir--secili" : "") + (gizliMi ? " ck-satir--gizli" : "");
+      var dataAttr = tiklanabilirMi ? " data-tip='" + tip + "' data-i='" + i + "'" : "";
+      return "<div class='" + classes + "'" + dataAttr + ">"
+        + "<div class='ck-satir-tik" + (seciliMi ? " ck-satir-tik--secili" : "") + "'>" + (seciliMi ? "✓" : "") + "</div>"
+        + "<div class='ck-satir-metin'><span class='ck-satir-etiket'>" + escapeText(kayitBaslik(tip,k)) + "</span><span class='ck-satir-detay'>" + escapeText(kayitAltMetin(tip,k)) + "</span></div>"
         + "</div>";
     }).join("");
+
+    // Şirket telefonu/e-postası — listenin ALTINA, tek seferlik.
+    if(tip === "fatura"){
+      var ek = faturaIletisimSatiri();
+      if(ek) kapsayici.innerHTML += ek;
+    }
   });
 
   secimTiklariniBagla();
+  rozetTiklariniBagla();
 }
 
 function secimTiklariniBagla(){
-  document.querySelectorAll(".ck-kart--secilebilir").forEach(function(el){
+  document.querySelectorAll(".ck-satir--secilebilir").forEach(function(el){
     el.onclick = function(ev){
       ev.stopPropagation();
       var tip = this.getAttribute("data-tip");
       var i = parseInt(this.getAttribute("data-i"), 10);
       secimler[tip] = i;
+      anaSayfayiRenderEt();
+    };
+  });
+}
+
+function rozetTiklariniBagla(){
+  document.querySelectorAll(".ck-kayit-rozet").forEach(function(el){
+    el.onclick = function(ev){
+      ev.stopPropagation();
+      var tip = el.id.replace("Rozet", "").toLowerCase();
+      // id "faturaRozet" -> "fatura" vb. — sadece bilinen 3 tip için anlamlı.
+      if(genisletilmis[tip] === undefined) return;
+      genisletilmis[tip] = !genisletilmis[tip];
       anaSayfayiRenderEt();
     };
   });
@@ -151,6 +204,7 @@ function faturaIletisimSatiri(){
 
 function alanlariDoldur(musteri){
   musteriVerisi = musteri;
+  genisletilmis = {fatura:false, teslimat:false, yetkili:false};
   MusteriSeridi.uygula("cariKartMusteriSeridi", musteri);
 
   document.getElementById("ozetVadeDeger").textContent = vadeGosterimMetni(musteri);
@@ -198,7 +252,11 @@ function pickerGoster(baslikMetni, altMetni, ogeler){
 // ---- "Ekle/Düzenle/Sil" butonlarının eylem başlatıcısı ----
 function eylemBaslat(bolumId, eylem){
   if(bolumId === "cari"){
-    if(eylem === "ekle"){ formAc("fatura", "ekle"); return; }
+    if(eylem === "ekle"){
+      var mevcutFatura = kayitlariGetir(musteriVerisi, "fatura");
+      if(mevcutFatura.length >= KAYIT_LIMIT.fatura){ toastGoster("En fazla " + KAYIT_LIMIT.fatura + " fatura adresi eklenebilir."); return; }
+      formAc("fatura", "ekle"); return;
+    }
 
     var faturaListesi = kayitlariGetir(musteriVerisi, "fatura");
 
@@ -224,7 +282,13 @@ function eylemBaslat(bolumId, eylem){
   // yetkili / teslimat / not — ortak akış
   aktifTip = bolumId;
   aktifEylem = eylem;
-  if(eylem === "ekle"){ formAc(bolumId, "ekle"); return; }
+  if(eylem === "ekle"){
+    if(KAYIT_LIMIT[bolumId] !== undefined){
+      var mevcut = kayitlariGetir(musteriVerisi, bolumId);
+      if(mevcut.length >= KAYIT_LIMIT[bolumId]){ toastGoster("En fazla " + KAYIT_LIMIT[bolumId] + " " + TIP_META[bolumId].tekil + " eklenebilir."); return; }
+    }
+    formAc(bolumId, "ekle"); return;
+  }
 
   var liste = kayitlariGetir(musteriVerisi, bolumId);
   if(liste.length === 0){ toastGoster("Henüz kayıtlı " + TIP_META[bolumId].tekil + " yok."); return; }

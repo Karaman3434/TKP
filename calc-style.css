@@ -1,4 +1,5 @@
-/* calc-style.css — tek tip kutu sistemi: tüm alanlar aynı boy/font
+/* calc-style.css — WG.121026.2340.785
+   tek tip kutu sistemi: tüm alanlar aynı boy/font
    (turuncu iskonto kutuları hariç — onlar kasıtlı olarak biraz daha
    büyük, sayı boyu %20 daha büyük). */
 
@@ -180,16 +181,24 @@
 /* Geçmiş alım ipucu (15.09.2026, kart tasarımı 25.09.2026) — Abdullah'ın
    isteği: "Hesaplanacak Ürün" kutusuyla AYNI boy/köşe/kart tasarımında
    olsun, zemin rengi paylaştığı fotoğraftaki turuncu (#FC8D33) olsun. */
+/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup üzerinden): metin ~%20
+   büyüdü (11px->13.2px) — turuncu zemin üstünde beyaz küçük yazı fark
+   edilmiyordu, okunurluk için ince beyaz çerçeve eklendi. Satır
+   TAŞMASIN/2. satıra düşmesin diye tek satır sabitlendi (white-space/
+   overflow) — gerçek metin sığmazsa hesapla-popup.js otomatik küçültüyor
+   (bkz. gecmisAlimIpucunuGuncelle). */
 .gecmis-alim-ipucu {
   background: #FC8D33;
-  border: 1.5px solid #c96f1c;
+  border: 1.5px solid #ffffff;
   border-radius: 9px;
   padding: 8.6px;
-  font-size: 11px;
+  font-size: 13.2px;
   color: #ffffff;
   line-height: 1.3;
   margin-bottom: 9px;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .gecmis-alim-satir {
   font-size: 11.5px;

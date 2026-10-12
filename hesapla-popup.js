@@ -1,5 +1,5 @@
 /*
-  hesapla-popup.js — WG.041026.0356.724
+  hesapla-popup.js — WG.121026.2340.785
   =======================================
   Birleşik Sayfa (cart.html) için Hızlı Hesapla'nın POPUP hâli — 02.10.2026,
   Abdullah'ın isteğiyle: "ürünün üzerine tıkladığımda popup gibi hesaplama
@@ -78,7 +78,23 @@ var HesaplaPopup = (function(){
       kutu.innerHTML = "🕓 Bu müşteriye en son: <b>" + (son.tarih||"-") + (sonTipEtiket ? " (" + sonTipEtiket + ")" : "") + " · %" + CartData.fmt(son.iskonto) + " isk. · " + CartData.fmt(son.netFiyat) + " EUR net · " + CartData.fmt(son.adet) + " adet</b>"
         + (kayitlar.length > 1 ? " — diğer kayıtlar için dokun" : "");
       kutu.hidden = false;
+      otomatikKucultSatira(kutu);
     }catch(e){ kutu.hidden = true; }
+  }
+
+  // OTOMATİK KÜÇÜLTME (12.10.2026, Abdullah onayı — mockup üzerinden):
+  // geçmiş alım ipucu metni %20 büyütüldü ama TEK SATIRDA kalması
+  // gerekiyor (taşmasın/2. satıra düşmesin) — metin kutuya sığmazsa
+  // yazı kademeli küçülüyor (aynı teknik send-render.js'te kullanılıyor).
+  function otomatikKucultSatira(el){
+    try{
+      var boyut = 13.2;
+      el.style.fontSize = boyut + "px";
+      while(el.scrollWidth > el.clientWidth + 1 && boyut > 9){
+        boyut -= 0.2;
+        el.style.fontSize = boyut + "px";
+      }
+    }catch(e){}
   }
 
   function hesaplaVeGoster(){
