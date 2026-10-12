@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- WEICON ASİST V2 — VERSİYON: WG.121026.1455.777 — urun-medya-eslestir.html -->
+<!--
+  AŞAMA 3 (11.10.2026, Abdullah'ın isteğiyle — AI Ürün Asistanı projesi):
+  Pilot ürünler için görsel + TDS PDF'i, BERTA/ABAS koduyla seçilen GERÇEK
+  ürün kaydına (Firebase'deki kendi anahtarına) doğrudan bağlanır. Ürün
+  adına veya tahmini dosya yoluna göre EŞLEŞTİRME YAPILMAZ.
+
+  KASITLI OLARAK auth.js'teki SAYFA_IZIN_ANAHTARI listesine EKLENMEDİ —
+  urun-yukle.html ile AYNI yöntem: bu listede olmayan sayfalar kısıtlı
+  (çalışan) hesaplar için otomatik erişilemez, sadece kısıtlanmamış
+  (admin) hesaplar görebilir (bkz. auth.js kisitliSayfaKontrolu).
+
+  Bu ekran urun-yukle-render.js'teki TOPLU ".set()" mekanizmasına HİÇ
+  dokunmuyor — ayrı bir sayfa, ayrı bir dosya, ayrı bir Firebase yazma
+  yöntemi (ProductData.urunMedyaGuncelle → tek düğüme ".update()").
+-->
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d3d8c">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WEICON ASİST">
+<title>WEICON ASİST — Ürün Görsel/TDS Eşleştir</title>
+<script>document.documentElement.style.visibility='hidden';</script>
+<link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
+<link rel="stylesheet" href="veri-style.css?v=WG.011026.2210.702">
+<link rel="stylesheet" href="product-style.css?v=WG.121026.1455.777">
+<link rel="stylesheet" href="urun-medya-eslestir-style.css?v=WG.111026.1250.763">
+</head>
+<body>
+
+<div class="app-ust-sabit">
+<header class="app-header">
+  <div class="logo">WEICON</div>
+  <div class="tarih" id="gunTarihi"></div>
+</header>
+
+<nav class="app-nav">
+  <a class="nav-btn nav-btn--geri" href="veri.html"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></a>
+  <a class="nav-btn nav-btn--ana" href="home.html"><span class='nav-ikon'>🏠</span><span class='nav-etiket'>Ana Sayfa</span></a>
+</nav>
+</div>
+<div class="sayfa-rota-serit">
+  <span class="sayfa-rota-serit-isim">🖼️ Ürün Görsel/TDS Eşleştir</span>
+  <span class="sayfa-rota-serit-rota">Menü › Veri Yönetimi</span>
+</div>
+
+<main class="sayfa">
+  <p class="veri-uyari" style="background:#eaf2fc;border-color:#003a70;color:#003a70;">
+    AI Ürün Asistanı — pilot ürünler için görsel ve TDS (teknik veri föyü)
+    belgesi yükle. Önce aşağıdan ürünü BERTA/ABAS kodu veya adıyla ara ve
+    seç — eşleştirme SADECE seçtiğin gerçek ürün kaydına yapılır, kataloğun
+    geri kalanı hiç etkilenmez.
+  </p>
+
+  <div class="ume-arama-kutusu">
+    <input type="text" id="umeArama" placeholder="Ürün adı, Berta veya Abas kodu ara..." autocomplete="off">
+    <span>🔍</span>
+  </div>
+  <div class="data-table-container" id="umeSonucAlani" hidden>
+    <table class="data-table">
+      <thead><tr><th class="col-urun">ÜRÜN</th><th class="col-islem">SEÇ</th></tr></thead>
+      <tbody id="umeSonucListesi"></tbody>
+    </table>
+  </div>
+  <p class="ume-bos-sonuc" id="umeBosMesaj" hidden>Sonuç bulunamadı.</p>
+
+  <div class="ume-secili-kart" id="umeSeciliKart" hidden>
+    <div class="ume-secili-ust">
+      <div>
+        <div class="ume-secili-ad" id="umeSeciliAd">-</div>
+        <div class="ume-secili-kodlar" id="umeSeciliKodlar">-</div>
+      </div>
+      <button class="ume-degistir-btn" id="btnUmeBaskaUrun" type="button">↺ Başka ürün seç</button>
+    </div>
+
+    <div class="ume-bolum">
+      <div class="ume-bolum-baslik">🖼️ Ürün görseli</div>
+      <div class="ume-gorsel-satir">
+        <div class="ume-gorsel-onizleme" id="umeGorselOnizleme">Görsel yok</div>
+        <div class="ume-dosya-alani">
+          <input type="file" id="umeGorselInput" accept="image/*" hidden>
+          <div class="ume-satir-butonlar">
+            <button class="ume-yukle-btn" id="btnUmeGorselSec" type="button">📤 Görsel Seç ve Yükle</button>
+            <button class="ume-kaldir-btn" id="btnUmeGorselKaldir" type="button" hidden>🗑 Kaldır</button>
+          </div>
+          <div class="ume-durum" id="umeGorselDurum"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ume-bolum">
+      <div class="ume-bolum-baslik">📄 TDS (Teknik Veri Föyü) PDF</div>
+      <div class="ume-tds-satir">
+        <a class="ume-tds-link" id="umeTdsLink" href="#" target="_blank" rel="noopener" hidden>📄 Mevcut TDS belgesini aç</a>
+        <input type="text" id="umeTdsRevizyon" class="ume-revizyon-input" placeholder="Revizyon/tarih (ops.) — örn. Rev.03 / 2024-11">
+        <textarea id="umeTdsOzet" class="ume-ozet-textarea" placeholder="TDS metin özeti (ops., AI analizinde kaynak olarak kullanılacak — elle kısa bir özet girebilirsin; otomatik PDF okuma Aşama 4/5'te)"></textarea>
+        <input type="file" id="umeTdsInput" accept="application/pdf" hidden>
+        <div class="ume-satir-butonlar">
+          <button class="ume-yukle-btn" id="btnUmeTdsSec" type="button">📤 PDF Seç ve Yükle</button>
+          <button class="ume-kaldir-btn" id="btnUmeTdsKaldir" type="button" hidden>🗑 Kaldır</button>
+        </div>
+        <div class="ume-durum" id="umeTdsDurum"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="firebase-config.js?v=WG.011026.2340.706"></script>
+<script src="auth.js?v=WG.051026.1055.730"></script>
+<script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
+<script src="hata-log.js?v=WG.130926.2010.553"></script>
+<script src="product-data.js?v=WG.111026.1250.763"></script>
+<script src="urun-medya-eslestir-render.js?v=WG.111026.1250.763"></script>
+</body>
+</html>

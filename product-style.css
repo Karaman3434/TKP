@@ -338,8 +338,9 @@ body {
   width: 100%;
   border-collapse: collapse;
 }
+/* GRİ ZEMİN (12.10.2026, Abdullah onayı — "programdaki tüm tablolar" kuralı) */
 .data-table th {
-  background: #c3dcf4;
+  background: #EEF0F3;
   color: #0c447c;
   font-size: 11.7px;
   font-weight: 900;

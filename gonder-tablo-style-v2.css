@@ -1,0 +1,16 @@
+/*
+  gonder-tablo-style-v2.css — WG.121026.1445.776
+  ================================================================
+  Belge Önizleme/Sepet'te onaylanan açık gri zemin dili Gönder
+  ekranının ürün tablosuna da taşındı (12.10.2026, Abdullah onayı).
+  SADECE body.gonder-sayfa altında — calc.html'in de paylaştığı
+  belge-style.css/cart-style.css unscoped kalıyor, bu dosya onları
+  ETKİLEMEZ.
+  NOT: Burada türe-özel ROZET RENGİ YOK — Gönder ekranında belgenin
+  tek renk taşıyan yeri zaten üstteki "...FORMU" şeridi (bkz.
+  belge-style.css .belge-form-baslik.tip-*); aynı belgede ikinci bir
+  renkli öğe "bir belgede bir renk" kuralını bozar.
+*/
+body.gonder-sayfa .belge-urun-tablo th { background: #EEF0F3; }
+body.gonder-sayfa .belge-urun-tablo tbody tr:not(.hareket-satir--sari):not(.hareket-satir--yesil):nth-child(even) td { background: #EFF1F4; }
+body.gonder-sayfa .belge-gt-satir { padding: 10px 16px; }

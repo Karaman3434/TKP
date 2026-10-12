@@ -597,8 +597,11 @@
 /* Aylık Sipariş & Prim Özeti — eski uygulamanın renkleriyle BİREBİR aynı */
 .data-table-container { overflow-x: auto; width: 100%; border: 1px solid #3569b8; border-radius: 8px; margin-bottom: 6px; }
 .aylik-ozet-tablo { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: fixed; }
+/* GRİ ZEMİN (12.10.2026, Abdullah onayı — "programdaki tüm tablolar" kuralı):
+   eski mavi başlık zemini (#c3dcf4) diğer tüm tablolarla aynı açık griye
+   döndü, yazı rengi (zaten koyu lacivert) değişmedi. */
 .aylik-ozet-tablo th {
-  background: #c3dcf4;
+  background: #EEF0F3;
   color: #0c447c;
   border: 1px solid #3569b8;
   padding: 7px 2px;

@@ -75,9 +75,11 @@
   color: #003a70;
 }
 
+/* GRİ ZEMİN (12.10.2026, Abdullah onayı — "programdaki tüm tablolar" kuralı):
+   eski mavi başlık zemini diğer tüm tablolarla aynı açık griye döndü. */
 .ok-giris-tablo { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 12px; }
 .ok-giris-tablo th {
-  background: #c3dcf4;
+  background: #EEF0F3;
   color: #0c447c;
   padding: 6px 4px;
   font-size: 9px;
@@ -129,7 +131,7 @@
 
 .ok-fark-tablo { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 10px; }
 .ok-fark-tablo th {
-  background: #c3dcf4;
+  background: #EEF0F3;
   color: #0c447c;
   padding: 6px 4px;
   font-size: 9px;
