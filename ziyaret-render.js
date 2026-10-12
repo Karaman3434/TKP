@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: WG.091026.1725.756
+  ziyaret-render.js — VERSİYON: WG.121026.1129.767
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -196,6 +196,7 @@ function gorunumSec(tur){
   } else {
     document.getElementById("ziyAjandaPanel").hidden = false;
     document.getElementById("ziyTemasPanel").hidden = true;
+    ajOnizleKapat(); // önceki görünümden kalmış, kaydedilmemiş bir önizleme varsa temizle
     ajandaFilmSeridiniCiz(seciliGunAnahtari);
   }
 }
@@ -205,6 +206,7 @@ function gorunumDegistir(){
   panelBasligiGuncelle();
   document.getElementById("ziyTemasPanel").hidden = true;
   document.getElementById("ziyAjandaPanel").hidden = true;
+  ajOnizleKapat(); // kaydedilmemiş önizleme varsa at — "Türü değiştir" ile sessizce kaybolmasın istenmez ama kaydetmeden çıkıyor demektir
   var sayilar = gunSayilariniHesapla();
   document.getElementById("ziyGorunumSecimTemasSayi").textContent = (sayilar.temas[seciliGunAnahtari]||0) + " kayıt";
   document.getElementById("ziyGorunumSecimAjandaSayi").textContent = (sayilar.ajanda[seciliGunAnahtari]||0) + " sayfa";
@@ -215,6 +217,7 @@ function panelKapat(){
   document.getElementById("ziyGunPanel").hidden = true;
   seciliGunAnahtari = null;
   seciliGorunum = null;
+  ajOnizleKapat(); // kaydedilmemiş önizleme varsa at
   takvimiCiz();
 }
 
@@ -317,7 +320,27 @@ function firmaAramaCiz(){
 // ——— AJANDA FİLM ŞERİDİ ———
 // Seçilen fotoğrafı küçültüp JPEG olarak sıkıştırır (maks. 1100px
 // genişlik, %65 kalite — el yazısı okunabilir kalsın).
+//
+// DÜZELTME (12.10.2026, Abdullah'ın isteğiyle) — galeri erişimi açılınca
+// (bkz. 11.10.2026 düzeltmesi) iPhone'ların varsayılan kaydettiği HEIC/HEIF
+// formatındaki fotoğraflar <img> ile çözülemiyor ve "Fotoğraf işlenemedi"
+// hatası veriyordu; eskiden sadece kamera kullanılabildiği için bu yol hiç
+// tetiklenmiyordu. Artık: (1) gerçek hata ayrıntısı sessizce HataLog'a
+// yazılıyor (önceden geriBildir(null) ile tamamen kayboluyordu), (2) dosya
+// adı/MIME türünden HEIC/HEIF şüphesi varsa geriBildir'e "format" bilgisi
+// geçiliyor ki arayüz kullanıcıya somut bir öneri gösterebilsin.
 function resimSikistir(file, geriBildir){
+  function sessizKaydet(asama, detay){
+    if(typeof HataLog !== "undefined"){
+      HataLog.kaydet("Ajanda fotoğrafı işlenemedi (" + asama + ")", detay);
+    }
+  }
+  function muhtemelenDesteklenmeyenFormat(){
+    var ad = ((file && file.name) || "").toLowerCase();
+    var tur = ((file && file.type) || "").toLowerCase();
+    return ad.indexOf(".heic") !== -1 || ad.indexOf(".heif") !== -1
+      || tur.indexOf("heic") !== -1 || tur.indexOf("heif") !== -1;
+  }
   try{
     var reader = new FileReader();
     reader.onload = function(e){
@@ -331,15 +354,27 @@ function resimSikistir(file, geriBildir){
           canvas.height = Math.max(1, Math.round(img.height * olcek));
           var ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          geriBildir(canvas.toDataURL("image/jpeg", 0.65));
-        }catch(e){ geriBildir(null); }
+          geriBildir(canvas.toDataURL("image/jpeg", 0.65), null);
+        }catch(e){
+          sessizKaydet("canvas", e && e.message);
+          geriBildir(null, muhtemelenDesteklenmeyenFormat() ? "format" : "genel");
+        }
       };
-      img.onerror = function(){ geriBildir(null); };
+      img.onerror = function(){
+        sessizKaydet("img.onerror", "dosya: " + ((file && file.name) || "?") + ", tür: " + ((file && file.type) || "?"));
+        geriBildir(null, muhtemelenDesteklenmeyenFormat() ? "format" : "genel");
+      };
       img.src = e.target.result;
     };
-    reader.onerror = function(){ geriBildir(null); };
+    reader.onerror = function(){
+      sessizKaydet("FileReader", reader.error && reader.error.message);
+      geriBildir(null, "genel");
+    };
     reader.readAsDataURL(file);
-  }catch(e){ geriBildir(null); }
+  }catch(e){
+    sessizKaydet("try/catch dış", e && e.message);
+    geriBildir(null, muhtemelenDesteklenmeyenFormat() ? "format" : "genel");
+  }
 }
 
 // Film şeridini TÜM sayfalardan (kronolojik) kurar, hedef tarihe en
@@ -422,6 +457,12 @@ function ajandaEkleTiklandi(){
   document.getElementById("ajFotoSecici").click();
 }
 
+// ÖNİZLE+KAYDET (12.10.2026, Abdullah'ın isteğiyle) — seçilen fotoğraf
+// artık otomatik yüklenmiyor: önce #ajOnizleKart'ta önizleniyor,
+// AjandaData.fotografEkle() yalnızca kullanıcı "✓ Kaydet"e basınca
+// çağrılıyor. "✕ Vazgeç" seçimi hiç yüklemeden iptal eder.
+var ajOnizlemedekiVeri = null; // {dataUrl, hedefTarih} — kaydedilmeyi bekleyen seçim
+
 function ajandaFotoSecildi(file){
   if(!file || !seciliGunAnahtari) return;
   // Hedef: film şeridindeki o an ortadaki (aktif) kartın tarihi, yoksa
@@ -431,24 +472,77 @@ function ajandaFotoSecildi(file){
 
   var btn = document.getElementById("btnAjandaEkle");
   btn.disabled = true;
-  btn.innerHTML = "<span>⏳</span>Yükleniyor";
-  resimSikistir(file, function(dataUrl){
+  btn.innerHTML = "<span>⏳</span>İşleniyor";
+  resimSikistir(file, function(dataUrl, hataAyrinti){
+    btn.disabled = false;
+    btn.innerHTML = "<span>📷</span>Ekle";
     if(!dataUrl){
-      btn.disabled = false;
-      btn.innerHTML = "<span>📷</span>Ekle";
-      hataGoster("Fotoğraf işlenemedi, tekrar dener misin?");
+      ajOnizleHataGoster(hataAyrinti);
       return;
     }
-    AjandaData.fotografEkle(hedefTarih, dataUrl, function(basarili, err){
-      btn.disabled = false;
-      btn.innerHTML = "<span>📷</span>Ekle";
-      if(!basarili){
-        hataGoster("Fotoğraf kaydedilemedi: " + (err && err.message ? err.message : "bilinmeyen hata"));
-        return;
-      }
-      ajandaFilmSeridiniCiz(hedefTarih);
-      takvimiCiz();
-    });
+    ajOnizlemedekiVeri = { dataUrl: dataUrl, hedefTarih: hedefTarih };
+    ajOnizleGoster(dataUrl);
+  });
+}
+
+// Başarılı önizleme: resim + Kaydet/Vazgeç.
+function ajOnizleGoster(dataUrl){
+  document.getElementById("ajOnizleKart").hidden = false;
+  var resimEl = document.getElementById("ajOnizleResim");
+  resimEl.style.backgroundImage = "url(\"" + dataUrl + "\")";
+  resimEl.hidden = false;
+  document.getElementById("ajOnizleHata").hidden = true;
+  document.getElementById("btnAjOnizleKaydet").hidden = false;
+  document.getElementById("btnAjOnizleVazgec").style.flex = "1";
+  document.getElementById("btnAjandaEkle").disabled = true;
+}
+
+// İşlenemeyen dosya: somut hata mesajı, sadece Vazgeç (Kaydet gizli).
+function ajOnizleHataGoster(hataAyrinti){
+  ajOnizlemedekiVeri = null;
+  document.getElementById("ajOnizleKart").hidden = false;
+  document.getElementById("ajOnizleResim").hidden = true;
+  var hataEl = document.getElementById("ajOnizleHata");
+  hataEl.hidden = false;
+  hataEl.textContent = (hataAyrinti === "format")
+    ? "⚠️ Bu fotoğraf formatı işlenemedi (muhtemelen HEIC). Galeri ayarlarından \"En Uyumlu\" (JPEG) formatını seçip tekrar dener misin?"
+    : "⚠️ Fotoğraf işlenemedi, tekrar dener misin?";
+  document.getElementById("btnAjOnizleKaydet").hidden = true;
+  document.getElementById("btnAjOnizleVazgec").style.flex = "1";
+  document.getElementById("btnAjandaEkle").disabled = true;
+}
+
+// Önizleme kartını tamamen kapatır (Vazgeç, Kaydet-sonrası veya görünüm
+// değişimi sırasında kaydedilmemiş bir seçim varsa onu da atar).
+function ajOnizleKapat(){
+  ajOnizlemedekiVeri = null;
+  var kart = document.getElementById("ajOnizleKart");
+  if(!kart) return;
+  kart.hidden = true;
+  document.getElementById("ajOnizleResim").style.backgroundImage = "";
+  document.getElementById("btnAjandaEkle").disabled = false;
+}
+
+function ajOnizleVazgecTiklandi(){
+  ajOnizleKapat();
+}
+
+function ajOnizleKaydetTiklandi(){
+  if(!ajOnizlemedekiVeri) return;
+  var veri = ajOnizlemedekiVeri;
+  var kaydetBtn = document.getElementById("btnAjOnizleKaydet");
+  kaydetBtn.disabled = true;
+  kaydetBtn.textContent = "⏳ Kaydediliyor";
+  AjandaData.fotografEkle(veri.hedefTarih, veri.dataUrl, function(basarili, err){
+    kaydetBtn.disabled = false;
+    kaydetBtn.textContent = "✓ Kaydet";
+    if(!basarili){
+      hataGoster("Fotoğraf kaydedilemedi: " + (err && err.message ? err.message : "bilinmeyen hata"));
+      return;
+    }
+    ajOnizleKapat();
+    ajandaFilmSeridiniCiz(veri.hedefTarih);
+    takvimiCiz();
   });
 }
 
@@ -525,6 +619,10 @@ document.addEventListener("DOMContentLoaded", function(){
     this.value = "";
   });
   document.getElementById("ajFilmSeridi").addEventListener("scroll", ajFilmKaydirmaDegisti, {passive:true});
+
+  // Ajanda — Önizle+Kaydet kartı (12.10.2026).
+  document.getElementById("btnAjOnizleVazgec").onclick = ajOnizleVazgecTiklandi;
+  document.getElementById("btnAjOnizleKaydet").onclick = ajOnizleKaydetTiklandi;
 
   document.getElementById("ziyFirmaAra").addEventListener("input", firmaAramaCiz);
 

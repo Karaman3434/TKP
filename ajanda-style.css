@@ -1,5 +1,5 @@
 /*
-  ajanda-style.css — VERSİYON: WG.091026.1725.756
+  ajanda-style.css — VERSİYON: WG.121026.1129.767
   ==================================================
   09.10.2026 — Abdullah'ın isteğiyle, ayrı bir "Ajanda" sayfası yerine
   Ziyaret Takvimi (ziyaret.html) içine TAŞINDI/BİRLEŞTİRİLDİ: artık ayrı
@@ -103,4 +103,71 @@
   text-align: center;
   padding: 18px 0;
   margin: 0;
+}
+
+/* ÖNİZLE+KAYDET KARTI (12.10.2026) — seçilen fotoğraf kaydedilmeden önce
+   burada gösterilir; resimSikistir() başarısız olursa (ör. HEIC) resim
+   yerine .aj-onizle-hata görünür. */
+.aj-onizle-kart {
+  background: #fff;
+  border: 2px solid #0e6b34;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  margin-bottom: 10px;
+}
+.aj-onizle-etiket {
+  font-size: 11px;
+  font-weight: 900;
+  color: #0e6b34;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.aj-onizle-resim {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background-color: #dfe7f3;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.aj-onizle-buton-satir {
+  display: flex;
+  gap: 8px;
+}
+.aj-onizle-vazgec-btn {
+  flex: 1;
+  background: #f8fafc;
+  color: #c0392b;
+  border: 1.5px solid #c0392b;
+  border-radius: 10px;
+  padding: 11px 4px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.aj-onizle-kaydet-btn {
+  flex: 2;
+  background: #0e6b34;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 4px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.aj-onizle-kaydet-btn[disabled] { opacity: .6; pointer-events: none; }
+.aj-onizle-hata {
+  background: #fdeceb;
+  border: 1px solid #c0392b;
+  color: #c0392b;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }

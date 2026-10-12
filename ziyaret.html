@@ -31,7 +31,7 @@
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
 <link rel="stylesheet" href="ziyaret-style.css?v=WG.091026.1725.756">
-<link rel="stylesheet" href="ajanda-style.css?v=WG.091026.1725.756">
+<link rel="stylesheet" href="ajanda-style.css?v=WG.121026.1129.767">
 </head>
 <body>
 
@@ -133,6 +133,22 @@
         <button type="button" class="aj-ekle-kucuk" id="btnAjandaEkle"><span>📷</span>Ekle</button>
         <span class="aj-yuzen-tarih" id="ajYuzenTarih"></span>
       </div>
+
+      <!-- ÖNİZLE+KAYDET KARTI (12.10.2026, Abdullah'ın isteğiyle) — seçilen
+           fotoğraf hemen yüklenmez; önce burada önizlenir, kullanıcı
+           "✓ Kaydet" demeden AjandaData.fotografEkle() çağrılmaz.
+           resimSikistir() başarısız olursa (ör. HEIC formatı) #ajOnizleResim
+           yerine #ajOnizleHata gösterilir ve Kaydet butonu kaybolur. -->
+      <div class="aj-onizle-kart" id="ajOnizleKart" hidden>
+        <div class="aj-onizle-etiket">🖼️ Yeni sayfa — kaydetmeden önce kontrol et</div>
+        <div class="aj-onizle-resim" id="ajOnizleResim" hidden></div>
+        <div class="aj-onizle-hata" id="ajOnizleHata" hidden></div>
+        <div class="aj-onizle-buton-satir">
+          <button type="button" class="aj-onizle-vazgec-btn" id="btnAjOnizleVazgec" style="flex:1;">✕ Vazgeç</button>
+          <button type="button" class="aj-onizle-kaydet-btn" id="btnAjOnizleKaydet">✓ Kaydet</button>
+        </div>
+      </div>
+
       <div class="aj-film-seridi" id="ajFilmSeridi"></div>
       <p class="aj-film-bos" id="ajFilmBos" hidden>Henüz hiç sayfa eklenmemiş — "Ekle" ile çekebilirsin.</p>
     </div>
@@ -199,6 +215,6 @@
 <script src="reports-data.js?v=WG.071026.2200.747"></script>
 <script src="ajanda-data.js?v=WG.091026.1725.756"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
-<script src="ziyaret-render.js?v=WG.091026.1725.756"></script>
+<script src="ziyaret-render.js?v=WG.121026.1129.767"></script>
 </body>
 </html>
