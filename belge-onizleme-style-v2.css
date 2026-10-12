@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.121026.2152.782
+  belge-onizleme-style-v2.css — WG.121026.2225.783
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026,
   Abdullah'ın isteğiyle — mockup üzerinden onaylandı).
@@ -43,7 +43,9 @@
   font-size: 14px;
 }
 
-.belge-onizleme-sayfa .sayfa { background: var(--page-bg); padding: 12px 16px 16px; }
+/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): yatay kenar boşluğu
+   16px -> 4px, kartlar kenara çok daha yakın (sadece yatay; dikey aynı). */
+.belge-onizleme-sayfa .sayfa { background: var(--page-bg); padding: 12px 4px 16px; }
 
 /* ---- Kartlar ---- */
 .belge-onizleme-sayfa .belge-kart {
@@ -99,12 +101,14 @@
   border-radius: 6px;
 }
 
-.belge-onizleme-sayfa .belge-musteri-govde { padding: 14px 16px; }
+/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): üst boşluk daraltıldı
+   (başlık şeridi ile müşteri ismi arası sıkılaştı) — alt/yanlar aynı. */
+.belge-onizleme-sayfa .belge-musteri-govde { padding: 4px 16px 14px; }
 .belge-onizleme-sayfa .belge-musteri-ad {
   font-size: 17.6px; /* %20 küçültüldü (12.10.2026, Abdullah onayı) */
   font-weight: 700;
   color: var(--brand-primary);
-  margin-bottom: 12px;
+  margin-bottom: 4px; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): isim ile VADE/FATURA/KARGO arası daraltıldı (önceden 12px) */
   padding-left: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -164,8 +168,8 @@
   font-size: 14px;
   font-weight: 400;
   color: var(--text-primary);
-  padding-top: 14px;
-  padding-bottom: 2px;
+  padding-top: 6px; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): daraltıldı, önceden 14px — 3'ü de aynı */
+  padding-bottom: 4px; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): 3'ü de aynı, önceden 2px */
   border-top: 1px solid var(--border-color);
   margin-top: 2px;
 }
@@ -200,7 +204,7 @@
   border-radius: 10px 10px 0 0;
   padding: 10px 16px;
   text-align: left; /* DÜZELTME (12.10.2026, Abdullah'ın isteğiyle) — satır başından başlasın, ortalı değil */
-  font-size: 13px;
+  font-size: 10px; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): Fatura Adresi etiketiyle (10px) aynı boyut — renk (işlem türüne göre) KORUNDU, değişmedi */
   font-weight: 800;
   letter-spacing: .6px;
   white-space: nowrap;
@@ -236,18 +240,24 @@
    sığıyor (mockup onayı: Seçenek B). ---- */
 .belge-onizleme-sayfa .data-table-container { border: none; border-radius: 0; margin-bottom: 0; }
 .belge-onizleme-sayfa .belge-urun-tablo { font-size: 11px; table-layout: fixed; }
+/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): tablo başlıkları
+   (SR/ÜRÜN BİLGİSİ/...) artık Fatura Adresi ETİKETİYLE (10px, #003a70)
+   aynı boyut/renk. Hücre değerleri (adet dahil, düz <td>) Fatura Adresi
+   AÇIK METNİYLE (12px) aynı boyuta büyütüldü — bkz. aşağıdaki
+   .belge-para-sayi/.belge-td-urun-ad/.belge-td-prim-tek kuralları (B/A
+   ürün kodu HARİÇ, .belge-td-urun-kod ayrı/dokunulmadı). */
 .belge-onizleme-sayfa .belge-urun-tablo th {
   background: var(--brand-blue-light);
-  color: var(--brand-primary);
+  color: #003a70;
   padding: 7px 3px;
-  font-size: 9.6px;
+  font-size: 10px;
   font-weight: 700;
   border-bottom: 1px solid var(--border-color);
 }
 .belge-onizleme-sayfa .belge-urun-tablo td {
   padding: 7px 4px;
   border-top: 1px solid var(--border-color);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-primary);
 }
 .belge-onizleme-sayfa .belge-urun-tablo th,
@@ -258,9 +268,9 @@
 .belge-onizleme-sayfa .belge-td-urun-kod { font-size: 8.3px; font-weight: 700; white-space: nowrap; overflow: hidden; } /* %10 büyütüldü (12.10.2026, Abdullah onayı) — Gönder ekranıyla aynı boy */
 .belge-onizleme-sayfa .kod-blok--b { color: var(--danger); }
 .belge-onizleme-sayfa .kod-blok--a { color: var(--brand-blue); }
-.belge-onizleme-sayfa .belge-td-urun-ad { font-size: 11.5px; font-weight: 600; color: var(--text-primary); margin-top: 2px; }
+.belge-onizleme-sayfa .belge-td-urun-ad { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-top: 2px; } /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): Fatura Adresi açık metniyle aynı boyut, önceden 11.5px */
 
-.belge-onizleme-sayfa .belge-para-sayi { font-size: 11.5px; font-weight: 600; color: var(--text-primary); display: block; white-space: nowrap; }
+.belge-onizleme-sayfa .belge-para-sayi { font-size: 12px; font-weight: 600; color: var(--text-primary); display: block; white-space: nowrap; } /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): önceden 11.5px */
 .belge-onizleme-sayfa .belge-para-birim { font-size: 8px; font-weight: 600; color: var(--text-secondary); display: block; }
 .belge-onizleme-sayfa .rozet-net { color: var(--success); }
 /* HATA DÜZELTMESİ (12.10.2026, Abdullah'ın fark etmesiyle) — yukarıdaki
@@ -275,8 +285,8 @@
 .belge-onizleme-sayfa .belge-net-tl { color: var(--text-secondary); font-size: 8.5px; }
 .belge-onizleme-sayfa .belge-td-toplam { color: var(--text-primary); }
 .belge-onizleme-sayfa .belge-para-sayi--buyuk { font-size: .84em; }
-.belge-onizleme-sayfa .belge-td-prim-tek .belge-para-sayi { font-size: 9.5px; }
-.belge-onizleme-sayfa .belge-td-prim-tek .belge-para-birim { font-size: 7px; }
+.belge-onizleme-sayfa .belge-td-prim-tek .belge-para-sayi { font-size: 12px; } /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): önceden 9.5px */
+.belge-onizleme-sayfa .belge-td-prim-tek .belge-para-birim { font-size: 8.55px; } /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): önceden 7px */
 
 /* ---- Genel toplam + PRİM (Abdullah onayı: PRİM şeridi korunuyor, aynı
    kartın alt köşelerini birlikte kapatıyor) ---- */
@@ -295,7 +305,7 @@
 .belge-onizleme-sayfa .belge-gt-etiket-deger-grup { flex-direction: column; align-items: flex-end; gap: 1px; }
 .belge-onizleme-sayfa .belge-gt-etiket { font-size: 8.4px; font-weight: 700; letter-spacing: .3px; }
 .belge-onizleme-sayfa .belge-gt-deger { font-size: 18.1px; font-weight: 700; }
-.belge-onizleme-sayfa .belge-gt-deger-alt { font-size: 8.4px; font-weight: 500; color: #AEC9E8; margin-top: 2px; }
+.belge-onizleme-sayfa .belge-gt-deger-alt { font-size: 12px; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): tablo TOPLAM sütunu rakam boyutuyla (12px) aynı */ font-weight: 500; color: #AEC9E8; margin-top: 2px; }
 
 /* RENK GÜNCELLEMESİ (12.10.2026, Abdullah onayı — mockup üzerinden): koyu
    lacivert devam şeridi yerine, Sepet/Gönder'deki (.belge-prim-toplam-serit)
@@ -339,7 +349,7 @@
   font-weight: 600;
 }
 .belge-onizleme-sayfa .belge-islemler-buton {
-  background: var(--brand-blue);
+  background: #38469a; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): GENEL TOPLAM paneliyle aynı renk (önceden var(--brand-blue)) */
   color: #fff;
   border-radius: 9px;
   font-size: 15px;
