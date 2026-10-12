@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- WEICON ASİST V2 — VERSİYON: WG.121026.1625.778 — cart.html -->
+<!-- WEICON ASİST V2 — VERSİYON: WG.121026.2250.784 — cart.html -->
 <!--
   WEICON ASİST — BİRLEŞİK SAYFA: ÜRÜN BUL + HIZLI HESAPLA + SEPET v6
   ================================================================
@@ -256,17 +256,17 @@
        geçmişi (12.10.2026, Abdullah onayı). customer-detail.html'deki
        "📦 Ürün Geçmişi" ile AYNI veri kaynağını (ReportsData.musteriUrunGecmisi)
        kullanır — sadece buradan da, sayfadan ayrılmadan ulaşılabiliyor. -->
+  <!-- DEĞİŞİKLİK (12.10.2026, Abdullah onayı): ara liste ekranı ("önce ürüne
+       tıkla, sonra detay aç") kaldırıldı — artık TEK tablo, ÜRÜN sütunuyla
+       birlikte; aynı üründen birden fazla kayıt varsa SADECE en yeni kayıt
+       gösterilir (bkz. cart-render.js musteriGecmisiniAc). -->
   <div class="tip-secim-overlay" id="musteriGecmisOverlay" hidden>
     <div class="tip-secim-kutu" style="max-height:80vh; overflow-y:auto;">
       <div class="tip-secim-baslik" id="musteriGecmisBaslik">🕓 İşlem Geçmişi</div>
-      <div id="musteriGecmisListesi"></div>
-      <div id="musteriGecmisDetay" hidden>
-        <button id="btnMusteriGecmisGeri" style="width:100%; margin-bottom:10px; background:#eaf2fc; color:#003a70; border:1px solid #3569b8; border-radius:8px; padding:10px; font-size:12px; font-weight:800; cursor:pointer;">‹ Ürün Listesine Dön</button>
-        <div class="data-table-container"><table class="belge-urun-tablo" style="font-size:10px;">
-          <thead><tr><th style='width:30%;'>TARİH</th><th style='width:15%;'>ADET</th><th style='width:17%;'>LİSTE</th><th style='width:19%;'>İSK</th><th style='width:19%;'>NET</th></tr></thead>
-          <tbody id="musteriGecmisTabloGovde"></tbody>
-        </table></div>
-      </div>
+      <div class="data-table-container"><table class="belge-urun-tablo" style="font-size:10px;">
+        <thead><tr><th style='width:24%;'>ÜRÜN</th><th style='width:22%;'>TARİH</th><th style='width:12%;'>ADET</th><th style='width:14%;'>LİSTE</th><th style='width:14%;'>İSK</th><th style='width:14%;'>NET</th></tr></thead>
+        <tbody id="musteriGecmisTabloGovde"></tbody>
+      </table></div>
       <button class="tip-secim-vazgec-btn" id="btnMusteriGecmisKapat" style="margin-top:10px;">Kapat</button>
     </div>
   </div>
@@ -378,7 +378,7 @@
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
-<script src="cart-render.js?v=WG.121026.1420.773"></script>
+<script src="cart-render.js?v=WG.121026.2250.784"></script>
 <script src="ai-urun-panel.js?v=WG.111026.1150.762"></script>
 <script src="urun-arama.js?v=WG.121026.1820.779"></script>
 <script src="hesapla-popup.js?v=WG.121026.1345.771"></script>

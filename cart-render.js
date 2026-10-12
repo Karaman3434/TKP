@@ -1,5 +1,5 @@
 /*
-  cart-render.js
+  cart-render.js — WG.121026.2250.784
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -168,42 +168,34 @@ function musteriGecmisiniAc(){
     }
     var musteri = CustomerData.seciliyiOku();
     if(!musteri) return;
+    // DEĞİŞİKLİK (12.10.2026, Abdullah onayı): ara "ürüne tıkla, sonra aç"
+    // liste ekranı kaldırıldı — artık TEK tablo; gruplar zaten
+    // ReportsData.musteriUrunGecmisi() tarafından her ürün için en yeniden
+    // en eskiye sıralı geliyor (kayitlar[0] = o ürünün EN YENİ kaydı), o
+    // yüzden her gruptan sadece kayitlar[0] alınıyor — aynı üründen birden
+    // fazla kayıt varsa SADECE en yeni/en yakın tarihli olan gösterilir.
     var gruplar = ReportsData.musteriUrunGecmisi(musteri.ad, musteri.id);
-    var listesiEl = document.getElementById("musteriGecmisListesi");
-    var detayEl = document.getElementById("musteriGecmisDetay");
     var baslikEl = document.getElementById("musteriGecmisBaslik");
-
-    detayEl.hidden = true;
-    listesiEl.hidden = false;
+    var govdeEl = document.getElementById("musteriGecmisTabloGovde");
     baslikEl.textContent = "🕓 İşlem Geçmişi";
 
     if(gruplar.length === 0){
-      listesiEl.innerHTML = "<p style='text-align:center;color:#44494f;padding:16px 0;'>Bu müşteriye henüz sipariş/teklif olarak girilmiş bir ürün yok.</p>";
+      govdeEl.innerHTML = "<tr><td colspan='6' style='text-align:center;color:#44494f;padding:16px 0;'>Bu müşteriye henüz sipariş/teklif olarak girilmiş bir ürün yok.</td></tr>";
     } else {
-      listesiEl.innerHTML = gruplar.map(function(g, i){
-        return "<div class='satir-tiklanabilir' data-urun-i='" + i + "' style='background:#f4f7fb;border-radius:8px;padding:10px 12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;'>"
-          + "<span style='font-size:12px;font-weight:800;color:#111;'>" + htmlEsc(g.ad) + "</span>"
-          + "<span style='font-size:10px;color:#8e44ad;font-weight:800;'>" + g.kayitlar.length + " kez ›</span>"
-          + "</div>";
+      govdeEl.innerHTML = gruplar.map(function(g){
+        var k = g.kayitlar[0]; // en yeni kayıt
+        var tipEtiket = TIP_ETIKET_MUSTERI_GECMIS[k.tip] || "";
+        var d = new Date(k.ts);
+        var tarihFormatli = String(d.getDate()).padStart(2,"0") + "." + String(d.getMonth()+1).padStart(2,"0") + "." + d.getFullYear();
+        return "<tr>"
+          + "<td style='text-align:left;font-weight:700;'>" + htmlEsc(g.ad) + "</td>"
+          + "<td>" + tarihFormatli + (tipEtiket ? " <span style='color:#8e44ad;font-weight:700;'>(" + tipEtiket + ")</span>" : "") + "</td>"
+          + "<td>" + (k.adet||0) + "</td>"
+          + "<td>" + CartData.fmt(k.listeFiyat) + " EURO</td>"
+          + "<td><span class='belge-para-sayi' style='color:#c0392b;'>" + CartData.fmt(k.iskonto) + "</span><span class='belge-para-birim' style='color:#c0392b;'>%</span></td>"
+          + "<td><span class='rozet-net'>" + CartData.fmt(k.netFiyat) + " EURO</span></td>"
+          + "</tr>";
       }).join("");
-      listesiEl.querySelectorAll("[data-urun-i]").forEach(function(el){
-        el.onclick = function(){
-          var g = gruplar[parseInt(this.getAttribute("data-urun-i"),10)];
-          baslikEl.textContent = "🕓 " + g.ad;
-          document.getElementById("musteriGecmisTabloGovde").innerHTML = g.kayitlar.map(function(k){
-            var tipEtiket = TIP_ETIKET_MUSTERI_GECMIS[k.tip] || "";
-            return "<tr>"
-              + "<td>" + htmlEsc((k.tarih||"").split(" ").slice(0,2).join(" ")) + (tipEtiket ? " <span style='color:#8e44ad;font-weight:700;'>(" + tipEtiket + ")</span>" : "") + "</td>"
-              + "<td>" + (k.adet||0) + "</td>"
-              + "<td>" + CartData.fmt(k.listeFiyat) + " EURO</td>"
-              + "<td><span class='belge-isk-metin'>%" + CartData.fmt(k.iskonto) + "</span></td>"
-              + "<td><span class='rozet-net'>" + CartData.fmt(k.netFiyat) + " EURO</span></td>"
-              + "</tr>";
-          }).join("");
-          listesiEl.hidden = true;
-          detayEl.hidden = false;
-        };
-      });
     }
     document.getElementById("musteriGecmisOverlay").hidden = false;
   }catch(e){ hataGoster("İşlem geçmişi açılamadı: " + e.message); }
@@ -588,11 +580,6 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("btnMusterisizMail").onclick = musterisizMailGonder;
   document.getElementById("btnMusterisizVazgec").onclick = function(){ document.getElementById("musterisizGonderOverlay").hidden = true; };
   document.getElementById("btnMusteriGecmisKapat").onclick = function(){ document.getElementById("musteriGecmisOverlay").hidden = true; };
-  document.getElementById("btnMusteriGecmisGeri").onclick = function(){
-    document.getElementById("musteriGecmisDetay").hidden = true;
-    document.getElementById("musteriGecmisListesi").hidden = false;
-    document.getElementById("musteriGecmisBaslik").textContent = "🕓 İşlem Geçmişi";
-  };
 
   // İşlemi İptal Onay Popup — SADECE "🗑️ İşlemi İptal Et" butonu kullanıyor
   // (02.10.2026: "Geri" tuşu artık bunu tetiklemiyor, bkz. yukarısı).
