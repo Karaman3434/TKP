@@ -1,29 +1,42 @@
 /*
-  ajanda-data.js — VERSİYON: WG.091026.1725.756
+  ajanda-data.js — VERSİYON: WG.121026.1217.769
   =================================================
   09.10.2026, Abdullah'ın isteğiyle: günlük kağıt ajandasının (not
   defteri) sayfa fotoğraflarını tarihe göre saklayıp hızlıca geri
   bulabilmek için. Gün başına birden fazla sayfa/fotoğraf olabilir.
 
-  MİMARİ KARARI — Firebase STORAGE kullanılıyor (RTDB'ye base64 GÖMME
-  değil): uygulamanın geri kalanı (Komisyon fotoğrafları dahil) küçük,
-  sabit sayıda görseli doğrudan Realtime Database'e base64 olarak
-  yazıyor — ama orası en fazla "2 slot". Ajanda ise zamanla yüzlerce
-  sayfa biriktirecek bir arşiv; hepsini her sayfa açılışında istemciye
-  tam olarak indirmek (RTDB'nin "value" dinleyicisi tüm ağacı bir kerede
-  getirir) hem yavaş hem gereksiz veri kullanımı olurdu. Bunun yerine:
-    - Gerçek JPEG dosyası Firebase STORAGE'a yüklenir (ajanda/{tarih}/…)
-    - Realtime Database'de SADECE hafif bir kayıt tutulur:
-      ajanda/{YYYY-MM-DD}/{pushId} = {yol, url, zaman}
-  Böylece takvimdeki gün rozetleri (kaç sayfa var) ve kronolojik liste
-  anında, görselleri hiç indirmeden hesaplanır; görsel sadece o gün
-  açıldığında veya görüntüleyicide sırası geldiğinde (tarayıcının kendi
-  <img>/background-image yüklemesiyle) çekilir.
+  MİMARİ DEĞİŞİKLİĞİ (12.10.2026) — eskiden gerçek JPEG dosyası Firebase
+  STORAGE'a yükleniyor, Realtime Database'de sadece hafif bir kayıt
+  ({yol, url, zaman}) tutuluyordu. Bu projede Storage'a yazan TEK özellik
+  Ajanda'ydı (Komisyon dahil başka hiçbir yer Storage kullanmıyor) ve
+  hesapta/kurallarda art arda iki farklı Storage sorunu çıktı (önce
+  "quota exceeded", sonra "PERMISSION_DENIED") — ikisi de bu kod
+  tarafında düzeltilemeyen, Firebase Console tarafında durması gereken
+  sorunlar. Abdullah'ın isteğiyle Storage'a bağımlılık TAMAMEN kaldırıldı:
+  artık sıkıştırılmış JPEG doğrudan "data:image/jpeg;base64,..." olarak
+  Realtime Database kaydının İÇİNE yazılıyor (tıpkı projedeki diğer
+  küçük-görsel alanları gibi) — RTDB zaten her yerde çalışıyor, Storage
+  izin/kota sorunundan tamamen bağımsız.
 
-  Fotoğraf, yüklenmeden ÖNCE ziyaret-render.js'teki resimSikistir() ile
-  (Ödenebilir Komisyon'daki AYNI yöntem: canvas'a çizip küçültüp %60
-  kaliteli JPEG'e çevirme) sıkıştırılıp sonra buraya "data:image/jpeg;
-  base64,..." olarak verilir.
+  BİLİNEN DEZAVANTAJ (dürüstçe not düşüyorum) — RTDB'nin "value"
+  dinleyicisi "ajanda" ağacının TAMAMINI her değişiklikte yeniden indirir;
+  yüzlerce sayfa birikince bu eskisinden daha fazla veri/yavaşlık
+  demektir. Storage'daki izin sorunu Firebase Console'da çözülürse,
+  ileride tekrar Storage'a (yalnızca RTDB'de hafif kayıt tutarak) dönmek
+  daha sağlıklı olur — ama o Console tarafı olmadan kod bunu tek başına
+  çözemiyordu, bu yüzden şimdilik kesin çalışan yol seçildi.
+
+  GERİYE DÖNÜK UYUM — eski kayıtlarda hâlâ Storage'ın https indirme
+  URL'si olabilir ("yol" alanıyla); render tarafı (ziyaret-render.js)
+  "url" alanını olduğu gibi background-image kaynağı olarak kullandığı
+  için data: URL ile https: URL arasında fark gözetmeden ikisi de aynı
+  şekilde görüntülenir. Silme (fotografSil) eski kayıtlar için Storage
+  dosyasını da silmeyi dener (yol varsa); yeni kayıtlarda yol hiç
+  olmadığından bu adım atlanır.
+
+  Fotoğraf, buraya verilmeden ÖNCE ziyaret-render.js'teki resimSikistir()
+  ve kırpma arayüzü ile küçültülüp/kırpılıp %65 kaliteli JPEG'e çevrilmiş
+  olmalı.
 */
 
 var AjandaData = (function(){
@@ -83,16 +96,15 @@ var AjandaData = (function(){
   }
 
   // dataUrl: "data:image/jpeg;base64,..." — önceden sıkıştırılmış olmalı.
+  // 12.10.2026 — Storage bağımlılığı kaldırıldı (bkz. dosya başı not):
+  // sıkıştırılmış JPEG artık doğrudan RTDB kaydının "url" alanına
+  // "data:image/jpeg;base64,..." olarak yazılıyor, ayrı bir Storage
+  // yüklemesi/izni gerekmiyor.
   function fotografEkle(tarih, dataUrl, geriBildir){
     var cb = typeof geriBildir === "function" ? geriBildir : function(){};
     try{
       var zaman = Date.now();
-      var yol = "ajanda/" + tarih + "/" + zaman + "_" + Math.random().toString(36).slice(2, 8) + ".jpg";
-      firebase.storage().ref(yol).putString(dataUrl, "data_url")
-        .then(function(gorev){ return gorev.ref.getDownloadURL(); })
-        .then(function(url){
-          return firebase.database().ref("ajanda/" + tarih).push({yol: yol, url: url, zaman: zaman});
-        })
+      firebase.database().ref("ajanda/" + tarih).push({url: dataUrl, zaman: zaman})
         .then(function(){ cb(true); })
         .catch(function(err){ cb(false, err); });
     }catch(e){ cb(false, e); }

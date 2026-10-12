@@ -1,5 +1,5 @@
 /*
-  ajanda-style.css — VERSİYON: WG.121026.1129.767
+  ajanda-style.css — VERSİYON: WG.121026.1217.769
   ==================================================
   09.10.2026 — Abdullah'ın isteğiyle, ayrı bir "Ajanda" sayfası yerine
   Ziyaret Takvimi (ziyaret.html) içine TAŞINDI/BİRLEŞTİRİLDİ: artık ayrı
@@ -133,6 +133,65 @@
   background-position: center;
   border-radius: 8px;
   margin-bottom: 10px;
+}
+
+/* KIRPMA ALANI (12.10.2026) — "✓ Kaydet"e basmadan önce fotoğrafın
+   kenarlarını 4 köşe tutamacıyla kırpabilme. Dıştaki 4 şerit (ust/alt/
+   sol/sag) kırpma kutusunun dışını koyulaştırır; kutunun kendisi ve
+   tutamaçlar JS tarafından (ajKirpCiz) yüzde cinsinden konumlandırılır. */
+.aj-onizle-kirp-alan {
+  position: relative;
+  width: 100%;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #111;
+  touch-action: none;
+}
+.aj-onizle-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.aj-onizle-kirp-disi {
+  position: absolute;
+  background: rgba(0,0,0,.5);
+  pointer-events: none;
+}
+.aj-onizle-kirp-kutu {
+  position: absolute;
+  border: 2px solid #0e6b34;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.aj-onizle-tutamac {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  margin: -13px;
+  background: #0e6b34;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.35);
+  touch-action: none;
+  cursor: grab;
+  pointer-events: auto;
+}
+.aj-onizle-tutamac--sol-ust { top: 0; left: 0; }
+.aj-onizle-tutamac--sag-ust { top: 0; right: 0; }
+.aj-onizle-tutamac--sol-alt { bottom: 0; left: 0; }
+.aj-onizle-tutamac--sag-alt { bottom: 0; right: 0; }
+.aj-onizle-sifirla-link {
+  display: block;
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #0e6b34;
+  margin-bottom: 8px;
+  cursor: pointer;
 }
 .aj-onizle-buton-satir {
   display: flex;

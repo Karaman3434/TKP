@@ -31,7 +31,7 @@
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
 <link rel="stylesheet" href="ziyaret-style.css?v=WG.091026.1725.756">
-<link rel="stylesheet" href="ajanda-style.css?v=WG.121026.1129.767">
+<link rel="stylesheet" href="ajanda-style.css?v=WG.121026.1217.769">
 </head>
 <body>
 
@@ -134,14 +134,28 @@
         <span class="aj-yuzen-tarih" id="ajYuzenTarih"></span>
       </div>
 
-      <!-- ÖNİZLE+KAYDET KARTI (12.10.2026, Abdullah'ın isteğiyle) — seçilen
-           fotoğraf hemen yüklenmez; önce burada önizlenir, kullanıcı
-           "✓ Kaydet" demeden AjandaData.fotografEkle() çağrılmaz.
-           resimSikistir() başarısız olursa (ör. HEIC formatı) #ajOnizleResim
-           yerine #ajOnizleHata gösterilir ve Kaydet butonu kaybolur. -->
+      <!-- ÖNİZLE+KIRP+KAYDET KARTI (12.10.2026, Abdullah'ın isteğiyle) —
+           seçilen fotoğraf hemen yüklenmez; önce burada önizlenir, kenarları
+           4 köşe tutamacıyla kırpılabilir, kullanıcı "✓ Kaydet" demeden
+           AjandaData.fotografEkle() çağrılmaz. resimSikistir() başarısız
+           olursa (HEIC dönüştürme de başarısız olduysa) kırpma alanı yerine
+           #ajOnizleHata gösterilir ve Kaydet butonu kaybolur. -->
       <div class="aj-onizle-kart" id="ajOnizleKart" hidden>
-        <div class="aj-onizle-etiket">🖼️ Yeni sayfa — kaydetmeden önce kontrol et</div>
-        <div class="aj-onizle-resim" id="ajOnizleResim" hidden></div>
+        <div class="aj-onizle-etiket">🖼️ Yeni sayfa — kenarları kırp, kontrol et</div>
+        <div class="aj-onizle-kirp-alan" id="ajOnizleKirpAlan" hidden>
+          <img class="aj-onizle-img" id="ajOnizleImg" alt="">
+          <div class="aj-onizle-kirp-disi aj-onizle-kirp-disi--ust" id="ajKirpDisiUst"></div>
+          <div class="aj-onizle-kirp-disi aj-onizle-kirp-disi--alt" id="ajKirpDisiAlt"></div>
+          <div class="aj-onizle-kirp-disi aj-onizle-kirp-disi--sol" id="ajKirpDisiSol"></div>
+          <div class="aj-onizle-kirp-disi aj-onizle-kirp-disi--sag" id="ajKirpDisiSag"></div>
+          <div class="aj-onizle-kirp-kutu" id="ajOnizleKirpKutu">
+            <div class="aj-onizle-tutamac aj-onizle-tutamac--sol-ust" data-kose="sol-ust"></div>
+            <div class="aj-onizle-tutamac aj-onizle-tutamac--sag-ust" data-kose="sag-ust"></div>
+            <div class="aj-onizle-tutamac aj-onizle-tutamac--sol-alt" data-kose="sol-alt"></div>
+            <div class="aj-onizle-tutamac aj-onizle-tutamac--sag-alt" data-kose="sag-alt"></div>
+          </div>
+        </div>
+        <span class="aj-onizle-sifirla-link" id="btnAjOnizleSifirla" hidden>⟲ Kırpmayı sıfırla</span>
         <div class="aj-onizle-hata" id="ajOnizleHata" hidden></div>
         <div class="aj-onizle-buton-satir">
           <button type="button" class="aj-onizle-vazgec-btn" id="btnAjOnizleVazgec" style="flex:1;">✕ Vazgeç</button>
@@ -220,8 +234,8 @@
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="customer-data.js?v=WG.300926.1130.675"></script>
 <script src="reports-data.js?v=WG.071026.2200.747"></script>
-<script src="ajanda-data.js?v=WG.091026.1725.756"></script>
+<script src="ajanda-data.js?v=WG.121026.1217.769"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
-<script src="ziyaret-render.js?v=WG.121026.1150.768"></script>
+<script src="ziyaret-render.js?v=WG.121026.1217.769"></script>
 </body>
 </html>

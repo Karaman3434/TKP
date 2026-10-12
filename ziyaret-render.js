@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: WG.121026.1150.768
+  ziyaret-render.js — VERSİYON: WG.121026.1217.769
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -318,20 +318,21 @@ function firmaAramaCiz(){
 }
 
 // ——— AJANDA FİLM ŞERİDİ ———
-// Seçilen fotoğrafı küçültüp JPEG olarak sıkıştırır (maks. 1100px
-// genişlik, %65 kalite — el yazısı okunabilir kalsın).
+// Seçilen fotoğrafı ÇÖZER (HEIC/HEIF ise önce JPEG'e çevirir) ve TAM
+// ÇÖZÜNÜRLÜKTE bir <img> olarak geriBildir'e verir — küçültme/sıkıştırma
+// ARTIK burada değil, kullanıcı kırpma kutusunu ayarlayıp "✓ Kaydet"e
+// basınca kirpVeSikistir() içinde yapılıyor (12.10.2026, Abdullah'ın
+// isteğiyle: önce kenarları kırpabilsin, sonra kırpılmış alan
+// küçültülüp sıkıştırılsın).
 //
-// DÜZELTME (12.10.2026, Abdullah'ın isteğiyle) — galeri erişimi açılınca
-// (bkz. 11.10.2026 düzeltmesi) iPhone'ların varsayılan kaydettiği HEIC/HEIF
-// formatındaki fotoğraflar <img> ile çözülemiyor ve "Fotoğraf işlenemedi"
-// hatası veriyordu. İlk düzeltmede sadece somut bir uyarı gösteriliyordu;
-// Abdullah bunun yerine fotoğrafın YİNE DE kaydedilmesini istedi. Şimdi:
-// dosya HEIC/HEIF ise önce heic2any kütüphanesiyle (ziyaret.html'de CDN'den
-// yükleniyor) JPEG'e çevriliyor, sonra her zamanki küçültme/sıkıştırma
-// adımına devam ediliyor — kullanıcı hiçbir şey fark etmeden fotoğraf
-// kaydediliyor. Kütüphane bir nedenle yüklenemediyse veya dönüştürme
-// başarısız olursa, eski "format" uyarısına geri dönülüyor. Her hata
-// ayrıntısı sessizce HataLog'a yazılıyor.
+// DÜZELTME (12.10.2026) — galeri erişimi açılınca (bkz. 11.10.2026
+// düzeltmesi) iPhone'ların varsayılan kaydettiği HEIC/HEIF formatındaki
+// fotoğraflar <img> ile çözülemiyor ve "Fotoğraf işlenemedi" hatası
+// veriyordu. Artık: dosya HEIC/HEIF ise önce heic2any kütüphanesiyle
+// (ziyaret.html'de CDN'den yükleniyor) JPEG'e çevriliyor — kullanıcı
+// hiçbir şey fark etmeden fotoğraf akışa devam ediyor. Kütüphane bir
+// nedenle yüklenemediyse veya dönüştürme başarısız olursa "format"
+// uyarısı gösteriliyor. Her hata ayrıntısı sessizce HataLog'a yazılıyor.
 function resimSikistir(file, geriBildir){
   function sessizKaydet(asama, detay){
     if(typeof HataLog !== "undefined"){
@@ -345,67 +346,76 @@ function resimSikistir(file, geriBildir){
       || tur.indexOf("heic") !== -1 || tur.indexOf("heif") !== -1;
   }
 
-  // Küçültme/sıkıştırma adımı — hem doğrudan seçilen dosya hem de
-  // heic2any'den çıkan JPEG blob'u için aynı yol kullanılır.
-  function sikistir(islenecekDosya){
+  // Sadece ÇÖZME — hem doğrudan seçilen dosya hem de heic2any'den çıkan
+  // JPEG blob'u için aynı yol kullanılır. Küçültme/sıkıştırma YOK.
+  function coz(islenecekDosya){
     try{
       var reader = new FileReader();
       reader.onload = function(e){
         var img = new Image();
         img.onload = function(){
-          try{
-            var maxGenislik = 1100;
-            var olcek = Math.min(1, maxGenislik / img.width);
-            var canvas = document.createElement("canvas");
-            canvas.width = Math.max(1, Math.round(img.width * olcek));
-            canvas.height = Math.max(1, Math.round(img.height * olcek));
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            geriBildir(canvas.toDataURL("image/jpeg", 0.65), null);
-          }catch(e){
-            sessizKaydet("canvas", e && e.message);
-            geriBildir(null, "genel");
-          }
+          geriBildir(e.target.result, img, null);
         };
         img.onerror = function(){
           sessizKaydet("img.onerror", "dosya: " + ((file && file.name) || "?") + ", tür: " + ((file && file.type) || "?"));
-          geriBildir(null, muhtemelenHeic() ? "format" : "genel");
+          geriBildir(null, null, muhtemelenHeic() ? "format" : "genel");
         };
         img.src = e.target.result;
       };
       reader.onerror = function(){
         sessizKaydet("FileReader", reader.error && reader.error.message);
-        geriBildir(null, "genel");
+        geriBildir(null, null, "genel");
       };
       reader.readAsDataURL(islenecekDosya);
     }catch(e){
       sessizKaydet("try/catch dış", e && e.message);
-      geriBildir(null, muhtemelenHeic() ? "format" : "genel");
+      geriBildir(null, null, muhtemelenHeic() ? "format" : "genel");
     }
   }
 
   if(muhtemelenHeic()){
     if(typeof heic2any === "undefined"){
       sessizKaydet("heic2any-yuklenmedi", "kütüphane tanımsız — CDN'den yüklenememiş olabilir (çevrimdışı mı?)");
-      geriBildir(null, "format");
+      geriBildir(null, null, "format");
       return;
     }
     try{
       heic2any({ blob: file, toType: "image/jpeg", quality: 0.85 }).then(function(sonuc){
         var jpegBlob = Array.isArray(sonuc) ? sonuc[0] : sonuc;
-        sikistir(jpegBlob);
+        coz(jpegBlob);
       }).catch(function(e){
         sessizKaydet("heic2any", e && e.message);
-        geriBildir(null, "format");
+        geriBildir(null, null, "format");
       });
     }catch(e){
       sessizKaydet("heic2any try/catch", e && e.message);
-      geriBildir(null, "format");
+      geriBildir(null, null, "format");
     }
     return;
   }
 
-  sikistir(file);
+  coz(file);
+}
+
+// Kırpma kutusuna (yüzde cinsinden sol/ust/sag/alt kenarlar, 0-100) göre
+// img'in SADECE o bölgesini alıp maks. 1100px genişliğe küçültüp %65
+// kaliteli JPEG data URL'i olarak döndürür. Senkron çalışır, hata
+// fırlatabilir (çağıran taraf try/catch ile sarmalı).
+function kirpVeSikistir(img, kirpKutusu){
+  var sol = kirpKutusu.sol / 100, ust = kirpKutusu.ust / 100;
+  var sag = kirpKutusu.sag / 100, alt = kirpKutusu.alt / 100;
+  var kaynakX = Math.round(img.naturalWidth * sol);
+  var kaynakY = Math.round(img.naturalHeight * ust);
+  var kaynakGenislik = Math.max(1, Math.round(img.naturalWidth * (sag - sol)));
+  var kaynakYukseklik = Math.max(1, Math.round(img.naturalHeight * (alt - ust)));
+  var maxGenislik = 1100;
+  var olcek = Math.min(1, maxGenislik / kaynakGenislik);
+  var canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.round(kaynakGenislik * olcek));
+  canvas.height = Math.max(1, Math.round(kaynakYukseklik * olcek));
+  var ctx = canvas.getContext("2d");
+  ctx.drawImage(img, kaynakX, kaynakY, kaynakGenislik, kaynakYukseklik, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL("image/jpeg", 0.65);
 }
 
 // Film şeridini TÜM sayfalardan (kronolojik) kurar, hedef tarihe en
@@ -488,11 +498,16 @@ function ajandaEkleTiklandi(){
   document.getElementById("ajFotoSecici").click();
 }
 
-// ÖNİZLE+KAYDET (12.10.2026, Abdullah'ın isteğiyle) — seçilen fotoğraf
-// artık otomatik yüklenmiyor: önce #ajOnizleKart'ta önizleniyor,
-// AjandaData.fotografEkle() yalnızca kullanıcı "✓ Kaydet"e basınca
+// ÖNİZLE+KIRP+KAYDET (12.10.2026, Abdullah'ın isteğiyle) — seçilen
+// fotoğraf artık otomatik yüklenmiyor: önce #ajOnizleKart'ta tam
+// çözünürlükte önizleniyor, kenarları 4 köşe tutamacıyla kırpılabiliyor,
+// AjandaData.fotografEkle() yalnızca kullanıcı "✓ Kaydet"e basınca (ve o
+// anda kırpma kutusu uygulanıp küçültülüp sıkıştırıldıktan sonra)
 // çağrılıyor. "✕ Vazgeç" seçimi hiç yüklemeden iptal eder.
-var ajOnizlemedekiVeri = null; // {dataUrl, hedefTarih} — kaydedilmeyi bekleyen seçim
+var ajOnizlemedekiVeri = null; // {img, hedefTarih} — kaydedilmeyi bekleyen, henüz kırpılmamış seçim
+var ajKirpKutu = null;         // {sol, ust, sag, alt} — yüzde (0-100) cinsinden kırpma kenarları
+var ajKirpAktifTutamac = null; // sürüklenmekte olan köşe ("sol-ust" vb.) ya da null
+var AJ_KIRP_MIN_YUZDE = 10;    // kırpma kutusunun en küçük genişlik/yükseklik yüzdesi
 
 function ajandaFotoSecildi(file){
   if(!file || !seciliGunAnahtari) return;
@@ -504,35 +519,37 @@ function ajandaFotoSecildi(file){
   var btn = document.getElementById("btnAjandaEkle");
   btn.disabled = true;
   btn.innerHTML = "<span>⏳</span>İşleniyor";
-  resimSikistir(file, function(dataUrl, hataAyrinti){
+  resimSikistir(file, function(dataUrl, imgEl, hataAyrinti){
     btn.disabled = false;
     btn.innerHTML = "<span>📷</span>Ekle";
     if(!dataUrl){
       ajOnizleHataGoster(hataAyrinti);
       return;
     }
-    ajOnizlemedekiVeri = { dataUrl: dataUrl, hedefTarih: hedefTarih };
+    ajOnizlemedekiVeri = { img: imgEl, hedefTarih: hedefTarih };
     ajOnizleGoster(dataUrl);
   });
 }
 
-// Başarılı önizleme: resim + Kaydet/Vazgeç.
+// Başarılı önizleme: resim + kırpma kutusu + Kaydet/Vazgeç.
 function ajOnizleGoster(dataUrl){
   document.getElementById("ajOnizleKart").hidden = false;
-  var resimEl = document.getElementById("ajOnizleResim");
-  resimEl.style.backgroundImage = "url(\"" + dataUrl + "\")";
-  resimEl.hidden = false;
+  document.getElementById("ajOnizleKirpAlan").hidden = false;
+  document.getElementById("ajOnizleImg").src = dataUrl;
   document.getElementById("ajOnizleHata").hidden = true;
   document.getElementById("btnAjOnizleKaydet").hidden = false;
+  document.getElementById("btnAjOnizleSifirla").hidden = false;
   document.getElementById("btnAjOnizleVazgec").style.flex = "1";
   document.getElementById("btnAjandaEkle").disabled = true;
+  ajKirpSifirla();
 }
 
 // İşlenemeyen dosya: somut hata mesajı, sadece Vazgeç (Kaydet gizli).
 function ajOnizleHataGoster(hataAyrinti){
   ajOnizlemedekiVeri = null;
   document.getElementById("ajOnizleKart").hidden = false;
-  document.getElementById("ajOnizleResim").hidden = true;
+  document.getElementById("ajOnizleKirpAlan").hidden = true;
+  document.getElementById("btnAjOnizleSifirla").hidden = true;
   var hataEl = document.getElementById("ajOnizleHata");
   hataEl.hidden = false;
   hataEl.textContent = (hataAyrinti === "format")
@@ -547,10 +564,13 @@ function ajOnizleHataGoster(hataAyrinti){
 // değişimi sırasında kaydedilmemiş bir seçim varsa onu da atar).
 function ajOnizleKapat(){
   ajOnizlemedekiVeri = null;
+  ajKirpAktifTutamac = null;
   var kart = document.getElementById("ajOnizleKart");
   if(!kart) return;
   kart.hidden = true;
-  document.getElementById("ajOnizleResim").style.backgroundImage = "";
+  document.getElementById("ajOnizleKirpAlan").hidden = true;
+  document.getElementById("ajOnizleImg").src = "";
+  document.getElementById("btnAjOnizleSifirla").hidden = true;
   document.getElementById("btnAjandaEkle").disabled = false;
 }
 
@@ -558,13 +578,88 @@ function ajOnizleVazgecTiklandi(){
   ajOnizleKapat();
 }
 
+// ——— KIRPMA KUTUSU ———
+function ajKirpSifirla(){
+  // Küçük bir iç pay (%3) bırakılıyor ki tutamaçlar baştan görünür/
+  // sürüklenebilir olsun; görsel olarak "tam kare" ile aynı etki.
+  ajKirpKutu = { sol: 3, ust: 3, sag: 97, alt: 97 };
+  ajKirpCiz();
+}
+
+function ajKirpCiz(){
+  var kutu = document.getElementById("ajOnizleKirpKutu");
+  var k = ajKirpKutu;
+  if(!kutu || !k) return;
+  kutu.style.left = k.sol + "%";
+  kutu.style.top = k.ust + "%";
+  kutu.style.width = (k.sag - k.sol) + "%";
+  kutu.style.height = (k.alt - k.ust) + "%";
+
+  document.getElementById("ajKirpDisiUst").style.cssText = "top:0;left:0;width:100%;height:" + k.ust + "%;";
+  document.getElementById("ajKirpDisiAlt").style.cssText = "top:" + k.alt + "%;left:0;width:100%;height:" + (100 - k.alt) + "%;";
+  document.getElementById("ajKirpDisiSol").style.cssText = "top:" + k.ust + "%;left:0;width:" + k.sol + "%;height:" + (k.alt - k.ust) + "%;";
+  document.getElementById("ajKirpDisiSag").style.cssText = "top:" + k.ust + "%;left:" + k.sag + "%;width:" + (100 - k.sag) + "%;height:" + (k.alt - k.ust) + "%;";
+}
+
+function ajKirpTutamacBasladi(ev){
+  ev.preventDefault();
+  ajKirpAktifTutamac = this.getAttribute("data-kose");
+  try{ this.setPointerCapture(ev.pointerId); }catch(e){}
+}
+
+function ajKirpSurukleniyor(ev){
+  if(!ajKirpAktifTutamac) return;
+  var alan = document.getElementById("ajOnizleKirpAlan");
+  if(!alan) return;
+  var dikdortgen = alan.getBoundingClientRect();
+  if(!dikdortgen.width || !dikdortgen.height) return;
+  var xYuzde = Math.min(100, Math.max(0, ((ev.clientX - dikdortgen.left) / dikdortgen.width) * 100));
+  var yYuzde = Math.min(100, Math.max(0, ((ev.clientY - dikdortgen.top) / dikdortgen.height) * 100));
+  var k = ajKirpKutu;
+  if(!k) return;
+  if(ajKirpAktifTutamac === "sol-ust"){
+    k.sol = Math.min(xYuzde, k.sag - AJ_KIRP_MIN_YUZDE);
+    k.ust = Math.min(yYuzde, k.alt - AJ_KIRP_MIN_YUZDE);
+  } else if(ajKirpAktifTutamac === "sag-ust"){
+    k.sag = Math.max(xYuzde, k.sol + AJ_KIRP_MIN_YUZDE);
+    k.ust = Math.min(yYuzde, k.alt - AJ_KIRP_MIN_YUZDE);
+  } else if(ajKirpAktifTutamac === "sol-alt"){
+    k.sol = Math.min(xYuzde, k.sag - AJ_KIRP_MIN_YUZDE);
+    k.alt = Math.max(yYuzde, k.ust + AJ_KIRP_MIN_YUZDE);
+  } else if(ajKirpAktifTutamac === "sag-alt"){
+    k.sag = Math.max(xYuzde, k.sol + AJ_KIRP_MIN_YUZDE);
+    k.alt = Math.max(yYuzde, k.ust + AJ_KIRP_MIN_YUZDE);
+  }
+  k.sol = Math.max(0, k.sol);
+  k.ust = Math.max(0, k.ust);
+  k.sag = Math.min(100, k.sag);
+  k.alt = Math.min(100, k.alt);
+  ajKirpCiz();
+}
+
+function ajKirpBirakildi(){
+  ajKirpAktifTutamac = null;
+}
+
 function ajOnizleKaydetTiklandi(){
-  if(!ajOnizlemedekiVeri) return;
+  if(!ajOnizlemedekiVeri || !ajOnizlemedekiVeri.img) return;
   var veri = ajOnizlemedekiVeri;
   var kaydetBtn = document.getElementById("btnAjOnizleKaydet");
   kaydetBtn.disabled = true;
   kaydetBtn.textContent = "⏳ Kaydediliyor";
-  AjandaData.fotografEkle(veri.hedefTarih, veri.dataUrl, function(basarili, err){
+
+  var dataUrl;
+  try{
+    dataUrl = kirpVeSikistir(veri.img, ajKirpKutu);
+  }catch(e){
+    kaydetBtn.disabled = false;
+    kaydetBtn.textContent = "✓ Kaydet";
+    if(typeof HataLog !== "undefined") HataLog.kaydet("Ajanda fotoğrafı kırpılamadı", e && e.message);
+    hataGoster("Fotoğraf kırpılırken bir sorun oluştu, tekrar dener misin?");
+    return;
+  }
+
+  AjandaData.fotografEkle(veri.hedefTarih, dataUrl, function(basarili, err){
     kaydetBtn.disabled = false;
     kaydetBtn.textContent = "✓ Kaydet";
     if(!basarili){
@@ -651,9 +746,18 @@ document.addEventListener("DOMContentLoaded", function(){
   });
   document.getElementById("ajFilmSeridi").addEventListener("scroll", ajFilmKaydirmaDegisti, {passive:true});
 
-  // Ajanda — Önizle+Kaydet kartı (12.10.2026).
+  // Ajanda — Önizle+Kırp+Kaydet kartı (12.10.2026).
   document.getElementById("btnAjOnizleVazgec").onclick = ajOnizleVazgecTiklandi;
   document.getElementById("btnAjOnizleKaydet").onclick = ajOnizleKaydetTiklandi;
+  document.getElementById("btnAjOnizleSifirla").onclick = ajKirpSifirla;
+  document.querySelectorAll(".aj-onizle-tutamac").forEach(function(t){
+    t.addEventListener("pointerdown", ajKirpTutamacBasladi);
+  });
+  // document seviyesinde dinleniyor ki parmak/imleç kırpma alanının
+  // dışına taşsa bile (hızlı sürükleme) takip kesilmesin.
+  document.addEventListener("pointermove", ajKirpSurukleniyor);
+  document.addEventListener("pointerup", ajKirpBirakildi);
+  document.addEventListener("pointercancel", ajKirpBirakildi);
 
   document.getElementById("ziyFirmaAra").addEventListener("input", firmaAramaCiz);
 
