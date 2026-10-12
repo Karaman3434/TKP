@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.121026.1951.780
+  belge-onizleme-style-v2.css — WG.121026.2124.781
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026,
   Abdullah'ın isteğiyle — mockup üzerinden onaylandı).
@@ -207,10 +207,25 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-teklif   { background: #f3f5f8; color: #249147; border: 1px solid #e1e5ec; border-bottom: none; }
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-siparis  { background: #38469a; color: #ffffff; }
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-proforma { background: #dcb13c; color: #2b2300; }
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-numune   { background: #c0453a; color: #ffffff; }
+/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup14): kod kutusu zemini
+   tüm türlerde aynı nötr gri; renk artık sadece yazıda taşınıyor.
+   Proforma'nın hardal tonu (#dcb13c) açık gri zeminde yazı olarak
+   okunmuyordu (kontrast ~1.85:1) — bu kutuda sadece #7a5c1a'ya
+   koyulaştırıldı (kontrast 5.7:1); kutunun DIŞINDAKİ diğer proforma
+   kullanımları (ör. .belge-musteri-baslik.tip-proforma) ETKİLENMEDİ,
+   hâlâ #dcb13c. */
+.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-teklif,
+.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-siparis,
+.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-proforma,
+.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-numune {
+  background: #f3f5f8;
+  border: 1px solid #e1e5ec;
+  border-bottom: none;
+}
+.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-teklif   { color: #249147; }
+.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-siparis  { color: #38469a; }
+.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-proforma { color: #7a5c1a; }
+.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-numune   { color: #c0453a; }
 /* Kod kutusu varsa hemen altındaki ürün tablosu kartının üst köşeleri
    düzleşiyor ki ikisi tek parça gibi görünsün (kod kutusu yoksa — kayıtta
    kod olmayan eski kayıtlar — bu sınıf hiç eklenmiyor, kart normal yuvarlak
