@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.121026.2124.781
+  belge-onizleme-style-v2.css — WG.121026.2152.782
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026,
   Abdullah'ın isteğiyle — mockup üzerinden onaylandı).
@@ -284,9 +284,18 @@
   background: var(--brand-primary);
   padding: 9px 16px; /* dikey yükseklik %20 azaltıldı (12.10.2026, Abdullah onayı) — yazı boyutları dokunulmadı */
 }
-.belge-onizleme-sayfa .belge-gt-etiket { font-size: 13px; font-weight: 700; letter-spacing: .3px; }
-.belge-onizleme-sayfa .belge-gt-deger { font-size: 28px; font-weight: 700; }
-.belge-onizleme-sayfa .belge-gt-deger-alt { font-size: 13px; font-weight: 500; color: #AEC9E8; margin-top: 2px; }
+/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup16+mockup17): GENEL TOPLAM
+   etiketi artık Euro tutarının YANINDA değil ÜST satırında (ayrı satır,
+   sağa hizalı) — bkz. aşağıdaki .belge-gt-etiket-deger-grup. Yazı boyutları
+   iki kademede küçültüldü: önce %20 (13->10.4 / 28->22.4), sonra bir %19
+   daha (10.4->8.4 / 22.4->18.1) — net sonuç aşağıdaki değerler. Panelin
+   dikey iç boşluğu da %20 azaltıldı (.belge-gt-satir, aşağıda); yatay
+   boşluk DOKUNULMADI. */
+.belge-onizleme-sayfa .belge-gt-satir { padding: 9.6px 16px; }
+.belge-onizleme-sayfa .belge-gt-etiket-deger-grup { flex-direction: column; align-items: flex-end; gap: 1px; }
+.belge-onizleme-sayfa .belge-gt-etiket { font-size: 8.4px; font-weight: 700; letter-spacing: .3px; }
+.belge-onizleme-sayfa .belge-gt-deger { font-size: 18.1px; font-weight: 700; }
+.belge-onizleme-sayfa .belge-gt-deger-alt { font-size: 8.4px; font-weight: 500; color: #AEC9E8; margin-top: 2px; }
 
 /* RENK GÜNCELLEMESİ (12.10.2026, Abdullah onayı — mockup üzerinden): koyu
    lacivert devam şeridi yerine, Sepet/Gönder'deki (.belge-prim-toplam-serit)
