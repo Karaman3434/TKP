@@ -1,8 +1,19 @@
 /*
-  belge-onizleme-style-v2.css — WG.111026.1455.765
+  belge-onizleme-style-v2.css — WG.121026.1325.770
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026,
   Abdullah'ın isteğiyle — mockup üzerinden onaylandı).
+
+  GÜNCELLEME (12.10.2026, Abdullah onayı — mockup üzerinden): açık gri
+  zemin + koyu lacivert temel bilgi etiketleri (GENEL TOPLAM, ürün
+  tablosu başlıkları, FATURA/TESLİMAT/YETKİLİ etiketleri, müşteri ticari
+  ismi, VADE/FATURA/KARGO alt başlıkları, WEICON logosu); işlem türünün
+  rengi artık SADECE müşteri bloğunun üst şeridindeki tür adında ve isim
+  önündeki büyük noktada. Üst bilgi şeridinden tür adı ve WEICON logosu
+  kaldırıldı (tekrar önlemek için — tür zaten üstte bir kere var). Ayrıca
+  NET sütunundaki yeşilin (.rozet-net) sessizce ezilmesine neden olan
+  önceden var olan bir hata (.belge-para-sayi kendi rengini tanımlıyordu)
+  bu sayfaya özel düzeltildi.
 
   ÖNEMLİ — KAPSAM: belge-style.css DÖRT sayfa tarafından paylaşılıyor
   (belge-onizleme.html, cart.html, customer-detail.html, send.html).
@@ -20,8 +31,8 @@
 .belge-onizleme-sayfa {
   --brand-primary: #073B70;
   --brand-blue: #0866C6;
-  --brand-blue-light: #DCEBFA;
-  --page-bg: #F4F8FC;
+  --brand-blue-light: #EEF0F3;
+  --page-bg: #EFF1F4;
   --surface: #FFFFFF;
   --text-primary: #15243B;
   --text-secondary: #64748B;
@@ -73,30 +84,46 @@
 
 .belge-onizleme-sayfa .belge-musteri-govde { padding: 14px 16px; }
 .belge-onizleme-sayfa .belge-musteri-ad {
-  font-size: 22px;
+  font-size: 17.6px; /* %20 küçültüldü (12.10.2026, Abdullah onayı) */
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--brand-primary);
   margin-bottom: 12px;
   padding-left: 0;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.belge-onizleme-sayfa .ck-isim-nokta { display: none; }
+/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı): isim önündeki nokta artık
+   gizli DEĞİL — büyük, işlem türünün rengini taşıyan bir işaret (bkz.
+   aşağıdaki .tip-* kuralları). */
+.belge-onizleme-sayfa .ck-isim-nokta {
+  display: inline;
+  font-size: 1.5em;
+  font-weight: 900;
+  margin-right: 4px;
+  vertical-align: -1px;
+  color: var(--brand-primary);
+}
 
-.belge-onizleme-sayfa .belge-kosul-grid { gap: 8px; padding-bottom: 14px; margin-bottom: 4px; }
+.belge-onizleme-sayfa .belge-kosul-grid { gap: 6px; padding-bottom: 10px; margin-bottom: 2px; }
 .belge-onizleme-sayfa .belge-kosul-alan {
   background: var(--page-bg);
   border: 1px solid var(--border-color);
   border-radius: 9px;
-  padding: 10px 6px;
+  padding: 7px 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .belge-onizleme-sayfa .belge-kosul-ikon {
   display: block;
-  font-size: 20px;
-  margin-bottom: 4px;
+  font-size: 15px;
+  margin-bottom: 0;
+  line-height: 1;
 }
 .belge-onizleme-sayfa .belge-kosul-etiket {
   font-size: 10px;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--brand-primary);
   letter-spacing: .3px;
   text-transform: uppercase;
 }
@@ -128,7 +155,7 @@
 .belge-onizleme-sayfa .belge-adres-etiket-fatura,
 .belge-onizleme-sayfa .belge-adres-etiket-teslimat,
 .belge-onizleme-sayfa .belge-adres-etiket-yetkili {
-  color: var(--brand-blue);
+  color: var(--brand-primary);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .4px;
@@ -147,12 +174,21 @@
   background: var(--surface);
   border-bottom: 1px solid var(--border-color);
   padding: 14px 16px;
+  gap: 6px;
 }
+.belge-onizleme-sayfa .belge-ust-bilgi-metin { min-width: 0; flex: 1; }
+/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı): "FİYAT TEKLİFİ" gibi tür adı
+   artık burada YOK (sadece müşteri bloğunun üst şeridinde bir kere
+   gösteriliyor — bkz. belge-render.js); burada sadece kod + tarih/saat
+   var. %30 + %20 küçültüldü (18px -> 10.1px) ve tek satıra sığsın diye
+   satır kaydırma kapatıldı. */
 .belge-onizleme-sayfa .belge-ust-bilgi-baslik {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  white-space: normal;
+  font-size: 10.1px;
+  font-weight: 800;
+  color: var(--brand-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  letter-spacing: -0.1px;
 }
 .belge-onizleme-sayfa .belge-ust-kur-notu {
   font-size: 12px;
@@ -195,6 +231,13 @@
 .belge-onizleme-sayfa .belge-para-sayi { font-size: 11.5px; font-weight: 600; color: var(--text-primary); display: block; white-space: nowrap; }
 .belge-onizleme-sayfa .belge-para-birim { font-size: 8px; font-weight: 600; color: var(--text-secondary); display: block; }
 .belge-onizleme-sayfa .rozet-net { color: var(--success); }
+/* HATA DÜZELTMESİ (12.10.2026, Abdullah'ın fark etmesiyle) — yukarıdaki
+   .belge-para-sayi kuralı kendi rengini (text-primary) tanımladığı için
+   NET sütunundaki yeşili (.rozet-net, !important'sız) sessizce eziyordu;
+   İSK kırmızısı !important'lı olduğu için etkilenmiyordu. Sadece bu
+   sayfaya özel (belge-style.css'teki paylaşılan taban dosyaya dokunulmadı). */
+.belge-onizleme-sayfa .rozet-net .belge-para-sayi,
+.belge-onizleme-sayfa .rozet-net .belge-para-birim { color: var(--success) !important; }
 .belge-onizleme-sayfa .belge-isk-metin .belge-para-sayi,
 .belge-onizleme-sayfa .belge-isk-metin .belge-para-birim { color: var(--danger) !important; }
 .belge-onizleme-sayfa .belge-net-tl { color: var(--text-secondary); font-size: 8.5px; }
@@ -207,7 +250,7 @@
    kartın alt köşelerini birlikte kapatıyor) ---- */
 .belge-onizleme-sayfa .belge-genel-toplam-serit--duz {
   background: var(--brand-primary);
-  padding: 16px;
+  padding: 9px 16px; /* dikey yükseklik %20 azaltıldı (12.10.2026, Abdullah onayı) — yazı boyutları dokunulmadı */
 }
 .belge-onizleme-sayfa .belge-gt-etiket { font-size: 13px; font-weight: 700; letter-spacing: .3px; }
 .belge-onizleme-sayfa .belge-gt-deger { font-size: 28px; font-weight: 700; }
@@ -262,3 +305,17 @@
 /* ---- Bakiye ürün bloğu (mevcut işlev korunuyor, sadece renk/tipografi) ---- */
 .belge-onizleme-sayfa .belge-bakiye-kucuk-etiket { background: #FDF1E3; color: var(--warning); font-weight: 700; }
 .belge-onizleme-sayfa .belge-bakiye-toplam-serit { background: #FDF1E3; color: var(--warning); }
+
+/* ---- İŞLEM TÜRÜ RENGİ (12.10.2026, Abdullah onayı) — bir tabloda
+   işlem türü için TEK bir renkli yer olmalı: SADECE müşteri bloğunun üst
+   şeridindeki tür adı (span) ve isim önündeki büyük nokta. Zemin HER
+   ZAMAN nötr gri/beyaz kalıyor; WEICON logosu HER ZAMAN koyu lacivert.
+   Renkler belge-render.js'teki TIP_RENK_BELGE paletiyle birebir aynı. */
+.belge-onizleme-sayfa .belge-kart.tip-teklif .belge-musteri-baslik > span:first-child,
+.belge-onizleme-sayfa .belge-kart.tip-teklif .ck-isim-nokta { color: #1f9d55; }
+.belge-onizleme-sayfa .belge-kart.tip-siparis .belge-musteri-baslik > span:first-child,
+.belge-onizleme-sayfa .belge-kart.tip-siparis .ck-isim-nokta { color: #003a70; }
+.belge-onizleme-sayfa .belge-kart.tip-proforma .belge-musteri-baslik > span:first-child,
+.belge-onizleme-sayfa .belge-kart.tip-proforma .ck-isim-nokta { color: #8e44ad; }
+.belge-onizleme-sayfa .belge-kart.tip-numune .belge-musteri-baslik > span:first-child,
+.belge-onizleme-sayfa .belge-kart.tip-numune .ck-isim-nokta { color: #b7601f; }

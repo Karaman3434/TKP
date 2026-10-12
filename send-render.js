@@ -575,15 +575,14 @@ function zinciriCevaplaKopyala(){
   try{
     if(typeof html2canvas === "undefined"){ alert("Görsel oluşturulamadı."); return; }
     var g = gonderBaglam;
-    var TIP_ETIKET6 = {numune:"NUMUNE", teklif:"FİYAT TEKLİFİ", proforma:"PROFORMA FATURA", siparis:"SİPARİŞ"};
-    var sehirEk = (g.musteri.sehir && g.musteri.sehir.trim()) ? (" - " + g.musteri.sehir.trim()) : "";
-    var konu = "*** " + TIP_ETIKET6[g.tip] + " *** " + g.musteri.ad + sehirEk;
     var metin = document.getElementById("gonderMetin").value;
     var kayitliKod = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.kod : "";
     var kayitliTarih = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.tarih : "";
     var alan = document.getElementById("belgeGorselAlani");
-    alan.innerHTML = "<div style='font-size:13px;font-weight:700;color:#0c447c;background:#eaf2fc;padding:8px 10px;border-radius:6px;margin-bottom:10px;'>KONU: " + htmlEsc(konu) + "</div>"
-      + "<div style='font-size:13px;color:#2d3540;line-height:1.5;margin-bottom:14px;white-space:pre-wrap;'>" + htmlEsc(metin) + "</div>"
+    // DÜZELTME (12.10.2026, Abdullah'ın isteğiyle): KONU satırı artık
+    // kopyalanan görsele HİÇ eklenmiyor — Konu'yu kendisi elle girecek.
+    // Sadece mesaj metni + cari bilgi + ürün tablosu kopyalanıyor.
+    alan.innerHTML = "<div style='font-size:13px;color:#2d3540;line-height:1.5;margin-bottom:14px;white-space:pre-wrap;'>" + htmlEsc(metin) + "</div>"
       + belgeGorselHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, kayitliKod, "mail", kayitliTarih);
     kosulSatirlariniSigdir(alan);
     setTimeout(function(){

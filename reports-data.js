@@ -113,13 +113,20 @@ var ReportsData = (function(){
     return arsiv.siparis || [];
   }
 
-  // Bir müşterinin bugüne kadar aldığı (SİPARİŞ olarak kaydedilmiş) tüm
-  // ürünleri, ürün adına göre gruplayıp her ürünün tarih tarih fiyat/
-  // iskonto geçmişini döndürür. Müşteri Kartı'ndaki "📦 Ürün Geçmişi"
-  // ekranı bunu kullanır.
+  // Bir müşterinin bugüne kadar aldığı/teklif aldığı tüm ürünleri, ürün
+  // adına göre gruplayıp her ürünün tarih tarih fiyat/iskonto geçmişini
+  // döndürür. Müşteri Kartı'ndaki "📦 Ürün Geçmişi" ekranı bunu kullanır.
+  //
+  // DÜZELTME (12.10.2026, Abdullah'ın fark etmesiyle): eskiden SADECE
+  // tumSiparisler() (yani kesinleşmiş SİPARİŞ kayıtları) taranıyordu — bir
+  // müşteriye daha önce FİYAT TEKLİFİ/PROFORMA/NUMUNE verilmiş ama henüz
+  // siparişe dönüşmemişse, geçmişte hiç görünmüyordu (ve Hızlı Hesapla'daki
+  // "geçmiş alım ipucu" da bu yüzden sessizce çıkmıyordu). Artık sonIslemler()
+  // ile DÖRT türün (numune/teklif/proforma/siparis) tamamı taranıyor; her
+  // kayıt kendi "tip" bilgisini de taşıyor.
   function musteriUrunGecmisi(musteriAd, musteriId){
-    var gruplar = {}; // ürün adı -> [{tarih, listeFiyat, iskonto, netFiyat, adet, ts}]
-    tumSiparisler().forEach(function(k){
+    var gruplar = {}; // ürün adı -> [{tarih, tip, listeFiyat, iskonto, netFiyat, adet, ts}]
+    sonIslemler().forEach(function(k){
       // Sadece isim birebir eşleşmesi YETERSİZ — müşteri ismi sonradan
       // düzenlenmiş (kısaltılmış/uzatılmış) olabilir. Önce Müşteri Kodu
       // (ID) ile, o da yoksa "biri diğerinin içinde geçiyor mu" kontrolüyle.
@@ -136,7 +143,7 @@ var ReportsData = (function(){
         var ad = u.ad || "İsimsiz Ürün";
         if(!gruplar[ad]) gruplar[ad] = [];
         gruplar[ad].push({
-          tarih: k.tarih, ts: k.ts,
+          tarih: k.tarih, ts: k.ts, tip: k.tip,
           listeFiyat: u.listeFiyat||0, iskonto: u.iskonto||0,
           netFiyat: u.iskBirim!=null?u.iskBirim:(u.listeFiyat||0),
           adet: u.adet||0
@@ -162,7 +169,9 @@ var ReportsData = (function(){
     var abasN = (abas||"").toString().trim().toLocaleLowerCase("tr-TR");
     if(!bertaN && !abasN) return [];
     var kayitlar = [];
-    tumSiparisler().forEach(function(k){
+    // DÜZELTME (12.10.2026) — bkz. musteriUrunGecmisi() başındaki not: artık
+    // sonIslemler() ile dört tür de (numune/teklif/proforma/siparis) taranıyor.
+    sonIslemler().forEach(function(k){
       var ayniMusteriMi;
       if(musteriId && k.musteriId){
         ayniMusteriMi = k.musteriId === musteriId;
@@ -177,7 +186,7 @@ var ReportsData = (function(){
         var uAbas = (u.abas||"").toString().trim().toLocaleLowerCase("tr-TR");
         if(uBerta !== bertaN || uAbas !== abasN) return;
         kayitlar.push({
-          tarih: k.tarih, ts: k.ts,
+          tarih: k.tarih, ts: k.ts, tip: k.tip,
           listeFiyat: u.listeFiyat||0, iskonto: u.iskonto||0,
           netFiyat: u.iskBirim!=null?u.iskBirim:(u.listeFiyat||0),
           adet: u.adet||0

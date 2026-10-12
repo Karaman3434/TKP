@@ -217,7 +217,11 @@ function belgeyiCiz(kayit, musteri){
       + (yetkiliBilgiHtml ? "<div class='belge-yetkili-blok'><b class='belge-adres-etiket-yetkili'>👤 YETKİLİ BİLGİSİ</b>" + yetkiliBilgiHtml + "</div>" : "")
       + "</div>";
 
-    var belgeBaslikMetni = (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + (kayit.kod ? " · " + kayit.kod : "") + " · " + htmlEsc(kayit.tarih) + (kayit.revizeZamani ? " · 🔄 REVİZE" : "");
+    // DÜZELTME (12.10.2026, Abdullah onayı): bu şeritte artık tür adı
+    // ("FİYAT TEKLİFİ" vb.) YOK — aynı türün rengi/adı zaten yukarıdaki
+    // müşteri bloğu üst şeridinde bir kere gösteriliyor; burada tekrar
+    // etmek karışıklık yaratıyordu. Sadece kod + tarih/saat kalıyor.
+    var belgeBaslikMetni = (kayit.kod ? kayit.kod + " · " : "") + htmlEsc(kayit.tarih) + (kayit.revizeZamani ? " · 🔄 REVİZE" : "");
 
     // ÜST BİLGİ ŞERİDİ (08.10.2026, Abdullah'ın isteğiyle) — SİPARİŞ/TEKLİF
     // başlığı + "Bu işlemde X kuru kullanıldı" notu + WEICON logosu artık tek,
@@ -225,8 +229,10 @@ function belgeyiCiz(kayit, musteri){
     // içindeydi, hem boşluk sorunu çıkarıyordu hem satır kayıyordu). SADECE
     // bu sayfa (belge-onizleme.html) için — Sepet/Gönder tarafındaki paylaşılan
     // .belge-gt-kutu kur gösterimi (hareket-tablo.js) ETKİLENMEDİ.
+    // KISALTMA (12.10.2026, Abdullah'ın isteğiyle): "Bu işlemde X kuru
+    // kullanıldı" -> "Bu işlem kuru: X EURO" (daha kısa, aynı anlam).
     var ustKurHtml = kayit.kur
-      ? "<div class='belge-ust-kur-notu'>" + (kayit.kurManuel ? "✏️ " : "") + "Bu işlemde <span class='belge-ust-kur-sayi'>" + fmt(kayit.kur) + "</span><span class='belge-ust-kur-birim'>EURO</span> kuru kullanıldı</div>"
+      ? "<div class='belge-ust-kur-notu'>" + (kayit.kurManuel ? "✏️ " : "") + "Bu işlem kuru: <span class='belge-ust-kur-sayi'>" + fmt(kayit.kur) + "</span><span class='belge-ust-kur-birim'>EURO</span></div>"
       : "";
 
     // BAKİYE ÜRÜN BLOĞU — sadece bakiyede kalan ürün varsa gösterilir. Ana
@@ -248,8 +254,11 @@ function belgeyiCiz(kayit, musteri){
       + "</div>"
     ) : "";
 
+    // DÜZELTME (12.10.2026, Abdullah onayı): "tip-" + kayit.tip sınıfı
+    // eklendi — belge-onizleme-style-v2.css bu sınıfla işlem türünün
+    // rengini (sadece üst şeritteki tür adına ve isim noktasına) uyguluyor.
     var html = gecmisCipSatiriHtml(kayit)
-      + "<div class='belge-kart" + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
+      + "<div class='belge-kart tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
       + durumRozetHtml
       + musteriBlokHtml
       + "</div>"
@@ -260,7 +269,6 @@ function belgeyiCiz(kayit, musteri){
       + "<div class='belge-ust-bilgi-baslik'>" + htmlEsc(belgeBaslikMetni) + "</div>"
       + ustKurHtml
       + "</div>"
-      + "<span class='belge-logo-mini'>WEICON</span>"
       + "</div>"
       + "<div class='data-table-container'><table class='belge-urun-tablo'>"
       + "<thead><tr><th style='width:3.6%;'>SR</th><th style='width:29.2%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:13%;'>NET</th><th style='width:13%;'>TOPLAM</th><th style='width:11.2%;'>PRİM</th></tr></thead>"

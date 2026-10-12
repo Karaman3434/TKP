@@ -142,8 +142,71 @@ function urunuHesaplamayaGonder(idx){
 // Cari Bilgi bilgisi artık standart .musteri-serit — işlem türü rozeti
 // artık burada DEĞİL, HESAPLANDI grubunun etiket satırının sonunda
 // gösteriliyor (27.09.2026, Abdullah'ın isteğiyle — bkz. sayfayiCiz()).
+// "🕓 Geçmiş" butonu (12.10.2026, Abdullah onayı) — SADECE bu sayfada açık.
 function cariBilgiOzetiHtml(musteri){
-  return MusteriSeridi.html(musteri);
+  return MusteriSeridi.html(musteri, {gecmisButonu: true});
+}
+
+// MÜŞTERİ İŞLEM GEÇMİŞİ POPUP'I (12.10.2026, Abdullah onayı) — müşteri
+// şeridindeki "🕓 Geçmiş" butonu. Hesaplama sırasında sayfadan hiç
+// ayrılmadan, bu müşteriye bugüne kadar teklif/proforma/numune/sipariş
+// olarak girilmiş TÜM ürünlerin fiyat/iskonto geçmişini gösterir — AYNI
+// veri kaynağı (ReportsData.musteriUrunGecmisi), customer-detail.html'deki
+// "📦 Ürün Geçmişi" ekranıyla birebir aynı mantık/kod deseni (bkz.
+// detail-render.js urunGecmisiniAc()). KÖK NEDEN (bu özelliğin eklenme
+// sebebi): bu müşteriye daha önce FİYAT TEKLİFİ verilmiş ama SİPARİŞE
+// dönüşmemişse, Hızlı Hesapla'daki otomatik "geçmiş alım ipucu" eskiden
+// görünmüyordu (SADECE sipariş kayıtlarına bakıyordu) — bu artık
+// reports-data.js'te düzeltildi, bu popup da aynı düzeltilmiş veriyi
+// kullanıyor.
+var TIP_ETIKET_MUSTERI_GECMIS = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
+function musteriGecmisiniAc(){
+  try{
+    if(typeof ReportsData === "undefined" || typeof ReportsData.musteriUrunGecmisi !== "function"){
+      hataGoster("İşlem geçmişi şu an yüklenemedi.");
+      return;
+    }
+    var musteri = CustomerData.seciliyiOku();
+    if(!musteri) return;
+    var gruplar = ReportsData.musteriUrunGecmisi(musteri.ad, musteri.id);
+    var listesiEl = document.getElementById("musteriGecmisListesi");
+    var detayEl = document.getElementById("musteriGecmisDetay");
+    var baslikEl = document.getElementById("musteriGecmisBaslik");
+
+    detayEl.hidden = true;
+    listesiEl.hidden = false;
+    baslikEl.textContent = "🕓 İşlem Geçmişi";
+
+    if(gruplar.length === 0){
+      listesiEl.innerHTML = "<p style='text-align:center;color:#44494f;padding:16px 0;'>Bu müşteriye henüz sipariş/teklif olarak girilmiş bir ürün yok.</p>";
+    } else {
+      listesiEl.innerHTML = gruplar.map(function(g, i){
+        return "<div class='satir-tiklanabilir' data-urun-i='" + i + "' style='background:#f4f7fb;border-radius:8px;padding:10px 12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;'>"
+          + "<span style='font-size:12px;font-weight:800;color:#111;'>" + htmlEsc(g.ad) + "</span>"
+          + "<span style='font-size:10px;color:#8e44ad;font-weight:800;'>" + g.kayitlar.length + " kez ›</span>"
+          + "</div>";
+      }).join("");
+      listesiEl.querySelectorAll("[data-urun-i]").forEach(function(el){
+        el.onclick = function(){
+          var g = gruplar[parseInt(this.getAttribute("data-urun-i"),10)];
+          baslikEl.textContent = "🕓 " + g.ad;
+          document.getElementById("musteriGecmisTabloGovde").innerHTML = g.kayitlar.map(function(k){
+            var tipEtiket = TIP_ETIKET_MUSTERI_GECMIS[k.tip] || "";
+            return "<tr>"
+              + "<td>" + htmlEsc((k.tarih||"").split(" ").slice(0,2).join(" ")) + (tipEtiket ? " <span style='color:#8e44ad;font-weight:700;'>(" + tipEtiket + ")</span>" : "") + "</td>"
+              + "<td>" + (k.adet||0) + "</td>"
+              + "<td>" + CartData.fmt(k.listeFiyat) + " EURO</td>"
+              + "<td><span class='belge-isk-metin'>%" + CartData.fmt(k.iskonto) + "</span></td>"
+              + "<td><span class='rozet-net'>" + CartData.fmt(k.netFiyat) + " EURO</span></td>"
+              + "</tr>";
+          }).join("");
+          listesiEl.hidden = true;
+          detayEl.hidden = false;
+        };
+      });
+    }
+    document.getElementById("musteriGecmisOverlay").hidden = false;
+  }catch(e){ hataGoster("İşlem geçmişi açılamadı: " + e.message); }
 }
 
 function sayfayiCiz(){
@@ -183,6 +246,8 @@ function sayfayiCiz(){
     // sabit alanında — HESAPLANACAK ve HESAPLANDI tabloları arasında
     // sıkışmıyor, ikisi de onun altında art arda duruyor.
     document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri);
+    var btnMusteriGecmisEl = document.getElementById("btnMusteriGecmis");
+    if(btnMusteriGecmisEl) btnMusteriGecmisEl.onclick = musteriGecmisiniAc;
 
     grupSariAlani.innerHTML = bekleyenler.length === 0 ? "" : HareketTablo.grupHtml({
       etiket: "🟡 HESAPLANACAK",
@@ -521,6 +586,12 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("btnMusterisizWhatsapp").onclick = musterisizWhatsappGonder;
   document.getElementById("btnMusterisizMail").onclick = musterisizMailGonder;
   document.getElementById("btnMusterisizVazgec").onclick = function(){ document.getElementById("musterisizGonderOverlay").hidden = true; };
+  document.getElementById("btnMusteriGecmisKapat").onclick = function(){ document.getElementById("musteriGecmisOverlay").hidden = true; };
+  document.getElementById("btnMusteriGecmisGeri").onclick = function(){
+    document.getElementById("musteriGecmisDetay").hidden = true;
+    document.getElementById("musteriGecmisListesi").hidden = false;
+    document.getElementById("musteriGecmisBaslik").textContent = "🕓 İşlem Geçmişi";
+  };
 
   // İşlemi İptal Onay Popup — SADECE "🗑️ İşlemi İptal Et" butonu kullanıyor
   // (02.10.2026: "Geri" tuşu artık bunu tetiklemiyor, bkz. yukarısı).

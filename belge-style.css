@@ -543,9 +543,20 @@
 .belge-gt-kur-ic {
   background: none;
   color: #ffffff;
-  font-size: 11px;
-  font-weight: 700;
   white-space: nowrap;
+}
+/* KISALTMA (12.10.2026, Abdullah'ın isteğiyle): "Bu işlem kuru" artık iki
+   satır — üstte küçük/soluk etiket, altta kalın rakam+EURO (eskiden tek
+   satırlık uzun metin GENEL TOPLAM kutusundan taşıyordu). */
+.belge-gt-kur-etiket {
+  font-size: 10px;
+  font-weight: 600;
+  color: #a9c6e4;
+}
+.belge-gt-kur-deger {
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffffff;
 }
 /* DÜZELTME (01.10.2026, Abdullah'ın isteğiyle): manuel kur girildiğinde
    artık ayrı bir renkli (kırmızımsı/amber) vurgu YOK — yazı rengi normal

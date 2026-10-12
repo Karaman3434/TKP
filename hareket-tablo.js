@@ -140,7 +140,11 @@ var HareketTablo = (function(){
       // satırı ekleniyor.
       var primSatiriVarMi = !primGizli;
       var kurIcSinifi = "belge-gt-kur-ic" + (opts.kurManuelMi ? " belge-gt-kur-ic--manuel" : "") + (opts.kurTiklanabilir ? " belge-gt-kur-ic--tiklanabilir" : "");
-      var kurEtiketMetni = (opts.kurManuelMi ? "✏️ Bu işlemde " : "Bu işlemde ") + fmt(opts.kur) + " kuru kullanıldı";
+      // KISALTMA (12.10.2026, Abdullah'ın isteğiyle): "Bu işlemde X kuru
+      // kullanıldı" tek satırda çok uzun oluyor, kutudan taşıyordu — artık
+      // İKİ SATIR: üstte kısa etiket, altta kalın rakam + EURO birimi
+      // (bkz. belge-style.css .belge-gt-kur-etiket / .belge-gt-kur-deger).
+      var kurEtiketMetni = "<span class='belge-gt-kur-etiket'>" + (opts.kurManuelMi ? "✏️ Bu işlem kuru" : "Bu işlem kuru") + "</span><br><span class='belge-gt-kur-deger'>" + fmt(opts.kur) + " EURO</span>";
       html += "<div class='belge-gt-kutu" + (primSatiriVarMi ? " belge-gt-kutu--altduz" : "") + "'>"
         + "<div class='belge-gt-satir'>"
         + (opts.kur ? "<span class='" + kurIcSinifi + "'>" + kurEtiketMetni + "</span>" : "")

@@ -44,3 +44,23 @@
    değilken). display:flex, tarayıcının varsayılan [hidden] davranışını
    (display:none) eziyor — bu satır olmadan "hidden" hiçbir şey yapmaz. */
 .musteri-serit[hidden] { display: none; }
+
+/* "🕓" Geçmiş butonu (12.10.2026, Abdullah onayı) — SADECE
+   MusteriSeridi.html(musteri, {gecmisButonu:true}) çağıran sayfalarda
+   görünür (bkz. musteri-serit.js). Sadece ikon — yazılı hali uzun isim/
+   şehirle aynı satırda ismi erken kesiyordu, testte düzeltildi. */
+.musteri-serit .ms-gecmis-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: #fff;
+  color: #0a2f5c;
+  border: 1.5px solid #b7d3ef;
+  border-radius: 999px;
+  font-size: 13px;
+  padding: 0;
+  cursor: pointer;
+}

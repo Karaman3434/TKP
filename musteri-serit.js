@@ -15,21 +15,32 @@ var MusteriSeridi = (function(){
   }
 
   // musteri: {id, ad, sehir} — id ve sehir opsiyonel.
-  function html(musteri){
+  // opts.gecmisButonu (12.10.2026, Abdullah onayı): true verilirse şeridin
+  // sonuna "🕓 Geçmiş" butonu eklenir (id='btnMusteriGecmis') — SADECE bunu
+  // isteyen sayfalar (şimdilik cart.html) bunu açıkça true geçer, diğer
+  // tüm sayfalar (parametre verilmezse) HİÇBİR ŞEKİLDE etkilenmez.
+  function html(musteri, opts){
     if(!musteri) return "";
     var kod = musteri.id ? "<b class='ms-kod'>" + esc(musteri.id) + "</b> " : "";
     var sehir = musteri.sehir ? "<span class='ms-sehir'>" + esc(musteri.sehir) + "</span>" : "";
+    // DÜZELTME (12.10.2026, test sırasında fark edildi): "🕓 Geçmiş" yazılı
+    // buton, uzun müşteri ismi + şehir ile aynı satırda yarıştığında ismi
+    // erken kesiyordu (ellipsis). Sadece ikon (🕓) kullanarak yer kazanıldı
+    // — isim artık normal şekilde görünüyor (bkz. .ms-gecmis-btn CSS'inde
+    // title ile "İşlem Geçmişi" ipucu da eklendi).
+    var gecmisBtn = (opts && opts.gecmisButonu) ? "<button type='button' class='ms-gecmis-btn' id='btnMusteriGecmis' title='İşlem Geçmişi' aria-label='İşlem Geçmişi'>🕓</button>" : "";
     return "<div class='musteri-serit'>"
       + "<span class='ms-ad'>" + kod + esc(musteri.ad) + "</span>"
       + sehir
+      + gecmisBtn
       + "</div>";
   }
 
   // Belirtilen id'li konteynerin içine şeridi basar.
-  function uygula(konteynerId, musteri){
+  function uygula(konteynerId, musteri, opts){
     var el = document.getElementById(konteynerId);
     if(!el) return;
-    el.innerHTML = html(musteri);
+    el.innerHTML = html(musteri, opts);
   }
 
   return { html: html, uygula: uygula };

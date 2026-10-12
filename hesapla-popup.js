@@ -34,6 +34,11 @@
 
 var HesaplaPopup = (function(){
 
+  // DÜZELTME (12.10.2026) — geçmiş alım ipucu artık sipariş dışında teklif/
+  // proforma/numune de gösterebildiği için, hangi tür olduğunu kısaca
+  // belirtmek için (TIP_ETIKET_BELGE ile aynı sözcükler, kısaltılmış).
+  var TIP_ETIKET_KISA = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
+
   var seciliUrunBilgi = null;   // {ad, berta, abas, fiyat(=listeFiyat)}
   var duzenlenenIdx = null;     // null = yeni ürün, dolu = sepetteki idx düzenleniyor
   var kurOverride = null;       // sadece bu hesaplama için geçici kur
@@ -66,7 +71,11 @@ var HesaplaPopup = (function(){
       if(!kayitlar.length){ kutu.hidden = true; return; }
       gecmisAlimKayitlari = kayitlar;
       var son = kayitlar[0];
-      kutu.innerHTML = "🕓 Bu müşteriye en son: <b>" + (son.tarih||"-") + " · %" + CartData.fmt(son.iskonto) + " isk. · " + CartData.fmt(son.netFiyat) + " EUR net · " + CartData.fmt(son.adet) + " adet</b>"
+      // DÜZELTME (12.10.2026) — artık sipariş dışında teklif/proforma/numune
+      // kayıtları da gelebildiği için, ipucunda hangi tür olduğu da
+      // gösteriliyor (sipariş değilse "kesinleşmiş satış" ile karıştırılmasın).
+      var sonTipEtiket = TIP_ETIKET_KISA[son.tip] || "";
+      kutu.innerHTML = "🕓 Bu müşteriye en son: <b>" + (son.tarih||"-") + (sonTipEtiket ? " (" + sonTipEtiket + ")" : "") + " · %" + CartData.fmt(son.iskonto) + " isk. · " + CartData.fmt(son.netFiyat) + " EUR net · " + CartData.fmt(son.adet) + " adet</b>"
         + (kayitlar.length > 1 ? " — diğer kayıtlar için dokun" : "");
       kutu.hidden = false;
     }catch(e){ kutu.hidden = true; }
@@ -158,7 +167,8 @@ var HesaplaPopup = (function(){
   function gecmisAlimTumunuGoster(){
     if(!gecmisAlimKayitlari || !gecmisAlimKayitlari.length) return;
     var html = gecmisAlimKayitlari.map(function(k){
-      return "<div class='gecmis-alim-satir'>" + (k.tarih||"-") + " · " + CartData.fmt(k.adet) + " adet · %" + CartData.fmt(k.iskonto) + " isk. · " + CartData.fmt(k.netFiyat) + " EUR net</div>";
+      var tipEtiket = TIP_ETIKET_KISA[k.tip] || "";
+      return "<div class='gecmis-alim-satir'>" + (k.tarih||"-") + (tipEtiket ? " (" + tipEtiket + ")" : "") + " · " + CartData.fmt(k.adet) + " adet · %" + CartData.fmt(k.iskonto) + " isk. · " + CartData.fmt(k.netFiyat) + " EUR net</div>";
     }).join("");
     document.getElementById("hpGecmisAlimListesi").innerHTML = html;
     document.getElementById("hpGecmisAlimOverlay").hidden = false;

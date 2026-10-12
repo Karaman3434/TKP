@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- WEICON ASİST V2 — VERSİYON: WG.091026.2250.757 — cart.html -->
+<!-- WEICON ASİST V2 — VERSİYON: WG.121026.1400.772 — cart.html -->
 <!--
   WEICON ASİST — BİRLEŞİK SAYFA: ÜRÜN BUL + HIZLI HESAPLA + SEPET v6
   ================================================================
@@ -27,10 +27,11 @@
 <link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
 <link rel="stylesheet" href="product-style.css?v=WG.061026.2220.740">
 <link rel="stylesheet" href="calc-style.css?v=WG.061026.2220.740">
-<link rel="stylesheet" href="belge-style.css?v=WG.081026.0120.751">
-<link rel="stylesheet" href="musteri-serit.css?v=WG.270926.0045.641">
+<link rel="stylesheet" href="belge-style.css?v=WG.121026.1400.772">
+<link rel="stylesheet" href="musteri-serit.css?v=WG.121026.1345.771">
 <link rel="stylesheet" href="cart-style.css?v=WG.071026.2350.750">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
+<link rel="stylesheet" href="ai-urun-panel.css?v=WG.111026.1150.762">
 <!-- YENİ (06.10.2026, Abdullah'ın isteğiyle) — SADECE bu sayfada: iPad/tablet
      genişliğinde (>640px) içerik artık home.html'deki kuralla AYNI şekilde
      kenardan kenara — genel "body{max-width:640px}" burada geçersiz
@@ -245,6 +246,26 @@
     </div>
   </div>
 
+  <!-- Müşteri şeridindeki "🕓 Geçmiş" butonu — bu müşterinin BUGÜNE KADAR
+       teklif/proforma/numune/sipariş olarak girilmiş TÜM ürünlerinin
+       geçmişi (12.10.2026, Abdullah onayı). customer-detail.html'deki
+       "📦 Ürün Geçmişi" ile AYNI veri kaynağını (ReportsData.musteriUrunGecmisi)
+       kullanır — sadece buradan da, sayfadan ayrılmadan ulaşılabiliyor. -->
+  <div class="tip-secim-overlay" id="musteriGecmisOverlay" hidden>
+    <div class="tip-secim-kutu" style="max-height:80vh; overflow-y:auto;">
+      <div class="tip-secim-baslik" id="musteriGecmisBaslik">🕓 İşlem Geçmişi</div>
+      <div id="musteriGecmisListesi"></div>
+      <div id="musteriGecmisDetay" hidden>
+        <button id="btnMusteriGecmisGeri" style="width:100%; margin-bottom:10px; background:#eaf2fc; color:#003a70; border:1px solid #3569b8; border-radius:8px; padding:10px; font-size:12px; font-weight:800; cursor:pointer;">‹ Ürün Listesine Dön</button>
+        <div class="data-table-container"><table class="belge-urun-tablo" style="font-size:10px;">
+          <thead><tr><th style='width:30%;'>TARİH</th><th style='width:15%;'>ADET</th><th style='width:17%;'>LİSTE</th><th style='width:19%;'>İSK</th><th style='width:19%;'>NET</th></tr></thead>
+          <tbody id="musteriGecmisTabloGovde"></tbody>
+        </table></div>
+      </div>
+      <button class="tip-secim-vazgec-btn" id="btnMusteriGecmisKapat" style="margin-top:10px;">Kapat</button>
+    </div>
+  </div>
+
   <!-- Hesapla popup — Bedelsiz / Özel Fiyat seçimi -->
   <div class="tip-secim-overlay" id="hpBedelsizOzelFiyatOverlay" hidden>
     <div class="tip-secim-kutu">
@@ -341,20 +362,21 @@
 <script src="auth.js?v=WG.051026.1055.730"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="ayarlar-sync.js?v=WG.091026.2250.757"></script>
-<script src="hareket-tablo.js?v=WG.071026.2350.750"></script>
+<script src="hareket-tablo.js?v=WG.121026.1400.772"></script>
 <script src="cart-data.js?v=WG.091026.2250.757"></script>
-<script src="product-data.js?v=WG.130926.2010.553"></script>
+<script src="product-data.js?v=WG.111026.1250.763"></script>
 <script src="customer-data.js?v=WG.300926.1130.675"></script>
-<script src="musteri-serit.js?v=WG.220926.2300.603"></script>
-<script src="reports-data.js?v=WG.071026.2200.747"></script>
+<script src="musteri-serit.js?v=WG.121026.1345.771"></script>
+<script src="reports-data.js?v=WG.121026.1345.771"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1338.87"></script>
 <script src="send-data.js?v=WG.071026.2200.747"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
-<script src="cart-render.js?v=WG.091026.2250.757"></script>
-<script src="urun-arama.js?v=WG.041026.1121.726"></script>
-<script src="hesapla-popup.js?v=WG.071026.2350.750"></script>
+<script src="cart-render.js?v=WG.121026.1345.771"></script>
+<script src="ai-urun-panel.js?v=WG.111026.1150.762"></script>
+<script src="urun-arama.js?v=WG.111026.1150.762"></script>
+<script src="hesapla-popup.js?v=WG.121026.1345.771"></script>
 <script src="yarim-kalan-uyari.js?v=WG.100926.1021.435"></script>
 </body>
 </html>

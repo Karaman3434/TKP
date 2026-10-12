@@ -202,7 +202,7 @@ function urunGecmisiniAc(){
     document.getElementById("badgeUrunGecmisi").textContent = gruplar.length;
 
     if(gruplar.length === 0){
-      listesiEl.innerHTML = "<p style='text-align:center;color:#44494f;padding:16px 0;'>Bu müşteriye henüz sipariş olarak satılmış bir ürün yok.</p>";
+      listesiEl.innerHTML = "<p style='text-align:center;color:#44494f;padding:16px 0;'>Bu müşteriye henüz sipariş/teklif olarak girilmiş bir ürün yok.</p>";
     } else {
       listesiEl.innerHTML = gruplar.map(function(g, i){
         return "<div class='satir-tiklanabilir' data-urun-i='" + i + "' style='background:#f4f7fb;border-radius:8px;padding:10px 12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;'>"
@@ -215,8 +215,9 @@ function urunGecmisiniAc(){
           var g = gruplar[parseInt(this.getAttribute("data-urun-i"),10)];
           baslikEl.textContent = "📦 " + g.ad;
           document.getElementById("urunGecmisiTabloGovde").innerHTML = g.kayitlar.map(function(k){
+            var tipEtiket = TIP_ETIKET[k.tip] || "";
             return "<tr>"
-              + "<td>" + htmlEsc((k.tarih||"").split(" ").slice(0,2).join(" ")) + "</td>"
+              + "<td>" + htmlEsc((k.tarih||"").split(" ").slice(0,2).join(" ")) + (tipEtiket ? " <span style='color:#8e44ad;font-weight:700;'>(" + tipEtiket + ")</span>" : "") + "</td>"
               + "<td>" + (k.adet||0) + "</td>"
               + "<td>" + fmtG(k.listeFiyat) + " EURO</td>"
               + "<td><span class='rozet-isk'>%" + k.iskonto + "</span></td>"
