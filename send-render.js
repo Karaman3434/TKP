@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.051026.1500.731
+  send-render.js — WG.121026.1625.778
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -96,6 +96,15 @@ var FORM_BASLIK = {numune:"NUMUNE FORMU", teklif:"FİYAT TEKLİFİ FORMU", profo
 function formBaslikHtml(tip){
   return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'>" + (FORM_BASLIK[tip]||"SİPARİŞ FORMU") + "</div>";
 }
+// İŞLEM KODU ETİKETİ (12.10.2026, Abdullah onayı): üsteki FORM_BASLIK
+// şeridiyle AYNI renk/stilde ama KENDİ ayrı kartında — gerçek işlem
+// kodunu (örn. "FT.121026.1522") gösterir. Tek-renk kuralı: FORM_BASLIK'taki
+// renk burada TEKRAR kullanılır, yeni bir renk eklenmez. "belge-form-baslik"
+// sınıfının kendi border-radius'u YOK — bu kutu kendi .belge-kart'ı
+// içinde olduğundan tam yuvarlak görünür (bkz. .belge-kart{overflow:hidden}).
+function kodEtiketHtml(tip, kod){
+  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'>" + htmlEsc(kod||"") + "</div>";
+}
 // VADE artık Müşteri Kartı'nda SAYI (gün) olarak tutuluyor (21.09.2026);
 // burada okunaklı gösterim için "45" -> "45 gün" biçimine çevrilir. Eski
 // serbest metin kayıtlarda (henüz sayıya çevrilmemiş müşteriler) olduğu
@@ -183,7 +192,7 @@ function tarihSaatStr(orijinalTarih){
   return simdi.getDate() + " " + aylarKisa[simdi.getMonth()] + " " + simdi.getFullYear() + " " + ("0"+simdi.getHours()).slice(-2) + ":" + ("0"+simdi.getMinutes()).slice(-2);
 }
 
-function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal){
+function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   var basit = kanal === "whatsapp";
   var vade = vadeGosterimMetni(musteri.vade);
   var faturaTuru = musteri.fatura || "";
@@ -210,7 +219,9 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal){
     html = "<div class='belge-kart'>" + formBaslikHtml(tip)
       + "<div class='belge-musteri-govde'>"
       + musteriBlokHtml
-      + "</div></div><div class='belge-kart-ayrac'></div><div class='belge-kart'>";
+      + "</div></div><div class='belge-kart-ayrac'></div>"
+      + (kod ? kodEtiketHtml(tip, kod) + "<div class='belge-kart-ayrac'></div>" : "")
+      + "<div class='belge-kart'>";
   } else {
     // BİRLEŞİK CARİ KUTUSU (27.09.2026): artık Cari Bilgi sayfasıyla aynı
     // renkli-kutu tasarımı — bkz. cariKutulariHtml().
@@ -219,14 +230,16 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal){
       + "<div class='belge-kart-ayrac'></div>"
       + musteriBlokHtml
       + "<div class='belge-kart-ayrac'></div>"
+      + (kod ? kodEtiketHtml(tip, kod) + "<div class='belge-kart-ayrac'></div>" : "")
       + "<div class='belge-kart'>";
   }
 
+  // TEK RENK KURALI (12.10.2026, Abdullah onayı): üründe TÜR · TARİH SAAT
+  // etiketi artık tabloya yapışık olarak TEKRAR gösterilmiyor — üstteki
+  // FORM_BASLIK'ta zaten bir kere var, ve kendi ayrı kutusunda gerçek işlem
+  // kodu (yukarıdaki kodEtiketHtml) gösteriliyor. Bu yüzden grupHtml'e artık
+  // etiket geçilmiyor.
   html += HareketTablo.grupHtml({
-    etiket: (TIP_ETIKET_BELGE_G[tip]||"SİPARİŞ") + " · " + tarihSaatStr(),
-    etiketBgOzel: "#eaf2fc",
-    etiketRenkOzel: "#0c447c",
-    etiketOrtali: true,
     urunler: sepet,
     hesapla: function(u){ return CartData.hesapla(u, kur, kdv); },
     genelToplam: tToplamEuro,
@@ -246,9 +259,9 @@ function metinKutusuBoyutlandir(el){
   el.style.height = el.scrollHeight + "px";
 }
 
-function gonderKutusunuGoster(musteri, sepet, tip, kur, kdv){
+function gonderKutusunuGoster(musteri, sepet, tip, kur, kdv, kod){
   try{
-    gonderBaglam = {musteri:musteri, sepet:sepet, tip:tip, kur:kur, kdv:kdv};
+    gonderBaglam = {musteri:musteri, sepet:sepet, tip:tip, kur:kur, kdv:kdv, kod:kod};
     var metinKutusu = document.getElementById("gonderMetin");
     metinKutusu.value = mesajMetniOlustur(musteri, sepet, tip, null);
     metinKutusuBoyutlandir(metinKutusu);
@@ -462,7 +475,7 @@ function mailOnizlemeAc(){
     var konu = mailKonuOlustur();
     document.getElementById("mailOnizlemeKonu").value = konu;
     document.getElementById("mailOnizlemeMetin").textContent = document.getElementById("gonderMetin").value;
-    document.getElementById("mailOnizlemeTablo").innerHTML = tamOnizlemeHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, null);
+    document.getElementById("mailOnizlemeTablo").innerHTML = tamOnizlemeHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, null, g.kod);
     document.getElementById("mailOnizlemeOverlay").hidden = false;
     kosulSatirlariniSigdir(document.getElementById("mailOnizlemeTablo"));
   }catch(e){ hataGoster("Mail önizleme açılamadı: " + e.message); }
@@ -473,7 +486,7 @@ function whatsappOnizlemeAc(){
     var g = gonderBaglam;
     document.getElementById("whatsappOnizlemeAlici").value = document.getElementById("gonderTelefon").value.trim() || "(telefon girilmemiş)";
     document.getElementById("whatsappOnizlemeMetin").value = mesajMetniOlustur(g.musteri, g.sepet, g.tip, "whatsapp");
-    document.getElementById("whatsappOnizlemeTablo").innerHTML = tamOnizlemeHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, "whatsapp");
+    document.getElementById("whatsappOnizlemeTablo").innerHTML = tamOnizlemeHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, "whatsapp", g.kod);
     document.getElementById("whatsappOnizlemeOverlay").hidden = false;
     kosulSatirlariniSigdir(document.getElementById("whatsappOnizlemeTablo"));
   }catch(e){ hataGoster("WhatsApp önizleme açılamadı: " + e.message); }
@@ -770,7 +783,7 @@ document.addEventListener("DOMContentLoaded", function(){
     if(kayitliBaglam.revizeMi){
       document.getElementById("gonderBaslikYazi").textContent = "🔄 Aynı ürünlerle mevcut kayıt bulundu — REVİZE olarak güncellendi.";
     }
-    gonderKutusunuGoster(musteri, kayitliBaglam.sepet, kayitliBaglam.tip, kayitliBaglam.kur, kayitliBaglam.kdv);
+    gonderKutusunuGoster(musteri, kayitliBaglam.sepet, kayitliBaglam.tip, kayitliBaglam.kur, kayitliBaglam.kdv, kayitliBaglam.kayit && kayitliBaglam.kayit.kod);
     // DÜZELTME (07.10.2026, Abdullah'ın bildirdiği hata — bu ekranda birkaç
     // defadır tekrarlanmış): "Kaydedildi" özetindeki VADE/FATURA/KARGO
     // kutuları eskiden SADECE sayfa ilk açılırken, Firebase'den taze müşteri
@@ -804,7 +817,7 @@ document.addEventListener("DOMContentLoaded", function(){
   // tekrar çağırıyor (yukarıdaki yorum).
   function tamOnizlemeyiCiz(){
     var g = gonderBaglam;
-    document.getElementById("tamOnizlemeAlani").innerHTML = tamOnizlemeHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv);
+    document.getElementById("tamOnizlemeAlani").innerHTML = tamOnizlemeHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, null, g.kod);
     kosulSatirlariniSigdir(document.getElementById("tamOnizlemeAlani"));
   }
   tamOnizlemeyiCiz();

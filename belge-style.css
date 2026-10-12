@@ -310,7 +310,9 @@
    alan kazanıp ÜRÜN BİLGİSİ sütununu genişlettik (bkz. hareket-tablo.js
    ve belge-render.js başlık genişlikleri) VE kod yazısı ayrıca %10 daha
    küçültüldü (8.4px -> 7.56px) ki bir daha kesilmesin. */
-.belge-td-urun-kod { font-size: 7.56px; color: #1a2a3a; line-height: 1.3; white-space: nowrap; overflow: hidden; font-weight: 800; }
+/* BÜYÜTME (12.10.2026, Abdullah'ın isteğiyle): B/A kod blokları küçük
+   kalıp okunamıyordu — %10 büyütüldü (7.56px -> 8.3px). */
+.belge-td-urun-kod { font-size: 8.3px; color: #1a2a3a; line-height: 1.3; white-space: nowrap; overflow: hidden; font-weight: 800; }
 .kod-harf { font-weight: 900; font-size: 1.15em; padding: 0 1px; }
 .kod-blok--b { color: #c0392b; }
 .kod-blok--a { color: #003a70; }
@@ -540,10 +542,18 @@
   overflow: hidden;
 }
 .belge-gt-kutu--altduz { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+/* YAKINLAŞTIRMA + ÇERÇEVE (12.10.2026, Abdullah'ın isteğiyle): kur bloğu ile
+   GENEL TOPLAM arasındaki boşluk ".belge-gt-satir"in justify-content:
+   space-between'i yüzünden çok açık kalıyordu — artık ikisi sola toplanıp
+   (flex-start) aralarında sabit bir boşluk var; kur bloğunun etrafına da
+   ince beyaz bir çerçeve eklendi ki GENEL TOPLAM'dan görsel olarak ayrışsın. */
 .belge-gt-kur-ic {
   background: none;
   color: #ffffff;
   white-space: nowrap;
+  border: 1px solid rgba(255,255,255,.55);
+  border-radius: 8px;
+  padding: 4px 10px;
 }
 /* KISALTMA (12.10.2026, Abdullah'ın isteğiyle): "Bu işlem kuru" artık iki
    satır — üstte küçük/soluk etiket, altta kalın rakam+EURO (eskiden tek
@@ -568,10 +578,10 @@
 .belge-gt-kur-ic--tiklanabilir { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
 .belge-gt-satir {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 12px 16px;
-  gap: 10px;
+  gap: 14px;
   color: #ffffff;
 }
 .belge-gt-etiket-deger-grup { display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-left: auto; }
