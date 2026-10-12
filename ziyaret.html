@@ -140,7 +140,15 @@
     <button class="ziy-panel-kapat-btn" id="btnZiyGunKapat" style="margin-top:10px;">Kapat</button>
   </section>
 
-  <input type="file" accept="image/*" capture="environment" id="ajFotoSecici" hidden>
+  <!-- DÜZELTME (11.10.2026, Abdullah'ın isteğiyle): "capture" özniteliği
+       kaldırıldı — eskiden kamerayı DOĞRUDAN açıp galeri/dosya seçimini
+       tamamen engelliyordu. Olmadan bu input, cihazın kendi seçim
+       penceresini (Kamera / Galeri / Dosyalar) açar; kullanıcı istediğini
+       seçebilir. "accept=image/*" aynı kaldığı için hâlâ sadece resim
+       dosyaları seçilebiliyor. JS tarafında (ziyaret-render.js) hiçbir
+       değişiklik gerekmedi — resimSikistir() zaten dosyanın kameradan mı
+       galeriden mi geldiğine bakmaksızın çalışıyordu. -->
+  <input type="file" accept="image/*" id="ajFotoSecici" hidden>
 
 </main>
 
