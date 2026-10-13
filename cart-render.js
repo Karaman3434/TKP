@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.131026.1005.790
+  cart-render.js — WG.131026.1110.791
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -570,11 +570,10 @@ function bicimTiklariniBagla(){
 // WhatsApp'a ayrıca metin gitmiyor, görselin kendi içine gömülüyor. Toplam
 // ürün ADEDİ (sepetteki tüm satırların adetleri toplamı) 1 ise tekil, 1'den
 // fazlaysa çoğul ifade kullanılır.
+// DÜZELTME (13.10.2026, Abdullah onayı — mockup üzerinden): metin artık
+// adete göre değişmiyor, sabit tek ibare kullanılıyor.
 function musterisizTabloMesajiOlustur(){
-  var toplamAdet = CartData.liste().reduce(function(top, u){ return top + (u.adet||0); }, 0);
-  return toplamAdet === 1
-    ? "İstediğiniz ürün için fiyat bilgisi ektedir."
-    : "İstediğiniz ürünler için fiyat bilgisi ektedir.";
+  return "İstediğiniz ürün/ürünler için fiyat bilgisi ektedir.";
 }
 function musterisizOnizlemeAc(){
   try{
@@ -583,15 +582,24 @@ function musterisizOnizlemeAc(){
     var hesapla = function(u){ return CartData.hesapla(u, kur, kdv); };
     var toplamlar = CartData.genelToplam(kur, kdv);
     document.getElementById("musterisizOnizlemeMetin").value = musterisizOzetMetniOlustur();
-    document.getElementById("musterisizOnizlemeTablo").innerHTML = HareketTablo.grupHtml({
-      urunler: CartData.liste(),
-      hesapla: hesapla,
-      kanal: "whatsapp",
-      primGizli: true,
-      genelToplam: toplamlar.toplamEuro,
-      kur: kur,
-      kurManuelMi: aktifKurManuelMi()
-    }) + "<div class='musterisiz-tablo-mesaj'>" + musterisizTabloMesajiOlustur() + "</div>";
+    // DÜZELTME (13.10.2026, Abdullah onayı — mockup üzerinden): mesaj artık
+    // tablonun ÜSTÜNDE (altında değil). HareketTablo.grupHtml'e kur/kurManuelMi
+    // BİLEREK geçilmiyor — bu, "Bu işlem kuru" kutusunu, satır altı ≈TL
+    // satırlarını ve GENEL TOPLAM'ın ≈TL alt satırını otomatik olarak
+    // kaldırır (bkz. hareket-tablo.js — bu alanlar sadece opts.kur varsa
+    // render edilir); gönderilen görselde SADECE EURO tutarları kalır. Bu
+    // SADECE bu önizleme/gönderim alanını etkiler — Sepet ekranındaki
+    // HESAPLANACAK/HESAPLANDI gruplarının kendi kur/TL gösterimi (sayfayiCiz)
+    // DEĞİŞMEDİ.
+    document.getElementById("musterisizOnizlemeTablo").innerHTML =
+      "<div class='musterisiz-tablo-mesaj'>" + musterisizTabloMesajiOlustur() + "</div>"
+      + HareketTablo.grupHtml({
+        urunler: CartData.liste(),
+        hesapla: hesapla,
+        kanal: "whatsapp",
+        primGizli: true,
+        genelToplam: toplamlar.toplamEuro
+      });
     musterisizBicim = "metin";
     var btnMetinEl = document.getElementById("btnBicimMetin");
     var btnTabloEl = document.getElementById("btnBicimTablo");

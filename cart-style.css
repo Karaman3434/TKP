@@ -1,5 +1,5 @@
 /*
-  cart-style.css — WG.131026.1005.790
+  cart-style.css — WG.131026.1110.791
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -687,8 +687,16 @@
    gönderilirken ÜRÜN TABLOSU'nun altına eklenen sabit mesaj; kutu/çerçeve
    YOK, sade metin. */
 .musterisiz-tablo-mesaj {
-  padding: 10px 10px 2px;
+  margin: 0 0 14px;
   font-size: 12.5px;
   color: #2d3540;
   line-height: 1.4;
+}
+/* GENEL TOPLAM — etiket değerin ÜST satırında (13.10.2026, Abdullah onayı —
+   mockup üzerinden). SADECE bu önizleme alanıyla sınırlı — Sepet/Gönder
+   ekranındaki paylaşılan .belge-gt-etiket-deger-grup sınıfı ETKİLENMEDİ. */
+#musterisizOnizlemeTablo .belge-gt-etiket-deger-grup {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
 }
