@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- WEICON ASİST V2 — VERSİYON: WG.131026.0745.787 — cart.html -->
+<!-- WEICON ASİST V2 — VERSİYON: WG.131026.0920.788 — cart.html -->
 <!--
   WEICON ASİST — BİRLEŞİK SAYFA: ÜRÜN BUL + HIZLI HESAPLA + SEPET v6
   ================================================================
@@ -310,6 +310,16 @@
       <div class="sheet-baslik">Fiyat bilgisi hazır — göndermek ister misin?</div>
       <p class="sheet-alt">Müşteri kaydı yok — bu gönderim CRM'e işlenmez, İşlem Geçmişi'ne düşmez.</p>
 
+      <!-- METİN/TABLO GÖRSELİ SEÇİMİ (13.10.2026, Abdullah onayı — mockup
+           üzerinden): varsayılan METİN, mevcut davranışı değiştirmez. Tablo
+           Görseli seçilince ÜRÜN TABLOSU, Gönder ekranındaki (send-render.js)
+           AYNI html2canvas yöntemiyle gerçek bir PNG'ye çevrilip paylaşılır. -->
+      <div class="musterisiz-onizleme-etiket" style="margin-top:0;">GÖNDERİM BİÇİMİ</div>
+      <div class="sekme-secim" style="margin-bottom:14px;">
+        <button class="sekme-btn sekme-btn--secili" id="btnBicimMetin">📝 Metin</button>
+        <button class="sekme-btn" id="btnBicimTablo">📊 Tablo Görseli</button>
+      </div>
+
       <div class="iletisim-secenek-grid iletisim-secenek-grid--iki">
         <button class="iletisim-secenek-btn iletisim-secenek-btn--whatsapp" id="btnMusterisizWhatsapp">
           <span class="iletisim-secenek-ikon">💬</span>
@@ -378,7 +388,8 @@
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
-<script src="cart-render.js?v=WG.131026.0745.787"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="cart-render.js?v=WG.131026.0920.788"></script>
 <script src="ai-urun-panel.js?v=WG.111026.1150.762"></script>
 <script src="urun-arama.js?v=WG.121026.1820.779"></script>
 <script src="hesapla-popup.js?v=WG.121026.2340.785"></script>

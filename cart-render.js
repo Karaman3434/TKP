@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.131026.0745.787
+  cart-render.js — WG.131026.0920.788
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -545,6 +545,26 @@ function musterisizOzetMetniOlustur(){
 // altında düzenlenebilir mesaj metni + ürün tablosu (HareketTablo ile,
 // diğer TÜM belge/gönder ekranlarıyla birebir aynı tasarım). Müşteri
 // kaydı YOK, kayıt yok, İşlem Geçmişi'ne düşmez.
+// GÖNDERİM BİÇİMİ (13.10.2026, Abdullah onayı — mockup üzerinden): "metin"
+// (varsayılan, eski davranış) veya "tablo" (ÜRÜN TABLOSU'nu gerçek PNG
+// görsele çevirip paylaşır — bkz. musterisizTabloGonder). Popup her
+// açıldığında "metin"e sıfırlanır.
+var musterisizBicim = "metin";
+function bicimTiklariniBagla(){
+  var btnMetin = document.getElementById("btnBicimMetin");
+  var btnTablo = document.getElementById("btnBicimTablo");
+  if(!btnMetin || !btnTablo) return;
+  btnMetin.onclick = function(){
+    musterisizBicim = "metin";
+    btnMetin.classList.add("sekme-btn--secili");
+    btnTablo.classList.remove("sekme-btn--secili");
+  };
+  btnTablo.onclick = function(){
+    musterisizBicim = "tablo";
+    btnTablo.classList.add("sekme-btn--secili");
+    btnMetin.classList.remove("sekme-btn--secili");
+  };
+}
 function musterisizOnizlemeAc(){
   try{
     var kur = aktifKuruOku();
@@ -561,19 +581,68 @@ function musterisizOnizlemeAc(){
       kur: kur,
       kurManuelMi: aktifKurManuelMi()
     });
+    musterisizBicim = "metin";
+    var btnMetinEl = document.getElementById("btnBicimMetin");
+    var btnTabloEl = document.getElementById("btnBicimTablo");
+    if(btnMetinEl && btnTabloEl){
+      btnMetinEl.classList.add("sekme-btn--secili");
+      btnTabloEl.classList.remove("sekme-btn--secili");
+    }
     document.getElementById("musterisizGonderOverlay").hidden = false;
   }catch(e){ hataGoster("Önizleme açılamadı: " + e.message); }
 }
 // Mesaj metni textarea'da elle düzenlenebildiği için WhatsApp/Mail butonları
 // metni YENİDEN ÜRETMEZ — o anda kutuda ne yazıyorsa AYNEN onu gönderir.
 function musterisizWhatsappGonder(){
+  if(musterisizBicim === "tablo"){ musterisizTabloGonder("whatsapp"); return; }
   var metin = document.getElementById("musterisizOnizlemeMetin").value;
   window.open("https://wa.me/?text=" + encodeURIComponent(metin), "_blank");
 }
 function musterisizMailGonder(){
+  if(musterisizBicim === "tablo"){ musterisizTabloGonder("mail"); return; }
   var metin = document.getElementById("musterisizOnizlemeMetin").value;
   var konu = encodeURIComponent("WEICON Fiyat Bilgisi");
   window.location.href = "mailto:?subject=" + konu + "&body=" + encodeURIComponent(metin);
+}
+// TABLO GÖRSELİ OLARAK GÖNDER (13.10.2026, Abdullah onayı): ÜRÜN TABLOSU
+// (#musterisizOnizlemeTablo), Gönder ekranındaki (send-render.js
+// belgeGorseliniOlustur) AYNI yöntemle — html2canvas — gerçek bir PNG'ye
+// çevrilir, ardından navigator.share ile (destekleniyorsa) dosya EKİ olarak
+// paylaşım menüsüne açılır; MESAJ kutusundaki metin paylaşımın "text"i olur.
+// navigator.share desteklenmiyorsa görsel indirilir ve kullanıcı WhatsApp/
+// Mail'e elle ekler (aynı yedek yöntem send-render.js'de de kullanılıyor).
+function musterisizTabloGonder(kanal){
+  try{
+    if(typeof html2canvas === "undefined"){
+      hataGoster("Görsel oluşturulamadı — sayfayı yenileyip tekrar dene.");
+      return;
+    }
+    var alan = document.getElementById("musterisizOnizlemeTablo");
+    var metin = document.getElementById("musterisizOnizlemeMetin").value;
+    html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
+      canvas.toBlob(function(blob){
+        if(!blob){ hataGoster("Görsel oluşturulamadı."); return; }
+        var dosya = new File([blob], "WEICON_Fiyat_Bilgisi.png", {type:"image/png"});
+        if(navigator.canShare && navigator.canShare({files:[dosya]})){
+          navigator.share({files:[dosya], title:"WEICON Fiyat Bilgisi", text:metin}).catch(function(err){
+            if(err && err.name!=="AbortError") hataGoster("Paylaşım penceresi kapatıldı.");
+          });
+        } else {
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement("a");
+          a.href = url; a.download = "WEICON_Fiyat_Bilgisi.png";
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          alert("Bu cihazda direkt paylaşım desteklenmiyor — tablo görseli indirildi. Şimdi " + (kanal==="whatsapp"?"WhatsApp":"Mail") + " açılacak, resmi elle ekleyebilirsin.");
+          if(kanal === "whatsapp"){
+            window.open("https://wa.me/?text=" + encodeURIComponent(metin), "_blank");
+          } else {
+            window.location.href = "mailto:?subject=" + encodeURIComponent("WEICON Fiyat Bilgisi") + "&body=" + encodeURIComponent(metin);
+          }
+        }
+      }, "image/png");
+    }).catch(function(){ hataGoster("Görsel oluşturulamadı."); });
+  }catch(e){ hataGoster("Tablo gönderimi başarısız: " + e.message); }
 }
 
 window.addEventListener("error", function(ev){
@@ -592,6 +661,7 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("btnMusterisizWhatsapp").onclick = musterisizWhatsappGonder;
   document.getElementById("btnMusterisizMail").onclick = musterisizMailGonder;
   document.getElementById("btnMusterisizVazgec").onclick = function(){ document.getElementById("musterisizGonderOverlay").hidden = true; };
+  bicimTiklariniBagla();
   document.getElementById("btnMusteriGecmisKapat").onclick = function(){ document.getElementById("musteriGecmisOverlay").hidden = true; };
 
   // İşlemi İptal Onay Popup — SADECE "🗑️ İşlemi İptal Et" butonu kullanıyor
