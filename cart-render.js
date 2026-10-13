@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.131026.0920.788
+  cart-render.js — WG.131026.0948.789
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -618,13 +618,18 @@ function musterisizTabloGonder(kanal){
       return;
     }
     var alan = document.getElementById("musterisizOnizlemeTablo");
-    var metin = document.getElementById("musterisizOnizlemeMetin").value;
     html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
       canvas.toBlob(function(blob){
         if(!blob){ hataGoster("Görsel oluşturulamadı."); return; }
         var dosya = new File([blob], "WEICON_Fiyat_Bilgisi.png", {type:"image/png"});
+        // DÜZELTME (13.10.2026, Abdullah'ın isteğiyle): "Tablo Görseli"
+        // seçiliyken SADECE görsel gitmeli — MESAJ kutusundaki metin ayrıca
+        // caption/body olarak eklenmiyor (eskiden navigator.share'in "text"
+        // alanına ve mailto body'sine de konuyordu, bu da görselin ALTINA
+        // aynı bilgiyi tekrar eden ikinci bir metin mesajı/satırı olarak
+        // gidiyordu — ekran görüntüsüyle doğrulandı).
         if(navigator.canShare && navigator.canShare({files:[dosya]})){
-          navigator.share({files:[dosya], title:"WEICON Fiyat Bilgisi", text:metin}).catch(function(err){
+          navigator.share({files:[dosya]}).catch(function(err){
             if(err && err.name!=="AbortError") hataGoster("Paylaşım penceresi kapatıldı.");
           });
         } else {
@@ -635,9 +640,9 @@ function musterisizTabloGonder(kanal){
           URL.revokeObjectURL(url);
           alert("Bu cihazda direkt paylaşım desteklenmiyor — tablo görseli indirildi. Şimdi " + (kanal==="whatsapp"?"WhatsApp":"Mail") + " açılacak, resmi elle ekleyebilirsin.");
           if(kanal === "whatsapp"){
-            window.open("https://wa.me/?text=" + encodeURIComponent(metin), "_blank");
+            window.open("https://wa.me/", "_blank");
           } else {
-            window.location.href = "mailto:?subject=" + encodeURIComponent("WEICON Fiyat Bilgisi") + "&body=" + encodeURIComponent(metin);
+            window.location.href = "mailto:?subject=" + encodeURIComponent("WEICON Fiyat Bilgisi");
           }
         }
       }, "image/png");
