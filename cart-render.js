@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.131026.1110.791
+  cart-render.js — WG.131026.1120.792
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -570,10 +570,16 @@ function bicimTiklariniBagla(){
 // WhatsApp'a ayrıca metin gitmiyor, görselin kendi içine gömülüyor. Toplam
 // ürün ADEDİ (sepetteki tüm satırların adetleri toplamı) 1 ise tekil, 1'den
 // fazlaysa çoğul ifade kullanılır.
-// DÜZELTME (13.10.2026, Abdullah onayı — mockup üzerinden): metin artık
-// adete göre değişmiyor, sabit tek ibare kullanılıyor.
+// DÜZELTME (13.10.2026, Abdullah'ın bildirdiği hata): bir önceki sürümde
+// bu, Abdullah'ın örnek verdiği "ürün/ürünler" ibaresi AYNEN sabit metne
+// geçirilmişti — oysa istenen, tablodaki ürün SAYISINA göre sistemin kendi
+// seçtiği tekil/çoğul metindi. Düzeltildi: tablodaki satır (ürün çeşidi)
+// sayısı 1 ise tekil, birden fazlaysa çoğul.
 function musterisizTabloMesajiOlustur(){
-  return "İstediğiniz ürün/ürünler için fiyat bilgisi ektedir.";
+  var urunSayisi = CartData.liste().length;
+  return urunSayisi <= 1
+    ? "İstediğiniz ürün için fiyat bilgisi ektedir."
+    : "İstediğiniz ürünler için fiyat bilgisi ektedir.";
 }
 function musterisizOnizlemeAc(){
   try{

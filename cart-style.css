@@ -1,5 +1,5 @@
 /*
-  cart-style.css — WG.131026.1110.791
+  cart-style.css — WG.131026.1120.792
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -687,7 +687,11 @@
    gönderilirken ÜRÜN TABLOSU'nun altına eklenen sabit mesaj; kutu/çerçeve
    YOK, sade metin. */
 .musterisiz-tablo-mesaj {
+  /* DÜZELTME (13.10.2026, Abdullah'ın bildirdiği hata): sol kenar boşluğu
+     yoktu, metin ekranın/görselin sol kenarına yapışık çıkıyor, ilk harf
+     kırpılıyordu — artık satır başından içeride başlıyor. */
   margin: 0 0 14px;
+  padding: 0 10px;
   font-size: 12.5px;
   color: #2d3540;
   line-height: 1.4;
