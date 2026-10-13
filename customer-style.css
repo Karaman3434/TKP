@@ -1,4 +1,4 @@
-/* customer-style.css — WG.051026.1500.731 — aynı kural: gradyan/gölge yığılması yok. */
+/* customer-style.css — WG.131026.1540.801 — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
 
@@ -39,36 +39,41 @@
   transform: translateY(-50%); font-size: 18px;
 }
 
-.musteri-liste-kutu {
-  border: 1.5px solid #eef1f5;
-  border-radius: 10px;
-  overflow: hidden;
-}
+/* MÜŞTERİ KARTI YENİDEN TASARIM (13.10.2026, Abdullah onayı — mockup
+   üzerinden birkaç revizyon sonrası): dış kutu/çerçeve kaldırıldı (program
+   kuralı — yeni tasarımlarda kutu/çerçeve kullanılmaz), kartlar arası ince
+   ayırıcı çizgiye geçildi, zebra (alt/üst) desen kaldırıldı. Üst satır:
+   müşteri kodu (sabit kırmızı, normal ağırlık) - ticari isim - ilçe/il AYNI
+   satırda tek satır halinde (Abdullah'ın isteğiyle; isim çok uzunsa ilçe/il
+   kesilebilir — bilinçli ve onaylanmış bir tercih). Alt satır: solda Temas
+   (son ziyaret/telefon/mail/whatsapp — tam kelime + tam tarih), sağda İşlem
+   (son numune/teklif/proforma/sipariş — tam kelime + tam tarih, hareket
+   tipine göre renkli, belge-render.js'teki TIP_RENK_BELGE paletiyle AYNI
+   renkler) — ikisi de kendi kenarına yaslı, aralarında en az 10px boşluk
+   garantili (gap:10px). Ok işareti kartın TAM yüksekliği boyunca dikey
+   ortalı, sağ kenara 2mm. */
+.musteri-liste-kutu { }
 .musteri-karti {
   cursor: pointer;
-  border-bottom: 1.5px solid #eef1f5;
-  padding: 7px 8px;
+  border-bottom: 1px solid #eef0f3;
+  padding: 7px 0 7px 2mm;
 }
 .musteri-karti:last-child { border-bottom: none; }
-.musteri-karti--alt { background: #f7f9fc; }
-.musteri-karti--ust { background: #ffffff; }
-.musteri-karti-satir { display: flex; align-items: center; gap: 8px; }
-.musteri-icerik { flex: 1; min-width: 0; }
+.musteri-karti-satir { display: flex; align-items: center; gap: 0; }
+.musteri-icerik { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
 .musteri-ok-alan {
-  width: 20px;
-  height: 20px;
+  width: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-right: 2mm;
 }
 
-.musteri-ust-satir {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
+.musteri-ust-satir { width: 100%; min-width: 0; overflow: hidden; }
 .musteri-cari-metin {
+  display: block;
+  width: 100%;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -78,29 +83,31 @@
 .musteri-cari-metin .cari-ayrac,
 .musteri-cari-metin .cari-isim,
 .musteri-cari-metin .cari-sehir {
-  font-size: 13px;
-  font-weight: 400;
+  font-size: 12px;
+  font-weight: 500;
 }
 .musteri-cari-metin .cari-kod { color: #c0392b; }
-.musteri-cari-metin .cari-isim { color: #111827; font-weight: 400; }
-.musteri-rozet-satiri {
+.musteri-cari-metin .cari-isim { color: #1f2430; }
+.musteri-cari-metin .cari-sehir { color: #8a93a1; }
+
+.musteri-detay-satir {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 6px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
-.musteri-rozet {
-  font-size: 9.5px;
-  font-weight: 400;
-  padding: 2px 6px;
-  border-radius: 4px;
+.musteri-detay-oge {
+  font-size: 11px;
+  color: #5f6b7a;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
-.musteri-rozet--temas { background: #eef1f5; color: #556170; }
-.musteri-rozet--islem { background: #eafaf0; color: #0e6b34; }
-.musteri-rozet--beklemede { background: #faeeda; color: #b7601f; }
-.musteri-rozet--yok { background: #fdeaea; color: #c0392b; }
-.musteri-rozet--temas-yok { background: #e6f1fb; color: #0c447c; }
+.musteri-detay-oge--sol { flex-shrink: 1; }
+.musteri-detay-oge--sag { flex-shrink: 0; text-align: right; }
+.musteri-detay-etiket { color: #9aa3b1; }
+.musteri-detay-oge--yok { color: #c3cad4; }
 
 .musteri-alt-satir {
   display: flex;

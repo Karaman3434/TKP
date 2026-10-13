@@ -1,5 +1,5 @@
 /*
-  customer-render.js — WG.061026.0935.732
+  customer-render.js — WG.131026.1540.801
   ==================
   Eski uygulamanın musteriListesiniRenderEt() mantığıyla BİREBİR aynı:
   - Arama yokken: sadece en son eklenen 12 müşteri (dizinin başı, çünkü yeni
@@ -33,6 +33,12 @@ function tarihiGuncelle(){
 function htmlEsc(s){
   return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
+// Ok işareti — Son İşlemler/Belge Geçmişi'nde kullanılan AYNI nötr gri
+// ok (13.10.2026, Abdullah onayı — mockup'ta gösterilen gri hali). Eskiden
+// kırmızıydı (#e24b4a); kırmızı bu uygulamada zaten "kimlik/uyarı" rengi
+// (müşteri kodu, Kaçan Satışlar) olduğu için navigasyon okunda tekrarlanmıyor.
+var MUSTERI_OK_SVG = "<svg width='9' height='15' viewBox='0 0 9 15' fill='none'><path d='M1 1L7.5 7.5L1 14' stroke='#aab2bd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>";
+
 function cariSatirHTML(kod, isim, sehir){
   return "<span class='cari-kod'>" + htmlEsc(kod||"—") + "</span>"
     + "<span class='cari-ayrac'> - </span>"
@@ -104,6 +110,15 @@ function tarihFormatlaKisa(ts){
   var aa = String(d.getMonth()+1).padStart(2,"0");
   return gg + "." + aa + "." + d.getFullYear() + " " + GUNLER_KISA[d.getDay()];
 }
+// MÜŞTERİ KARTI (13.10.2026, Abdullah onayı): Temas/İşlem satırında "tam
+// tarih" isteniyor ama gün adı OLMADAN (mockup'ta onaylanan haliyle) —
+// tarihFormatlaKisa'daki gün adını eklemiyor, sadece gg.aa.yyyy.
+function tarihFormatlaTam(ts){
+  var d = new Date(ts);
+  var gg = String(d.getDate()).padStart(2,"0");
+  var aa = String(d.getMonth()+1).padStart(2,"0");
+  return gg + "." + aa + "." + d.getFullYear();
+}
 
 // En son TEMAS: ziyaret (Z), temas/telefon (T), mail gönderimi (M) veya
 // WhatsApp gönderimi (W) — hangisi en yeni tarihliyse o gösterilir.
@@ -122,31 +137,40 @@ function sonTemasBilgisi(m){
   return adaylar[0];
 }
 
-// En son İŞLEM: numune (N), teklif (FT), proforma (PF), sipariş (S) —
-// beklemede olan sipariş için BKS. Temas rozeti gibi tarihi de gösterir.
-var ISLEM_HARF = {numune:"NM", teklif:"FT", proforma:"PF"};
+// En son İŞLEM: numune, teklif, proforma, sipariş — beklemede olan sipariş
+// için ayrıca belirtilir. Temas gibi tarihi de taşır. tip/durum, renk ve
+// tam etiket için aşağıdaki temasIslemRozetleriHTML'de kullanılıyor.
 function sonIslemBilgisi(m){
   var adAnahtar = (m.ad||"").toLocaleLowerCase("tr-TR");
   var kayit = (musteriSonIslemDetayHaritasi && m.id) ? musteriSonIslemDetayHaritasi[m.id] : null;
   if(!kayit && musteriSonIslemDetayHaritasiAd) kayit = musteriSonIslemDetayHaritasiAd[adAnahtar];
-  if(!kayit) return null;
-  var harf = kayit.tip === "siparis"
-    ? (kayit.durum === "beklemede" ? "⏳ SP" : "SP")
-    : (ISLEM_HARF[kayit.tip] || null);
-  if(!harf) return null;
-  return {harf:harf, ts:kayit.ts};
+  if(!kayit || !MUSTERI_TIP_ETIKET[kayit.tip]) return null;
+  return {tip:kayit.tip, durum:kayit.durum, ts:kayit.ts};
 }
+
+// MÜŞTERİ KARTI YENİDEN TASARIM (13.10.2026, Abdullah onayı — mockup
+// üzerinden birkaç revizyon sonrası): renkler ve tam etiketler
+// belge-render.js'teki TIP_RENK_BELGE / TIP_ETIKET_UZUN paletiyle AYNI
+// (uygulama genelinde hareket tipi = aynı renk kuralı).
+var MUSTERI_TIP_RENK = {numune:"#c0453a", teklif:"#249147", proforma:"#dcb13c", siparis:"#38469a"};
+var MUSTERI_TIP_ETIKET = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma Fatura", siparis:"Sipariş"};
+var TEMAS_TAM_ETIKET = {Z:"Ziyaret", T:"Telefon", M:"Mail", W:"WhatsApp"};
 
 function temasIslemRozetleriHTML(m){
   var temas = sonTemasBilgisi(m);
   var islem = sonIslemBilgisi(m);
   var temasHTML = temas
-    ? "<span class='musteri-rozet musteri-rozet--temas'>Temas: " + temas.harf + " " + tarihFormatlaKisa(temas.ts) + "</span>"
-    : "<span class='musteri-rozet musteri-rozet--temas-yok'>Temas yok</span>";
-  var islemHTML = islem
-    ? "<span class='musteri-rozet musteri-rozet--islem" + (islem.harf==="⏳ SP" ? " musteri-rozet--beklemede" : "") + "'>İşlem: " + islem.harf + " " + tarihFormatlaKisa(islem.ts) + "</span>"
-    : "<span class='musteri-rozet musteri-rozet--yok'>İşlem yok</span>";
-  return "<div class='musteri-rozet-satiri'>" + temasHTML + islemHTML + "</div>";
+    ? "<span class='musteri-detay-oge musteri-detay-oge--sol'><span class='musteri-detay-etiket'>Temas:</span> " + htmlEsc(TEMAS_TAM_ETIKET[temas.harf] || temas.harf) + " · " + tarihFormatlaTam(temas.ts) + "</span>"
+    : "<span class='musteri-detay-oge musteri-detay-oge--sol musteri-detay-oge--yok'>Temas yok</span>";
+  var islemHTML;
+  if(islem){
+    var renk = MUSTERI_TIP_RENK[islem.tip] || "#5f6b7a";
+    var etiket = MUSTERI_TIP_ETIKET[islem.tip] + (islem.durum === "beklemede" ? " (Beklemede)" : "");
+    islemHTML = "<span class='musteri-detay-oge musteri-detay-oge--sag' style='color:" + renk + ";'><span class='musteri-detay-etiket' style='color:" + renk + ";opacity:.65;'>İşlem:</span> " + htmlEsc(etiket) + " · " + tarihFormatlaTam(islem.ts) + "</span>";
+  } else {
+    islemHTML = "<span class='musteri-detay-oge musteri-detay-oge--sag musteri-detay-oge--yok'>İşlem yok</span>";
+  }
+  return "<div class='musteri-detay-satir'>" + temasHTML + islemHTML + "</div>";
 }
 
 
@@ -210,14 +234,13 @@ function listeyiCiz(){
     bos.hidden = true;
 
     kapsayici.innerHTML = "<div class='musteri-liste-kutu'>" + sonuclar.map(function(m, i){
-      var zebraSinif = (i%2===1) ? "musteri-karti--alt" : "musteri-karti--ust";
-      return "<div class='musteri-karti " + zebraSinif + "' data-i='" + i + "'>"
+      return "<div class='musteri-karti' data-i='" + i + "'>"
         + "<div class='musteri-karti-satir'>"
         + "<div class='musteri-icerik'>"
         + "<div class='musteri-ust-satir'><span class='musteri-cari-metin'>" + cariSatirHTML(m.id, m.ad, m.sehir) + "</span></div>"
         + temasIslemRozetleriHTML(m)
         + "</div>"
-        + "<div class='musteri-ok-alan'><svg width='8' height='12' viewBox='0 0 20 32' fill='none'><path d='M4 4 L16 16 L4 28' stroke='#e24b4a' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/></svg></div>"
+        + "<div class='musteri-ok-alan'>" + MUSTERI_OK_SVG + "</div>"
         + "</div>"
         + "</div>";
     }).join("") + "</div>";
