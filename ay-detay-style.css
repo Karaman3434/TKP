@@ -1,0 +1,42 @@
+/* ay-detay-style.css — WG.141026.0010.803 (YENİ DOSYA, 14.10.2026)
+   Bu sayfa eskiden hiç kendi stil dosyasına sahip değildi, tüm satır
+   görünümü paylaşılan reports-style.css'teki .tl-* sınıflarından
+   geliyordu. Müşteri Listesi/Son İşlemler'deki tek-satırlık tablo
+   tasarımı artık bu sayfaya da uygulandığı için (Abdullah'ın isteğiyle),
+   bu YENİ dosya eklendi — reports-style.css (Satış Listesi, Kaçan
+   Satışlar, İşlem Geçmişi'nde hâlâ gerekebilecek paylaşılan dosya)
+   HİÇ DOKUNULMADI, sadece bu sayfaya özgü "sr-" sınıfları burada,
+   #ayDetayListesi ile scope'lanmış. Kutu/çerçeve YOK, gün gruplama
+   başlığı sadece renkli etiket. Harf/sayı boyutları diğer listelerle
+   AYNI (%10 büyütülmüş), satır yüksekliği sabit. */
+#ayDetayListesi .sr-grup-baslik {
+  background: #e9f3fc; color: #4a6785; display: flex; justify-content: space-between;
+  align-items: center; padding: 4px 2mm; border-radius: 8px; font-size: 12.5px;
+  font-weight: 700; line-height: 1.2; margin: 14px 0 2px;
+}
+#ayDetayListesi .sr-grup-baslik:first-child { margin-top: 0; }
+#ayDetayListesi .sr-liste-kutu { margin-bottom: 4px; }
+#ayDetayListesi .sr-satir {
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(50px,19%) 32px 48px 60px 16px;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 2mm 6px calc(2mm + 6px);
+  border-bottom: 1px solid #eef0f3;
+  border-left: 3px solid #c3cad4;
+  background: #fff;
+}
+#ayDetayListesi .sr-satir:last-child { border-bottom: none; }
+#ayDetayListesi .sr-firma-h { font-size: 13.5px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
+#ayDetayListesi .sr-konum-h { font-size: 11px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
+#ayDetayListesi .sr-rozet-h {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10.5px; font-weight: 800; padding: 3px 1px; border-radius: 5px; text-align: center; line-height: 1;
+}
+#ayDetayListesi .sr-belge-h { font-size: 10.5px; font-weight: 700; color: #5f6b7a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#ayDetayListesi .sr-kanal-harf { font-weight: 900; margin-right: 2px; }
+#ayDetayListesi .sr-tutar-h { font-size: 11.5px; font-weight: 800; color: #0755C9; text-align: right; overflow-wrap: anywhere; line-height: 1.15; }
+#ayDetayListesi .sr-durum-ek { font-size: 10px; font-weight: 800; color: #b7601f; background: #FFF0D9; padding: 2px 4px; border-radius: 5px; white-space: nowrap; display: inline-block; }
+#ayDetayListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }

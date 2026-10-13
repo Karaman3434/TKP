@@ -1,11 +1,14 @@
 /*
-  gecmis-render.js
+  gecmis-render.js — WG.141026.0010.803
   ================
   Müşteriye özel İşlem Geçmişi sayfası. ReportsData.sonIslemler() zaten
   en yeniden en eskiye sıralı geliyor (bkz. reports-data.js); burada
   sadece seçili müşteriye ait kayıtlar filtrelenir, sonra aktif tip
   filtresi uygulanır. Renk/kod mantığı reports-render.js'deki
   kodRozetVeRenkGetir ile birebir aynı tutulur (KOD_RENK).
+  14.10.2026 (Abdullah'ın isteğiyle): satır tasarımı Müşteri Listesi/Son
+  İşlemler'deki tek-satırlık tablo diline çevrildi (Firma/Konum sütunları
+  yok — tek müşteriye özel sayfa); gün gruplama aynen korundu.
 */
 
 function hataGoster(mesaj){
@@ -63,10 +66,9 @@ var KANAL_HARF = {mail:"M", whatsapp:"W"};
 var KANAL_RENK = {mail:"#185fa5", whatsapp:"#128C7E"};
 var GUNLER_UZUN = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 var AYLAR_UZUN = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
-var OK_SVG = "<svg width='8' height='12' viewBox='0 0 20 32' fill='none'><path d='M4 4 L16 16 L4 28' stroke='#e24b4a' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/></svg>";
 function kanalHarfHTML(kanal){
   if(!kanal || !KANAL_HARF[kanal]) return "";
-  return "<span class='tl-kanal-harf' style='color:" + KANAL_RENK[kanal] + ";'>" + KANAL_HARF[kanal] + "</span>";
+  return "<span class='sr-kanal-harf' style='color:" + KANAL_RENK[kanal] + ";'>" + KANAL_HARF[kanal] + "</span>";
 }
 function gunAnahtari(ts){
   var d = new Date(ts);
@@ -75,12 +77,6 @@ function gunAnahtari(ts){
 function gunBasligi(ts){
   var d = new Date(ts);
   return d.getDate() + " " + AYLAR_UZUN[d.getMonth()] + " " + d.getFullYear() + " • " + GUNLER_UZUN[d.getDay()];
-}
-function cariSatirHTML(kod, isim, sehir){
-  return "<span class='cari-kod'>" + htmlEsc(kod||"—") + "</span>"
-    + "<span class='cari-ayrac'> - </span>"
-    + "<span class='cari-isim'>" + htmlEsc(isim||"") + "</span>"
-    + (sehir ? "<span class='cari-ayrac'> - </span><span class='cari-sehir'>" + htmlEsc(sehir) + "</span>" : "");
 }
 // Belge kodunun BAŞ HARFLERİ (SP/FT/PF/NM) işlem türünün kendi renginde
 // (WG.210926.1709.589); numara kısmı normal renkte kalır. Renkler uygulamadaki
@@ -93,26 +89,27 @@ function kodHTML(kod, tip){
   var kalan = i > 0 ? kod.slice(i) : "";
   return "<span style='color:" + (HARF_RENK[tip] || HARF_RENK.siparis) + ";'>" + htmlEsc(harf) + "</span>" + htmlEsc(kalan);
 }
-function tlKartHTML(k, gosterIsim){
+// TABLO TASARIMI (14.10.2026, Abdullah'ın isteğiyle — Müşteri Listesi/Son
+// İşlemler'deki tasarım TÜM listelere uygulanıyor): eski 2 satırlı tl-kart
+// kaldırıldı, GERÇEK TEK SATIRLIK TABLO (CSS Grid). Bu sayfa TEK bir
+// müşteriye ait (isim üstte zaten gösteriliyor) — Firma/Konum sütunları
+// burada GEREKSİZ (her satırda aynı değer tekrar eder), bu yüzden sadece
+// Rozet | Belge | Tutar/Durum | Ok sütunları var. Rakip bilgisi (kaçan
+// kayıtlarda) satırın altında küçük bir not olarak kalmaya devam ediyor.
+function tlKartHTML(k){
   var kacanMi = k.durum === "kacan";
   var revizeMi = !!k.revizeZamani;
   var meta = TIP_META[k.tip] || TIP_META.siparis;
   var rozetMeta = kacanMi ? KACAN_META : (revizeMi ? RVZ_META : meta);
-  var serit = rozetMeta.serit;
   var kod = k.kod || meta.rozet;
-  return "<div class='tl-kart' data-i='" + k._i + "'>"
-    + "<div class='tl-serit' style='background:" + serit + ";'></div>"
-    + "<div class='tl-govde'>"
-    + "<div class='tl-satir'>" + "<div class='tl-ust'>" + cariSatirHTML(k.musteriId, k.musteri, k.sehir) + "</div>"
-    + "<div class='tl-sagblok'><div class='tl-kod-satir'>"
-    + "<span class='tl-kod'>" + kanalHarfHTML(k.kanal) + kodHTML(kod, k.tip) + "</span></div>"
-    + "<div class='tl-tutar'>" + fmt(k._tutar) + " EURO</div></div>"
-    + "<button class='tl-ok' aria-label='Belgeyi aç'>" + OK_SVG + "</button>"
-    + "</div>"
-    + (kacanMi && k.kacanRakip ? "<div class='tl-durum-ek'>Rakip: " + htmlEsc(k.kacanRakip) + "</div>" : "")
-    + (k.durum==="beklemede" ? "<div class='tl-durum-ek tl-durum-ek--beklemede'>⏳ Beklemede" + (k.beklemedeNot ? ": " + htmlEsc(k.beklemedeNot) : "") + "</div>" : "")
-    + (bakiyeKayitVarMi(k) ? "<div class='tl-durum-ek tl-durum-ek--bakiye'>📦 Bekleyen ürün var</div>" : "")
-    + "</div>"
+  var tutarHucre = k.durum==="beklemede"
+    ? "<span class='sr-durum-ek'>⏳ Beklemede</span>"
+    : (bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 Bekleyen</span>" : fmt(k._tutar) + " €");
+  return "<div class='sr-satir sr-satir--tekmusteri' data-i='" + k._i + "' style='border-left-color:" + rozetMeta.serit + ";'>"
+    + "<span class='sr-rozet-h' style='background:" + rozetMeta.rozetBg + ";color:" + rozetMeta.rozetRenk + ";'>" + rozetMeta.rozet + "</span>"
+    + "<div class='sr-belge-h'>" + kanalHarfHTML(k.kanal) + kodHTML(kod, k.tip) + (kacanMi && k.kacanRakip ? "<span class='sr-rakip'> · Rakip: " + htmlEsc(k.kacanRakip) + "</span>" : "") + "</div>"
+    + "<div class='sr-tutar-h'>" + tutarHucre + "</div>"
+    + "<div class='sr-ok-h'>&#8250;</div>"
     + "</div>";
 }
 // BAKİYE (07.10.2026) — kayıt satislarListele/tumKacanlar'dan geldiyse
@@ -132,16 +129,16 @@ function tlGrupla(liste){
   return gruplar;
 }
 var BEKLEMEDE_DAHIL_ANAHTAR = "weiconv2_beklemede_dahil_et";
-function tlListeHTML(gruplar, gosterIsim){
+function tlListeHTML(gruplar){
   var beklemedeDahil = localStorage.getItem(BEKLEMEDE_DAHIL_ANAHTAR) === "1";
   return gruplar.map(function(g){
     // HATA DÜZELTME (WG.070926.2120.192): beklemede kayıtlar rozetle
     // gösterilmeye devam eder; "Beklemede dahil et" anahtarı kapalıysa
     // (varsayılan) gün toplamına dahil edilmez.
     var toplamGun = g.kayitlar.reduce(function(s,k){ return s + ((k.durum==="beklemede" && !beklemedeDahil) ? 0 : k._tutar); }, 0);
-    var kartlar = g.kayitlar.map(function(k){ return tlKartHTML(k, gosterIsim); }).join("<div class='tl-arasi'></div>");
-    return "<div class='tl-grup-baslik'><span>" + gunBasligi(g.ts) + "</span><span>" + g.kayitlar.length + " işlem&nbsp;&nbsp;|&nbsp;&nbsp;" + fmt(toplamGun) + " EURO</span></div>"
-      + "<div class='tl-liste-kutu'>" + kartlar + "</div>";
+    var kartlar = g.kayitlar.map(function(k){ return tlKartHTML(k); }).join("");
+    return "<div class='sr-grup-baslik'><span>" + gunBasligi(g.ts) + "</span><span>" + fmt(toplamGun) + " €</span></div>"
+      + "<div class='sr-liste-kutu'>" + kartlar + "</div>";
   }).join("");
 }
 
@@ -183,9 +180,9 @@ function listeyiCiz(){
       k._tutar = (k.urunler||[]).reduce(function(s,u){ return s+(u.toplamEuro||0); }, 0);
     });
     var gruplar = tlGrupla(filtreli);
-    kapsayici.innerHTML = tlListeHTML(gruplar, false);
+    kapsayici.innerHTML = tlListeHTML(gruplar);
 
-    kapsayici.querySelectorAll(".tl-kart").forEach(function(el){
+    kapsayici.querySelectorAll(".sr-satir").forEach(function(el){
       el.onclick = function(){
         var k = filtreli[parseInt(this.getAttribute("data-i"), 10)];
         localStorage.setItem("weiconv2_goruntulenen_belge", JSON.stringify({tip:k.tip, ts:k.ts}));

@@ -55,3 +55,44 @@
 }
 .sl-tablo--kacan th { background: #fdeaea; color: #c0392b; border: 1.5px solid #c0392b;}
 .sl-tarih-hucre { font-size: 12px; color: #556170; white-space: nowrap; }
+
+/* TABLO TASARIMI (14.10.2026, Abdullah'ın isteğiyle — Müşteri Listesi/Son
+   İşlemler'deki tasarım TÜM listelere uygulanıyor): bu dosya hem
+   satis-listesi.html (#slListe) hem kacan-satislar.html (#ksListe)
+   tarafından paylaşılıyor, ikisi de AYNI tek-satırlık tablo dilini
+   kullanıyor. Kutu/çerçeve YOK — gün gruplama başlığı sadece renkli
+   etiket. Firma/Konum hiç kesilmez, uzun metin sarar. Harf/sayı boyutları
+   diğer listelerle (Müşteri Listesi/Son İşlemler) AYNI (%10 büyütülmüş),
+   satır yüksekliği sabit. */
+#slListe .sr-grup-baslik, #ksListe .sr-grup-baslik {
+  background: #e9f3fc; color: #4a6785; display: flex; justify-content: space-between;
+  align-items: center; padding: 4px 2mm; border-radius: 8px; font-size: 12.5px;
+  font-weight: 700; line-height: 1.2; margin: 14px 0 2px;
+}
+#slListe .sr-grup-baslik:first-child, #ksListe .sr-grup-baslik:first-child { margin-top: 0; }
+#slListe .sr-grup-baslik--turuncu, #ksListe .sr-grup-baslik--turuncu { background: #FFF0D9; color: #b7601f; margin-top: 0; }
+#slListe .sr-liste-kutu, #ksListe .sr-liste-kutu { margin-bottom: 4px; }
+#slListe .sr-satir, #ksListe .sr-satir {
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(50px,19%) 32px 48px 60px 16px;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 2mm 6px calc(2mm + 6px);
+  border-bottom: 1px solid #eef0f3;
+  border-left: 3px solid #c3cad4;
+  background: #fff;
+}
+#slListe .sr-satir:last-child, #ksListe .sr-satir:last-child { border-bottom: none; }
+#slListe .sr-firma-h, #ksListe .sr-firma-h { font-size: 13.5px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
+#slListe .sr-konum-h, #ksListe .sr-konum-h { font-size: 11px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
+#slListe .sr-rozet-h, #ksListe .sr-rozet-h {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10.5px; font-weight: 800; padding: 3px 1px; border-radius: 5px; text-align: center; line-height: 1;
+}
+#slListe .sr-belge-h, #ksListe .sr-belge-h { font-size: 10.5px; font-weight: 700; color: #5f6b7a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#slListe .sr-kanal-harf, #ksListe .sr-kanal-harf { font-weight: 900; margin-right: 2px; }
+#slListe .sr-tutar-h, #ksListe .sr-tutar-h { font-size: 11.5px; font-weight: 800; color: #0755C9; text-align: right; overflow-wrap: anywhere; line-height: 1.15; }
+#slListe .sr-durum-ek, #ksListe .sr-durum-ek { font-size: 10px; font-weight: 800; color: #b7601f; background: #FFF0D9; padding: 2px 4px; border-radius: 5px; white-space: nowrap; display: inline-block; }
+#slListe .sr-ok-h, #ksListe .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }

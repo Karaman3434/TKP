@@ -1,3 +1,4 @@
+/* kacan-satislar-render.js — WG.141026.0010.803 */
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -42,7 +43,6 @@ var TIP_META = {
 var KACAN_META = {rozet:"KAÇTI", rozetBg:"#fdecea", rozetRenk:"#a32d2d", serit:"#c0392b"};
 var GUNLER_UZUN = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 var AYLAR_UZUN = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
-var OK_SVG = "<svg width='8' height='12' viewBox='0 0 20 32' fill='none'><path d='M4 4 L16 16 L4 28' stroke='#e24b4a' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/></svg>";
 function gunAnahtari(ts){
   var d = new Date(ts);
   return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
@@ -50,12 +50,6 @@ function gunAnahtari(ts){
 function gunBasligi(ts){
   var d = new Date(ts);
   return d.getDate() + " " + AYLAR_UZUN[d.getMonth()] + " " + d.getFullYear() + " • " + GUNLER_UZUN[d.getDay()];
-}
-function cariSatirHTML(kod, isim, sehir){
-  return "<span class='cari-kod'>" + htmlEsc(kod||"—") + "</span>"
-    + "<span class='cari-ayrac'> - </span>"
-    + "<span class='cari-isim'>" + htmlEsc(isim||"") + "</span>"
-    + (sehir ? "<span class='cari-ayrac'> - </span><span class='cari-sehir'>" + htmlEsc(sehir) + "</span>" : "");
 }
 // Belge kodunun BAŞ HARFLERİ (SP/FT/PF/NM) işlem türünün kendi renginde
 // (WG.210926.1709.589); numara kısmı normal renkte kalır. Renkler uygulamadaki
@@ -68,20 +62,22 @@ function kodHTML(kod, tip){
   var kalan = i > 0 ? kod.slice(i) : "";
   return "<span style='color:" + (HARF_RENK[tip] || HARF_RENK.siparis) + ";'>" + htmlEsc(harf) + "</span>" + htmlEsc(kalan);
 }
+// TABLO TASARIMI (14.10.2026, Abdullah'ın isteğiyle — Müşteri Listesi/Son
+// İşlemler'deki tasarım TÜM listelere uygulanıyor): eski 2 satırlı tl-kart
+// kaldırıldı, GERÇEK TEK SATIRLIK TABLO (CSS Grid) — Kod | Firma | Konum |
+// Rozet | Belge | Tutar | Ok. Bu listedeki her kayıt zaten "kaçan" olduğu
+// için rozet/şerit her zaman KACAN_META (kırmızı) — tip sadece kodun baş
+// harfinin rengini belirler.
 function tlKartHTML(k){
   var meta = TIP_META[k.tip] || TIP_META.siparis;
   var kod = k.kod || meta.rozet;
-  return "<div class='tl-kart' data-i='" + k._i + "'>"
-    + "<div class='tl-serit' style='background:" + KACAN_META.serit + ";'></div>"
-    + "<div class='tl-govde'>"
-    + "<div class='tl-satir'>" + "<div class='tl-ust'>" + cariSatirHTML(k.musteriId, k.musteri, k.sehir) + "</div>"
-    + "<div class='tl-sagblok'><div class='tl-kod-satir'>"
-    + "<span class='tl-kod'>" + kodHTML(kod, k.tip) + "</span></div>"
-    + "<div class='tl-tutar'>" + fmt(k.tutar) + " EURO</div></div>"
-    + "<button class='tl-ok' aria-label='Belgeyi aç'>" + OK_SVG + "</button>"
-    + "</div>"
-    + (bakiyeKayitVarMi(k) ? "<div class='tl-durum-ek tl-durum-ek--bakiye'>📦 Bekleyen ürün var</div>" : "")
-    + "</div>"
+  return "<div class='sr-satir' data-i='" + k._i + "' style='border-left-color:" + KACAN_META.serit + ";'>"
+    + "<div class='sr-firma-h'>" + htmlEsc(k.musteri||"") + "</div>"
+    + "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
+    + "<span class='sr-rozet-h' style='background:" + KACAN_META.rozetBg + ";color:" + KACAN_META.rozetRenk + ";'>" + KACAN_META.rozet + "</span>"
+    + "<div class='sr-belge-h'>" + kodHTML(kod, k.tip) + "</div>"
+    + "<div class='sr-tutar-h'>" + (bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 Bekleyen</span>" : fmt(k.tutar) + " €") + "</div>"
+    + "<div class='sr-ok-h'>&#8250;</div>"
     + "</div>";
 }
 // BAKİYE (07.10.2026) — kayıt tumKacanlar()'dan geldiyse hazır
@@ -111,12 +107,12 @@ function listeyiCiz(){
     var gruplar = tlGrupla(liste);
     kapsayici.innerHTML = gruplar.map(function(g){
       var toplamGun = g.kayitlar.reduce(function(s,k){ return s + (k.tutar||0); }, 0);
-      var kartlar = g.kayitlar.map(tlKartHTML).join("<div class='tl-arasi'></div>");
-      return "<div class='tl-grup-baslik'><span>" + gunBasligi(g.ts) + "</span><span>" + g.kayitlar.length + " işlem&nbsp;&nbsp;|&nbsp;&nbsp;" + fmt(toplamGun) + " EURO</span></div>"
-        + "<div class='tl-liste-kutu'>" + kartlar + "</div>";
+      var kartlar = g.kayitlar.map(tlKartHTML).join("");
+      return "<div class='sr-grup-baslik'><span>" + gunBasligi(g.ts) + "</span><span>" + fmt(toplamGun) + " €</span></div>"
+        + "<div class='sr-liste-kutu'>" + kartlar + "</div>";
     }).join("");
 
-    kapsayici.querySelectorAll(".tl-kart").forEach(function(el){
+    kapsayici.querySelectorAll(".sr-satir").forEach(function(el){
       el.onclick = function(){
         var k = liste[parseInt(this.getAttribute("data-i"), 10)];
         localStorage.setItem("weiconv2_goruntulenen_belge", JSON.stringify({tip:k.tip, ts:k.ts}));

@@ -55,7 +55,7 @@
 .musteri-karti {
   cursor: pointer;
   display: grid;
-  grid-template-columns: 42px minmax(0,1fr) minmax(50px,21%) 28px 44px 14px;
+  grid-template-columns: 48px minmax(0,1fr) minmax(54px,21%) 32px 50px 16px;
   align-items: center;
   gap: 6px;
   min-height: 36px;
@@ -64,17 +64,22 @@
   border-left: 3px solid #c3cad4;
 }
 .musteri-karti:last-child { border-bottom: none; }
-.musteri-kod-h { font-size: 10.5px; font-weight: 600; color: #c0392b; overflow-wrap: anywhere; }
-.musteri-firma-h { font-size: 12.5px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
-.musteri-konum-h { font-size: 10px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
+/* LİSTE TASARIMLARI GENELİ (14.10.2026, Abdullah'ın isteğiyle): harf/sayı
+   boyutları %10 büyütüldü (satır yüksekliği SABİT kaldı — sadece yazı
+   büyüdü). Bu boyutlar tüm liste sayfalarında (Müşteri Listesi, Son
+   İşlemler, Satışlarım, Kaçan Satışlar, Ay Detayı, İşlem Geçmişi) AYNI
+   tutulmalı. */
+.musteri-kod-h { font-size: 11.5px; font-weight: 600; color: #c0392b; overflow-wrap: anywhere; }
+.musteri-firma-h { font-size: 13.5px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
+.musteri-konum-h { font-size: 11px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
 .musteri-rozet-h {
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 9.5px; font-weight: 800; padding: 3px 1px; border-radius: 5px;
+  font-size: 10.5px; font-weight: 800; padding: 3px 1px; border-radius: 5px;
   text-align: center; line-height: 1;
 }
 .musteri-rozet-h--yok { color: #c3cad4; font-weight: 600; background: none; }
-.musteri-tarih-h { font-size: 10.5px; color: #5f6b7a; font-weight: 600; text-align: right; white-space: nowrap; }
-.musteri-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 18px; font-weight: 900; line-height: 1; }
+.musteri-tarih-h { font-size: 11.5px; color: #5f6b7a; font-weight: 600; text-align: right; white-space: nowrap; }
+.musteri-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }
 
 .musteri-alt-satir {
   display: flex;
