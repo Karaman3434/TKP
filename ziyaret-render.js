@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: WG.131026.1255.796
+  ziyaret-render.js — VERSİYON: WG.131026.1310.797
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -435,10 +435,16 @@ function ajandaFilmSeridiniCiz(hedefTarih){
 
     seridEl.innerHTML = tumKayitlar.map(function(k){
       var saat = new Date(k.zaman).toLocaleTimeString("tr-TR", {hour:"2-digit", minute:"2-digit"});
+      // DÜZELTME (13.10.2026, Abdullah'ın isteğiyle): tarih etiketi artık
+      // fotoğrafın ALTINDA değil, kartın ÜST satırında — aynı tasarım/stil,
+      // sadece yeri değişti. Silme tuşu da buna göre artık kartın değil,
+      // doğrudan resmin sağ üst köşesine sabitlendi (bkz. ajanda-style.css
+      // .aj-film-resim { position: relative }).
       return "<div class='aj-film-kart' data-id='" + k.id + "' data-tarih='" + k.tarih + "' data-yol='" + htmlEsc(k.yol) + "'>"
-        + "<button type='button' class='aj-film-sil' data-id='" + k.id + "' data-tarih='" + k.tarih + "' data-yol='" + htmlEsc(k.yol) + "'>🗑</button>"
-        + "<div class='aj-film-resim' style='background-image:url(" + "\"" + k.url + "\"" + ")'></div>"
         + "<div class='aj-film-saat'>" + gosterimTarihUret(k.tarih) + " — " + saat + "</div>"
+        + "<div class='aj-film-resim' style='background-image:url(" + "\"" + k.url + "\"" + ")'>"
+        + "<button type='button' class='aj-film-sil' data-id='" + k.id + "' data-tarih='" + k.tarih + "' data-yol='" + htmlEsc(k.yol) + "'>🗑</button>"
+        + "</div>"
         + "</div>";
     }).join("");
 

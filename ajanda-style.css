@@ -1,5 +1,5 @@
 /*
-  ajanda-style.css — VERSİYON: WG.131026.1240.795
+  ajanda-style.css — VERSİYON: WG.131026.1310.797
   ==================================================
   09.10.2026 — Abdullah'ın isteğiyle, ayrı bir "Ajanda" sayfası yerine
   Ziyaret Takvimi (ziyaret.html) içine TAŞINDI/BİRLEŞTİRİLDİ: artık ayrı
@@ -65,6 +65,7 @@
 }
 .aj-film-kart--aktif { border-color: #0e6b34; }
 .aj-film-resim {
+  position: relative;
   width: 100%;
   aspect-ratio: 3/4;
   background-color: #dfe7f3;
@@ -72,12 +73,14 @@
   background-position: center;
   border-radius: 8px;
 }
+/* DÜZELTME (13.10.2026, Abdullah'ın isteğiyle): etiket artık fotoğrafın
+   ÜSTÜNDE — aynı tasarım, sadece margin-top yerine margin-bottom. */
 .aj-film-saat {
   text-align: center;
   font-size: 10.5px;
   font-weight: 800;
   color: #556170;
-  margin-top: 6px;
+  margin-bottom: 6px;
 }
 .aj-film-sil {
   position: absolute;
