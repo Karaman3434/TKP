@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: WG.131026.1240.795
+  ziyaret-render.js — VERSİYON: WG.131026.1255.796
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -518,10 +518,17 @@ var AJ_KIRP_MIN_YUZDE = 10;    // kırpma kutusunun en küçük genişlik/yükse
 
 function ajandaFotoSecildi(file){
   if(!file || !seciliGunAnahtari) return;
-  // Hedef: film şeridindeki o an ortadaki (aktif) kartın tarihi, yoksa
-  // takvimden seçilen gün.
-  var aktifKart = document.querySelector(".aj-film-kart--aktif");
-  var hedefTarih = aktifKart ? aktifKart.getAttribute("data-tarih") : seciliGunAnahtari;
+  // DÜZELTME (13.10.2026, Abdullah'ın bildirdiği hata): hedef tarih artık
+  // HER ZAMAN takvimden seçilen gün (seciliGunAnahtari) — eskiden film
+  // şeridindeki "aktif" kartın tarihi kullanılıyordu, bu da takvimden
+  // seçilen günle hiç ilgisi olmayan bir tarihe kaydedilmesine yol
+  // açıyordu: ajandaFilmSeridiniCiz() seçilen günden sonraki bir kayıt
+  // bulamazsa (ör. geçmiş, henüz sayfası olmayan bir gün seçildiğinde)
+  // listedeki EN SON kaydı "aktif" yapıyordu (bkz. o fonksiyondaki
+  // hedefIndex varsayılanı) — kullanıcı farkında olmadan en son eklediği
+  // sayfanın tarihine yeni fotoğraf ekliyordu. Artık "aktif kart"a hiç
+  // bakılmıyor, doğrudan o an takvimde seçili gün kullanılıyor.
+  var hedefTarih = seciliGunAnahtari;
 
   var btn = document.getElementById("btnAjandaEkle");
   btn.disabled = true;
