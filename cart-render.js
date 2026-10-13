@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.131026.1455.798
+  cart-render.js — WG.131026.1535.800
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -629,32 +629,39 @@ function musterisizOnizlemeAc(){
 }
 // Mesaj metni textarea'da elle düzenlenebildiği için WhatsApp/Mail butonları
 // metni YENİDEN ÜRETMEZ — o anda kutuda ne yazıyorsa AYNEN onu gönderir.
-// SEPETİ SIFIRLA (13.10.2026, Abdullah'ın isteğiyle): Müşterisiz Gönder'de
-// WhatsApp/Mail'e basıldıktan sonra sepet artık elle temizlenmeyi beklemiyor
-// — otomatik boşalıyor, sayfa cart.html'e TAZE (boş sepetle) dönüyor. Kısa
-// bir gecikmeyle çağrılıyor ki WhatsApp/Mail uygulamasına geçiş/paylaşım
-// penceresi önce tetiklensin.
-function musterisizSepetiSifirlaVeYenile(){
-  setTimeout(function(){
-    try{
-      localStorage.setItem("weiconv2_sepet", "[]");
-      localStorage.removeItem("weiconv2_sepet_kur_override");
-    }catch(e){}
-    window.location.href = "cart.html";
-  }, 400);
+// SEPETİ SIFIRLA (13.10.2026, Abdullah'ın isteğiyle; DÜZELTME 13.10.2026
+// gece — Abdullah'ın bildirdiği Mail hatası): Müşterisiz Gönder'de WhatsApp/
+// Mail'e basıldıktan sonra sepet elle temizlenmeyi beklemiyor, otomatik
+// boşalıyor. ESKİDEN burada 400ms sonra window.location.href = "cart.html"
+// çalışıyordu — bu, Mail butonunun hemen öncesinde set ettiği
+// window.location.href = "mailto:..." ile AYNI pencerede İKİNCİ bir
+// navigasyon yarışına giriyordu ve birçok mobil tarayıcıda mailto'nun
+// uygulamaya geçiş/handoff'unu tamamlanmadan KESİYORDU (WhatsApp'ı etkilemez
+// çünkü o window.open ile ayrı bir sekme/bağlam açar). Çözüm: sayfayı hiç
+// yeniden YÜKLEMEDEN, mevcut sayfayı kendi çizim fonksiyonuyla (sayfayiCiz)
+// yerinde sıfırla — hiçbir window.location değişikliği yok, dolayısıyla
+// yarış durumu da yok. Gecikmeye de artık gerek kalmadı.
+function musterisizSepetiSifirla(){
+  try{
+    localStorage.setItem("weiconv2_sepet", "[]");
+    localStorage.removeItem("weiconv2_sepet_kur_override");
+  }catch(e){}
+  var overlay = document.getElementById("musterisizGonderOverlay");
+  if(overlay) overlay.hidden = true;
+  sayfayiCiz();
 }
 function musterisizWhatsappGonder(){
   if(musterisizBicim === "tablo"){ musterisizTabloGonder("whatsapp"); return; }
   var metin = document.getElementById("musterisizOnizlemeMetin").value;
   window.open("https://wa.me/?text=" + encodeURIComponent(metin), "_blank");
-  musterisizSepetiSifirlaVeYenile();
+  musterisizSepetiSifirla();
 }
 function musterisizMailGonder(){
   if(musterisizBicim === "tablo"){ musterisizTabloGonder("mail"); return; }
   var metin = document.getElementById("musterisizOnizlemeMetin").value;
   var konu = encodeURIComponent("WEICON Fiyat Bilgisi");
   window.location.href = "mailto:?subject=" + konu + "&body=" + encodeURIComponent(metin);
-  musterisizSepetiSifirlaVeYenile();
+  musterisizSepetiSifirla();
 }
 // TABLO GÖRSELİ OLARAK GÖNDER (13.10.2026, Abdullah onayı): ÜRÜN TABLOSU
 // (#musterisizOnizlemeTablo), Gönder ekranındaki (send-render.js
@@ -682,7 +689,7 @@ function musterisizTabloGonder(kanal){
         // gidiyordu — ekran görüntüsüyle doğrulandı).
         if(navigator.canShare && navigator.canShare({files:[dosya]})){
           navigator.share({files:[dosya]}).then(function(){
-            musterisizSepetiSifirlaVeYenile();
+            musterisizSepetiSifirla();
           }).catch(function(err){
             if(err && err.name!=="AbortError") hataGoster("Paylaşım penceresi kapatıldı.");
           });
@@ -698,7 +705,7 @@ function musterisizTabloGonder(kanal){
           } else {
             window.location.href = "mailto:?subject=" + encodeURIComponent("WEICON Fiyat Bilgisi");
           }
-          musterisizSepetiSifirlaVeYenile();
+          musterisizSepetiSifirla();
         }
       }, "image/png");
     }).catch(function(){ hataGoster("Görsel oluşturulamadı."); });
