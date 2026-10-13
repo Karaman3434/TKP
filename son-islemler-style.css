@@ -1,61 +1,49 @@
-/* son-islemler-style.css — WG.131026.1455.798 */
-.si-liste-kutu {
-  margin-top: 10px;
-}
-.si-satir {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 4px;
-  cursor: pointer;
-  border-bottom: 1px solid #f0f2f5;
-}
-.si-satir:last-child { border-bottom: none; }
-.si-avatar {
-  width: 36px; height: 36px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 800; flex-shrink: 0;
-}
-.si-orta { flex: 1; min-width: 0; }
-.si-musteri {
-  font-size: 13.5px; font-weight: 800; color: #101828;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.si-alt { font-size: 11px; color: #98a2b3; margin-top: 1px; }
-.si-etiketler { display: flex; flex-direction: column; gap: 3px; flex-shrink: 0; }
-.si-pill {
-  font-size: 9px; font-weight: 800; padding: 3px 6px; border-radius: 5px;
-  white-space: nowrap; text-align: center;
-}
-.si-pill--kacan { background: #fdeaea; color: #c0392b; border: 1.5px solid #c0392b;}
-.si-pill--revize { background: #faeeda; color: #b7601f; border: 1.5px solid #b7601f;}
+/* son-islemler-style.css — WG.131026.1620.802 */
 
 /* Bu sayfaya özgü "Siyah" tema (Ana Sayfa'daki Son İşlemler kutucuğunun
    rengiyle devam ediyor) — sadece #islemAra'yı hedefler, diğer tl- sayfalarını
    (Satış Listesi, Kaçan Satışlar) etkilemez. */
 #islemAra { border-color: #444444 !important; }
 
-/* DÜZELTME (13.10.2026, Abdullah onayı — mockup üzerinden): satır artık
-   2 satır — üstte müşteri ismi + ilçe/il, altta (tutar KALKTI) zincirli
-   kayıtta rota, tekil kayıtta sadece kod; ok işareti kartın TAMAMI
-   boyunca dikey ortalı, her zaman satır sonunda. SADECE #islemlerListesi
-   ile scope'landı — reports-style.css'teki paylaşılan .tl-* sınıfları
-   (Kaçan Satışlar, Ay Detayı, Müşteri İşlem Geçmişi, Aylık Satışlar)
-   KESİNLİKLE etkilenmedi. */
-#islemlerListesi .tl-kart { align-items: stretch; }
-#islemlerListesi .tl-govde { padding: 5px 0 5px 4px; }
-#islemlerListesi .tl-satir { align-items: center; gap: 0; }
-#islemlerListesi .tl-govde-ic { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-#islemlerListesi .tl-ust { flex: none; width: 100%; min-width: 0; overflow: hidden; }
-#islemlerListesi .tl-ust-metin { display: block; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-#islemlerListesi .tl-alt-satir { display: flex; align-items: center; justify-content: flex-end; overflow: hidden; }
-#islemlerListesi .tl-kod-tek { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
-#islemlerListesi .tl-rota { display: flex; align-items: center; gap: 2px; flex-shrink: 0; white-space: nowrap; }
-#islemlerListesi .tl-rota-rozet {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-width: 16px; height: 16px; padding: 0 3px; border-radius: 4px;
-  font-size: 9px; font-weight: 900;
+/* TABLO TASARIMI (13.10.2026, Abdullah'ın paylaştığı referans görsel +
+   gerçek ChatGPT kodu + yazılı talimat metnine göre): eski 2 satırlı
+   tl-kart/tl-serit/tl-govde yapısının YERİNE geçti. Her işlem GERÇEK TEK
+   SATIR, CSS Grid ile sütunlar dikey hizalı (Tarih/Rozet/Belge/Tutar sabit
+   piksel — içerikleri zaten sınırlı uzunlukta; Firma VE Konum esnek/minmax
+   sütun, uzun metin "..." ile KESİLMEZ, overflow-wrap:anywhere ile alt
+   satıra SARAR — talimatın kesin isteği: "Firma adını sessizce kesme").
+   Satır min-height ile açılır, sarıp uzayan içerikte otomatik büyür (sabit
+   height YOK). Sol kenarda işlem türüne göre renkli ince şerit. Dış
+   kutu/çerçeve YOK (program kuralı). Ok kırmızı (#E12626, referansın kesin
+   isteği). Günlük gruplama/toplam KALDIRILDI — düz liste. SADECE
+   #islemlerListesi ile scope'landı — reports-style.css'teki paylaşılan
+   .tl-* sınıfları (Satış Listesi, Kaçan Satışlar, Ay Detayı, İşlem Geçmişi)
+   KESİNLİKLE etkilenmedi; burada hepsi yeni "sr-" ön ekiyle, bu dosyaya
+   özgü tanımlandı. */
+#islemlerListesi .sr-liste-kutu { }
+#islemlerListesi .sr-satir {
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 40px minmax(0,1fr) minmax(46px,19%) 28px 44px 54px 14px;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 6px 2mm 6px calc(2mm + 6px);
+  border-bottom: 1px solid #eef0f3;
+  border-left: 3px solid #c3cad4;
 }
-#islemlerListesi .tl-rota-ok-ikon { font-size: 8px; color: #c3cad4; margin: 0 1px; }
-#islemlerListesi .tl-rota-kod { font-size: 9.9px; font-weight: 700; margin-left: 3px; white-space: nowrap; }
-#islemlerListesi .tl-ok-kutu { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 26px; margin-right: 2mm; }
+#islemlerListesi .sr-satir:last-child { border-bottom: none; }
+#islemlerListesi .sr-tarih-h { font-size: 10px; color: #5f6b7a; font-weight: 600; white-space: nowrap; }
+#islemlerListesi .sr-firma-h { font-size: 12px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
+#islemlerListesi .sr-konum-h { font-size: 9.5px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
+#islemlerListesi .sr-rozet-h {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 800; padding: 3px 1px; border-radius: 5px;
+  text-align: center; line-height: 1;
+}
+#islemlerListesi .sr-belge-h { font-size: 9.5px; font-weight: 700; color: #5f6b7a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#islemlerListesi .sr-kanal-harf { font-weight: 900; margin-right: 2px; }
+#islemlerListesi .sr-tutar-h { font-size: 10.5px; font-weight: 800; color: #0755C9; text-align: right; overflow-wrap: anywhere; line-height: 1.15; }
+#islemlerListesi .sr-tutar-yok { color: #c3cad4; font-weight: 600; }
+#islemlerListesi .sr-durum-ek { font-size: 9px; font-weight: 800; color: #b7601f; background: #FFF0D9; padding: 2px 4px; border-radius: 5px; white-space: nowrap; display:inline-block; }
+#islemlerListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 17px; font-weight: 900; line-height: 1; }

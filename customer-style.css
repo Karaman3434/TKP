@@ -1,4 +1,4 @@
-/* customer-style.css — WG.131026.1540.801 — aynı kural: gradyan/gölge yığılması yok. */
+/* customer-style.css — WG.131026.1620.802 — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
 
@@ -39,75 +39,42 @@
   transform: translateY(-50%); font-size: 18px;
 }
 
-/* MÜŞTERİ KARTI YENİDEN TASARIM (13.10.2026, Abdullah onayı — mockup
-   üzerinden birkaç revizyon sonrası): dış kutu/çerçeve kaldırıldı (program
-   kuralı — yeni tasarımlarda kutu/çerçeve kullanılmaz), kartlar arası ince
-   ayırıcı çizgiye geçildi, zebra (alt/üst) desen kaldırıldı. Üst satır:
-   müşteri kodu (sabit kırmızı, normal ağırlık) - ticari isim - ilçe/il AYNI
-   satırda tek satır halinde (Abdullah'ın isteğiyle; isim çok uzunsa ilçe/il
-   kesilebilir — bilinçli ve onaylanmış bir tercih). Alt satır: solda Temas
-   (son ziyaret/telefon/mail/whatsapp — tam kelime + tam tarih), sağda İşlem
-   (son numune/teklif/proforma/sipariş — tam kelime + tam tarih, hareket
-   tipine göre renkli, belge-render.js'teki TIP_RENK_BELGE paletiyle AYNI
-   renkler) — ikisi de kendi kenarına yaslı, aralarında en az 10px boşluk
-   garantili (gap:10px). Ok işareti kartın TAM yüksekliği boyunca dikey
-   ortalı, sağ kenara 2mm. */
+/* TABLO TASARIMI (13.10.2026, Abdullah'ın paylaştığı referans görsel +
+   gerçek ChatGPT kodu + yazılı talimat metnine göre — kartlı 2 satırlı
+   yapının yerine geçti): her müşteri GERÇEK TEK SATIR, sütunlar CSS Grid
+   ile dikey hizalı (Kod/Rozet/Tarih sabit piksel — içerikleri zaten sınırlı
+   uzunlukta, hiç kesilmez; Firma VE Konum esnek/minmax sütun, uzun metin
+   "..." ile KESİLMEZ, overflow-wrap:anywhere ile alt satıra SARAR — referans
+   talimatının kesin isteği: "Firma adını sessizce kesme"). Satır min-height
+   ile açılır, sarıp uzayan içerikte otomatik büyür (sabit height YOK). Sol
+   kenarda işlem türüne göre renkli ince şerit (border-left) — dış
+   kutu/çerçeve YOK, program kuralı: kutu içinde kutu kullanılmaz. Ok kırmızı
+   (#E12626, referansın kesin isteği). Temas bilgisi bu satırdan kalktı —
+   hâlâ müşteri hızlı penceresinde "Temas" butonu üzerinden erişilebilir. */
 .musteri-liste-kutu { }
 .musteri-karti {
   cursor: pointer;
+  display: grid;
+  grid-template-columns: 42px minmax(0,1fr) minmax(50px,21%) 28px 44px 14px;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 2mm 6px calc(2mm + 6px);
   border-bottom: 1px solid #eef0f3;
-  padding: 7px 0 7px 2mm;
+  border-left: 3px solid #c3cad4;
 }
 .musteri-karti:last-child { border-bottom: none; }
-.musteri-karti-satir { display: flex; align-items: center; gap: 0; }
-.musteri-icerik { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-.musteri-ok-alan {
-  width: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-right: 2mm;
+.musteri-kod-h { font-size: 10.5px; font-weight: 600; color: #c0392b; overflow-wrap: anywhere; }
+.musteri-firma-h { font-size: 12.5px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
+.musteri-konum-h { font-size: 10px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
+.musteri-rozet-h {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 9.5px; font-weight: 800; padding: 3px 1px; border-radius: 5px;
+  text-align: center; line-height: 1;
 }
-
-.musteri-ust-satir { width: 100%; min-width: 0; overflow: hidden; }
-.musteri-cari-metin {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.musteri-cari-metin .cari-kod,
-.musteri-cari-metin .cari-ayrac,
-.musteri-cari-metin .cari-isim,
-.musteri-cari-metin .cari-sehir {
-  font-size: 12px;
-  font-weight: 500;
-}
-.musteri-cari-metin .cari-kod { color: #c0392b; }
-.musteri-cari-metin .cari-isim { color: #1f2430; }
-.musteri-cari-metin .cari-sehir { color: #8a93a1; }
-
-.musteri-detay-satir {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-.musteri-detay-oge {
-  font-size: 11px;
-  color: #5f6b7a;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-}
-.musteri-detay-oge--sol { flex-shrink: 1; }
-.musteri-detay-oge--sag { flex-shrink: 0; text-align: right; }
-.musteri-detay-etiket { color: #9aa3b1; }
-.musteri-detay-oge--yok { color: #c3cad4; }
+.musteri-rozet-h--yok { color: #c3cad4; font-weight: 600; background: none; }
+.musteri-tarih-h { font-size: 10.5px; color: #5f6b7a; font-weight: 600; text-align: right; white-space: nowrap; }
+.musteri-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 18px; font-weight: 900; line-height: 1; }
 
 .musteri-alt-satir {
   display: flex;

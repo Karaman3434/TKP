@@ -1,12 +1,13 @@
 /*
-  customer-render.js — WG.131026.1540.801
+  customer-render.js — WG.131026.1620.802
   ==================
-  Eski uygulamanın musteriListesiniRenderEt() mantığıyla BİREBİR aynı:
-  - Arama yokken: sadece en son eklenen 12 müşteri (dizinin başı, çünkü yeni
-    kayıtlar unshift ile başa ekleniyor), + "Tüm Müşterileri Göster" butonu.
-  - Arama aktifken: TÜM eşleşenler, en son görüntülenene göre sıralı.
-  - Her satır: isim + (varsa) ziyaret rozeti üstte; müşteri kodu + şehir altta.
-    Zebra desenli (bir alt, bir üst renk).
+  Liste davranışı (arama/Tüm Müşteriler/şehir filtresi/sıralama) AYNI kaldı.
+  13.10.2026 (Abdullah'ın paylaştığı referans görsel + gerçek ChatGPT kodu +
+  yazılı talimat metnine göre, derinlemesine yeniden tasarım): kartlı 2
+  satırlı yapı kaldırıldı — artık GERÇEK TEK SATIRLIK TABLO (CSS Grid): Kod |
+  Firma | Konum | Tür rozeti | Son işlem tarihi | Ok. Temas bilgisi satırdan
+  kalktı (referans tasarımda yer yok, satır başına tek işlem bilgisi sığıyor)
+  — kaybolmadı, müşteri hızlı penceresindeki "Temas" butonundan erişilebilir.
 */
 
 function hataGoster(mesaj){
@@ -33,18 +34,10 @@ function tarihiGuncelle(){
 function htmlEsc(s){
   return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
-// Ok işareti — Son İşlemler/Belge Geçmişi'nde kullanılan AYNI nötr gri
-// ok (13.10.2026, Abdullah onayı — mockup'ta gösterilen gri hali). Eskiden
-// kırmızıydı (#e24b4a); kırmızı bu uygulamada zaten "kimlik/uyarı" rengi
-// (müşteri kodu, Kaçan Satışlar) olduğu için navigasyon okunda tekrarlanmıyor.
-var MUSTERI_OK_SVG = "<svg width='9' height='15' viewBox='0 0 9 15' fill='none'><path d='M1 1L7.5 7.5L1 14' stroke='#aab2bd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>";
-
-function cariSatirHTML(kod, isim, sehir){
-  return "<span class='cari-kod'>" + htmlEsc(kod||"—") + "</span>"
-    + "<span class='cari-ayrac'> - </span>"
-    + "<span class='cari-isim'>" + htmlEsc(isim||"") + "</span>"
-    + (sehir ? "<span class='cari-ayrac'> - </span><span class='cari-sehir'>" + htmlEsc(sehir) + "</span>" : "");
-}
+// TABLO TASARIMI (13.10.2026, Abdullah'ın paylaştığı referans görsel/kod/
+// talimat metnine göre): ok artık KIRMIZI (referansın açık talebi — eski
+// "nötr gri ok" kararının yerine geçti).
+var MUSTERI_OK_HTML = "&#8250;";
 
 var tumMusterilerModuAktif = false;
 
@@ -103,74 +96,47 @@ function sonAktiviteZamani(m){
   return Math.max.apply(null, aday);
 }
 
-var GUNLER_KISA = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-function tarihFormatlaKisa(ts){
+// TABLO TASARIMI (13.10.2026): tarih artık dd.mm.yy biçiminde (referansın
+// kesin isteği — "Tarih formatı kesinlikle dd.mm.yy olmalı"), 2 haneli yıl.
+function tarihFormatlaKisaYil(ts){
   var d = new Date(ts);
   var gg = String(d.getDate()).padStart(2,"0");
   var aa = String(d.getMonth()+1).padStart(2,"0");
-  return gg + "." + aa + "." + d.getFullYear() + " " + GUNLER_KISA[d.getDay()];
-}
-// MÜŞTERİ KARTI (13.10.2026, Abdullah onayı): Temas/İşlem satırında "tam
-// tarih" isteniyor ama gün adı OLMADAN (mockup'ta onaylanan haliyle) —
-// tarihFormatlaKisa'daki gün adını eklemiyor, sadece gg.aa.yyyy.
-function tarihFormatlaTam(ts){
-  var d = new Date(ts);
-  var gg = String(d.getDate()).padStart(2,"0");
-  var aa = String(d.getMonth()+1).padStart(2,"0");
-  return gg + "." + aa + "." + d.getFullYear();
+  var yy = String(d.getFullYear()).slice(-2);
+  return gg + "." + aa + "." + yy;
 }
 
-// En son TEMAS: ziyaret (Z), temas/telefon (T), mail gönderimi (M) veya
-// WhatsApp gönderimi (W) — hangisi en yeni tarihliyse o gösterilir.
-function sonTemasBilgisi(m){
-  var adaylar = [];
-  (m.ziyaretGecmisi||[]).forEach(function(z){
-    if(z.tur === "ziyaret") adaylar.push({harf:"Z", ts:z.ts||0});
-    else if(z.tur === "temas") adaylar.push({harf:"T", ts:z.ts||0});
-  });
-  var adAnahtar = (m.ad||"").toLocaleLowerCase("tr-TR");
-  var belgeTemas = (musteriSonBelgeTemasHaritasi && m.id) ? musteriSonBelgeTemasHaritasi[m.id] : null;
-  if(!belgeTemas && musteriSonBelgeTemasHaritasiAd) belgeTemas = musteriSonBelgeTemasHaritasiAd[adAnahtar];
-  if(belgeTemas) adaylar.push(belgeTemas);
-  if(!adaylar.length) return null;
-  adaylar.sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
-  return adaylar[0];
-}
-
-// En son İŞLEM: numune, teklif, proforma, sipariş — beklemede olan sipariş
-// için ayrıca belirtilir. Temas gibi tarihi de taşır. tip/durum, renk ve
-// tam etiket için aşağıdaki temasIslemRozetleriHTML'de kullanılıyor.
+// En son İŞLEM: numune, teklif, proforma, sipariş — satırda tek sütun
+// olarak (tür rozeti + tarih) gösteriliyor. "Temas" bilgisi TABLO
+// SATIRINDAN kaldırıldı (referans tasarımda yer yok — satır başına tek
+// işlem türü+tarihi sığıyor); Temas bilgisi KAYBOLMADI, müşteriye
+// dokunulduğunda açılan hızlı pencerede "Temas" butonu/rozeti üzerinden
+// hâlâ erişilebilir (bkz. hizliPencereyiAc).
 function sonIslemBilgisi(m){
   var adAnahtar = (m.ad||"").toLocaleLowerCase("tr-TR");
   var kayit = (musteriSonIslemDetayHaritasi && m.id) ? musteriSonIslemDetayHaritasi[m.id] : null;
   if(!kayit && musteriSonIslemDetayHaritasiAd) kayit = musteriSonIslemDetayHaritasiAd[adAnahtar];
-  if(!kayit || !MUSTERI_TIP_ETIKET[kayit.tip]) return null;
+  if(!kayit || !MUSTERI_TIP_ROZET[kayit.tip]) return null;
   return {tip:kayit.tip, durum:kayit.durum, ts:kayit.ts};
 }
 
-// MÜŞTERİ KARTI YENİDEN TASARIM (13.10.2026, Abdullah onayı — mockup
-// üzerinden birkaç revizyon sonrası): renkler ve tam etiketler
-// belge-render.js'teki TIP_RENK_BELGE / TIP_ETIKET_UZUN paletiyle AYNI
-// (uygulama genelinde hareket tipi = aynı renk kuralı).
-var MUSTERI_TIP_RENK = {numune:"#c0453a", teklif:"#249147", proforma:"#dcb13c", siparis:"#38469a"};
-var MUSTERI_TIP_ETIKET = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma Fatura", siparis:"Sipariş"};
-var TEMAS_TAM_ETIKET = {Z:"Ziyaret", T:"Telefon", M:"Mail", W:"WhatsApp"};
+// TABLO TASARIMI (13.10.2026) — rozet renkleri referans paletiyle (sp mavi,
+// ft yeşil, pf mor, nm turuncu) ve uygulamanın kendi tutarlı renk kuralıyla.
+var MUSTERI_TIP_ROZET = {
+  numune:   {kisa:"NM", bg:"#FFF0D9", fg:"#b7601f"},
+  teklif:   {kisa:"FT", bg:"#DDF5E9", fg:"#0e6b34"},
+  proforma: {kisa:"PF", bg:"#f3e8fb", fg:"#6a1b9a"},
+  siparis:  {kisa:"SP", bg:"#DCEEFF", fg:"#0c447c"}
+};
 
-function temasIslemRozetleriHTML(m){
-  var temas = sonTemasBilgisi(m);
-  var islem = sonIslemBilgisi(m);
-  var temasHTML = temas
-    ? "<span class='musteri-detay-oge musteri-detay-oge--sol'><span class='musteri-detay-etiket'>Temas:</span> " + htmlEsc(TEMAS_TAM_ETIKET[temas.harf] || temas.harf) + " · " + tarihFormatlaTam(temas.ts) + "</span>"
-    : "<span class='musteri-detay-oge musteri-detay-oge--sol musteri-detay-oge--yok'>Temas yok</span>";
-  var islemHTML;
-  if(islem){
-    var renk = MUSTERI_TIP_RENK[islem.tip] || "#5f6b7a";
-    var etiket = MUSTERI_TIP_ETIKET[islem.tip] + (islem.durum === "beklemede" ? " (Beklemede)" : "");
-    islemHTML = "<span class='musteri-detay-oge musteri-detay-oge--sag' style='color:" + renk + ";'><span class='musteri-detay-etiket' style='color:" + renk + ";opacity:.65;'>İşlem:</span> " + htmlEsc(etiket) + " · " + tarihFormatlaTam(islem.ts) + "</span>";
-  } else {
-    islemHTML = "<span class='musteri-detay-oge musteri-detay-oge--sag musteri-detay-oge--yok'>İşlem yok</span>";
-  }
-  return "<div class='musteri-detay-satir'>" + temasHTML + islemHTML + "</div>";
+// Satırın solundaki renkli şerit + tür rozeti — işlem türüne göre ANLAMLI
+// renk (rastgele/4'lü döngü değil; ChatGPT'nin referans kodunda şerit
+// süsleme amaçlıydı ama uygulamada zaten tür=renk kuralı olduğu için bu
+// daha bilgilendirici ve tutarlı).
+function musteriRozetHTML(islem){
+  if(!islem) return "<span class='musteri-rozet-h musteri-rozet-h--yok'>—</span>";
+  var r = MUSTERI_TIP_ROZET[islem.tip];
+  return "<span class='musteri-rozet-h' style='background:" + r.bg + ";color:" + r.fg + ";'>" + r.kisa + "</span>";
 }
 
 
@@ -234,14 +200,15 @@ function listeyiCiz(){
     bos.hidden = true;
 
     kapsayici.innerHTML = "<div class='musteri-liste-kutu'>" + sonuclar.map(function(m, i){
-      return "<div class='musteri-karti' data-i='" + i + "'>"
-        + "<div class='musteri-karti-satir'>"
-        + "<div class='musteri-icerik'>"
-        + "<div class='musteri-ust-satir'><span class='musteri-cari-metin'>" + cariSatirHTML(m.id, m.ad, m.sehir) + "</span></div>"
-        + temasIslemRozetleriHTML(m)
-        + "</div>"
-        + "<div class='musteri-ok-alan'>" + MUSTERI_OK_SVG + "</div>"
-        + "</div>"
+      var islem = sonIslemBilgisi(m);
+      var serit = islem ? (MUSTERI_TIP_ROZET[islem.tip].fg) : "#c3cad4";
+      return "<div class='musteri-karti' data-i='" + i + "' style='border-left-color:" + serit + ";'>"
+        + "<div class='musteri-kod-h'>" + htmlEsc(m.id||"—") + "</div>"
+        + "<div class='musteri-firma-h'>" + htmlEsc(m.ad||"") + "</div>"
+        + "<div class='musteri-konum-h'>" + htmlEsc(m.sehir||"") + "</div>"
+        + musteriRozetHTML(islem)
+        + "<div class='musteri-tarih-h'>" + (islem ? tarihFormatlaKisaYil(islem.ts) : "—") + "</div>"
+        + "<div class='musteri-ok-h'>" + MUSTERI_OK_HTML + "</div>"
         + "</div>";
     }).join("") + "</div>";
 
