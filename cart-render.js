@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.131026.0948.789
+  cart-render.js — WG.131026.1005.790
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -565,6 +565,17 @@ function bicimTiklariniBagla(){
     btnMetin.classList.remove("sekme-btn--secili");
   };
 }
+// TABLO GÖRSELİ MESAJI (13.10.2026, Abdullah onayı — mockup üzerinden):
+// Tablo Görseli gönderilirken tablonun ALTINA eklenen sabit, kısa mesaj —
+// WhatsApp'a ayrıca metin gitmiyor, görselin kendi içine gömülüyor. Toplam
+// ürün ADEDİ (sepetteki tüm satırların adetleri toplamı) 1 ise tekil, 1'den
+// fazlaysa çoğul ifade kullanılır.
+function musterisizTabloMesajiOlustur(){
+  var toplamAdet = CartData.liste().reduce(function(top, u){ return top + (u.adet||0); }, 0);
+  return toplamAdet === 1
+    ? "İstediğiniz ürün için fiyat bilgisi ektedir."
+    : "İstediğiniz ürünler için fiyat bilgisi ektedir.";
+}
 function musterisizOnizlemeAc(){
   try{
     var kur = aktifKuruOku();
@@ -580,7 +591,7 @@ function musterisizOnizlemeAc(){
       genelToplam: toplamlar.toplamEuro,
       kur: kur,
       kurManuelMi: aktifKurManuelMi()
-    });
+    }) + "<div class='musterisiz-tablo-mesaj'>" + musterisizTabloMesajiOlustur() + "</div>";
     musterisizBicim = "metin";
     var btnMetinEl = document.getElementById("btnBicimMetin");
     var btnTabloEl = document.getElementById("btnBicimTablo");

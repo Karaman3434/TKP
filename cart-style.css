@@ -1,5 +1,5 @@
 /*
-  cart-style.css — WG.121026.2358.786
+  cart-style.css — WG.131026.1005.790
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -682,4 +682,13 @@
   background: #eaf2fc;
   color: #0c447c;
   resize: vertical;
+}
+/* TABLO GÖRSELİ MESAJI (13.10.2026, Abdullah onayı) — Tablo Görseli
+   gönderilirken ÜRÜN TABLOSU'nun altına eklenen sabit mesaj; kutu/çerçeve
+   YOK, sade metin. */
+.musterisiz-tablo-mesaj {
+  padding: 10px 10px 2px;
+  font-size: 12.5px;
+  color: #2d3540;
+  line-height: 1.4;
 }
