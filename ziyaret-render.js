@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: WG.131026.1230.794
+  ziyaret-render.js — VERSİYON: WG.131026.1240.795
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -429,7 +429,6 @@ function ajandaFilmSeridiniCiz(hedefTarih){
     if(tumKayitlar.length === 0){
       seridEl.innerHTML = "";
       bosEl.hidden = false;
-      document.getElementById("ajYuzenTarih").textContent = gosterimTarihUret(hedefTarih);
       return;
     }
     bosEl.hidden = true;
@@ -468,11 +467,14 @@ function ajFilmKaydirVeAktifEt(index, animasyonlu){
   serit.scrollTo({left: Math.max(0, hedefScroll), behavior: animasyonlu ? "smooth" : "auto"});
   kartlar.forEach(function(k){ k.classList.remove("aj-film-kart--aktif"); });
   kart.classList.add("aj-film-kart--aktif");
-  document.getElementById("ajYuzenTarih").textContent = gosterimTarihUret(kart.getAttribute("data-tarih"));
 }
 
-// Kaydırma bittikçe ortadaki kartı bulup "aktif" yapar, üstteki yüzen
-// tarih etiketini günceller — gün sınırını fark ettirmeden geçer.
+// Kaydırma bittikçe ortadaki kartı bulup "aktif" yapar — bu, yeni eklenen
+// bir sayfanın hangi tarihe (ortadaki karta) iliştirileceğini belirlemek
+// için hâlâ kullanılıyor (bkz. ajandaFotoSecildi). DÜZELTME (13.10.2026,
+// Abdullah'ın isteğiyle): üstteki "yüzen tarih" etiketi güncellemesi
+// kaldırıldı (etiketin kendisi de HTML'den kaldırıldı) — kaydırdıkça
+// değişmiyordu, kullanıcıyı yanıltıyordu.
 var ajFilmKaydirmaCercevesi = null;
 function ajFilmKaydirmaDegisti(){
   if(ajFilmKaydirmaCercevesi) cancelAnimationFrame(ajFilmKaydirmaCercevesi);
@@ -490,7 +492,6 @@ function ajFilmKaydirmaDegisti(){
     if(!enYakinKart) return;
     kartlar.forEach(function(k){ k.classList.remove("aj-film-kart--aktif"); });
     enYakinKart.classList.add("aj-film-kart--aktif");
-    document.getElementById("ajYuzenTarih").textContent = gosterimTarihUret(enYakinKart.getAttribute("data-tarih"));
   });
 }
 

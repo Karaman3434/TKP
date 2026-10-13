@@ -1,5 +1,5 @@
 /*
-  ajanda-style.css — VERSİYON: WG.121026.1217.769
+  ajanda-style.css — VERSİYON: WG.131026.1240.795
   ==================================================
   09.10.2026 — Abdullah'ın isteğiyle, ayrı bir "Ajanda" sayfası yerine
   Ziyaret Takvimi (ziyaret.html) içine TAŞINDI/BİRLEŞTİRİLDİ: artık ayrı
@@ -40,15 +40,10 @@
   cursor: pointer;
 }
 .aj-ekle-kucuk[disabled] { opacity: .6; pointer-events: none; }
-.aj-yuzen-tarih {
-  background: #003a70;
-  color: #fff;
-  border-radius: 999px;
-  padding: 7px 16px;
-  font-size: 11.5px;
-  font-weight: 900;
-  box-shadow: 0 3px 10px rgba(0,58,112,.3);
-}
+/* DÜZELTME (13.10.2026, Abdullah'ın isteğiyle): .aj-yuzen-tarih (üstteki
+   "yüzen tarih" etiketi) KALDIRILDI — kaydırdıkça güncellenmiyordu, sabit
+   kalıp yanıltıyordu. Her sayfanın tarihi zaten kendi altında (.aj-film-saat)
+   gösteriliyor. */
 
 .aj-film-seridi {
   display: flex;

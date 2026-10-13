@@ -31,7 +31,7 @@
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
 <link rel="stylesheet" href="ziyaret-style.css?v=WG.091026.1725.756">
-<link rel="stylesheet" href="ajanda-style.css?v=WG.121026.1217.769">
+<link rel="stylesheet" href="ajanda-style.css?v=WG.131026.1240.795">
 </head>
 <body>
 
@@ -126,12 +126,15 @@
       <button class="ziy-kaydet-btn" id="btnZiyKaydet">✓ Kaydet</button>
     </div>
 
-    <!-- AJANDA PANELİ — film şeridi + "Ekle" + yüzen tarih (09.10.2026). -->
+    <!-- AJANDA PANELİ — film şeridi + "Ekle" (09.10.2026). DÜZELTME
+         (13.10.2026, Abdullah'ın isteğiyle): üstteki "yüzen tarih" etiketi
+         KALDIRILDI — sayfalar kaydırılırken güncellenmiyordu, sabit kalıp
+         yanıltıyordu. Her sayfanın kendi eklenme tarihi zaten fotoğrafın
+         ALTINDA (.aj-film-saat) gösteriliyor, o yeterli. -->
     <div id="ziyAjandaPanel" hidden>
       <span class="ziy-gorunum-geri-link" id="btnZiyAjandaGeri">‹ Türü değiştir</span>
       <div class="aj-film-ust">
         <button type="button" class="aj-ekle-kucuk" id="btnAjandaEkle"><span>📷</span>Ekle</button>
-        <span class="aj-yuzen-tarih" id="ajYuzenTarih"></span>
       </div>
 
       <!-- ÖNİZLE+KIRP+KAYDET KARTI (12.10.2026, Abdullah'ın isteğiyle) —
@@ -259,6 +262,6 @@
 <script src="reports-data.js?v=WG.121026.1345.771"></script>
 <script src="ajanda-data.js?v=WG.121026.1217.769"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
-<script src="ziyaret-render.js?v=WG.131026.1230.794"></script>
+<script src="ziyaret-render.js?v=WG.131026.1240.795"></script>
 </body>
 </html>
