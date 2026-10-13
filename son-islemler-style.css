@@ -1,3 +1,4 @@
+/* son-islemler-style.css — WG.131026.1455.798 */
 .si-liste-kutu {
   margin-top: 10px;
 }
@@ -33,3 +34,28 @@
    rengiyle devam ediyor) — sadece #islemAra'yı hedefler, diğer tl- sayfalarını
    (Satış Listesi, Kaçan Satışlar) etkilemez. */
 #islemAra { border-color: #444444 !important; }
+
+/* DÜZELTME (13.10.2026, Abdullah onayı — mockup üzerinden): satır artık
+   2 satır — üstte müşteri ismi + ilçe/il, altta (tutar KALKTI) zincirli
+   kayıtta rota, tekil kayıtta sadece kod; ok işareti kartın TAMAMI
+   boyunca dikey ortalı, her zaman satır sonunda. SADECE #islemlerListesi
+   ile scope'landı — reports-style.css'teki paylaşılan .tl-* sınıfları
+   (Kaçan Satışlar, Ay Detayı, Müşteri İşlem Geçmişi, Aylık Satışlar)
+   KESİNLİKLE etkilenmedi. */
+#islemlerListesi .tl-kart { align-items: stretch; }
+#islemlerListesi .tl-govde { padding: 5px 0 5px 4px; }
+#islemlerListesi .tl-satir { align-items: center; gap: 0; }
+#islemlerListesi .tl-govde-ic { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+#islemlerListesi .tl-ust { flex: none; width: 100%; min-width: 0; overflow: hidden; }
+#islemlerListesi .tl-ust-metin { display: block; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#islemlerListesi .tl-alt-satir { display: flex; align-items: center; justify-content: flex-end; overflow: hidden; }
+#islemlerListesi .tl-kod-tek { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+#islemlerListesi .tl-rota { display: flex; align-items: center; gap: 2px; flex-shrink: 0; white-space: nowrap; }
+#islemlerListesi .tl-rota-rozet {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 16px; height: 16px; padding: 0 3px; border-radius: 4px;
+  font-size: 9px; font-weight: 900;
+}
+#islemlerListesi .tl-rota-ok-ikon { font-size: 8px; color: #c3cad4; margin: 0 1px; }
+#islemlerListesi .tl-rota-kod { font-size: 9.9px; font-weight: 700; margin-left: 3px; white-space: nowrap; }
+#islemlerListesi .tl-ok-kutu { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 26px; margin-right: 2mm; }

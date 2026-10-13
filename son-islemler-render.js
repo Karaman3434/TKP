@@ -1,8 +1,12 @@
 /*
-  son-islemler-render.js
+  son-islemler-render.js — WG.131026.1455.798
   =======================
   reports-render.js'deki islemleriCiz/islemlerExcelAktar buradan taşındı.
-  Liste tasarımı farklı: ikon-avatar (harf rozeti solda, tek satır bilgi).
+  13.10.2026 (Abdullah onayı, mockup üzerinden): satır tasarımı yeniden
+  yapıldı — tutar kaldırıldı, 2 satırlı yapı (isim üstte, rota/kod altta
+  sağda), zincirli (İlerlet ile numune/teklif/proforma'dan gelmiş) kayıtlarda
+  tam rota (bkz. kayit.rota — ReportsData.revizeBaslat/SendData.kaydet),
+  zincirsiz kayıtlarda sadece kod gösteriliyor.
 */
 
 function hataGoster(mesaj){
@@ -62,10 +66,11 @@ function gunBasligi(ts){
   var d = new Date(ts);
   return d.getDate() + " " + AYLAR_UZUN[d.getMonth()] + " " + d.getFullYear() + " • " + GUNLER_UZUN[d.getDay()];
 }
-function cariSatirHTML(kod, isim, sehir){
-  return "<span class='cari-kod'>" + htmlEsc(kod||"—") + "</span>"
-    + "<span class='cari-ayrac'> - </span>"
-    + "<span class='cari-isim'>" + htmlEsc(isim||"") + "</span>"
+// DÜZELTME (13.10.2026, Abdullah'ın isteğiyle): müşteri kodu (M-0071 gibi)
+// satırdan kaldırıldı — artık sadece cari isim ve ilçe/il (sehir alanı zaten
+// "İlçe - İl" biçiminde tek metin) gösteriliyor.
+function cariSatirHTML(isim, sehir){
+  return "<span class='cari-isim'>" + htmlEsc(isim||"") + "</span>"
     + (sehir ? "<span class='cari-ayrac'> - </span><span class='cari-sehir'>" + htmlEsc(sehir) + "</span>" : "");
 }
 // Belge kodunun BAŞ HARFLERİ (SP/FT/PF/NM) işlem türünün kendi renginde
@@ -79,21 +84,48 @@ function kodHTML(kod, tip){
   var kalan = i > 0 ? kod.slice(i) : "";
   return "<span style='color:" + (HARF_RENK[tip] || HARF_RENK.siparis) + ";'>" + htmlEsc(harf) + "</span>" + htmlEsc(kalan);
 }
-function tlKartHTML(k, gosterIsim){
+function tlRotaRozetHTML(tip){
+  var meta = TIP_META[tip] || TIP_META.siparis;
+  return "<span class='tl-rota-rozet' style='background:" + meta.rozetBg + ";color:" + meta.rozetRenk + ";'>" + meta.rozet + "</span>";
+}
+
+// ROTA ZİNCİRİ (13.10.2026, Abdullah'ın isteğiyle): kaydın "rota" alanı
+// varsa (numune/teklif/proforma üzerinden İlerlet edilerek buraya
+// gelmişse), alt satırda tutar yerine tüm rotası (NM›FT›SP gibi,
+// en sonda şimdiki kodu) gösterilir — yoksa (zincirsiz/tekil kayıt)
+// sadece kendi rozeti+kodu yeterlidir.
+function tlAltSatirHTML(k){
+  if(k.rota && k.rota.length){
+    var parcalar = k.rota.map(function(r){ return tlRotaRozetHTML(r.tip) + "<span class='tl-rota-ok-ikon'>›</span>"; }).join("");
+    var meta = TIP_META[k.tip] || TIP_META.siparis;
+    parcalar += tlRotaRozetHTML(k.tip) + "<span class='tl-rota-kod' style='color:" + meta.rozetRenk + ";'>" + htmlEsc(k.kod||"") + "</span>";
+    return "<span class='tl-rota'>" + parcalar + "</span>";
+  }
   var kacanMi = k.durum === "kacan";
   var revizeMi = !!k.revizeZamani;
   var meta = TIP_META[k.tip] || TIP_META.siparis;
   var rozetMeta = kacanMi ? KACAN_META : (revizeMi ? RVZ_META : meta);
   var kod = k.kod || meta.rozet;
+  return "<span class='tl-kod-tek'>"
+    + "<span class='tl-rozet' style='background:" + rozetMeta.rozetBg + ";color:" + rozetMeta.rozetRenk + ";'>" + rozetMeta.rozet + "</span>"
+    + "<span class='tl-kod'>" + kanalHarfHTML(k.kanal) + kodHTML(kod, k.tip) + "</span>"
+    + "</span>";
+}
+
+function tlKartHTML(k){
+  var kacanMi = k.durum === "kacan";
+  var revizeMi = !!k.revizeZamani;
+  var meta = TIP_META[k.tip] || TIP_META.siparis;
+  var rozetMeta = kacanMi ? KACAN_META : (revizeMi ? RVZ_META : meta);
   return "<div class='tl-kart' data-i='" + k._i + "'>"
     + "<div class='tl-serit' style='background:" + rozetMeta.serit + ";'></div>"
     + "<div class='tl-govde'>"
-    + "<div class='tl-satir'>" + "<div class='tl-ust'>" + cariSatirHTML(k.musteriId, k.musteri, k.sehir) + "</div>"
-    + "<div class='tl-sagblok'><div class='tl-kod-satir'>"
-    + "<span class='tl-rozet' style='background:" + rozetMeta.rozetBg + ";color:" + rozetMeta.rozetRenk + ";'>" + rozetMeta.rozet + "</span>"
-    + "<span class='tl-kod'>" + kanalHarfHTML(k.kanal) + kodHTML(kod, k.tip) + "</span></div>"
-    + "<div class='tl-tutar'>" + fmt(k._tutar) + " EURO</div></div>"
-    + "<button class='tl-ok' aria-label='Belgeyi aç'>" + OK_SVG + "</button>"
+    + "<div class='tl-satir'>"
+    + "<div class='tl-govde-ic'>"
+    + "<div class='tl-ust'><span class='tl-ust-metin'>" + cariSatirHTML(k.musteri, k.sehir) + "</span></div>"
+    + "<div class='tl-alt-satir'>" + tlAltSatirHTML(k) + "</div>"
+    + "</div>"
+    + "<div class='tl-ok-kutu'><button class='tl-ok' aria-label='Belgeyi aç'>" + OK_SVG + "</button></div>"
     + "</div>"
     + (k.durum==="beklemede" ? "<div class='tl-durum-ek tl-durum-ek--beklemede'>⏳ Beklemede" + (k.beklemedeNot ? ": " + htmlEsc(k.beklemedeNot) : "") + "</div>" : "")
     + (bakiyeKayitVarMi(k) ? "<div class='tl-durum-ek tl-durum-ek--bakiye'>📦 Bekleyen ürün var</div>" : "")

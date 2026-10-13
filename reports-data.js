@@ -1,5 +1,5 @@
 /*
-  reports-data.js — WG290926.03
+  reports-data.js — WG.131026.1455.798
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -559,7 +559,14 @@ var ReportsData = (function(){
     });
     localStorage.setItem("weiconv2_sepet", JSON.stringify(sepet));
     localStorage.setItem("weicon_secili_musteri", JSON.stringify({ad:kayit.musteri, sehir:kayit.sehir||"", id:kayit.musteriId||null}));
-    localStorage.setItem("weiconv2_ilerlet_kaynak", JSON.stringify({tip:kayit.tip, ts:kayit.ts, kod:kayit.kod||null, tarih:kayit.tarih||null, sonrakiAsamaSecenekleri:secenekler}));
+    // ROTA ZİNCİRİ (13.10.2026, Abdullah'ın isteğiyle): İlerletme sırasında
+    // SADECE bir önceki aşama (oncekiKod/oncekiTarih) değil, kaydın o ana
+    // kadarki TÜM rotası (numune->teklif->proforma->...) taşınır. kayit.rota
+    // zaten varsa (bu kayıt daha önce başka bir aşamadan ilerletilmişse) o
+    // listenin SONUNA şimdiki aşama eklenir — eski aşama kaydı silindiğinde
+    // (bkz. kaynakSil) tüm geçmiş tarihleri kaybolmasın diye.
+    var rotaSonrakineTasinacak = (kayit.rota || []).concat([{tip:kayit.tip, kod:kayit.kod||null, tarih:kayit.tarih||null}]);
+    localStorage.setItem("weiconv2_ilerlet_kaynak", JSON.stringify({tip:kayit.tip, ts:kayit.ts, kod:kayit.kod||null, tarih:kayit.tarih||null, rota:rotaSonrakineTasinacak, sonrakiAsamaSecenekleri:secenekler}));
     if(hedefTip && secenekler.indexOf(hedefTip) !== -1){
       localStorage.setItem("weiconv2_onceden_secilen_tip", hedefTip);
     } else if(secenekler.length === 1){

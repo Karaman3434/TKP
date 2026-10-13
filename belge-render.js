@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.121026.1951.780
+  belge-render.js — WG.131026.1455.798
   ===============
   "weiconv2_goruntulenen_belge" localStorage anahtarından {tip, ts} okur,
   ReportsData.sonIslemler() içinden o kaydı bulur, eski uygulamanın
@@ -364,39 +364,57 @@ function belgeZinciriBul(kayit){
   return zincir;
 }
 
+// Tarihin sadece "15 Tem" kısmını alır (tarihStr() çıktısı "15 Tem 2026
+// 14:30" formatında — saat/yıl bu kompakt satırda gösterilmiyor).
+function kisaTarihBelge(tarih){
+  var parcalar = String(tarih||"").trim().split(/\s+/);
+  return parcalar.length >= 2 ? (parcalar[0] + " " + parcalar[1]) : (tarih||"");
+}
+
+// ROTA ZİNCİRİ (13.10.2026, Abdullah'ın isteğiyle) — kaydın kendi "rota"
+// alanı varsa (İlerlet ile buraya gelmişse) zincir DOĞRUDAN oradan, güvenilir
+// şekilde kurulur: her aşamanın kodu/tarihi, o aşamanın kaydı silinmiş olsa
+// bile burada saklı kalır. "rota" yoksa (eski kayıtlar / zincirsiz tekil
+// kayıtlar) eski berta-eşleşmeli arama (belgeZinciriBul) yedek olarak kalır.
+function belgeZinciriBulRota(kayit){
+  var oncekiler = (kayit.rota || []).map(function(r){
+    return {tip:r.tip, kod:r.kod||"", tarih:r.tarih||"", ts:null};
+  });
+  return oncekiler.concat([{tip:kayit.tip, kod:kayit.kod||"", tarih:kayit.tarih||"", ts:kayit.ts}]);
+}
+
 function belgeGecmisiniCiz(kayit){
-  var zincir = belgeZinciriBul(kayit);
   var kapsayici = document.getElementById("belgeGecmisiKutu");
+  var zincir = (kayit.rota && kayit.rota.length) ? belgeZinciriBulRota(kayit) : belgeZinciriBul(kayit);
   if(zincir.length <= 1){
     kapsayici.hidden = true;
     return;
   }
   kapsayici.hidden = false;
   var html = "<div class='belge-gecmis-baslik'>📜 Belge Geçmişi</div>"
-    + "<div class='belge-gecmis-alt'>" + htmlEsc(zincir[0].musteri) + " — bu iş için " + zincir.length + " belge bulundu</div>";
+    + "<div class='belge-gecmis-alt'>" + htmlEsc(kayit.musteri) + " — bu iş için " + zincir.length + " belge bulundu</div>";
   zincir.forEach(function(adim, i){
     var renk = TIP_RENK_BELGE[adim.tip] || "#3569b8";
-    var metinRenk = TIP_METIN_RENK_BELGE[adim.tip] || renk;
-    var aktifMi = (adim.tip===kayit.tip && adim.ts===kayit.ts);
-    var sonMu = (i===zincir.length-1);
-    var durumEk = adim.revizeZamani ? " · 🔄 revize edildi" : "";
-    if(adim.durum==="iptal") durumEk += " · 🚫 iptal";
-    else if(adim.durum==="iade") durumEk += " · ↩️ iade";
-    else if(adim.durum==="kacan") durumEk += " · ❌ kaçtı";
-    html += "<div class='belge-gecmis-adim" + (sonMu?"":" belge-gecmis-adim--baglantili") + "'>"
-      + "<div class='belge-gecmis-nokta' style='background:" + renk + ";'></div>"
-      + "<div class='belge-gecmis-tarih'>" + htmlEsc(adim.tarih) + "</div>"
-      + "<div class='belge-gecmis-kart' style='background:" + renk + "18;border-color:" + renk + "55;' data-tip='" + adim.tip + "' data-ts='" + adim.ts + "'>"
-      + "<div class='belge-gecmis-kart-baslik' style='color:" + metinRenk + ";'>" + (TIP_IKON_BELGE[adim.tip]||"") + " " + TIP_ETIKET_UZUN[adim.tip]
-      + (aktifMi ? "<span class='belge-gecmis-suan'>ŞU AN BURADASIN</span>" : "")
-      + "</div>"
-      + "<div class='belge-gecmis-kart-alt' style='color:" + metinRenk + ";'>" + htmlEsc(adim.kod||"") + " · " + adim.adet + " ürün" + durumEk + "</div>"
+    var onek = KOD_ONEK_BELGE[adim.tip] || "?";
+    var rozetRenk = ONEK_RENK_BELGE[onek] || {yazi:renk, bg:renk+"18"};
+    var aktifMi = (i === zincir.length-1);
+    var tiklanabilirMi = !aktifMi && adim.ts;
+    html += "<div class='belge-gecmis-adim2" + (aktifMi?"":" belge-gecmis-adim2--baglantili") + "'>"
+      + "<div class='belge-gecmis-nokta2' style='background:" + renk + ";'></div>"
+      + "<div class='belge-gecmis-satir2" + (tiklanabilirMi?" belge-gecmis-satir2--tiklanabilir":"") + "' style='background:" + renk + "14;'"
+      + (tiklanabilirMi ? (" data-tip='" + adim.tip + "' data-ts='" + adim.ts + "'") : "") + ">"
+      + "<span class='belge-gecmis-tarih2' style='color:" + renk + ";'>" + htmlEsc(kisaTarihBelge(adim.tarih)) + "</span>"
+      + "<span class='belge-gecmis-rozet2' style='background:" + rozetRenk.bg + ";color:" + rozetRenk.yazi + ";'>" + onek + "</span>"
+      + "<span class='belge-gecmis-baslik2' style='color:" + rozetRenk.yazi + ";'>" + (TIP_ETIKET_UZUN[adim.tip]||"") + "</span>"
+      + (aktifMi
+          ? "<span class='belge-gecmis-suan2'>ŞU AN</span>"
+          : "<span class='belge-gecmis-kod2' style='color:" + rozetRenk.yazi + ";'>" + htmlEsc(adim.kod||"") + "</span>")
       + "</div>"
       + "</div>";
   });
   kapsayici.innerHTML = html;
 
-  kapsayici.querySelectorAll(".belge-gecmis-kart").forEach(function(el){
+  kapsayici.querySelectorAll(".belge-gecmis-satir2--tiklanabilir").forEach(function(el){
     el.onclick = function(){
       var t = this.getAttribute("data-tip");
       var ts = parseFloat(this.getAttribute("data-ts"));

@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.131026.1155.793
+  cart-render.js — WG.131026.1455.798
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -477,7 +477,8 @@ function kaydetGercekIslem(niyet){
     var kaynak = ilerletKaynagiOku();
     var devralinanKod = (kaynak && kaynak.kod) ? kaynak.kod : null;
     var devralinanTarih = (kaynak && kaynak.tarih) ? kaynak.tarih : null;
-    SendData.kaydet(secilenTip, musteri, sepet, kur, kdv, seciliAdresler, devralinanKod, devralinanTarih, function(basarili, sonuc, revizeMi){
+    var devralinanRota = (kaynak && kaynak.rota) ? kaynak.rota : null;
+    SendData.kaydet(secilenTip, musteri, sepet, kur, kdv, seciliAdresler, devralinanKod, devralinanTarih, devralinanRota, function(basarili, sonuc, revizeMi){
       if(basarili){
         if(kaynak){
           SendData.kaynakSil(kaynak.tip, kaynak.ts, function(){});

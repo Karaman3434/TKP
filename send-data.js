@@ -1,5 +1,5 @@
 /*
-  send-data.js — WG.121026.1951.780
+  send-data.js — WG.131026.1455.798
   ============
   TEK görevi: sepeti + seçili müşteriyi + belge türünü alıp Firebase
   arşivine ESKİ UYGULAMAYLA UYUMLU bir kayıt yazmak. Uyumluluk önemli:
@@ -138,7 +138,7 @@ var SendData = (function(){
     return d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate();
   }
 
-  function kaydet(tip, musteri, sepetUrunleri, kur, kdv, adresler, devralinanKod, devralinanTarih, geriBildir, kurManuelMi){
+  function kaydet(tip, musteri, sepetUrunleri, kur, kdv, adresler, devralinanKod, devralinanTarih, devralinanRota, geriBildir, kurManuelMi){
     var cb = typeof geriBildir === "function" ? geriBildir : function(){};
     try{
       if(!musteri || !musteri.ad) throw new Error("Müşteri bilgisi eksik.");
@@ -235,6 +235,10 @@ var SendData = (function(){
               if(devralinanKod){
                 kaydedilenKayit.oncekiKod = devralinanKod;
                 if(devralinanTarih) kaydedilenKayit.oncekiTarih = devralinanTarih;
+                // ROTA ZİNCİRİ (13.10.2026) — tüm önceki aşamaların kodu/
+                // tarihi, aşama kaydı silinse bile kaybolmasın diye burada
+                // kalıcı olarak taşınır (bkz. ReportsData.revizeBaslat).
+                if(devralinanRota && devralinanRota.length) kaydedilenKayit.rota = devralinanRota;
               }
               liste.unshift(kaydedilenKayit);
               otomatikRevizeMi = false;
