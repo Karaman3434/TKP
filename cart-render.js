@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.121026.2250.784
+  cart-render.js — WG.131026.0745.787
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -211,12 +211,12 @@ function sayfayiCiz(){
     var grupYesilAlani = document.getElementById("grupYesilAlani");
     var musteri = CustomerData.seciliyiOku();
 
-    if(liste.length === 0 || !musteri){
+    if(liste.length === 0){
       document.getElementById("cariBilgiAlani").innerHTML = "";
       grupSariAlani.innerHTML = "";
       grupYesilAlani.innerHTML = "";
       bosMesaj.hidden = false;
-      bosMesaj.textContent = !musteri ? "Önce bir müşteri seçmelisiniz." : "Sepetiniz boş. Yukarıdaki arama kutusundan ürün bulup SEÇ'e dokunun.";
+      bosMesaj.textContent = "Sepetiniz boş. Yukarıdaki arama kutusundan ürün bulup SEÇ'e dokunun.";
       altButonSatiri.hidden = true;
       document.getElementById("btnSepetIptal").hidden = true;
       devamUyari.hidden = true;
@@ -225,7 +225,24 @@ function sayfayiCiz(){
     bosMesaj.hidden = true;
     altButonSatiri.hidden = false;
     document.getElementById("btnSepetIptal").hidden = false;
-    adresleriBelirle(musteri);
+
+    // MÜŞTERİSİZ SEPET (13.10.2026, Abdullah onayı): müşteri seçilmeden de
+    // ürün eklenip hesaplanabilir — Cari Bilgi şeridi/adresler SADECE
+    // müşteri seçiliyse gösterilir. "Kaydet" yine müşteri ister (kayıt bir
+    // müşteriye bağlanmalı, bkz. kaydetGercekIslem), ama "Görüntüle ve
+    // Gönder" müşterisiz hızlı gönderim akışına (musterisizOnizlemeAc)
+    // zaten düşüyor — bkz. kaydetTiklandi(). Eskiden bu ekranın TAMAMI
+    // müşteri seçilmeden hiç gösterilmiyordu, bu yüzden sepete eklenen
+    // ürünler bile görünmüyordu.
+    if(musteri){
+      document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri);
+      var btnMusteriGecmisEl2 = document.getElementById("btnMusteriGecmis");
+      if(btnMusteriGecmisEl2) btnMusteriGecmisEl2.onclick = musteriGecmisiniAc;
+      adresleriBelirle(musteri);
+    } else {
+      document.getElementById("cariBilgiAlani").innerHTML = "<p class='bos-mesaj' style='padding:6px 0;'>👤 Müşteri seçilmedi — hızlı gönderim modu. Kaydetmek için önce müşteri seçmelisin.</p>";
+      seciliAdresler = {};
+    }
 
     var kur = aktifKuruOku();
     var kdv = CartData.kdvOku();
@@ -233,13 +250,6 @@ function sayfayiCiz(){
 
     var bekleyenler = liste.filter(function(u){ return !u.hesaplandi; });
     var hesaplananlar = liste.filter(function(u){ return u.hesaplandi; });
-
-    // DÜZELTME (15.09.2026): CARİ BİLGİ artık HER ZAMAN en üstte, kendi
-    // sabit alanında — HESAPLANACAK ve HESAPLANDI tabloları arasında
-    // sıkışmıyor, ikisi de onun altında art arda duruyor.
-    document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri);
-    var btnMusteriGecmisEl = document.getElementById("btnMusteriGecmis");
-    if(btnMusteriGecmisEl) btnMusteriGecmisEl.onclick = musteriGecmisiniAc;
 
     grupSariAlani.innerHTML = bekleyenler.length === 0 ? "" : HareketTablo.grupHtml({
       etiket: "🟡 HESAPLANACAK",
@@ -309,7 +319,10 @@ function sayfayiCiz(){
     var gonderVarMi = crIzinVarMi("sepetGonder");
     altButonSatiri.hidden = !gonderVarMi;
     var tamamMi = CartData.tamamHesaplandiMi();
-    document.getElementById("btnSepetKaydet").disabled = !tamamMi;
+    // "Kaydet" bir kaydı müşteriye bağladığı için müşteri şart (bkz.
+    // kaydetGercekIslem) — "Görüntüle ve Gönder" müşterisiz de çalışır
+    // (musterisizOnizlemeAc), o yüzden sadece hesaplanmış olmasını ister.
+    document.getElementById("btnSepetKaydet").disabled = !tamamMi || !musteri;
     document.getElementById("btnSepetGonder").disabled = !tamamMi;
     devamUyari.hidden = tamamMi || !gonderVarMi;
   }catch(e){ hataGoster("Sepet çizilemedi: " + e.message); }
