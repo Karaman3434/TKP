@@ -1,5 +1,5 @@
 /*
-  send-data.js — WG.131026.1455.798
+  send-data.js — WG.131026.1500.799
   ============
   TEK görevi: sepeti + seçili müşteriyi + belge türünü alıp Firebase
   arşivine ESKİ UYGULAMAYLA UYUMLU bir kayıt yazmak. Uyumluluk önemli:
@@ -45,7 +45,16 @@ var SendData = (function(){
   // düğümünde Firebase transaction ile atomik artırılır (iki cihaz aynı
   // anda kod üretirse çakışma olmaz, Firebase otomatik tekrar dener).
   // İnternet gerektirir — bkz. kaydet() içindeki çağrı noktası.
-  function gunlukSiraNoAl(cb){
+  // DÜZELTME (13.10.2026, Abdullah'ın "Belge numarası alınamadı" hatası
+  // bildirmesiyle): Firebase transaction'ı mobilde ağ geçişi (WiFi<->5G,
+  // ekran kilidinden uyanma vb.) sırasında İLK denemede geçici olarak
+  // başarısız olabiliyor — internet asıl bağlıyken bile. Artık ilk
+  // deneme başarısız olursa 700ms sonra OTOMATİK 1 kez daha deneniyor;
+  // yine olmazsa, gerçek Firebase hata metni (sadece console değil)
+  // kullanıcıya gösterilen mesaja da eklenir — "internet bağlantınızı
+  // kontrol edin" her zaman aynı genel cümle yerine asıl sebep görülebilsin.
+  function gunlukSiraNoAl(cb, denemeSayisi){
+    denemeSayisi = denemeSayisi || 0;
     try{
       var d = new Date();
       var gunAnahtari = d.getFullYear() + String(d.getMonth()+1).padStart(2,"0") + String(d.getDate()).padStart(2,"0");
@@ -53,15 +62,20 @@ var SendData = (function(){
       db.ref("gunlukKodSayaci/" + gunAnahtari).transaction(function(mevcut){
         return (mevcut||0) + 1;
       }).then(function(sonuc){
-        if(!sonuc || !sonuc.committed){ cb(null); return; }
+        if(!sonuc || !sonuc.committed){
+          if(denemeSayisi < 1){ setTimeout(function(){ gunlukSiraNoAl(cb, denemeSayisi+1); }, 700); return; }
+          cb(null, "sunucuyla senkronizasyon tamamlanamadı");
+          return;
+        }
         cb(sonuc.snapshot.val());
       }).catch(function(err){
         console.error("Günlük sıra no alınamadı:", err);
-        cb(null);
+        if(denemeSayisi < 1){ setTimeout(function(){ gunlukSiraNoAl(cb, denemeSayisi+1); }, 700); return; }
+        cb(null, (err && err.message) ? err.message : null);
       });
     }catch(e){
       console.error("Günlük sıra no hatası:", e);
-      cb(null);
+      cb(null, e && e.message);
     }
   }
 
@@ -267,9 +281,9 @@ var SendData = (function(){
         devamEt(devralinanGovde);
       } else {
         // Taze belge — günlük ortak sıra numarasını al, SONRA kaydet.
-        gunlukSiraNoAl(function(sira){
+        gunlukSiraNoAl(function(sira, hataDetay){
           if(sira == null){
-            cb(false, new Error("Belge numarası alınamadı — internet bağlantınızı kontrol edip tekrar deneyin."));
+            cb(false, new Error("Belge numarası alınamadı (" + (hataDetay || "bilinmeyen sebep") + ") — internet bağlantınızı kontrol edip tekrar deneyin."));
             return;
           }
           devamEt(kodGovdesiOlustur(sira));
