@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.131026.1120.792
+  cart-render.js — WG.131026.1155.793
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -581,6 +581,13 @@ function musterisizTabloMesajiOlustur(){
     ? "İstediğiniz ürün için fiyat bilgisi ektedir."
     : "İstediğiniz ürünler için fiyat bilgisi ektedir.";
 }
+// TABLO TARİHİ (13.10.2026, Abdullah'ın isteğiyle) — gönderilen tablo
+// görseline günün tarihi ekleniyor, GG.AA.YYYY formatında.
+function musterisizTabloTarihiOlustur(){
+  var d = new Date();
+  function iki(n){ return (n<10?"0":"")+n; }
+  return iki(d.getDate()) + "." + iki(d.getMonth()+1) + "." + d.getFullYear();
+}
 function musterisizOnizlemeAc(){
   try{
     var kur = aktifKuruOku();
@@ -598,7 +605,10 @@ function musterisizOnizlemeAc(){
     // HESAPLANACAK/HESAPLANDI gruplarının kendi kur/TL gösterimi (sayfayiCiz)
     // DEĞİŞMEDİ.
     document.getElementById("musterisizOnizlemeTablo").innerHTML =
-      "<div class='musterisiz-tablo-mesaj'>" + musterisizTabloMesajiOlustur() + "</div>"
+      "<div class='musterisiz-tablo-ust'>"
+      + "<span class='musterisiz-tablo-mesaj'>" + musterisizTabloMesajiOlustur() + "</span>"
+      + "<span class='musterisiz-tablo-tarih'>" + musterisizTabloTarihiOlustur() + "</span>"
+      + "</div>"
       + HareketTablo.grupHtml({
         urunler: CartData.liste(),
         hesapla: hesapla,
@@ -618,16 +628,32 @@ function musterisizOnizlemeAc(){
 }
 // Mesaj metni textarea'da elle düzenlenebildiği için WhatsApp/Mail butonları
 // metni YENİDEN ÜRETMEZ — o anda kutuda ne yazıyorsa AYNEN onu gönderir.
+// SEPETİ SIFIRLA (13.10.2026, Abdullah'ın isteğiyle): Müşterisiz Gönder'de
+// WhatsApp/Mail'e basıldıktan sonra sepet artık elle temizlenmeyi beklemiyor
+// — otomatik boşalıyor, sayfa cart.html'e TAZE (boş sepetle) dönüyor. Kısa
+// bir gecikmeyle çağrılıyor ki WhatsApp/Mail uygulamasına geçiş/paylaşım
+// penceresi önce tetiklensin.
+function musterisizSepetiSifirlaVeYenile(){
+  setTimeout(function(){
+    try{
+      localStorage.setItem("weiconv2_sepet", "[]");
+      localStorage.removeItem("weiconv2_sepet_kur_override");
+    }catch(e){}
+    window.location.href = "cart.html";
+  }, 400);
+}
 function musterisizWhatsappGonder(){
   if(musterisizBicim === "tablo"){ musterisizTabloGonder("whatsapp"); return; }
   var metin = document.getElementById("musterisizOnizlemeMetin").value;
   window.open("https://wa.me/?text=" + encodeURIComponent(metin), "_blank");
+  musterisizSepetiSifirlaVeYenile();
 }
 function musterisizMailGonder(){
   if(musterisizBicim === "tablo"){ musterisizTabloGonder("mail"); return; }
   var metin = document.getElementById("musterisizOnizlemeMetin").value;
   var konu = encodeURIComponent("WEICON Fiyat Bilgisi");
   window.location.href = "mailto:?subject=" + konu + "&body=" + encodeURIComponent(metin);
+  musterisizSepetiSifirlaVeYenile();
 }
 // TABLO GÖRSELİ OLARAK GÖNDER (13.10.2026, Abdullah onayı): ÜRÜN TABLOSU
 // (#musterisizOnizlemeTablo), Gönder ekranındaki (send-render.js
@@ -654,7 +680,9 @@ function musterisizTabloGonder(kanal){
         // aynı bilgiyi tekrar eden ikinci bir metin mesajı/satırı olarak
         // gidiyordu — ekran görüntüsüyle doğrulandı).
         if(navigator.canShare && navigator.canShare({files:[dosya]})){
-          navigator.share({files:[dosya]}).catch(function(err){
+          navigator.share({files:[dosya]}).then(function(){
+            musterisizSepetiSifirlaVeYenile();
+          }).catch(function(err){
             if(err && err.name!=="AbortError") hataGoster("Paylaşım penceresi kapatıldı.");
           });
         } else {
@@ -669,6 +697,7 @@ function musterisizTabloGonder(kanal){
           } else {
             window.location.href = "mailto:?subject=" + encodeURIComponent("WEICON Fiyat Bilgisi");
           }
+          musterisizSepetiSifirlaVeYenile();
         }
       }, "image/png");
     }).catch(function(){ hataGoster("Görsel oluşturulamadı."); });
