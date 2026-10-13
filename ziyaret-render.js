@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: WG.121026.1217.769
+  ziyaret-render.js — VERSİYON: WG.131026.1230.794
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -494,8 +494,14 @@ function ajFilmKaydirmaDegisti(){
   });
 }
 
+// KAYNAK SEÇİMİ (13.10.2026, Abdullah'ın isteğiyle): "Ekle" artık dosya
+// seçiciyi DOĞRUDAN açmıyor — önce "Fotoğraf nereden eklensin?" (Kamera/
+// Galeri) popup'ı açılıyor. Kamera seçilirse capture="environment" olan
+// #ajFotoSeciciKamera, Galeri seçilirse eski (capture'sız) #ajFotoSecici
+// tıklanıyor — ikisi de AYNI change dinleyicisine/akışa (ajandaFotoSecildi,
+// kırpma ekranı) bağlı, davranış hiç değişmedi.
 function ajandaEkleTiklandi(){
-  document.getElementById("ajFotoSecici").click();
+  document.getElementById("ajKaynakOverlay").hidden = false;
 }
 
 // ÖNİZLE+KIRP+KAYDET (12.10.2026, Abdullah'ın isteğiyle) — seçilen
@@ -744,6 +750,22 @@ document.addEventListener("DOMContentLoaded", function(){
     ajandaFotoSecildi(file);
     this.value = "";
   });
+  document.getElementById("ajFotoSeciciKamera").addEventListener("change", function(){
+    var file = this.files && this.files[0];
+    ajandaFotoSecildi(file);
+    this.value = "";
+  });
+  document.getElementById("btnAjKaynakKamera").onclick = function(){
+    document.getElementById("ajKaynakOverlay").hidden = true;
+    document.getElementById("ajFotoSeciciKamera").click();
+  };
+  document.getElementById("btnAjKaynakGaleri").onclick = function(){
+    document.getElementById("ajKaynakOverlay").hidden = true;
+    document.getElementById("ajFotoSecici").click();
+  };
+  document.getElementById("btnAjKaynakVazgec").onclick = function(){
+    document.getElementById("ajKaynakOverlay").hidden = true;
+  };
   document.getElementById("ajFilmSeridi").addEventListener("scroll", ajFilmKaydirmaDegisti, {passive:true});
 
   // Ajanda — Önizle+Kırp+Kaydet kartı (12.10.2026).

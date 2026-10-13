@@ -179,8 +179,31 @@
        değişiklik gerekmedi — resimSikistir() zaten dosyanın kameradan mı
        galeriden mi geldiğine bakmaksızın çalışıyordu. -->
   <input type="file" accept="image/*" id="ajFotoSecici" hidden>
+  <!-- KAMERA SEÇİCİ (13.10.2026, Abdullah'ın isteğiyle): "capture" özniteliği
+       sadece bu ikinci input'ta var — tıklanınca telefonun kamerası GARANTİLİ
+       doğrudan açılır (cihazın/platformun kendi seçim penceresine bağlı
+       kalınmıyor). Yukarıdaki ajFotoSecici (capture'sız) SADECE Galeri için
+       kullanılıyor. İkisi de aynı change dinleyicisine/akışa bağlanıyor —
+       bkz. ziyaret-render.js. -->
+  <input type="file" accept="image/*" capture="environment" id="ajFotoSeciciKamera" hidden>
 
 </main>
+
+<!-- AJANDA FOTOĞRAF KAYNAĞI SEÇİMİ (13.10.2026, Abdullah onayı — mockup
+     üzerinden): "Ekle"ye basınca artık doğrudan dosya seçici açılmıyor,
+     önce Kamera/Galeri seçimi soruluyor. "Temas türü seç" ile AYNI desen
+     (.ziy-hatirlatma-overlay/-kutu + .ziy-tur-secim) — yeni bir kutu/çerçeve
+     tasarımı YOK. -->
+<div class="ziy-hatirlatma-overlay" id="ajKaynakOverlay" hidden>
+  <div class="ziy-hatirlatma-kutu">
+    <div class="ziy-hatirlatma-baslik" style="text-align:center;">Fotoğraf nereden eklensin?</div>
+    <div class="ziy-tur-secim">
+      <button class="ziy-tur-btn ziy-tur-btn--ziyaret ziy-tur-btn--secili" id="btnAjKaynakKamera" style="padding:16px 9px; font-size:13px;">📷<br>Kamera</button>
+      <button class="ziy-tur-btn ziy-tur-btn--telefon ziy-tur-btn--secili" id="btnAjKaynakGaleri" style="padding:16px 9px; font-size:13px;">🖼️<br>Galeri</button>
+    </div>
+    <button class="ziy-hatirlatma-kapat-btn" id="btnAjKaynakVazgec">Vazgeç</button>
+  </div>
+</div>
 
 <!-- Ay Seç pop-up (25.09.2026) — ◀ Eylül 2026 ▶ ok gezinmesinin yerini
      aldı. Aylar tek satırda yan yana, yatay kaydırılabilir; açılışta
@@ -236,6 +259,6 @@
 <script src="reports-data.js?v=WG.121026.1345.771"></script>
 <script src="ajanda-data.js?v=WG.121026.1217.769"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
-<script src="ziyaret-render.js?v=WG.121026.1217.769"></script>
+<script src="ziyaret-render.js?v=WG.131026.1230.794"></script>
 </body>
 </html>
