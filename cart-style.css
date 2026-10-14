@@ -1,5 +1,5 @@
 /*
-  cart-style.css — WG.131026.1155.793
+  cart-style.css — WG.151026.0006.821
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -17,33 +17,30 @@
 
 .sayfa { padding: 4px 6px 16px; }
 
-/* HESAPLANACAK/HESAPLANDI BAŞLIK SATIRI + HÜCRE ÇERÇEVESİ (01.10.2026,
-   Abdullah'ın isteğiyle) — tablo başlığı (SR/ÜRÜN BİLGİSİ/ADET/.../PRİM)
-   artık her yerde sabit mavi değil, grubun kendi tonunda (turuncu/yeşil) —
-   etiket şeridiyle, satırla birebir aynı renk ailesi. Hücreler arasına da
-   aynı tondan ince çerçeve eklendi (eskiden sadece açık gri zebra/kenarlıktı,
-   tek renk zeminde sütunlar birbirine karışıyordu). SADECE bu sayfadaki iki
-   tabloya (#grupSariAlani / #grupYesilAlani) uygulanır — Gönder önizlemesi,
-   Belge Önizleme gibi diğer sayfalardaki tablolar (hep aynı .belge-urun-tablo
-   sınıfını kullanır) ETKİLENMEZ, çünkü seçiciler bu sayfaya özel ID'lerle
-   başlıyor. */
-#grupSariAlani .belge-urun-tablo th {
-  background: #ff8a3d;
-  color: #ffffff;
-  font-weight: 900;
-  border: 1px solid #cc6a1f;
-}
-#grupSariAlani .belge-urun-tablo td {
-  border: 1px solid #f3cfa0;
-}
-#grupYesilAlani .belge-urun-tablo th {
-  background: #3bb273;
-  color: #ffffff;
-  font-weight: 900;
-  border: 1px solid #1f7a4d;
-}
-#grupYesilAlani .belge-urun-tablo td {
-  border: 1px solid #b9e8cf;
+/* DÜZELTME (15.10.2026, Abdullah onayı — "7. Belge" standardı Sepet'e de
+   tam uygulandı): 01.10.2026'daki turuncu/yeşil başlık + renkli hücre
+   çerçevesi kuralı KALDIRILDI — onaylanan referansta (belge7-test.png)
+   ürün tablosu başlığı HER YERDE aynı açık mavi (#c3dcf4, bkz.
+   belge-style.css .belge-urun-tablo th), HESAPLANACAK/HESAPLANDI farkı
+   zaten üstteki renkli etiket çubuğuyla (.hareket-grup-etiket) veriliyor,
+   tabloyu ayrıca renklendirmeye gerek yok — iki ayrı yerde aynı bilgiyi
+   renklendirmek onaylanan tasarımla çelişiyordu. Satırlardaki hafif
+   sarı/yeşil zemin (.hareket-satir--sari/yesil, belge-style.css'ten,
+   paylaşılan) olduğu gibi kalıyor. */
+
+/* DÜZELTME (15.10.2026, Abdullah onayı): .data-table-container'ın bu
+   sayfadaki eski mavi çerçeve + köşe + alt boşluk kuralı (aşağıda,
+   "Sepet tablosu" başlığı altında) SADECE bu iki ürün tablosuna
+   (#grupSariAlani/#grupYesilAlani) sızıyordu ve onaylanan "7. Belge"
+   standardıyla (çerçevesiz, sade) çelişiyordu. Bu iki ID'ye özel olarak
+   sıfırlanıyor — sayfadaki DİĞER data-table-container kullanımları (ör.
+   arama sonucu "hit-urun-tablo") ETKİLENMİYOR, aşağıdaki genel kural
+   onlarda aynen geçerli kalıyor. */
+#grupSariAlani .data-table-container,
+#grupYesilAlani .data-table-container {
+  border: none;
+  border-radius: 0;
+  margin-bottom: 12px;
 }
 
 .kur-satiri {

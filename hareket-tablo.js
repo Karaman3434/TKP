@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — WG.141026.2250.819
+  hareket-tablo.js — WG.151026.0006.821
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -61,7 +61,9 @@ var HareketTablo = (function(){
       var iskYuz100 = (u.iskonto||0) === 100;
       var toplamHucreIcerik = !toplamVarMi ? "-" : ((u.ozelEtiket === "bedelsiz") ? "NUMUNE" : paraHtml(fmt(h.toplamEuro),"EURO"));
       var netTl = toplamVarMi ? netTlHtml(h.iskontoluFiyat, kur) : "";
-      var urunHucre = "<td class='belge-td-urun'><div class='belge-td-urun-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + htmlEsc(u.berta||"-") + "</span> - <span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + htmlEsc(u.abas||"-") + "</span>" + "</div><div class='belge-td-urun-ad'>" + htmlEsc(u.ad) + "</div></td>";
+      // DÜZELTME (15.10.2026, Abdullah onayı): harf (B/A) ile kod arasındaki
+      // boşluk kaldırıldı — "B11550400 - A1000912233" gibi bitişik.
+      var urunHucre = "<td class='belge-td-urun'><div class='belge-td-urun-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span>" + htmlEsc(u.berta||"-") + "</span> - <span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span>" + htmlEsc(u.abas||"-") + "</span>" + "</div><div class='belge-td-urun-ad'>" + htmlEsc(u.ad) + "</div></td>";
       if(basit){
         return "<tr class='" + (zeminSinifi||"") + "'>"
           + urunHucre
@@ -127,7 +129,16 @@ var HareketTablo = (function(){
     var ortaliVeRozetli = !!(opts.etiketOrtali && opts.etiketRozet);
     var etiketSinifi = "hareket-grup-etiket" + (ortaliVeRozetli ? " hareket-grup-etiket--ortali-kenar" : (opts.etiketOrtali ? " hareket-grup-etiket--ortali" : ""));
     var etiketMetinHtml = "<span" + (ortaliVeRozetli ? " class='hareket-grup-etiket-metin'" : "") + ">" + opts.etiket + "</span>";
-    var html = opts.etiket ? ("<div class='" + etiketSinifi + "' style='background:" + etiketBg + ";color:" + etiketRenk + ";'>" + etiketMetinHtml + etiketRozetHtml + "</div>") : "";
+    // KOD/TARİH ŞERİDİ (15.10.2026, Abdullah onayı) — opts.kodMetni verilirse
+    // (şimdilik SADECE cart-render.js'in HESAPLANDI grubu), Belge Önizleme'de
+    // zaten kullanılan AYNI şerit (.belge-belge-baslik-serit--mavi) grubun en
+    // üstüne eklenir. Yazı rengi opts.tip'e göre (cart-tablo-style-v2.css'te
+    // SADECE .cart-sayfa altında tanımlı, belge-onizleme-style-v2.css'teki
+    // palet ile birebir). Sepet'te henüz gerçek bir belge kaydı/SP kodu
+    // olmadığından (kaydet() ancak Gönder'de çağrılıyor) metin "(taslak)"
+    // ibaresiyle geliyor — cart-render.js bunu kendisi üretip geçiyor.
+    var kodSeridiHtml = opts.kodMetni ? ("<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi" + (opts.tip ? " tip-" + opts.tip : "") + "'><span class='belge-belge-baslik-serit-metin'>" + htmlEsc(opts.kodMetni) + "</span></div>") : "";
+    var html = kodSeridiHtml + (opts.etiket ? ("<div class='" + etiketSinifi + "' style='background:" + etiketBg + ";color:" + etiketRenk + ";'>" + etiketMetinHtml + etiketRozetHtml + "</div>") : "");
     var basHucreler = basit
       ? "<th style='width:46%;'>ÜRÜN BİLGİSİ</th><th style='width:12%;'>ADET</th><th style='width:19%;'>NET</th><th style='width:23%;'>TOPLAM</th>"
       : (primGizli
@@ -174,7 +185,7 @@ var HareketTablo = (function(){
           }
         });
         html += "<div class='belge-prim-toplam-serit'>"
-          + "<span class='belge-pt-etiket'>TOPLAM PRİM</span>"
+          + "<span class='belge-pt-etiket'>PRİM</span>"
           + "<span class='belge-pt-deger'>" + Math.round(primToplamTL).toLocaleString("tr-TR") + " TL</span>"
           + "</div>";
       }

@@ -1,4 +1,4 @@
-/* belge-style.css — WG.141026.2219.816
+/* belge-style.css — WG.151026.0006.821
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -372,7 +372,15 @@
 /* DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle): Berta (B) / Abas (A) kod
    etiketi — harf (.kod-harf, em ile orantılı) ve sayılar birlikte %10
    küçültüldü (11px -> 9.9px; harf 12.65px -> 11.385px, oran korunarak). */
-.belge-td-urun-kod { font-size: 9.9px; color: #1a2a3a; line-height: 1.3; white-space: nowrap; overflow: hidden; font-weight: 800; }
+/* DÜZELTME (15.10.2026, Abdullah onayı — Abas kodunun yarısı hücreden
+   taşıp görünmez oluyordu): BİR DAHA küçültüldü (9.9px -> 8px, gerçek
+   tablo genişliğinde ölçülerek — bu değerde "B11550400 - A1000912233"
+   örneği KESİNLİKLE tek satıra sığıyor). overflow artık "visible" —
+   hiçbir zaman sessizce kesilmesin (çok uzun bir kod gelirse hücre
+   dışına taşar ama görünmez olmaz); white-space nowrap kalıyor, ASLA
+   alt satıra sarmıyor (Abdullah'ın isteği). Harf ile sayı arasındaki
+   boşluk da kaldırıldı — "B11550400" gibi bitişik (bkz. hareket-tablo.js). */
+.belge-td-urun-kod { font-size: 8px; color: #1a2a3a; line-height: 1.3; white-space: nowrap; overflow: visible; font-weight: 800; }
 .kod-harf { font-weight: 900; font-size: 1.15em; padding: 0 1px; }
 .kod-blok--b { color: #c0392b; }
 .kod-blok--a { color: #003a70; }
@@ -661,7 +669,10 @@
   gap: 14px;
   color: #ffffff;
 }
-.belge-gt-etiket-deger-grup { display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-left: auto; }
+/* DÜZELTME (15.10.2026, Abdullah onayı): "GENEL TOPLAM" etiketi artık
+   değerin YANINDA değil, ÜST SATIRINDA — dikey blok, sağa hizalı (satır
+   sırası HTML'de zaten etiket->değer, bkz. hareket-tablo.js grupHtml). */
+.belge-gt-etiket-deger-grup { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; flex-shrink: 0; margin-left: auto; }
 .belge-gt-etiket { font-size: 11px; font-weight: 700; letter-spacing: .3px; color: #ffffff; }
 .belge-gt-deger { font-size: 17px; font-weight: 800; flex-shrink: 0; text-align: right; white-space: nowrap; color: #ffffff; }
 .belge-gt-deger-alt {
@@ -675,19 +686,24 @@
 /* TOPLAM PRİM satırı (27.09.2026) — GENEL TOPLAM'ın hemen altında, sadece
    primGizli olmayan (yani Abdullah'ın kendi ekranları — Sepet, Tablo
    önizleme) tablolarda görünür; mail/WhatsApp'a giden görsele KARIŞMAZ.
-   AYRI KUTU (14.10.2026, Abdullah'ın isteğiyle) — artık GENEL TOPLAM'a
-   yapışık değil, hafif bir boşlukla ayrık, dört köşesi yuvarlak. */
+   AYRI KUTU — GENEL TOPLAM'a yapışık değil, hafif bir boşlukla ayrık, dört
+   köşesi yuvarlak (14.10.2026'da eklendi; 15.10.2026'da bir ara turda
+   yanlışlıkla GENEL TOPLAM'a yapıştırılıp üst köşeleri düzleştirilmişti —
+   referans görselin piksel ölçümüyle doğrulanıp GERİ ALINDI). RENK/YAZI
+   (15.10.2026, Abdullah onayı): soluk nane yeşili yerine koyu/doygun yeşil
+   zemin + beyaz yazı, etiket "TOPLAM PRİM" yerine sade "PRİM" (bkz.
+   hareket-tablo.js grupHtml). Dikey yükseklik daraltıldı (8px->6px). */
 .belge-prim-toplam-serit {
-  background: #eafaf0;
+  background: #16A085;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px;
-  border-radius: 12px;
-  margin-top: 6px;
+  padding: 6px 16px;
+  border-radius: 14px;
+  margin-top: 8px;
 }
-.belge-pt-etiket { font-size: 11px; font-weight: 800; color: #0e6b34; letter-spacing: .3px; }
-.belge-pt-deger { font-size: 13px; font-weight: 900; color: #0e6b34; }
+.belge-pt-etiket { font-size: 11px; font-weight: 800; color: #ffffff; letter-spacing: .3px; }
+.belge-pt-deger { font-size: 13px; font-weight: 900; color: #ffffff; }
 
 /* AYRI KUTU (14.10.2026, Abdullah'ın isteğiyle) — GENEL TOPLAM'a yapışık
    değil, hafif bir boşlukla ayrık, dört köşesi yuvarlak. */

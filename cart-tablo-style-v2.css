@@ -1,5 +1,5 @@
 /*
-  cart-tablo-style-v2.css — WG.141026.1940.806
+  cart-tablo-style-v2.css — WG.151026.0006.821
   ================================================================
   Belge Önizleme'de onaylanan tasarım dili (açık gri zemin + türün
   rengi SADECE kendi rozetinde) Sepet/Hesapla tablosuna taşındı
@@ -14,10 +14,31 @@
   belge-style.css, !important ile buradaki gibi sayfaya-özgü kuralların
   üzerine çıkıyor).
 */
-body.cart-sayfa .belge-urun-tablo th { background: #EEF0F3; }
+/* KALDIRILDI (15.10.2026, Abdullah onayı): "body.cart-sayfa .belge-urun-
+   tablo th { background:#EEF0F3 }" kuralı burada duruyordu ama
+   cart-style.css'teki #grupSariAlani/#grupYesilAlani ID seçicisi (daha
+   yüksek özgüllük) onu hep eziyordu, hiç çalışmıyordu — ayrıca o ID
+   kuralları da bugün kaldırıldığı için artık gerek yok: başlık renk
+   şimdi belge-style.css'teki standart #c3dcf4'ten, her yerde aynı. */
 
-/* GENEL TOPLAM kutusu — dikey yükseklik ~%20 azaltıldı, yazı boyutlarına dokunulmadı */
-body.cart-sayfa .belge-gt-satir { padding: 10px 16px; }
+/* GENEL TOPLAM kutusu — dikey yükseklik DAHA DA azaltıldı (15.10.2026,
+   Abdullah'ın isteğiyle — bu turda kod/tarih şeridi + PRİM ile birlikte
+   üç kutu da dikeyde daraltıldı). */
+body.cart-sayfa .belge-gt-satir { padding: 7px 16px; }
+
+/* KOD/TARİH ŞERİDİ (15.10.2026, Abdullah onayı) — Sepet'te HESAPLANDI
+   grubunun üstüne artık Belge Önizleme ile AYNI şerit (.belge-belge-
+   baslik-serit--mavi, bkz. belge-style.css + hareket-tablo.js grupHtml
+   opts.kodMetni) ekleniyor. Şeridin YAZI rengi işlem türüne göre
+   (belge-onizleme-style-v2.css'teki palet ile birebir) — o kural SADECE
+   .belge-onizleme-sayfa'ya scope'luydu, burada aynısı cart-sayfa için.
+   Dikey yükseklik SADECE Sepet'te daraltıldı (10px->6px) — Belge
+   Önizleme'deki aynı şeridin kendi boyutuna dokunulmadı. */
+body.cart-sayfa .belge-belge-baslik-serit--mavi { padding: 6px 14px; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   .belge-belge-baslik-serit-metin { color: #249147; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  .belge-belge-baslik-serit-metin { color: #38469a; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-proforma .belge-belge-baslik-serit-metin { color: #d2691e; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-numune   .belge-belge-baslik-serit-metin { color: #c0453a; }
 
 /* HESAPLANDI satırındaki işlem türü rozeti — artık türün kendi rengini
    taşıyor (sabit yeşil yerine). opts.tip verilmeyen diğer kullanımlar

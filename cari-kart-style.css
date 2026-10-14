@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.141026.1940.806 */
+/* cari-kart-style.css — WG.141026.2325.820 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -43,25 +43,26 @@
    renkli etiket + normal ağırlıklı değer düzeni. Bu tasarım hem Cari Kart
    ekranında hem de Mail/WhatsApp gönderiminde (send-render.js'in
    cariKutulariHtml'i) BİREBİR AYNI — artık standart cari kart görünümü. */
-/* "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı — v5 mockup, "7. Belge
-   heryerde" talimatı, program genelinde TEK standart): VADE/FATURA/KARGO
-   kutucukları artık 12.10'daki "açık gri kutu" zeminini KULLANMIYOR — Belge
-   Önizleme/Gönder görselinde onaylanan DÜZ zemin (kutu-içi-kutu yok) tasarımı
-   bu karta da taşındı. Marka mavisi tek tona sabitlendi (#073B70 — bkz.
-   belge-style.css --brand-primary; bu dosya her sayfada belge-style.css ile
-   birlikte yüklenmediği için değişken yerine aynı değer doğrudan yazıldı).
-   Bu dosya hem Müşteri Cari Kartı (customer-cari-kart.html) hem de Gönder
-   ekranının önizlemesi/gönderilen görseli (send-render.js'in
-   cariKutulariHtml'i) tarafından paylaşıldığı için değişiklik HER İKİSİNDE
-   birden görünür. */
+/* DÜZELTME (14.10.2026, Abdullah'ın bildirdiği hata): bir önceki turda
+   buraya yanlışlıkla "düz zemin, kutu yok" kuralı yazılmıştı — onaylanan
+   asıl "7. Belge" referansında (belge7-test.png) VADE/FATURA/KARGO
+   kutucukları AÇIK GRİ ZEMİNLİ + LACİVERT ÇERÇEVELİ, köşeleri yuvarlak
+   kutular. Referans görselden ölçülen gerçek değerler: zemin #E7E9EE,
+   çerçeve 1.5px #073B70, köşe yarıçapı ~14px. Marka mavisi tek tona
+   sabitlendi (#073B70 — bkz. belge-style.css --brand-primary; bu dosya her
+   sayfada belge-style.css ile birlikte yüklenmediği için değişken yerine
+   aynı değer doğrudan yazıldı). Bu dosya hem Müşteri Cari Kartı
+   (customer-cari-kart.html) hem de Gönder ekranının önizlemesi/gönderilen
+   görseli (send-render.js'in cariKutulariHtml'i) tarafından paylaşıldığı
+   için değişiklik HER İKİSİNDE birden görünür. */
 .ozet-alan {
-  background: none;
-  border: none;
-  border-radius: 0;
-  padding: 0;
+  background: #E7E9EE;
+  border: 1.5px solid #073B70;
+  border-radius: 14px;
+  padding: 10px 10px;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   text-align: left;
   gap: 6px;
 }
@@ -95,17 +96,18 @@
   margin-top: 8px;
   margin-bottom: 6px;
 }
-/* AÇIK GRİ ZEMİN (12.10.2026, Abdullah onayı — mockup üzerinden):
-   etiket satırının zemini artık tablolarımızda kullandığımız açık gri
-   (#f3f5f8) — ÇERÇEVE/KENARLIK YOK (Abdullah'ın isteğiyle: bundan sonra
-   hiçbir tasarımda çerçeve çizgisi kullanılmıyor). Tüm bilgi bloğu
-   etiketleri (Temel Bilgiler/Fatura/Teslimat/Yetkili/Not) aynı dili
-   paylaşıyor — bkz. .ck-blok (kutu kaldırıldı, ince ayraç da yok). */
+/* DÜZELTME (14.10.2026, Abdullah'ın bildirdiği hata): 12.10'daki "açık gri
+   zemin" kuralı asıl onaylanan "7. Belge" referansıyla (belge7-test.png)
+   TERS düşüyordu — referansta bu etiketlerin (Fatura/Teslimat/Yetkili/Not)
+   HİÇBİR zemini yok, düz lacivert kalın yazı + altında ince bir ayraç
+   çizgisi (bkz. aşağıda .ck-blok border-bottom). Gri zemin SADECE
+   VADE/FATURA/KARGO kutularında (.ozet-alan, yukarıda) olmalıydı — iki
+   kural birbirine karışmış. */
 .ck-blok-etiket--fatura,
 .ck-blok-etiket--yetkili,
 .ck-blok-etiket--teslimat,
 .ck-blok-etiket--not,
-.ck-blok-etiket--temel { background: #f3f5f8; border: none; color: #0a2f5c; }
+.ck-blok-etiket--temel { background: none; border: none; color: #073B70; }
 .ck-blok-etiket--temel { margin-top: 0; margin-bottom: 4px; }
 /* Temel Bilgiler bloğunun ilk satırı — müşteri ticari/cari ismi
    (27.09.2026) — sadece isim ayrı bir şerit olarak görünmeyen sayfalarda
@@ -150,16 +152,17 @@
 /* MİNİMAL/KURUMSAL TASARIM (27.09.2026): kutu/kenarlık kaldırıldı — her
    blok artık düz zeminde, altında ince bir çizgiyle bir sonraki bloktan
    ayrılıyor (tam genişlik ayraç). */
-/* KUTU KALDIRILDI (12.10.2026, Abdullah onayı): "kutu içinde kutu"
-   görünümü istenmiyor — zemin/kenarlık/köşe yuvarlama kaldırıldı, sadece
-   ince bir alt dolgu bırakıldı. Bu kural bundan sonra TÜM tasarımlar
-   için geçerli, bir daha çerçeve/kutu zemini eklenmeyecek. */
+/* "Kutu içinde kutu" zemini/köşe yuvarlama hâlâ istenmiyor — ama onaylanan
+   referansta (belge7-test.png) bölümler arasında ince bir ayraç çizgisi
+   VAR; 12.10'da bu çizgi de yanlışlıkla kaldırılmıştı. DÜZELTME
+   (14.10.2026): ince alt ayraç çizgisi geri eklendi. */
 .ck-blok {
   background: none;
   border: none;
   border-radius: 0;
   padding: 0 2px 8px;
   margin-bottom: 2px;
+  border-bottom: 1px solid #e1e6ea;
 }
 .ozet-satir-3--birlesik { border-radius: 0; overflow: visible; margin-top: 0; padding-bottom: 0; border-bottom: none; gap: 8px; }
 .ozet-satir-3--birlesik .ozet-alan { border-top: none; }

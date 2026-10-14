@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.131026.1535.800
+  cart-render.js — WG.151026.0015.822
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -263,12 +263,21 @@ function sayfayiCiz(){
 
     var hesaplananToplam = 0;
     hesaplananlar.forEach(function(u){ hesaplananToplam += hesapla(u).toplamEuro; });
+    // KOD/TARİH ŞERİDİ (15.10.2026, Abdullah onayı) — Belge Önizleme'deki
+    // "TÜR · KOD TARİH" şeridi artık Sepet'in HESAPLANDI grubunda da var.
+    // Gerçek SP/FT/PF/NM kodu ancak Gönder'de kaydet() çağrılınca
+    // (send-data.js) üretiliyor — burada henüz yok, bu yüzden "(taslak)"
+    // ibaresiyle BUGÜNÜN tarih/saatini gösteriyoruz.
+    var simdiKod = new Date();
+    var kodTarihMetni = String(simdiKod.getDate()).padStart(2,"0") + "." + String(simdiKod.getMonth()+1).padStart(2,"0") + "." + simdiKod.getFullYear()
+      + " " + String(simdiKod.getHours()).padStart(2,"0") + ":" + String(simdiKod.getMinutes()).padStart(2,"0");
     grupYesilAlani.innerHTML = (hesaplananlar.length === 0 || !hesaplandiGosterVarMi) ? "" : HareketTablo.grupHtml({
       etiket: "🟢 HESAPLANDI",
       etiketOrtali: true,
       etiketRozet: TIP_ETIKET_ROZET[secilenTip],
       etiketRozetSinifi: "islem-tipi",
       tip: secilenTip,
+      kodMetni: (TIP_ETIKET_ROZET[secilenTip] || "") + " · " + kodTarihMetni + " (taslak)",
       urunler: hesaplananlar,
       hesapla: hesapla,
       zeminSinifi: "hareket-satir--yesil",
@@ -330,19 +339,11 @@ function sayfayiCiz(){
 
 // ---------- Kaydetme mantığı (eskiden send-render.js'deydi) ----------
 
-function anomaliUyarilariniTopla(sepet, kur, kdv){
-  var uyarilar = [];
-  sepet.forEach(function(u){
-    if(u.iskonto && u.iskonto > 50){
-      uyarilar.push("⚠️ " + u.ad + " için iskonto %" + u.iskonto + " — çok yüksek görünüyor.");
-    }
-    var h = CartData.hesapla(u, kur, kdv);
-    if(u.dipFiyat && h.iskontoluFiyat < u.dipFiyat){
-      uyarilar.push("🔴 " + u.ad + " dip maliyetin (" + CartData.fmt(u.dipFiyat) + " EURO) altında satılıyor (net: " + CartData.fmt(h.iskontoluFiyat) + " EURO) — zararına satış olabilir.");
-    }
-  });
-  return uyarilar;
-}
+// KALDIRILDI (15.10.2026, Abdullah'ın isteğiyle): "⚠️ Anomali Uyarısı"
+// popup'ı (iskonto %50 üstü / dip maliyet altı satış uyarısı) tamamen
+// kaldırıldı — artık hiçbir koşulda gösterilmiyor, kaydet akışı
+// kesintisiz devam ediyor. Eskiden burada anomaliUyarilariniTopla()
+// fonksiyonu vardı, kaydetGercekIslem() içinde confirm() ile çağrılıyordu.
 
 function kurTazeligeGetir(devamFn){
   // Savunmacı kontrol: AyarlarSync herhangi bir sebeple (eksik dosya, eski
@@ -464,11 +465,6 @@ function kaydetGercekIslem(niyet){
 
     var kur = aktifKuruOku();
     var kdv = CartData.kdvOku();
-
-    var uyarilar = anomaliUyarilariniTopla(sepet, kur, kdv);
-    if(uyarilar.length > 0){
-      if(!confirm("⚠️ Anomali Uyarısı\n\n" + uyarilar.join("\n\n") + "\n\nYine de kaydetmek istiyor musunuz?")) return;
-    }
 
     document.getElementById("btnSepetKaydet").disabled = true;
     document.getElementById("btnSepetGonder").disabled = true;
