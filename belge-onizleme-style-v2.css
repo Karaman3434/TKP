@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.141026.1940.806
+  belge-onizleme-style-v2.css — WG.141026.2023.808
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -43,14 +43,15 @@
   letter-spacing: .4px;
 }
 .belge-onizleme-sayfa .belge-musteri-baslik > span:first-child { font-weight: 800; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   { background: #f3f5f8; }
+/* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): etiketin ALT ZEMİNİ artık
+   türe göre DEĞİŞMİYOR — hepsi aynı (yukarıdaki tek, ortak .belge-musteri-
+   baslik zemini, bkz. belge-style.css). SADECE yazı rengi işlem türüne göre
+   değişiyor — tablo üstü şeritteki (.belge-belge-baslik-serit-metin) ile
+   BİREBİR aynı palet. */
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   > span:first-child { color: #249147; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  { background: #38469a; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  > span:first-child { color: #ffffff; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma { background: #dcb13c; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma > span:first-child { color: #2b2300; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   { background: #c0453a; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   > span:first-child { color: #ffffff; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  > span:first-child { color: #38469a; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma > span:first-child { color: #c9a227; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   > span:first-child { color: #c0453a; }
 
 /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): üst boşluk daraltıldı
    (başlık şeridi ile müşteri ismi arası sıkılaştı) — alt/yanlar aynı. */
@@ -88,6 +89,14 @@
 .belge-onizleme-sayfa .belge-kart.tip-siparis .ck-isim-nokta { color: #38469a; }
 .belge-onizleme-sayfa .belge-kart.tip-proforma .ck-isim-nokta { color: #c9a227; }
 .belge-onizleme-sayfa .belge-kart.tip-numune .ck-isim-nokta { color: #c0453a; }
+
+/* TABLO ÜSTÜ ŞERİDİN YAZISI (14.10.2026, Abdullah'ın isteğiyle) — "FİYAT
+   TEKLİFİ · FT002 ..." metni artık işlem türünün kendi rengini taşıyor,
+   yukarıdaki nokta rengiyle BİREBİR aynı palet. */
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-teklif .belge-belge-baslik-serit-metin { color: #249147; }
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-siparis .belge-belge-baslik-serit-metin { color: #38469a; }
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-proforma .belge-belge-baslik-serit-metin { color: #c9a227; }
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-numune .belge-belge-baslik-serit-metin { color: #c0453a; }
 
 /* ---- Belge geçmişi (13.10.2026 — dikey zaman çizgisi, kutu ve her
    satırın sol/sağ boşluğu tam 2mm). Bu kutunun KENDİ çerçevesi şimdilik
@@ -147,9 +156,12 @@
 }
 
 /* ---- Alt buton çubuğu — "Yazdır" burada yok (zaten yoktu); güvenli alan
-   payı korunuyor. ---- */
+   payı korunuyor. ÜSTTEKİ PRİM kutusuyla aralarına boşluk (14.10.2026,
+   Abdullah'ın isteğiyle) — PRİM şeridi ile Kapat/İşlemler satırı artık
+   yapışık değil. ---- */
 .belge-onizleme-sayfa .belge-alt-buton-satir {
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  margin-top: 12px;
 }
 .belge-onizleme-sayfa .belge-kapat-buton {
   background: var(--surface);
