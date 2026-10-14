@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.141026.2023.808
+  belge-onizleme-style-v2.css — WG.141026.2035.810
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -50,7 +50,7 @@
    BİREBİR aynı palet. */
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   > span:first-child { color: #249147; }
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  > span:first-child { color: #38469a; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma > span:first-child { color: #c9a227; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma > span:first-child { color: #d2691e; }
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   > span:first-child { color: #c0453a; }
 
 /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): üst boşluk daraltıldı
@@ -87,7 +87,7 @@
    TIP_RENK_BELGE paletiyle birebir aynı. ---- */
 .belge-onizleme-sayfa .belge-kart.tip-teklif .ck-isim-nokta { color: #249147; }
 .belge-onizleme-sayfa .belge-kart.tip-siparis .ck-isim-nokta { color: #38469a; }
-.belge-onizleme-sayfa .belge-kart.tip-proforma .ck-isim-nokta { color: #c9a227; }
+.belge-onizleme-sayfa .belge-kart.tip-proforma .ck-isim-nokta { color: #d2691e; }
 .belge-onizleme-sayfa .belge-kart.tip-numune .ck-isim-nokta { color: #c0453a; }
 
 /* TABLO ÜSTÜ ŞERİDİN YAZISI (14.10.2026, Abdullah'ın isteğiyle) — "FİYAT
@@ -95,7 +95,7 @@
    yukarıdaki nokta rengiyle BİREBİR aynı palet. */
 .belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-teklif .belge-belge-baslik-serit-metin { color: #249147; }
 .belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-siparis .belge-belge-baslik-serit-metin { color: #38469a; }
-.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-proforma .belge-belge-baslik-serit-metin { color: #c9a227; }
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-proforma .belge-belge-baslik-serit-metin { color: #d2691e; }
 .belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-numune .belge-belge-baslik-serit-metin { color: #c0453a; }
 
 /* ---- Belge geçmişi (13.10.2026 — dikey zaman çizgisi, kutu ve her
@@ -163,17 +163,16 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
   margin-top: 12px;
 }
-.belge-onizleme-sayfa .belge-kapat-buton {
+/* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): Kapat ve İşlemler artık
+   BİREBİR aynı kutu tasarımını VE renklerini kullanıyor — Kapat'ın mevcut
+   tasarımı (beyaz zemin + kırmızı çerçeve/yazı) ikisine de uygulandı,
+   İşlemler'in eski dolgu-mavi görünümü kaldırıldı. İki buton artık sadece
+   etiketleriyle ayrılıyor. */
+.belge-onizleme-sayfa .belge-kapat-buton,
+.belge-onizleme-sayfa .belge-islemler-buton {
   background: var(--surface);
   color: var(--danger);
   border: 1.5px solid var(--danger);
-  border-radius: 9px;
-  font-size: 15px;
-  font-weight: 600;
-}
-.belge-onizleme-sayfa .belge-islemler-buton {
-  background: #38469a;
-  color: #fff;
   border-radius: 9px;
   font-size: 15px;
   font-weight: 600;
