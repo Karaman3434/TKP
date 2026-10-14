@@ -1,13 +1,15 @@
 /*
-  son-islemler-render.js — WG.131026.1620.802
+  son-islemler-render.js — WG.141026.1605.804
   =======================
   reports-render.js'deki islemleriCiz/islemlerExcelAktar buradan taşındı.
-  13.10.2026 (Abdullah'ın paylaştığı referans görsel + gerçek ChatGPT kodu +
-  yazılı talimat metnine göre, derinlemesine yeniden tasarım): kartlı/2
-  satırlı yapı kaldırıldı — artık GERÇEK TEK SATIRLIK TABLO (CSS Grid),
-  günlük gruplama/toplam KALDIRILDI (talimatın kesin isteği), her satır
-  kendi dd.mm.yy tarihini taşıyor. Rota zinciri satırda gösterilmiyor ama
-  kaybolmadı — Belge Geçmişi (belge-onizleme.html) detayında aynen duruyor.
+  13.10.2026: kartlı/2 satırlı yapı kaldırıldı — GERÇEK TEK SATIRLIK TABLO
+  (CSS Grid). 14.10.2026 (Abdullah'ın isteğiyle, v4 — onaylandı): tarih
+  sütunu satırdan TAMAMEN kaldırıldı, yerine diğer listelerdeki
+  (Satışlarım/Kaçan Satışlar/Ay Detayı) gibi günlük gruplama geri geldi —
+  her tarih kümesi için kutusuz bir "sr-grup-baslik" (tarih + günlük
+  toplam) satırı. Tarihin boşalttığı genişlik Firma'ya geçti. Rota zinciri
+  satırda gösterilmiyor ama kaybolmadı — Belge Geçmişi
+  (belge-onizleme.html) detayında aynen duruyor.
 */
 
 function hataGoster(mesaj){
@@ -58,18 +60,19 @@ function kanalHarfHTML(kanal){
   if(!kanal || !KANAL_HARF[kanal]) return "";
   return "<span class='sr-kanal-harf' style='color:" + KANAL_RENK[kanal] + ";'>" + KANAL_HARF[kanal] + "</span>";
 }
-// TABLO TASARIMI (13.10.2026, Abdullah'ın paylaştığı referans görsel + gerçek
-// ChatGPT kodu + yazılı talimat metnine göre): günlere göre gruplama (eski
-// tl-grup-baslik + günlük toplam) TAMAMEN KALDIRILDI — talimat metninin kesin
-// isteği: "Gün numarasını ayrıca gösteren eski sütunu tamamen kaldır. Tarih
-// tek sütunda ve tek formatta gösterilsin." Artık her kayıt kendi dd.mm.yy
-// tarihini taşıyan DÜZ (gruplanmamış) tek satırlık bir tablo satırı.
-function tarihFormatlaKisaYil(ts){
+// MOCKUP (14.10.2026, Abdullah'ın isteğiyle): tarih sütunu satırdan kalktı,
+// yerine diğer listelerdeki (Satışlarım/Kaçan Satışlar/Ay Detayı) gibi her
+// tarih kümesi için üstte renkli bir "Tarih" başlık satırı geldi — sadece
+// MOCKUP, henüz üretime alınmadı.
+function gunAnahtari(ts){
+  var d = new Date(ts);
+  return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
+}
+function gunBasligi(ts){
   var d = new Date(ts);
   var gg = String(d.getDate()).padStart(2,"0");
   var aa = String(d.getMonth()+1).padStart(2,"0");
-  var yy = String(d.getFullYear()).slice(-2);
-  return gg + "." + aa + "." + yy;
+  return gg + "." + aa + "." + d.getFullYear() + " • " + GUNLER_UZUN[d.getDay()];
 }
 // Belge kodunun BAŞ HARFLERİ (SP/FT/PF/NM) işlem türünün kendi renginde;
 // numara kısmı normal renkte kalır (WG.210926.1709.589'dan değişmedi).
@@ -106,7 +109,6 @@ function islemTutarDurumHTML(k){
 function islemSatiriHTML(k){
   var rozetMeta = islemRozetMeta(k);
   return "<div class='sr-satir' data-i='" + k._i + "' style='border-left-color:" + rozetMeta.serit + ";'>"
-    + "<div class='sr-tarih-h'>" + tarihFormatlaKisaYil(k.ts) + "</div>"
     + "<div class='sr-firma-h'>" + htmlEsc(k.musteri||"") + "</div>"
     + "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
     + "<span class='sr-rozet-h' style='background:" + rozetMeta.rozetBg + ";color:" + rozetMeta.rozetRenk + ";'>" + rozetMeta.rozet + "</span>"
@@ -114,6 +116,26 @@ function islemSatiriHTML(k){
     + "<div class='sr-tutar-h'>" + islemTutarDurumHTML(k) + "</div>"
     + "<div class='sr-ok-h'>&#8250;</div>"
     + "</div>";
+}
+// Diğer listelerle (Satışlarım/Kaçan Satışlar/Ay Detayı) BİREBİR AYNI gruplama
+// kalıbı: aynı güne ait kayıtlar bir "sr-grup-baslik" (tarih + günlük toplam)
+// altında kutusuz şekilde toplanır.
+function tlGrupla(liste){
+  var gruplar = [], harita = {};
+  liste.forEach(function(k){
+    var anahtar = gunAnahtari(k.ts);
+    if(!harita[anahtar]){ harita[anahtar] = {ts:k.ts, kayitlar:[]}; gruplar.push(harita[anahtar]); }
+    harita[anahtar].kayitlar.push(k);
+  });
+  return gruplar;
+}
+function tlListeHTML(gruplar){
+  return gruplar.map(function(g){
+    var toplamGun = g.kayitlar.reduce(function(s,k){ return s + (k._tutar||0); }, 0);
+    var satirlar = g.kayitlar.map(islemSatiriHTML).join("");
+    return "<div class='sr-grup-baslik'><span>" + gunBasligi(g.ts) + "</span><span>" + fmt(toplamGun) + " €</span></div>"
+      + "<div class='sr-liste-kutu'>" + satirlar + "</div>";
+  }).join("");
 }
 
 function islemleriCiz(){
@@ -140,7 +162,8 @@ function islemleriCiz(){
       k._i = i;
       k._tutar = (k.urunler||[]).reduce(function(s,u){ return s+(u.toplamEuro||0); }, 0);
     });
-    kapsayici.innerHTML = "<div class='sr-liste-kutu'>" + liste.map(islemSatiriHTML).join("") + "</div>";
+    var gruplar = tlGrupla(liste);
+    kapsayici.innerHTML = tlListeHTML(gruplar);
 
     kapsayici.querySelectorAll(".sr-satir").forEach(function(el){
       el.onclick = function(){

@@ -1,4 +1,4 @@
-/* son-islemler-style.css — WG.131026.1620.802 */
+/* son-islemler-style.css — WG.141026.1605.804 */
 
 /* Bu sayfaya özgü "Siyah" tema (Ana Sayfa'daki Son İşlemler kutucuğunun
    rengiyle devam ediyor) — sadece #islemAra'yı hedefler, diğer tl- sayfalarını
@@ -20,28 +20,42 @@
    .tl-* sınıfları (Satış Listesi, Kaçan Satışlar, Ay Detayı, İşlem Geçmişi)
    KESİNLİKLE etkilenmedi; burada hepsi yeni "sr-" ön ekiyle, bu dosyaya
    özgü tanımlandı. */
-#islemlerListesi .sr-liste-kutu { }
+/* TABLO TASARIMI v4 (14.10.2026, Abdullah'ın isteğiyle — onaylandı): tarih
+   sütunu satırdan kaldırıldı, yerine diğer sayfalardaki (Satışlarım/Kaçan
+   Satışlar/Ay Detayı) gibi kutusuz "sr-grup-baslik" gün başlığı +
+   "sr-liste-kutu" geldi. Firma sütunu, tarihin boşalttığı genişliği aldı.
+   Grup başlığının zemin rengi programın diğer yerlerinde kullanılan GRİ
+   tona çevrildi (eski açık mavi #e9f3fc yerine) — bu değişiklik TÜM liste
+   sayfalarına (Satışlarım, Kaçan Satışlar, Ay Detayı, İşlem Geçmişi) aynı
+   anda uygulandı. Gruplar arası boşluk da sıkılaştırıldı (14px → 3px). */
+#islemlerListesi .sr-grup-baslik {
+  background: #f7f9fb; color: #5f6b7a; display: flex; justify-content: space-between;
+  align-items: center; padding: 4px 2mm; border-radius: 8px; font-size: 12.5px;
+  font-weight: 700; line-height: 1.2; margin: 3px 0 2px;
+}
+#islemlerListesi .sr-grup-baslik:first-child { margin-top: 0; }
+#islemlerListesi .sr-liste-kutu { margin-bottom: 0; }
 #islemlerListesi .sr-satir {
   cursor: pointer;
   display: grid;
-  grid-template-columns: 44px minmax(0,1fr) minmax(50px,19%) 32px 48px 60px 16px;
+  grid-template-columns: minmax(0,1fr) minmax(50px,19%) 32px 48px 60px 16px;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   min-height: 36px;
   padding: 6px 2mm 6px calc(2mm + 6px);
   border-bottom: 1px solid #eef0f3;
   border-left: 3px solid #c3cad4;
+  background: #fff;
 }
 #islemlerListesi .sr-satir:last-child { border-bottom: none; }
 /* LİSTE TASARIMLARI GENELİ (14.10.2026, Abdullah'ın isteğiyle): harf/sayı
    boyutları %10 büyütüldü (satır yüksekliği SABİT kaldı). Bu boyutlar tüm
    liste sayfalarında AYNI tutulmalı — bkz. customer-style.css üstteki not. */
-#islemlerListesi .sr-tarih-h { font-size: 11px; color: #5f6b7a; font-weight: 600; white-space: nowrap; }
-#islemlerListesi .sr-firma-h { font-size: 13px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
-#islemlerListesi .sr-konum-h { font-size: 10.5px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
+#islemlerListesi .sr-firma-h { font-size: 13.5px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
+#islemlerListesi .sr-konum-h { font-size: 11px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
 #islemlerListesi .sr-rozet-h {
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 800; padding: 3px 1px; border-radius: 5px;
+  font-size: 10.5px; font-weight: 800; padding: 3px 1px; border-radius: 5px;
   text-align: center; line-height: 1;
 }
 #islemlerListesi .sr-belge-h { font-size: 10.5px; font-weight: 700; color: #5f6b7a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

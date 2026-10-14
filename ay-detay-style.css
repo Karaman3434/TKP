@@ -1,4 +1,4 @@
-/* ay-detay-style.css — WG.141026.0010.803 (YENİ DOSYA, 14.10.2026)
+/* ay-detay-style.css — WG.141026.1605.804 (YENİ DOSYA, 14.10.2026)
    Bu sayfa eskiden hiç kendi stil dosyasına sahip değildi, tüm satır
    görünümü paylaşılan reports-style.css'teki .tl-* sınıflarından
    geliyordu. Müşteri Listesi/Son İşlemler'deki tek-satırlık tablo
@@ -8,14 +8,16 @@
    HİÇ DOKUNULMADI, sadece bu sayfaya özgü "sr-" sınıfları burada,
    #ayDetayListesi ile scope'lanmış. Kutu/çerçeve YOK, gün gruplama
    başlığı sadece renkli etiket. Harf/sayı boyutları diğer listelerle
-   AYNI (%10 büyütülmüş), satır yüksekliği sabit. */
+   AYNI (%10 büyütülmüş), satır yüksekliği sabit.
+   v4 (14.10.2026, WG.141026.1605.804): grup başlığının zemin rengi gri
+   tona çevrildi, gruplar arası boşluk sıkılaştırıldı (14px → 3px). */
 #ayDetayListesi .sr-grup-baslik {
-  background: #e9f3fc; color: #4a6785; display: flex; justify-content: space-between;
+  background: #f7f9fb; color: #5f6b7a; display: flex; justify-content: space-between;
   align-items: center; padding: 4px 2mm; border-radius: 8px; font-size: 12.5px;
-  font-weight: 700; line-height: 1.2; margin: 14px 0 2px;
+  font-weight: 700; line-height: 1.2; margin: 3px 0 2px;
 }
 #ayDetayListesi .sr-grup-baslik:first-child { margin-top: 0; }
-#ayDetayListesi .sr-liste-kutu { margin-bottom: 4px; }
+#ayDetayListesi .sr-liste-kutu { margin-bottom: 0; }
 #ayDetayListesi .sr-satir {
   cursor: pointer;
   display: grid;

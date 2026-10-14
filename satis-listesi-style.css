@@ -63,15 +63,19 @@
    kullanıyor. Kutu/çerçeve YOK — gün gruplama başlığı sadece renkli
    etiket. Firma/Konum hiç kesilmez, uzun metin sarar. Harf/sayı boyutları
    diğer listelerle (Müşteri Listesi/Son İşlemler) AYNI (%10 büyütülmüş),
-   satır yüksekliği sabit. */
+   satır yüksekliği sabit.
+   v4 (14.10.2026, WG.141026.1605.804): grup başlığının zemin rengi gri
+   tona çevrildi (eski açık mavi yerine), gruplar arası boşluk sıkılaştırıldı
+   (14px → 3px) — Abdullah'ın Son İşlemler mockup'ında onayladığı tasarım
+   tüm listelere uygulandı. */
 #slListe .sr-grup-baslik, #ksListe .sr-grup-baslik {
-  background: #e9f3fc; color: #4a6785; display: flex; justify-content: space-between;
+  background: #f7f9fb; color: #5f6b7a; display: flex; justify-content: space-between;
   align-items: center; padding: 4px 2mm; border-radius: 8px; font-size: 12.5px;
-  font-weight: 700; line-height: 1.2; margin: 14px 0 2px;
+  font-weight: 700; line-height: 1.2; margin: 3px 0 2px;
 }
 #slListe .sr-grup-baslik:first-child, #ksListe .sr-grup-baslik:first-child { margin-top: 0; }
 #slListe .sr-grup-baslik--turuncu, #ksListe .sr-grup-baslik--turuncu { background: #FFF0D9; color: #b7601f; margin-top: 0; }
-#slListe .sr-liste-kutu, #ksListe .sr-liste-kutu { margin-bottom: 4px; }
+#slListe .sr-liste-kutu, #ksListe .sr-liste-kutu { margin-bottom: 0; }
 #slListe .sr-satir, #ksListe .sr-satir {
   cursor: pointer;
   display: grid;
