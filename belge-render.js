@@ -1,6 +1,9 @@
 /*
-  belge-render.js — WG.131026.1455.798
+  belge-render.js — WG.141026.1710.805
   ===============
+  14.10.2026: "Yazdır" artık window.print() yerine gerçek bir PDF üretiyor
+  (bkz. teklif-pdf.js) — bu dosyanın KENDİ görünümüne/işlevlerine dokunulmadı,
+  sadece msYazdir butonunun davranışı değişti.
   "weiconv2_goruntulenen_belge" localStorage anahtarından {tip, ts} okur,
   ReportsData.sonIslemler() içinden o kaydı bulur, eski uygulamanın
   faturaOnizlemeHtmlOlustur() düzenini BİREBİR üreten HTML'i çizer.
@@ -618,9 +621,19 @@ document.addEventListener("DOMContentLoaded", function(){
     if(ev.target === this) this.hidden = true;
   });
 
+  // PDF ÜRETİMİ (14.10.2026, Abdullah'ın isteğiyle, mockup üzerinden
+  // onaylandı): eski window.print() (ekranı olduğu gibi yazdırma) yerine
+  // artık gerçek, biçimlendirilmiş bir "Fiyat Teklif Formu" PDF'i üretiliyor
+  // — bkz. teklif-pdf.js. Bu, İÇ/program kopyası olduğu için müşteri kodu
+  // ve prim GÖRÜNÜR bırakılıyor (musteriKoduGizli/primGizli verilmedi).
   document.getElementById("msYazdir").onclick = function(){
     document.getElementById("islemlerOverlay").hidden = true;
-    window.print();
+    if(!sonCizilenKayit){ hataGoster("Önce bir belge açılmalı."); return; }
+    var btn = this;
+    btn.disabled = true;
+    TeklifPdf.indir(sonCizilenKayit, sonCizilenMusteri, {})
+      .catch(function(e){ hataGoster("PDF oluşturulamadı: " + e.message); })
+      .finally(function(){ btn.disabled = false; });
   };
   document.getElementById("msSil").onclick = function(){
     document.getElementById("islemlerOverlay").hidden = true;
