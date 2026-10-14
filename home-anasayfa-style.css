@@ -1,5 +1,5 @@
 /*
-  home-anasayfa-style.css — WG.111026.1055.761
+  home-anasayfa-style.css — WG.141026.2201.815
   ========================
   SADECE home.html'e özel — Abdullah'ın paylaştığı referans fotoğrafa göre
   yeniden tasarlanan Ana Sayfa (canlı mavi/yeşil, kartlı, çekmece menülü).
@@ -121,10 +121,15 @@
    satırıydı, artık ÜÇÜ aynı satırda). Üç kutu da aynı dar düzeni
    paylaşıyor, bu yüzden iç boşluk/yazı boyutları eski 2'li haline göre
    küçültüldü (kutu YÜKSEKLİĞİ değişmedi, sadece daha dar). ---------- */
+/* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle — "kutucuklar arasındaki
+   boşlukları eşitle"): aşağıdaki 4 ana blok (tarih/iş günü/kur satırı,
+   hedef kartı, bugün satış/prim satırı, takip+günün özeti bloğu) arasındaki
+   boşluk eskiden 8px/8px/12px/14px olarak FARKLIYDI — artık hepsi 10px,
+   TEK bir tutarlı boşluk. */
 .as-panel-satir {
   display: flex;
   gap: 6px;
-  padding: 0 0 8px;
+  padding: 0 0 10px;
   box-sizing: border-box;
 }
 /* YENİ TARİH PANELİ (06.10.2026, Abdullah'ın isteğiyle, referans görsele
@@ -211,7 +216,7 @@
 .as-kur-deger { font-size: 21px; font-weight: 800; color: #0e5c3e; line-height: 1; }
 
 /* ---------- Hedef kartı (koyu lacivert) ---------- */
-.as-hedef-blok { padding: 0 0 8px; box-sizing: border-box; }
+.as-hedef-blok { padding: 0 0 10px; box-sizing: border-box; }
 .as-hedef-kart {
   background: #0c2f66;
   border-radius: 16px;
@@ -272,7 +277,7 @@
 .as-kart-satir {
   display: flex;
   gap: 10px;
-  padding: 0 0 12px;
+  padding: 0 0 10px;
   box-sizing: border-box;
 }
 .as-kart {
@@ -296,7 +301,7 @@
 .as-kart--prim .as-kart-etiket { color: #c8f0d8; }
 
 /* ---------- Bugüne bakış (Takip gerekiyor + Günün özeti) ---------- */
-.as-liste-blok { padding: 0 0 14px; box-sizing: border-box; }
+.as-liste-blok { padding: 0 0 10px; box-sizing: border-box; }
 .as-liste-panel {
   background: #f6f7f9;
   border-radius: 16px;
