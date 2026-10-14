@@ -1,4 +1,4 @@
-/* belge-style.css — WG.141026.1940.806
+/* belge-style.css — WG.141026.2105.812
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -128,7 +128,11 @@
   align-items: center;
   gap: 8px;
   padding: 5px 16px;
-  font-size: 11px;
+  /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): yazı boyu artık tablo
+     üstündeki şeritle (.belge-belge-baslik-serit--mavi) BİREBİR aynı
+     (13.2px) — WEICON rozetinin kendi font-size'ı (.belge-logo-mini,
+     13px, sabit) bundan etkilenmiyor, ayrı tanımlı. */
+  font-size: 13.2px;
   font-weight: 700;
   color: #2563a8;
   letter-spacing: .5px;
@@ -183,33 +187,48 @@
 
 .belge-kosul-grid {
   display: flex;
-  gap: 14px;
+  gap: 8px;
   padding-bottom: 10px;
   margin-bottom: 4px;
 }
-/* KUTU-İÇİNDE-KUTU KALDIRILDI (14.10.2026, Abdullah'ın isteğiyle) — VADE/
-   FATURA/KARGO artık kendi zemin/çerçeveli kutucukları olmayan düz metin.
-   İkon artık ETİKETİN ÜSTÜNDE değil, ETİKETLE AYNI SATIRDA, BAŞINDA (flex
-   satır: ikon solda sabit, sağda etiket+değer alt alta). */
+/* GRİ KUTU TASARIMI (14.10.2026, Abdullah onayı — tablo üstü şeridin
+   ["SİPARİŞ · SP..."] kutu tasarımı ÖRNEK ALINDI): VADE/FATURA/KARGO artık
+   her biri AYNI dilde — açık gri zemin + marka mavisi çerçeve + yuvarlak
+   köşe. İkon, etiket ve değer ARTIK TEK SATIRDA (ikon solda sabit, sağda
+   etiket+değer yan yana — bkz. aşağıdaki "> div:last-child" kuralı). */
 .belge-kosul-alan {
   flex: 1;
   min-width: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 5px;
   text-align: left;
+  background: #E7E9EE;
+  border: 1.5px solid var(--brand-primary);
+  border-radius: 12px;
+  padding: 7px 8px;
 }
-.belge-kosul-ikon { display: block; font-size: 12px; line-height: 1.35; flex-shrink: 0; }
-.belge-kosul-etiket { display: block; font-size: 11px; font-weight: 600; color: #667085; }
+.belge-kosul-ikon { display: block; font-size: 12px; line-height: 1; flex-shrink: 0; }
+/* Etiket + değer artık dikey değil, yan yana (ikon ile AYNI satır) —
+   JS'teki markup değişmedi (etiket/değer ayrı iki div), bunları saran
+   tanımsız (class'sız) kapsayıcı div burada flex satırına çevriliyor. */
+.belge-kosul-alan > div:last-child {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 1px 4px;
+  min-width: 0;
+}
+.belge-kosul-etiket { font-size: 11px; font-weight: 600; color: #667085; white-space: nowrap; flex-shrink: 0; }
+/* UZUN DEĞERLER (ör. "Ücretsiz Teslim") artık kesilmiyor (ellipsis YOK) —
+   sığmazsa etiketin hemen altına, aynı kutu içinde kalarak sarıyor. */
 .belge-kosul-deger {
-  display: block;
-  margin-top: 2px;
+  margin-top: 0;
   font-size: 13px;
   font-weight: 700;
   color: #101828;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .belge-yetkili-satir {
@@ -251,7 +270,10 @@
   border-bottom: 1.5px solid var(--brand-primary);
   border-radius: 12px;
   margin: 8px 0;
-  justify-content: center;
+  /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): metin artık ortalı değil,
+     satırın BAŞINDAN başlıyor — ayrıca yazı %20 büyütüldü (11px -> 13.2px). */
+  justify-content: flex-start;
+  font-size: 13.2px;
 }
 
 /* ÜST BİLGİ ŞERİDİ (08.10.2026, Abdullah'ın isteğiyle) — belge-onizleme.html'de
@@ -584,13 +606,18 @@
   margin-top: 10px;
 }
 .belge-gt-kutu--altduz { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
-/* ÇERÇEVE KALDIRILDI (14.10.2026, Abdullah'ın isteğiyle) — "Bu işlem kuru"
-   artık kendi çerçeveli kutusu olmayan düz metin. */
+/* ÇERÇEVE GERİ GELDİ (14.10.2026, Abdullah'ın isteğiyle) — "Bu işlem kuru"
+   önceden çerçeveliydi, sonra kaldırılmıştı; şimdi tekrar ince, yarı
+   saydam beyaz bir çerçeve + yuvarlak köşe ile (mavi zemin üzerinde
+   okunaklı kalması için beyaz tonunda, GENEL TOPLAM'ın kendi mavisinden
+   ayrı bir renk eklenmedi). */
 .belge-gt-kur-ic {
   background: none;
   color: #ffffff;
   white-space: nowrap;
-  padding: 0;
+  border: 1.5px solid rgba(255,255,255,.45);
+  border-radius: 8px;
+  padding: 4px 10px;
 }
 /* KISALTMA (12.10.2026, Abdullah'ın isteğiyle): "Bu işlem kuru" artık iki
    satır — üstte küçük/soluk etiket, altta kalın rakam+EURO (eskiden tek
