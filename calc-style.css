@@ -1,13 +1,23 @@
-/* calc-style.css — WG.121026.2358.786
+/* calc-style.css — WG.141026.2143.814
    tek tip kutu sistemi: tüm alanlar aynı boy/font
    (turuncu iskonto kutuları hariç — onlar kasıtlı olarak biraz daha
-   büyük, sayı boyu %20 daha büyük). */
+   büyük, sayı boyu %20 daha büyük).
+
+   DÜZELTME (14.10.2026, Abdullah'ın isteğiyle — "arama motorlarının boyları
+   ve ölçüler aynı olsun"): bu dosyadaki .arama-kutusu kuralları aşağıda
+   ".hizli-hesapla-sayfa" ile SCOPE edildi. Önceden sınıf adı çıplaktı ve bu
+   dosya cart.html TARAFINDAN DA yükleniyor (calc-style.css hem calc.html hem
+   cart.html'de kullanılıyor) — bu yüzden calc.html'e özel küçük ölçüler
+   (13px/10.8px dolgu), cart.html'deki Ürün Bul arama kutusunun (product-
+   style.css'teki güncel kırmızı+kalın+%30 büyük tasarımı) ÜZERİNE binip onu
+   küçültüyordu. Artık SADECE calc.html'de (Hızlı Hesapla sayfası, body'ye
+   "hizli-hesapla-sayfa" sınıfı eklendi) geçerli; cart.html etkilenmiyor. */
 
 .sayfa { padding: 4px 6px 14px; background: #f4f6f9; }
 
-.arama-kutusu { position: relative; margin-bottom: 7px; }
-.arama-kutusu input { width: 100%; border: 2px solid #0e6b34; border-radius: 999px; padding: 10.8px 36px 10.8px 14.4px; font-size: 13px; background: #fff; }
-.arama-ikon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; }
+.hizli-hesapla-sayfa .arama-kutusu { position: relative; margin-bottom: 7px; }
+.hizli-hesapla-sayfa .arama-kutusu input { width: 100%; border: 2px solid #0e6b34; border-radius: 999px; padding: 10.8px 36px 10.8px 14.4px; font-size: 13px; background: #fff; }
+.hizli-hesapla-sayfa .arama-ikon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; }
 .sonuc-listesi { max-height: 220px; overflow-y: auto; margin-bottom: 7px; }
 .hesapla-arama-karti {
   display: flex; align-items: center; gap: 9px;
