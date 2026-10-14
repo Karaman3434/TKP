@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js
+  hareket-tablo.js — WG.141026.2250.819
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -72,7 +72,11 @@ var HareketTablo = (function(){
       }
       var primHucre;
       if(!toplamVarMi){ primHucre = "-"; }
-      else if(u.ozelEtiket === "bedelsiz"){ primHucre = "🎁 Bedelsiz"; }
+      // DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle): dar PRİM sütununda
+      // "Bedelsiz" iki satıra bölünüyordu ("Bedelsi"/"z") — kısa koda
+      // ("BDLSİZ") çevrildi; bu da tek başına sığmadığı için nowrap +
+      // küçük font (.belge-td-prim-bedelsiz) ile sarmalandı.
+      else if(u.ozelEtiket === "bedelsiz"){ primHucre = "<span class='belge-td-prim-bedelsiz'>🎁 BDLSİZ</span>"; }
       else if(u.iskonto>60){ primHucre = "Ö.F"; }
       else { primHucre = "<span class='belge-td-prim-tek'>" + paraHtml(Math.round(h.mudurPrimTL).toLocaleString("tr-TR"),"TL") + "</span>"; }
       return "<tr class='" + (zeminSinifi||"") + "'>"
@@ -199,11 +203,50 @@ var HareketTablo = (function(){
       + "</div>";
   }
 
+  // TEK CARİ KUTUSU (14.10.2026, Abdullah'ın isteğiyle — "cari ve ürün
+  // tablosu tek yerden yönetilebilse" — ürün tablosundan sonra artık CARİ
+  // BİLGİ kutusu da buraya, tek paylaşılan yere taşındı): VADE/FATURA/KARGO
+  // özeti + FATURA/TESLİMAT adresi + YETKİLİ bloklarının "7. Belge" ile
+  // onaylanan renkli-kutu tasarımı (customer-cari-kart.html / cari-kart-
+  // style.css ile BİREBİR AYNı .ck-* sınıflar) — eskiden sadece Gönder
+  // ekranında (send-render.js) vardı, Belge Önizleme (belge-render.js) hâlâ
+  // eski/farklı ".belge-adres-blok" tasarımını kendi başına üretiyordu.
+  // yetkiliListesi bir DİZİ: Gönder tek seçili yetkiliyi [tekYetkili] olarak
+  // yollar, Belge Önizleme ise kaydın gösterilecek TÜM yetkililerini —
+  // her sayfanın kendi işleyişi (hangi yetkili(ler) gösterilir) burada
+  // DEĞİŞMEDİ, sadece görsel üretim kodu artık tek yerde.
+  function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi){
+    // Cari'deki tek "ŞEHİR" alanı SADECE fatura adresine eklenir — teslimat
+    // çoğu zaman bambaşka bir ilçe/ildedir, ona hiç eklenmez (29.09.2026).
+    var sehirEk = musteri.sehir ? ", " + htmlEsc(musteri.sehir) : "";
+    var html = "<div class='ck-isim-satir'><b class='ck-isim-nokta'>•</b> " + htmlEsc(musteri.ad) + "</div>"
+      + "<div class='ozet-satir-3 ozet-satir-3--birlesik'>"
+      +   "<div class='ozet-alan'><span class='ozet-ikon'>📅</span><div class='ozet-metin'><div class='ozet-baslik'>VADE</div><div class='ozet-deger'>" + htmlEsc(vade||"-") + "</div></div></div>"
+      +   "<div class='ozet-alan'><span class='ozet-ikon'>🧾</span><div class='ozet-metin'><div class='ozet-baslik'>FATURA</div><div class='ozet-deger'>" + htmlEsc(faturaTuru||"-") + "</div></div></div>"
+      +   "<div class='ozet-alan'><span class='ozet-ikon'>🚚</span><div class='ozet-metin'><div class='ozet-baslik'>KARGO</div><div class='ozet-deger'>" + htmlEsc(kargo||"-") + "</div></div></div>"
+      + "</div>"
+      + "<div class='ck-blok-etiket ck-blok-etiket--fatura'><span>📄 FATURA ADRESİ</span></div>"
+      + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
+      +   (faturaAdr ? htmlEsc(faturaAdr) + sehirEk : "<span class='belge-adres-bos'>Girilmemiş</span>")
+      + "</div></div></div>";
+    if(teslimatAdr){
+      html += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>🚚 TESLİMAT ADRESİ</span></div>"
+        + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>" + htmlEsc(teslimatAdr) + "</div></div></div>";
+    }
+    var yetkiliIcHtml = (yetkiliListesi||[]).map(function(k){ return yetkiliSatiriHtml(k.isim, k.telefon, k.eposta); }).join("");
+    if(yetkiliIcHtml){
+      html += "<div class='ck-blok-etiket ck-blok-etiket--yetkili'><span>👤 YETKİLİ</span></div>"
+        + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>" + yetkiliIcHtml + "</div></div></div>";
+    }
+    return html;
+  }
+
   return {
     satirlarHtml: satirlarHtml,
     grupHtml: grupHtml,
     kosulKutusuHtml: kosulKutusuHtml,
     yetkiliSatiriHtml: yetkiliSatiriHtml,
+    cariKutulariHtml: cariKutulariHtml,
     bakiyeNotuHtml: bakiyeNotuHtml,
     fmt: fmt,
     htmlEsc: htmlEsc

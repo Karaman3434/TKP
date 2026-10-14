@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.141026.1940.806
+  send-render.js — WG.141026.2250.819
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -137,49 +137,13 @@ function kosulSatirlariniSigdir(kok){
 
 // STANDART CARİ KART (27.09.2026, Abdullah'ın isteğiyle — minimal/kurumsal
 // tasarım): Cari Bilgi sayfası, Sepet'in "Formu Görüntüle"si ve Mail/
-// WhatsApp önizlemesi/gönderilen görseli artık BİREBİR AYNI tasarımı
-// kullanıyor — dolgu renkli kutular yok, sadece kalın mavi etiket + ince
-// alt çizgi ayraçlar (bkz. cari-kart-style.css). Mailde/gönderimde tek bir
-// seçili yetkili gösterilir; program içindeki seçim tiki (yeşil ✓) SADECE
-// Cari Kart'ın kendi "İşlem Yap" akışında (birden fazla kayıt arasından
-// seçim yaparken) görünür — bu yüzden burada artık DÜZ satır, tik yok.
-// Fatura/Teslimat/Yetkili seçim mantığı (adresleriBelirle/seciliAdresler,
-// weiconv2_secili_iletisim) DEĞİŞMEDİ — sadece görünüm burada üretiliyor.
-function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili){
-  // Cari'deki tek "ŞEHİR" alanı SADECE fatura adresine eklenir — teslimat
-  // çoğu zaman bambaşka bir ilçe/ildedir, ona hiç eklenmez (29.09.2026,
-  // Abdullah'ın bildirdiği hata: teslimat adresine fatura şehri sızıyordu).
-  var sehirEk = musteri.sehir ? ", " + htmlEsc(musteri.sehir) : "";
-  // DÜZELTME (07.10.2026, Abdullah'ın isteğiyle, mockup üzerinden onaylandı):
-  // 1) Firma/ticari müşteri isminin başına kalın • işareti eklendi.
-  // 2) Etiketler (VADE/FATURA/KARGO/FATURA ADRESİ/YETKİLİ ikonu+başlığı)
-  //    satır başında sabit kalıyor — altlarındaki DEĞERLER (firma ismi,
-  //    açık adres, yetkili ismi) artık ~3mm (10px) daha içeriden başlıyor
-  //    (bkz. cari-kart-style.css .ck-isim-satir/.ck-kart padding-left).
-  // 3) Yetkili isminin önündeki 👤 ikonu kaldırıldı (bkz. hareket-tablo.js
-  //    yetkiliSatiriHtml) — sadece "👤 YETKİLİ" etiketinde kalıyor.
-  var html = "<div class='ck-isim-satir'><b class='ck-isim-nokta'>•</b> " + htmlEsc(musteri.ad) + "</div>"
-    + "<div class='ozet-satir-3 ozet-satir-3--birlesik'>"
-    +   "<div class='ozet-alan'><span class='ozet-ikon'>📅</span><div class='ozet-metin'><div class='ozet-baslik'>VADE</div><div class='ozet-deger'>" + htmlEsc(vade||"-") + "</div></div></div>"
-    +   "<div class='ozet-alan'><span class='ozet-ikon'>🧾</span><div class='ozet-metin'><div class='ozet-baslik'>FATURA</div><div class='ozet-deger'>" + htmlEsc(faturaTuru||"-") + "</div></div></div>"
-    +   "<div class='ozet-alan'><span class='ozet-ikon'>🚚</span><div class='ozet-metin'><div class='ozet-baslik'>KARGO</div><div class='ozet-deger'>" + htmlEsc(kargo||"-") + "</div></div></div>"
-    + "</div>"
-    + "<div class='ck-blok-etiket ck-blok-etiket--fatura'><span>📄 FATURA ADRESİ</span></div>"
-    + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
-    +   (faturaAdr ? htmlEsc(faturaAdr) + sehirEk : "<span class='belge-adres-bos'>Girilmemiş</span>")
-    + "</div></div></div>";
-  if(teslimatAdr){
-    html += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>🚚 TESLİMAT ADRESİ</span></div>"
-      + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>" + htmlEsc(teslimatAdr) + "</div></div></div>";
-  }
-  if(seciliYetkili){
-    html += "<div class='ck-blok-etiket ck-blok-etiket--yetkili'><span>👤 YETKİLİ</span></div>"
-      + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
-      +   HareketTablo.yetkiliSatiriHtml(seciliYetkili.isim, seciliYetkili.telefon, seciliYetkili.eposta)
-      + "</div></div></div>";
-  }
-  return html;
-}
+// TEK CARİ KUTUSU (14.10.2026, Abdullah'ın isteğiyle): bu fonksiyon artık
+// burada değil — Belge Önizleme (belge-render.js) de AYNI tasarımı
+// kullansın diye hareket-tablo.js'e taşındı (bkz. HareketTablo.cariKutulariHtml).
+// Mailde/gönderimde tek bir seçili yetkili gösterilir; program içindeki
+// seçim tiki (yeşil ✓) SADECE Cari Kart'ın kendi "İşlem Yap" akışında
+// görünür. Fatura/Teslimat/Yetkili seçim mantığı (adresleriBelirle/
+// seciliAdresler, weiconv2_secili_iletisim) DEĞİŞMEDİ.
 
 // Belge tipi + tarih/saat metni (27.09.2026) — hem Gönder ekranının canlı
 // önizlemesi (tamOnizlemeHtmlOlustur) hem de gönderilen gerçek görsel
@@ -225,7 +189,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   } else {
     // BİRLEŞİK CARİ KUTUSU (27.09.2026): artık Cari Bilgi sayfasıyla aynı
     // renkli-kutu tasarımı — bkz. cariKutulariHtml().
-    musteriBlokHtml = cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili);
+    musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : []);
     html = "<div class='belge-kart'>" + formBaslikHtml(tip) + "</div>"
       + "<div class='belge-kart-ayrac'></div>"
       + musteriBlokHtml
@@ -315,40 +279,17 @@ function sayiDivHtml(sayiStr, birim){
 
 function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, orijinalTarih){
   var basit = kanal === "whatsapp"; // WhatsApp'a giden görsel: ürün tablosunda LİSTE/İSK/SIRA yok (Cari Bilgi her iki kanalda da TAM gösterilir)
-  var satirlarHtml = "";
-  var netEuro = 0;
-  sepet.forEach(function(u, i){
-    var h = CartData.hesapla(u, kur, kdv);
-    netEuro += h.toplamEuro;
-    var urunHucre = "<td class='belge-td-urun'><div class='belge-td-urun-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + htmlEsc(u.berta||"-") + "</span> - <span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + htmlEsc(u.abas||"-") + "</span>" + "</div><div class='belge-td-urun-ad'>" + htmlEsc(u.ad) + "</div></td>";
-    // NUMUNE/BEDELSİZ GÖSTERİMİ (28.09.2026, Abdullah'ın isteğiyle): bedelsiz
-    // (numune) işaretli bir ürün gönderiliyorsa TOPLAM sütununda "0,00 EURO"
-    // yerine "NUMUNE" yazılır. İskonto %100 girilmişse (bedelsiz ya da özel
-    // fiyat fark etmez) İSK sütununda "%100" yerine sadece "-" gösterilir.
-    var iskYuz100 = (u.iskonto||0) === 100;
-    var toplamHucreIcerik = (u.ozelEtiket === "bedelsiz")
-      ? "<div class='belge-td-sayi'>NUMUNE</div>"
-      : sayiDivHtml(fmtG2(h.toplamEuro), "EURO");
-    var iskHucreIcerik = iskYuz100 ? "<div class='belge-td-sayi'>-</div>" : ("<span class='belge-isk-metin'>" + sayiDivHtml((u.iskonto||0), "%") + "</span>");
-    if(basit){
-      satirlarHtml += "<tr>"
-        + urunHucre
-        + "<td>" + (u.adet||0) + "</td>"
-        + "<td class='belge-td-fiyat belge-td-fiyat--net'>" + sayiDivHtml(fmtG2(h.iskontoluFiyat), "EURO") + "</td>"
-        + "<td class='belge-td-fiyat belge-td-fiyat--toplam'>" + toplamHucreIcerik + "</td>"
-        + "</tr>";
-    } else {
-      satirlarHtml += "<tr>"
-        + "<td class='belge-td-sira'>" + (i+1) + "</td>"
-        + urunHucre
-        + "<td>" + (u.adet||0) + "</td>"
-        + "<td class='belge-td-fiyat'>" + sayiDivHtml(fmtG2(u.listeFiyat||0), "EURO") + "</td>"
-        + "<td class='belge-td-fiyat belge-td-fiyat--isk'>" + iskHucreIcerik + "</td>"
-        + "<td class='belge-td-fiyat belge-td-fiyat--net'>" + sayiDivHtml(fmtG2(h.iskontoluFiyat), "EURO") + "</td>"
-        + "<td class='belge-td-fiyat belge-td-fiyat--toplam'>" + toplamHucreIcerik + "</td>"
-        + "</tr>";
-    }
-  });
+  // TEK TABLO (14.10.2026, Abdullah'ın isteğiyle — "tüm tabloları aynı tablo
+  // yap"): bu satırlar eskiden burada AYRI/kopya bir döngüyle elle
+  // üretiliyordu (farklı sütun genişlikleri, "AD" yerine "ADET" gibi küçük
+  // farklarla) — artık Sepet/Gönder/Belge Önizleme ile BİREBİR AYNI, tek
+  // paylaşılan fonksiyon (HareketTablo.satirlarHtml) çağrılıyor. primGizli
+  // her zaman true (giden görselde PRİM sütunu hiç yok); kur BİLEREK null
+  // geçiliyor ki NET altında "≈ TL" satırı eklenmesin (gönderilen görselde
+  // sadece EURO tutarları kalır — önceki davranış korunuyor).
+  var hesaplaFn = function(u){ return CartData.hesapla(u, kur, kdv); };
+  var satirlarHtml = HareketTablo.satirlarHtml(sepet, hesaplaFn, "", basit, true, null);
+  var netEuro = sepet.reduce(function(s, u){ var h = hesaplaFn(u); return s + (h.toplamEuro||0); }, 0);
 
   // Yeni kaydedilen bir belge gönderiliyorsa "şu an" doğrudur (kayıt az
   // önce oluşturuldu). Ama Geçmişten "Gönder" ile tekrar paylaşılıyorsa,
@@ -391,7 +332,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     // BİRLEŞİK CARİ KUTUSU (27.09.2026): giden görsel de artık Cari Bilgi
     // sayfasıyla aynı renkli-kutu tasarımını kullanıyor — bkz. cariKutulariHtml().
     cariBaslikHtml = "<div class='belge-kart' style='margin:0;'>" + formBaslikHtml(tip) + "</div>";
-    cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili);
+    cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : []);
   }
 
   // "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı — v5 mockup, program
@@ -406,13 +347,12 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     + "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi'>" + tabloBasligi + "</div>"
     + "<div class='belge-kart'>"
     + "<div class='data-table-container'><table class='belge-urun-tablo belge-urun-tablo--giden'>"
+    // TEK TABLO (14.10.2026): sütun başlıkları/genişlikleri artık hareket-
+    // tablo.js'teki basHucreler ile BİREBİR AYNI (eskiden "AD"/farklı
+    // genişlikler kullanıyordu) — satır içerikleriyle birlikte tam tutarlı.
     + "<thead><tr>" + (basit
-        ? "<th style='width:38%;'>ÜRÜN BİLGİSİ</th><th style='width:14%;'>AD</th><th style='width:24%;'>NET</th><th style='width:24%;'>TOPLAM</th>"
-        // DÜZELTME (04.10.2026, Abdullah'ın isteğiyle): gönderilen mailin
-        // görsel tablosunda TOPLAM sütunu aşırı genişti. TOPLAM 22% → 14%'e
-        // DARALTILDI (büyütülmedi), fark ÜRÜN BİLGİSİ'ne eklendi (28% → 36%).
-        // Diğer sütunlar (#, AD, LİST, İSK, NET) DEĞİŞMEDİ.
-        : "<th style='width:4%;'>#</th><th style='width:36%;'>ÜRÜN BİLGİSİ</th><th style='width:7%;'>AD</th><th style='width:11%;'>LİST</th><th style='width:10%;'>İSK</th><th style='width:18%;'>NET</th><th style='width:14%;'>TOPLAM</th>") + "</tr></thead>"
+        ? "<th style='width:46%;'>ÜRÜN BİLGİSİ</th><th style='width:12%;'>ADET</th><th style='width:19%;'>NET</th><th style='width:23%;'>TOPLAM</th>"
+        : "<th style='width:3.6%;'>SR</th><th style='width:32.4%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:16%;'>NET</th><th style='width:18%;'>TOPLAM</th>") + "</tr></thead>"
     + "<tbody>" + satirlarHtml + "</tbody>"
     + "</table></div>"
     + (typeof HareketTablo !== "undefined" ? HareketTablo.bakiyeNotuHtml(sepet) : "")

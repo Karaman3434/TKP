@@ -1,4 +1,4 @@
-/* belge-style.css — WG.141026.2105.812
+/* belge-style.css — WG.141026.2219.816
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -369,7 +369,10 @@
    küçültüldü (8.4px -> 7.56px) ki bir daha kesilmesin. */
 /* BÜYÜTME (12.10.2026, Abdullah'ın isteğiyle): B/A kod blokları küçük
    kalıp okunamıyordu — %10 büyütüldü (7.56px -> 8.3px). */
-.belge-td-urun-kod { font-size: 11px; color: #1a2a3a; line-height: 1.3; white-space: nowrap; overflow: hidden; font-weight: 800; }
+/* DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle): Berta (B) / Abas (A) kod
+   etiketi — harf (.kod-harf, em ile orantılı) ve sayılar birlikte %10
+   küçültüldü (11px -> 9.9px; harf 12.65px -> 11.385px, oran korunarak). */
+.belge-td-urun-kod { font-size: 9.9px; color: #1a2a3a; line-height: 1.3; white-space: nowrap; overflow: hidden; font-weight: 800; }
 .kod-harf { font-weight: 900; font-size: 1.15em; padding: 0 1px; }
 .kod-blok--b { color: #c0392b; }
 .kod-blok--a { color: #003a70; }
@@ -391,6 +394,16 @@
 .belge-td-prim-tek {
   white-space: nowrap;
   font-size: 11px;
+}
+/* "BDLSİZ" rozeti (14.10.2026, Abdullah'ın isteğiyle — "Bedelsiz" kısa koda
+   çevrildi) — dar PRİM sütununda yine de sığmadığı için SADECE bu rozete
+   özel, biraz daha küçük + nowrap. */
+.belge-td-prim-bedelsiz {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 7.5px;
+  font-weight: 800;
+  letter-spacing: -.2px;
 }
 .belge-td-isk { color: #c0392b; font-weight: 700; }
 /* SAYI HİZASI VE BOYUTU (22.09.2026) — LİSTE/İSK/NET/TOPLAM/PRİM sütunlarının

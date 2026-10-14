@@ -1,5 +1,5 @@
 /*
-  teklif-pdf.js — WG.141026.1710.805
+  teklif-pdf.js — WG.141026.2228.817
   ===================================
   14.10.2026 (Abdullah'ın isteğiyle, mockup üzerinden onaylandı): müşteriye
   giden TEKLİF/SİPARİŞ/PROFORMA/NUMUNE kayıtları için gerçek, biçimlendirilmiş
@@ -76,7 +76,9 @@
     var satirPrim = ozelFiyatMi ? 0 : mk * adet * 0.22;
     var satirPrimTl = Math.round(satirPrim * (kaydinKuru||0));
     var bedelsizMi = item.ozelEtiket === "bedelsiz";
-    var primMetni = bedelsizMi ? "Bedelsiz" : (ozelFiyatMi ? "Ö.F" : (satirPrim < 0 ? "Yok" : (fmt(satirPrimTl) + " TL")));
+    // DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle): "Bedelsiz" -> kısa kod
+    // "BDLSİZ" (bkz. hareket-tablo.js / belge-render.js, aynı kısaltma).
+    var primMetni = bedelsizMi ? "BDLSİZ" : (ozelFiyatMi ? "Ö.F" : (satirPrim < 0 ? "Yok" : (fmt(satirPrimTl) + " TL")));
     var iskYuz100 = (item.iskonto||0) === 100;
     return {
       adet: adet,

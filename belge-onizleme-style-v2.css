@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.141026.2035.810
+  belge-onizleme-style-v2.css — WG.141026.2250.819
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -56,10 +56,13 @@
 /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): üst boşluk daraltıldı
    (başlık şeridi ile müşteri ismi arası sıkılaştı) — alt/yanlar aynı. */
 .belge-onizleme-sayfa .belge-musteri-govde { padding: 4px 16px 14px; }
-/* Müşteri ismi rengi marka mavisi (sadece bu sayfaya özgü ince bir vurgu) —
-   boyut artık paylaşılan "büyük" kademeyle (17px, belge-style.css) birebir
-   aynı. */
-.belge-onizleme-sayfa .belge-musteri-ad {
+/* Müşteri ismi rengi marka mavisi (sadece bu sayfaya özgü ince bir vurgu).
+   DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle — "cari kutusu tek yerden
+   yönetilsin"): isim satırı artık burada kendi ayrı koddan değil, Gönder/
+   Cari Kart ile PAYLAŞILAN HareketTablo.cariKutulariHtml'den geliyor — o
+   fonksiyon ismi ".ck-isim-satir" sınıfıyla basıyor (eski ".belge-musteri-ad"
+   artık DOM'da yok), bu yüzden seçici buna göre güncellendi. */
+.belge-onizleme-sayfa .ck-isim-satir {
   color: var(--brand-primary);
   white-space: nowrap;
   overflow: hidden;
@@ -76,11 +79,15 @@
   color: var(--brand-primary);
 }
 
-/* Adres/yetkili blokları — bu sayfada sadece DEĞER metni etiketle aynı
-   kenardan (girintisiz) başlıyor; boyut/renk artık paylaşılan kademeler
-   (belge-style.css). */
-.belge-onizleme-sayfa .belge-adres-govde { padding-left: 0; }
-.belge-onizleme-sayfa .belge-yetkili-blok .belge-yetkili-satir { padding-left: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+/* Yetkili bloğu — bu sayfa (diğerlerinden farklı olarak) birden fazla
+   yetkili gösterebildiği için (bkz. belge-render.js kayit.gorunecekYetkililer
+   filtresi) adlar yan yana sarabilsin diye flex-wrap korunuyor.
+   DEĞİŞİKLİK (14.10.2026): artık PAYLAŞILAN HareketTablo.cariKutulariHtml
+   çıktısı (".ck-blok" sarmalayıcı, eski ".belge-adres-govde"/".belge-
+   yetkili-blok" artık DOM'da yok) — girinti/zemin artık diğer sayfalarla
+   BİREBİR aynı paylaşılan ".ck-kart" kademesinden geliyor, ayrıca sıfırlamaya
+   gerek yok. */
+.belge-onizleme-sayfa .ck-blok .belge-yetkili-satir { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
 .belge-onizleme-sayfa .belge-yetkili-satir b { font-weight: 700; }
 
 /* ---- İŞLEM TÜRÜ RENGİ — isim önündeki büyük nokta, belge-render.js'teki

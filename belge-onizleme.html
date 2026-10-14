@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  WEICON ASİST — BELGE ÖNİZLEME v2 — VERSİYON: WG.121026.2225.783
+  WEICON ASİST — BELGE ÖNİZLEME v2 — VERSİYON: WG.141026.2250.819
   ====================================
   WEICON logosu tek başına üstte, CARİ BİLGİ şeridi (isim, vade/fatura/
   kargo, fatura adresi, teslimat adresi, yetkili bilgisi), tablo başlığında
@@ -27,9 +27,16 @@
 <title>WEICON ASİST — Belge Önizleme</title>
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
-<link rel="stylesheet" href="belge-style.css?v=WG.141026.2105.812">
+<!-- DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle — "cari kutusu tek yerden
+     yönetilsin"): CARİ BİLGİ bloğu artık Gönder/Cari Kart ile PAYLAŞILAN
+     HareketTablo.cariKutulariHtml'i çağırıyor (bkz. belge-render.js) — o
+     fonksiyon ".ck-*" sınıflarını kullanıyor, bunlar SADECE cari-kart-
+     style.css'te tanımlı; bu yüzden bu sayfaya da eklendi (send.html/
+     customer-detail.html'de zaten vardı). -->
+<link rel="stylesheet" href="cari-kart-style.css?v=WG.141026.1940.806">
+<link rel="stylesheet" href="belge-style.css?v=WG.141026.2219.816">
 <link rel="stylesheet" href="reports-style.css?v=WG.121026.1455.777">
-<link rel="stylesheet" href="belge-onizleme-style-v2.css?v=WG.141026.2035.810">
+<link rel="stylesheet" href="belge-onizleme-style-v2.css?v=WG.141026.2250.819">
 </head>
 <body class="belge-onizleme-sayfa">
 
@@ -178,12 +185,12 @@
 <script src="reports-safety-fix.js?v=WG.020926.1523.89"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
 <script src="product-data.js?v=WG.111026.1250.763"></script>
-<script src="hareket-tablo.js?v=WG.121026.1420.773"></script>
+<script src="hareket-tablo.js?v=WG.141026.2250.819"></script>
 <!-- TEKLİF PDF (14.10.2026, Abdullah'ın isteğiyle) — "Yazdır" artık gerçek
      bir PDF üretiyor (bkz. teklif-pdf.js), eski window.print() yerine. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-<script src="teklif-pdf.js?v=WG.141026.1710.805"></script>
-<script src="belge-render.js?v=WG.141026.2017.807"></script>
+<script src="teklif-pdf.js?v=WG.141026.2228.817"></script>
+<script src="belge-render.js?v=WG.141026.2250.819"></script>
 </body>
 </html>

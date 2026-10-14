@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.141026.1940.806
+  belge-render.js — WG.141026.2250.819
   ===============
   14.10.2026: "Yazdır" artık window.print() yerine gerçek bir PDF üretiyor
   (bkz. teklif-pdf.js) — bu dosyanın KENDİ görünümüne/işlevlerine dokunulmadı,
@@ -134,7 +134,9 @@ function belgeSatirHtmlVeDeger(item, i, adet, kaydinKuru, zeminSinifi){
   var ozelFiyatMi = (item.iskonto||0) > 60;
   var satirPrim = ozelFiyatMi ? 0 : mk*(adet||0)*0.22;
   var satirPrimTl = Math.round(satirPrim * kaydinKuru);
-  var primHucre = item.ozelEtiket === "bedelsiz" ? "🎁 Bedelsiz" : (ozelFiyatMi ? "Ö.F" : (satirPrim<0 ? "Yok" : ("<span class='belge-td-prim-tek'>"+paraHtml(satirPrimTl.toLocaleString("tr-TR"),"TL")+"</span>")));
+  // DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle): "Bedelsiz" -> kısa kod
+  // "BDLSİZ", nowrap + küçük font (.belge-td-prim-bedelsiz, bkz. hareket-tablo.js).
+  var primHucre = item.ozelEtiket === "bedelsiz" ? "<span class='belge-td-prim-bedelsiz'>🎁 BDLSİZ</span>" : (ozelFiyatMi ? "Ö.F" : (satirPrim<0 ? "Yok" : ("<span class='belge-td-prim-tek'>"+paraHtml(satirPrimTl.toLocaleString("tr-TR"),"TL")+"</span>")));
   // NUMUNE/BEDELSİZ GÖSTERİMİ (28.09.2026, Abdullah'ın isteğiyle): bedelsiz
   // (numune) işaretli ürünlerde TOPLAM sütunu "0,00 EURO" yerine "NUMUNE"
   // yazar. İskonto %100 girilmişse İSK sütununda "%100" yerine sadece "-".
@@ -211,20 +213,16 @@ function belgeyiCiz(kayit, musteri){
     // Cari'deki tek "ŞEHİR" alanı SADECE fatura adresine eklenir — teslimat
     // çoğu zaman bambaşka bir ilçe/ildedir, ona hiç eklenmez (29.09.2026).
     var sehir = (musteri && musteri.sehir) || "";
-    var yetkiliBilgiHtml = yetkililer.map(function(k){ return yetkiliSatiriHtml(k.isim, k.telefon, k.eposta); }).join("");
-
+    // TEK CARİ KUTUSU (14.10.2026, Abdullah'ın isteğiyle — "cari ve ürün
+    // tablosu tek yerden yönetilebilse"): bu kutu eskiden burada kendi
+    // ayrı/eski ".belge-adres-blok" kodunu üretiyordu — artık Gönder ve
+    // Cari Kart ile BİREBİR AYNI, tek paylaşılan fonksiyon
+    // (HareketTablo.cariKutulariHtml) çağrılıyor. HANGİ yetkili(ler)in
+    // gösterileceği mantığı (kayit.gorunecekYetkililer filtresi, yukarıda)
+    // DEĞİŞMEDİ — bu sayfanın kendi işleyişi; sadece görsel üretim ortak.
     var musteriBlokHtml = "<div class='belge-musteri-baslik belge-musteri-baslik--logolu tip-" + (kayit.tip||"siparis") + "'><span>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + "</span><span class='belge-logo-mini'>WEICON</span></div>"
       + "<div class='belge-musteri-govde'>"
-      // DÜZELTME (07.10.2026, Abdullah'ın isteğiyle, mockup üzerinden
-      // onaylandı): firma ismi başına kalın • işareti + etiketler satır
-      // başında sabit kalırken değerler (firma ismi, açık adres) ~3mm
-      // daha içeriden başlıyor (bkz. belge-style.css .belge-musteri-ad /
-      // .belge-adres-govde).
-      + "<div class='belge-musteri-ad'><b class='ck-isim-nokta'>•</b> " + htmlEsc(kayit.musteri) + "</div>"
-      + ((vade||faturaTuru||kargo) ? "<div class='belge-kosul-grid'>" + kosulKutusuHtml("📅","VADE",vade) + kosulKutusuHtml("📄","FATURA",faturaTuru) + kosulKutusuHtml("🚚","KARGO",kargo) + "</div>" : "")
-      + (faturaAdr ? "<div class='belge-adres-blok'><b class='belge-adres-etiket-fatura'>🧾 FATURA ADRESİ</b><span class='belge-adres-govde'>" + htmlEsc(faturaAdr) + (sehir?", "+htmlEsc(sehir):"") + "</span></div>" : "")
-      + (teslimatAdr ? "<div class='belge-adres-blok-teslimat'><b class='belge-adres-etiket-teslimat'>🚚 TESLİMAT ADRESİ</b><span class='belge-adres-govde'>" + htmlEsc(teslimatAdr) + "</span></div>" : "")
-      + (yetkiliBilgiHtml ? "<div class='belge-yetkili-blok'><b class='belge-adres-etiket-yetkili'>👤 YETKİLİ BİLGİSİ</b>" + yetkiliBilgiHtml + "</div>" : "")
+      + HareketTablo.cariKutulariHtml({ad: kayit.musteri, sehir: sehir}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer)
       + "</div>";
 
     // DÜZELTME (14.10.2026, Abdullah onayı — "7. Belge" tam yeniden
@@ -273,7 +271,11 @@ function belgeyiCiz(kayit, musteri){
       + durumRozetHtml
       + musteriBlokHtml
       + "</div>"
-      + (belgeBaslikMetni ? "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi'><span class='belge-belge-baslik-serit-metin'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + " · " + htmlEsc(belgeBaslikMetni) + "</span></div>" : "")
+      // DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): şeridin yazısı artık
+      // tek renk (lacivert) değil, işlem türünün kendi rengini taşıyor —
+      // "tip-" + kayit.tip sınıfı eklendi, gerçek renk (TIP_RENK_BELGE ile
+      // birebir) belge-onizleme-style-v2.css'ten geliyor.
+      + (belgeBaslikMetni ? "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi tip-" + (kayit.tip||"siparis") + "'><span class='belge-belge-baslik-serit-metin'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + " · " + htmlEsc(belgeBaslikMetni) + "</span></div>" : "")
       + "<div class='belge-kart'>"
       + "<div class='data-table-container'><table class='belge-urun-tablo'>"
       + "<thead><tr><th style='width:3.6%;'>SR</th><th style='width:29.2%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:13%;'>NET</th><th style='width:13%;'>TOPLAM</th><th style='width:11.2%;'>PRİM</th></tr></thead>"
