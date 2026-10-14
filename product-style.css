@@ -47,12 +47,21 @@ body {
   border: 2px solid #3569b8;
   border-radius: 999px;
   padding: 14px 44px 14px 18px;
-  font-size: 16px;
+  font-size: 20.8px;
+  font-weight: 700;
   outline: none;
-  color: #222;
+  color: #c0392b;
 }
 .arama-kutusu input:focus {
   border-color: #003a70;
+}
+/* DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle): arama kutusuna YAZILAN
+   harfler kırmızı + kalın + %30 büyük (16px -> 20.8px). İpucu (placeholder)
+   metni eski görünümünü koruyor, yukarıdaki kuraldan ETKİLENMİYOR. */
+.arama-kutusu input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+  font-size: 16px;
 }
 .arama-ikon {
   position: absolute;
