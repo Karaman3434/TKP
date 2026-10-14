@@ -1,5 +1,5 @@
 /*
-  cart-tablo-style-v2.css — WG.121026.1820.779
+  cart-tablo-style-v2.css — WG.141026.1940.806
   ================================================================
   Belge Önizleme'de onaylanan tasarım dili (açık gri zemin + türün
   rengi SADECE kendi rozetinde) Sepet/Hesapla tablosuna taşındı
@@ -7,9 +7,14 @@
   body.cart-sayfa altında — calc.html ve send.html'in de paylaştığı
   belge-style.css/cart-style.css unscoped kalıyor, bu dosya onları
   ETKİLEMEZ. Renkler TIP_RENK_BELGE (belge-render.js) ile birebir aynı.
+
+  KALDIRILDI (14.10.2026, Abdullah onayı — "7. Belge" v5 mockup, program
+  genelinde TEK standart): çift satır açık gri zemin kuralı (zebra)
+  buradan silindi — artık tablo içinde TEK zemin rengi var: beyaz (bkz.
+  belge-style.css, !important ile buradaki gibi sayfaya-özgü kuralların
+  üzerine çıkıyor).
 */
 body.cart-sayfa .belge-urun-tablo th { background: #EEF0F3; }
-body.cart-sayfa .belge-urun-tablo tbody tr:not(.hareket-satir--sari):not(.hareket-satir--yesil):nth-child(even) td { background: #EFF1F4; }
 
 /* GENEL TOPLAM kutusu — dikey yükseklik ~%20 azaltıldı, yazı boyutlarına dokunulmadı */
 body.cart-sayfa .belge-gt-satir { padding: 10px 16px; }

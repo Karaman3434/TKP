@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.121026.2340.785 */
+/* cari-kart-style.css — WG.141026.1940.806 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -43,34 +43,38 @@
    renkli etiket + normal ağırlıklı değer düzeni. Bu tasarım hem Cari Kart
    ekranında hem de Mail/WhatsApp gönderiminde (send-render.js'in
    cariKutulariHtml'i) BİREBİR AYNI — artık standart cari kart görünümü. */
-/* GRİ KUTU TASARIMI (12.10.2026, Abdullah onayı — mockup üzerinden):
-   Belge Önizleme'de onaylanan "açık gri zemin + koyu lacivert etiket"
-   dili bu karta da taşındı — 27.09'daki "kutusuz" tasarım yerini aldı.
-   Bu dosya hem Müşteri Cari Kartı (customer-cari-kart.html) hem de
-   Gönder ekranının önizlemesi/gönderilen görseli (send-render.js'in
-   cariKutulariHtml'i) tarafından paylaşıldığı için değişiklik HER
-   İKİSİNDE birden görünür. */
+/* "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı — v5 mockup, "7. Belge
+   heryerde" talimatı, program genelinde TEK standart): VADE/FATURA/KARGO
+   kutucukları artık 12.10'daki "açık gri kutu" zeminini KULLANMIYOR — Belge
+   Önizleme/Gönder görselinde onaylanan DÜZ zemin (kutu-içi-kutu yok) tasarımı
+   bu karta da taşındı. Marka mavisi tek tona sabitlendi (#073B70 — bkz.
+   belge-style.css --brand-primary; bu dosya her sayfada belge-style.css ile
+   birlikte yüklenmediği için değişken yerine aynı değer doğrudan yazıldı).
+   Bu dosya hem Müşteri Cari Kartı (customer-cari-kart.html) hem de Gönder
+   ekranının önizlemesi/gönderilen görseli (send-render.js'in
+   cariKutulariHtml'i) tarafından paylaşıldığı için değişiklik HER İKİSİNDE
+   birden görünür. */
 .ozet-alan {
-  background: #EEF0F3;
+  background: none;
   border: none;
-  border-radius: 8px;
-  padding: 7px 8px;
+  border-radius: 0;
+  padding: 0;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   text-align: left;
   gap: 6px;
 }
-.ozet-ikon { font-size: 14px; line-height: 1.3; flex-shrink: 0; }
+.ozet-ikon { font-size: 12px; line-height: 1.35; flex-shrink: 0; }
 .ozet-metin { min-width: 0; width: 100%; }
 .ozet-baslik {
   font-size: 11px;
   font-weight: 700;
-  color: #0a2f5c;
+  color: #073B70;
   letter-spacing: .2px;
 }
 .ozet-deger {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 400;
   color: #1a2733;
   margin-top: 1px;

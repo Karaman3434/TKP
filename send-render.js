@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.121026.1625.778
+  send-render.js — WG.141026.1940.806
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -239,7 +239,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   // FORM_BASLIK'ta zaten bir kere var, ve kendi ayrı kutusunda gerçek işlem
   // kodu (yukarıdaki kodEtiketHtml) gösteriliyor. Bu yüzden grupHtml'e artık
   // etiket geçilmiyor.
-  html += HareketTablo.grupHtml({
+  var grupSonucHtml = HareketTablo.grupHtml({
     urunler: sepet,
     hesapla: function(u){ return CartData.hesapla(u, kur, kdv); },
     genelToplam: tToplamEuro,
@@ -247,7 +247,17 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     primGizli: true,
     kur: kur
   });
-  html += "</div>";
+  // "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı): GENEL TOPLAM artık
+  // tablo kartına yapışık değil, bağımsız/kendi köşeleri yuvarlak bir kutu
+  // (bkz. belge-style.css .belge-gt-kutu). grupHtml() tablo+GENEL TOPLAM'ı
+  // TEK bir string olarak döndürüyor (Sepet'te de kullanılan paylaşılan
+  // fonksiyon, DEĞİŞTİRİLMEDİ) — burada ".belge-gt-kutu" başlangıcından
+  // ikiye bölünüyor: tablo kısmı ÜSTTEKİ ".belge-kart" İÇİNDE kapanıyor,
+  // GENEL TOPLAM kartın DIŞINDA bağımsız kalıyor (box-in-box olmasın diye).
+  var gtIndex = grupSonucHtml.indexOf("<div class='belge-gt-kutu");
+  var tabloKismiHtml = gtIndex === -1 ? grupSonucHtml : grupSonucHtml.slice(0, gtIndex);
+  var gtKismiHtml = gtIndex === -1 ? "" : grupSonucHtml.slice(gtIndex);
+  html += tabloKismiHtml + "</div>" + gtKismiHtml;
   return html;
 }
 
@@ -384,11 +394,17 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili);
   }
 
+  // "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı — v5 mockup, program
+  // genelinde TEK standart): şerit + tablo + GENEL TOPLAM artık TEK bir
+  // ".belge-kart" içinde YAPIŞIK DEĞİL — belge-render.js'teki belgeyiCiz()
+  // ile BİREBİR aynı yapı: baslik-serit bağımsız, tablo kendi kartında,
+  // GENEL TOPLAM bağımsız (margin'ler artık inline değil, paylaşılan
+  // belge-style.css'ten geliyor).
   return cariBaslikHtml
     + cariGovdeHtml
     + "<div class='belge-kart-ayrac'></div>"
-    + "<div class='belge-kart' style='margin:0;'>"
     + "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi'>" + tabloBasligi + "</div>"
+    + "<div class='belge-kart'>"
     + "<div class='data-table-container'><table class='belge-urun-tablo belge-urun-tablo--giden'>"
     + "<thead><tr>" + (basit
         ? "<th style='width:38%;'>ÜRÜN BİLGİSİ</th><th style='width:14%;'>AD</th><th style='width:24%;'>NET</th><th style='width:24%;'>TOPLAM</th>"
@@ -400,12 +416,12 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     + "<tbody>" + satirlarHtml + "</tbody>"
     + "</table></div>"
     + (typeof HareketTablo !== "undefined" ? HareketTablo.bakiyeNotuHtml(sepet) : "")
+    + "</div>"
     + "<div class='belge-genel-toplam-serit'>"
     + "<span class='belge-gt-etiket-deger-grup'>"
     + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
     + "<span class='belge-gt-deger'>" + fmtG2(netEuro) + " EURO</span>"
-    + "</span></div>"
-    + "</div>";
+    + "</span></div>";
 }
 
 function belgeGorseliniOlustur(kanal, callback){

@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.141026.1710.805
+  belge-render.js — WG.141026.1940.806
   ===============
   14.10.2026: "Yazdır" artık window.print() yerine gerçek bir PDF üretiyor
   (bkz. teklif-pdf.js) — bu dosyanın KENDİ görünümüne/işlevlerine dokunulmadı,
@@ -227,12 +227,10 @@ function belgeyiCiz(kayit, musteri){
       + (yetkiliBilgiHtml ? "<div class='belge-yetkili-blok'><b class='belge-adres-etiket-yetkili'>👤 YETKİLİ BİLGİSİ</b>" + yetkiliBilgiHtml + "</div>" : "")
       + "</div>";
 
-    // DÜZELTME (12.10.2026, Abdullah onayı — tam yeniden tasarım): tür adı
-    // ("FİYAT TEKLİFİ" vb.) burada YOK — zaten yukarıdaki müşteri bloğu üst
-    // şeridinde bir kere gösteriliyor. Kod artık KENDİ AYRI, tür renginde
-    // kutusunda (bkz. aşağıdaki .belge-ust-bilgi-kutu) — tarih/saat burada
-    // ARTIK GÖSTERİLMİYOR (Gönder ekranındaki aynı kararla tutarlı, bkz.
-    // send-render.js kodEtiketHtml). "Bu işlem kuru" artık GENEL TOPLAM
+    // DÜZELTME (14.10.2026, Abdullah onayı — "7. Belge" tam yeniden
+    // tasarım): kod artık tablonun hemen üstündeki GRİ, çerçeveli, bağımsız
+    // ".belge-belge-baslik-serit--mavi" şeridinde, tür adıyla birlikte
+    // (bkz. aşağıda html değişkeni). "Bu işlem kuru" artık GENEL TOPLAM
     // kutusunun İÇİNDE, Sepet/Gönder ile AYNI .belge-gt-kutu/.belge-gt-satir
     // yapısıyla (aşağıda).
     var belgeBaslikMetni = (kayit.kod || "") + (kayit.revizeZamani ? " · 🔄 REVİZE" : "");
@@ -262,26 +260,33 @@ function belgeyiCiz(kayit, musteri){
     // DÜZELTME (12.10.2026, Abdullah onayı): "tip-" + kayit.tip sınıfı
     // eklendi — belge-onizleme-style-v2.css bu sınıfla işlem türünün
     // rengini (sadece üst şeritteki tür adına ve isim noktasına) uyguluyor.
+    // "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı — v5 mockup, program
+    // genelinde TEK standart): tür/kod artık kendi renkli ".belge-ust-bilgi-
+    // kutu"su DEĞİL, Gönder giden görselinde zaten kullanılan GRİ, çerçeveli,
+    // bağımsız ".belge-belge-baslik-serit--mavi" şeridi (bkz. belge-style.css).
+    // Ürün tablosu kartı artık bu şeride YAPIŞIK değil ("belge-kart--ustduz"
+    // kaldırıldı — tablo kartı kendi tam yuvarlak köşesini alıyor). GENEL
+    // TOPLAM ve PRİM artık "belge-gt-kutu--altduz" İLE değil, iki AYRI,
+    // bağımsız, tam yuvarlak köşeli kutu olarak çiziliyor.
     var html = gecmisCipSatiriHtml(kayit)
       + "<div class='belge-kart tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
       + durumRozetHtml
       + musteriBlokHtml
       + "</div>"
-      + "<div class='belge-kart-ayrac'></div>"
-      + (belgeBaslikMetni ? "<div class='belge-ust-bilgi-kutu tip-" + (kayit.tip||"siparis") + "'>" + htmlEsc(belgeBaslikMetni) + "</div>" : "")
-      + "<div class='belge-kart belge-kart--ustduz'>"
+      + (belgeBaslikMetni ? "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi'><span class='belge-belge-baslik-serit-metin'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + " · " + htmlEsc(belgeBaslikMetni) + "</span></div>" : "")
+      + "<div class='belge-kart'>"
       + "<div class='data-table-container'><table class='belge-urun-tablo'>"
       + "<thead><tr><th style='width:3.6%;'>SR</th><th style='width:29.2%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:13%;'>NET</th><th style='width:13%;'>TOPLAM</th><th style='width:11.2%;'>PRİM</th></tr></thead>"
       + "<tbody>" + satirlarHtml + "</tbody>"
       + "</table></div>"
-      + "<div class='belge-gt-kutu belge-gt-kutu--altduz'><div class='belge-gt-satir'>"
+      + bakiyeBlokHtml
+      + "</div>"
+      + "<div class='belge-gt-kutu'><div class='belge-gt-satir'>"
       + kurIcHtml
       + "<span class='belge-gt-etiket-deger-grup'><span class='belge-gt-etiket'>GENEL TOPLAM</span><span class='belge-gt-deger'>" + fmt(netEuro) + " EURO<span class='belge-gt-deger-alt'>≈ " + Math.round(netEuro*(kayit.kur||0)).toLocaleString("tr-TR") + " TL</span></span></span>"
       + "</div></div>"
       + "<div class='belge-prim-serit'>"
       + "<span class='belge-prim-etiket'>PRİM</span><span class='belge-prim-deger'>" + (toplamPrim<0?"Prim yok":Math.round(toplamPrimTl).toLocaleString("tr-TR")+" TL") + "</span>"
-      + "</div>"
-      + bakiyeBlokHtml
       + "</div>";
 
     document.getElementById("belgeIcerik").innerHTML = html;

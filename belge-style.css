@@ -1,17 +1,35 @@
-/* belge-style.css — TEMİZ tasarım: beyaz kartlar, ince gri çizgiler, orta
-   ağırlıklı yazılar (kalın değil). Cari Bilgi ve Ürün Tablosu artık İKİ AYRI
-   kart (.belge-kart), aralarında ince bir boşluk (.belge-kart-ayrac). */
+/* belge-style.css — WG.141026.1940.806
+   "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
+   mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
+   kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
+   boşluğu, sadece 3 yazı boyu (büyük/orta/küçük — bkz. aşağıdaki not),
+   GENEL TOPLAM ve PRİM birbirinden ayrı, bağımsız, yuvarlak köşeli kutular.
+   Cari Bilgi ve Ürün Tablosu İKİ AYRI kart (.belge-kart), aralarında ince
+   bir boşluk (.belge-kart-ayrac). */
 
-.sayfa { padding: 4px 6px 16px; }
+:root {
+  --brand-primary: #073B70; /* TEK marka mavisi — WEICON rozeti + GENEL TOPLAM kutusu HEP bu ton (14.10.2026, Abdullah onayı) */
+}
 
-/* Genel amaçlı temiz kart — Cari Bilgi ve Ürün Tablosu ayrı ayrı bunu kullanır. */
+/* YAZI BOYU KURALI (14.10.2026, Abdullah'ın isteğiyle): programdaki HER
+   metin/rakam sadece üç boydan birini kullanır — ara boy YOK:
+   büyük=17px (müşteri adı, GENEL TOPLAM tutarı), orta=13px (gövde metni,
+   ürün adları, tablo rakamları), küçük=11px (etiketler, meta bilgiler,
+   tablo başlıkları). İKİ dar teknik istisna açıkça işaretli aşağıda
+   (EURO/TL birim etiketi + 1000+ rakamların otomatik küçülmesi) — dar
+   tablo sütununa sığdırmak için gerekli, Abdullah'ın onayıyla. */
+
+.sayfa { padding: 4px 2mm 16px; }
+
+/* Genel amaçlı temiz kart — Cari Bilgi ve Ürün Tablosu ayrı ayrı bunu
+   kullanır. ÇERÇEVESİZ (14.10.2026, Abdullah'ın isteğiyle) — kartlar
+   artık birbirinden çizgiyle değil, sadece boşlukla ayrılıyor. */
 .belge-kart {
   background: #ffffff;
-  border: 1px solid #e2e6ec;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
   box-sizing: border-box;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .belge-kart-ayrac { height: 0; }
 
@@ -89,14 +107,13 @@
    .hareket-grup-etiket-rozet--weicon) artık aynı, daha büyük tek ölçüde;
    başka boy kullanılmaz. */
 .belge-logo-mini {
-  background: #003a70;
+  background: var(--brand-primary);
   color: #ffffff;
   font-weight: 900;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 1px;
-  padding: 6px 14px;
-  border-radius: 5px;
-  border: 1.5px solid #004f99;
+  padding: 7px 16px;
+  border-radius: 6px;
   flex-shrink: 0;
 }
 .belge-tur-baslik { font-size: 12px; font-weight: 700; color: #556170; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -116,13 +133,12 @@
   color: #2563a8;
   letter-spacing: .5px;
   background: #f4f8fc;
-  border-bottom: 1px solid #e2ecf6;
 }
 /* Tek rozet modeli (26.09.2026): artık .belge-logo-mini'nin kendisi
    standart lacivert stili taşıyor, bu modifikatöre gerek kalmadı — TEK
    KURAL, iki farklı görünüm yerine tek bir WEICON rozeti tüm belgede. */
 .belge-musteri-govde { padding: 7px 8px; }
-.belge-musteri-ad { font-size: 14px; font-weight: 700; color: #1a2a3a; margin-bottom: 8px; padding-left: 10px; }
+.belge-musteri-ad { font-size: 17px; font-weight: 700; color: #1a2a3a; margin-bottom: 8px; padding-left: 10px; }
 /* İsim başındaki • işareti (07.10.2026) — ayrı elemanda, metinle hizalı. */
 .ck-isim-nokta { margin-right: 2px; color: #1a2a3a; }
 /* Adres/ünvan DEĞER metni (07.10.2026) — etiket (📄 FATURA ADRESİ vb.)
@@ -131,8 +147,11 @@
 .belge-adres-govde { display: block; padding-left: 10px; }
 .belge-musteri-ad--sade { margin-bottom: 2px; }
 .belge-musteri-sehir { font-size: 11px; color: #8a96a3; margin-bottom: 4px; }
+/* NOT: üstteki ince border-top çizgiler KASITLI korunuyor — bunlar bölüm
+   ARASI tek çizgilik bir AYRAÇ, "çerçeve/kutu" değil (teklif PDF'inde zaten
+   onaylanan aynı ilke — kutu değil, sadece alt/üst çizgi). */
 .belge-adres-blok {
-  font-size: 12px;
+  font-size: 13px;
   color: #111827;
   font-weight: 700;
   line-height: 1.5;
@@ -140,11 +159,11 @@
   padding-bottom: 4px;
   border-top: 1px solid #f0f2f5;
 }
-.belge-adres-etiket-fatura { color: #003a70; font-size: 10px; display: block; margin-bottom: 4px; font-weight: 700; letter-spacing: .3px; }
+.belge-adres-etiket-fatura { color: var(--brand-primary); font-size: 11px; display: block; margin-bottom: 4px; font-weight: 700; letter-spacing: .3px; }
 .belge-adres-bos { color: #a8b0ba; font-style: italic; font-weight: 500; }
-.belge-adres-etiket-teslimat { color: #003a70; font-size: 10px; display: block; margin-bottom: 4px; font-weight: 700; letter-spacing: .3px; }
+.belge-adres-etiket-teslimat { color: var(--brand-primary); font-size: 11px; display: block; margin-bottom: 4px; font-weight: 700; letter-spacing: .3px; }
 .belge-adres-blok-teslimat {
-  font-size: 12px;
+  font-size: 13px;
   color: #111827;
   font-weight: 700;
   line-height: 1.5;
@@ -152,9 +171,9 @@
   padding-top: 10px;
   border-top: 1px solid #f0f2f5;
 }
-.belge-adres-etiket-yetkili { color: #003a70; font-size: 10px; display: block; margin-bottom: 4px; font-weight: 700; letter-spacing: .3px; }
+.belge-adres-etiket-yetkili { color: var(--brand-primary); font-size: 11px; display: block; margin-bottom: 4px; font-weight: 700; letter-spacing: .3px; }
 .belge-yetkili-blok {
-  font-size: 12px;
+  font-size: 13px;
   color: #111827;
   font-weight: 700;
   margin-top: 4px;
@@ -164,23 +183,28 @@
 
 .belge-kosul-grid {
   display: flex;
-  gap: 4px;
-  padding-bottom: 12px;
+  gap: 14px;
+  padding-bottom: 10px;
   margin-bottom: 4px;
 }
+/* KUTU-İÇİNDE-KUTU KALDIRILDI (14.10.2026, Abdullah'ın isteğiyle) — VADE/
+   FATURA/KARGO artık kendi zemin/çerçeveli kutucukları olmayan düz metin.
+   İkon artık ETİKETİN ÜSTÜNDE değil, ETİKETLE AYNI SATIRDA, BAŞINDA (flex
+   satır: ikon solda sabit, sağda etiket+değer alt alta). */
 .belge-kosul-alan {
   flex: 1;
   min-width: 0;
-  background: #f7f9fb;
-  border-radius: 8px;
-  padding: 4px 2px;
-  text-align: center;
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  text-align: left;
 }
-.belge-kosul-ikon { display: none; }
-.belge-kosul-etiket { display: block; font-size: 7.6px; font-weight: 600; color: #667085; margin-bottom: 2px; }
+.belge-kosul-ikon { display: block; font-size: 12px; line-height: 1.35; flex-shrink: 0; }
+.belge-kosul-etiket { display: block; font-size: 11px; font-weight: 600; color: #667085; }
 .belge-kosul-deger {
   display: block;
-  font-size: 11px;
+  margin-top: 2px;
+  font-size: 13px;
   font-weight: 700;
   color: #101828;
   overflow: hidden;
@@ -189,7 +213,7 @@
 }
 
 .belge-yetkili-satir {
-  font-size: 12px;
+  font-size: 13px;
   color: #111827;
   font-weight: 700;
   line-height: 1.5;
@@ -205,7 +229,7 @@
   background: #eafaf0;
   color: #0e6b34;
   padding: 10px 16px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0;
   border-bottom: 1px solid #e2f0e6;
@@ -215,14 +239,18 @@
   gap: 8px;
 }
 .belge-belge-baslik-serit-metin { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-/* Gönder ekranının kendi tablo başlığı (27.09.2026, standart cari kart
-   tasarımıyla renk uyumu) — SADECE send-render.js'in belgeGorselHtmlOlustur
-   çıktısında kullanılır; belge-render.js'in (Belge Önizleme) kendi WEICON
-   rozetli yeşil şeridi DEĞİŞMEDİ. */
+/* ÜRÜN TABLOSUNUN HEMEN ÜSTÜNDEKİ ŞERİT (14.10.2026, Abdullah onayı — v5
+   mockup): artık program genelinde (Belge Önizleme + Gönder giden görseli)
+   TEK standart — gri zemin, etrafında belirgin mavi çerçeve, köşeleri
+   yuvarlak, BAĞIMSIZ bir kutu (tabloya yapışık değil — bkz. .belge-kart
+   ile arasındaki .belge-kart-ayrac/margin boşluğu, kullanım yerinde). */
 .belge-belge-baslik-serit--mavi {
-  background: #0c447c;
-  color: #eaf2fc;
-  border-bottom: none;
+  background: #E7E9EE;
+  color: #15243B;
+  border: 1.5px solid var(--brand-primary);
+  border-bottom: 1.5px solid var(--brand-primary);
+  border-radius: 12px;
+  margin: 8px 0;
   justify-content: center;
 }
 
@@ -261,7 +289,7 @@
   border-bottom: 1px solid #f0f2f5;
   padding: 8px 3px;
   text-align: center;
-  font-size: 10.35px;
+  font-size: 11px;
   font-weight: 800;
   white-space: nowrap;
 }
@@ -273,30 +301,37 @@
   vertical-align: middle;
   font-weight: 600;
   color: #1a2a3a;
-  font-size: 11.25px;
+  font-size: 13px;
   white-space: normal;
   word-break: break-word;
 }
-/* KURAL (23.09.2026) — programdaki HER sayısal tablo için standart, bu üç
-   base kuraldan SONRA gelmeli ki "border: none" onu ezmesin:
-   1) ince dikey sütun çizgileri, 2) zebra (bir satır çok hafif gri, bir
-   satır beyaz), 3) sabit genişlikli rakam (tabular-nums) — sayılar yan
-   yana geldiğinde kaymaz, karıştırma ihtimali azalır. Zebra, Sepet
-   sayfasındaki HESAPLANACAK/HESAPLANDI renkli grup satırlarını (sarı/
-   yeşil) EZMEZ — o satırlar kendi anlamlı rengini korur, zebra sadece
-   düz (renksiz) satırlara uygulanır. */
+/* EXCEL IZGARASI (14.10.2026, Abdullah'ın isteğiyle — Excel sayfası gibi,
+   hem satır hem sütun arasında hafif çizgi) — bu üç base kuraldan SONRA
+   gelmeli ki "border: none" onu ezmesin:
+   1) ince dikey sütun çizgileri, 2) TEK düz beyaz zemin (zebra YOK —
+   14.10.2026, Abdullah'ın isteğiyle kaldırıldı), 3) sabit genişlikli rakam
+   (tabular-nums) — sayılar yan yana geldiğinde kaymaz. */
 .belge-urun-tablo th, .belge-urun-tablo td { border-right: 1px solid #e2e6ec; }
 .belge-urun-tablo th:last-child, .belge-urun-tablo td:last-child { border-right: none; }
 .belge-urun-tablo td { font-variant-numeric: tabular-nums; }
-.belge-urun-tablo tbody tr:not(.hareket-satir--sari):not(.hareket-satir--yesil):nth-child(even) td {
-  background: #f7f9fc;
+/* !important — belge-style.css'in bu kuralı tüm sayfalarda (SADECE bu
+   dosyanın değil, gonder-tablo-style-v2.css gibi sayfaya-özgü dosyaların da
+   ÜZERİNDE) geçerli olsun diye; aksi halde ".gonder-sayfa" gibi daha
+   özgül bir sayfa seçicisi zebra zeminini geri getirebilir (bu turda
+   Belge Önizleme'de yaşanan aynı özgüllük hatası — bkz. aşağıdaki not). */
+.belge-urun-tablo tbody tr:not(.hareket-satir--sari):not(.hareket-satir--yesil) td {
+  background: #ffffff !important;
 }
-.belge-para-birim { display: block; font-size: 8.55px; font-weight: 700; color: #5f6b7a; line-height: 1.15; }
-.belge-para-sayi { white-space: nowrap; }
-/* KURAL (23.09.2026): 1000+ sayılar otomatik biraz küçülür — sütun
-   çizgisine yapışmasın/taşmasın diye (bkz. paraHtml/sayiDivHtml). */
-.belge-para-sayi--buyuk { font-size: .84em; }
-.belge-td-sira { color: #8a96a3; font-weight: 600; font-size: 10.125px; }
+/* TEK İSTİSNA #1 (14.10.2026, Abdullah onayı): EURO/TL birim etiketi 3-boy
+   kuralına dahil değil — dar tablo sütununa sığması için küçük kalıyor
+   (11px'te "EUR/O" diye satır bölünüyordu). */
+.belge-para-birim { display: block; font-size: 8px; font-weight: 700; color: #5f6b7a; line-height: 1.15; }
+.belge-para-sayi { white-space: nowrap; font-size: 13px; }
+/* TEK İSTİSNA #2 (14.10.2026, Abdullah onayı): 1000+ sayılar otomatik
+   biraz küçülür — dikey sütun çizgisine yapışmasın/komşu sütunla
+   karışmasın diye (bkz. paraHtml/sayiDivHtml). */
+.belge-para-sayi--buyuk { font-size: .82em; }
+.belge-td-sira { color: #8a96a3; font-weight: 600; font-size: 11px; }
 .belge-td-urun { text-align: left; white-space: normal; }
 
 /* Geriye dönük isim — artık base ile aynı, ekstra bir şey yapmıyor. */
@@ -312,11 +347,11 @@
    küçültüldü (8.4px -> 7.56px) ki bir daha kesilmesin. */
 /* BÜYÜTME (12.10.2026, Abdullah'ın isteğiyle): B/A kod blokları küçük
    kalıp okunamıyordu — %10 büyütüldü (7.56px -> 8.3px). */
-.belge-td-urun-kod { font-size: 8.3px; color: #1a2a3a; line-height: 1.3; white-space: nowrap; overflow: hidden; font-weight: 800; }
+.belge-td-urun-kod { font-size: 11px; color: #1a2a3a; line-height: 1.3; white-space: nowrap; overflow: hidden; font-weight: 800; }
 .kod-harf { font-weight: 900; font-size: 1.15em; padding: 0 1px; }
 .kod-blok--b { color: #c0392b; }
 .kod-blok--a { color: #003a70; }
-.belge-td-urun-ad { font-weight: 700; color: #101828; margin-top: 2px; font-size: 12.15px; line-height: 1.25; }
+.belge-td-urun-ad { font-weight: 700; color: #101828; margin-top: 2px; font-size: 13px; line-height: 1.25; }
 .belge-td-toplam { color: #101828; font-weight: 700; }
 /* BAKİYE NOTU (07.10.2026, Abdullah'ın isteğiyle) — artık ürün satırının
    altında DEĞİL, TÜM tablonun altında tek bir uyarı (bkz. hareket-tablo.js
@@ -326,14 +361,14 @@
   background: #faeeda; color: #b7601f; border: 1px solid #b7601f;
   border-radius: 7px; padding: 7px 10px; font-size: 11.5px; font-weight: 800;
 }
-/* KURAL (24.09.2026): PRİM sütunu %20 küçültüldü (hücre yazısı + rakam +
-   birim) — SR ile birlikte ÜRÜN BİLGİSİ/kodlara alan açmak için. */
-.belge-td-prim { font-size: 7.92px; font-weight: 600; }
-.belge-td-prim .belge-para-sayi { font-size: 9.72px; }
-.belge-td-prim .belge-para-birim { font-size: 6.84px; }
+/* 3-BOY KURALI (14.10.2026): PRİM sütunu artık ayrı bir ekstra-küçük boy
+   KULLANMIYOR — "Ö.F"/"Yok" gibi kısa metin küçük (11px), rakam+birim
+   diğer sütunlarla birebir aynı iki istisnayı (EURO/TL birimi + 1000+
+   otomatik küçülme) paylaşıyor. */
+.belge-td-prim { font-size: 11px; font-weight: 600; }
 .belge-td-prim-tek {
   white-space: nowrap;
-  font-size: 7.2px;
+  font-size: 11px;
 }
 .belge-td-isk { color: #c0392b; font-weight: 700; }
 /* SAYI HİZASI VE BOYUTU (22.09.2026) — LİSTE/İSK/NET/TOPLAM/PRİM sütunlarının
@@ -342,8 +377,8 @@
    bakmadan HER ZAMAN aynı boyda çıkar — eskiden .belge-para-sayi'nin kendi
    boyutu yoktu, üst elemandan (rozet-net 11px, rozet-isk 12px, düz td 12.5px
    vb.) miras alıyordu, bu da her sütunu farklı gösteriyordu. */
-.belge-para-birim { display: block; font-size: 8.55px; font-weight: 700; color: #5f6b7a; line-height: 1.15; }
-.belge-para-sayi { display: block; white-space: nowrap; font-size: 12.15px; font-weight: 700; line-height: 1.25; }
+.belge-para-birim { display: block; font-size: 8px; font-weight: 700; color: #5f6b7a; line-height: 1.15; }
+.belge-para-sayi { display: block; white-space: nowrap; font-size: 13px; font-weight: 700; line-height: 1.25; }
 /* İSK ve NET artık ayrı bir rozet/kutu DEĞİL — sadece renk taşıyor, LİSTE ve
    TOPLAM ile birebir aynı yapı/boyut/hiza. % işareti, EURO/TL gibi rakamın
    ALTINDA küçük birim satırı. */
@@ -385,11 +420,11 @@
    — send-render.js'in Gönder ekranı önizlemesi/gönderilen görseli bu ikinci
    sınıf çiftini kullanır. Aynı 22.09.2026 düzeltmesi: hepsi aynı boyut. */
 .belge-td-fiyat { line-height: 1.25; }
-.belge-td-sayi { font-size: 12.15px; font-weight: 700; color: #101828; }
+.belge-td-sayi { font-size: 13px; font-weight: 700; color: #101828; }
 /* KURAL (23.09.2026): send-render.js'in kendi sayı gösterimi için aynı
    otomatik küçülme — bkz. sayiDivHtml() ve .belge-para-sayi--buyuk. */
-.belge-td-sayi--buyuk { font-size: .84em; }
-.belge-td-birim { font-size: 8.55px; font-weight: 700; color: #98a2b3; letter-spacing: .2px; }
+.belge-td-sayi--buyuk { font-size: .82em; }
+.belge-td-birim { font-size: 8px; font-weight: 700; color: #98a2b3; letter-spacing: .2px; }
 .belge-td-fiyat--net .belge-td-sayi { color: #0e6b58; }
 .belge-td-fiyat--net .belge-td-birim { color: #0e6b58; }
 .belge-td-fiyat--isk .belge-td-sayi, .belge-td-fiyat--isk .belge-td-birim { color: #c0392b; }
@@ -515,8 +550,13 @@
   white-space: nowrap;
   margin-top: 2px; border: 1.5px solid #0b8059;}
 
+/* GENEL TOPLAM — artık tabloya YAPIŞIK DEĞİL, bağımsız, dört köşesi
+   yuvarlak bir kutu (14.10.2026, Abdullah'ın isteğiyle — v5 mockup).
+   "--duz"/"--altduz" köşe-düzleştirme modifikatörleri artık KULLANILMIYOR
+   (JS hâlâ bu sınıf adlarını ekleyebilir, ama aşağıdaki kurallar etkisiz
+   bırakıyor — GENEL TOPLAM HER ZAMAN tam yuvarlak + tablodan ayrık). */
 .belge-genel-toplam-serit {
-  background: #003a70;
+  background: var(--brand-primary);
   color: #ffffff;
   display: flex;
   justify-content: space-between;
@@ -524,43 +564,39 @@
   padding: 12px 16px;
   gap: 10px;
   border-top: none;
-  border-radius: 10px;
+  border-radius: 12px;
+  margin-top: 10px;
 }
-.belge-genel-toplam-serit--altduz { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-/* DÜZ VARYANT (08.10.2026, Abdullah'ın isteğiyle) — SADECE belge-render.js'in
-   belgeyiCiz() çıktısında: ürün tablosunun hemen altına, köşesiz/bitişik
-   oturması için. send-render.js'in (Sepet/Gönder giden görseli) kullandığı
-   TEMEL .belge-genel-toplam-serit (yuvarlak köşeli) hiç değişmedi. */
-.belge-genel-toplam-serit--duz { border-radius: 0; }
+.belge-genel-toplam-serit--altduz,
+.belge-genel-toplam-serit--duz { border-radius: 12px; }
 /* DÜZENLEME (27.09.2026, Abdullah'ın isteğiyle): kur bilgisi artık ayrı bir
    şerit DEĞİL — GENEL TOPLAM ile aynı satırda (solda), beyaz yazı, zemin
    yok (mavi kutunun kendi rengi görünür). .belge-gt-kutu SADECE
    hareket-tablo.js'in (Sepet/Gönder ürün tablosu) kullandığı dıştaki kutu;
-   içindeki GENEL TOPLAM satırı .belge-gt-satir ile aynı görünümü üretir. */
+   içindeki GENEL TOPLAM satırı .belge-gt-satir ile aynı görünümü üretir.
+   TEK MAVİ TONU (14.10.2026, Abdullah'ın isteğiyle) — WEICON rozetiyle
+   BİREBİR aynı mavi (var(--brand-primary)), artık ayrı/farklı bir ton yok.
+   Tabloya YAPIŞIK DEĞİL, bağımsız, tam yuvarlak (aynı gerekçe yukarıda). */
 .belge-gt-kutu {
-  background: #38469a; /* RENK GÜNCELLEMESİ (12.10.2026) — kurumsal/yumuşatılmış "Seçenek B" mavisi */
-  border-radius: 10px;
+  background: var(--brand-primary);
+  border-radius: 12px;
   overflow: hidden;
+  margin-top: 10px;
 }
-.belge-gt-kutu--altduz { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-/* YAKINLAŞTIRMA + ÇERÇEVE (12.10.2026, Abdullah'ın isteğiyle): kur bloğu ile
-   GENEL TOPLAM arasındaki boşluk ".belge-gt-satir"in justify-content:
-   space-between'i yüzünden çok açık kalıyordu — artık ikisi sola toplanıp
-   (flex-start) aralarında sabit bir boşluk var; kur bloğunun etrafına da
-   ince beyaz bir çerçeve eklendi ki GENEL TOPLAM'dan görsel olarak ayrışsın. */
+.belge-gt-kutu--altduz { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+/* ÇERÇEVE KALDIRILDI (14.10.2026, Abdullah'ın isteğiyle) — "Bu işlem kuru"
+   artık kendi çerçeveli kutusu olmayan düz metin. */
 .belge-gt-kur-ic {
   background: none;
   color: #ffffff;
   white-space: nowrap;
-  border: 1px solid rgba(255,255,255,.55);
-  border-radius: 8px;
-  padding: 4px 10px;
+  padding: 0;
 }
 /* KISALTMA (12.10.2026, Abdullah'ın isteğiyle): "Bu işlem kuru" artık iki
    satır — üstte küçük/soluk etiket, altta kalın rakam+EURO (eskiden tek
    satırlık uzun metin GENEL TOPLAM kutusundan taşıyordu). */
 .belge-gt-kur-etiket {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   color: #a9c6e4;
 }
@@ -586,8 +622,8 @@
   color: #ffffff;
 }
 .belge-gt-etiket-deger-grup { display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-left: auto; }
-.belge-gt-etiket { font-size: 12px; font-weight: 700; letter-spacing: .3px; color: #ffffff; }
-.belge-gt-deger { font-size: 18px; font-weight: 800; flex-shrink: 0; text-align: right; white-space: nowrap; color: #ffffff; }
+.belge-gt-etiket { font-size: 11px; font-weight: 700; letter-spacing: .3px; color: #ffffff; }
+.belge-gt-deger { font-size: 17px; font-weight: 800; flex-shrink: 0; text-align: right; white-space: nowrap; color: #ffffff; }
 .belge-gt-deger-alt {
   font-size: 11px;
   font-weight: 600;
@@ -598,18 +634,23 @@
 }
 /* TOPLAM PRİM satırı (27.09.2026) — GENEL TOPLAM'ın hemen altında, sadece
    primGizli olmayan (yani Abdullah'ın kendi ekranları — Sepet, Tablo
-   önizleme) tablolarda görünür; mail/WhatsApp'a giden görsele KARIŞMAZ. */
+   önizleme) tablolarda görünür; mail/WhatsApp'a giden görsele KARIŞMAZ.
+   AYRI KUTU (14.10.2026, Abdullah'ın isteğiyle) — artık GENEL TOPLAM'a
+   yapışık değil, hafif bir boşlukla ayrık, dört köşesi yuvarlak. */
 .belge-prim-toplam-serit {
   background: #eafaf0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 8px 16px;
-  border-radius: 0 0 10px 10px;
+  border-radius: 12px;
+  margin-top: 6px;
 }
 .belge-pt-etiket { font-size: 11px; font-weight: 800; color: #0e6b34; letter-spacing: .3px; }
 .belge-pt-deger { font-size: 13px; font-weight: 900; color: #0e6b34; }
 
+/* AYRI KUTU (14.10.2026, Abdullah'ın isteğiyle) — GENEL TOPLAM'a yapışık
+   değil, hafif bir boşlukla ayrık, dört köşesi yuvarlak. */
 .belge-prim-serit {
   background: #16a085;
   color: #ffffff;
@@ -617,10 +658,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 9px 14px;
-  border-top: 1px solid #cfe2f3;
+  border-radius: 12px;
+  margin-top: 6px;
 }
-.belge-prim-etiket { font-size: 13px; font-weight: 900; white-space: nowrap; }
-.belge-prim-deger { font-size: 15px; font-weight: 900; white-space: nowrap; }
+.belge-prim-etiket { font-size: 11px; font-weight: 900; white-space: nowrap; }
+.belge-prim-deger { font-size: 13px; font-weight: 900; white-space: nowrap; }
 
 /* BAKİYE ÜRÜN BLOĞU (08.10.2026, Abdullah'ın isteğiyle) — PRİM şeridinin
    altında, kendi içinde bütün: küçük etiket + ana tabloyla birebir aynı

@@ -1,35 +1,23 @@
 /*
-  belge-onizleme-style-v2.css — WG.131026.1455.798
+  belge-onizleme-style-v2.css — WG.141026.1940.806
   ===================================================
-  AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026,
-  Abdullah'ın isteğiyle — mockup üzerinden onaylandı).
+  AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
-  GÜNCELLEME (12.10.2026, Abdullah onayı — mockup üzerinden): açık gri
-  zemin + koyu lacivert temel bilgi etiketleri (GENEL TOPLAM, ürün
-  tablosu başlıkları, FATURA/TESLİMAT/YETKİLİ etiketleri, müşteri ticari
-  ismi, VADE/FATURA/KARGO alt başlıkları, WEICON logosu); işlem türünün
-  rengi artık SADECE müşteri bloğunun üst şeridindeki tür adında ve isim
-  önündeki büyük noktada. Üst bilgi şeridinden tür adı ve WEICON logosu
-  kaldırıldı (tekrar önlemek için — tür zaten üstte bir kere var). Ayrıca
-  NET sütunundaki yeşilin (.rozet-net) sessizce ezilmesine neden olan
-  önceden var olan bir hata (.belge-para-sayi kendi rengini tanımlıyordu)
-  bu sayfaya özel düzeltildi.
+  GÜNCELLEME (14.10.2026, Abdullah onayı — "7. Belge" v5 mockup, program
+  genelinde TEK standart): bu dosyadaki kart/çerçeve/kutu-içi-kutu/yazı
+  boyu kuralları artık PAYLAŞILAN belge-style.css'in KENDİSİNE taşındı —
+  tüm sayfalarda (Belge Önizleme, Sepet, Gönder) BİREBİR aynı görünsün diye.
+  Bu dosyada SADECE belge-onizleme.html'e ÖZGÜ, değişmeyen şeyler kaldı:
+  işlem türü renk sistemi (TIP_RENK_BELGE ile birebir), belge geçmişi
+  zaman çizgisi, alt buton rengi, bakiye bloğu rengi.
 
   ÖNEMLİ — KAPSAM: belge-style.css DÖRT sayfa tarafından paylaşılıyor
-  (belge-onizleme.html, cart.html, customer-detail.html, send.html).
-  Bu dosyadaki TÜM kurallar, SADECE bu sayfaya has ".belge-onizleme-sayfa"
-  body sınıfı altında tanımlı — Sepet/Gönder/Müşteri Detay ekranlarının
-  (aynı sınıf isimlerini kullanan .belge-para-sayi, .belge-kosul-alan vb.)
-  görünümüne KESİNLİKLE dokunmuyor. Bu dosya SADECE belge-onizleme.html'e
-  bağlı (bkz. o dosyadaki <link>).
-
-  HTML/JS yapısı DEĞİŞMEDİ — belge-render.js'in ürettiği class isimleri
-  birebir aynı; bu sadece bir görünüm (CSS) katmanı. İş mantığı, hesaplama,
-  Firebase/localStorage katmanlarına dokunulmadı.
+  (belge-onizleme.html, cart.html, customer-detail.html, send.html). Bu
+  dosyadaki kurallar SADECE ".belge-onizleme-sayfa" body sınıfı altında
+  geçerli.
 */
 
 .belge-onizleme-sayfa {
-  --brand-primary: #073B70;
   --brand-blue: #0866C6;
   --brand-blue-light: #EEF0F3;
   --page-bg: #EFF1F4;
@@ -40,76 +28,38 @@
   --success: #07834F;
   --danger: #D92D20;
   --warning: #F28C28;
-  font-size: 14px;
 }
 
-/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): yatay kenar boşluğu
-   16px -> 4px, kartlar kenara çok daha yakın (sadece yatay; dikey aynı). */
-.belge-onizleme-sayfa .sayfa { background: var(--page-bg); padding: 12px 4px 16px; }
+/* Sayfa zemini açık gri (sadece bu sayfaya özgü ince bir fark) — kenar
+   boşluğu artık paylaşılan 2mm kuralıyla birebir aynı (bkz. belge-style.css). */
+.belge-onizleme-sayfa .sayfa { background: var(--page-bg); padding: 12px 2mm 16px; }
 
-/* ---- Kartlar ---- */
-.belge-onizleme-sayfa .belge-kart {
-  background: var(--surface);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  margin-bottom: 10px;
-}
-.belge-onizleme-sayfa .belge-kutu--sorunlu { border: 2px solid var(--danger); }
-
-/* ---- Önceki belge zinciri çipi ---- */
-.belge-onizleme-sayfa .belge-gecmis-cip-satir {
-  background: var(--surface);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 10px 12px;
-  margin-bottom: 10px;
-}
-
-/* ---- Müşteri kartı üst şeridi (SİPARİŞ / WEICON) ----
-   DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup üzerinden, kurumsal/
-   yumuşatılmış "Seçenek B" paleti): SADECE sipariş her yerde dolu mavi
-   zemin + beyaz yazı. Teklif nötr (açık gri) zemin + kendi rengi yazı —
-   yeşil yazı olarak okunduğu için zemine ihtiyacı yok. Proforma/numune de
-   dolu zemin + koyu/beyaz yazı — açık renkleri (sarı/kırmızı) nötr zeminde
-   yazı olarak kullanılamayacak kadar düşük kontrastlı (sarı ~2:1, ölçülüp
-   doğrulandı). */
+/* ---- Müşteri kartı üst şeridi (SİPARİŞ / WEICON) — İŞLEM TÜRÜ RENK
+   SİSTEMİ (TIP_RENK_BELGE ile birebir), belge-style.css'teki universal
+   tasarımdan BAĞIMSIZ, korunan tek özel renk kuralı. Çerçeve/kutu-yok
+   kuralı gereği border-bottom KALDIRILDI (14.10.2026). ---- */
 .belge-onizleme-sayfa .belge-musteri-baslik {
   padding: 8px 16px;
-  font-size: 12px;
-  font-weight: 700;
   letter-spacing: .4px;
-  border-bottom: 1px solid var(--border-color);
 }
 .belge-onizleme-sayfa .belge-musteri-baslik > span:first-child { font-weight: 800; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   { background: #f3f5f8; border-bottom-color: #e1e5ec; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   { background: #f3f5f8; }
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   > span:first-child { color: #249147; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  { background: #38469a; border-bottom-color: #2c3774; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  { background: #38469a; }
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  > span:first-child { color: #ffffff; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma { background: #dcb13c; border-bottom-color: #c99a2e; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma { background: #dcb13c; }
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma > span:first-child { color: #2b2300; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   { background: #c0453a; border-bottom-color: #a8382e; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   { background: #c0453a; }
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   > span:first-child { color: #ffffff; }
-.belge-onizleme-sayfa .belge-musteri-baslik .belge-logo-mini { background: #9aa5b5; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis .belge-logo-mini,
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune  .belge-logo-mini { background: rgba(255,255,255,.25); }
-.belge-onizleme-sayfa .belge-logo-mini {
-  background: var(--brand-primary);
-  border: none;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: 6px;
-}
 
 /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): üst boşluk daraltıldı
    (başlık şeridi ile müşteri ismi arası sıkılaştı) — alt/yanlar aynı. */
 .belge-onizleme-sayfa .belge-musteri-govde { padding: 4px 16px 14px; }
+/* Müşteri ismi rengi marka mavisi (sadece bu sayfaya özgü ince bir vurgu) —
+   boyut artık paylaşılan "büyük" kademeyle (17px, belge-style.css) birebir
+   aynı. */
 .belge-onizleme-sayfa .belge-musteri-ad {
-  font-size: 17.6px; /* %20 küçültüldü (12.10.2026, Abdullah onayı) */
-  font-weight: 700;
   color: var(--brand-primary);
-  margin-bottom: 4px; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): isim ile VADE/FATURA/KARGO arası daraltıldı (önceden 12px) */
-  padding-left: 0;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -125,203 +75,24 @@
   color: var(--brand-primary);
 }
 
-.belge-onizleme-sayfa .belge-kosul-grid { gap: 6px; padding-bottom: 10px; margin-bottom: 2px; }
-.belge-onizleme-sayfa .belge-kosul-alan {
-  background: var(--page-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 9px;
-  padding: 7px 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.belge-onizleme-sayfa .belge-kosul-ikon {
-  display: block;
-  font-size: 15px;
-  margin-bottom: 0;
-  line-height: 1;
-}
-.belge-onizleme-sayfa .belge-kosul-etiket {
-  font-size: 8px; /* %20 küçültüldü (12.10.2026, Abdullah onayı) */
-  font-weight: 600;
-  color: var(--brand-primary);
-  letter-spacing: .3px;
-  text-transform: uppercase;
-}
-.belge-onizleme-sayfa .belge-kosul-deger {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-top: 2px;
-  white-space: normal;
-  overflow: visible;
-  text-overflow: clip;
-  line-height: 1.25;
-}
-
-/* Adres/yetkili blokları — etiketlerdeki emoji ikonlar (🧾/🚚/👤) zaten
-   belge-render.js'in ürettiği HTML metninin içinde var; burada sadece
-   renk/boyut/boşluk yenileniyor, ikon tekrar eklenmiyor. */
-.belge-onizleme-sayfa .belge-adres-blok,
-.belge-onizleme-sayfa .belge-adres-blok-teslimat,
-.belge-onizleme-sayfa .belge-yetkili-blok {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--text-primary);
-  padding-top: 6px; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): daraltıldı, önceden 14px — 3'ü de aynı */
-  padding-bottom: 4px; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): 3'ü de aynı, önceden 2px */
-  border-top: 1px solid var(--border-color);
-  margin-top: 2px;
-}
-.belge-onizleme-sayfa .belge-adres-etiket-fatura,
-.belge-onizleme-sayfa .belge-adres-etiket-teslimat,
-.belge-onizleme-sayfa .belge-adres-etiket-yetkili {
-  color: var(--brand-primary);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .4px;
-  margin-bottom: 6px;
-}
-.belge-onizleme-sayfa .belge-adres-govde { padding-left: 0; font-size: 14px; color: var(--text-primary); }
-.belge-onizleme-sayfa .belge-adres-bos { color: var(--text-secondary); }
-
-.belge-onizleme-sayfa .belge-yetkili-satir { font-size: 14px; color: var(--text-primary); font-weight: 400; }
+/* Adres/yetkili blokları — bu sayfada sadece DEĞER metni etiketle aynı
+   kenardan (girintisiz) başlıyor; boyut/renk artık paylaşılan kademeler
+   (belge-style.css). */
+.belge-onizleme-sayfa .belge-adres-govde { padding-left: 0; }
 .belge-onizleme-sayfa .belge-yetkili-blok .belge-yetkili-satir { padding-left: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
 .belge-onizleme-sayfa .belge-yetkili-satir b { font-weight: 700; }
-.belge-onizleme-sayfa .belge-yetkili-detay { color: var(--text-secondary); font-size: 13px; font-weight: 400; }
 
-/* ---- Kod kutusu (FT.../SP... vb.) ----
-   DEĞİŞİKLİK (12.10.2026, Abdullah onayı — tam yeniden tasarım, mockup
-   üzerinden): eski ".belge-ust-bilgi-serit" (kod+tarih yan yana açık
-   şerit) kaldırıldı — belge-render.js artık bu şeridi ÜRETMİYOR, yerine
-   kendi başına, türün rengini taşıyan AYRI bir kutu üretiyor
-   (".belge-ust-bilgi-kutu tip-X", bkz. belge-render.js). Bu kutu, altındaki
-   ürün tablosu kartına bitişik duruyor (üst köşeleri yuvarlak/alt köşeleri
-   düz) — bkz. hemen altındaki ".belge-kart--ustduz" (tablo kartının üst
-   köşelerini düzleştirip kutuya kaynaştırıyor). Renk kuralı yukarıdaki
-   ".belge-musteri-baslik.tip-*" ile BİREBİR aynı (tek renk kuralı). */
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu {
-  border-radius: 10px 10px 0 0;
-  padding: 10px 16px;
-  text-align: left; /* DÜZELTME (12.10.2026, Abdullah'ın isteğiyle) — satır başından başlasın, ortalı değil */
-  font-size: 10px; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): Fatura Adresi etiketiyle (10px) aynı boyut — renk (işlem türüne göre) KORUNDU, değişmedi */
-  font-weight: 800;
-  letter-spacing: .6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup14): kod kutusu zemini
-   tüm türlerde aynı nötr gri; renk artık sadece yazıda taşınıyor.
-   Proforma'nın hardal tonu (#dcb13c) açık gri zeminde yazı olarak
-   okunmuyordu (kontrast ~1.85:1) — bu kutuda sadece #7a5c1a'ya
-   koyulaştırıldı (kontrast 5.7:1); kutunun DIŞINDAKİ diğer proforma
-   kullanımları (ör. .belge-musteri-baslik.tip-proforma) ETKİLENMEDİ,
-   hâlâ #dcb13c. */
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-teklif,
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-siparis,
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-proforma,
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-numune {
-  background: #f3f5f8;
-  border: 1px solid #e1e5ec;
-  border-bottom: none;
-}
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-teklif   { color: #249147; }
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-siparis  { color: #38469a; }
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-proforma { color: #7a5c1a; }
-.belge-onizleme-sayfa .belge-ust-bilgi-kutu.tip-numune   { color: #c0453a; }
-/* Kod kutusu varsa hemen altındaki ürün tablosu kartının üst köşeleri
-   düzleşiyor ki ikisi tek parça gibi görünsün (kod kutusu yoksa — kayıtta
-   kod olmayan eski kayıtlar — bu sınıf hiç eklenmiyor, kart normal yuvarlak
-   köşeli kalıyor, bkz. belge-render.js). */
-.belge-onizleme-sayfa .belge-kart--ustduz { border-top-left-radius: 0; border-top-right-radius: 0; }
+/* ---- İŞLEM TÜRÜ RENGİ — isim önündeki büyük nokta, belge-render.js'teki
+   TIP_RENK_BELGE paletiyle birebir aynı. ---- */
+.belge-onizleme-sayfa .belge-kart.tip-teklif .ck-isim-nokta { color: #249147; }
+.belge-onizleme-sayfa .belge-kart.tip-siparis .ck-isim-nokta { color: #38469a; }
+.belge-onizleme-sayfa .belge-kart.tip-proforma .ck-isim-nokta { color: #c9a227; }
+.belge-onizleme-sayfa .belge-kart.tip-numune .ck-isim-nokta { color: #c0453a; }
 
-/* ---- Ürün tablosu — 8 sütun telefon genişliğine (390px) kaydırmasız
-   sığıyor (mockup onayı: Seçenek B). ---- */
-.belge-onizleme-sayfa .data-table-container { border: none; border-radius: 0; margin-bottom: 0; }
-.belge-onizleme-sayfa .belge-urun-tablo { font-size: 11px; table-layout: fixed; }
-/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): tablo başlıkları
-   (SR/ÜRÜN BİLGİSİ/...) artık Fatura Adresi ETİKETİYLE (10px, #003a70)
-   aynı boyut/renk. Hücre değerleri (adet dahil, düz <td>) Fatura Adresi
-   AÇIK METNİYLE (12px) aynı boyuta büyütüldü — bkz. aşağıdaki
-   .belge-para-sayi/.belge-td-urun-ad/.belge-td-prim-tek kuralları (B/A
-   ürün kodu HARİÇ, .belge-td-urun-kod ayrı/dokunulmadı). */
-.belge-onizleme-sayfa .belge-urun-tablo th {
-  background: var(--brand-blue-light);
-  color: #003a70;
-  padding: 7px 3px;
-  font-size: 10px;
-  font-weight: 700;
-  border-bottom: 1px solid var(--border-color);
-}
-.belge-onizleme-sayfa .belge-urun-tablo td {
-  padding: 7px 4px;
-  border-top: 1px solid var(--border-color);
-  font-size: 12px;
-  color: var(--text-primary);
-}
-.belge-onizleme-sayfa .belge-urun-tablo th,
-.belge-onizleme-sayfa .belge-urun-tablo td { border-right: 1px solid var(--border-color); }
-.belge-onizleme-sayfa .belge-urun-tablo tbody tr:not(.hareket-satir--sari):not(.hareket-satir--yesil):nth-child(even) td { background: var(--page-bg); }
-
-.belge-onizleme-sayfa .belge-td-sira { color: var(--text-secondary); font-size: 9.6px; }
-.belge-onizleme-sayfa .belge-td-urun-kod { font-size: 8.3px; font-weight: 700; white-space: nowrap; overflow: hidden; } /* %10 büyütüldü (12.10.2026, Abdullah onayı) — Gönder ekranıyla aynı boy */
-.belge-onizleme-sayfa .kod-blok--b { color: var(--danger); }
-.belge-onizleme-sayfa .kod-blok--a { color: var(--brand-blue); }
-.belge-onizleme-sayfa .belge-td-urun-ad { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-top: 2px; } /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): Fatura Adresi açık metniyle aynı boyut, önceden 11.5px */
-
-.belge-onizleme-sayfa .belge-para-sayi { font-size: 12px; font-weight: 600; color: var(--text-primary); display: block; white-space: nowrap; } /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): önceden 11.5px */
-.belge-onizleme-sayfa .belge-para-birim { font-size: 8px; font-weight: 600; color: var(--text-secondary); display: block; }
-.belge-onizleme-sayfa .rozet-net { color: var(--success); }
-/* HATA DÜZELTMESİ (12.10.2026, Abdullah'ın fark etmesiyle) — yukarıdaki
-   .belge-para-sayi kuralı kendi rengini (text-primary) tanımladığı için
-   NET sütunundaki yeşili (.rozet-net, !important'sız) sessizce eziyordu;
-   İSK kırmızısı !important'lı olduğu için etkilenmiyordu. Sadece bu
-   sayfaya özel (belge-style.css'teki paylaşılan taban dosyaya dokunulmadı). */
-.belge-onizleme-sayfa .rozet-net .belge-para-sayi,
-.belge-onizleme-sayfa .rozet-net .belge-para-birim { color: var(--success) !important; }
-.belge-onizleme-sayfa .belge-isk-metin .belge-para-sayi,
-.belge-onizleme-sayfa .belge-isk-metin .belge-para-birim { color: var(--danger) !important; }
-.belge-onizleme-sayfa .belge-net-tl { color: var(--text-secondary); font-size: 8.5px; }
-.belge-onizleme-sayfa .belge-td-toplam { color: var(--text-primary); }
-.belge-onizleme-sayfa .belge-para-sayi--buyuk { font-size: .84em; }
-.belge-onizleme-sayfa .belge-td-prim-tek .belge-para-sayi { font-size: 12px; } /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): önceden 9.5px */
-.belge-onizleme-sayfa .belge-td-prim-tek .belge-para-birim { font-size: 8.55px; } /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): önceden 7px */
-
-/* ---- Genel toplam + PRİM (Abdullah onayı: PRİM şeridi korunuyor, aynı
-   kartın alt köşelerini birlikte kapatıyor) ---- */
-.belge-onizleme-sayfa .belge-genel-toplam-serit--duz {
-  background: var(--brand-primary);
-  padding: 9px 16px; /* dikey yükseklik %20 azaltıldı (12.10.2026, Abdullah onayı) — yazı boyutları dokunulmadı */
-}
-/* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup16+mockup17): GENEL TOPLAM
-   etiketi artık Euro tutarının YANINDA değil ÜST satırında (ayrı satır,
-   sağa hizalı) — bkz. aşağıdaki .belge-gt-etiket-deger-grup. Yazı boyutları
-   iki kademede küçültüldü: önce %20 (13->10.4 / 28->22.4), sonra bir %19
-   daha (10.4->8.4 / 22.4->18.1) — net sonuç aşağıdaki değerler. Panelin
-   dikey iç boşluğu da %20 azaltıldı (.belge-gt-satir, aşağıda); yatay
-   boşluk DOKUNULMADI. */
-.belge-onizleme-sayfa .belge-gt-satir { padding: 9.6px 16px; }
-.belge-onizleme-sayfa .belge-gt-etiket-deger-grup { flex-direction: column; align-items: flex-end; gap: 1px; }
-.belge-onizleme-sayfa .belge-gt-etiket { font-size: 8.4px; font-weight: 700; letter-spacing: .3px; }
-.belge-onizleme-sayfa .belge-gt-deger { font-size: 18.1px; font-weight: 700; }
-.belge-onizleme-sayfa .belge-gt-deger-alt { font-size: 12px; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): tablo TOPLAM sütunu rakam boyutuyla (12px) aynı */ font-weight: 500; color: #AEC9E8; margin-top: 2px; }
-
-/* RENK GÜNCELLEMESİ (12.10.2026, Abdullah onayı — mockup üzerinden): koyu
-   lacivert devam şeridi yerine, Sepet/Gönder'deki (.belge-prim-toplam-serit)
-   AYNI açık yeşil dil — tek tasarım kuralı. */
-.belge-onizleme-sayfa .belge-prim-serit {
-  background: #eafaf0;
-  padding: 10px 16px;
-  border-top: none;
-  border-radius: 0 0 12px 12px;
-}
-.belge-onizleme-sayfa .belge-prim-etiket { font-size: 11px; font-weight: 700; letter-spacing: .3px; color: #0e6b34; }
-.belge-onizleme-sayfa .belge-prim-deger { font-size: 14px; font-weight: 700; color: #0e6b34; }
-
-/* ---- Belge geçmişi (13.10.2026, Abdullah onayı — mockup üzerinden:
-   dikey zaman çizgisi artık tek satırlık kompakt adımlardan oluşuyor;
-   kutu ve her satırın sol/sağ boşluğu tam 2mm.) ---- */
+/* ---- Belge geçmişi (13.10.2026 — dikey zaman çizgisi, kutu ve her
+   satırın sol/sağ boşluğu tam 2mm). Bu kutunun KENDİ çerçevesi şimdilik
+   dokunulmadı (bu turda gösterilmedi/onaylanmadı — ayrı bir inceleme
+   konusu olabilir). ---- */
 .belge-onizleme-sayfa .belge-gecmis-kutu {
   background: var(--surface);
   border: 1px solid var(--border-color);
@@ -389,23 +160,13 @@
   font-weight: 600;
 }
 .belge-onizleme-sayfa .belge-islemler-buton {
-  background: #38469a; /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): GENEL TOPLAM paneliyle aynı renk (önceden var(--brand-blue)) */
+  background: #38469a;
   color: #fff;
   border-radius: 9px;
   font-size: 15px;
   font-weight: 600;
 }
 
-/* ---- Bakiye ürün bloğu (mevcut işlev korunuyor, sadece renk/tipografi) ---- */
+/* ---- Bakiye ürün bloğu (mevcut işlev korunuyor, sadece renk) ---- */
 .belge-onizleme-sayfa .belge-bakiye-kucuk-etiket { background: #FDF1E3; color: var(--warning); font-weight: 700; }
 .belge-onizleme-sayfa .belge-bakiye-toplam-serit { background: #FDF1E3; color: var(--warning); }
-
-/* ---- İŞLEM TÜRÜ RENGİ — isim önündeki büyük nokta, üst şeritteki tür adının
-   KENDİSİ artık yukarıdaki dolu renkli zeminde beyaz (bkz. yukarıdaki
-   .belge-musteri-baslik.tip-* kuralları). Renkler belge-render.js'teki
-   TIP_RENK_BELGE paletiyle birebir aynı (12.10.2026, Abdullah onayı — yeni
-   yeşil/mavi). */
-.belge-onizleme-sayfa .belge-kart.tip-teklif .ck-isim-nokta { color: #249147; }
-.belge-onizleme-sayfa .belge-kart.tip-siparis .ck-isim-nokta { color: #38469a; }
-.belge-onizleme-sayfa .belge-kart.tip-proforma .ck-isim-nokta { color: #c9a227; }
-.belge-onizleme-sayfa .belge-kart.tip-numune .ck-isim-nokta { color: #c0453a; }
