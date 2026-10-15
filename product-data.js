@@ -15,6 +15,8 @@ var ProductData = (function(){
   var SEPET_KEY = "weiconv2_sepet";
 
   var katalog = [];
+  var firebaseKatalog = [];
+  var yedekKatalog = [];
   var sepet = [];
   var katalogDinleyicileri = [];
   var katalogDinleyiciBagli = false;
@@ -42,6 +44,19 @@ var ProductData = (function(){
       }catch(e){}
 
       urunlerYoluHazirla(db);
+
+      // YEDEK KATALOG: Firebase'de aranan ürün bulunmuyorsa, depodaki
+      // fiyat listesi JSON'u da katalog kaynağı olarak kullanılır.
+      // Firebase kayıtları önceliklidir; JSON yalnızca eksik ürünleri tamamlar.
+      fetch("urunler-21092026.json", {cache:"no-cache"})
+        .then(function(r){ if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+        .then(function(data){
+          yedekKatalog = Array.isArray(data) ? data : [];
+          katalog = katalogBirlestir(firebaseKatalog, yedekKatalog);
+          try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(katalog)); }catch(e){}
+          katalogDinleyicileri.forEach(function(fn){ fn(); });
+        })
+        .catch(function(err){ tanilaKaydet("Yedek ürün kataloğu yüklenemedi.", err && err.message); });
     }catch(e){
       console.error("Firebase başlatma hatası:", e);
     }
@@ -107,6 +122,34 @@ var ProductData = (function(){
     }).catch(function(err){ tanilaKaydet("Ürün kataloğu: urunler/ kontrol hatası (izin/bağlantı sorunu olabilir).", err && err.message); });
   }
 
+  function katalogBirlestir(asli, yedek){
+    var sonuc = [];
+    var anahtarlar = {};
+    function kimlik(x){
+      var b = String(x && (x.berta || x.BERTA) || "").trim().toLocaleLowerCase("tr-TR");
+      var a = String(x && (x.abas || x.ABAS) || "").trim().toLocaleLowerCase("tr-TR");
+      var n = String(x && (x.urun || x.URUN || x.name || x.NAME) || "").trim().toLocaleLowerCase("tr-TR");
+      if(b && b !== "-" && b !== "nan") return "b:" + b;
+      if(a && a !== "-" && a !== "nan") return "a:" + a;
+      return n ? "n:" + n : "";
+    }
+    (asli || []).forEach(function(x){
+      if(!x || !(x.urun || x.URUN || x.name || x.NAME)) return;
+      var k = kimlik(x);
+      if(k) anahtarlar[k] = true;
+      sonuc.push(x);
+    });
+    (yedek || []).forEach(function(x){
+      if(!x || !(x.urun || x.URUN || x.name || x.NAME)) return;
+      var k = kimlik(x);
+      if(k && anahtarlar[k]) return;
+      if(k) anahtarlar[k] = true;
+      sonuc.push(x);
+    });
+    sonuc.forEach(function(x, i){ if(x._anahtar === undefined) x._anahtar = String(i); });
+    return sonuc;
+  }
+
   var ilkYuklemeLoglandi = false;
   function katalogGuncelle(tumData){
     var urunler = [];
@@ -127,8 +170,9 @@ var ProductData = (function(){
         if(tumData[k] && tumData[k].urun){ tumData[k]._anahtar = k; urunler.push(tumData[k]); }
       });
     }
-    katalog = urunler;
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(urunler)); }catch(e){}
+    firebaseKatalog = urunler;
+    katalog = katalogBirlestir(firebaseKatalog, yedekKatalog);
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(katalog)); }catch(e){}
     // TANILAMA (15.10.2026) — katalog ilk kez dolduğunda (veya her
     // seferinde boş geldiğinde) kaç ürün yüklendiğini bir kez Hata
     // Kayıtları'na yazıyoruz; sürekli güncellemede (ürün ekleme/silme)
@@ -163,42 +207,30 @@ var ProductData = (function(){
   }
 
   function ara(sorgu){
-    // Arama: Firebase katalogundaki ürün adı + BERTA + ABAS alanları.
-    // Kodsuz yardımcı kayıtları genel ürün sonuçlarından çıkar; ancak
-    // boş/eksik alanlar diğer ürünlerin aranmasını engellemez.
-    function norm(deger){
-      return (deger===null || deger===undefined ? "" : String(deger))
-        .toLocaleLowerCase("tr-TR")
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        .replace(/\s+/g, " ").trim();
-    }
-    function kod(deger){
-      var v = norm(deger);
-      return (!v || v === "nan" || v === "-") ? "" : v;
-    }
-
-    var q = norm(sorgu);
-    if(!q) return [];
-    var kelimeler = q.split(/\s+/).filter(Boolean);
+    var q = (sorgu||"").trim().toLocaleLowerCase("tr-TR");
+    var kelimeler = q.split(/\s+/).filter(function(k){ return k.length>0; });
     var sonuc = [];
-
     for(var i=0;i<katalog.length;i++){
-      var item = katalog[i] || {};
-      var b = kod(item.berta !== undefined ? item.berta :
-                  item.BERTA !== undefined ? item.BERTA : item.bertaKodu);
-      var a = kod(item.abas !== undefined ? item.abas :
-                  item.ABAS !== undefined ? item.ABAS : item.abasKodu);
-      var ad = norm(item.urun || item.URUN || item.ad || item.AD ||
-                    item.name || item.NAME || item.urunAdi || item.productName);
-
-      // İki kodu da olmayan özel kayıtlar normal ürün aramasını kirletmesin.
-      if(!b && !a) continue;
-
-      // Ayrı alanları tek arama metnine dönüştür. Çok kelimeli sorgularda
-      // tüm kelimeler bulunmalı; böylece "VA 100" ürün adında eşleşir.
-      var metin = norm([ad,b,a].filter(Boolean).join(" "));
-      var eslesir = kelimeler.every(function(k){ return metin.indexOf(k) !== -1; });
-      if(eslesir) sonuc.push({item:item, idx:i});
+      var item = katalog[i];
+      // Ürün aramasında yalnızca gerçek BERTA veya ABAS kodu bulunan
+      // katalog ürünleri yer alır. Kodsuz yardımcı/özel kayıtlar (ör.
+      // "Garanti Mührü Mavi") genel ürün aramasını kirletmemelidir.
+      // "-", boşluk ve Excel'den gelen "nan" değerleri geçerli kod sayılmaz.
+      function temizKod(deger){
+        var kod = (deger===null || deger===undefined ? "" : String(deger)).trim();
+        if(!kod || kod.toLocaleLowerCase("tr-TR")==="nan" || kod==="-") return "";
+        return kod.toLocaleLowerCase("tr-TR");
+      }
+      var b = temizKod(item.berta!==undefined ? item.berta : item.BERTA);
+      var a = temizKod(item.abas!==undefined ? item.abas : item.ABAS);
+      var n = (item.name||item.NAME||item.urun||item.URUN||"").toString().trim().toLocaleLowerCase("tr-TR");
+      var araMetin = b+" "+a+" "+n;
+      if(kelimeler.length===0){ sonuc.push({item:item, idx:i}); continue; }
+      var eslesme = true;
+      for(var k=0;k<kelimeler.length;k++){
+        if(araMetin.indexOf(kelimeler[k])<0){ eslesme=false; break; }
+      }
+      if(eslesme) sonuc.push({item:item, idx:i});
     }
     return sonuc;
   }
