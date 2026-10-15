@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.141026.2250.819
+  belge-render.js — WG.151026.1135.826
   ===============
   14.10.2026: "Yazdır" artık window.print() yerine gerçek bir PDF üretiyor
   (bkz. teklif-pdf.js) — bu dosyanın KENDİ görünümüne/işlevlerine dokunulmadı,
@@ -55,13 +55,17 @@ function kodOnekiAyiklaBelge(kod){
   }
   return kod;
 }
-function gecmisCipSatiriHtml(kayit){
+function gecmisCipSatiriHtml(kayit, icMi){
   if(!kayit.oncekiKod) return "";
   var oncekiOnek = kodOnekiAyiklaBelge(kayit.oncekiKod) || "?";
   var oncekiRenk = ONEK_RENK_BELGE[oncekiOnek] || {yazi:"#556170", bg:"#f1f3f6"};
   var simdikiOnek = KOD_ONEK_BELGE[kayit.tip] || "?";
   var simdikiRenk = ONEK_RENK_BELGE[simdikiOnek] || {yazi:"#003a70", bg:"#eaf2fc"};
-  return "<div class='belge-gecmis-cip-satir'>"
+  // YENİ (15.10.2026, Abdullah'ın isteğiyle): artık kendi bağımsız kartı
+  // DEĞİL — SİPARİŞ/FİYAT TEKLİFİ... şeridinin (.belge-belge-baslik-serit
+  // --mavi) İÇİNDE, sağ ucunda gösteriliyor ("B tasarımı" — tam tarih/saat
+  // korunuyor). icMi=true iken kendi kutu zemini/kenarlığı/boşluğu kalkar.
+  return "<div class='belge-gecmis-cip-satir" + (icMi ? " belge-gecmis-cip-satir--ic" : "") + "'>"
     + "<button class='belge-gecmis-cip' id='btnGecmisCip' style='background:" + oncekiRenk.bg + ";'>"
       + "<span class='belge-gecmis-cip-kod' style='color:" + oncekiRenk.yazi + ";'>" + htmlEsc(oncekiOnek) + "</span>"
       + "<span class='belge-gecmis-cip-tarih'>" + htmlEsc(kayit.oncekiTarih || "") + "</span>"
@@ -266,8 +270,7 @@ function belgeyiCiz(kayit, musteri){
     // kaldırıldı — tablo kartı kendi tam yuvarlak köşesini alıyor). GENEL
     // TOPLAM ve PRİM artık "belge-gt-kutu--altduz" İLE değil, iki AYRI,
     // bağımsız, tam yuvarlak köşeli kutu olarak çiziliyor.
-    var html = gecmisCipSatiriHtml(kayit)
-      + "<div class='belge-kart tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
+    var html = "<div class='belge-kart tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
       + durumRozetHtml
       + musteriBlokHtml
       + "</div>"
@@ -275,7 +278,9 @@ function belgeyiCiz(kayit, musteri){
       // tek renk (lacivert) değil, işlem türünün kendi rengini taşıyor —
       // "tip-" + kayit.tip sınıfı eklendi, gerçek renk (TIP_RENK_BELGE ile
       // birebir) belge-onizleme-style-v2.css'ten geliyor.
-      + (belgeBaslikMetni ? "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi tip-" + (kayit.tip||"siparis") + "'><span class='belge-belge-baslik-serit-metin'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + " · " + htmlEsc(belgeBaslikMetni) + "</span></div>" : "")
+      // DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): geçmiş rota çipi
+      // (varsa) artık bu şeridin İÇİNDE, sağ ucunda — ayrı bir kart değil.
+      + (belgeBaslikMetni ? "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi tip-" + (kayit.tip||"siparis") + "'><span class='belge-belge-baslik-serit-metin'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + " · " + htmlEsc(belgeBaslikMetni) + "</span>" + gecmisCipSatiriHtml(kayit, true) + "</div>" : "")
       + "<div class='belge-kart'>"
       + "<div class='data-table-container'><table class='belge-urun-tablo'>"
       + "<thead><tr><th style='width:3.6%;'>SR</th><th style='width:29.2%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:13%;'>NET</th><th style='width:13%;'>TOPLAM</th><th style='width:11.2%;'>PRİM</th></tr></thead>"

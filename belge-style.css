@@ -1,4 +1,4 @@
-/* belge-style.css — WG.151026.0905.824
+/* belge-style.css — WG.151026.1135.826
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -56,6 +56,18 @@
 .belge-gecmis-cip--simdi { cursor: default; }
 .belge-gecmis-cip--simdi .belge-gecmis-cip-tarih { color: #c9dcf0; }
 .belge-gecmis-ok { font-size: 11px; color: #3569b8; }
+/* YENİ (15.10.2026, Abdullah'ın isteğiyle): "B tasarımı" — geçmiş rota
+   çipi artık bağımsız bir kart değil, SİPARİŞ/FİYAT TEKLİFİ... şeridinin
+   (.belge-belge-baslik-serit--mavi, flex + justify-content:space-between)
+   İÇİNDE, sağ ucunda — kendi kutu zemini/kenarlığı/boşluğu kalkıyor,
+   çiplerin kendisi (.belge-gecmis-cip vb.) DEĞİŞMEDİ. */
+.belge-gecmis-cip-satir--ic {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
 
 /* Eski isim — geri uyumluluk için .belge-kart ile aynı görünüyor. */
 .belge-kutu {
@@ -274,8 +286,13 @@
      eşitlendi). */
   margin: 10px 0;
   /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): metin artık ortalı değil,
-     satırın BAŞINDAN başlıyor — ayrıca yazı %20 büyütüldü (11px -> 13.2px). */
-  justify-content: flex-start;
+     satırın BAŞINDAN başlıyor — ayrıca yazı %20 büyütüldü (11px -> 13.2px).
+     DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): "flex-start" yerine
+     "space-between" yapıldı — tek öğe (metin) varken ikisi GÖRSEL OLARAK
+     birebir aynıdır (CSS standardına göre tek flex öğesinde space-between
+     = flex-start), ama geçmiş rota çipi eklendiğinde (iki öğe) çip artık
+     şeridin SAĞ UCUNA gidebiliyor — flex-start'ta bu mümkün değildi. */
+  justify-content: space-between;
   font-size: 13.2px;
 }
 
