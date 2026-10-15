@@ -1,5 +1,5 @@
 /*
-  customer-render.js — WG.131026.1620.802
+  customer-render.js — WG.151026.1430.829
   ==================
   Liste davranışı (arama/Tüm Müşteriler/şehir filtresi/sıralama) AYNI kaldı.
   13.10.2026 (Abdullah'ın paylaştığı referans görsel + gerçek ChatGPT kodu +
@@ -336,7 +336,50 @@ function hizliPencereyiAc(musteri){
 function hizliPencereyiKapat(){
   var panel = document.getElementById("cmAltMenu");
   if(panel) panel.hidden = true;
+  cmTipMenuKapat();
   cmAcikMusteri = null;
+}
+
+// ============================================================
+// İŞLEM YAP — TİP SEÇİM YAN PENCERESİ (15.10.2026, Abdullah onayı)
+// ============================================================
+// "İşlem Yap"a basınca artık doğrudan Cari Kart'a GİTMİYOR — hızlı
+// pencerenin (cm-altmenu) YANINDA bu küçük panel açılıyor, tip burada
+// seçiliyor. Cari Kart adımı KALKMADI (Abdullah'ın onayladığı 1. seçenek):
+// tip seçilince yine customer-cari-kart.html'e gidiliyor, sadece artık
+// tip ORADA değil BURADA seçiliyor — bkz. cari-kart-render.js
+// (weiconv2_tip_oncesecim_hizli bayrağı, "açık belge" uyarısı dahil o
+// sayfadaki mevcut mantığı aynen kullanıyor, sadece tam ekran ızgarayı
+// tekrar GÖSTERMİYOR).
+function cmTipMenuKonumlandir(){
+  try{
+    var ilk = document.getElementById("cmAltMenu");
+    var ikinci = document.getElementById("cmTipMenu");
+    var sarmalayici = ilk.closest(".cm-altmenu-sarmalayici");
+    if(!ilk || !ikinci || !sarmalayici) return;
+    var ilkRect = ilk.getBoundingClientRect();
+    var sarmalayiciRect = sarmalayici.getBoundingClientRect();
+    var ikinciGenislik = ikinci.offsetWidth;
+    // Önce ilk panelin hemen sağına, 8px boşlukla yerleştirmeyi dene.
+    var sol = (ilkRect.right - sarmalayiciRect.left) + 8;
+    // Sığmıyorsa (telefon genişliği), ekranın sağ kenarına yasla.
+    if(sarmalayiciRect.left + sol + ikinciGenislik > window.innerWidth - 8){
+      sol = (window.innerWidth - 8) - sarmalayiciRect.left - ikinciGenislik;
+    }
+    ikinci.style.left = sol + "px";
+  }catch(e){}
+}
+
+function cmTipMenuAc(){
+  var panel = document.getElementById("cmTipMenu");
+  if(!panel) return;
+  panel.hidden = false;
+  cmTipMenuKonumlandir();
+}
+
+function cmTipMenuKapat(){
+  var panel = document.getElementById("cmTipMenu");
+  if(panel) panel.hidden = true;
 }
 
 // DÖNÜŞ ROTASI (06.10.2026, Abdullah'ın isteğiyle — "kesin kural": program
@@ -375,8 +418,11 @@ function cmAksiyonuUygula(aksiyon){
       window.location.href = "customer-temas.html";
       break;
     case "islemyap":
-      localStorage.setItem("weiconv2_islem_yap_akisi", "1");
-      window.location.href = "customer-cari-kart.html";
+      // ROTA DEĞİŞİKLİĞİ (15.10.2026, Abdullah onayı): artık doğrudan Cari
+      // Kart'a gitmiyor — hızlı pencerenin yanında tip seçim penceresi
+      // açılıyor (bkz. cmTipMenuAc). Tip seçilince asıl yönlendirme
+      // #cmTipMenu .cm-tipmenu-oge tıklama kolu içinde yapılıyor.
+      cmTipMenuAc();
       break;
     case "fatura":
       window.location.href = "customer-detail.html?ac=fatura";
@@ -431,8 +477,28 @@ document.addEventListener("DOMContentLoaded", function(){
   document.addEventListener("click", function(ev){
     var panel = document.getElementById("cmAltMenu");
     if(!panel || panel.hidden) return;
-    if(ev.target.closest("#cmAltMenu") || ev.target.closest(".musteri-karti")) return;
+    if(ev.target.closest("#cmAltMenu") || ev.target.closest("#cmTipMenu") || ev.target.closest(".musteri-karti")) return;
     hizliPencereyiKapat();
+  });
+  // TİP SEÇİM YAN PENCERESİ (15.10.2026) — "İşlem Yap"tan açılan panelde
+  // bir tipe dokununca Cari Kart'a (adres/yetkili incelemesi için) geçiliyor,
+  // tip zaten burada seçildiği için cari-kart-render.js tam ekran ızgarayı
+  // tekrar göstermeden akışa devam ediyor (bkz. o dosyadaki
+  // weiconv2_tip_oncesecim_hizli kullanımı).
+  document.querySelectorAll("#cmTipMenu .cm-tipmenu-oge").forEach(function(btn){
+    btn.onclick = function(){
+      if(!cmAcikMusteri) return;
+      var tip = this.getAttribute("data-tip");
+      cmDonusRotasiniKaydet();
+      localStorage.setItem("weiconv2_onceden_secilen_tip", tip);
+      localStorage.setItem("weiconv2_tip_oncesecim_hizli", "1");
+      localStorage.setItem("weiconv2_islem_yap_akisi", "1");
+      window.location.href = "customer-cari-kart.html";
+    };
+  });
+  window.addEventListener("resize", function(){
+    var panel = document.getElementById("cmTipMenu");
+    if(panel && !panel.hidden) cmTipMenuKonumlandir();
   });
   document.getElementById("btnTumMusteriler").onclick = function(){
     tumMusterilerModuAktif = true;

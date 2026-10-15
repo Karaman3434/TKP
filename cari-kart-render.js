@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.151026.1015.825
+  cari-kart-render.js — WG.151026.1430.829
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -649,24 +649,44 @@ document.addEventListener("DOMContentLoaded", function(){
   if(akistanGeldiMi){
     islemeDevamBtn.hidden = false;
     islemeDevamBtn.textContent = "▶️ İşleme Devam Et";
-    islemeDevamBtn.onclick = function(){ document.getElementById("tipSecimOverlay").hidden = false; };
+
+    // TİP ÖN SEÇİMİ (15.10.2026, Abdullah onayı) — Müşteri Bul'daki hızlı
+    // pencerenin yanındaki yeni panelden geldiyse (bkz. customer-render.js
+    // cmTipMenuAc) tip ZATEN seçilmiş oluyor — bu sayfanın tam ekran
+    // Numune/Teklif/Proforma/Sipariş ızgarasını BİR DAHA göstermiyoruz,
+    // "İşleme Devam Et" doğrudan aynı açık-belge kontrolünü yapıp devam
+    // ediyor. customer-detail.html'deki eski "İşlem Yap" kutucuğundan
+    // (bu bayrak set edilmeden) gelindiğinde ızgara eskisi gibi açılıyor —
+    // DEĞİŞMEDİ.
+    var tipOncedenSecildiMi = localStorage.getItem("weiconv2_tip_oncesecim_hizli") === "1";
+
+    function tipSeciminiDogrula(secilenTip){
+      // Açık Teklif Uyarısı (22.09.2026): sadece "SİPARİŞ" seçilince ve
+      // sadece bu müşteride henüz siparişe dönüşmemiş bir teklif/
+      // proforma/numune varsa devreye girer.
+      if(secilenTip === "siparis" && typeof ReportsData !== "undefined" && musteriVerisi){
+        var acikBelge = ReportsData.musterininAcikBelgesi(musteriVerisi.ad);
+        if(acikBelge){
+          document.getElementById("tipSecimOverlay").hidden = true;
+          acikBelgeUyariGoster(acikBelge);
+          return;
+        }
+      }
+      siparisAkisinaDevamEt(secilenTip);
+    }
+
+    if(tipOncedenSecildiMi){
+      localStorage.removeItem("weiconv2_tip_oncesecim_hizli");
+      islemeDevamBtn.onclick = function(){
+        var secilenTip = localStorage.getItem("weiconv2_onceden_secilen_tip");
+        tipSeciminiDogrula(secilenTip);
+      };
+    } else {
+      islemeDevamBtn.onclick = function(){ document.getElementById("tipSecimOverlay").hidden = false; };
+    }
     document.getElementById("btnTipSecimVazgec").onclick = function(){ document.getElementById("tipSecimOverlay").hidden = true; };
     document.getElementById("tipSecimOverlay").querySelectorAll(".tip-btn").forEach(function(btn2){
-      btn2.onclick = function(){
-        var secilenTip = this.getAttribute("data-tip");
-        // Açık Teklif Uyarısı (22.09.2026): sadece "SİPARİŞ" seçilince ve
-        // sadece bu müşteride henüz siparişe dönüşmemiş bir teklif/
-        // proforma/numune varsa devreye girer.
-        if(secilenTip === "siparis" && typeof ReportsData !== "undefined" && musteriVerisi){
-          var acikBelge = ReportsData.musterininAcikBelgesi(musteriVerisi.ad);
-          if(acikBelge){
-            document.getElementById("tipSecimOverlay").hidden = true;
-            acikBelgeUyariGoster(acikBelge);
-            return;
-          }
-        }
-        siparisAkisinaDevamEt(secilenTip);
-      };
+      btn2.onclick = function(){ tipSeciminiDogrula(this.getAttribute("data-tip")); };
     });
     document.getElementById("btnAcikBelgeYeniSiparis").onclick = function(){
       document.getElementById("acikBelgeUyariOverlay").hidden = true;

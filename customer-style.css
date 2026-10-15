@@ -1,4 +1,4 @@
-/* customer-style.css — WG.151026.0905.824 — aynı kural: gradyan/gölge yığılması yok. */
+/* customer-style.css — WG.151026.1430.829 — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
 
@@ -331,3 +331,52 @@
   padding: 0 6px;
   flex-shrink: 0;
 }
+
+/* ============================================================
+   İŞLEM YAP — TİP SEÇİM YAN PENCERESİ (15.10.2026, Abdullah onayı,
+   mockup üzerinden onaylandı — dikey/sıralı liste formu seçildi).
+   ============================================================
+   Hızlı pencerede (cm-altmenu) "İşlem Yap"a basınca artık Cari Kart'a
+   gitmeden, cm-altmenu'nün YANINDA bu panel açılıyor; renkler
+   send-style.css .tip-btn--* ile BİREBİR AYNI (b7601f/0e6b34/8e44ad/
+   3569b8). Konumu (sağda mı, kenara mı yaslı) customer-render.js'te
+   JS ile hesaplanıyor (cmTipMenuKonumlandir) — telefon genişliğinde
+   cm-altmenu'nün yanına sığmazsa ekranın sağ kenarına yaslanıyor. */
+.cm-tipmenu {
+  position: absolute;
+  top: 100%;
+  margin-top: 6px;
+  z-index: 130;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  padding: 8px;
+  width: 168px;
+}
+.cm-tipmenu[hidden] { display: none; }
+.cm-tipmenu-baslik {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #556170;
+  padding: 4px 6px 8px;
+}
+.cm-tipmenu-oge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border-radius: 9px;
+  padding: 10px 10px;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: left;
+}
+.cm-tipmenu-oge:last-child { margin-bottom: 0; }
+.cm-tipmenu-oge:active { opacity: .8; }
+.cm-tipmenu-oge-ikon { font-size: 15px; flex-shrink: 0; }
+.cm-tipmenu-oge--numune   { background: #faeeda; border: 2px solid #b7601f; color: #b7601f; }
+.cm-tipmenu-oge--teklif   { background: #eafaf0; border: 2px solid #0e6b34; color: #0e6b34; }
+.cm-tipmenu-oge--proforma { background: #f6f0fd; border: 2px solid #8e44ad; color: #8e44ad; }
+.cm-tipmenu-oge--siparis  { background: #f0f7ff; border: 2px solid #3569b8; color: #003a70; }
