@@ -163,31 +163,42 @@ var ProductData = (function(){
   }
 
   function ara(sorgu){
-    var q = (sorgu||"").trim().toLocaleLowerCase("tr-TR");
-    var kelimeler = q.split(/\s+/).filter(function(k){ return k.length>0; });
+    // Arama: Firebase katalogundaki ürün adı + BERTA + ABAS alanları.
+    // Kodsuz yardımcı kayıtları genel ürün sonuçlarından çıkar; ancak
+    // boş/eksik alanlar diğer ürünlerin aranmasını engellemez.
+    function norm(deger){
+      return (deger===null || deger===undefined ? "" : String(deger))
+        .toLocaleLowerCase("tr-TR")
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ").trim();
+    }
+    function kod(deger){
+      var v = norm(deger);
+      return (!v || v === "nan" || v === "-") ? "" : v;
+    }
+
+    var q = norm(sorgu);
+    if(!q) return [];
+    var kelimeler = q.split(/\s+/).filter(Boolean);
     var sonuc = [];
+
     for(var i=0;i<katalog.length;i++){
-      var item = katalog[i];
-      // Ürün aramasında yalnızca gerçek BERTA veya ABAS kodu bulunan
-      // katalog ürünleri yer alır. Kodsuz yardımcı/özel kayıtlar (ör.
-      // "Garanti Mührü Mavi") genel ürün aramasını kirletmemelidir.
-      // "-", boşluk ve Excel'den gelen "nan" değerleri geçerli kod sayılmaz.
-      function temizKod(deger){
-        var kod = (deger===null || deger===undefined ? "" : String(deger)).trim();
-        if(!kod || kod.toLocaleLowerCase("tr-TR")==="nan" || kod==="-") return "";
-        return kod.toLocaleLowerCase("tr-TR");
-      }
-      var b = temizKod(item.berta!==undefined ? item.berta : item.BERTA);
-      var a = temizKod(item.abas!==undefined ? item.abas : item.ABAS);
-      var n = (item.name||item.NAME||item.urun||item.URUN||"").toString().trim().toLocaleLowerCase("tr-TR");
+      var item = katalog[i] || {};
+      var b = kod(item.berta !== undefined ? item.berta :
+                  item.BERTA !== undefined ? item.BERTA : item.bertaKodu);
+      var a = kod(item.abas !== undefined ? item.abas :
+                  item.ABAS !== undefined ? item.ABAS : item.abasKodu);
+      var ad = norm(item.urun || item.URUN || item.ad || item.AD ||
+                    item.name || item.NAME || item.urunAdi || item.productName);
+
+      // İki kodu da olmayan özel kayıtlar normal ürün aramasını kirletmesin.
       if(!b && !a) continue;
-      var araMetin = b+" "+a+" "+n;
-      if(kelimeler.length===0){ sonuc.push({item:item, idx:i}); continue; }
-      var eslesme = true;
-      for(var k=0;k<kelimeler.length;k++){
-        if(araMetin.indexOf(kelimeler[k])<0){ eslesme=false; break; }
-      }
-      if(eslesme) sonuc.push({item:item, idx:i});
+
+      // Ayrı alanları tek arama metnine dönüştür. Çok kelimeli sorgularda
+      // tüm kelimeler bulunmalı; böylece "VA 100" ürün adında eşleşir.
+      var metin = norm([ad,b,a].filter(Boolean).join(" "));
+      var eslesir = kelimeler.every(function(k){ return metin.indexOf(k) !== -1; });
+      if(eslesir) sonuc.push({item:item, idx:i});
     }
     return sonuc;
   }
