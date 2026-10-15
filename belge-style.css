@@ -1,4 +1,4 @@
-/* belge-style.css — WG.151026.0800.823
+/* belge-style.css — WG.151026.0905.824
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -269,7 +269,10 @@
   border: 1.5px solid var(--brand-primary);
   border-bottom: 1.5px solid var(--brand-primary);
   border-radius: 12px;
-  margin: 8px 0;
+  /* DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): kutular arası boşluklar
+     simetrik olsun diye 8px->10px (diğer kutuların standart 10px boşluğuyla
+     eşitlendi). */
+  margin: 10px 0;
   /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): metin artık ortalı değil,
      satırın BAŞINDAN başlıyor — ayrıca yazı %20 büyütüldü (11px -> 13.2px). */
   justify-content: flex-start;
@@ -701,7 +704,9 @@
   align-items: center;
   padding: 6px 16px;
   border-radius: 14px;
-  margin-top: 8px;
+  /* DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): 8px->10px, diğer
+     kutular arası standart 10px boşlukla simetrik hale getirildi. */
+  margin-top: 10px;
 }
 .belge-pt-etiket { font-size: 11px; font-weight: 800; color: #ffffff; letter-spacing: .3px; }
 .belge-pt-deger { font-size: 13px; font-weight: 900; color: #ffffff; }

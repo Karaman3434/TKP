@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.151026.0800.823 */
+/* cari-kart-style.css — WG.151026.0905.824 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -55,11 +55,14 @@
    (customer-cari-kart.html) hem de Gönder ekranının önizlemesi/gönderilen
    görseli (send-render.js'in cariKutulariHtml'i) tarafından paylaşıldığı
    için değişiklik HER İKİSİNDE birden görünür. */
+/* DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): kutu yüksekliği dikey
+   yönde %10 küçültüldü (dolgu 10px->7.5px) — etiket/değer yazı boyu
+   (.ozet-baslik/.ozet-deger) AYNEN sabit kaldı. */
 .ozet-alan {
   background: #E7E9EE;
   border: 1.5px solid #073B70;
   border-radius: 14px;
-  padding: 10px 10px;
+  padding: 7.5px 10px;
   display: flex;
   flex-direction: row;
   align-items: center;

@@ -42,12 +42,15 @@ body {
   position: relative;
   margin-bottom: 8px;
 }
+/* DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): kutunun yüksekliği ve
+   içindeki yazı boyutu dikey yönde %20 küçültüldü (dolgu 14px->10.4px,
+   yazı 20.8px->16.6px) — yatay dolgu/şekil değişmedi. */
 .arama-kutusu input {
   width: 100%;
   border: 2px solid #3569b8;
   border-radius: 999px;
-  padding: 14px 44px 14px 18px;
-  font-size: 20.8px;
+  padding: 10.4px 44px 10.4px 18px;
+  font-size: 16.6px;
   font-weight: 700;
   outline: none;
   color: #c0392b;
@@ -55,13 +58,10 @@ body {
 .arama-kutusu input:focus {
   border-color: #003a70;
 }
-/* DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle): arama kutusuna YAZILAN
-   harfler kırmızı + kalın + %30 büyük (16px -> 20.8px). İpucu (placeholder)
-   metni eski görünümünü koruyor, yukarıdaki kuraldan ETKİLENMİYOR. */
 .arama-kutusu input::placeholder {
   color: #94a3b8;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 12.8px;
 }
 .arama-ikon {
   position: absolute;
