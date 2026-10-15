@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.151026.1135.826
+  belge-render.js — WG.151026.1335.827
   ===============
   14.10.2026: "Yazdır" artık window.print() yerine gerçek bir PDF üretiyor
   (bkz. teklif-pdf.js) — bu dosyanın KENDİ görünümüne/işlevlerine dokunulmadı,
@@ -628,6 +628,30 @@ document.addEventListener("DOMContentLoaded", function(){
     else window.location.href = "reports.html";
   };
   document.getElementById("btnIslemlerAc").onclick = function(){ document.getElementById("islemlerOverlay").hidden = false; };
+  // EKLENDİ (15.10.2026, Abdullah onayı — mockup üzerinden onaylandı):
+  // "Beklet" — bu belgeyi BekleyenIslemler kuyruğuna ekler (en fazla 2),
+  // mevcut "weiconv2_goruntulenen_belge" anahtarının O ANKİ değerini
+  // aynen saklar; devam edilince aynı anahtar geri yazılıp bu sayfaya
+  // dönülür — sayfanın kendi yükleme mantığına HİÇ dokunulmadı.
+  var btnBelgeBekletEl = document.getElementById("btnBelgeBeklet");
+  if(btnBelgeBekletEl) btnBelgeBekletEl.onclick = function(){
+    if(!sonCizilenKayit){ hataGoster("Önce bir belge açılmalı."); return; }
+    if(typeof BekleyenIslemler === "undefined"){ hataGoster("Beklet özelliği yüklenemedi."); return; }
+    var onek = KOD_ONEK_BELGE[sonCizilenKayit.tip] || "?";
+    var renk = ONEK_RENK_BELGE[onek] || {yazi:"#334155", bg:"#eef2f8"};
+    var sonuc = BekleyenIslemler.ekle({
+      baslik: sonCizilenKayit.musteri || "-",
+      altKod: sonCizilenKayit.kod || "",
+      kisaKod: onek,
+      renkBg: renk.bg,
+      renkYazi: renk.yazi,
+      url: "belge-onizleme.html",
+      resumeKey: "weiconv2_goruntulenen_belge"
+    });
+    if(!sonuc.basarili){ hataGoster(sonuc.mesaj); return; }
+    if(window.history.length > 1) window.history.back();
+    else window.location.href = "reports.html";
+  };
   document.getElementById("msVazgec").onclick = function(){ document.getElementById("islemlerOverlay").hidden = true; };
   document.getElementById("islemlerOverlay").addEventListener("click", function(ev){
     if(ev.target === this) this.hidden = true;

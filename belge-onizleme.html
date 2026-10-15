@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  WEICON ASİST — BELGE ÖNİZLEME v2 — VERSİYON: WG.151026.1135.826
+  WEICON ASİST — BELGE ÖNİZLEME v2 — VERSİYON: WG.151026.1335.827
   ====================================
   WEICON logosu tek başına üstte, CARİ BİLGİ şeridi (isim, vade/fatura/
   kargo, fatura adresi, teslimat adresi, yetkili bilgisi), tablo başlığında
@@ -41,6 +41,8 @@
      da TEK KURAL'a (musteri-serit.js) uyuyor; HareketTablo.cariKutulariHtml()
      bu dosyayı çağırıyor (bkz. hareket-tablo.js). -->
 <link rel="stylesheet" href="musteri-serit.css?v=WG.121026.2358.786">
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
+<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1335.827">
 </head>
 <body class="belge-onizleme-sayfa">
 
@@ -65,6 +67,9 @@
   <div class="belge-gecmis-kutu" id="belgeGecmisiKutu" hidden></div>
   <div class="belge-alt-buton-satir">
     <button class="belge-kapat-buton" id="btnBelgeKapat">✕ Kapat</button>
+    <!-- EKLENDİ (15.10.2026, Abdullah onayı — mockup üzerinden onaylandı):
+         "Beklet" — bu belgeyi kenara bırakıp başka bir işe geçebilme. -->
+    <button class="bi-beklet-buton" id="btnBelgeBeklet">⏸ Beklet</button>
     <button class="belge-islemler-buton" id="btnIslemlerAc">⋯ İşlemler</button>
   </div>
 
@@ -198,6 +203,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="teklif-pdf.js?v=WG.141026.2228.817"></script>
-<script src="belge-render.js?v=WG.151026.1135.826"></script>
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
+<script src="bekleyen-islemler.js?v=WG.151026.1335.827"></script>
+<script src="belge-render.js?v=WG.151026.1335.827"></script>
 </body>
 </html>
