@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.141026.2325.820 */
+/* cari-kart-style.css — WG.151026.0800.823 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -165,7 +165,13 @@
   border-bottom: 1px solid #e1e6ea;
 }
 .ozet-satir-3--birlesik { border-radius: 0; overflow: visible; margin-top: 0; padding-bottom: 0; border-bottom: none; gap: 8px; }
-.ozet-satir-3--birlesik .ozet-alan { border-top: none; }
+/* DÜZELTME (15.10.2026, Abdullah'ın bildirdiği hata): bir önceki turda buraya
+   yanlışlıkla "üst çizgi yok" kuralı eklenmişti — VADE/FATURA/KARGO
+   kutularının üst kenarlığını siliyordu, bu üç kutu da artık diğer tüm
+   kenarlar gibi TAM çerçeveli (.ozet-alan'ın kendi border'ı aynen geçerli).
+   Bu dosya customer-cari-kart.html + HareketTablo.cariKutulariHtml() (Gönder/
+   Mail/Belge Önizleme) tarafından paylaşıldığı için düzeltme HER sayfada
+   birden görünür. */
 
 .ck-mini-input {
   width: 100%;

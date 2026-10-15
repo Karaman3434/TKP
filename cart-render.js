@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.151026.0015.822
+  cart-render.js — WG.151026.0800.823
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -251,9 +251,25 @@ function sayfayiCiz(){
     var bekleyenler = liste.filter(function(u){ return !u.hesaplandi; });
     var hesaplananlar = liste.filter(function(u){ return u.hesaplandi; });
 
+    // KOD/TARİH ŞERİDİ (15.10.2026, Abdullah onayı) — Belge Önizleme'deki
+    // "TÜR · KOD TARİH" şeridi artık Sepet'in HER İKİ grubunda da var.
+    // Gerçek SP/FT/PF/NM kodu ancak Gönder'de kaydet() çağrılınca
+    // (send-data.js) üretiliyor — burada henüz yok, bu yüzden "(taslak)"
+    // ibaresiyle BUGÜNÜN tarih/saatini gösteriyoruz.
+    var simdiKod = new Date();
+    var kodTarihMetni = String(simdiKod.getDate()).padStart(2,"0") + "." + String(simdiKod.getMonth()+1).padStart(2,"0") + "." + simdiKod.getFullYear()
+      + " " + String(simdiKod.getHours()).padStart(2,"0") + ":" + String(simdiKod.getMinutes()).padStart(2,"0");
+
+    // TASARIM EŞİTLİĞİ (15.10.2026, Abdullah'ın bildirdiği hata): HESAPLANACAK
+    // grubu HESAPLANDI ile aynı tasarıma (kod/tarih şeridi + tür rozeti)
+    // sahip değildi — artık kendi (turuncu) rengiyle AYNI yapı burada da var.
     grupSariAlani.innerHTML = bekleyenler.length === 0 ? "" : HareketTablo.grupHtml({
       etiket: "🟡 HESAPLANACAK",
       etiketOrtali: true,
+      etiketRozet: TIP_ETIKET_ROZET[secilenTip],
+      etiketRozetSinifi: "islem-tipi",
+      tip: secilenTip,
+      kodMetni: (TIP_ETIKET_ROZET[secilenTip] || "") + " · " + kodTarihMetni + " (taslak)",
       urunler: bekleyenler,
       hesapla: function(){ return null; },
       zeminSinifi: "hareket-satir--sari"
@@ -263,14 +279,6 @@ function sayfayiCiz(){
 
     var hesaplananToplam = 0;
     hesaplananlar.forEach(function(u){ hesaplananToplam += hesapla(u).toplamEuro; });
-    // KOD/TARİH ŞERİDİ (15.10.2026, Abdullah onayı) — Belge Önizleme'deki
-    // "TÜR · KOD TARİH" şeridi artık Sepet'in HESAPLANDI grubunda da var.
-    // Gerçek SP/FT/PF/NM kodu ancak Gönder'de kaydet() çağrılınca
-    // (send-data.js) üretiliyor — burada henüz yok, bu yüzden "(taslak)"
-    // ibaresiyle BUGÜNÜN tarih/saatini gösteriyoruz.
-    var simdiKod = new Date();
-    var kodTarihMetni = String(simdiKod.getDate()).padStart(2,"0") + "." + String(simdiKod.getMonth()+1).padStart(2,"0") + "." + simdiKod.getFullYear()
-      + " " + String(simdiKod.getHours()).padStart(2,"0") + ":" + String(simdiKod.getMinutes()).padStart(2,"0");
     grupYesilAlani.innerHTML = (hesaplananlar.length === 0 || !hesaplandiGosterVarMi) ? "" : HareketTablo.grupHtml({
       etiket: "🟢 HESAPLANDI",
       etiketOrtali: true,

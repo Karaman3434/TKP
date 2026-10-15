@@ -1,4 +1,4 @@
-/* belge-style.css — WG.151026.0006.821
+/* belge-style.css — WG.151026.0800.823
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -658,9 +658,10 @@
    beyaz kalıyor, zemin de değişmiyor. Manuel kur olduğu zaten metindeki
    "✏️ Bu işlemde..." ön eki ile anlaşılıyor. */
 .belge-gt-kur-ic--manuel { color: #ffffff; background: none; }
-/* Sepet'te bu şeride dokunup o işleme özel kur girilebilir (13.09.2026) —
-   tıklanabilir olduğunu belli etmek için noktalı alt çizgi. */
-.belge-gt-kur-ic--tiklanabilir { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
+/* Sepet'te bu şeride dokunup o işleme özel kur girilebilir (13.09.2026).
+   DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): tıklanabilirliği belli eden
+   noktalı alt çizgi kaldırıldı — cursor:pointer yeterli, görsel çizgi yok. */
+.belge-gt-kur-ic--tiklanabilir { cursor: pointer; }
 .belge-gt-satir {
   display: flex;
   justify-content: flex-start;

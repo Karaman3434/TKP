@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.141026.2250.819
+  send-render.js — WG.151026.0800.823
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -96,14 +96,16 @@ var FORM_BASLIK = {numune:"NUMUNE FORMU", teklif:"FİYAT TEKLİFİ FORMU", profo
 function formBaslikHtml(tip){
   return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'>" + (FORM_BASLIK[tip]||"SİPARİŞ FORMU") + "</div>";
 }
-// İŞLEM KODU ETİKETİ (12.10.2026, Abdullah onayı): üsteki FORM_BASLIK
-// şeridiyle AYNI renk/stilde ama KENDİ ayrı kartında — gerçek işlem
-// kodunu (örn. "FT.121026.1522") gösterir. Tek-renk kuralı: FORM_BASLIK'taki
-// renk burada TEKRAR kullanılır, yeni bir renk eklenmez. "belge-form-baslik"
-// sınıfının kendi border-radius'u YOK — bu kutu kendi .belge-kart'ı
-// içinde olduğundan tam yuvarlak görünür (bkz. .belge-kart{overflow:hidden}).
+// İŞLEM KODU ETİKETİ — gerçek işlem kodunu (örn. "FT001 15.10.2026 00:21")
+// gösterir. DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): eskiden üstteki
+// FORM_BASLIK şeridiyle AYNI ".belge-form-baslik" stilini (dolgu renkli,
+// sadece alt çizgili) kullanıyordu — artık Sepet/Belge Önizleme'deki
+// standart kod/tarih şeridiyle (.belge-belge-baslik-serit--mavi: gri zemin,
+// tam çerçeve, köşeleri yuvarlak) BİREBİR AYNI, yazı rengi de "tip-" sınıfı
+// ile işlem türüne göre otomatik değişiyor (bkz. gonder-tablo-style-v2.css,
+// body.gonder-sayfa kapsamında).
 function kodEtiketHtml(tip, kod){
-  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'>" + htmlEsc(kod||"") + "</div>";
+  return "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi tip-" + (tip||"siparis") + "'><span class='belge-belge-baslik-serit-metin'>" + htmlEsc(kod||"") + "</span></div>";
 }
 // VADE artık Müşteri Kartı'nda SAYI (gün) olarak tutuluyor (21.09.2026);
 // burada okunaklı gösterim için "45" -> "45 gün" biçimine çevrilir. Eski
@@ -344,7 +346,11 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   return cariBaslikHtml
     + cariGovdeHtml
     + "<div class='belge-kart-ayrac'></div>"
-    + "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi'>" + tabloBasligi + "</div>"
+    // DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): giden görselde bu şerit
+    // eskiden hep nötr lacivertti ("bir belgede bir renk" kuralı) — artık
+    // Sepet/Belge Önizleme ile aynı şekilde "tip-" sınıfı ile işlem türüne
+    // göre otomatik renkleniyor (zemin/çerçeve sabit kalır, sadece yazı).
+    + "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi tip-" + (tip||"siparis") + "'><span class='belge-belge-baslik-serit-metin'>" + tabloBasligi + "</span></div>"
     + "<div class='belge-kart'>"
     + "<div class='data-table-container'><table class='belge-urun-tablo belge-urun-tablo--giden'>"
     // TEK TABLO (14.10.2026): sütun başlıkları/genişlikleri artık hareket-

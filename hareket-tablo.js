@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — WG.151026.0006.821
+  hareket-tablo.js — WG.151026.0800.823
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -230,7 +230,18 @@ var HareketTablo = (function(){
     // Cari'deki tek "ŞEHİR" alanı SADECE fatura adresine eklenir — teslimat
     // çoğu zaman bambaşka bir ilçe/ildedir, ona hiç eklenmez (29.09.2026).
     var sehirEk = musteri.sehir ? ", " + htmlEsc(musteri.sehir) : "";
-    var html = "<div class='ck-isim-satir'><b class='ck-isim-nokta'>•</b> " + htmlEsc(musteri.ad) + "</div>"
+    // TEK MÜŞTERİ İSMİ TASARIMI (15.10.2026, Abdullah'ın bildirdiği hata):
+    // burada eskiden kendi başına çıplak "• İsim" satırı (.ck-isim-satir)
+    // üretiliyordu — Cari Bilgi/Sepet'te kullanılan kutulu (kod+isim+ilçe/il)
+    // tasarımdan FARKLIYDI, sayfalarda iki ayrı müşteri-ismi görünümüne yol
+    // açıyordu. musteri-serit.js'in kendi TEK KURAL'ına (müşteri adı her
+    // yerde MusteriSeridi.html() ile basılır) uyularak artık o da kullanılıyor
+    // — bu fonksiyonu çağıran her sayfa (Gönder, Mail, Belge Önizleme) artık
+    // musteri-serit.js/css'i de yüklüyor olmalı.
+    var isimHtml = (typeof MusteriSeridi !== "undefined")
+      ? MusteriSeridi.html(musteri)
+      : "<div class='ck-isim-satir'><b class='ck-isim-nokta'>•</b> " + htmlEsc(musteri.ad) + "</div>";
+    var html = isimHtml
       + "<div class='ozet-satir-3 ozet-satir-3--birlesik'>"
       +   "<div class='ozet-alan'><span class='ozet-ikon'>📅</span><div class='ozet-metin'><div class='ozet-baslik'>VADE</div><div class='ozet-deger'>" + htmlEsc(vade||"-") + "</div></div></div>"
       +   "<div class='ozet-alan'><span class='ozet-ikon'>🧾</span><div class='ozet-metin'><div class='ozet-baslik'>FATURA</div><div class='ozet-deger'>" + htmlEsc(faturaTuru||"-") + "</div></div></div>"

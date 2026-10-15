@@ -1,21 +1,28 @@
 /*
-  gonder-tablo-style-v2.css — WG.141026.1940.806
+  gonder-tablo-style-v2.css — WG.151026.0800.823
   ================================================================
   Belge Önizleme/Sepet'te onaylanan açık gri zemin dili Gönder
   ekranının ürün tablosuna da taşındı (12.10.2026, Abdullah onayı).
   SADECE body.gonder-sayfa altında — calc.html'in de paylaştığı
   belge-style.css/cart-style.css unscoped kalıyor, bu dosya onları
   ETKİLEMEZ.
-  NOT: Burada türe-özel ROZET RENGİ YOK — Gönder ekranında belgenin
-  tek renk taşıyan yeri zaten üstteki "...FORMU" şeridi (bkz.
-  belge-style.css .belge-form-baslik.tip-*); aynı belgede ikinci bir
-  renkli öğe "bir belgede bir renk" kuralını bozar.
-
   KALDIRILDI (14.10.2026, Abdullah onayı — "7. Belge" v5 mockup, program
   genelinde TEK standart): çift satır açık gri zemin kuralı (zebra)
   buradan silindi — artık tablo içinde TEK zemin rengi var: beyaz (bkz.
   belge-style.css, !important ile buradaki gibi sayfaya-özgü kuralların
   üzerine çıkıyor).
+
+  DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): yukarıdaki "bir belgede bir
+  renk" notu artık GEÇERSİZ — kod/tarih şeridinin (.belge-belge-baslik-
+  serit--mavi, bkz. send-render.js kodEtiketHtml/belgeGorselHtmlOlustur)
+  yazı rengi de Sepet/Belge Önizleme ile BİREBİR aynı şekilde işlem tipine
+  göre otomatik değişiyor — zemin/çerçeve her zaman aynı gri/lacivert kalır,
+  SADECE metin rengi değişir. Renkler cart-tablo-style-v2.css/belge-
+  onizleme-style-v2.css'teki palet ile birebir aynı.
 */
 body.gonder-sayfa .belge-urun-tablo th { background: #EEF0F3; }
 body.gonder-sayfa .belge-gt-satir { padding: 10px 16px; }
+body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   .belge-belge-baslik-serit-metin { color: #249147; }
+body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  .belge-belge-baslik-serit-metin { color: #38469a; }
+body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-proforma .belge-belge-baslik-serit-metin { color: #d2691e; }
+body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-numune   .belge-belge-baslik-serit-metin { color: #c0453a; }
