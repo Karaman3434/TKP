@@ -21,7 +21,9 @@
 <meta name="apple-mobile-web-app-title" content="WEICON ASİST">
 <title>WEICON ASİST — İşlem Geçmişi</title>
 <script>document.documentElement.style.visibility='hidden';</script>
-<link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
+<link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
+<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1455.828">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
 <link rel="stylesheet" href="reports-style.css?v=WG.121026.1455.777">
 <link rel="stylesheet" href="gecmis-style.css?v=WG.141026.1605.804">
@@ -85,5 +87,15 @@
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("gecmis.html", "🕐 İşlem Geçmişi"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="gecmis-render.js?v=WG.141026.0010.803"></script>
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
+<script>
+  window.BEKLEYEN_ISLEM_AYAR = {
+    baslik: function(){ try{ var m = CustomerData.seciliyiOku(); return (m && m.ad) || document.title; }catch(e){ return document.title; } },
+    kisaKod: "MÜ", renkBg: "#e6f7f5", renkYazi: "#0c6e63",
+    resumeKey: "weicon_secili_musteri"
+  };
+</script>
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
+<script src="bekleyen-islemler.js?v=WG.151026.1455.828"></script>
 </body>
 </html>

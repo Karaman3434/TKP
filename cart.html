@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- WEICON ASİST V2 — VERSİYON: WG.151026.1135.826 — cart.html -->
+<!-- WEICON ASİST V2 — VERSİYON: WG.151026.1455.828 — cart.html -->
 <!--
   WEICON ASİST — BİRLEŞİK SAYFA: ÜRÜN BUL + HIZLI HESAPLA + SEPET v6
   ================================================================
@@ -24,7 +24,9 @@
 <meta name="apple-mobile-web-app-title" content="WEICON ASİST">
 <title>WEICON ASİST — Ürün Bul / Hesapla / Sepet</title>
 <script>document.documentElement.style.visibility='hidden';</script>
-<link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
+<link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
+<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1455.828">
 <link rel="stylesheet" href="product-style.css?v=WG.151026.0905.824">
 <link rel="stylesheet" href="calc-style.css?v=WG.141026.2143.814">
 <link rel="stylesheet" href="belge-style.css?v=WG.151026.1135.826">
@@ -397,5 +399,15 @@
 <script src="urun-arama.js?v=WG.121026.1820.779"></script>
 <script src="hesapla-popup.js?v=WG.121026.2340.785"></script>
 <script src="yarim-kalan-uyari.js?v=WG.100926.1021.435"></script>
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
+<script>
+  window.BEKLEYEN_ISLEM_AYAR = {
+    baslik: function(){ try{ var m = CustomerData.seciliyiOku(); return (m && m.ad) || document.title; }catch(e){ return document.title; } },
+    kisaKod: "MÜ", renkBg: "#e6f7f5", renkYazi: "#0c6e63",
+    resumeKey: "weicon_secili_musteri"
+  };
+</script>
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
+<script src="bekleyen-islemler.js?v=WG.151026.1455.828"></script>
 </body>
 </html>

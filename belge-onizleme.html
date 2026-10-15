@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  WEICON ASİST — BELGE ÖNİZLEME v2 — VERSİYON: WG.151026.1335.827
+  WEICON ASİST — BELGE ÖNİZLEME v2 — VERSİYON: WG.151026.1455.828
   ====================================
   WEICON logosu tek başına üstte, CARİ BİLGİ şeridi (isim, vade/fatura/
   kargo, fatura adresi, teslimat adresi, yetkili bilgisi), tablo başlığında
@@ -26,7 +26,7 @@
 <meta name="apple-mobile-web-app-title" content="WEICON ASİST">
 <title>WEICON ASİST — Belge Önizleme</title>
 <script>document.documentElement.style.visibility='hidden';</script>
-<link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
+<link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
 <!-- DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle — "cari kutusu tek yerden
      yönetilsin"): CARİ BİLGİ bloğu artık Gönder/Cari Kart ile PAYLAŞILAN
      HareketTablo.cariKutulariHtml'i çağırıyor (bkz. belge-render.js) — o
@@ -42,7 +42,7 @@
      bu dosyayı çağırıyor (bkz. hareket-tablo.js). -->
 <link rel="stylesheet" href="musteri-serit.css?v=WG.121026.2358.786">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1335.827">
+<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1455.828">
 </head>
 <body class="belge-onizleme-sayfa">
 
@@ -203,8 +203,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="teklif-pdf.js?v=WG.141026.2228.817"></script>
-<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<script src="bekleyen-islemler.js?v=WG.151026.1335.827"></script>
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler".
+     Bu sayfanın KENDİ özel "⏸ Beklet" düğmesi (alt buton satırında, belge
+     türüne göre renklenen) zaten var — bu yüzden paylaşılan modülün genel
+     "Bu sayfayı beklet" seçeneği burada GİZLENİYOR (aynı iş iki farklı
+     yerden yapılmasın diye); liste/rozet/devam etme yine aynı şekilde
+     çalışıyor. -->
+<script>window.BEKLEYEN_ISLEM_GENERIK_KAPALI = true;</script>
+<script src="bekleyen-islemler.js?v=WG.151026.1455.828"></script>
 <script src="belge-render.js?v=WG.151026.1335.827"></script>
 </body>
 </html>

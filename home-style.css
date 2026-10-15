@@ -672,9 +672,13 @@ body {
    hepsi "width:100%; max-width:none; border-radius:0;" kullandığı için, o
    dosyaların hiçbirine dokunmadan TEK bir ortak yamayla (bu dosya, TÜM
    sayfalarda yüklü) düzeltiliyor — !important sadece bu 3 özellik için ve
-   sadece bu geniş-ekran koşulunda kullanıldı. */
+   sadece bu geniş-ekran koşulunda kullanıldı.
+   EKLENDİ (15.10.2026) — ".bi-sheet" (bekleyen-islemler.js'in kendi
+   kendine yeten liste penceresi, "istisnasız tüm sayfalarda" çalışması
+   gerektiği için AYRI/bağımsız bir sınıfla tanımlı) aynı listeye eklendi,
+   böylece o da iPad'de aynı ortalı/yuvarlak muameleyi otomatik alıyor. */
 @media (min-width: 700px) {
-  .sheet, .tip-secim-kutu, .km-baslangic-kutu, .ziy-hatirlatma-kutu {
+  .sheet, .tip-secim-kutu, .km-baslangic-kutu, .ziy-hatirlatma-kutu, .bi-sheet {
     max-width: 480px !important;
     width: calc(100% - 32px) !important;
     border-radius: 14px !important;

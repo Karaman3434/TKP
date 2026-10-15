@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- WEICON ASİST V2 — VERSİYON: WG.151026.1015.825 — customer-cari-kart.html -->
+<!-- WEICON ASİST V2 — VERSİYON: WG.151026.1455.828 — customer-cari-kart.html -->
 <!--
   WEICON ASİST — CARİ KART v7
   ==============================
@@ -26,7 +26,9 @@
 <meta name="apple-mobile-web-app-title" content="WEICON ASİST">
 <title>WEICON ASİST — Cari Kart</title>
 <script>document.documentElement.style.visibility='hidden';</script>
-<link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
+<link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
+<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1455.828">
 <link rel="stylesheet" href="customer-style.css?v=WG.151026.0905.824">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
 <link rel="stylesheet" href="cari-kart-style.css?v=WG.151026.1015.825">
@@ -202,5 +204,15 @@
 <script src="weicon-ai-config.js?v=WG.151026.1015.825"></script>
 <script src="foto-doldur.js?v=WG.151026.1015.825"></script>
 <script src="cari-kart-render.js?v=WG.151026.1015.825"></script>
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
+<script>
+  window.BEKLEYEN_ISLEM_AYAR = {
+    baslik: function(){ try{ var m = CustomerData.seciliyiOku(); return (m && m.ad) || document.title; }catch(e){ return document.title; } },
+    kisaKod: "MÜ", renkBg: "#e6f7f5", renkYazi: "#0c6e63",
+    resumeKey: "weicon_secili_musteri"
+  };
+</script>
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
+<script src="bekleyen-islemler.js?v=WG.151026.1455.828"></script>
 </body>
 </html>

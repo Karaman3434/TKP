@@ -1,22 +1,67 @@
-/* bekleyen-islemler-style.css — WG.151026.1335.827
+/* bekleyen-islemler-style.css — WG.151026.1455.828
    ====================================
-   15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı): "Beklet /
-   Bekleyen İşlemler" düğmesi ve listesi. Bu dosya, bekleyen-islemler.js'i
-   yükleyen HER sayfaya eklenir (".app-nav" zaten her sayfada aynı yapıda
-   olduğu için düğme konumu her yerde aynı şekilde çalışır).
+   15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı; "istisnasız
+   tüm sayfalar" talebiyle genişletildi): "Beklet / Bekleyen İşlemler"
+   düğmesi ve listesi. Bu dosya, bekleyen-islemler.js'i yükleyen HER
+   sayfaya eklenir (".app-nav" zaten her sayfada aynı yapıda olduğu için
+   düğme konumu her yerde aynı şekilde çalışır).
 
-   Liste (.overlay/.sheet) kendi tasarımını GETİRMİYOR — mevcut paylaşılan
-   .overlay/.sheet/.sheet-secenek kalıbını kullanıyor (her sayfada zaten
-   yüklü), burada sadece onun İÇİNDEKİ yeni satır tasarımı (.bi-sheet-*)
-   tanımlı. Geniş ekranlarda (iPad 9 vb.) .sheet zaten home-style.css'teki
-   genel "GENİŞ EKRAN POPUP GENİŞLİĞİ" kuralına (700px+, ortalı/yuvarlak)
-   otomatik uyuyor — burada ekstra bir şey yapmaya gerek yok. */
+   KENDİ KENDİNE YETERLİ (self-contained): liste penceresi ".overlay"/
+   ".sheet" gibi SAYFAYA GÖRE DEĞİŞEN paylaşılan sınıfları KULLANMIYOR —
+   çünkü bu özellik "istisnasız tüm sayfalarda" çalışması gerektiği
+   halde o sınıflar sadece 5 CSS dosyasında (belge-style, cari-kart-
+   style, ayarlar-style, maas-hesaplama-style, send-style) tanımlı;
+   onları yüklemeyen bir sayfada liste biçimsiz görünürdü. Bu yüzden
+   AYNI görsel dilin (gri saydam zemin, beyaz alt sheet, yuvarlak
+   köşeli seçenek düğmeleri) kendi, ".bi-" önekli KOPYASI burada —
+   her sayfada BİREBİR aynı görünür, hiçbir dışarıdan bağımlılığı yok. */
+.bi-overlay {
+  position: fixed;
+  top: var(--ust-sabit-yukseklik, 100px);
+  left: 0; right: 0; bottom: 0;
+  background: rgba(10,20,35,0.5);
+  display: flex; align-items: flex-start; justify-content: center;
+  z-index: 900;
+}
+.bi-overlay[hidden] { display: none; }
+.bi-sheet {
+  background: #fff;
+  width: 100%; max-width: none;
+  border-radius: 0;
+  padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
+  max-height: 100%;
+  overflow-y: auto;
+}
+.bi-sheet-baslik { font-size: 15px; font-weight: 900; color: #003a70; margin-bottom: 4px; }
+.bi-sheet-alt { font-size: 12px; color: #6b7684; margin-bottom: 8px; }
+.bi-sheet-secenek {
+  width: 100%; text-align: left;
+  background: #f8fafc;
+  border: 1px solid #e8ecf1;
+  border-radius: 10px;
+  padding: 13px 14px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #1a2a3a;
+  margin-bottom: 8px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+}
+.bi-sheet-secenek--vazgec { background: none; border: none; text-align: center; justify-content: center; color: #6b7684; margin-top: 2px; }
+
+/* GENİŞ EKRAN (iPad 9 vb.) — home-style.css'teki ortak "POPUP GENİŞLİĞİ"
+   yamasıyla AYNI mantık (bkz. home-style.css @media min-width:700px),
+   ama ".bi-sheet" kendi sınıfı olduğu için o ortak kuralın listesine de
+   eklendi (bkz. home-style.css) — burada ayrıca tekrar tanımlamaya
+   gerek yok. */
 
 /* Düğme ".app-nav" (Geri/Ana Sayfa) içine mutlak konumlanıyor — satırı
-   genişletmeden, iki tuşun TAM DİKİŞİNİN üstüne biner (Abdullah'ın
-   isteğiyle, ilk tasarımdaki "sağ altta ayrı yüzen düğme" fikrinden
-   vazgeçildi). ".app-nav" zaten "display:grid; grid-template-columns:
-   1fr 1fr" olduğu için iki kutu eşit genişlikte, %50 noktası tam dikişe denk geliyor. */
+   genişletmeden, iki tuşun TAM DİKİŞİNİN üstüne biner. ".app-nav" zaten
+   "display:grid; grid-template-columns:1fr 1fr" olduğu için iki kutu
+   eşit genişlikte, %50 noktası tam dikişe denk geliyor. Düğme HER
+   SAYFADA HER ZAMAN görünür (Abdullah'ın isteğiyle, "istisnasız tüm
+   sayfalarda Beklet" — tıklayınca hem "bu sayfayı beklet" hem bekleyen
+   listesi aynı yerden açılır); sadece sayı rozeti, bekleyen yokken gizli. */
 .app-nav { position: relative; }
 .bi-nav-btn {
   position: absolute;
@@ -38,7 +83,6 @@
   cursor: pointer;
   padding: 0;
 }
-.bi-nav-btn[hidden] { display: none; }
 .bi-nav-sayi {
   position: absolute;
   top: -5px;
@@ -56,6 +100,7 @@
   justify-content: center;
   border: 2px solid #fff;
 }
+.bi-nav-sayi[hidden] { display: none; }
 
 /* Bekleyen işlemler listesindeki her satır — görsel dili, programdaki
    diğer "kayıt özeti" satırlarıyla (örn. belge-gecmis-cip-satir) aynı
@@ -96,11 +141,12 @@
 }
 .bi-sheet-bos { text-align: center; color: #8a96a3; font-size: 13px; padding: 10px 0 2px; }
 
-/* "Beklet" düğmesi — sayfanın kendi alt buton satırına (örn.
-   .belge-alt-buton-satir) eklenir, "flex:1" ile diğer düğmelerle eşit
-   genişlik paylaşır. Renk, programdaki "beklemede" durum rengiyle
-   (DURUM_ETIKET.beklemede, bkz. belge-render.js) aynı — yeni bir renk
-   icat edilmedi. */
+/* "Beklet" düğmesi — SADECE kendi özel alt-buton-satırı olan sayfalarda
+   (şimdilik yalnız Belge Önizleme) kullanılıyor; sayfanın kendi buton
+   satırına "flex:1" ile eklenir. Diğer TÜM sayfalarda "Beklet" eylemi
+   yukarıdaki ".bi-nav-btn" içindeki sheet'ten yapılır, bu düğmeye gerek
+   yoktur. Renk, programdaki "beklemede" durum rengiyle (DURUM_ETIKET.
+   beklemede, bkz. belge-render.js) aynı — yeni bir renk icat edilmedi. */
 .bi-beklet-buton {
   flex: 1;
   background: #faeeda;

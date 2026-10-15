@@ -1,50 +1,57 @@
 /*
-  bekleyen-islemler.js — WG.151026.1335.827
+  bekleyen-islemler.js — WG.151026.1455.828
   ==========================================
-  15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı): "Beklet / Bekleyen
-  İşlemler" — bir işlemin ortasındayken (örn. bir belgeyi görüntülerken) o işi
-  kenara bırakıp başka bir işe geçebilme, sonra kaldığın yerden devam edebilme
-  özelliği. Masaüstündeki "görev çubuğuna atma" mantığının karşılığı.
+  15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı; "istisnasız tüm
+  sayfalar" talebiyle genişletildi): "Beklet / Bekleyen İşlemler" — bir
+  işin ortasındayken o işi kenara bırakıp başka bir işe geçebilme, sonra
+  kaldığın yerden devam edebilme özelliği. Masaüstündeki "görev çubuğuna
+  atma" mantığının karşılığı.
 
   MİMARİ: Bu dosya, her sayfada (foto-doldur.js ile AYNI paylaşılan-modül
   deseniyle) kendi kendine ".app-nav" içine (Geri/Ana Sayfa dikişinin tam
   üstüne) yuvarlak bir düğme + sayı rozeti enjekte eder. Düğmeye dokununca
-  mevcut ".overlay"/".sheet" kalıbıyla bekleyen işlemler listesi açılır.
+  TEK bir sheet içinde HEM "⏸ Bu sayfayı beklet" eylemi HEM bekleyen
+  işlemler listesi birlikte görünür — bu sayede her sayfaya ayrı ayrı
+  "Beklet" butonu YERLEŞTİRMEYE gerek kalmadan (sayfa düzenleri çok
+  farklı olduğu için riskli olurdu), SADECE bu iki dosyayı (css+js)
+  yükleyen HER sayfa otomatik olarak tam "Beklet" yeteneği kazanır.
+
+  ÖZEL DURUM — Belge Önizleme (belge-onizleme.html): o sayfanın KENDİ,
+  belge türüne göre renklenen (SP/FT/PF/NM) özel bir "⏸ Beklet" düğmesi
+  zaten var (alt buton satırında, mockup'ta onaylandığı gibi) — bu yüzden
+  o sayfa "window.BEKLEYEN_ISLEM_GENERIK_KAPALI = true" ile BU dosyanın
+  genel "Bu sayfayı beklet" seçeneğini gizler (aynı işin iki farklı
+  yerden, karışık şekilde yapılmasın diye) — liste/rozet/devam etme yine
+  AYNI paylaşılan mekanizmadan çalışır, sadece EKLEME YOLU o sayfada
+  kendine özel.
+
+  SAYFAYA ÖZEL AYAR (opsiyonel) — bir sayfa, "Bu sayfayı beklet" ile
+  eklenecek kaydın başlığını/rengini/hangi localStorage anahtarının
+  saklanıp geri yükleneceğini özelleştirmek isterse, bekleyen-islemler.js
+  YÜKLENMEDEN ÖNCE şunu tanımlar:
+    window.BEKLEYEN_ISLEM_AYAR = {
+      baslik: function(){ return "..."; },  // fonksiyon ya da düz metin
+      kisaKod: "MÜ", renkBg: "#e6f7f5", renkYazi: "#0c6e63",
+      resumeKey: "weicon_secili_musteri"     // o sayfanın "hangi kaydı
+                                              // gösteriyorum" anahtarı
+    };
+  Hiçbir ayar verilmezse akıllı varsayılan kullanılır: başlık = sayfa
+  başlığı (document.title, "WEICON ASİST — " öneki temizlenmiş), nötr
+  gri çip, resumeKey YOK (devam edince sadece o sayfaya gidilir).
 
   VERİ MODELİ: localStorage["weiconv2_bekleyen_islemler"] — EN FAZLA 2
-  kayıttan oluşan bir dizi (3. işlem = aktif olarak üzerinde çalıştığın,
-  bekletilenler bunun DIŞINDAki en fazla 2 tanesi — Abdullah'ın isteğiyle).
-  Her kayıt: {
-    id: benzersiz string,
-    baslik: örn. müşteri adı,
-    altBaslik: örn. "SP.150926.1140 · 6 dk önce bekletildi" ÜRETİLİRKEN
-               ayrı tutulur — burada sadece kodu saklıyoruz (altKod),
-               "X dk önce" her açılışta zamana göre YENİDEN hesaplanır.
-    altKod: örn. "SP.150926.1140",
-    kisaKod: örn. "SP" (çip içinde görünen kısa harf),
-    renkBg / renkYazi: çipin rengi (programdaki SP/FT/PF/NM renk sistemiyle
-               BİREBİR aynı — bkz. belge-render.js ONEK_RENK_BELGE),
-    url: devam edince gidilecek sayfa (örn. "belge-onizleme.html"),
-    resumeKey: o sayfanın "hangi kaydı gösteriyorum" bilgisini tuttuğu
-               localStorage anahtarı (örn. "weiconv2_goruntulenen_belge") —
-               bekletirken bu anahtarın O ANKİ değeri saklanır, devam
-               edince AYNEN geri yazılıp öyle gidilir. Sayfanın kendi
-               yükleme mantığı (ne değişti, ne eklendi YOK) zaten bu
-               anahtarı okuyup kaydı kendi çiziyor.
-    resumeDeger: yukarıdaki anahtarın bekletme anındaki değeri,
-    zaman: Date.now() (epoch ms)
-  }
+  kayıt (3. işlem = aktif olarak üzerinde çalıştığın, bekletilenler
+  bunun DIŞINDAki en fazla 2 tanesi — Abdullah'ın isteğiyle). Her kayıt:
+  { id, baslik, altKod, kisaKod, renkBg, renkYazi, url, resumeKey,
+    resumeDeger, zaman }. Aynı url+resumeKey+resumeDeger'e sahip bir
+    kayıt zaten varsa TEKRAR eklenmez (yinelenen bekletme engellenir).
 
-  KULLANIM (yeni bir sayfaya "Beklet" eklerken):
-    BekleyenIslemler.ekle({
-      baslik: "Akın Metal San. Tic. Ltd. Şti.",
-      altKod: "SP.150926.1140",
-      kisaKod: "SP", renkBg: "#eaf2fc", renkYazi: "#003a70",
-      url: "belge-onizleme.html",
-      resumeKey: "weiconv2_goruntulenen_belge"
-    });
-  — dönen {basarili, mesaj} değerine göre sayfa kendi butonunu/geri
-  bildirimini gösterir (bkz. belge-render.js'teki btnBelgeBeklet).
+  KULLANIM (belge-onizleme.html gibi kendi özel düğmesi olan bir sayfada):
+    BekleyenIslemler.ekle({ baslik:"...", altKod:"...", kisaKod:"SP",
+      renkBg:"...", renkYazi:"...", url:"belge-onizleme.html",
+      resumeKey:"weiconv2_goruntulenen_belge" });
+  — dönen {basarili, mesaj} değerine göre sayfa kendi geri bildirimini
+  gösterir.
 */
 var BekleyenIslemler = (function(){
   var ANAHTAR = "weiconv2_bekleyen_islemler";
@@ -63,6 +70,13 @@ var BekleyenIslemler = (function(){
 
   function ekle(gorev){
     var liste = oku();
+    var yeniResumeDeger = gorev.resumeKey ? localStorage.getItem(gorev.resumeKey) : null;
+    var zatenVarMi = liste.some(function(k){
+      return k.url === gorev.url && (k.resumeKey||"") === (gorev.resumeKey||"") && (k.resumeDeger||"") === (yeniResumeDeger||"");
+    });
+    if(zatenVarMi){
+      return { basarili:false, mesaj:"Bu zaten bekleyen işlemler listende." };
+    }
     if(liste.length >= MAKS){
       return { basarili:false, mesaj:"En fazla " + MAKS + " işlem aynı anda bekletilebilir — devam etmek için önce birini tamamla ya da listeden kapat." };
     }
@@ -75,7 +89,7 @@ var BekleyenIslemler = (function(){
       renkYazi: gorev.renkYazi || "#334155",
       url: gorev.url || "",
       resumeKey: gorev.resumeKey || "",
-      resumeDeger: gorev.resumeKey ? localStorage.getItem(gorev.resumeKey) : null,
+      resumeDeger: yeniResumeDeger,
       zaman: Date.now()
     };
     liste.push(kayit);
@@ -105,6 +119,49 @@ var BekleyenIslemler = (function(){
       }
     }catch(e){}
     window.location.href = kayit.url || "home.html";
+  }
+
+  // Sayfa adını temizler: "WEICON ASİST — Cari Kart" -> "Cari Kart".
+  function temizSayfaAdi(){
+    var t = document.title || "";
+    return t.replace(/^WEICON ASİST\s*[—-]\s*/, "") || t || "Bu sayfa";
+  }
+
+  function dosyaAdi(){
+    var yol = window.location.pathname.split("/");
+    return yol[yol.length - 1] || "home.html";
+  }
+
+  // "Bu sayfayı beklet" — sayfaya özel ayar varsa onu kullanır, yoksa
+  // akıllı varsayılanla (sayfa başlığı, nötr gri çip, resumeKey yok)
+  // bekletir. Beklettikten sonra, "başka bir işe geçebilesin" diye Ana
+  // Sayfa'ya yönlendirir (Belge Önizleme'nin kendi özel düğmesiyle AYNI
+  // mantık — bekletmek = buradan ayrılmak demek).
+  function buSayfayiBeklet(){
+    var ayar = window.BEKLEYEN_ISLEM_AYAR || {};
+    var baslik = typeof ayar.baslik === "function" ? ayar.baslik() : (ayar.baslik || temizSayfaAdi());
+    var sonuc = ekle({
+      baslik: baslik,
+      altKod: ayar.altKod || "",
+      kisaKod: ayar.kisaKod || "•",
+      renkBg: ayar.renkBg || "#eef2f8",
+      renkYazi: ayar.renkYazi || "#334155",
+      url: ayar.url || dosyaAdi(),
+      resumeKey: ayar.resumeKey || ""
+    });
+    if(!sonuc.basarili){
+      biMesajGoster(sonuc.mesaj);
+      return;
+    }
+    window.location.href = "home.html";
+  }
+
+  function biMesajGoster(mesaj){
+    var kutu = document.createElement("div");
+    kutu.textContent = "⚠️ " + mesaj;
+    kutu.style.cssText = "position:fixed;top:8px;left:8px;right:8px;background:#c0392b;color:#fff;padding:10px;border-radius:8px;font-size:13px;z-index:99999;";
+    document.body.appendChild(kutu);
+    setTimeout(function(){ kutu.remove(); }, 4000);
   }
 
   function dakikaOnceMetni(zamanMs){
@@ -162,16 +219,10 @@ var BekleyenIslemler = (function(){
   function guncelle(){
     if(!elemanlarHazirMi) return;
     var liste = oku();
-    var dugme = document.getElementById("biNavBtn");
     var sayi = document.getElementById("biNavSayi");
-    if(!dugme || !sayi) return;
-    if(liste.length > 0){
-      dugme.hidden = false;
-      sayi.textContent = liste.length;
-    } else {
-      dugme.hidden = true;
-      var ovl = document.getElementById("biSheetOverlay");
-      if(ovl) ovl.hidden = true;
+    if(sayi){
+      if(liste.length > 0){ sayi.hidden = false; sayi.textContent = liste.length; }
+      else { sayi.hidden = true; }
     }
     sheetIcerikDoldur();
   }
@@ -179,19 +230,21 @@ var BekleyenIslemler = (function(){
   function elOlustur(){
     if(elemanlarHazirMi) return;
     var nav = document.querySelector(".app-nav");
-    if(!nav){ elemanlarHazirMi = false; return; }
+    if(!nav){ return; }
     var dugmeSarmal = document.createElement("div");
-    dugmeSarmal.innerHTML = "<button type='button' class='bi-nav-btn' id='biNavBtn' title='Bekleyen İşlemler' hidden>📥<span class='bi-nav-sayi' id='biNavSayi'>0</span></button>";
+    dugmeSarmal.innerHTML = "<button type='button' class='bi-nav-btn' id='biNavBtn' title='Beklet / Bekleyen İşlemler'>📥<span class='bi-nav-sayi' id='biNavSayi' hidden>0</span></button>";
     nav.appendChild(dugmeSarmal.firstChild);
 
+    var genericKapali = window.BEKLEYEN_ISLEM_GENERIK_KAPALI === true;
     var sheetSarmal = document.createElement("div");
     sheetSarmal.innerHTML =
-      "<div class='overlay' id='biSheetOverlay' hidden>" +
-        "<div class='sheet'>" +
-          "<div class='sheet-baslik' id='biSheetBaslik'>Bekleyen İşlemler (0/" + MAKS + ")</div>" +
-          "<div class='sheet-alt'>Bir işlemi bekletip başka bir işe geçebilirsin — en fazla " + MAKS + " işlem aynı anda bekletilebilir. Birine dokunarak kaldığın yerden devam et.</div>" +
+      "<div class='bi-overlay' id='biSheetOverlay' hidden>" +
+        "<div class='bi-sheet'>" +
+          "<div class='bi-sheet-baslik' id='biSheetBaslik'>Bekleyen İşlemler (0/" + MAKS + ")</div>" +
+          "<div class='bi-sheet-alt'>Bir işi bekletip başka bir işe geçebilirsin — en fazla " + MAKS + " işlem aynı anda bekletilebilir. Birine dokunarak kaldığın yerden devam et.</div>" +
+          (genericKapali ? "" : "<button type='button' class='bi-sheet-secenek' id='biSayfayiBekletBtn'><span style='font-size:18px;'>⏸</span>Bu sayfayı beklet</button>") +
           "<div id='biSheetGovde'></div>" +
-          "<button class='sheet-secenek sheet-secenek--vazgec' type='button' id='biSheetKapat'>Kapat</button>" +
+          "<button class='bi-sheet-secenek bi-sheet-secenek--vazgec' type='button' id='biSheetKapat'>Kapat</button>" +
         "</div>" +
       "</div>";
     document.body.appendChild(sheetSarmal.firstChild);
@@ -203,6 +256,9 @@ var BekleyenIslemler = (function(){
     document.getElementById("biSheetKapat").onclick = function(){
       document.getElementById("biSheetOverlay").hidden = true;
     };
+    if(!genericKapali){
+      document.getElementById("biSayfayiBekletBtn").onclick = buSayfayiBeklet;
+    }
     elemanlarHazirMi = true;
     guncelle();
   }
