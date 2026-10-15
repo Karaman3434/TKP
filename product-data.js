@@ -168,9 +168,19 @@ var ProductData = (function(){
     var sonuc = [];
     for(var i=0;i<katalog.length;i++){
       var item = katalog[i];
-      var b = (item.berta||item.BERTA||"").toString().toLocaleLowerCase("tr-TR");
-      var a = (item.abas||item.ABAS||"").toString().toLocaleLowerCase("tr-TR");
-      var n = (item.name||item.NAME||item.urun||item.URUN||"").toString().toLocaleLowerCase("tr-TR");
+      // Ürün aramasında yalnızca gerçek BERTA veya ABAS kodu bulunan
+      // katalog ürünleri yer alır. Kodsuz yardımcı/özel kayıtlar (ör.
+      // "Garanti Mührü Mavi") genel ürün aramasını kirletmemelidir.
+      // "-", boşluk ve Excel'den gelen "nan" değerleri geçerli kod sayılmaz.
+      function temizKod(deger){
+        var kod = (deger===null || deger===undefined ? "" : String(deger)).trim();
+        if(!kod || kod.toLocaleLowerCase("tr-TR")==="nan" || kod==="-") return "";
+        return kod.toLocaleLowerCase("tr-TR");
+      }
+      var b = temizKod(item.berta!==undefined ? item.berta : item.BERTA);
+      var a = temizKod(item.abas!==undefined ? item.abas : item.ABAS);
+      var n = (item.name||item.NAME||item.urun||item.URUN||"").toString().trim().toLocaleLowerCase("tr-TR");
+      if(!b && !a) continue;
       var araMetin = b+" "+a+" "+n;
       if(kelimeler.length===0){ sonuc.push({item:item, idx:i}); continue; }
       var eslesme = true;
