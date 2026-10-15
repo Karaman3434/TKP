@@ -555,6 +555,23 @@
 .sheet-secenek--sil { background: #fdeaea; border-color: #c0392b; color: #c0392b; border: 1.5px solid #c0392b;}
 .sheet-secenek--vazgec { background: none; border: none; text-align: center; justify-content: center; color: #6b7684; margin-top: 6px; }
 
+/* YENİ (15.10.2026, Abdullah'ın isteğiyle): "Fotoğraf/Ekran Görüntüsünden
+   Doldur" tetikleme butonu — .bolum-eylem-btn--guncelle ile aynı mavi
+   palet, tam genişlik (foto-doldur.js tarafından açılan .sheet-secenek
+   seçim penceresiyle birlikte kullanılır). */
+.form-foto-doldur-btn {
+  width: 100%;
+  background: #eaf2fc;
+  color: #003a70;
+  border: 1.5px solid #95bdf0;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
 .form-etiket { font-size: 10.5px; font-weight: 900; color: #6b7684; letter-spacing: .3px; margin: 10px 0 4px; }
 .form-input, .form-textarea {
   width: 100%; box-sizing: border-box;

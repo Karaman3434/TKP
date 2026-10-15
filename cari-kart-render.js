@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.121026.2340.785
+  cari-kart-render.js — WG.151026.1015.825
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -378,11 +378,13 @@ function formAlanlariHtml(tip){
       + "<div class='form-etiket'>KARGO</div><input class='form-input' id='fKargo' placeholder='örn. Ücretsiz' value=\"" + escapeText(m2.kargo||"") + "\">";
   }
   if(tip === "fatura" || tip === "teslimat"){
-    return "<div class='form-etiket'>ETİKET (ör. Fabrika 2 Fatura Adresi)</div><input class='form-input' id='fBaslik' placeholder='Etiket'>"
+    return "<button class='form-foto-doldur-btn' type='button' id='btnFormFotoDoldur'>📷 Fotoğraf/Ekran Görüntüsünden Doldur</button>"
+      + "<div class='form-etiket'>ETİKET (ör. Fabrika 2 Fatura Adresi)</div><input class='form-input' id='fBaslik' placeholder='Etiket'>"
       + "<div class='form-etiket'>AÇIK ADRES</div><textarea class='form-textarea' id='fDetay' rows='3' placeholder='Açık adres'></textarea>";
   }
   if(tip === "yetkili"){
-    return "<div class='form-satir-2'>"
+    return "<button class='form-foto-doldur-btn' type='button' id='btnFormFotoDoldur'>📷 Fotoğraf/Ekran Görüntüsünden Doldur</button>"
+      + "<div class='form-satir-2'>"
       + "<div><div class='form-etiket'>İSİM SOYİSİM</div><input class='form-input' id='fIsim' placeholder='İsim Soyisim'></div>"
       + "<div><div class='form-etiket'>GÖREV</div><input class='form-input' id='fGorev' placeholder='Görev'></div>"
       + "</div><div class='form-satir-2' style='margin-top:10px'>"
@@ -394,12 +396,51 @@ function formAlanlariHtml(tip){
   return "<div class='form-etiket'>NOT METNİ</div><textarea class='form-textarea' id='fDetay' rows='3' placeholder='Not metni'></textarea>";
 }
 
+// Sadece alan boşsa doldurur — kullanıcının elle yazdığı bir şeyin
+// üzerine yazmaz.
+function doldurBosIse(id, deger){
+  if(!deger) return;
+  var el = document.getElementById(id);
+  if(el && !el.value.trim()) el.value = deger;
+}
+
+// FotoDoldur.ac()'tan dönen AI verisini, açık olan formun tipine göre
+// (fatura/teslimat/yetkili) doğru alanlara dağıtır.
+function formAlanlariniFotoIleDoldur(tip, veri){
+  if(tip === "fatura"){
+    doldurBosIse("fBaslik", "Fatura Adresi");
+    var faturaAdres = veri.acikAdres || "";
+    if(veri.vergiDairesi || veri.vergiNo){
+      faturaAdres += (faturaAdres ? "\n" : "") + [veri.vergiDairesi, veri.vergiNo].filter(Boolean).join(" / ");
+    }
+    doldurBosIse("fDetay", faturaAdres);
+  } else if(tip === "teslimat"){
+    doldurBosIse("fBaslik", "Teslimat Adresi");
+    doldurBosIse("fDetay", veri.teslimatAdresi || veri.acikAdres);
+  } else if(tip === "yetkili"){
+    doldurBosIse("fIsim", veri.yetkiliIsim);
+    doldurBosIse("fGorev", veri.yetkiliGorev);
+    doldurBosIse("fTel", veri.telefon);
+    doldurBosIse("fEposta", veri.eposta);
+  }
+}
+
 function formAc(tip, eylem, index){
   aktifTip = tip; aktifEylem = eylem; aktifIndex = (index===undefined?null:index);
   kapat("pickerOverlay");
   var baslikMetni = (tip === "temel" || tip === "cari-tam") ? "Cari Bilgileri" : TIP_META[tip].baslik;
   document.getElementById("formBaslik").textContent = (tip === "temel" ? "⚙️ Temel Bilgileri Düzenle" : (tip === "cari-tam" ? "✏️ Cari Bilgileri Düzenle" : (eylem==="ekle" ? "➕ Yeni " + baslikMetni + " Ekle" : "✏️ " + baslikMetni + " Düzenle")));
   document.getElementById("formIcerik").innerHTML = formAlanlariHtml(tip);
+
+  // YENİ (15.10.2026, Abdullah'ın isteğiyle): "📷 Fotoğraf/Ekran
+  // Görüntüsünden Doldur" — sadece fatura/teslimat/yetkili formlarında
+  // var (bkz. formAlanlariHtml). Zaten doluysa üzerine yazmaz.
+  var fotoBtn = document.getElementById("btnFormFotoDoldur");
+  if(fotoBtn){
+    fotoBtn.onclick = function(){
+      FotoDoldur.ac(function(veri){ formAlanlariniFotoIleDoldur(tip, veri); });
+    };
+  }
 
   if(eylem === "duzenle" && tip !== "temel" && tip !== "cari-tam"){
     var kayit = kayitlariGetir(musteriVerisi, tip)[index];

@@ -1,5 +1,5 @@
 /*
-  customer-add-render.js
+  customer-add-render.js — WG.151026.1015.825
   =======================
   Sadece yeni müşteri ekleme formunun mantığı. customer-render.js'ten
   ayrı — o dosya artık sadece LİSTE ile ilgileniyor.
@@ -26,6 +26,14 @@ function tarihiGuncelle(){
   }catch(e){ hataGoster("Tarih güncellenemedi: " + e.message); }
 }
 
+// Sadece alan boşsa doldurur — kullanıcının elle yazdığı bir şeyin
+// üzerine yazmaz (foto-doldur.js tarafından çağrılır).
+function doldurBosIse(id, deger){
+  if(!deger) return;
+  var el = document.getElementById(id);
+  if(el && !el.value.trim()) el.value = deger;
+}
+
 window.addEventListener("error", function(ev){
   hataGoster("HATA: " + ev.message + " (" + (ev.filename||"").split("/").pop() + ":" + ev.lineno + ")");
 });
@@ -34,6 +42,23 @@ document.addEventListener("DOMContentLoaded", function(){
   tarihiGuncelle();
   var btnMenuEl = document.getElementById("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
+
+  // YENİ (15.10.2026, Abdullah'ın isteğiyle): "📷 Fotoğraf/Ekran
+  // Görüntüsünden Doldur" — kartvizit/tabela fotoğrafı veya ekran
+  // görüntüsünden AI ile okunan bilgileri forma otomatik dağıtır.
+  // Zaten bir şey yazılmış alanların üzerine YAZILMAZ (kullanıcı elle
+  // girdiyse korunur) — sadece boş alanlar doldurulur.
+  document.getElementById("btnYeniMusteriFotoDoldur").onclick = function(){
+    FotoDoldur.ac(function(veri){
+      doldurBosIse("yeniMusteriAdi", veri.firmaAdi);
+      doldurBosIse("yeniMusteriSehir", veri.sehir);
+      doldurBosIse("yeniMusteriAcikAdres", veri.acikAdres);
+      doldurBosIse("yeniMusteriTelefon", veri.telefon);
+      doldurBosIse("yeniMusteriEposta", veri.eposta);
+      doldurBosIse("yeniMusteriTeslimatAdresi", veri.teslimatAdresi);
+    });
+  };
+
   document.getElementById("btnYeniMusteriKaydet").onclick = function(){
     var bilgi = {
       ad: document.getElementById("yeniMusteriAdi").value,
