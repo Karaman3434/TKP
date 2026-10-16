@@ -1,0 +1,37 @@
+WEICON ASİST — GÜNLÜK KM HATIRLATMA / KISITLAMA
+Sürüm: WG.161026.1130.829
+
+BU PAKETTE NE DEĞİŞTİ?
+- auth.js içine günlük KM kontrolü eklendi.
+- HTML sayfalarındaki auth.js sürüm parametresi yeni sürüme yükseltildi (tarayıcı önbelleğini yenilemek için).
+- Yeni KM giriş sayfası/modülü oluşturulmadı.
+- km.html, km-data.js, km-render.js, günlük/aylık kayıt ekranları ve KM hesaplama formülleri değiştirilmedi.
+
+ÇALIŞMA KURALI
+- 06:00 öncesi kontrol/hatırlatma yok; 06:00'da kontrol başlar.
+- Bugünün kmTakip/YYYY-MM-DD kaydı ve km alanı varsa hatırlatma gösterilmez.
+- 06:00–12:59 arasında bugünün KM kaydı yoksa hatırlatma çıkar.
+- "KM Giriş Sayfasına Git" mevcut km.html sayfasına yönlendirir.
+- "1 Saat Ertele" hatırlatmayı bir saat erteler; 13:00 sınırı geçilmez.
+- 13:00 itibarıyla bugünün KM kaydı yoksa diğer sayfalardan mevcut km.html sayfasına yönlendirme yapılır.
+- KM kaydı tamamlandığında diğer sayfalara geçişte kısıtlama uygulanmaz.
+- Firebase okuması hata verirse yanlış kilit oluşmaması için kontrol erişimi engellemeden devam eder.
+
+KURULUM
+1. Önce mevcut GitHub main dalının yedeğini alın.
+2. ZIP içindeki dosyaları, klasör yollarını koruyarak proje köküne kopyalayın/üzerine yazın.
+3. Değişiklikleri GitHub main dalına gönderin.
+4. Telefonda tarayıcı önbelleğini yenileyin veya siteyi kapatıp yeniden açın.
+
+TEST SENARYOLARI
+1. 06:00 öncesi: KM hatırlatması çıkmamalı.
+2. 06:00–12:59, bugünün kaydı mevcut: hatırlatma çıkmamalı.
+3. 06:00–12:59, bugünün kaydı yok: hatırlatma çıkmalı.
+4. Hatırlatmada "1 Saat Ertele": modal kapanmalı ve yaklaşık bir saat sonra yeniden kontrol edilmeli.
+5. "KM Giriş Sayfasına Git": mevcut km.html açılmalı; yeni form açılmamalı.
+6. 13:00 sonrası, kayıt yok: başka bir sayfaya gidildiğinde km.html'e yönlenmeli.
+7. KM kaydı yapıldıktan sonra başka sayfaya geçiş normal çalışmalı.
+8. Günlük ve aylık KM listeleri ile önceki gün mesafe hesaplamaları aynı kalmalı.
+
+ÖNEMLİ
+Bu paket kaynak kodu değişikliğidir; burada canlı Firebase/GitHub ortamına dağıtım yapılmamıştır. Gerçek kullanım öncesinde yukarıdaki senaryolar uygulamada test edilmelidir. Günlük kontrol Firebase Realtime Database'deki mevcut kmTakip/YYYY-MM-DD kaydını okur; yeni veri yolu veya kayıt formatı eklemez.
