@@ -20,6 +20,8 @@ var ProductData = (function(){
   var sepet = [];
   var katalogDinleyicileri = [];
   var katalogDinleyiciBagli = false;
+  var dbRef = null;
+  var onarimDenendi = false;
 
   try{
     var kayitliSepet = localStorage.getItem(SEPET_KEY);
@@ -34,6 +36,7 @@ var ProductData = (function(){
     try{
       if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
       var db = firebase.database();
+      dbRef = db;
 
       try{
         var local = localStorage.getItem(STORAGE_KEY);
@@ -55,6 +58,7 @@ var ProductData = (function(){
           katalog = katalogBirlestir(firebaseKatalog, yedekKatalog);
           try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(katalog)); }catch(e){}
           katalogDinleyicileri.forEach(function(fn){ fn(); });
+          canliKatalogOnarimiDene();
         })
         .catch(function(err){ tanilaKaydet("Yedek ürün kataloğu yüklenemedi.", err && err.message); });
     }catch(e){
@@ -182,6 +186,47 @@ var ProductData = (function(){
       tanilaKaydet("Ürün kataloğu yüklendi: " + urunler.length + " ürün.");
     }
     katalogDinleyicileri.forEach(function(fn){ fn(); });
+    canliKatalogOnarimiDene();
+  }
+
+  // TEK SEFERLİK ONARIM (18.10.2026) — "B - A - Garanti Mührü Mavi" ürünü
+  // eklenirken yaşanan transaction hatası (bkz. yeniUrunEkle içindeki not),
+  // Firebase'deki CANLI "urunler/" düğümünü gerçekten tek bir kayda
+  // düşürmüş olabilir. Hem Firebase katalogu (firebaseKatalog) hem de
+  // yedek JSON (yedekKatalog) yüklenmiş OLMADAN hiçbir karar verilmez —
+  // sadece biri yüklenmişken "az kayıt var" sonucuna varmak, henüz
+  // yüklenmemiş sağlıklı bir kataloğu YANLIŞLIKLA üzerine yazabilir.
+  // "urunler_onarim_18102026" yolunda bir transaction ile kilitleniyor;
+  // böylece birden fazla cihaz aynı anda açılsa da onarım SADECE BİR KEZ
+  // (ve sadece gerçekten gerekliyse) çalışır.
+  function canliKatalogOnarimiDene(){
+    if(onarimDenendi) return;
+    if(!ilkYuklemeLoglandi) return; // Firebase'den en az bir kez gerçek cevap gelmeli
+    if(yedekKatalog.length < 100) return; // yedek JSON henüz yüklenmedi
+    if(firebaseKatalog.length >= 100) return; // canlı katalog zaten sağlıklı, onarıma gerek yok
+    if(!dbRef) return;
+    onarimDenendi = true;
+    var ONARIM_YOLU = "urunler_onarim_18102026";
+    var onceki = firebaseKatalog.length;
+    dbRef.ref(ONARIM_YOLU).transaction(function(mevcut){
+      if(mevcut) return; // undefined dönünce transaction iptal olur — başka cihaz zaten üstlenmiş
+      return {ts: Date.now(), durum: "basladi", onceki_sayi: onceki};
+    }).then(function(sonuc){
+      if(!sonuc.committed) return; // yarışı kaybettik, başka cihaz yapıyor/yapmış
+      var onarilmis = {};
+      katalog.forEach(function(x, i){
+        var kopya = {};
+        for(var k in x){ if(x.hasOwnProperty(k) && k !== "_anahtar") kopya[k] = x[k]; }
+        onarilmis[String(i)] = kopya;
+      });
+      dbRef.ref("urunler").set(onarilmis).then(function(){
+        dbRef.ref(ONARIM_YOLU).update({durum:"tamamlandi", sonraki_sayi: katalog.length});
+        tanilaKaydet("Ürün kataloğu onarıldı: " + onceki + " -> " + katalog.length + " ürün (yedek liste ile).");
+      }).catch(function(err){
+        dbRef.ref(ONARIM_YOLU).remove();
+        tanilaKaydet("Ürün kataloğu onarımı yazılamadı (izin sorunu olabilir).", err && err.message);
+      });
+    }).catch(function(err){ tanilaKaydet("Ürün kataloğu onarım kontrolü başarısız.", err && err.message); });
   }
 
   function urunlerDinlemeyeBasla(db){
@@ -308,8 +353,23 @@ var ProductData = (function(){
 
       var db = firebase.database();
       db.ref("urunler").transaction(function(tumData){
-        tumData = tumData || {};
-        var veri = (typeof tumData === "object" && !Array.isArray(tumData)) ? tumData : {};
+        // KÖK NEDEN DÜZELTMESİ (18.10.2026) — "B - A - Garanti Mührü Mavi"
+        // ürünü eklendiğinde TÜM katalog tek kayda düşmüştü. Sebebi: Firebase,
+        // ardışık sayısal anahtarlı "urunler/" düğümünü SDK üzerinden DİZİ
+        // olarak döndürür (bkz. urunlerYoluHazirla üstündeki not). Eskiden bu
+        // durumda "typeof tumData==='object' && !Array.isArray(tumData)" koşulu
+        // dizi için YANLIŞ dönüyor, "veri" boş bir nesneye sıfırlanıyor ve
+        // transaction mevcut TÜM ürünleri silip sadece yeni ürünü yazıyordu.
+        // Artık dizi geldiğinde, index'ler korunarak önce bir nesneye
+        // çevriliyor — hiçbir mevcut kayıt kaybolmaz.
+        var veri = {};
+        if(tumData){
+          if(Array.isArray(tumData)){
+            tumData.forEach(function(x, i){ if(x!==null && x!==undefined) veri[String(i)] = x; });
+          } else if(typeof tumData === "object"){
+            veri = tumData;
+          }
+        }
         var mukerrer = false;
         var maxIndex = -1;
         Object.keys(veri).forEach(function(k){
