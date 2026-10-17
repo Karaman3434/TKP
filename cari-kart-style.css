@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.151026.0905.824 */
+/* cari-kart-style.css — WG.181026.2315.834 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -35,8 +35,10 @@
 .ozet-satir-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 4px;
+  /* 1mm KURAL (18.10.2026, Abdullah onayı): kutular arası boşluk (yatay
+     VE dikey) programda artık her yerde 1mm. */
+  gap: 1mm;
+  margin-bottom: 1mm;
 }
 /* MİNİMAL/KURUMSAL TASARIM (27.09.2026, Abdullah'ın isteğiyle): dolgu renkli
    kutular kaldırıldı — artık sadece ince bir alt çizgiyle ayrılan, kalın
@@ -96,8 +98,8 @@
   align-items: center;
   gap: 7px;
   padding: 6px 8px;
-  margin-top: 8px;
-  margin-bottom: 6px;
+  margin-top: 1mm;
+  margin-bottom: 1mm;
 }
 /* DÜZELTME (14.10.2026, Abdullah'ın bildirdiği hata): 12.10'daki "açık gri
    zemin" kuralı asıl onaylanan "7. Belge" referansıyla (belge7-test.png)
@@ -164,10 +166,23 @@
   border: none;
   border-radius: 0;
   padding: 0 2px 8px;
-  margin-bottom: 2px;
+  margin-bottom: 1mm;
   border-bottom: 1px solid #e1e6ea;
 }
-.ozet-satir-3--birlesik { border-radius: 0; overflow: visible; margin-top: 0; padding-bottom: 0; border-bottom: none; gap: 8px; }
+/* TEK ÇERÇEVE (18.10.2026, Abdullah onayı — "Sipariş Formu" v3 mockup):
+   Fatura Adresi / Teslimat Adresi / Yetkili artık ayrı ayrı kutucuklar
+   değil — iç tasarım (üstteki .ck-blok-etiket/.ck-blok, ince ayraç çizgisi
+   dahil) AYNEN korunarak, üçünü birlikte saran TEK bir dış çerçeve. Son
+   .ck-blok'un alt çizgisi/boşluğu kaldırılır — çerçevenin kendisi zaten
+   sınırı çiziyor, çift çizgi olmasın diye. */
+.belge-adres-yetkili-cerceve {
+  border: 1.5px solid #073B70;
+  border-radius: 12px;
+  padding: 2px 10px 8px;
+  margin-bottom: 1mm;
+}
+.belge-adres-yetkili-cerceve .ck-blok:last-child { margin-bottom: 0; border-bottom: none; }
+.ozet-satir-3--birlesik { border-radius: 0; overflow: visible; margin-top: 0; padding-bottom: 0; border-bottom: none; gap: 1mm; }
 /* DÜZELTME (15.10.2026, Abdullah'ın bildirdiği hata): bir önceki turda buraya
    yanlışlıkla "üst çizgi yok" kuralı eklenmişti — VADE/FATURA/KARGO
    kutularının üst kenarlığını siliyordu, bu üç kutu da artık diğer tüm

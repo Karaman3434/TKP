@@ -1,4 +1,4 @@
-/* belge-style.css — WG.151026.1135.826
+/* belge-style.css — WG.181026.2315.834
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -29,9 +29,15 @@
   border-radius: 12px;
   overflow: hidden;
   box-sizing: border-box;
-  margin-bottom: 10px;
+  margin-bottom: 1mm;
 }
 .belge-kart-ayrac { height: 0; }
+/* ÇERÇEVELİ KUTU (18.10.2026, Abdullah onayı — "Sipariş Formu" v4 mockup):
+   ürün tablosunu saran kart artık diğer "kutu" ailesiyle (ozet-alan/
+   belge-form-baslik/musteri-serit/belge-adres-yetkili-cerceve) AYNI
+   lacivert çerçeveyi taşıyor — SADECE bu sınıf eklenen yerlerde (şimdilik
+   send-render.js'in Gönder önizlemesi + giden görseli). */
+.belge-kart--urun-cerceveli { border: 1.5px solid #073B70; }
 
 .belge-gecmis-cip-satir {
   display: flex;
@@ -281,10 +287,9 @@
   border: 1.5px solid var(--brand-primary);
   border-bottom: 1.5px solid var(--brand-primary);
   border-radius: 12px;
-  /* DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): kutular arası boşluklar
-     simetrik olsun diye 8px->10px (diğer kutuların standart 10px boşluğuyla
-     eşitlendi). */
-  margin: 10px 0;
+  /* 1mm KURAL (18.10.2026, Abdullah onayı): kutular arası boşluk programda
+     artık her yerde 1mm (eskiden 10px). */
+  margin: 1mm 0;
   /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): metin artık ortalı değil,
      satırın BAŞINDAN başlıyor — ayrıca yazı %20 büyütüldü (11px -> 13.2px).
      DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): "flex-start" yerine
@@ -628,7 +633,9 @@
   gap: 10px;
   border-top: none;
   border-radius: 12px;
-  margin-top: 10px;
+  /* 1mm KURAL (18.10.2026, Abdullah onayı): ürün tablosuna yapışık değil,
+     1mm boşlukla ayrı (eskiden 10px). */
+  margin-top: 1mm;
 }
 .belge-genel-toplam-serit--altduz,
 .belge-genel-toplam-serit--duz { border-radius: 12px; }
@@ -738,7 +745,7 @@
   align-items: center;
   padding: 9px 14px;
   border-radius: 12px;
-  margin-top: 6px;
+  margin-top: 1mm;
 }
 .belge-prim-etiket { font-size: 11px; font-weight: 900; white-space: nowrap; }
 .belge-prim-deger { font-size: 13px; font-weight: 900; white-space: nowrap; }
@@ -887,28 +894,27 @@
 
 
 /* Gönder ekranı yeniden düzeni (WG.210926.1512.583) — sadece send-render.js kullanır */
+/* GRİ KUTU TASARIMI (18.10.2026, Abdullah onayı — "Sipariş Formu" mockup):
+   eskiden dolu renkli zemin + beyaz yazıydı — artık diğer "kutu" ailesiyle
+   (ozet-alan/musteri-serit/belge-adres-yetkili-cerceve) AYNI gri zemin +
+   lacivert çerçeve; yazı işlem türünün kendi rengini taşıyor (aşağıdaki
+   .tip-* kuralları — belge-belge-baslik-serit--mavi.tip-* ile BİREBİR
+   aynı renk paleti). */
 .belge-form-baslik {
   text-align: center;
   padding: 8px 8px;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #0c447c;
-  background: #eaf2fc;
-  border-bottom: 1px solid #cfe0f5;
+  color: #15243B;
+  background: #E7E9EE;
+  border: 1.5px solid var(--brand-primary);
+  border-radius: 12px;
 }
-/* TÜRE ÖZEL RENK (12.10.2026, Abdullah onayı — mockup üzerinden): bu şerit
-   artık belgenin TEK renk taşıyan yeri — işlem türüne göre renkleniyor,
-   yazı beyaza döndü. Renkler TIP_RENK_BELGE (belge-render.js) ile birebir
-   aynı. (bkz. send-render.js formBaslikHtml — "tip-<tip>" sınıfı ekliyor) */
-/* RENK GÜNCELLEMESİ (12.10.2026, Abdullah onayı — kurumsal/yumuşatılmış
-   "Seçenek B" paleti). Teklif hariç hepsi dolu zemin + kontrast gereği
-   koyu/beyaz yazı (sarı zeminde beyaz okunmadığı için koyu yazı kullanıyor;
-   bkz. aynı kural belge-onizleme-style-v2.css'te de). */
-.belge-form-baslik.tip-teklif   { background:#f3f5f8; border-bottom-color:#e1e5ec; color:#249147; }
-.belge-form-baslik.tip-siparis  { background:#38469a; border-bottom-color:#2c3774; color:#fff; }
-.belge-form-baslik.tip-proforma { background:#dcb13c; border-bottom-color:#c99a2e; color:#2b2300; }
-.belge-form-baslik.tip-numune   { background:#c0453a; border-bottom-color:#a8382e; color:#fff; }
+.belge-form-baslik.tip-teklif   { color:#249147; }
+.belge-form-baslik.tip-siparis  { color:#38469a; }
+.belge-form-baslik.tip-proforma { color:#d2691e; }
+.belge-form-baslik.tip-numune   { color:#c0453a; }
 .belge-kosul-satir {
   white-space: nowrap;
   overflow: hidden;

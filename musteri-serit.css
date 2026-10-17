@@ -1,4 +1,4 @@
-/* musteri-serit.css — WG.121026.2358.786
+/* musteri-serit.css — WG.181026.2315.834
    ============================================================
    TEK KURAL (22.09.2026): Müşteri adının (ticari unvan) göründüğü HER
    yerde — Sepet, Ürün Bul, Müşteri Hub, Cari Bilgi, İşlemler, Gönder
@@ -13,15 +13,20 @@
      </div>
    ============================================================ */
 
+/* DÜZELTME (18.10.2026, Abdullah onayı — "Sipariş Formu" mockup): zemin
+   artık açık mavi değil — ürün tablosu başlık satırıyla (.belge-urun-tablo
+   th, #c3dcf4) BİREBİR AYNI açık mavi — çerçeve de diğer "kutu" ailesiyle
+   (ozet-alan/belge-form-baslik/belge-adres-yetkili-cerceve) aynı lacivert
+   tona getirildi. Kutular arası boşluk kuralı (18.10.2026): 1mm. */
 .musteri-serit {
-  background: #eaf1fa;
-  border: 1.5px solid #b7d3ef;
+  background: #c3dcf4;
+  border: 1.5px solid #073B70;
   border-radius: 10px;
   padding: 6px 12px;
   display: flex;
   align-items: baseline;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 1mm;
 }
 .musteri-serit .ms-ad {
   font-size: 15px;

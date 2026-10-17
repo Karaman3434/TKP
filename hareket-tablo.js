@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — WG.151026.0800.823
+  hareket-tablo.js — WG.181026.2315.834
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -226,7 +226,14 @@ var HareketTablo = (function(){
   // yollar, Belge Önizleme ise kaydın gösterilecek TÜM yetkililerini —
   // her sayfanın kendi işleyişi (hangi yetkili(ler) gösterilir) burada
   // DEĞİŞMEDİ, sadece görsel üretim kodu artık tek yerde.
-  function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi){
+  // koduGizle (18.10.2026, Abdullah onayı — "Sipariş Formu" v2 mockup):
+  // true verilirse müşteri cari kodu ("M-0017" gibi) MusteriSeridi.html'e
+  // iletilmez — SADECE send-render.js'in Mail/WhatsApp'a giden GÖRSELİNİN
+  // ürettiği çağrı bunu true geçer. Cari kodu program İÇİNDEKİ hiçbir
+  // ekranda (Cari Kart, Sepet, Gönder'in canlı önizlemesi, Belge Önizleme)
+  // ETKİLENMEZ — hepsi bu parametreyi hiç geçmediği için eskisi gibi
+  // gösterilmeye devam eder.
+  function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi, koduGizle){
     // Cari'deki tek "ŞEHİR" alanı SADECE fatura adresine eklenir — teslimat
     // çoğu zaman bambaşka bir ilçe/ildedir, ona hiç eklenmez (29.09.2026).
     var sehirEk = musteri.sehir ? ", " + htmlEsc(musteri.sehir) : "";
@@ -239,27 +246,32 @@ var HareketTablo = (function(){
     // — bu fonksiyonu çağıran her sayfa (Gönder, Mail, Belge Önizleme) artık
     // musteri-serit.js/css'i de yüklüyor olmalı.
     var isimHtml = (typeof MusteriSeridi !== "undefined")
-      ? MusteriSeridi.html(musteri)
+      ? MusteriSeridi.html(musteri, {koduGizle: koduGizle})
       : "<div class='ck-isim-satir'><b class='ck-isim-nokta'>•</b> " + htmlEsc(musteri.ad) + "</div>";
     var html = isimHtml
       + "<div class='ozet-satir-3 ozet-satir-3--birlesik'>"
       +   "<div class='ozet-alan'><span class='ozet-ikon'>📅</span><div class='ozet-metin'><div class='ozet-baslik'>VADE</div><div class='ozet-deger'>" + htmlEsc(vade||"-") + "</div></div></div>"
       +   "<div class='ozet-alan'><span class='ozet-ikon'>🧾</span><div class='ozet-metin'><div class='ozet-baslik'>FATURA</div><div class='ozet-deger'>" + htmlEsc(faturaTuru||"-") + "</div></div></div>"
       +   "<div class='ozet-alan'><span class='ozet-ikon'>🚚</span><div class='ozet-metin'><div class='ozet-baslik'>KARGO</div><div class='ozet-deger'>" + htmlEsc(kargo||"-") + "</div></div></div>"
-      + "</div>"
-      + "<div class='ck-blok-etiket ck-blok-etiket--fatura'><span>📄 FATURA ADRESİ</span></div>"
+      + "</div>";
+    // TEK ÇERÇEVE (18.10.2026, Abdullah onayı — "Sipariş Formu" v3 mockup):
+    // Fatura Adresi / Teslimat Adresi / Yetkili artık ayrı ayrı kutucuklar
+    // DEĞİL — eski iç tasarım (etiket + ince ayraç çizgisi) AYNEN korunarak
+    // üçünü birlikte saran TEK bir dış çerçeve (.belge-adres-yetkili-cerceve).
+    var adresYetkiliIcHtml = "<div class='ck-blok-etiket ck-blok-etiket--fatura'><span>📄 FATURA ADRESİ</span></div>"
       + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
       +   (faturaAdr ? htmlEsc(faturaAdr) + sehirEk : "<span class='belge-adres-bos'>Girilmemiş</span>")
       + "</div></div></div>";
     if(teslimatAdr){
-      html += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>🚚 TESLİMAT ADRESİ</span></div>"
+      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>🚚 TESLİMAT ADRESİ</span></div>"
         + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>" + htmlEsc(teslimatAdr) + "</div></div></div>";
     }
     var yetkiliIcHtml = (yetkiliListesi||[]).map(function(k){ return yetkiliSatiriHtml(k.isim, k.telefon, k.eposta); }).join("");
     if(yetkiliIcHtml){
-      html += "<div class='ck-blok-etiket ck-blok-etiket--yetkili'><span>👤 YETKİLİ</span></div>"
+      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--yetkili'><span>👤 YETKİLİ</span></div>"
         + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>" + yetkiliIcHtml + "</div></div></div>";
     }
+    html += "<div class='belge-adres-yetkili-cerceve'>" + adresYetkiliIcHtml + "</div>";
     return html;
   }
 

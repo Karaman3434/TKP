@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.151026.0800.823
+  send-render.js — WG.181026.2315.834
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -197,7 +197,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
       + musteriBlokHtml
       + "<div class='belge-kart-ayrac'></div>"
       + (kod ? kodEtiketHtml(tip, kod) + "<div class='belge-kart-ayrac'></div>" : "")
-      + "<div class='belge-kart'>";
+      + "<div class='belge-kart belge-kart--urun-cerceveli'>";
   }
 
   // TEK RENK KURALI (12.10.2026, Abdullah onayı): üründe TÜR · TARİH SAAT
@@ -324,7 +324,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   // olmadan) ayrı bir tercih, aynı "basit" bayrağını paylaşıyor.
   var cariBaslikHtml, cariGovdeHtml;
   if(basit){
-    cariBaslikHtml = "<div class='belge-kart' style='margin:0;'>" + formBaslikHtml(tip)
+    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip)
       + "<div class='belge-musteri-govde'>"
       + "<div class='belge-musteri-ad belge-musteri-ad--sade'>" + htmlEsc(musteri.ad) + "</div>"
       + (musteri.sehir ? "<div class='belge-musteri-sehir'>" + htmlEsc(musteri.sehir) + "</div>" : "")
@@ -333,8 +333,12 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   } else {
     // BİRLEŞİK CARİ KUTUSU (27.09.2026): giden görsel de artık Cari Bilgi
     // sayfasıyla aynı renkli-kutu tasarımını kullanıyor — bkz. cariKutulariHtml().
-    cariBaslikHtml = "<div class='belge-kart' style='margin:0;'>" + formBaslikHtml(tip) + "</div>";
-    cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : []);
+    // CARİ KODU GİZLİ (18.10.2026, Abdullah onayı): Mail/WhatsApp'a giden bu
+    // GERÇEK görselde müşteri cari kodu ("M-0017") HİÇ basılmaz — son
+    // parametre (true) SADECE burada verilir, programın başka hiçbir yerinde
+    // (Cari Kart, Sepet, Gönder'in canlı önizlemesi, Belge Önizleme) yok.
+    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip) + "</div>";
+    cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : [], true);
   }
 
   // "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı — v5 mockup, program
@@ -351,7 +355,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     // Sepet/Belge Önizleme ile aynı şekilde "tip-" sınıfı ile işlem türüne
     // göre otomatik renkleniyor (zemin/çerçeve sabit kalır, sadece yazı).
     + "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi tip-" + (tip||"siparis") + "'><span class='belge-belge-baslik-serit-metin'>" + tabloBasligi + "</span></div>"
-    + "<div class='belge-kart'>"
+    + "<div class='belge-kart belge-kart--urun-cerceveli'>"
     + "<div class='data-table-container'><table class='belge-urun-tablo belge-urun-tablo--giden'>"
     // TEK TABLO (14.10.2026): sütun başlıkları/genişlikleri artık hareket-
     // tablo.js'teki basHucreler ile BİREBİR AYNI (eskiden "AD"/farklı

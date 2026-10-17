@@ -1,5 +1,5 @@
 /*
-  musteri-serit.js — WG.121026.2358.786
+  musteri-serit.js — WG.181026.2315.834
   ========================================
   TEK KURAL (22.09.2026): Müşteri adının göründüğü hiçbir sayfa kendi
   HTML'ini elle yazmaz — hepsi MusteriSeridi.html(musteri) çağırır. Yeni
@@ -26,9 +26,15 @@ var MusteriSeridi = (function(){
   // (ms-ad) içinde; uzun olursa SATIRIN TAMAMI (isim+ayraç+şehir) birlikte
   // ellipsis ile kesiliyor. "🕓" butonu artık yanında "GEÇMİŞ" yazısı da
   // taşıyor (eskiden sadece ikondu).
+  // koduGizle (18.10.2026, Abdullah onayı): true verilirse müşteri cari
+  // kodu ("M-0017" gibi) HİÇ basılmaz. Cari kodu sadece programın kendi
+  // içindeki ekranlara ait, iç bilgi — Mail/WhatsApp'a giden görsel bunu
+  // true geçer (bkz. hareket-tablo.js cariKutulariHtml / send-render.js
+  // belgeGorselHtmlOlustur). Parametre verilmezse (programın geri kalanı)
+  // davranış hiç değişmez, kod her zamanki gibi gösterilir.
   function html(musteri, opts){
     if(!musteri) return "";
-    var kod = musteri.id ? "<b class='ms-kod'>" + esc(musteri.id) + "</b> " : "";
+    var kod = (musteri.id && !(opts && opts.koduGizle)) ? "<b class='ms-kod'>" + esc(musteri.id) + "</b> " : "";
     var sehir = musteri.sehir ? "<span class='ms-ayrac'>-</span><span class='ms-sehir'>" + esc(musteri.sehir) + "</span>" : "";
     var gecmisBtn = (opts && opts.gecmisButonu) ? "<button type='button' class='ms-gecmis-btn' id='btnMusteriGecmis' title='İşlem Geçmişi' aria-label='İşlem Geçmişi'>🕓<span class='ms-gecmis-etiket'>GEÇMİŞ</span></button>" : "";
     return "<div class='musteri-serit'>"
