@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.181026.2107.840
+  belge-onizleme-style-v2.css — WG.181026.2136.841
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -39,22 +39,27 @@
 /* ---- Müşteri kartı üst şeridi (SİPARİŞ / WEICON) — İŞLEM TÜRÜ RENK
    SİSTEMİ (TIP_RENK_BELGE ile birebir), belge-style.css'teki universal
    tasarımdan BAĞIMSIZ, korunan tek özel renk kuralı. Çerçeve/kutu-yok
-   kuralı gereği border-bottom KALDIRILDI (14.10.2026). ---- */
+   kuralı gereği border-bottom KALDIRILDI (14.10.2026).
+   DEĞİŞİKLİK (18.10.2026, Abdullah onayı): zemin artık gri (#E7E9EE)
+   değil, beyaz — çerçeve (lacivert) AYNEN korundu. ---- */
 .belge-onizleme-sayfa .belge-musteri-baslik {
   padding: 4px 16px;
   letter-spacing: .4px;
   align-items: center;
+  background: #FFFFFF;
 }
 /* KOD/TARİH ŞERİDİ KALDIRILDI (18.10.2026, Abdullah onayı — "tek kutu"
    tasarımı): kaldırılan ".belge-belge-baslik-serit--mavi" şeridinin
-   içeriği (tarih + kısaltılmış işlem kodu) artık bu başlığın İÇİNDE,
-   etiketin ALTINDA ikinci küçük bir satır (.bmb-alt) — bkz. belge-
-   render.js belgeyiCiz(). ".bmb-sol" ikisini dikey olarak gruplar,
-   WEICON rozeti sağda aynı kaldı. */
+   içeriği (tarih + kısaltılmış işlem kodu) artık bu başlığın İÇİNDE.
+   DEĞİŞİKLİK (18.10.2026, Abdullah onayı — devamı): tarih/kod artık
+   etiketin ALTINDA değil, AYNI satırda yan yana (".bmb-sol" artık row,
+   eskiden column) — bkz. belge-render.js belgeyiCiz(). WEICON rozeti
+   sağda aynı kaldı. */
 .belge-onizleme-sayfa .bmb-sol {
   display: flex;
-  flex-direction: column;
-  gap: 1px;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 6px;
   min-width: 0;
 }
 /* DÜZELTME (18.10.2026, Abdullah'ın isteğiyle): işlem etiketi ("FİYAT
@@ -62,7 +67,10 @@
    alınan .belge-musteri-baslik boyutu yerine artık kendi font-size'ı
    var) — ama üst şeridin (.belge-musteri-baslik) kutu yüksekliği (40px)
    DEĞİŞMEDİ: line-height 1'e düşürülerek telafi edildi. En uzun etiket
-   (PROFORMA FATURA) S22 (360px) genişliğinde bile kırpılmadan sığıyor. */
+   (PROFORMA FATURA) S22 (360px) genişliğinde bile kırpılmadan sığıyor.
+   flex:0 0 auto (18.10.2026) — tarih/kod ile aynı satırda artık, etiket
+   KENDİ boyunu hiç kaybetmesin diye küçülmesi engellendi; kısalan taraf
+   gerekirse .bmb-alt olur. */
 .belge-onizleme-sayfa .bmb-tip {
   font-size: 17.5px;
   line-height: 1;
@@ -71,15 +79,22 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex: 0 0 auto;
 }
+/* DEĞİŞİKLİK (18.10.2026, Abdullah onayı): yazı boyu %10 büyütüldü
+   (10.5px -> 11.55px); artık .bmb-tip ile AYNI satırda olduğu için kalan
+   genişliği kendisi kullanıyor (flex:1 1 auto) — dar ekranlarda (S22)
+   uzun tarih+kod metni gerekirse ellipsis ile kırpılır, kullanıcı
+   mockup'ta gördü ve kabul etti. */
 .belge-onizleme-sayfa .bmb-alt {
-  font-size: 10.5px;
+  font-size: 11.55px;
   font-weight: 600;
   opacity: .72;
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex: 1 1 auto;
 }
 /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): etiketin ALT ZEMİNİ artık
    türe göre DEĞİŞMİYOR — hepsi aynı (yukarıdaki tek, ortak .belge-musteri-
@@ -151,7 +166,15 @@
    BİREBİR aynı paylaşılan ".ck-kart" kademesinden geliyor, ayrıca sıfırlamaya
    gerek yok. */
 .belge-onizleme-sayfa .ck-blok .belge-yetkili-satir { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
-.belge-onizleme-sayfa .belge-yetkili-satir b { font-weight: 700; }
+/* DEĞİŞİKLİK (18.10.2026, Abdullah onayı — "neden kalın harf olmuş"):
+   yetkili satırı (isim + telefon/e-posta) artık Fatura/Teslimat Adresi
+   metniyle (.ck-kart, 12.5px/normal) BİREBİR aynı boy ve ağırlıkta —
+   eskiden isim 13px/kalın, telefon/e-posta 11px idi (paylaşılan
+   belge-style.css'teki .belge-yetkili-satir/.belge-yetkili-detay temel
+   değerleri), ikisi de burada SADECE bu sayfaya özgü ezildi. */
+.belge-onizleme-sayfa .belge-yetkili-satir { font-size: 12.5px; }
+.belge-onizleme-sayfa .belge-yetkili-satir b { font-weight: 400; }
+.belge-onizleme-sayfa .belge-yetkili-detay { font-size: 12.5px; }
 
 /* ---- İŞLEM TÜRÜ RENGİ — isim önündeki büyük nokta, belge-render.js'teki
    TIP_RENK_BELGE paletiyle birebir aynı. ---- */
@@ -244,10 +267,14 @@
 /* ---- Alt buton çubuğu — "Yazdır" burada yok (zaten yoktu); güvenli alan
    payı korunuyor. ÜSTTEKİ PRİM kutusuyla aralarına boşluk (14.10.2026,
    Abdullah'ın isteğiyle) — PRİM şeridi ile Kapat/İşlemler satırı artık
-   yapışık değil. ---- */
+   yapışık değil.
+   DEĞİŞİKLİK (18.10.2026, Abdullah onayı): PRİM ile buton satırı arası
+   VE butonların kendi aralarındaki boşluk programın "1mm KURAL"ına
+   uyacak şekilde 1mm'ye sabitlendi (eskiden sırasıyla 12px/8px). ---- */
 .belge-onizleme-sayfa .belge-alt-buton-satir {
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  margin-top: 12px;
+  margin-top: 1mm;
+  gap: 1mm;
 }
 /* "Ayrıntı" düğmesinin ikonu (eski "⋯ İşlemler" yerine, 18.10.2026). */
 .belge-onizleme-sayfa .belge-islemler-buton .ab-ikon { font-size: 15px; margin-right: 2px; }
@@ -290,12 +317,13 @@
 .belge-onizleme-sayfa .belge-gt-etiket { font-size: 12px; }
 .belge-onizleme-sayfa .belge-prim-etiket { font-size: 12px; }
 
-/* ---- Fatura Adresi/Teslimat Adresi/Yetkili çerçevesi — gri zemin
-   (18.10.2026, Abdullah onayı): VADE/FATURA/KARGO kutularıyla (.ozet-alan)
-   aynı #E7E9EE. .belge-adres-yetkili-cerceve PAYLAŞILAN bir sınıf (Cari
-   Kart/Gönder/Mail'de de kullanılıyor) — bu yüzden değişiklik SADECE Belge
+/* ---- Fatura Adresi/Teslimat Adresi/Yetkili çerçevesi (18.10.2026,
+   Abdullah onayı): önce VADE/FATURA/KARGO ile aynı gri (#E7E9EE) zemine
+   getirildi, SONRA aynı gün içinde beyaza geri alındı (son onaylanan hâl
+   budur). .belge-adres-yetkili-cerceve PAYLAŞILAN bir sınıf (Cari Kart/
+   Gönder/Mail'de de kullanılıyor) — bu yüzden değişiklik SADECE Belge
    Önizleme'ye özgü kalsın diye ".belge-onizleme-sayfa" ile sınırlandı. ---- */
-.belge-onizleme-sayfa .belge-adres-yetkili-cerceve { background: #E7E9EE; }
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve { background: #FFFFFF; }
 
 /* ---- FİYAT TEKLİFİ / müşteri ticari unvanı — aynı boy (18.10.2026,
    Abdullah onayı): müşteri ismi (.ms-ad, PAYLAŞILAN musteri-serit bileşeni)
@@ -310,8 +338,11 @@
    Abdullah onayı): "kesinlikle değişmeyecek, en büyük hali" isteği gereği
    kutu, DEĞİŞMEDEN ÖNCEKİ ölçülen boyutuna (91.45×29px, padding 7px 16px +
    font-size 13px ile üretilen gerçek boyut) sabitlendi; iç boşluk
-   kaldırıldı, yazı (19px) kutuyu çerçeveye kadar dolduruyor — çerçeve ile
-   yazı arasında boşluk kalmadı. */
+   kaldırıldı. DEĞİŞİKLİK (18.10.2026, aynı gün ikinci tur, Abdullah
+   onayı): ilk turda 19px yeterli gelmedi ("çerçeve çizgisine kadar"
+   isteği tam karşılanmadı) — Playwright ile taşma sınırı ölçülüp (360px
+   S22 genişliğinde) en büyük taşmayan değer olan 22px'e çıkarıldı, yazı
+   artık kutunun sol/sağ çerçeve çizgisine tam dayanıyor. */
 .belge-onizleme-sayfa .belge-logo-mini {
   width: 91.45px;
   height: 29px;
@@ -320,6 +351,7 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  font-size: 19px;
-  letter-spacing: 0.3px;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: 0px;
 }
