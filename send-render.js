@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.191026.0112.842
+  send-render.js — WG.191026.0233.843
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -103,7 +103,7 @@ var FORM_BASLIK = {numune:"NUMUNE FORMU", teklif:"FİYAT TEKLİFİ FORMU", profo
 // önizlemesinde gerçek işlem kodu, giden görselde sadece tarih; bkz.
 // çağıran fonksiyonlar).
 function formBaslikHtml(tip, sagMetin){
-  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span>" + (FORM_BASLIK[tip]||"SİPARİŞ FORMU") + "</span>"
+  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span class='belge-form-baslik-etiket'>" + (FORM_BASLIK[tip]||"SİPARİŞ FORMU") + "</span>"
     + (sagMetin ? "<span class='belge-form-baslik-tarih'>" + htmlEsc(sagMetin) + "</span>" : "")
     + "</div>";
 }
@@ -288,7 +288,13 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   // geçiliyor ki NET altında "≈ TL" satırı eklenmesin (gönderilen görselde
   // sadece EURO tutarları kalır — önceki davranış korunuyor).
   var hesaplaFn = function(u){ return CartData.hesapla(u, kur, kdv); };
-  var satirlarHtml = HareketTablo.satirlarHtml(sepet, hesaplaFn, "", basit, true, null);
+  // TEK TABLO (19.10.2026, Abdullah onayı — "cari kart ve ürün bilgi
+  // tablosu tek tasarım, tek yerden kontrol" isteği): thead+tbody üretimi
+  // artık elle değil, hareket-tablo.js'teki paylaşılan HareketTablo.
+  // urunTablosuHtml() üzerinden — "belge-urun-tablo--giden" (table-layout:
+  // fixed) sınıfı ekSinif parametresiyle korunuyor, sütun başlık/genişlik
+  // çıktısı değişmedi.
+  var urunTablosuHtmlStr = HareketTablo.urunTablosuHtml(sepet, hesaplaFn, "", basit, true, null, "belge-urun-tablo--giden");
   var netEuro = sepet.reduce(function(s, u){ var h = hesaplaFn(u); return s + (h.toplamEuro||0); }, 0);
 
   // Yeni kaydedilen bir belge gönderiliyorsa "şu an" doğrudur (kayıt az
@@ -351,15 +357,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     + cariGovdeHtml
     + "<div class='belge-kart-ayrac'></div>"
     + "<div class='belge-kart belge-kart--urun-cerceveli'>"
-    + "<div class='data-table-container'><table class='belge-urun-tablo belge-urun-tablo--giden'>"
-    // TEK TABLO (14.10.2026): sütun başlıkları/genişlikleri artık hareket-
-    // tablo.js'teki basHucreler ile BİREBİR AYNI (eskiden "AD"/farklı
-    // genişlikler kullanıyordu) — satır içerikleriyle birlikte tam tutarlı.
-    + "<thead><tr>" + (basit
-        ? "<th style='width:46%;'>ÜRÜN BİLGİSİ</th><th style='width:12%;'>ADET</th><th style='width:19%;'>NET</th><th style='width:23%;'>TOPLAM</th>"
-        : "<th style='width:3.6%;'>SR</th><th style='width:32.4%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:16%;'>NET</th><th style='width:18%;'>TOPLAM</th>") + "</tr></thead>"
-    + "<tbody>" + satirlarHtml + "</tbody>"
-    + "</table></div>"
+    + urunTablosuHtmlStr
     + (typeof HareketTablo !== "undefined" ? HareketTablo.bakiyeNotuHtml(sepet) : "")
     + "</div>"
     + "<div class='belge-genel-toplam-serit'>"
@@ -871,12 +869,14 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("btnIletisimKapat").onclick = function(){
     document.getElementById("iletisimSheetOverlay").hidden = true;
     document.getElementById("mailSecenekPopover").hidden = true;
+    document.getElementById("pdfSecenekPopover").hidden = true;
     document.body.classList.remove("as-drawer-kilit");
   };
   document.getElementById("iletisimSheetOverlay").addEventListener("click", function(ev){
     if(ev.target === this){
       this.hidden = true;
       document.getElementById("mailSecenekPopover").hidden = true;
+      document.getElementById("pdfSecenekPopover").hidden = true;
       document.body.classList.remove("as-drawer-kilit");
     }
   });
@@ -937,6 +937,65 @@ document.addEventListener("DOMContentLoaded", function(){
   });
   document.getElementById("btnUstWhatsapp").onclick = function(){ iletisimSheetiniKapat(); whatsappOnizlemeAc(); };
   document.getElementById("btnUstTablo").onclick = function(){ iletisimSheetiniKapat(); tabloSadeceOnizlemeAc(); };
+
+  // PDF DÜĞMESİ (19.10.2026, Abdullah onayı — mockup_h) — Mail düğmesiyle
+  // BİREBİR AYNI açılır-kutu deseni (position:fixed, butona göre hesaplanan
+  // konum, dışarı tıklayınca kapanma) — sadece hedef kutu ve 2 seçeneğin
+  // davranışı farklı: PDF indirme, TeklifPdf.indir() ile (daha önce
+  // belge-onizleme.html'in "Yazdır"ı için yapılmış, onaylanmış, ama
+  // 18.10.2026'da o buton kaldırılınca bağlantısız kalmış modül —
+  // artık burada yeniden kullanılıyor). "Müşteriye giden" seçeneği
+  // musteriKoduGizli+primGizli:true (dışa giden belgelerle AYNI gizleme
+  // kuralı), "Kendi kopyam" hiçbir şeyi gizlemez (iç/program kopyası).
+  document.getElementById("btnUstPdf").onclick = function(ev){
+    ev.stopPropagation();
+    var pop = document.getElementById("pdfSecenekPopover");
+    var aciliyorMu = pop.hidden;
+    pop.hidden = !pop.hidden;
+    if(aciliyorMu){
+      var r = this.getBoundingClientRect();
+      pop.style.top = (r.bottom + 4) + "px";
+      pop.style.left = r.left + "px";
+    }
+  };
+  function pdfIndirBaslat(secenekler){
+    if(!sonKaydedilenBelge || !sonKaydedilenBelge.kayit){
+      alert("PDF oluşturulamadı: kayıt bulunamadı.");
+      return;
+    }
+    var pop = document.getElementById("pdfSecenekPopover");
+    var tumBtn = pop.querySelectorAll(".mail-secenek-popover-oge");
+    tumBtn.forEach(function(b){ b.disabled = true; });
+    if(typeof TeklifPdf === "undefined" || typeof TeklifPdf.indir !== "function"){
+      tumBtn.forEach(function(b){ b.disabled = false; });
+      alert("PDF oluşturulamadı: PDF modülü yüklenemedi.");
+      return;
+    }
+    TeklifPdf.indir(sonKaydedilenBelge.kayit, sonKaydedilenBelge.musteri, secenekler).then(function(){
+      tumBtn.forEach(function(b){ b.disabled = false; });
+      pop.hidden = true;
+      iletisimSheetiniKapat();
+      bilgiGoster("PDF indirildi");
+    }).catch(function(err){
+      tumBtn.forEach(function(b){ b.disabled = false; });
+      alert("PDF oluşturulamadı: " + (err && err.message ? err.message : "bilinmeyen hata"));
+    });
+  }
+  document.getElementById("pdfSecenekMusteri").onclick = function(ev){
+    ev.stopPropagation();
+    pdfIndirBaslat({musteriKoduGizli: true, primGizli: true});
+  };
+  document.getElementById("pdfSecenekKendi").onclick = function(ev){
+    ev.stopPropagation();
+    pdfIndirBaslat({});
+  };
+  document.addEventListener("click", function(ev){
+    var pop = document.getElementById("pdfSecenekPopover");
+    var btn = document.getElementById("btnUstPdf");
+    if(pop && !pop.hidden && !pop.contains(ev.target) && ev.target !== btn && !btn.contains(ev.target)){
+      pop.hidden = true;
+    }
+  });
 
   document.getElementById("tabloSadeceKopyalaBtn").onclick = function(){ tabloSadeceKopyala(this); };
   document.getElementById("tabloSadeceAnaSayfaBtn").onclick = anaSayfayaDonVeTemizle;

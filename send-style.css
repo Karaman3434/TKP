@@ -440,13 +440,15 @@ body.as-drawer-kilit { overflow: hidden; }
   cursor: pointer;
 }
 
-/* İletişim - Gönder popup'ındaki 3'lü seçenek grid'i (14.09.2026) — boy
+/* İletişim - Gönder popup'ındaki seçenek grid'i (14.09.2026) — boy
    olarak Ana Sayfa'daki .menu-kart standardına yakın (22px ikon,
    orta boy dolgu), ne .gonder-tile kadar büyük ne .sheet-secenek kadar
-   düz/küçük. */
+   düz/küçük. PDF DÜĞMESİ (19.10.2026, Abdullah onayı — mockup_h): 4.
+   seçenek eklenince 3 sütundan 2x2'ye geçti (Mail/WhatsApp/Tablo HİÇ
+   DEĞİŞMEDİ, sadece grid 2 sütuna indi). */
 .iletisim-secenek-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 4px;
   margin-bottom: 6px;
 }
@@ -469,3 +471,7 @@ body.as-drawer-kilit { overflow: hidden; }
 .iletisim-secenek-btn--mail .iletisim-secenek-metin { color: #b7601f; }
 .iletisim-secenek-btn--whatsapp { background: #eafaf0; border: 1.5px solid #0e6b34; }
 .iletisim-secenek-btn--whatsapp .iletisim-secenek-metin { color: #0e6b34; }
+/* PDF DÜĞMESİ (19.10.2026, Abdullah onayı — mockup_h, lacivert tema —
+   diğer üçünden (turuncu/yeşil/gri) ayrı, marka rengi #073B70). */
+.iletisim-secenek-btn--pdf { background: #eaf2fc; border: 1.5px solid #073B70; }
+.iletisim-secenek-btn--pdf .iletisim-secenek-metin { color: #073B70; }

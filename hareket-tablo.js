@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — WG.191026.0112.842
+  hareket-tablo.js — WG.191026.0233.843
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -94,6 +94,34 @@ var HareketTablo = (function(){
     }).join("");
   }
 
+  // TEK ÜRÜN TABLOSU (19.10.2026, Abdullah onayı — "cari kart ve ürün bilgi
+  // tablosu tek tasarım, tek yerden kontrol edilsin, onlarca farklı tasarım
+  // istemiyorum" isteği): <table class='belge-urun-tablo'> (thead+tbody)
+  // üretimi eskiden grupHtml() İÇİNE gömülüydü, belge-render.js (Belge
+  // Önizleme) VE send-render.js'in belgeGorselHtmlOlustur'u (Mail/WhatsApp'a
+  // giden görsel) ise KENDİ ayrı/elle senkronize kopyalarını üretiyordu —
+  // bu yüzden 15.10.2026'da "B"/"A" ürün kodu arasındaki boşluk Sepet/
+  // Gönder'den kaldırılmıştı ama Belge Önizleme'nin kopyasına hiç
+  // yansımamıştı (gerçek, canlı hata). Artık TEK kaynak burada — grupHtml
+  // VE her iki dosya da bunu çağırıyor. GENEL TOPLAM/PRİM kutularının
+  // kendi stilleri (sayfaya göre meşru şekilde farklı, bkz. belge-style.css
+  // .belge-gt-kutu vs .belge-genel-toplam-serit / .belge-prim-serit vs
+  // .belge-prim-toplam-serit) buna DAHİL DEĞİL — sadece bu adı geçen tablo.
+  function urunTablosuHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur, ekSinif){
+    var basHucreler = basit
+      ? "<th style='width:46%;'>ÜRÜN BİLGİSİ</th><th style='width:12%;'>ADET</th><th style='width:19%;'>NET</th><th style='width:23%;'>TOPLAM</th>"
+      : (primGizli
+          ? "<th style='width:3.6%;'>SR</th><th style='width:32.4%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:16%;'>NET</th><th style='width:18%;'>TOPLAM</th>"
+          : "<th style='width:3.6%;'>SR</th><th style='width:29.2%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:13%;'>NET</th><th style='width:13%;'>TOPLAM</th><th style='width:11.2%;'>PRİM</th>");
+    // ekSinif (opsiyonel): çağıran sayfaya özel EK bir CSS sınıfı (örn.
+    // send-render.js'teki "belge-urun-tablo--giden" — table-layout:fixed —
+    // giden görsel için) — tablo/sütun YAPISINI değiştirmez, sadece var
+    // olan sayfa-özel bir görsel kuralın üstüne eklenmesini sağlar.
+    return "<div class='data-table-container'><table class='belge-urun-tablo" + (ekSinif ? " " + ekSinif : "") + "'>"
+      + "<thead><tr>" + basHucreler + "</tr></thead>"
+      + "<tbody>" + satirlarHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur) + "</tbody></table></div>";
+  }
+
   // Tek bir grup (örn. sadece HESAPLANDI) için etiket + tablo + (istenirse) genel toplam.
   // opts.kanal === "whatsapp" ise sade tablo (SIRA/ÜRÜN BİLGİSİ/ADET/NET/TOPLAM) üretir.
   // opts.primGizli === true ise PRİM sütunu HİÇ gösterilmez — bu, mail/WhatsApp
@@ -139,14 +167,7 @@ var HareketTablo = (function(){
     // ibaresiyle geliyor — cart-render.js bunu kendisi üretip geçiyor.
     var kodSeridiHtml = opts.kodMetni ? ("<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi" + (opts.tip ? " tip-" + opts.tip : "") + "'><span class='belge-belge-baslik-serit-metin'>" + htmlEsc(opts.kodMetni) + "</span></div>") : "";
     var html = kodSeridiHtml + (opts.etiket ? ("<div class='" + etiketSinifi + "' style='background:" + etiketBg + ";color:" + etiketRenk + ";'>" + etiketMetinHtml + etiketRozetHtml + "</div>") : "");
-    var basHucreler = basit
-      ? "<th style='width:46%;'>ÜRÜN BİLGİSİ</th><th style='width:12%;'>ADET</th><th style='width:19%;'>NET</th><th style='width:23%;'>TOPLAM</th>"
-      : (primGizli
-          ? "<th style='width:3.6%;'>SR</th><th style='width:32.4%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:16%;'>NET</th><th style='width:18%;'>TOPLAM</th>"
-          : "<th style='width:3.6%;'>SR</th><th style='width:29.2%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:13%;'>NET</th><th style='width:13%;'>TOPLAM</th><th style='width:11.2%;'>PRİM</th>");
-    html += "<div class='data-table-container'><table class='belge-urun-tablo'>"
-      + "<thead><tr>" + basHucreler + "</tr></thead>"
-      + "<tbody>" + satirlarHtml(opts.urunler, opts.hesapla, opts.zeminSinifi, basit, primGizli, opts.kur) + "</tbody></table></div>"
+    html += urunTablosuHtml(opts.urunler, opts.hesapla, opts.zeminSinifi, basit, primGizli, opts.kur)
       + bakiyeNotuHtml(opts.urunler);
     if(opts.genelToplam != null){
       // Manuel kur girilmişse (opts.kurManuelMi) etiket "Hesaplanan Kur" yerine
@@ -290,6 +311,7 @@ var HareketTablo = (function(){
 
   return {
     satirlarHtml: satirlarHtml,
+    urunTablosuHtml: urunTablosuHtml,
     grupHtml: grupHtml,
     kosulKutusuHtml: kosulKutusuHtml,
     yetkiliSatiriHtml: yetkiliSatiriHtml,

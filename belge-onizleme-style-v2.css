@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.181026.2136.841
+  belge-onizleme-style-v2.css — WG.191026.0233.843
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -59,7 +59,14 @@
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  gap: 6px;
+  /* BOŞLUK DÜZELTMESİ (19.10.2026, Abdullah'ın bildirdiği hata — "etiket
+     ile tarih arası en az 3mm boşluk olsun, kutu boyu SABİT kalsın"):
+     6px (~1,6mm) yetersizdi, etiket ile tarih neredeyse bitişik
+     görünüyordu. "gap" değeri doğrudan mm cinsinden verildi — kutu
+     yüksekliği (min-height:40px, line-height:1, nowrap/ellipsis) bundan
+     ETKİLENMEZ, sadece iki metin arasındaki YATAY boşluk büyüdü; tarih
+     (.bmb-alt, flex:1 1 auto) gerekirse biraz daha kısalıp kırpılır. */
+  gap: 3mm;
   min-width: 0;
 }
 /* DÜZELTME (18.10.2026, Abdullah'ın isteğiyle): işlem etiketi ("FİYAT
@@ -71,8 +78,14 @@
    flex:0 0 auto (18.10.2026) — tarih/kod ile aynı satırda artık, etiket
    KENDİ boyunu hiç kaybetmesin diye küçülmesi engellendi; kısalan taraf
    gerekirse .bmb-alt olur. */
+/* BÜYÜTME + EŞİTLEME (19.10.2026, Abdullah onayı — "işlem etiketi ve tarih
+   aynı boyda, %50 büyüsün, kutu boyu SABİT kalsın" isteği): bmb-tip
+   17.5px->26.25px (+%50), bmb-alt 11.55px->26.25px (bmb-tip ile BİREBİR
+   eşit). Kutu büyümesin diye nowrap/ellipsis/flex ayarları AYNEN korundu
+   (zaten bu sayede alt satıra kaymıyor, .belge-musteri-baslik min-height
+   40px'te sabit kalıyor — Playwright ile S22/iPad9'da doğrulandı). */
 .belge-onizleme-sayfa .bmb-tip {
-  font-size: 17.5px;
+  font-size: 26.25px;
   line-height: 1;
   font-weight: 800;
   min-width: 0;
@@ -81,13 +94,8 @@
   text-overflow: ellipsis;
   flex: 0 0 auto;
 }
-/* DEĞİŞİKLİK (18.10.2026, Abdullah onayı): yazı boyu %10 büyütüldü
-   (10.5px -> 11.55px); artık .bmb-tip ile AYNI satırda olduğu için kalan
-   genişliği kendisi kullanıyor (flex:1 1 auto) — dar ekranlarda (S22)
-   uzun tarih+kod metni gerekirse ellipsis ile kırpılır, kullanıcı
-   mockup'ta gördü ve kabul etti. */
 .belge-onizleme-sayfa .bmb-alt {
-  font-size: 11.55px;
+  font-size: 26.25px;
   font-weight: 600;
   opacity: .72;
   min-width: 0;

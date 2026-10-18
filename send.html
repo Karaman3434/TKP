@@ -25,8 +25,8 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1455.828">
 <link rel="stylesheet" href="cart-style.css?v=WG.151026.0006.821">
 <link rel="stylesheet" href="cari-kart-style.css?v=WG.181026.0410.836">
-<link rel="stylesheet" href="send-style.css?v=WG.041026.1121.726">
-<link rel="stylesheet" href="belge-style.css?v=WG.191026.0112.842">
+<link rel="stylesheet" href="send-style.css?v=WG.191026.0233.843">
+<link rel="stylesheet" href="belge-style.css?v=WG.191026.0233.843">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
 <!-- YENİ (12.10.2026, Abdullah onayı) — ürün tablosuna da Sepet/Belge
      Önizleme'deki açık gri zemin taşındı. SADECE .gonder-sayfa altında. -->
@@ -111,6 +111,28 @@
           <span class="iletisim-secenek-ikon">📋</span>
           <span class="iletisim-secenek-metin">Tablo</span>
         </button>
+        <!-- PDF DÜĞMESİ (19.10.2026, Abdullah onayı — mockup_h üzerinden
+             onaylandı): cari bilgi + ürün tablosu PDF olarak indirilebilsin
+             diye eklendi. Mail/WhatsApp/Tablo HİÇ DEĞİŞMEDİ. Popover'ı
+             (mailSecenekPopover ile AYNI .mail-secenek-popover sınıfları)
+             açarken Mail'in sarmal/konumlama deseniyle BİREBİR aynı
+             yapı (.iletisim-secenek-mail-sarmal) kullanılıyor. -->
+        <div class="iletisim-secenek-mail-sarmal">
+          <button class="iletisim-secenek-btn iletisim-secenek-btn--pdf" id="btnUstPdf">
+            <span class="iletisim-secenek-ikon">📄</span>
+            <span class="iletisim-secenek-metin">PDF</span>
+          </button>
+          <div class="mail-secenek-popover" id="pdfSecenekPopover" hidden>
+            <button type="button" class="mail-secenek-popover-oge" id="pdfSecenekMusteri">
+              <span class="mail-secenek-popover-baslik">Müşteriye giden</span>
+              <span class="mail-secenek-popover-alt">Cari kodu ve prim gizli</span>
+            </button>
+            <button type="button" class="mail-secenek-popover-oge" id="pdfSecenekKendi">
+              <span class="mail-secenek-popover-baslik">Kendi kopyam</span>
+              <span class="mail-secenek-popover-alt">Tüm detaylar görünür</span>
+            </button>
+          </div>
+        </div>
       </div>
       <button class="btn-vazgec" id="btnIletisimKapat" style="width:100%; margin-top:10px;">Kapat</button>
     </div>
@@ -203,7 +225,7 @@
 <script src="auth.js?v=WG.051026.1055.730"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="ayarlar-sync.js?v=WG.091026.2250.757"></script>
-<script src="hareket-tablo.js?v=WG.191026.0112.842"></script>
+<script src="hareket-tablo.js?v=WG.191026.0233.843"></script>
 <script src="cart-data.js?v=WG.091026.2250.757"></script>
 <script src="customer-data.js?v=WG.191026.0112.842"></script>
 <script src="send-data.js?v=WG.131026.1500.799"></script>
@@ -214,7 +236,13 @@
 <script src="musteri-serit.js?v=WG.181026.2315.834"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("send.html", "📤 Gönder"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="mesaj-data.js?v=WG.071026.1445.745"></script>
-<script src="send-render.js?v=WG.191026.0112.842"></script>
+<!-- PDF (19.10.2026, Abdullah onayı) — belge-onizleme.html ile AYNI jsPDF/
+     autotable sürümü + teklif-pdf.js (zaten var olan, önceden onaylanmış
+     PDF üreticisi) — artık Gönder ekranındaki "PDF" düğmesi için de yüklü. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="teklif-pdf.js?v=WG.141026.2228.817"></script>
+<script src="send-render.js?v=WG.191026.0233.843"></script>
 <script src="yarim-kalan-uyari.js?v=WG.100926.1021.435"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=WG.151026.1455.828"></script>

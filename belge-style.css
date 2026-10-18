@@ -1,4 +1,4 @@
-/* belge-style.css — WG.191026.0112.842
+/* belge-style.css — WG.191026.0233.843
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -937,7 +937,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  /* BOŞLUK DÜZELTMESİ (19.10.2026, Abdullah'ın bildirdiği hata — Belge
+     Önizleme'deki .bmb-sol ile AYNI düzeltme, bkz. belge-onizleme-style-
+     v2.css): 8px yetersizdi, "en az 3mm" istendi. Kutu yüksekliği
+     (min-height:40px) bundan ETKİLENMEZ — sadece etiket/tarih arası
+     YATAY asgari boşluk büyüdü. */
+  gap: 3mm;
   padding: 4px 16px;
   font-size: 13.2px;
   font-weight: 700;
@@ -949,13 +954,32 @@
   min-height: 40px;
   box-sizing: border-box;
 }
+/* BÜYÜTME + EŞİTLEME (19.10.2026, Abdullah onayı — "işlem etiketi ve tarih
+   aynı boyda, %50 büyüsün, kutu boyu SABİT kalsın" isteği): etiket metni
+   ("FİYAT TEKLİFİ FORMU" vb.) eskiden kendi sınıfı olmayan çıplak bir
+   <span> idi, ebeveynden (13.2px) miras alıyordu — artık KENDİ sınıfı
+   (.belge-form-baslik-etiket, 19.8px, +%50) VE bmb-tip'teki ile AYNI
+   nowrap/ellipsis/flex:0 0 auto önlemi var — yoksa büyüyünce alt satıra
+   kayıp kutuyu (min-height:40px, max-height YOK) büyütüyordu (mockup'ta
+   görüldü, S22'de 3 satıra bölünmüştü). */
+.belge-form-baslik-etiket {
+  font-size: 19.8px;
+  line-height: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 0 0 auto;
+}
 /* TARİH/KOD (19.10.2026, Abdullah onayı — "7 fotoğraf" turu): eskiden bu
    başlığın ALTINDA ayrı bir kutuda ("FİYAT TEKLİFİ · tarih") tekrar
    gösteriliyordu — çift gösterimdi. Artık WEICON rozetinin olduğu yerde,
    bu başlığın SAĞINDA, tek satırda — rengi "tip-*" ile boyanmıyor, sabit
-   soluk gri (ikincil bilgi). */
+   soluk gri (ikincil bilgi). BÜYÜTME (19.10.2026, aynı tur): 11px->19.8px
+   (+%50), .belge-form-baslik-etiket ile BİREBİR eşit.*/
 .belge-form-baslik-tarih {
-  font-size: 11px;
+  font-size: 19.8px;
+  line-height: 1;
   font-weight: 600;
   color: #556170;
   opacity: .85;

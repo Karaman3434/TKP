@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.191026.0112.842
+  belge-render.js — WG.191026.0233.843
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -110,45 +110,35 @@ function paraHtml(sayiStr, birim){
   return "<span class='belge-para-sayi" + (buyukMu ? " belge-para-sayi--buyuk" : "") + "'>" + sayiStr + "</span><span class='belge-para-birim'>" + birim + "</span>";
 }
 
-// TEK SATIR ÜRETİCİ (08.10.2026, Abdullah'ın isteğiyle) — ana ürün tablosu
-// VE bakiye ürün tablosu artık BİREBİR aynı satır yapısını kullanıyor; tek
-// fark hangi adedin (gönderilen adet mi, bakiyede kalan adet mi) verildiği.
-// Bu fonksiyon o ortak satırı üretir, çağıran taraf hangi adedi vereceğine
-// karar verir — iki tablo arasında sütun/yazı/boyut farkı OLUŞMASI imkansız
-// hale gelir (aynı kod, iki kez farklı adetle çağrılıyor).
-function belgeSatirHtmlVeDeger(item, i, adet, kaydinKuru, zeminSinifi){
-  var toplamEuro = (item.iskBirim||0) * (adet||0);
-  var mk = (item.iskBirim||0)-(item.dipFiyat||0);
+// TEK ÜRÜN TABLOSU (19.10.2026, Abdullah onayı — "cari kart ve ürün bilgi
+// tablosu tek tasarım, tek yerden kontrol" isteği): satır HTML'i artık
+// BURADA elle üretilmiyor — HareketTablo.urunTablosuHtml()/satirlarHtml()
+// (hareket-tablo.js, Sepet/Gönder ile paylaşılan TEK kaynak) çağrılıyor.
+// Bu, 15.10.2026'da Sepet/Gönder'de "B"/"A" ile ürün kodu arasındaki
+// boşluğun kaldırılmasının bu sayfaya hiç yansımamış olması gibi gerçek,
+// canlı bir hatayı da düzeltiyor. Bu fonksiyon artık SADECE DEĞERLERİ
+// hesaplıyor (HTML üretmiyor) — hem alttaki GENEL TOPLAM/PRİM toplamları
+// (satır bazında DEĞİŞMEDİ, aynı formül) hem de HareketTablo'ya verilen
+// "hesapla" callback'i için TEK kaynak. adet parametresi ana tabloda
+// item.adet, bakiye tablosunda item.bakiyeAdet olarak geçilir.
+function belgeSatirDegerHesapla(item, adet, kaydinKuru){
+  var netBirimFiyat = item.iskBirim!==undefined ? item.iskBirim : (item.listeFiyat||0);
+  var toplamEuro = netBirimFiyat * (adet||0);
+  var mk = netBirimFiyat - (item.dipFiyat||0);
   var ozelFiyatMi = (item.iskonto||0) > 60;
   var satirPrim = ozelFiyatMi ? 0 : mk*(adet||0)*0.22;
   var satirPrimTl = Math.round(satirPrim * kaydinKuru);
-  // DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle): "Bedelsiz" -> kısa kod
-  // "BDLSİZ", nowrap + küçük font (.belge-td-prim-bedelsiz, bkz. hareket-tablo.js).
-  var primHucre = item.ozelEtiket === "bedelsiz" ? "<span class='belge-td-prim-bedelsiz'>🎁 BDLSİZ</span>" : (ozelFiyatMi ? "Ö.F" : (satirPrim<0 ? "Yok" : ("<span class='belge-td-prim-tek'>"+paraHtml(satirPrimTl.toLocaleString("tr-TR"),"TL")+"</span>")));
-  // NUMUNE/BEDELSİZ GÖSTERİMİ (28.09.2026, Abdullah'ın isteğiyle): bedelsiz
-  // (numune) işaretli ürünlerde TOPLAM sütunu "0,00 EURO" yerine "NUMUNE"
-  // yazar. İskonto %100 girilmişse İSK sütununda "%100" yerine sadece "-".
-  var iskYuz100 = (item.iskonto||0) === 100;
-  var toplamHucreIcerik = (item.ozelEtiket === "bedelsiz") ? "NUMUNE" : paraHtml(fmt(toplamEuro),"EURO");
-  // NET TL SATIRI (01.10.2026, Abdullah'ın isteğiyle) — Belge Önizleme/
-  // Kayıtlar ekranında da NET EURO'nun altında, günün/kaydın kuruyla
-  // hesaplanmış TL karşılığı gösterilsin istendi. SADECE EKRAN İÇİN:
-  // bu sayfa (belge-onizleme.html) hiçbir zaman mail/WhatsApp'a giden
-  // görseli üretmiyor (o ayrı fonksiyon — send-render.js'teki
-  // belgeGorselHtmlOlustur), o yüzden burada ek bir gizleme gerekmiyor.
-  var netBirimFiyat = item.iskBirim!==undefined ? item.iskBirim : (item.listeFiyat||0);
-  var netTl = kaydinKuru ? "<div class='belge-net-tl'>≈ " + Math.round(netBirimFiyat*kaydinKuru).toLocaleString("tr-TR") + " TL</div>" : "";
-  var html = "<tr" + (zeminSinifi ? " class='" + zeminSinifi + "'" : "") + ">"
-    + "<td class='belge-td-sira'>" + (i+1) + "</td>"
-    + "<td class='belge-td-urun'><div class='belge-td-urun-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + htmlEsc(item.berta||"-") + "</span> - <span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + htmlEsc(item.abas||"-") + "</span>" + "</div><div class='belge-td-urun-ad'>" + htmlEsc(item.ad) + "</div></td>"
-    + "<td>" + (adet||0) + "</td>"
-    + "<td>" + paraHtml(fmt(item.listeFiyat||0),"EURO") + "</td>"
-    + "<td>" + (iskYuz100 ? "-" : "<span class='belge-isk-metin'>" + paraHtml((item.iskonto||0), "%") + "</span>") + "</td>"
-    + "<td><span class='rozet-net'>" + paraHtml(fmt(netBirimFiyat),"EURO") + "</span>" + netTl + "</td>"
-    + "<td class='belge-td-toplam'>" + toplamHucreIcerik + "</td>"
-    + "<td class='belge-td-prim'>" + primHucre + "</td>"
-    + "</tr>";
-  return { html: html, toplamEuro: toplamEuro, prim: satirPrim, primTl: satirPrimTl };
+  return { toplamEuro: toplamEuro, iskontoluFiyat: netBirimFiyat, prim: satirPrim, primTl: satirPrimTl, mudurPrimTL: satirPrimTl };
+}
+// HareketTablo.satirlarHtml/urunTablosuHtml'in beklediği "hesapla(u)"
+// imzasında bir adaptör — CartData.hesapla ile AYNI dönüş şeklini taşır
+// ({toplamEuro, iskontoluFiyat, mudurPrimTL}), ama CartData.hesapla gibi
+// listeFiyat+iskonto%'den YENİDEN hesaplamaz: bu sayfa KAYDEDİLMİŞ/tarihi
+// belgeleri gösterir, o yüzden kayıtta zaten duran iskBirim/dipFiyat'tan
+// okur (fiyat listesi sonradan değişse bile geçmiş belge olduğu gibi kalır
+// — belgeSatirDegerHesapla'nın kendisi, DEĞİŞMEDİ).
+function belgeHesaplaAdaptoru(adetAlani, kaydinKuru){
+  return function(item){ return belgeSatirDegerHesapla(item, item[adetAlani], kaydinKuru); };
 }
 
 // SÜREÇ ŞERİDİ (18.10.2026, Abdullah'ın isteğiyle — mockup üzerinden
@@ -189,25 +179,41 @@ function belgeyiCiz(kayit, musteri){
   try{
     var urunler = kayit.urunler || [];
     var kaydinKuru = kayit.kur || (parseFloat(localStorage.getItem("weicon_kur"))||0);
+    // GENEL TOPLAM/PRİM toplamları — formül DEĞİŞMEDİ (belgeSatirDegerHesapla
+    // eski belgeSatirHtmlVeDeger ile birebir aynı matematiği kullanıyor),
+    // sadece satır HTML'i artık ayrı (aşağıda, paylaşılan fonksiyonla).
     var netEuro = 0, toplamPrim = 0, toplamPrimTl = 0;
-    var satirlarHtml = urunler.map(function(item, i){
-      var r = belgeSatirHtmlVeDeger(item, i, item.adet, kaydinKuru, "");
+    urunler.forEach(function(item){
+      var r = belgeSatirDegerHesapla(item, item.adet, kaydinKuru);
       netEuro += r.toplamEuro;
       if(r.prim > 0){ toplamPrim += r.prim; toplamPrimTl += r.primTl; }
-      return r.html;
-    }).join("");
+    });
+    // TEK ÜRÜN TABLOSU: satır HTML'i artık HareketTablo.urunTablosuHtml ile
+    // üretiliyor (Sepet/Gönder ile BİREBİR aynı kaynak) — basit:false,
+    // primGizli:false (bu sayfa her zaman tam/iç görünüm, PRİM ve kodu
+    // gösterir), zeminSinifi:"" (ana tablo renksiz zemin).
+    var satirlarHtml = HareketTablo.urunTablosuHtml(urunler, belgeHesaplaAdaptoru("adet", kaydinKuru), "", false, false, kaydinKuru);
 
     // BAKİYE ÜRÜN BLOĞU (08.10.2026, Abdullah'ın isteğiyle) — bakiyede kalan
     // adedi olan ürünler, ana tabloyla BİREBİR aynı sütun/tasarımda, ayrı
-    // bir tabloda, ayrı bir toplamla gösterilir. Aynı belgeSatirHtmlVeDeger
-    // satır üreticisi kullanılıyor, sadece "adet" yerine "bakiyeAdet" veriliyor.
+    // bir tabloda, ayrı bir toplamla gösterilir. Satır HTML'i artık
+    // HareketTablo.satirlarHtml ile üretiliyor (SADECE tbody — bu blok
+    // kendi thead'ini göstermiyor, ana tablonun başlığını görsel olarak
+    // paylaşıyor, DEĞİŞMEDİ); "adet" yerine "bakiyeAdet" okunması aynı
+    // adaptörle sağlanıyor.
     var bakiyeUrunler = urunler.filter(function(u){ return (u.bakiyeAdet||0) > 0; });
     var bakiyeToplamEuro = 0;
-    var bakiyeSatirlarHtml = bakiyeUrunler.map(function(item, i){
-      var r = belgeSatirHtmlVeDeger(item, i, item.bakiyeAdet, kaydinKuru, "hareket-satir--sari");
-      bakiyeToplamEuro += r.toplamEuro;
-      return r.html;
-    }).join("");
+    bakiyeUrunler.forEach(function(item){ bakiyeToplamEuro += belgeSatirDegerHesapla(item, item.bakiyeAdet, kaydinKuru).toplamEuro; });
+    // satirlarHtml ADET sütununda item.adet'i GÖSTERİR — bakiye tablosunda
+    // gösterilecek/hesaplanacak adet item.bakiyeAdet olduğu için, satır
+    // üreticisine geçmeden önce "adet" alanı bakiyeAdet ile EZİLMİŞ sığ bir
+    // kopya veriliyor (orijinal kayit.urunler nesneleri DOKUNULMADAN kalır).
+    var bakiyeUrunlerAdetli = bakiyeUrunler.map(function(item){
+      var kopya = {}; for(var k in item){ if(item.hasOwnProperty(k)) kopya[k] = item[k]; }
+      kopya.adet = item.bakiyeAdet;
+      return kopya;
+    });
+    var bakiyeSatirlarHtml = HareketTablo.satirlarHtml(bakiyeUrunlerAdetli, belgeHesaplaAdaptoru("adet", kaydinKuru), "hareket-satir--sari", false, false, kaydinKuru);
 
     var durum = kayit.durum;
     var sorunluMu = durum==="iptal" || durum==="iade" || durum==="kacan";
@@ -254,11 +260,14 @@ function belgeyiCiz(kayit, musteri){
     var siraEslesme = (kayit.kod || "").match(/(\d{3})/);
     var baslikKisaKod = (baslikOneki && siraEslesme) ? (baslikOneki + "." + siraEslesme[1]) : (kayit.kod || "");
     var bmbAltMetin = htmlEsc(kayit.tarih || "") + (baslikKisaKod ? " · " + htmlEsc(baslikKisaKod) : "") + (kayit.revizeZamani ? " · 🔄 REVİZE" : "");
-    var musteriBlokHtml = "<div class='belge-musteri-baslik belge-musteri-baslik--logolu tip-" + (kayit.tip||"siparis") + "'>"
+    // WEICON ROZETİ KALDIRILDI (19.10.2026, Abdullah onayı): Gönder/Mail
+    // başlığından zaten "7 fotoğraf" turunda kaldırılmıştı — bu sayfa
+    // (Belge Önizleme) tek kalan yerdi, artık o da kaldırıldı. Boşalan
+    // alan bmb-sol'a kaldı (tarih/kod artık daha rahat yer buluyor).
+    var musteriBlokHtml = "<div class='belge-musteri-baslik tip-" + (kayit.tip||"siparis") + "'>"
       + "<div class='bmb-sol'><span class='bmb-tip'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + "</span>"
       + (bmbAltMetin ? "<span class='bmb-alt'>" + bmbAltMetin + "</span>" : "")
-      + "</div>"
-      + "<span class='belge-logo-mini'>WEICON</span></div>"
+      + "</div></div>"
       + "<div class='belge-musteri-govde'>"
       // Geçmiş rota çipi (varsa) artık mavi şeridin İÇİNDE değil — kendi eski
       // bağımsız kutusuyla (icMi=false) cari bilginin ÜSTÜNDE gösteriliyor
@@ -309,10 +318,7 @@ function belgeyiCiz(kayit, musteri){
       + musteriBlokHtml
       + "</div>"
       + "<div class='belge-kart belge-kart--urun-cerceveli'>"
-      + "<div class='data-table-container'><table class='belge-urun-tablo'>"
-      + "<thead><tr><th style='width:3.6%;'>SR</th><th style='width:29.2%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:13%;'>NET</th><th style='width:13%;'>TOPLAM</th><th style='width:11.2%;'>PRİM</th></tr></thead>"
-      + "<tbody>" + satirlarHtml + "</tbody>"
-      + "</table></div>"
+      + satirlarHtml
       + bakiyeBlokHtml
       + "</div>"
       + "<div class='belge-gt-kutu'><div class='belge-gt-satir'>"
