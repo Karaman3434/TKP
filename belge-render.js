@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.181026.2037.839
+  belge-render.js — WG.191026.0112.842
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -264,7 +264,11 @@ function belgeyiCiz(kayit, musteri){
       // bağımsız kutusuyla (icMi=false) cari bilginin ÜSTÜNDE gösteriliyor
       // (18.10.2026, mavi şerit kaldırıldığı için yeni yer bulundu).
       + surecBandiHtml(kayit)
-      + HareketTablo.cariKutulariHtml({ad: kayit.musteri, sehir: sehir}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer)
+      // ŞİRKET TELEFONU/E-POSTASI (19.10.2026, Abdullah onayı — "7 fotoğraf"
+      // turu): cariKutulariHtml artık musteri.telefon/eposta varsa Fatura
+      // Adresi'nin altında gösteriyor — bu sayfa kendi sentetik {ad, sehir}
+      // objesini geçtiği için bu iki alan da elle eklendi.
+      + HareketTablo.cariKutulariHtml({ad: kayit.musteri, sehir: sehir, telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer)
       + "</div>";
 
     var kurIcHtml = kayit.kur

@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — WG.181026.2315.834
+  hareket-tablo.js — WG.191026.0112.842
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -258,9 +258,22 @@ var HareketTablo = (function(){
     // Fatura Adresi / Teslimat Adresi / Yetkili artık ayrı ayrı kutucuklar
     // DEĞİL — eski iç tasarım (etiket + ince ayraç çizgisi) AYNEN korunarak
     // üçünü birlikte saran TEK bir dış çerçeve (.belge-adres-yetkili-cerceve).
+    // ŞİRKET TELEFONU/E-POSTASI (19.10.2026, Abdullah onayı — "7 fotoğraf"
+    // turu): Cari Bilgi'de zaten Fatura Adresi'nin altında gösteriliyordu
+    // (cari-kart-render.js'in KENDİ ayrı çizim yolu, bkz. faturaIletisimSatiri)
+    // — bu paylaşılan fonksiyon AYNI ".ck-kart-iletisim" tasarımıyla şimdi
+    // Belge Önizleme/Gönder/Mail'e de taşıyor (musteri.telefon/eposta).
+    var faturaIletisimHtml = "";
+    if((musteri.telefon && musteri.telefon.trim()) || (musteri.eposta && musteri.eposta.trim())){
+      var faturaIletisimSatirlari = [];
+      if(musteri.telefon && musteri.telefon.trim()) faturaIletisimSatirlari.push("<div class='ck-kart-iletisim-satir'><span class='ck-kart-iletisim-ikon'>📞</span>" + htmlEsc(musteri.telefon.trim()) + "</div>");
+      if(musteri.eposta && musteri.eposta.trim()) faturaIletisimSatirlari.push("<div class='ck-kart-iletisim-satir'><span class='ck-kart-iletisim-ikon'>✉️</span>" + htmlEsc(musteri.eposta.trim()) + "</div>");
+      faturaIletisimHtml = "<div class='ck-kart-iletisim'>" + faturaIletisimSatirlari.join("") + "</div>";
+    }
     var adresYetkiliIcHtml = "<div class='ck-blok-etiket ck-blok-etiket--fatura'><span>📄 FATURA ADRESİ</span></div>"
       + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
       +   (faturaAdr ? htmlEsc(faturaAdr) + sehirEk : "<span class='belge-adres-bos'>Girilmemiş</span>")
+      +   faturaIletisimHtml
       + "</div></div></div>";
     if(teslimatAdr){
       adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>🚚 TESLİMAT ADRESİ</span></div>"

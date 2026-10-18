@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.151026.0800.823
+  cart-render.js — WG.191026.0112.842
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -263,13 +263,16 @@ function sayfayiCiz(){
     // TASARIM EŞİTLİĞİ (15.10.2026, Abdullah'ın bildirdiği hata): HESAPLANACAK
     // grubu HESAPLANDI ile aynı tasarıma (kod/tarih şeridi + tür rozeti)
     // sahip değildi — artık kendi (turuncu) rengiyle AYNI yapı burada da var.
+    // GÜNCELLEME (19.10.2026, Abdullah onayı — "7 fotoğraf" turu): "(taslak)"
+    // ibaresi ve tekrarlı tür rozeti (etiketRozet — kod/tarih şeridinde zaten
+    // "FİYAT TEKLİFİ" yazıyordu, altındaki renkli şeritte bir daha vardı)
+    // kaldırıldı. İki kutu (kod/tarih şeridi + renkli HESAPLANACAK/HESAPLANDI
+    // şeridi) AYNEN iki ayrı kutu olarak kalıyor — birleştirme YAPILMADI.
     grupSariAlani.innerHTML = bekleyenler.length === 0 ? "" : HareketTablo.grupHtml({
       etiket: "🟡 HESAPLANACAK",
       etiketOrtali: true,
-      etiketRozet: TIP_ETIKET_ROZET[secilenTip],
-      etiketRozetSinifi: "islem-tipi",
       tip: secilenTip,
-      kodMetni: (TIP_ETIKET_ROZET[secilenTip] || "") + " · " + kodTarihMetni + " (taslak)",
+      kodMetni: (TIP_ETIKET_ROZET[secilenTip] || "") + " · " + kodTarihMetni,
       urunler: bekleyenler,
       hesapla: function(){ return null; },
       zeminSinifi: "hareket-satir--sari"
@@ -282,10 +285,8 @@ function sayfayiCiz(){
     grupYesilAlani.innerHTML = (hesaplananlar.length === 0 || !hesaplandiGosterVarMi) ? "" : HareketTablo.grupHtml({
       etiket: "🟢 HESAPLANDI",
       etiketOrtali: true,
-      etiketRozet: TIP_ETIKET_ROZET[secilenTip],
-      etiketRozetSinifi: "islem-tipi",
       tip: secilenTip,
-      kodMetni: (TIP_ETIKET_ROZET[secilenTip] || "") + " · " + kodTarihMetni + " (taslak)",
+      kodMetni: (TIP_ETIKET_ROZET[secilenTip] || "") + " · " + kodTarihMetni,
       urunler: hesaplananlar,
       hesapla: hesapla,
       zeminSinifi: "hareket-satir--yesil",

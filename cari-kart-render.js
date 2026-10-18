@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.151026.1430.829
+  cari-kart-render.js — WG.191026.0112.842
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -378,9 +378,22 @@ function formAlanlariHtml(tip){
       + "<div class='form-etiket'>KARGO</div><input class='form-input' id='fKargo' placeholder='örn. Ücretsiz' value=\"" + escapeText(m2.kargo||"") + "\">";
   }
   if(tip === "fatura" || tip === "teslimat"){
+    // TELEFON/E-POSTA (19.10.2026, Abdullah onayı — "7 fotoğraf" turu):
+    // SADECE Fatura Adresi formunda — müşteri eklenirken girilen şirket
+    // telefonu/e-postası (musteri.telefon/eposta, eskiden sadece Cari
+    // Bilgi'de Fatura Adresi'nin altında gösteriliyor ve HİÇBİR yerden
+    // düzenlenemiyordu) artık burada görülüp güncellenebiliyor; bu bilgi
+    // Belge Önizleme/Gönder/Mail'de de Fatura Adresi ile birlikte gösterilir
+    // (bkz. hareket-tablo.js cariKutulariHtml). Teslimat formu ETKİLENMEDİ.
     return "<button class='form-foto-doldur-btn' type='button' id='btnFormFotoDoldur'>📷 Fotoğraf/Ekran Görüntüsünden Doldur</button>"
       + "<div class='form-etiket'>ETİKET (ör. Fabrika 2 Fatura Adresi)</div><input class='form-input' id='fBaslik' placeholder='Etiket'>"
-      + "<div class='form-etiket'>AÇIK ADRES</div><textarea class='form-textarea' id='fDetay' rows='3' placeholder='Açık adres'></textarea>";
+      + "<div class='form-etiket'>AÇIK ADRES</div><textarea class='form-textarea' id='fDetay' rows='3' placeholder='Açık adres'></textarea>"
+      + (tip === "fatura" ? (
+          "<div class='form-satir-2' style='margin-top:10px'>"
+          + "<div><div class='form-etiket'>TELEFON</div><input class='form-input' id='fFaturaTel' placeholder='Telefon' type='tel'></div>"
+          + "<div><div class='form-etiket'>E-POSTA</div><input class='form-input' id='fFaturaEposta' placeholder='E-posta' type='email'></div>"
+          + "</div>"
+        ) : "");
   }
   if(tip === "yetkili"){
     return "<button class='form-foto-doldur-btn' type='button' id='btnFormFotoDoldur'>📷 Fotoğraf/Ekran Görüntüsünden Doldur</button>"
@@ -431,6 +444,17 @@ function formAc(tip, eylem, index){
   var baslikMetni = (tip === "temel" || tip === "cari-tam") ? "Cari Bilgileri" : TIP_META[tip].baslik;
   document.getElementById("formBaslik").textContent = (tip === "temel" ? "⚙️ Temel Bilgileri Düzenle" : (tip === "cari-tam" ? "✏️ Cari Bilgileri Düzenle" : (eylem==="ekle" ? "➕ Yeni " + baslikMetni + " Ekle" : "✏️ " + baslikMetni + " Düzenle")));
   document.getElementById("formIcerik").innerHTML = formAlanlariHtml(tip);
+
+  // ŞİRKET TELEFONU/E-POSTASI ÖN DOLDURMA (19.10.2026, Abdullah onayı):
+  // bu alan adres kaydına (ekle/düzenle) değil, müşterinin kendisine ait
+  // (musteri.telefon/eposta) — bu yüzden "ekle" ile "düzenle" ayrımı
+  // gözetmeksizin, her Fatura Adresi formunda mevcut değerle dolduruluyor.
+  if(tip === "fatura"){
+    var faturaTelEl = document.getElementById("fFaturaTel");
+    var faturaEpostaEl = document.getElementById("fFaturaEposta");
+    if(faturaTelEl) faturaTelEl.value = (musteriVerisi && musteriVerisi.telefon) || "";
+    if(faturaEpostaEl) faturaEpostaEl.value = (musteriVerisi && musteriVerisi.eposta) || "";
+  }
 
   // YENİ (15.10.2026, Abdullah'ın isteğiyle): "📷 Fotoğraf/Ekran
   // Görüntüsünden Doldur" — sadece fatura/teslimat/yetkili formlarında
@@ -558,8 +582,24 @@ function formKaydet(){
   var detay = document.getElementById("fDetay").value.trim();
   if(!baslik){ toastGoster("Etiket boş olamaz."); return; }
   btn.disabled = true; btn.textContent = "Kaydediliyor...";
-  if(aktifEylem === "ekle") CustomerData.musteriAdresEkle(seciliMusteriAdi, tip, baslik, detay, tamamla, musteriVerisi.id);
-  else CustomerData.musteriAdresGuncelle(seciliMusteriAdi, tip, aktifIndex, baslik, detay, tamamla, musteriVerisi.id);
+
+  function adresKaydini_yap(){
+    if(aktifEylem === "ekle") CustomerData.musteriAdresEkle(seciliMusteriAdi, tip, baslik, detay, tamamla, musteriVerisi.id);
+    else CustomerData.musteriAdresGuncelle(seciliMusteriAdi, tip, aktifIndex, baslik, detay, tamamla, musteriVerisi.id);
+  }
+
+  // ŞİRKET TELEFONU/E-POSTASI (19.10.2026, Abdullah onayı): SADECE Fatura
+  // Adresi formunda — adres kaydından ÖNCE, musteri.telefon/eposta güncellenir.
+  if(tip === "fatura"){
+    var faturaTel = document.getElementById("fFaturaTel").value.trim();
+    var faturaEposta = document.getElementById("fFaturaEposta").value.trim();
+    CustomerData.musteriGuncelle(seciliMusteriAdi, {telefon: faturaTel, eposta: faturaEposta}, function(basarili4, err4){
+      if(!basarili4){ tamamla(false, err4); return; }
+      adresKaydini_yap();
+    }, musteriVerisi.id);
+  } else {
+    adresKaydini_yap();
+  }
 }
 
 window.addEventListener("error", function(ev){

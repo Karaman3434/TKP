@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.181026.0530.838
+  send-render.js — WG.191026.0112.842
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -96,19 +96,16 @@ var FORM_BASLIK = {numune:"NUMUNE FORMU", teklif:"FİYAT TEKLİFİ FORMU", profo
 // TEK TASARIM (18.10.2026, Abdullah onayı): bu kutu artık Belge Önizleme'nin
 // ".belge-musteri-baslik" kutusuyla BİREBİR aynı — metin solda, WEICON
 // rozeti sağda (bkz. belge-style.css .belge-form-baslik).
-function formBaslikHtml(tip){
-  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span>" + (FORM_BASLIK[tip]||"SİPARİŞ FORMU") + "</span><span class='belge-logo-mini'>WEICON</span></div>";
-}
-// İŞLEM KODU ETİKETİ — gerçek işlem kodunu (örn. "FT001 15.10.2026 00:21")
-// gösterir. DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): eskiden üstteki
-// FORM_BASLIK şeridiyle AYNI ".belge-form-baslik" stilini (dolgu renkli,
-// sadece alt çizgili) kullanıyordu — artık Sepet/Belge Önizleme'deki
-// standart kod/tarih şeridiyle (.belge-belge-baslik-serit--mavi: gri zemin,
-// tam çerçeve, köşeleri yuvarlak) BİREBİR AYNI, yazı rengi de "tip-" sınıfı
-// ile işlem türüne göre otomatik değişiyor (bkz. gonder-tablo-style-v2.css,
-// body.gonder-sayfa kapsamında).
-function kodEtiketHtml(tip, kod){
-  return "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi tip-" + (tip||"siparis") + "'><span class='belge-belge-baslik-serit-metin'>" + htmlEsc(kod||"") + "</span></div>";
+// GÜNCELLEME (19.10.2026, Abdullah onayı — "7 fotoğraf" turu): WEICON rozeti
+// kaldırıldı — altta ayrı bir kutuda tekrar gösterilen "FİYAT TEKLİFİ ·
+// tarih" şeridi de kaldırıldı (çift gösterimdi), o bilgi artık WEICON'un
+// olduğu yere, bu başlığın YANINA taşındı (sagMetin — Gönder'in canlı
+// önizlemesinde gerçek işlem kodu, giden görselde sadece tarih; bkz.
+// çağıran fonksiyonlar).
+function formBaslikHtml(tip, sagMetin){
+  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span>" + (FORM_BASLIK[tip]||"SİPARİŞ FORMU") + "</span>"
+    + (sagMetin ? "<span class='belge-form-baslik-tarih'>" + htmlEsc(sagMetin) + "</span>" : "")
+    + "</div>";
 }
 // VADE artık Müşteri Kartı'nda SAYI (gün) olarak tutuluyor (21.09.2026);
 // burada okunaklı gösterim için "45" -> "45 gün" biçimine çevrilir. Eski
@@ -185,29 +182,27 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     musteriBlokHtml =
       "<div class='belge-musteri-ad belge-musteri-ad--sade'>" + htmlEsc(musteri.ad) + "</div>"
       + (musteri.sehir ? "<div class='belge-musteri-sehir'>" + htmlEsc(musteri.sehir) + "</div>" : "");
-    html = "<div class='belge-kart'>" + formBaslikHtml(tip)
+    html = "<div class='belge-kart'>" + formBaslikHtml(tip, kod)
       + "<div class='belge-musteri-govde'>"
       + musteriBlokHtml
       + "</div></div><div class='belge-kart-ayrac'></div>"
-      + (kod ? kodEtiketHtml(tip, kod) + "<div class='belge-kart-ayrac'></div>" : "")
       + "<div class='belge-kart'>";
   } else {
     // BİRLEŞİK CARİ KUTUSU (27.09.2026): artık Cari Bilgi sayfasıyla aynı
     // renkli-kutu tasarımı — bkz. cariKutulariHtml().
     musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : []);
-    html = "<div class='belge-kart'>" + formBaslikHtml(tip) + "</div>"
+    html = "<div class='belge-kart'>" + formBaslikHtml(tip, kod) + "</div>"
       + "<div class='belge-kart-ayrac'></div>"
       + musteriBlokHtml
       + "<div class='belge-kart-ayrac'></div>"
-      + (kod ? kodEtiketHtml(tip, kod) + "<div class='belge-kart-ayrac'></div>" : "")
       + "<div class='belge-kart belge-kart--urun-cerceveli'>";
   }
 
   // TEK RENK KURALI (12.10.2026, Abdullah onayı): üründe TÜR · TARİH SAAT
   // etiketi artık tabloya yapışık olarak TEKRAR gösterilmiyor — üstteki
-  // FORM_BASLIK'ta zaten bir kere var, ve kendi ayrı kutusunda gerçek işlem
-  // kodu (yukarıdaki kodEtiketHtml) gösteriliyor. Bu yüzden grupHtml'e artık
-  // etiket geçilmiyor.
+  // FORM_BASLIK'ta zaten bir kere var (GÜNCELLEME 19.10.2026: gerçek işlem
+  // kodu artık ayrı bir kutuda değil, bu başlığın YANINDA — bkz.
+  // formBaslikHtml). Bu yüzden grupHtml'e artık etiket geçilmiyor.
   var grupSonucHtml = HareketTablo.grupHtml({
     urunler: sepet,
     hesapla: function(u){ return CartData.hesapla(u, kur, kdv); },
@@ -317,9 +312,11 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   var yetkiliBilgiHtml = seciliYetkili ? HareketTablo.yetkiliSatiriHtml(seciliYetkili.isim, seciliYetkili.telefon, seciliYetkili.eposta) : "";
 
   // Giden görselde dahili belge kodu (F.TEK.../SİP...) GÖSTERİLMEZ — sadece
-  // belge türü + tarih. (Sistem içi görünümde — belge-onizleme.html — kod
-  // hâlâ gösterilir, o ayrı bir fonksiyon/dosyadır.)
-  var tabloBasligi = (TIP_ETIKET_BELGE_G[tip]||"SİPARİŞ") + " · " + tarihStr;
+  // tarih. (Sistem içi görünümde — belge-onizleme.html — kod hâlâ gösterilir,
+  // o ayrı bir fonksiyon/dosyadır.) GÜNCELLEME (19.10.2026, Abdullah onayı):
+  // bu artık ayrı bir şeritte DEĞİL, üstteki başlığın yanında (bkz.
+  // formBaslikHtml çağrıları aşağıda) — tür zaten başlıkta yazdığı için
+  // burada sadece tarih geçiliyor (tekrar "tür · tarih" olmasın diye).
 
   // Cari Bilgi bloğu — WhatsApp'ta SADECE müşteri adı ve şehir gösterilir
   // (vade, fatura, kargo, adresler, yetkili bilgisi YOK). Mail'de hâlâ TAM
@@ -327,7 +324,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   // olmadan) ayrı bir tercih, aynı "basit" bayrağını paylaşıyor.
   var cariBaslikHtml, cariGovdeHtml;
   if(basit){
-    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip)
+    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr)
       + "<div class='belge-musteri-govde'>"
       + "<div class='belge-musteri-ad belge-musteri-ad--sade'>" + htmlEsc(musteri.ad) + "</div>"
       + (musteri.sehir ? "<div class='belge-musteri-sehir'>" + htmlEsc(musteri.sehir) + "</div>" : "")
@@ -340,7 +337,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     // GERÇEK görselde müşteri cari kodu ("M-0017") HİÇ basılmaz — son
     // parametre (true) SADECE burada verilir, programın başka hiçbir yerinde
     // (Cari Kart, Sepet, Gönder'in canlı önizlemesi, Belge Önizleme) yok.
-    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip) + "</div>";
+    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr) + "</div>";
     cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : [], true);
   }
 
@@ -353,11 +350,6 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   return cariBaslikHtml
     + cariGovdeHtml
     + "<div class='belge-kart-ayrac'></div>"
-    // DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): giden görselde bu şerit
-    // eskiden hep nötr lacivertti ("bir belgede bir renk" kuralı) — artık
-    // Sepet/Belge Önizleme ile aynı şekilde "tip-" sınıfı ile işlem türüne
-    // göre otomatik renkleniyor (zemin/çerçeve sabit kalır, sadece yazı).
-    + "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi tip-" + (tip||"siparis") + "'><span class='belge-belge-baslik-serit-metin'>" + tabloBasligi + "</span></div>"
     + "<div class='belge-kart belge-kart--urun-cerceveli'>"
     + "<div class='data-table-container'><table class='belge-urun-tablo belge-urun-tablo--giden'>"
     // TEK TABLO (14.10.2026): sütun başlıkları/genişlikleri artık hareket-
@@ -749,8 +741,13 @@ document.addEventListener("DOMContentLoaded", function(){
   function musteriyleDevamEt(musteri){
     sonKaydedilenBelge.musteri = musteri;
     adresleriBelirle(musteri);
+    // "Kaydedildi" başlığı (#gonderBaslikYazi) 19.10.2026'da Abdullah onayıyla
+    // kaldırıldı — eleman artık DOM'da yok, bu yüzden var/null kontrolüyle
+    // güvenli hale getirildi (revize uyarısı artık sadece konsola/HataLog'a
+    // değil, hiçbir yere yazılmıyor; görsel uyarı istenirse ayrı ele alınır).
     if(kayitliBaglam.revizeMi){
-      document.getElementById("gonderBaslikYazi").textContent = "🔄 Aynı ürünlerle mevcut kayıt bulundu — REVİZE olarak güncellendi.";
+      var baslikEl = document.getElementById("gonderBaslikYazi");
+      if(baslikEl) baslikEl.textContent = "🔄 Aynı ürünlerle mevcut kayıt bulundu — REVİZE olarak güncellendi.";
     }
     gonderKutusunuGoster(musteri, kayitliBaglam.sepet, kayitliBaglam.tip, kayitliBaglam.kur, kayitliBaglam.kdv, kayitliBaglam.kayit && kayitliBaglam.kayit.kod);
     // DÜZELTME (07.10.2026, Abdullah'ın bildirdiği hata — bu ekranda birkaç

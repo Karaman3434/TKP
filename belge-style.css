@@ -1,4 +1,4 @@
-/* belge-style.css — WG.181026.0530.838
+/* belge-style.css — WG.191026.0112.842
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -484,6 +484,13 @@
 .belge-isk-metin .belge-td-sayi,
 .belge-isk-metin .belge-td-birim { color: #c0392b !important; font-weight: 800 !important; }
 .rozet-net { color: #0e6b34; }
+/* NET FİYAT RENGİ (19.10.2026, Abdullah onayı — "7 fotoğraf" turu):
+   Sepet'in HESAPLANACAK/HESAPLANDI (turuncu/yeşil zemin) satırlarında
+   ".rozet-net" eskiden okunabilirlik için kahverengi/siyaha boyanıyordu
+   (bkz. aşağıdaki .hareket-satir--sari/--yesil blokları) — artık o ezme
+   kaldırıldı, NET (euro) rengi HER zeminde yukarıdaki yeşille aynı kalıyor.
+   "≈ TL" alt satırı (.belge-net-tl) bu değişiklikten ETKİLENMEDİ, hâlâ
+   zemine uygun kendi rengini koruyor. */
 
 /* NET TL SATIRI (01.10.2026, Abdullah'ın isteğiyle) — NET hücresinin
    altında küçük gri TL karşılığı, SADECE ekranda görünür. ".net-tl-gizle"
@@ -571,7 +578,6 @@
 }
 .hareket-satir--sari { background: #ffe6cc; }
 .hareket-satir--sari td,
-.hareket-satir--sari .rozet-net,
 .hareket-satir--sari .rozet-isk,
 .hareket-satir--sari .belge-isk-metin,
 .hareket-satir--sari .belge-isk-metin .belge-para-birim,
@@ -587,7 +593,6 @@
 
 .hareket-satir--yesil { background: #ddf5e8; }
 .hareket-satir--yesil td,
-.hareket-satir--yesil .rozet-net,
 .hareket-satir--yesil .rozet-isk,
 .hareket-satir--yesil .belge-isk-metin,
 .hareket-satir--yesil .belge-isk-metin .belge-para-birim,
@@ -943,6 +948,23 @@
   border-radius: 12px;
   min-height: 40px;
   box-sizing: border-box;
+}
+/* TARİH/KOD (19.10.2026, Abdullah onayı — "7 fotoğraf" turu): eskiden bu
+   başlığın ALTINDA ayrı bir kutuda ("FİYAT TEKLİFİ · tarih") tekrar
+   gösteriliyordu — çift gösterimdi. Artık WEICON rozetinin olduğu yerde,
+   bu başlığın SAĞINDA, tek satırda — rengi "tip-*" ile boyanmıyor, sabit
+   soluk gri (ikincil bilgi). */
+.belge-form-baslik-tarih {
+  font-size: 11px;
+  font-weight: 600;
+  color: #556170;
+  opacity: .85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1 1 auto;
+  text-align: right;
 }
 .belge-form-baslik.tip-teklif   { color:#249147; }
 .belge-form-baslik.tip-siparis  { color:#38469a; }

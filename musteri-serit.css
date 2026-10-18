@@ -1,4 +1,4 @@
-/* musteri-serit.css — WG.181026.0530.838
+/* musteri-serit.css — WG.191026.0112.842
    ============================================================
    TEK KURAL (22.09.2026): Müşteri adının (ticari unvan) göründüğü HER
    yerde — Sepet, Ürün Bul, Müşteri Hub, Cari Bilgi, İşlemler, Gönder
@@ -66,19 +66,21 @@
    artık isim+şehir TEK satırda (ms-ad) kesildiği için bu butonla yarışma
    sorunu kalmadı, sabit genişlikli daire yerine metinli hap şekline
    geçildi. */
+/* BÜYÜTME (19.10.2026, Abdullah onayı — "7 fotoğraf" turu): harf boyu
+   %20, zemin/kutu alanı (yükseklik + yan dolgu) %10 büyütüldü. */
 .musteri-serit .ms-gecmis-btn {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  height: 26px;
-  padding: 0 10px;
+  height: 28.6px;
+  padding: 0 11px;
   background: #fff;
   color: #0a2f5c;
   border: 1.5px solid #b7d3ef;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 14.4px;
   font-weight: 800;
   cursor: pointer;
 }
-.musteri-serit .ms-gecmis-etiket { font-size: 11px; font-weight: 800; }
+.musteri-serit .ms-gecmis-etiket { font-size: 13.2px; font-weight: 800; }

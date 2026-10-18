@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="cart-style.css?v=WG.151026.0006.821">
 <link rel="stylesheet" href="cari-kart-style.css?v=WG.181026.0410.836">
 <link rel="stylesheet" href="send-style.css?v=WG.041026.1121.726">
-<link rel="stylesheet" href="belge-style.css?v=WG.181026.0530.838">
+<link rel="stylesheet" href="belge-style.css?v=WG.191026.0112.842">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
 <!-- YENİ (12.10.2026, Abdullah onayı) — ürün tablosuna da Sepet/Belge
      Önizleme'deki açık gri zemin taşındı. SADECE .gonder-sayfa altında. -->
@@ -34,7 +34,7 @@
 <!-- EKLENDİ (15.10.2026, Abdullah'ın isteğiyle) — müşteri ismi artık burada
      da TEK KURAL'a (musteri-serit.js) uyuyor; HareketTablo.cariKutulariHtml()
      bu dosyayı çağırıyor (bkz. hareket-tablo.js). -->
-<link rel="stylesheet" href="musteri-serit.css?v=WG.181026.0530.838">
+<link rel="stylesheet" href="musteri-serit.css?v=WG.191026.0112.842">
 </head>
 <body class="gonder-sayfa">
 
@@ -54,7 +54,8 @@
 <main class="sayfa">
 
   <section class="gonder-kutu" id="gonderKutu">
-    <div class="gonder-baslik" id="gonderBaslikYazi">✓ Kaydedildi — İstersen müşteriye gönder</div>
+    <!-- "✓ Kaydedildi — İstersen müşteriye gönder" başlığı (19.10.2026,
+         Abdullah onayı) kaldırıldı. -->
 
     <textarea id="gonderMetin" rows="2"></textarea>
     <input type="tel" id="gonderTelefon" hidden>
@@ -202,9 +203,9 @@
 <script src="auth.js?v=WG.051026.1055.730"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="ayarlar-sync.js?v=WG.091026.2250.757"></script>
-<script src="hareket-tablo.js?v=WG.181026.2315.834"></script>
+<script src="hareket-tablo.js?v=WG.191026.0112.842"></script>
 <script src="cart-data.js?v=WG.091026.2250.757"></script>
-<script src="customer-data.js?v=WG.300926.1130.675"></script>
+<script src="customer-data.js?v=WG.191026.0112.842"></script>
 <script src="send-data.js?v=WG.131026.1500.799"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
@@ -213,7 +214,7 @@
 <script src="musteri-serit.js?v=WG.181026.2315.834"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("send.html", "📤 Gönder"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="mesaj-data.js?v=WG.071026.1445.745"></script>
-<script src="send-render.js?v=WG.181026.0530.838"></script>
+<script src="send-render.js?v=WG.191026.0112.842"></script>
 <script src="yarim-kalan-uyari.js?v=WG.100926.1021.435"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=WG.151026.1455.828"></script>

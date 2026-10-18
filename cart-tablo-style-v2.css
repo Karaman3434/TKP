@@ -1,5 +1,5 @@
 /*
-  cart-tablo-style-v2.css — WG.181026.0431.837
+  cart-tablo-style-v2.css — WG.191026.0112.842
   ================================================================
   Belge Önizleme'de onaylanan tasarım dili (açık gri zemin + türün
   rengi SADECE kendi rozetinde) Sepet/Hesapla tablosuna taşındı
@@ -57,3 +57,11 @@ body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-teklif   { background
 body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-siparis  { background:#38469a; border-color:#2c3774; }
 body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-proforma { background:#dcb13c; border-color:#c99a2e; color:#2b2300; }
 body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-numune   { background:#c0453a; border-color:#a8382e; }
+
+/* 40PX KURAL (19.10.2026, Abdullah onayı — "7 fotoğraf" turu): HESAPLANACAK/
+   HESAPLANDI şeridinin yüksekliği, üstündeki kod/tarih şeridiyle (yukarıdaki
+   .belge-belge-baslik-serit--mavi, 40px) eşitlendi — SADECE Sepet'te. */
+body.cart-sayfa .hareket-grup-etiket {
+  min-height: 40px;
+  box-sizing: border-box;
+}

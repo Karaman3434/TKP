@@ -628,6 +628,11 @@ var CustomerData = (function(){
       if(guncelBilgi.fatura !== undefined) tazeListe[idx].fatura = guncelBilgi.fatura;
       if(guncelBilgi.kargo !== undefined) tazeListe[idx].kargo = guncelBilgi.kargo;
       if(guncelBilgi.sehir !== undefined) tazeListe[idx].sehir = guncelBilgi.sehir;
+      // ŞİRKET TELEFONU/E-POSTASI (19.10.2026, Abdullah onayı — "7 fotoğraf"
+      // turu): artık "Fatura Adresi Düzenle" formundan da güncellenebiliyor
+      // (bkz. cari-kart-render.js formKaydet, tip==="fatura").
+      if(guncelBilgi.telefon !== undefined) tazeListe[idx].telefon = guncelBilgi.telefon;
+      if(guncelBilgi.eposta !== undefined) tazeListe[idx].eposta = guncelBilgi.eposta;
     }, geriBildir);
   }
 
