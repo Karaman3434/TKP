@@ -1,5 +1,5 @@
 /*
-  cart-tablo-style-v2.css — WG.151026.0006.821
+  cart-tablo-style-v2.css — WG.181026.0431.837
   ================================================================
   Belge Önizleme'de onaylanan tasarım dili (açık gri zemin + türün
   rengi SADECE kendi rozetinde) Sepet/Hesapla tablosuna taşındı
@@ -14,6 +14,11 @@
   belge-style.css, !important ile buradaki gibi sayfaya-özgü kuralların
   üzerine çıkıyor).
 */
+/* 1mm KURAL (18.10.2026, Abdullah onayı): sayfanın sağ/sol kenarına olan
+   boşluk 1mm'ye sabitlendi (eskiden home-style.css'in genel .sayfa
+   kuralından gelen 6px kullanılıyordu). Sadece yatay yön — üst/alt
+   boşluk DEĞİŞMEDİ. */
+.cart-sayfa .sayfa { padding-left: 1mm; padding-right: 1mm; }
 /* KALDIRILDI (15.10.2026, Abdullah onayı): "body.cart-sayfa .belge-urun-
    tablo th { background:#EEF0F3 }" kuralı burada duruyordu ama
    cart-style.css'teki #grupSariAlani/#grupYesilAlani ID seçicisi (daha

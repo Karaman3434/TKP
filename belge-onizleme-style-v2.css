@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.141026.2250.819
+  belge-onizleme-style-v2.css — WG.181026.0431.837
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -32,7 +32,9 @@
 
 /* Sayfa zemini açık gri (sadece bu sayfaya özgü ince bir fark) — kenar
    boşluğu artık paylaşılan 2mm kuralıyla birebir aynı (bkz. belge-style.css). */
-.belge-onizleme-sayfa .sayfa { background: var(--page-bg); padding: 12px 2mm 16px; }
+/* 1mm KURAL (18.10.2026, Abdullah onayı): yatay kenar boşluğu 1mm'ye
+   sabitlendi (eskiden 2mm). Üst/alt boşluk DEĞİŞMEDİ. */
+.belge-onizleme-sayfa .sayfa { background: var(--page-bg); padding: 12px 1mm 16px; }
 
 /* ---- Müşteri kartı üst şeridi (SİPARİŞ / WEICON) — İŞLEM TÜRÜ RENK
    SİSTEMİ (TIP_RENK_BELGE ile birebir), belge-style.css'teki universal

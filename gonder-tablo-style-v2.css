@@ -1,5 +1,5 @@
 /*
-  gonder-tablo-style-v2.css — WG.151026.0800.823
+  gonder-tablo-style-v2.css — WG.181026.0431.837
   ================================================================
   Belge Önizleme/Sepet'te onaylanan açık gri zemin dili Gönder
   ekranının ürün tablosuna da taşındı (12.10.2026, Abdullah onayı).
@@ -21,6 +21,9 @@
   onizleme-style-v2.css'teki palet ile birebir aynı.
 */
 body.gonder-sayfa .belge-urun-tablo th { background: #EEF0F3; }
+/* 1mm KURAL (18.10.2026, Abdullah onayı): sayfanın sağ/sol kenarına olan
+   boşluk 1mm'ye sabitlendi. Sadece yatay yön — üst/alt boşluk DEĞİŞMEDİ. */
+.gonder-sayfa .sayfa { padding-left: 1mm; padding-right: 1mm; }
 body.gonder-sayfa .belge-gt-satir { padding: 10px 16px; }
 body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   .belge-belge-baslik-serit-metin { color: #249147; }
 body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  .belge-belge-baslik-serit-metin { color: #38469a; }

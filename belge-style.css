@@ -1,4 +1,4 @@
-/* belge-style.css — WG.181026.2315.834
+/* belge-style.css — WG.181026.0431.837
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -154,7 +154,17 @@
   font-weight: 700;
   color: #2563a8;
   letter-spacing: .5px;
-  background: #f4f8fc;
+  /* DÜZELTME (18.10.2026, Abdullah onayı — ekran görüntüsü karşılaştırması):
+     bu kutu "SİPARİŞ FORMU"/"belge-form-baslik" kutusuyla AYNI dile
+     getirildi — düz #f4f8fc zemin yerine gri zemin + lacivert çerçeve +
+     yuvarlak köşe + 1mm alt boşluk. İçindeki etiket metninin rengi zaten
+     işlem tipine göre otomatik değişiyordu (bkz. aşağıdaki tip-X kuralları
+     ve belge-onizleme-style-v2.css/cart-tablo-style-v2.css/gonder-tablo-
+     style-v2.css'teki eşleniği) — O KISIM DEĞİŞMEDİ. */
+  background: #E7E9EE;
+  border: 1.5px solid #073B70;
+  border-radius: 12px;
+  margin-bottom: 1mm;
 }
 /* Tek rozet modeli (26.09.2026): artık .belge-logo-mini'nin kendisi
    standart lacivert stili taşıyor, bu modifikatöre gerek kalmadı — TEK
