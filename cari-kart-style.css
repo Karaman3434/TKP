@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.181026.2315.834 */
+/* cari-kart-style.css — WG.181026.0410.836 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -97,8 +97,13 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  padding: 6px 8px;
-  margin-top: 1mm;
+  /* DÜZELTME (18.10.2026, Abdullah onayı — Cari Kart mockup v3): etiket ile
+     KENDİ içeriği arasındaki boşluk ("Fatura Adresi" yazısı ile altındaki
+     açık adres arası, Teslimat/Yetkili için de aynı) net 1mm'ye sabitlendi
+     (alt padding kaldırıldı, sadece margin-bottom:1mm). Üst boşluk (bir
+     önceki bloktan ayraç çizgisine mesafe) DEĞİŞMEDİ. */
+  padding: 6px 8px 0;
+  margin-top: 0.5mm;
   margin-bottom: 1mm;
 }
 /* DÜZELTME (14.10.2026, Abdullah'ın bildirdiği hata): 12.10'daki "açık gri
@@ -166,7 +171,9 @@
   border: none;
   border-radius: 0;
   padding: 0 2px 8px;
-  margin-bottom: 1mm;
+  /* DÜZELTME (18.10.2026, Abdullah onayı): 1mm'nin yarısına düşürüldü —
+     bkz. .ck-blok-etiket üstteki not. */
+  margin-bottom: 0.5mm;
   border-bottom: 1px solid #e1e6ea;
 }
 /* TEK ÇERÇEVE (18.10.2026, Abdullah onayı — "Sipariş Formu" v3 mockup):

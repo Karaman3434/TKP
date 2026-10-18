@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- WEICON ASİST V2 — VERSİYON: WG.181026.2315.834 — customer-cari-kart.html -->
+<!-- WEICON ASİST V2 — VERSİYON: WG.181026.0410.836 — customer-cari-kart.html -->
 <!--
   WEICON ASİST — CARİ KART v7
   ==============================
@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1455.828">
 <link rel="stylesheet" href="customer-style.css?v=WG.151026.1430.829">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
-<link rel="stylesheet" href="cari-kart-style.css?v=WG.181026.2315.834">
+<link rel="stylesheet" href="cari-kart-style.css?v=WG.181026.0410.836">
 <link rel="stylesheet" href="musteri-serit.css?v=WG.181026.2315.834">
 <link rel="stylesheet" href="send-style.css?v=WG.021026.1245.709">
 <!-- YENİ (06.10.2026, Abdullah'ın isteğiyle) — SADECE bu sayfada: iPad/tablet
@@ -67,6 +67,13 @@
     <div class="ozet-alan"><span class="ozet-ikon">🚚</span><div class="ozet-metin"><div class="ozet-baslik">KARGO</div><div class="ozet-deger" id="ozetKargoDeger">—</div></div></div>
   </div>
 
+  <!-- TEK ÇERÇEVE (18.10.2026, Abdullah onayı — Cari Kart mockup): Fatura/
+       Teslimat/Yetkili artık ayrı ayrı değil, üçünü birlikte saran TEK dış
+       çerçeve içinde (bkz. cari-kart-style.css .belge-adres-yetkili-cerceve
+       — Sipariş Formu'nda da aynı sınıf kullanılıyor). Not bloğu kapsam
+       dışı, aşağıda AYRI kaldı. -->
+  <div class="belge-adres-yetkili-cerceve">
+
   <!-- FATURA ADRESLERİ -->
   <div class="ck-blok-etiket ck-blok-etiket--fatura">
     <span>🧾 FATURA ADRESİ</span>
@@ -93,6 +100,9 @@
   <section class="ck-blok ck-tiklanabilir-alan" data-bolum="yetkili">
     <div class="ck-kart-liste" id="yetkiliListesi"></div>
   </section>
+
+  </div>
+  <!-- /belge-adres-yetkili-cerceve -->
 
   <!-- NOTLAR -->
   <div class="ck-blok-etiket ck-blok-etiket--not">
