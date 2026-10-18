@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.181026.0530.838
+  belge-onizleme-style-v2.css — WG.181026.2037.839
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -57,7 +57,15 @@
   gap: 1px;
   min-width: 0;
 }
+/* DÜZELTME (18.10.2026, Abdullah'ın isteğiyle): işlem etiketi ("FİYAT
+   TEKLİFİ" gibi) yazı boyu en az %30 büyütüldü (13.2px -> 17.5px, miras
+   alınan .belge-musteri-baslik boyutu yerine artık kendi font-size'ı
+   var) — ama üst şeridin (.belge-musteri-baslik) kutu yüksekliği (40px)
+   DEĞİŞMEDİ: line-height 1'e düşürülerek telafi edildi. En uzun etiket
+   (PROFORMA FATURA) S22 (360px) genişliğinde bile kırpılmadan sığıyor. */
 .belge-onizleme-sayfa .bmb-tip {
+  font-size: 17.5px;
+  line-height: 1;
   font-weight: 800;
   min-width: 0;
   white-space: nowrap;
@@ -217,6 +225,22 @@
   padding: 2px 5px; border-radius: 5px; white-space: nowrap;
 }
 
+/* ---- SÜREÇ ŞERİDİ (18.10.2026, Abdullah'ın isteğiyle — mockup üzerinden
+   onaylandı): belgenin dönüşüm geçmişi (varsa), cari bilginin ÜSTÜNDE,
+   kronolojik bir zincir olarak. belge-render.js'teki surecBandiHtml()
+   tarafından üretilir, satır/nokta/rozet görünümü YUKARIDAKİ .belge-
+   gecmis-adim2 ailesiyle BİREBİR aynı (yeni bir görsel dil değil) — bu iki
+   kural sadece dış çerçeve/boşluk için. Tek adımlı kayıtlarda hiç
+   basılmaz. ---- */
+.belge-onizleme-sayfa .belge-surec-bandi { margin-bottom: 1mm; }
+.belge-onizleme-sayfa .belge-surec-zincir {
+  background: #F4F6F8;
+  border: 1px solid #C7D2DB;
+  border-radius: 8px;
+  padding: 7px 2mm 3px;
+  margin-bottom: 4px;
+}
+
 /* ---- Alt buton çubuğu — "Yazdır" burada yok (zaten yoktu); güvenli alan
    payı korunuyor. ÜSTTEKİ PRİM kutusuyla aralarına boşluk (14.10.2026,
    Abdullah'ın isteğiyle) — PRİM şeridi ile Kapat/İşlemler satırı artık
@@ -225,6 +249,8 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
   margin-top: 12px;
 }
+/* "Ayrıntı" düğmesinin ikonu (eski "⋯ İşlemler" yerine, 18.10.2026). */
+.belge-onizleme-sayfa .belge-islemler-buton .ab-ikon { font-size: 15px; margin-right: 2px; }
 /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): Kapat ve İşlemler artık
    BİREBİR aynı kutu tasarımını VE renklerini kullanıyor — Kapat'ın mevcut
    tasarımı (beyaz zemin + kırmızı çerçeve/yazı) ikisine de uygulandı,

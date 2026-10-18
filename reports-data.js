@@ -1,5 +1,5 @@
 /*
-  reports-data.js — WG.131026.1455.798
+  reports-data.js — WG.181026.2037.839
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -524,11 +524,15 @@ var ReportsData = (function(){
     }catch(e){ geriBildir(false, e); }
   }
 
-  // Revize/İlerletme mekanizması: Numune → Proforma veya Teklif;
+  // Revize/İlerletme mekanizması: Numune → Teklif veya Proforma;
   // Teklif → Proforma veya Sipariş; Proforma → sadece Sipariş (tek seçenek,
   // soru sorulmadan otomatik ilerler). Sipariş'ten sonrası yok (nihai aşama).
+  // SIRALAMA (18.10.2026, Abdullah'ın isteğiyle): İlerlet popup'ındaki
+  // seçenekler artık KRONOLOJİK sırayla listeleniyor (Numune → Teklif →
+  // Proforma → Sipariş) — numune'nin seçenekleri "proforma, teklif"
+  // yerine "teklif, proforma" oldu.
   var SONRAKI_ASAMALAR = {
-    numune: ["proforma","teklif"],
+    numune: ["teklif","proforma"],
     teklif: ["proforma","siparis"],
     proforma: ["siparis"]
   };

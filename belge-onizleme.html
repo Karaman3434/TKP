@@ -33,10 +33,10 @@
      fonksiyon ".ck-*" sınıflarını kullanıyor, bunlar SADECE cari-kart-
      style.css'te tanımlı; bu yüzden bu sayfaya da eklendi (send.html/
      customer-detail.html'de zaten vardı). -->
-<link rel="stylesheet" href="cari-kart-style.css?v=WG.181026.0410.836">
+<link rel="stylesheet" href="cari-kart-style.css?v=WG.181026.2037.839">
 <link rel="stylesheet" href="belge-style.css?v=WG.181026.0530.838">
 <link rel="stylesheet" href="reports-style.css?v=WG.121026.1455.777">
-<link rel="stylesheet" href="belge-onizleme-style-v2.css?v=WG.181026.0530.838">
+<link rel="stylesheet" href="belge-onizleme-style-v2.css?v=WG.181026.2037.839">
 <!-- EKLENDİ (15.10.2026, Abdullah'ın isteğiyle) — müşteri ismi artık burada
      da TEK KURAL'a (musteri-serit.js) uyuyor; HareketTablo.cariKutulariHtml()
      bu dosyayı çağırıyor (bkz. hareket-tablo.js). -->
@@ -70,16 +70,17 @@
     <!-- EKLENDİ (15.10.2026, Abdullah onayı — mockup üzerinden onaylandı):
          "Beklet" — bu belgeyi kenara bırakıp başka bir işe geçebilme. -->
     <button class="bi-beklet-buton" id="btnBelgeBeklet">⏸ Beklet</button>
-    <button class="belge-islemler-buton" id="btnIslemlerAc">⋯ İşlemler</button>
+    <!-- "İşlemler" -> "Ayrıntı" (18.10.2026, Abdullah onayı — mockup
+         üzerinden onaylandı): aynı buton/sheet, sadece etiket/ikon
+         değişti. -->
+    <button class="belge-islemler-buton" id="btnIslemlerAc"><span class="ab-ikon">ℹ️</span>Ayrıntı</button>
   </div>
 
   <div class="overlay" id="islemlerOverlay" hidden>
     <div class="sheet">
-      <div class="sheet-baslik">İşlemler</div>
+      <div class="sheet-baslik">Ayrıntı</div>
       <button class="sheet-secenek" id="msDuzenle"><span class="ikon">✏️</span>Bilgi Düzenle</button>
       <button class="sheet-secenek" id="msIlerlet"><span class="ikon">▶</span>İlerlet</button>
-      <button class="sheet-secenek sheet-secenek--sil" id="msKacti" hidden><span class="ikon">✕</span>Kaçtı olarak işaretle</button>
-      <button class="sheet-secenek" id="msYazdir"><span class="ikon">🖨</span>Yazdır</button>
       <button class="sheet-secenek sheet-secenek--sil" id="msSil"><span class="ikon">🗑️</span>Kaydı sil</button>
       <button class="sheet-secenek sheet-secenek--vazgec" id="msVazgec">Kapat</button>
     </div>
@@ -190,7 +191,7 @@
 <script src="auth.js?v=WG.051026.1055.730"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="customer-data.js?v=WG.300926.1130.675"></script>
-<script src="reports-data.js?v=WG.131026.1455.798"></script>
+<script src="reports-data.js?v=WG.181026.2037.839"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1523.89"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
 <script src="product-data.js?v=WG.181026.0121.833"></script>
@@ -211,6 +212,6 @@
      çalışıyor. -->
 <script>window.BEKLEYEN_ISLEM_GENERIK_KAPALI = true;</script>
 <script src="bekleyen-islemler.js?v=WG.151026.1455.828"></script>
-<script src="belge-render.js?v=WG.181026.0530.838"></script>
+<script src="belge-render.js?v=WG.181026.2037.839"></script>
 </body>
 </html>

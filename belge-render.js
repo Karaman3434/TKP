@@ -1,9 +1,10 @@
 /*
-  belge-render.js — WG.181026.0530.838
+  belge-render.js — WG.181026.2037.839
   ===============
-  14.10.2026: "Yazdır" artık window.print() yerine gerçek bir PDF üretiyor
-  (bkz. teklif-pdf.js) — bu dosyanın KENDİ görünümüne/işlevlerine dokunulmadı,
-  sadece msYazdir butonunun davranışı değişti.
+  18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
+  kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
+  kaldırıldı ve seçenekler kronolojik sıraya alındı; cari bilginin üstüne
+  dönüşüm geçmişini gösteren bir süreç şeridi eklendi (surecBandiHtml).
   "weiconv2_goruntulenen_belge" localStorage anahtarından {tip, ts} okur,
   ReportsData.sonIslemler() içinden o kaydı bulur, eski uygulamanın
   faturaOnizlemeHtmlOlustur() düzenini BİREBİR üreten HTML'i çizer.
@@ -55,28 +56,11 @@ function kodOnekiAyiklaBelge(kod){
   }
   return kod;
 }
-function gecmisCipSatiriHtml(kayit, icMi){
-  if(!kayit.oncekiKod) return "";
-  var oncekiOnek = kodOnekiAyiklaBelge(kayit.oncekiKod) || "?";
-  var oncekiRenk = ONEK_RENK_BELGE[oncekiOnek] || {yazi:"#556170", bg:"#f1f3f6"};
-  var simdikiOnek = KOD_ONEK_BELGE[kayit.tip] || "?";
-  var simdikiRenk = ONEK_RENK_BELGE[simdikiOnek] || {yazi:"#003a70", bg:"#eaf2fc"};
-  // YENİ (15.10.2026, Abdullah'ın isteğiyle): artık kendi bağımsız kartı
-  // DEĞİL — SİPARİŞ/FİYAT TEKLİFİ... şeridinin (.belge-belge-baslik-serit
-  // --mavi) İÇİNDE, sağ ucunda gösteriliyor ("B tasarımı" — tam tarih/saat
-  // korunuyor). icMi=true iken kendi kutu zemini/kenarlığı/boşluğu kalkar.
-  return "<div class='belge-gecmis-cip-satir" + (icMi ? " belge-gecmis-cip-satir--ic" : "") + "'>"
-    + "<button class='belge-gecmis-cip' id='btnGecmisCip' style='background:" + oncekiRenk.bg + ";'>"
-      + "<span class='belge-gecmis-cip-kod' style='color:" + oncekiRenk.yazi + ";'>" + htmlEsc(oncekiOnek) + "</span>"
-      + "<span class='belge-gecmis-cip-tarih'>" + htmlEsc(kayit.oncekiTarih || "") + "</span>"
-    + "</button>"
-    + "<span class='belge-gecmis-ok'>▶</span>"
-    + "<div class='belge-gecmis-cip belge-gecmis-cip--simdi' style='background:" + simdikiRenk.yazi + ";'>"
-      + "<span class='belge-gecmis-cip-kod' style='color:#fff;'>" + htmlEsc(simdikiOnek) + "</span>"
-      + "<span class='belge-gecmis-cip-tarih' style='color:#c9dcf0;'>şu an</span>"
-    + "</div>"
-    + "</div>";
-}
+// gecmisCipSatiriHtml KALDIRILDI (18.10.2026) — eski inline "önceki→şimdi"
+// çipi (alt satırda ham alert() açan btnGecmisCip ile) artık hiç
+// çağrılmıyor; yerini surecBandiHtml (aşağıda, belgeyiCiz'den önce)
+// aldı. Bu, "işleyiş takibi hatası" olarak teşhis edilen, gömülü/
+// görünmez kalan eski mekanizmanın ta kendisiydi.
 var DURUM_ETIKET = {
   iptal: {ikon:"🚫", ad:"İPTAL EDİLDİ", renk:"#c0392b", bg:"#fdeceb"},
   iade: {ikon:"↩️", ad:"İADE EDİLDİ", renk:"#6a1b9a", bg:"#f3e5f5"},
@@ -167,6 +151,40 @@ function belgeSatirHtmlVeDeger(item, i, adet, kaydinKuru, zeminSinifi){
   return { html: html, toplamEuro: toplamEuro, prim: satirPrim, primTl: satirPrimTl };
 }
 
+// SÜREÇ ŞERİDİ (18.10.2026, Abdullah'ın isteğiyle — mockup üzerinden
+// onaylandı): belgenin dönüşüm geçmişini (varsa) cari bilginin ÜSTÜNDE,
+// kronolojik bir zincir olarak gösterir — çalışan belgeye baktığında
+// "bu kayıt hangi aşamalardan geçti" sorusunu bir bakışta anlasın diye.
+// Eski gecmisCipSatiriHtml(kayit, false)'ın yerini aldı (aynı yer, aynı
+// zincir verisi — belgeZinciriBulRota), sadece görünümü .belge-gecmis-
+// adim2 ailesiyle (belge-onizleme-style-v2.css) birebir, kendi dış
+// çerçevesiyle (.belge-surec-bandi/.belge-surec-zincir) sade bir kutuda.
+// Tek adımlı (henüz dönüşmemiş) kayıtlarda hiçbir şey basmaz.
+function surecBandiHtml(kayit){
+  var zincir = (kayit.rota && kayit.rota.length) ? belgeZinciriBulRota(kayit) : [];
+  if(zincir.length <= 1) return "";
+
+  var zincirHtml = "<div class='belge-surec-zincir'>" + zincir.map(function(adim, i){
+    var renk = TIP_RENK_BELGE[adim.tip] || "#3569b8";
+    var onek = KOD_ONEK_BELGE[adim.tip] || "?";
+    var rozetRenk = ONEK_RENK_BELGE[onek] || {yazi:renk, bg:renk+"18"};
+    var aktifMi = (i === zincir.length-1);
+    return "<div class='belge-gecmis-adim2" + (aktifMi?"":" belge-gecmis-adim2--baglantili") + "'>"
+      + "<div class='belge-gecmis-nokta2' style='background:" + renk + ";'></div>"
+      + "<div class='belge-gecmis-satir2' style='background:" + renk + "14;'>"
+      + "<span class='belge-gecmis-tarih2' style='color:" + renk + ";'>" + htmlEsc(kisaTarihBelge(adim.tarih)) + "</span>"
+      + "<span class='belge-gecmis-rozet2' style='background:" + rozetRenk.bg + ";color:" + rozetRenk.yazi + ";'>" + onek + "</span>"
+      + "<span class='belge-gecmis-baslik2' style='color:" + rozetRenk.yazi + ";'>" + (TIP_ETIKET_UZUN[adim.tip]||"") + "</span>"
+      + (aktifMi
+          ? "<span class='belge-gecmis-suan2'>ŞU AN</span>"
+          : "<span class='belge-gecmis-kod2' style='color:" + rozetRenk.yazi + ";'>" + htmlEsc(adim.kod||"") + "</span>")
+      + "</div>"
+      + "</div>";
+  }).join("") + "</div>";
+
+  return "<div class='belge-surec-bandi'>" + zincirHtml + "</div>";
+}
+
 function belgeyiCiz(kayit, musteri){
   try{
     var urunler = kayit.urunler || [];
@@ -245,7 +263,7 @@ function belgeyiCiz(kayit, musteri){
       // Geçmiş rota çipi (varsa) artık mavi şeridin İÇİNDE değil — kendi eski
       // bağımsız kutusuyla (icMi=false) cari bilginin ÜSTÜNDE gösteriliyor
       // (18.10.2026, mavi şerit kaldırıldığı için yeni yer bulundu).
-      + gecmisCipSatiriHtml(kayit, false)
+      + surecBandiHtml(kayit)
       + HareketTablo.cariKutulariHtml({ad: kayit.musteri, sehir: sehir}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer)
       + "</div>";
 
@@ -305,13 +323,6 @@ function belgeyiCiz(kayit, musteri){
     var beklemedeRozetBtn = document.getElementById("beklemedeRozetBtn");
     if(beklemedeRozetBtn){
       beklemedeRozetBtn.onclick = function(){ beklemedeNotAc(kayit); };
-    }
-    var gecmisCipBtn = document.getElementById("btnGecmisCip");
-    if(gecmisCipBtn){
-      gecmisCipBtn.onclick = function(){
-        var oncekiOnek = kodOnekiAyiklaBelge(kayit.oncekiKod) || "?";
-        alert("Bu belge önceden " + (oncekiOnek) + " · " + (kayit.oncekiKod) + " kodu ile, " + (kayit.oncekiTarih||"bilinmeyen bir tarihte") + " oluşturulmuştu. İlerletilince aynı iş takip numarası korunarak güncel türe dönüştürüldü.");
-      };
     }
   }catch(e){ hataGoster("Belge çizilemedi: " + e.message); }
 }
@@ -662,20 +673,9 @@ document.addEventListener("DOMContentLoaded", function(){
     if(ev.target === this) this.hidden = true;
   });
 
-  // PDF ÜRETİMİ (14.10.2026, Abdullah'ın isteğiyle, mockup üzerinden
-  // onaylandı): eski window.print() (ekranı olduğu gibi yazdırma) yerine
-  // artık gerçek, biçimlendirilmiş bir "Fiyat Teklif Formu" PDF'i üretiliyor
-  // — bkz. teklif-pdf.js. Bu, İÇ/program kopyası olduğu için müşteri kodu
-  // ve prim GÖRÜNÜR bırakılıyor (musteriKoduGizli/primGizli verilmedi).
-  document.getElementById("msYazdir").onclick = function(){
-    document.getElementById("islemlerOverlay").hidden = true;
-    if(!sonCizilenKayit){ hataGoster("Önce bir belge açılmalı."); return; }
-    var btn = this;
-    btn.disabled = true;
-    TeklifPdf.indir(sonCizilenKayit, sonCizilenMusteri, {})
-      .catch(function(e){ hataGoster("PDF oluşturulamadı: " + e.message); })
-      .finally(function(){ btn.disabled = false; });
-  };
+  // "Yazdır" düğmesi KALDIRILDI (18.10.2026, Abdullah'ın isteğiyle) —
+  // Ayrıntı sheet'inden çıkarıldı. TeklifPdf/teklif-pdf.js modülüne
+  // dokunulmadı (başka bir yerde kullanılıyor olabilir).
   document.getElementById("msSil").onclick = function(){
     document.getElementById("islemlerOverlay").hidden = true;
     if(!ref) return;
@@ -704,16 +704,11 @@ document.addEventListener("DOMContentLoaded", function(){
       }
     });
   };
-  document.getElementById("msKacti").onclick = function(){
-    document.getElementById("islemlerOverlay").hidden = true;
-    if(!sonCizilenKayit) return;
-    var sebep = prompt("Kaçırma sebebi (örn. Fiyat, Termin, Rakip):", "") || "";
-    var rakip = prompt("Rakip firma (opsiyonel):", "") || "";
-    ReportsData.kaydiKacanIsaretle(sonCizilenKayit.tip, sonCizilenKayit.ts, sebep, rakip, function(basarili, err){
-      if(basarili){ alert("✓ İşaretlendi."); denemeCiz(); }
-      else hataGoster("İşaretlenemedi: " + (err && err.message ? err.message : "bilinmeyen hata"));
-    });
-  };
+  // "Kaçtı olarak işaretle" düğmesi KALDIRILDI (18.10.2026, Abdullah'ın
+  // isteğiyle) — "kaçtı" artık ayrı bir durum olarak tutulmuyor, böyle bir
+  // kayıt doğrudan "Kaydı sil" ile silinecek. ReportsData.kaydiKacanIsaretle
+  // ve DURUM_ETIKET.kacan'a (eski kayıtları doğru göstermeye devam etmesi
+  // için) dokunulmadı.
 
   var ref = null;
   try{ ref = JSON.parse(localStorage.getItem("weiconv2_goruntulenen_belge")||"null"); }catch(e){}
@@ -736,7 +731,6 @@ document.addEventListener("DOMContentLoaded", function(){
     belgeGecmisiniCiz(kayit);
 
     document.getElementById("msIlerlet").hidden = false;
-    document.getElementById("msKacti").hidden = !((kayit.tip==="teklif"||kayit.tip==="proforma") && kayit.durum !== "kacan");
     document.getElementById("btnMenuBeklemede").hidden = !!kayit.durum;
     return true;
   }
@@ -839,12 +833,12 @@ document.addEventListener("DOMContentLoaded", function(){
     });
   };
 
-  // ---- İlerlet — hangi aşamaya dönüştürüleceği artık BURADA sorulur
-  // (Gönder aşamasında tekrar sorulmaz). Numune → Proforma/Teklif;
-  // Teklif → Proforma/Sipariş; Proforma → sadece Sipariş. "Tekrarla"
-  // (aynı türde bağımsız yeni kayıt) da aynı popup'ta bir seçenek olarak
-  // sunulur — İlerlet her zaman görünür, tip son aşamada (Sipariş) olsa
-  // bile en azından Tekrarla seçeneği için açılabilir (07.09.2026).
+  // ---- İlerlet — hangi aşamaya dönüştürüleceği BURADA sorulur (Gönder
+  // aşamasında tekrar sorulmaz). Numune → Teklif/Proforma; Teklif →
+  // Proforma/Sipariş; Proforma → sadece Sipariş — SONRAKI_ASAMALAR'daki
+  // sıraya göre, kronolojik (Numune→Teklif→Proforma→Sipariş) listelenir.
+  // "Tekrarla" seçeneği KALDIRILDI (18.10.2026, Abdullah'ın isteğiyle) —
+  // popup artık SADECE gerçek sonraki-aşama seçeneklerini gösteriyor.
   var TIP_ETIKET_ILERLET = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma Fatura", siparis:"Sipariş"};
   var ilerletSeciliTip = null;
   document.getElementById("msIlerlet").onclick = function(){
@@ -857,13 +851,13 @@ document.addEventListener("DOMContentLoaded", function(){
       var liste = document.getElementById("ilerletSecenekListesi");
       liste.innerHTML = secenekler.map(function(tip){
         return "<button type='button' class='duzenle-menu-secenek' data-tip='" + tip + "'>" + (TIP_ETIKET_ILERLET[tip]||tip) + "</button>";
-      }).join("") + "<button type='button' class='duzenle-menu-secenek' data-tip='tekrarla'>🔁 Tekrarla (aynı türde yeni kayıt)</button>";
+      }).join("");
       liste.querySelectorAll("[data-tip]").forEach(function(btn){
         btn.onclick = function(){
           ilerletSeciliTip = this.getAttribute("data-tip");
           liste.querySelectorAll("[data-tip]").forEach(function(b){ b.classList.remove("duzenle-menu-secenek--secili"); });
           this.classList.add("duzenle-menu-secenek--secili");
-          document.getElementById("btnIlerletDevam").textContent = ilerletSeciliTip==="tekrarla" ? "Tekrarla — Sepete Yükle" : ((TIP_ETIKET_ILERLET[ilerletSeciliTip]||ilerletSeciliTip) + " seçeneğine devam et");
+          document.getElementById("btnIlerletDevam").textContent = (TIP_ETIKET_ILERLET[ilerletSeciliTip]||ilerletSeciliTip) + " seçeneğine devam et";
           document.getElementById("ilerletDevamSatiri").hidden = false;
         };
       });
@@ -875,8 +869,7 @@ document.addEventListener("DOMContentLoaded", function(){
     try{
       if(!sonCizilenKayit || !ilerletSeciliTip) return;
       document.getElementById("ilerletSecOverlay").hidden = true;
-      if(ilerletSeciliTip === "tekrarla") ReportsData.tekrarBaslat(sonCizilenKayit);
-      else ReportsData.revizeBaslat(sonCizilenKayit, ilerletSeciliTip);
+      ReportsData.revizeBaslat(sonCizilenKayit, ilerletSeciliTip);
     }catch(e){ hataGoster("İlerletilemedi: " + e.message); }
   };
 
