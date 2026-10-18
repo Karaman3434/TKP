@@ -1,4 +1,4 @@
-/* belge-style.css — WG.181026.0431.837
+/* belge-style.css — WG.181026.0530.838
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -169,7 +169,9 @@
 /* Tek rozet modeli (26.09.2026): artık .belge-logo-mini'nin kendisi
    standart lacivert stili taşıyor, bu modifikatöre gerek kalmadı — TEK
    KURAL, iki farklı görünüm yerine tek bir WEICON rozeti tüm belgede. */
-.belge-musteri-govde { padding: 7px 8px; }
+/* DÜZELTME (18.10.2026): yatay boşluk kaldırıldı — bkz. belge-onizleme-
+   style-v2.css'teki aynı isimli kuralın notu (hizasızlık düzeltmesi). */
+.belge-musteri-govde { padding: 7px 0; }
 .belge-musteri-ad { font-size: 17px; font-weight: 700; color: #1a2a3a; margin-bottom: 8px; padding-left: 10px; }
 /* İsim başındaki • işareti (07.10.2026) — ayrı elemanda, metinle hizalı. */
 .ck-isim-nokta { margin-right: 2px; color: #1a2a3a; }
@@ -300,6 +302,10 @@
   /* 1mm KURAL (18.10.2026, Abdullah onayı): kutular arası boşluk programda
      artık her yerde 1mm (eskiden 10px). */
   margin: 1mm 0;
+  /* 40PX KURAL (18.10.2026, Abdullah onayı): "etiket kutuları" ailesiyle
+     (musteri-serit/belge-form-baslik/belge-prim-serit) eşit yükseklik. */
+  min-height: 40px;
+  box-sizing: border-box;
   /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): metin artık ortalı değil,
      satırın BAŞINDAN başlıyor — ayrıca yazı %20 büyütüldü (11px -> 13.2px).
      DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): "flex-start" yerine
@@ -661,7 +667,10 @@
   background: var(--brand-primary);
   border-radius: 12px;
   overflow: hidden;
-  margin-top: 10px;
+  /* 1mm KURAL DÜZELTMESİ (18.10.2026, Abdullah onayı — denetimde bulundu):
+     bu 10px, programın geri kalanındaki "kutular arası 1mm" kuralının
+     dışında kalmış tek istisnaydı — 1mm'ye çekildi. */
+  margin-top: 1mm;
 }
 .belge-gt-kutu--altduz { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
 /* ÇERÇEVE GERİ GELDİ (14.10.2026, Abdullah'ın isteğiyle) — "Bu işlem kuru"
@@ -756,6 +765,9 @@
   padding: 9px 14px;
   border-radius: 12px;
   margin-top: 1mm;
+  /* 40PX KURAL (18.10.2026, Abdullah onayı): "etiket kutuları" ailesiyle eşit yükseklik. */
+  min-height: 40px;
+  box-sizing: border-box;
 }
 .belge-prim-etiket { font-size: 11px; font-weight: 900; white-space: nowrap; }
 .belge-prim-deger { font-size: 13px; font-weight: 900; white-space: nowrap; }
@@ -910,16 +922,27 @@
    lacivert çerçeve; yazı işlem türünün kendi rengini taşıyor (aşağıdaki
    .tip-* kuralları — belge-belge-baslik-serit--mavi.tip-* ile BİREBİR
    aynı renk paleti). */
+/* TEK TASARIM (18.10.2026, Abdullah onayı — "Sipariş Formu" mockup):
+   bu kutu artık Belge Önizleme'nin ".belge-musteri-baslik" kutusuyla
+   BİREBİR aynı dil — metin ortalı DEĞİL, satırın başından başlıyor,
+   sağ ucunda WEICON rozeti var (bkz. formBaslikHtml, send-render.js).
+   Yükseklik diğer "etiket kutuları" ailesiyle (musteri-serit/belge-prim-
+   serit) eşit olacak şekilde 40px'e sabitlendi. */
 .belge-form-baslik {
-  text-align: center;
-  padding: 8px 8px;
-  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px;
+  font-size: 13.2px;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: .5px;
   color: #15243B;
   background: #E7E9EE;
   border: 1.5px solid var(--brand-primary);
   border-radius: 12px;
+  min-height: 40px;
+  box-sizing: border-box;
 }
 .belge-form-baslik.tip-teklif   { color:#249147; }
 .belge-form-baslik.tip-siparis  { color:#38469a; }

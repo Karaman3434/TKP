@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.181026.2315.834
+  send-render.js — WG.181026.0530.838
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -93,8 +93,11 @@ var FORM_BASLIK = {numune:"NUMUNE FORMU", teklif:"FİYAT TEKLİFİ FORMU", profo
 // TÜRE ÖZEL RENK (12.10.2026, Abdullah onayı): "tip-<tip>" sınıfı eklendi —
 // gerçek renk belge-style.css'teki .belge-form-baslik.tip-* kurallarından
 // geliyor, bu şerit artık belgenin tek renkli göstergesi.
+// TEK TASARIM (18.10.2026, Abdullah onayı): bu kutu artık Belge Önizleme'nin
+// ".belge-musteri-baslik" kutusuyla BİREBİR aynı — metin solda, WEICON
+// rozeti sağda (bkz. belge-style.css .belge-form-baslik).
 function formBaslikHtml(tip){
-  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'>" + (FORM_BASLIK[tip]||"SİPARİŞ FORMU") + "</div>";
+  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span>" + (FORM_BASLIK[tip]||"SİPARİŞ FORMU") + "</span><span class='belge-logo-mini'>WEICON</span></div>";
 }
 // İŞLEM KODU ETİKETİ — gerçek işlem kodunu (örn. "FT001 15.10.2026 00:21")
 // gösterir. DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): eskiden üstteki

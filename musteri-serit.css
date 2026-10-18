@@ -1,4 +1,4 @@
-/* musteri-serit.css — WG.181026.2315.834
+/* musteri-serit.css — WG.181026.0530.838
    ============================================================
    TEK KURAL (22.09.2026): Müşteri adının (ticari unvan) göründüğü HER
    yerde — Sepet, Ürün Bul, Müşteri Hub, Cari Bilgi, İşlemler, Gönder
@@ -24,9 +24,15 @@
   border-radius: 10px;
   padding: 6px 12px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   margin-bottom: 1mm;
+  /* 40PX KURAL (18.10.2026, Abdullah onayı): "etiket kutuları" ailesiyle
+     (belge-form-baslik/belge-musteri-baslik/belge-prim-serit) eşit
+     yükseklik — align-items baseline'dan center'a alındı (isim/şehir
+     farklı font-size'da da ortalı dursun diye). */
+  min-height: 40px;
+  box-sizing: border-box;
 }
 .musteri-serit .ms-ad {
   font-size: 15px;

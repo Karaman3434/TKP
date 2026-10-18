@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.151026.1335.827
+  belge-render.js — WG.181026.0530.838
   ===============
   14.10.2026: "Yazdır" artık window.print() yerine gerçek bir PDF üretiyor
   (bkz. teklif-pdf.js) — bu dosyanın KENDİ görünümüne/işlevlerine dokunulmadı,
@@ -224,18 +224,31 @@ function belgeyiCiz(kayit, musteri){
     // (HareketTablo.cariKutulariHtml) çağrılıyor. HANGİ yetkili(ler)in
     // gösterileceği mantığı (kayit.gorunecekYetkililer filtresi, yukarıda)
     // DEĞİŞMEDİ — bu sayfanın kendi işleyişi; sadece görsel üretim ortak.
-    var musteriBlokHtml = "<div class='belge-musteri-baslik belge-musteri-baslik--logolu tip-" + (kayit.tip||"siparis") + "'><span>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + "</span><span class='belge-logo-mini'>WEICON</span></div>"
+    // KOD/TARİH ŞERİDİ KALDIRILDI (18.10.2026, Abdullah onayı — "tek kutu"
+    // tasarımı): cari kart ile ürün tablosu arasındaki ayrı ".belge-belge-
+    // baslik-serit--mavi" şeridi artık YOK — içeriği (tarih + kısaltılmış
+    // işlem kodu) üstteki başlık kutusuna (.belge-musteri-baslik) taşındı,
+    // ikinci (küçük) bir alt satır olarak (.bmb-alt). Kısaltma gerçek
+    // KOD_ONEK_BELGE ile birebir (FT/SP/PF/NM), sıra no kod içinden
+    // (ilk 3 haneli rakam grubu) ayıklanıyor — örn. "FT001   18.10.2026
+    // 05:22" -> "FT.001".
+    var baslikOneki = KOD_ONEK_BELGE[kayit.tip] || kodOnekiAyiklaBelge(kayit.kod) || "";
+    var siraEslesme = (kayit.kod || "").match(/(\d{3})/);
+    var baslikKisaKod = (baslikOneki && siraEslesme) ? (baslikOneki + "." + siraEslesme[1]) : (kayit.kod || "");
+    var bmbAltMetin = htmlEsc(kayit.tarih || "") + (baslikKisaKod ? " · " + htmlEsc(baslikKisaKod) : "") + (kayit.revizeZamani ? " · 🔄 REVİZE" : "");
+    var musteriBlokHtml = "<div class='belge-musteri-baslik belge-musteri-baslik--logolu tip-" + (kayit.tip||"siparis") + "'>"
+      + "<div class='bmb-sol'><span class='bmb-tip'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + "</span>"
+      + (bmbAltMetin ? "<span class='bmb-alt'>" + bmbAltMetin + "</span>" : "")
+      + "</div>"
+      + "<span class='belge-logo-mini'>WEICON</span></div>"
       + "<div class='belge-musteri-govde'>"
+      // Geçmiş rota çipi (varsa) artık mavi şeridin İÇİNDE değil — kendi eski
+      // bağımsız kutusuyla (icMi=false) cari bilginin ÜSTÜNDE gösteriliyor
+      // (18.10.2026, mavi şerit kaldırıldığı için yeni yer bulundu).
+      + gecmisCipSatiriHtml(kayit, false)
       + HareketTablo.cariKutulariHtml({ad: kayit.musteri, sehir: sehir}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer)
       + "</div>";
 
-    // DÜZELTME (14.10.2026, Abdullah onayı — "7. Belge" tam yeniden
-    // tasarım): kod artık tablonun hemen üstündeki GRİ, çerçeveli, bağımsız
-    // ".belge-belge-baslik-serit--mavi" şeridinde, tür adıyla birlikte
-    // (bkz. aşağıda html değişkeni). "Bu işlem kuru" artık GENEL TOPLAM
-    // kutusunun İÇİNDE, Sepet/Gönder ile AYNI .belge-gt-kutu/.belge-gt-satir
-    // yapısıyla (aşağıda).
-    var belgeBaslikMetni = (kayit.kod || "") + (kayit.revizeZamani ? " · 🔄 REVİZE" : "");
     var kurIcHtml = kayit.kur
       ? "<span class='belge-gt-kur-ic" + (kayit.kurManuel ? " belge-gt-kur-ic--manuel" : "") + "'><span class='belge-gt-kur-etiket'>" + (kayit.kurManuel ? "✏️ " : "") + "Bu işlem kuru</span><br><span class='belge-gt-kur-deger'>" + fmt(kayit.kur) + " EURO</span></span>"
       : "";
@@ -262,26 +275,18 @@ function belgeyiCiz(kayit, musteri){
     // DÜZELTME (12.10.2026, Abdullah onayı): "tip-" + kayit.tip sınıfı
     // eklendi — belge-onizleme-style-v2.css bu sınıfla işlem türünün
     // rengini (sadece üst şeritteki tür adına ve isim noktasına) uyguluyor.
-    // "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı — v5 mockup, program
-    // genelinde TEK standart): tür/kod artık kendi renkli ".belge-ust-bilgi-
-    // kutu"su DEĞİL, Gönder giden görselinde zaten kullanılan GRİ, çerçeveli,
-    // bağımsız ".belge-belge-baslik-serit--mavi" şeridi (bkz. belge-style.css).
-    // Ürün tablosu kartı artık bu şeride YAPIŞIK değil ("belge-kart--ustduz"
-    // kaldırıldı — tablo kartı kendi tam yuvarlak köşesini alıyor). GENEL
-    // TOPLAM ve PRİM artık "belge-gt-kutu--altduz" İLE değil, iki AYRI,
-    // bağımsız, tam yuvarlak köşeli kutu olarak çiziliyor.
+    // "7. BELGE" TASARIMI (14.10.2026) + KOD/TARİH ŞERİDİ KALDIRILDI
+    // (18.10.2026, Abdullah onayı): tür/kod/tarih artık ayrı bir şeritte
+    // DEĞİL, üstteki musteriBlokHtml'in başlığında (bkz. yukarıda bmb-alt).
+    // Ürün tablosu kartı artık cari karttan hemen sonra geliyor, kendi
+    // tam yuvarlak köşesi VE çerçevesi var ("belge-kart--urun-cerceveli" —
+    // Gönder'in giden görseliyle BİREBİR aynı çerçeve dili, 18.10.2026).
+    // GENEL TOPLAM ve PRİM iki AYRI, bağımsız, tam yuvarlak köşeli kutu.
     var html = "<div class='belge-kart tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
       + durumRozetHtml
       + musteriBlokHtml
       + "</div>"
-      // DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): şeridin yazısı artık
-      // tek renk (lacivert) değil, işlem türünün kendi rengini taşıyor —
-      // "tip-" + kayit.tip sınıfı eklendi, gerçek renk (TIP_RENK_BELGE ile
-      // birebir) belge-onizleme-style-v2.css'ten geliyor.
-      // DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): geçmiş rota çipi
-      // (varsa) artık bu şeridin İÇİNDE, sağ ucunda — ayrı bir kart değil.
-      + (belgeBaslikMetni ? "<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi tip-" + (kayit.tip||"siparis") + "'><span class='belge-belge-baslik-serit-metin'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + " · " + htmlEsc(belgeBaslikMetni) + "</span>" + gecmisCipSatiriHtml(kayit, true) + "</div>" : "")
-      + "<div class='belge-kart'>"
+      + "<div class='belge-kart belge-kart--urun-cerceveli'>"
       + "<div class='data-table-container'><table class='belge-urun-tablo'>"
       + "<thead><tr><th style='width:3.6%;'>SR</th><th style='width:29.2%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:13%;'>NET</th><th style='width:13%;'>TOPLAM</th><th style='width:11.2%;'>PRİM</th></tr></thead>"
       + "<tbody>" + satirlarHtml + "</tbody>"

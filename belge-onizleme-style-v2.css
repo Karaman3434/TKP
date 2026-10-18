@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.181026.0431.837
+  belge-onizleme-style-v2.css — WG.181026.0530.838
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -41,23 +41,76 @@
    tasarımdan BAĞIMSIZ, korunan tek özel renk kuralı. Çerçeve/kutu-yok
    kuralı gereği border-bottom KALDIRILDI (14.10.2026). ---- */
 .belge-onizleme-sayfa .belge-musteri-baslik {
-  padding: 8px 16px;
+  padding: 4px 16px;
   letter-spacing: .4px;
+  align-items: center;
 }
-.belge-onizleme-sayfa .belge-musteri-baslik > span:first-child { font-weight: 800; }
+/* KOD/TARİH ŞERİDİ KALDIRILDI (18.10.2026, Abdullah onayı — "tek kutu"
+   tasarımı): kaldırılan ".belge-belge-baslik-serit--mavi" şeridinin
+   içeriği (tarih + kısaltılmış işlem kodu) artık bu başlığın İÇİNDE,
+   etiketin ALTINDA ikinci küçük bir satır (.bmb-alt) — bkz. belge-
+   render.js belgeyiCiz(). ".bmb-sol" ikisini dikey olarak gruplar,
+   WEICON rozeti sağda aynı kaldı. */
+.belge-onizleme-sayfa .bmb-sol {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.belge-onizleme-sayfa .bmb-tip {
+  font-weight: 800;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.belge-onizleme-sayfa .bmb-alt {
+  font-size: 10.5px;
+  font-weight: 600;
+  opacity: .72;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): etiketin ALT ZEMİNİ artık
    türe göre DEĞİŞMİYOR — hepsi aynı (yukarıdaki tek, ortak .belge-musteri-
    baslik zemini, bkz. belge-style.css). SADECE yazı rengi işlem türüne göre
-   değişiyor — tablo üstü şeritteki (.belge-belge-baslik-serit-metin) ile
-   BİREBİR aynı palet. */
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   > span:first-child { color: #249147; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  > span:first-child { color: #38469a; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma > span:first-child { color: #d2691e; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   > span:first-child { color: #c0453a; }
+   değişiyor (.bmb-tip) — eskiden kaldırılan tablo üstü şeritteki
+   (.belge-belge-baslik-serit-metin) ile BİREBİR aynı palet. */
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   .bmb-tip { color: #249147; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  .bmb-tip { color: #38469a; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-tip { color: #d2691e; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   .bmb-tip { color: #c0453a; }
 
 /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): üst boşluk daraltıldı
    (başlık şeridi ile müşteri ismi arası sıkılaştı) — alt/yanlar aynı. */
-.belge-onizleme-sayfa .belge-musteri-govde { padding: 4px 16px 14px; }
+/* DÜZELTME (18.10.2026, Abdullah'ın bulduğu hizasızlık): yatay 16px iç
+   boşluk kaldırıldı — bu, içindeki musteri-serit/ozet-satir-3/belge-adres-
+   yetkili-cerceve kutularını üstteki .belge-musteri-baslik'ten (artık O DA
+   çerçeveli, kenara 1mm'de) 16px daha içeri itiyordu, kutular hizasız
+   duruyordu. Artık hepsi aynı yatay hizada, sayfa kenarından 1mm.
+   DÜZELTME (18.10.2026, "1mm kesin kural" denetimi): üst boşluk (eskiden
+   4px) TAMAMEN kaldırıldı — bu padding, üstteki .belge-musteri-baslik'in
+   kendi margin-bottom:1mm'siyle TOPLANIP başlık ile müşteri adı arasında
+   ~2mm'lik bir boşluk oluşturuyordu (programın geri kalanında HER YERDE
+   1mm). Artık SADECE başlığın margin-bottom:1mm'si geçerli. */
+/* "1mm kesin kural" denetimi (18.10.2026): alt boşluk da (eskiden 14px,
+   "1mm kuralı"ndan ÖNCEKİ bir ayar) kaldırıldı — aşağıdaki son-çocuk
+   kuralıyla birlikte artık cari kart ile ürün tablosu arasındaki TEK
+   boşluk kaynağı, dıştaki görünmez ".belge-kart" sarmalayıcının kendi
+   margin-bottom:1mm'si. */
+.belge-onizleme-sayfa .belge-musteri-govde { padding: 0; }
+/* DÜZELTME (18.10.2026, "1mm kesin kural" denetimi — devamı): cari kartın
+   İÇİNDEKİ son kutunun (genelde .belge-adres-yetkili-cerceve) kendi
+   margin-bottom:1mm'si, dıştaki görünmez ".belge-kart" sarmalayıcının
+   "overflow:hidden" özelliği yüzünden dışarı taşıp komşuyla ÇAKIŞMIYOR
+   (collapse olmuyor) — bunun yerine kartın İÇİNDE ekstra boşluk olarak
+   kalıyor, dıştaki kartın KENDİ margin-bottom:1mm'siyle TOPLANIP ürün
+   tablosuna kadar ~2mm'lik bir boşluk oluşturuyordu. İçerideki son kutunun
+   kendi alt boşluğu burada sıfırlanıyor — tek geçerli boşluk artık dıştaki
+   kartın 1mm'si. */
+.belge-onizleme-sayfa .belge-musteri-govde > *:last-child { margin-bottom: 0; }
 /* Müşteri ismi rengi marka mavisi (sadece bu sayfaya özgü ince bir vurgu).
    DEĞİŞİKLİK (14.10.2026, Abdullah'ın isteğiyle — "cari kutusu tek yerden
    yönetilsin"): isim satırı artık burada kendi ayrı koddan değil, Gönder/
