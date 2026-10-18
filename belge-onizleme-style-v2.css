@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.181026.2037.839
+  belge-onizleme-style-v2.css — WG.181026.2107.840
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -255,17 +255,71 @@
    BİREBİR aynı kutu tasarımını VE renklerini kullanıyor — Kapat'ın mevcut
    tasarımı (beyaz zemin + kırmızı çerçeve/yazı) ikisine de uygulandı,
    İşlemler'in eski dolgu-mavi görünümü kaldırıldı. İki buton artık sadece
-   etiketleriyle ayrılıyor. */
+   etiketleriyle ayrılıyor.
+   DEĞİŞİKLİK (18.10.2026, Abdullah onayı — "etiket birleştirme" mockup):
+   Kapat/Ayrıntı/Beklet'in renk kodlaması (kırmızı/lacivert/turuncu) tamamen
+   kaldırıldı — üçü de artık VADE/FATURA/KARGO ailesiyle aynı gri zemin
+   (#E7E9EE) + lacivert çerçeve/yazı, aynı yazı boyu (12px, bkz. aşağıdaki
+   "ORTAK ETİKET BOYU" bloğu). Metin kendisi belge-onizleme.html'de büyük
+   harfe çevrildi (KAPAT/BEKLET/AYRINTI). */
 .belge-onizleme-sayfa .belge-kapat-buton,
-.belge-onizleme-sayfa .belge-islemler-buton {
-  background: var(--surface);
-  color: var(--danger);
-  border: 1.5px solid var(--danger);
+.belge-onizleme-sayfa .belge-islemler-buton,
+.belge-onizleme-sayfa .bi-beklet-buton {
+  background: #E7E9EE;
+  color: #073B70;
+  border: 1.5px solid #073B70;
   border-radius: 9px;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 600;
 }
 
 /* ---- Bakiye ürün bloğu (mevcut işlev korunuyor, sadece renk) ---- */
 .belge-onizleme-sayfa .belge-bakiye-kucuk-etiket { background: #FDF1E3; color: var(--warning); font-weight: 700; }
 .belge-onizleme-sayfa .belge-bakiye-toplam-serit { background: #FDF1E3; color: var(--warning); }
+
+/* ---- ORTAK ETİKET BOYU (18.10.2026, Abdullah onayı — "etiket birleştirme"
+   mockup): Kapat/Beklet/Ayrıntı (yukarıda), Prim, Genel Toplam, Fatura
+   Adresi/Teslimat Adresi/Yetkili Kişi ve Vade/Fatura/Kargo etiketlerinin
+   TAMAMI artık aynı yazı boyunda (12px) — her birinin KENDİ rengi/zemini
+   (Genel Toplam lacivert dolgu+beyaz, Prim yeşil dolgu+beyaz, diğerleri
+   lacivert yazı) kullanıcı onayıyla AYNEN korundu, SADECE boy eşitlendi. */
+.belge-onizleme-sayfa .ozet-baslik { font-size: 12px; }
+.belge-onizleme-sayfa .ck-blok-etiket--fatura,
+.belge-onizleme-sayfa .ck-blok-etiket--teslimat,
+.belge-onizleme-sayfa .ck-blok-etiket--yetkili { font-size: 12px; }
+.belge-onizleme-sayfa .belge-gt-etiket { font-size: 12px; }
+.belge-onizleme-sayfa .belge-prim-etiket { font-size: 12px; }
+
+/* ---- Fatura Adresi/Teslimat Adresi/Yetkili çerçevesi — gri zemin
+   (18.10.2026, Abdullah onayı): VADE/FATURA/KARGO kutularıyla (.ozet-alan)
+   aynı #E7E9EE. .belge-adres-yetkili-cerceve PAYLAŞILAN bir sınıf (Cari
+   Kart/Gönder/Mail'de de kullanılıyor) — bu yüzden değişiklik SADECE Belge
+   Önizleme'ye özgü kalsın diye ".belge-onizleme-sayfa" ile sınırlandı. ---- */
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve { background: #E7E9EE; }
+
+/* ---- FİYAT TEKLİFİ / müşteri ticari unvanı — aynı boy (18.10.2026,
+   Abdullah onayı): müşteri ismi (.ms-ad, PAYLAŞILAN musteri-serit bileşeni)
+   SADECE bu sayfada .bmb-tip ile aynı boya (17.5px) getirildi — diğer
+   sayfalardaki (Sepet/Gönder/Cari Kart vb.) 15px DEĞİŞMEDİ. NOT: uzun
+   unvan+şehir kombinasyonlarında S22 (360px) genişliğinde kırpılma
+   (ellipsis) daha erken devreye girebilir — kullanıcı mockup'ta gördü ve
+   kabul etti. */
+.belge-onizleme-sayfa .musteri-serit .ms-ad { font-size: 17.5px; }
+
+/* ---- WEICON rozeti (.belge-logo-mini) — kutu boyu SABİT (18.10.2026,
+   Abdullah onayı): "kesinlikle değişmeyecek, en büyük hali" isteği gereği
+   kutu, DEĞİŞMEDEN ÖNCEKİ ölçülen boyutuna (91.45×29px, padding 7px 16px +
+   font-size 13px ile üretilen gerçek boyut) sabitlendi; iç boşluk
+   kaldırıldı, yazı (19px) kutuyu çerçeveye kadar dolduruyor — çerçeve ile
+   yazı arasında boşluk kalmadı. */
+.belge-onizleme-sayfa .belge-logo-mini {
+  width: 91.45px;
+  height: 29px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  font-size: 19px;
+  letter-spacing: 0.3px;
+}
