@@ -1,5 +1,5 @@
 /*
-  gonder-tablo-style-v2.css — WG.181026.0431.837
+  gonder-tablo-style-v2.css — WG.191026.0252.844
   ================================================================
   Belge Önizleme/Sepet'te onaylanan açık gri zemin dili Gönder
   ekranının ürün tablosuna da taşındı (12.10.2026, Abdullah onayı).
@@ -20,7 +20,12 @@
   SADECE metin rengi değişir. Renkler cart-tablo-style-v2.css/belge-
   onizleme-style-v2.css'teki palet ile birebir aynı.
 */
-body.gonder-sayfa .belge-urun-tablo th { background: #EEF0F3; }
+/* KALDIRILDI (19.10.2026, Abdullah onayı — "TEK TABLO TASARIMI, KESİN
+   KURAL"): "body.gonder-sayfa .belge-urun-tablo th { background:
+   #EEF0F3; }" burada duruyordu — artık GEREKSİZ, çünkü #EEF0F3 artık
+   belge-style.css'teki TABAN kuralın kendisi (bkz. .belge-urun-tablo th,
+   19.10.2026 yorumu) — tüm sayfalarda (Belge Önizleme/Sepet/Gönder/Mail)
+   TEK kaynaktan geliyor, sayfaya-özel bir ezme kuralına gerek kalmadı. */
 /* 1mm KURAL (18.10.2026, Abdullah onayı): sayfanın sağ/sol kenarına olan
    boşluk 1mm'ye sabitlendi. Sadece yatay yön — üst/alt boşluk DEĞİŞMEDİ. */
 .gonder-sayfa .sayfa { padding-left: 1mm; padding-right: 1mm; }

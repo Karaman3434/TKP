@@ -1,4 +1,4 @@
-/* belge-style.css — WG.191026.0233.843
+/* belge-style.css — WG.191026.0252.844
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -345,8 +345,21 @@
 
 .data-table-container { overflow-x: auto; width: 100%; }
 .belge-urun-tablo { width: 100%; border-collapse: collapse; font-size: 11.25px; table-layout: fixed; }
+/* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı): ürün tablosu
+   başlık zemini artık TEK YERDEN, SADECE burada kontrol ediliyor — önceki
+   #c3dcf4 (açık mavi) değeri, Gönder/Mail'in zaten kullandığı #EEF0F3
+   (açık gri) ile EŞİTLENDİ. Eskiden gonder-tablo-style-v2.css bu rengi
+   SADECE body.gonder-sayfa için #EEF0F3'e eziyordu (yorumunda "Belge
+   Önizleme/Sepet'te zaten açık gri" diyordu ama bu dosyadaki taban kural
+   hâlâ mavi kalmıştı) — bu yüzden Belge Önizleme/Sepet mavi, Gönder/Mail
+   gri görünüyordu: 4 farklı ekranda 2 farklı tasarım. O eziciveren kural
+   kaldırıldı (gonder-tablo-style-v2.css), artık TEK kaynak burası.
+   HESAPLAYACAK/HESAPLANDI şeridinin kendi renkli etiketi (.hareket-grup-
+   etiket) ve satır zemini (.hareket-satir--sari/--yesil) BUNDAN AYRI,
+   DEĞİŞMEDİ — Abdullah'ın isteğiyle bilerek korundu (işlem durumunu
+   göstermek için). */
 .belge-urun-tablo th {
-  background: #c3dcf4;
+  background: #EEF0F3;
   color: #0c447c;
   border: none;
   border-bottom: 1px solid #f0f2f5;
