@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.191026.0233.843
+  belge-onizleme-style-v2.css — WG.191026.0351.847
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -47,6 +47,13 @@
   letter-spacing: .4px;
   align-items: center;
   background: #FFFFFF;
+  /* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "amina koyayım"
+     turu): etiket/tarih/kod 26.25px->15.25px küçülünce bu kutu da doğal
+     olarak küçülüyordu (28px) — Gönder (.belge-form-baslik, 40px sabit) ve
+     Sepet (.belge-belge-baslik-serit--mavi, 40px sabit) ile aynı aileden
+     olduğu halde kendi min-height'ı hiç yokmuş, şimdi eklendi. */
+  min-height: 40px;
+  box-sizing: border-box;
 }
 /* KOD/TARİH ŞERİDİ KALDIRILDI (18.10.2026, Abdullah onayı — "tek kutu"
    tasarımı): kaldırılan ".belge-belge-baslik-serit--mavi" şeridinin
@@ -58,7 +65,7 @@
 .belge-onizleme-sayfa .bmb-sol {
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
   /* BOŞLUK DÜZELTMESİ (19.10.2026, Abdullah'ın bildirdiği hata — "etiket
      ile tarih arası en az 3mm boşluk olsun, kutu boyu SABİT kalsın"):
      6px (~1,6mm) yetersizdi, etiket ile tarih neredeyse bitişik
@@ -84,8 +91,14 @@
    eşit). Kutu büyümesin diye nowrap/ellipsis/flex ayarları AYNEN korundu
    (zaten bu sayede alt satıra kaymıyor, .belge-musteri-baslik min-height
    40px'te sabit kalıyor — Playwright ile S22/iPad9'da doğrulandı). */
+/* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "amina koyayım"
+   turu): ETİKET+TARİH+KOD üçü TEK SATIRDA, hiçbiri kırpılmadan sığsın diye
+   S22 (360px) genişliğinde en uzun ihtimale (PROFORMA FATURA + tarih + kod)
+   göre ölçeklendirildi — ETİKET/TARİH 15.25px, KOD tam YARISI 7.6px.
+   Gönder/Mail (.belge-form-baslik-etiket/tarih/kod) ve Sepet (.belge-belge-
+   baslik-serit-metin) ile BİREBİR aynı ölçü. */
 .belge-onizleme-sayfa .bmb-tip {
-  font-size: 26.25px;
+  font-size: 13.25px;
   line-height: 1;
   font-weight: 800;
   min-width: 0;
@@ -95,24 +108,44 @@
   flex: 0 0 auto;
 }
 .belge-onizleme-sayfa .bmb-alt {
-  font-size: 26.25px;
+  font-size: 13.25px;
   font-weight: 600;
-  opacity: .72;
+  opacity: .85;
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
+}
+.belge-onizleme-sayfa .bmb-kod {
+  font-size: 6.625px;
+  font-weight: 700;
+  opacity: .75;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 0 0 auto;
 }
 /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): etiketin ALT ZEMİNİ artık
    türe göre DEĞİŞMİYOR — hepsi aynı (yukarıdaki tek, ortak .belge-musteri-
-   baslik zemini, bkz. belge-style.css). SADECE yazı rengi işlem türüne göre
-   değişiyor (.bmb-tip) — eskiden kaldırılan tablo üstü şeritteki
-   (.belge-belge-baslik-serit-metin) ile BİREBİR aynı palet. */
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   .bmb-tip { color: #249147; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  .bmb-tip { color: #38469a; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-tip { color: #d2691e; }
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   .bmb-tip { color: #c0453a; }
+   baslik zemini, bkz. belge-style.css).
+   GENİŞLETME (19.10.2026, Abdullah onayı — "amina koyayım" turu): yazı rengi
+   artık SADECE .bmb-tip değil, .bmb-alt ve .bmb-kod da aynı işlem türü
+   rengini taşıyor ("işlem etiketi ile aynı renkte" isteği) — eskiden .bmb-alt
+   sabit soluk renkteydi, kaldırıldı. */
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   .bmb-tip,
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   .bmb-alt,
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   .bmb-kod { color: #249147; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  .bmb-tip,
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  .bmb-alt,
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  .bmb-kod { color: #38469a; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-tip,
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-alt,
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-kod { color: #d2691e; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   .bmb-tip,
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   .bmb-alt,
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   .bmb-kod { color: #c0453a; }
 
 /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): üst boşluk daraltıldı
    (başlık şeridi ile müşteri ismi arası sıkılaştı) — alt/yanlar aynı. */
@@ -194,10 +227,10 @@
 /* TABLO ÜSTÜ ŞERİDİN YAZISI (14.10.2026, Abdullah'ın isteğiyle) — "FİYAT
    TEKLİFİ · FT002 ..." metni artık işlem türünün kendi rengini taşıyor,
    yukarıdaki nokta rengiyle BİREBİR aynı palet. */
-.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-teklif .belge-belge-baslik-serit-metin { color: #249147; }
-.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-siparis .belge-belge-baslik-serit-metin { color: #38469a; }
-.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-proforma .belge-belge-baslik-serit-metin { color: #d2691e; }
-.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-numune .belge-belge-baslik-serit-metin { color: #c0453a; }
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-teklif { color: #249147; }
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-siparis { color: #38469a; }
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-proforma { color: #d2691e; }
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-numune { color: #c0453a; }
 
 /* ---- Belge geçmişi (13.10.2026 — dikey zaman çizgisi, kutu ve her
    satırın sol/sağ boşluğu tam 2mm). Bu kutunun KENDİ çerçevesi şimdilik

@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.191026.0112.842
+  cart-render.js — WG.191026.0351.847
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -272,7 +272,9 @@ function sayfayiCiz(){
       etiket: "🟡 HESAPLANACAK",
       etiketOrtali: true,
       tip: secilenTip,
-      kodMetni: (TIP_ETIKET_ROZET[secilenTip] || "") + " · " + kodTarihMetni,
+      seritEtiket: TIP_ETIKET_ROZET[secilenTip] || "",
+      seritTarih: kodTarihMetni,
+      seritKod: "(taslak)",
       urunler: bekleyenler,
       hesapla: function(){ return null; },
       zeminSinifi: "hareket-satir--sari"
@@ -286,7 +288,9 @@ function sayfayiCiz(){
       etiket: "🟢 HESAPLANDI",
       etiketOrtali: true,
       tip: secilenTip,
-      kodMetni: (TIP_ETIKET_ROZET[secilenTip] || "") + " · " + kodTarihMetni,
+      seritEtiket: TIP_ETIKET_ROZET[secilenTip] || "",
+      seritTarih: kodTarihMetni,
+      seritKod: "(taslak)",
       urunler: hesaplananlar,
       hesapla: hesapla,
       zeminSinifi: "hareket-satir--yesil",

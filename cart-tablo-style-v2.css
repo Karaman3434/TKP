@@ -1,5 +1,5 @@
 /*
-  cart-tablo-style-v2.css — WG.191026.0310.845
+  cart-tablo-style-v2.css — WG.191026.0351.847
   ================================================================
   Belge Önizleme'de onaylanan tasarım dili (açık gri zemin + türün
   rengi SADECE kendi rozetinde) Sepet/Hesapla tablosuna taşındı
@@ -42,10 +42,13 @@
    Dikey yükseklik SADECE Sepet'te daraltıldı (10px->6px) — Belge
    Önizleme'deki aynı şeridin kendi boyutuna dokunulmadı. */
 body.cart-sayfa .belge-belge-baslik-serit--mavi { padding: 6px 14px; }
-body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   .belge-belge-baslik-serit-metin { color: #249147; }
-body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  .belge-belge-baslik-serit-metin { color: #38469a; }
-body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-proforma .belge-belge-baslik-serit-metin { color: #d2691e; }
-body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-numune   .belge-belge-baslik-serit-metin { color: #c0453a; }
+/* TEK RENK — KESİN KURAL (19.10.2026, Abdullah onayı): artık sadece -metin
+   (etiket) değil, PARENT (.tip-X) boyanıyor — -tarih ve -kod span'ları
+   kendi color'u olmadığı için otomatik miras alır (hepsi aynı renk). */
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   { color: #249147; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  { color: #38469a; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-proforma { color: #d2691e; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { color: #c0453a; }
 
 /* HESAPLANDI satırındaki işlem türü rozeti — artık türün kendi rengini
    taşıyor (sabit yeşil yerine). opts.tip verilmeyen diğer kullanımlar

@@ -1,4 +1,4 @@
-/* belge-style.css — WG.191026.0329.846
+/* belge-style.css — WG.191026.0351.847
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -308,19 +308,22 @@
   box-sizing: border-box;
   /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): metin artık ortalı değil,
      satırın BAŞINDAN başlıyor.
-     DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): "flex-start" yerine
-     "space-between" yapıldı — tek öğe (metin) varken ikisi GÖRSEL OLARAK
-     birebir aynıdır (CSS standardına göre tek flex öğesinde space-between
-     = flex-start), ama geçmiş rota çipi eklendiğinde (iki öğe) çip artık
-     şeridin SAĞ UCUNA gidebiliyor — flex-start'ta bu mümkün değildi.
-     TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı): bu şerit
-     Sepet'in İŞLEM ETİKETİ+TARİH/KOD kutusu — 13.2px kalmıştı, Gönder/Mail
-     (.belge-form-baslik-etiket/tarih) ve Belge Önizleme (.bmb-tip/.bmb-alt)
-     ise 26.25px'e çıkarılmıştı: 3. bir farklı boy. Artık ÜÇÜ DE 26.25px,
-     BİREBİR aynı — "tüm formlarda/sayfalarda aynı olacak" kesin kuralı. */
-  justify-content: space-between;
-  font-size: 26.25px;
+     TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "amina koyayım"
+     turu): etiket+tarih+kod artık 3 AYRI span (-metin/-tarih/-kod), aralarda
+     3mm boşluk — eskiden "space-between" tek öğe + nadir "geçmiş rota çipi"
+     için kullanılıyordu, 3 öğeyle bu tüm genişliğe YAYILIR (istenmeyen),
+     "flex-start" + gap:3mm'e geçildi (çip varsa artık kod'un hemen sağında,
+     3mm'lik aynı boşlukla — ayrı bir konu, bu turda onaylanmadı/değişmedi).
+     Boy: ETİKET/TARİH 15.25px, KOD tam YARISI 7.6px (S22 360px'te en uzun
+     ihtimal PROFORMA FATURA+tarih+kod hiç kırpılmadan sığsın diye hesaplandı)
+     — Gönder/Mail (.belge-form-baslik-*) ve Belge Önizleme (.bmb-*) ile
+     BİREBİR aynı ölçü. */
+  justify-content: flex-start;
+  gap: 3mm;
+  font-size: 13.25px;
 }
+.belge-belge-baslik-serit-tarih { opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.belge-belge-baslik-serit-kod { font-size: 6.625px; font-weight: 700; opacity: .75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* ÜST BİLGİ ŞERİDİ (08.10.2026, Abdullah'ın isteğiyle) — belge-onizleme.html'de
    (belgeyiCiz) SİPARİŞ/TEKLİF başlığı + "Bu işlemde X kuru kullanıldı" notu +
@@ -953,7 +956,7 @@
    serit) eşit olacak şekilde 40px'e sabitlendi. */
 .belge-form-baslik {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   /* BOŞLUK DÜZELTMESİ (19.10.2026, Abdullah'ın bildirdiği hata — Belge
      Önizleme'deki .bmb-sol ile AYNI düzeltme, bkz. belge-onizleme-style-
@@ -972,15 +975,17 @@
   min-height: 40px;
   box-sizing: border-box;
 }
-/* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı): 19.8px (Gönder/
-   Mail) ile bmb-tip'in 26.25px'i (Belge Önizleme) AYNI "+%50" kuralı farklı
-   taban değerlere (13.2px vs 17.5px) uygulanınca birbirinden FARKLI çıkmıştı
-   — ekranlar arası etiket/tarih harf boyu tutarsızlığına sebep oluyordu.
-   Artık TEK değer: 26.25px, bmb-tip/bmb-alt ile BİREBİR aynı. nowrap/
-   ellipsis/flex:0 0 auto önlemi aynı sebeple duruyor (kutu boyu SABİT,
-   min-height:40px, max-height YOK — büyüyen harf alt satıra kaymasın). */
+/* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "amina koyayım"
+   turu): ETİKET+TARİH+KOD üçü de TEK SATIRDA, hiçbiri kırpılmadan sığsın
+   diye S22 (360px) genişliğinde en uzun ihtimale (PROFORMA FATURA + tarih +
+   kod) göre ölçeklendirildi — ETİKET/TARİH 15.25px, KOD tam YARISI 7.6px.
+   Üçü de kutunun rengini (tip-* kuralından miras) taşıyor, sabit gri YOK.
+   Kutular arası 3mm boşluk artık .belge-form-baslik'in flex gap'inden
+   geliyor (üç öğe de aynı mantıkla ayrılıyor). bmb-tip/bmb-alt/bmb-kod
+   (Belge Önizleme) ve belge-belge-baslik-serit-metin (Sepet) ile BİREBİR
+   aynı ölçü. Kutu boyu SABİT (min-height:40px, max-height YOK). */
 .belge-form-baslik-etiket {
-  font-size: 26.25px;
+  font-size: 13.25px;
   line-height: 1;
   min-width: 0;
   white-space: nowrap;
@@ -988,24 +993,27 @@
   text-overflow: ellipsis;
   flex: 0 0 auto;
 }
-/* TARİH/KOD (19.10.2026, Abdullah onayı — "7 fotoğraf" turu): eskiden bu
-   başlığın ALTINDA ayrı bir kutuda ("FİYAT TEKLİFİ · tarih") tekrar
-   gösteriliyordu — çift gösterimdi. Artık WEICON rozetinin olduğu yerde,
-   bu başlığın SAĞINDA, tek satırda — rengi "tip-*" ile boyanmıyor, sabit
-   soluk gri (ikincil bilgi). TEK TASARIM — KESİN KURAL (19.10.2026):
-   26.25px, .belge-form-baslik-etiket ve bmb-tip/bmb-alt ile BİREBİR eşit.*/
 .belge-form-baslik-tarih {
-  font-size: 26.25px;
+  font-size: 13.25px;
   line-height: 1;
   font-weight: 600;
-  color: #556170;
   opacity: .85;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
-  flex: 1 1 auto;
-  text-align: right;
+  flex: 0 0 auto;
+}
+.belge-form-baslik-kod {
+  font-size: 6.625px;
+  line-height: 1;
+  font-weight: 700;
+  opacity: .75;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 0 0 auto;
 }
 .belge-form-baslik.tip-teklif   { color:#249147; }
 .belge-form-baslik.tip-siparis  { color:#38469a; }

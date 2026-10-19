@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.191026.0310.845
+  send-render.js — WG.191026.0351.847
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -105,9 +105,10 @@ var FORM_BASLIK = {numune:"NUMUNE", teklif:"FİYAT TEKLİFİ", proforma:"PROFORM
 // olduğu yere, bu başlığın YANINA taşındı (sagMetin — Gönder'in canlı
 // önizlemesinde gerçek işlem kodu, giden görselde sadece tarih; bkz.
 // çağıran fonksiyonlar).
-function formBaslikHtml(tip, sagMetin){
+function formBaslikHtml(tip, tarihMetni, kodMetni){
   return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span class='belge-form-baslik-etiket'>" + (FORM_BASLIK[tip]||"SİPARİŞ") + "</span>"
-    + (sagMetin ? "<span class='belge-form-baslik-tarih'>" + htmlEsc(sagMetin) + "</span>" : "")
+    + (tarihMetni ? "<span class='belge-form-baslik-tarih'>" + htmlEsc(tarihMetni) + "</span>" : "")
+    + (kodMetni ? "<span class='belge-form-baslik-kod'>" + htmlEsc(kodMetni) + "</span>" : "")
     + "</div>";
 }
 // VADE artık Müşteri Kartı'nda SAYI (gün) olarak tutuluyor (21.09.2026);
@@ -163,6 +164,7 @@ function tarihSaatStr(orijinalTarih){
 
 function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   var basit = kanal === "whatsapp";
+  var tarihStrOnizleme = tarihSaatStr();
   var vade = vadeGosterimMetni(musteri.vade);
   var faturaTuru = musteri.fatura || "";
   var kargo = musteri.kargo || "";
@@ -185,7 +187,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     musteriBlokHtml =
       "<div class='belge-musteri-ad belge-musteri-ad--sade'>" + htmlEsc(musteri.ad) + "</div>"
       + (musteri.sehir ? "<div class='belge-musteri-sehir'>" + htmlEsc(musteri.sehir) + "</div>" : "");
-    html = "<div class='belge-kart'>" + formBaslikHtml(tip, kod)
+    html = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStrOnizleme, kod)
       + "<div class='belge-musteri-govde'>"
       + musteriBlokHtml
       + "</div></div><div class='belge-kart-ayrac'></div>"
@@ -194,7 +196,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     // BİRLEŞİK CARİ KUTUSU (27.09.2026): artık Cari Bilgi sayfasıyla aynı
     // renkli-kutu tasarımı — bkz. cariKutulariHtml().
     musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : []);
-    html = "<div class='belge-kart'>" + formBaslikHtml(tip, kod) + "</div>"
+    html = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStrOnizleme, kod) + "</div>"
       + "<div class='belge-kart-ayrac'></div>"
       + musteriBlokHtml
       + "<div class='belge-kart-ayrac'></div>"
@@ -333,7 +335,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   // olmadan) ayrı bir tercih, aynı "basit" bayrağını paylaşıyor.
   var cariBaslikHtml, cariGovdeHtml;
   if(basit){
-    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr)
+    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr, kod)
       + "<div class='belge-musteri-govde'>"
       + "<div class='belge-musteri-ad belge-musteri-ad--sade'>" + htmlEsc(musteri.ad) + "</div>"
       + (musteri.sehir ? "<div class='belge-musteri-sehir'>" + htmlEsc(musteri.sehir) + "</div>" : "")
@@ -346,7 +348,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     // GERÇEK görselde müşteri cari kodu ("M-0017") HİÇ basılmaz — son
     // parametre (true) SADECE burada verilir, programın başka hiçbir yerinde
     // (Cari Kart, Sepet, Gönder'in canlı önizlemesi, Belge Önizleme) yok.
-    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr) + "</div>";
+    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr, kod) + "</div>";
     cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : [], true);
   }
 

@@ -1,5 +1,5 @@
 /*
-  gonder-tablo-style-v2.css — WG.191026.0310.845
+  gonder-tablo-style-v2.css — WG.191026.0351.847
   ================================================================
   Belge Önizleme/Sepet'te onaylanan açık gri zemin dili Gönder
   ekranının ürün tablosuna da taşındı (12.10.2026, Abdullah onayı).
@@ -34,7 +34,7 @@
    duruyordu — artık GEREKSİZ, GENEL TOPLAM kutusu belge-style.css'teki
    TEK taban kuraldan (12px 16px) geliyor, 3 ekranda da (Sepet/Gönder/
    Belge Önizleme) birebir aynı boyda. */
-body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   .belge-belge-baslik-serit-metin { color: #249147; }
-body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  .belge-belge-baslik-serit-metin { color: #38469a; }
-body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-proforma .belge-belge-baslik-serit-metin { color: #d2691e; }
-body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-numune   .belge-belge-baslik-serit-metin { color: #c0453a; }
+body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   { color: #249147; }
+body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  { color: #38469a; }
+body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-proforma { color: #d2691e; }
+body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { color: #c0453a; }

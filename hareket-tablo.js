@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — WG.191026.0233.843
+  hareket-tablo.js — WG.191026.0351.847
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -165,7 +165,19 @@ var HareketTablo = (function(){
     // palet ile birebir). Sepet'te henüz gerçek bir belge kaydı/SP kodu
     // olmadığından (kaydet() ancak Gönder'de çağrılıyor) metin "(taslak)"
     // ibaresiyle geliyor — cart-render.js bunu kendisi üretip geçiyor.
-    var kodSeridiHtml = opts.kodMetni ? ("<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi" + (opts.tip ? " tip-" + opts.tip : "") + "'><span class='belge-belge-baslik-serit-metin'>" + htmlEsc(opts.kodMetni) + "</span></div>") : "";
+    // TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "amina koyayım"
+    // turu): etiket/tarih/kod artık 3 AYRI parametre (opts.seritEtiket/
+    // seritTarih/seritKod) — eskiden tek birleşik opts.kodMetni string'iydi.
+    // Geriye dönük uyum için opts.kodMetni hâlâ tek span olarak çalışır
+    // (şu an hiçbir çağıran kullanmıyor, ama kırılmasın diye duruyor).
+    var kodSeridiHtml = (opts.seritEtiket || opts.seritTarih || opts.seritKod || opts.kodMetni)
+      ? ("<div class='belge-belge-baslik-serit belge-belge-baslik-serit--mavi" + (opts.tip ? " tip-" + opts.tip : "") + "'>"
+        + (opts.seritEtiket ? "<span class='belge-belge-baslik-serit-metin'>" + htmlEsc(opts.seritEtiket) + "</span>" : "")
+        + (opts.seritTarih ? "<span class='belge-belge-baslik-serit-tarih'>" + htmlEsc(opts.seritTarih) + "</span>" : "")
+        + (opts.seritKod ? "<span class='belge-belge-baslik-serit-kod'>" + htmlEsc(opts.seritKod) + "</span>" : "")
+        + (opts.kodMetni ? "<span class='belge-belge-baslik-serit-metin'>" + htmlEsc(opts.kodMetni) + "</span>" : "")
+        + "</div>")
+      : "";
     var html = kodSeridiHtml + (opts.etiket ? ("<div class='" + etiketSinifi + "' style='background:" + etiketBg + ";color:" + etiketRenk + ";'>" + etiketMetinHtml + etiketRozetHtml + "</div>") : "");
     html += urunTablosuHtml(opts.urunler, opts.hesapla, opts.zeminSinifi, basit, primGizli, opts.kur)
       + bakiyeNotuHtml(opts.urunler);

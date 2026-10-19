@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.191026.0233.843
+  belge-render.js — WG.191026.0351.847
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -259,7 +259,11 @@ function belgeyiCiz(kayit, musteri){
     var baslikOneki = KOD_ONEK_BELGE[kayit.tip] || kodOnekiAyiklaBelge(kayit.kod) || "";
     var siraEslesme = (kayit.kod || "").match(/(\d{3})/);
     var baslikKisaKod = (baslikOneki && siraEslesme) ? (baslikOneki + "." + siraEslesme[1]) : (kayit.kod || "");
-    var bmbAltMetin = htmlEsc(kayit.tarih || "") + (baslikKisaKod ? " · " + htmlEsc(baslikKisaKod) : "") + (kayit.revizeZamani ? " · 🔄 REVİZE" : "");
+    // TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "amina koyayım"
+    // turu): tarih ve kısa kod artık AYRI span (bmb-alt/bmb-kod) — Gönder/
+    // Mail (.belge-form-baslik-tarih/kod) ve Sepet ile BİREBİR aynı yapı.
+    var bmbAltMetin = htmlEsc(kayit.tarih || "") + (kayit.revizeZamani ? " · 🔄 REVİZE" : "");
+    var bmbKodMetin = baslikKisaKod ? htmlEsc(baslikKisaKod) : "";
     // WEICON ROZETİ KALDIRILDI (19.10.2026, Abdullah onayı): Gönder/Mail
     // başlığından zaten "7 fotoğraf" turunda kaldırılmıştı — bu sayfa
     // (Belge Önizleme) tek kalan yerdi, artık o da kaldırıldı. Boşalan
@@ -267,6 +271,7 @@ function belgeyiCiz(kayit, musteri){
     var musteriBlokHtml = "<div class='belge-musteri-baslik tip-" + (kayit.tip||"siparis") + "'>"
       + "<div class='bmb-sol'><span class='bmb-tip'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + "</span>"
       + (bmbAltMetin ? "<span class='bmb-alt'>" + bmbAltMetin + "</span>" : "")
+      + (bmbKodMetin ? "<span class='bmb-kod'>" + bmbKodMetin + "</span>" : "")
       + "</div></div>"
       + "<div class='belge-musteri-govde'>"
       // Geçmiş rota çipi (varsa) artık mavi şeridin İÇİNDE değil — kendi eski
