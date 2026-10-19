@@ -1,10 +1,8 @@
 /*
-  weicon-ai-config.js — WG.151026.1015.825
+  weicon-ai-config.js — WG.191026.1930.856
   ===========================================
   "📷 Fotoğraf/Ekran Görüntüsünden Doldur" özelliğinin sunucu adresi.
-  Firebase Cloud Function deploy edildikten SONRA, Firebase'in sana verdiği
-  URL'i aşağıya (tırnakların içine) yapıştır — bkz. KURULUM-foto-doldur.md.
-  Boş bırakılırsa özellik "Bu özellik henüz bağlanmadı" diyerek nazikçe
-  devre dışı kalır, uygulamanın geri kalanını etkilemez.
+  19.10.2026: Abdullah'ın kendi deploy'undan aldığı gerçek kartOku URL'i
+  aşağıya yapıştırıldı — artık özellik canlı.
 */
-var WEICON_AI_WORKER_URL = "";
+var WEICON_AI_WORKER_URL = "https://europe-west1-weicon-asist.cloudfunctions.net/kartOku";
