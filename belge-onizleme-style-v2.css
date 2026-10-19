@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.191026.0854.849
+  belge-onizleme-style-v2.css — WG.191026.1340.853
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -102,7 +102,7 @@
    Gönder/Mail (.belge-form-baslik-etiket/tarih/kod) ve Sepet (.belge-belge-
    baslik-serit-metin) ile BİREBİR aynı ölçü. */
 .belge-onizleme-sayfa .bmb-tip {
-  font-size: 15.9px;
+  font-size: 17.49px;
   line-height: 1;
   font-weight: 800;
   min-width: 0;
@@ -112,7 +112,7 @@
   flex: 0 0 auto;
 }
 .belge-onizleme-sayfa .bmb-alt {
-  font-size: 15.9px;
+  font-size: 17.49px;
   font-weight: 600;
   opacity: .85;
   min-width: 0;
@@ -122,7 +122,7 @@
   flex: 0 0 auto;
 }
 .belge-onizleme-sayfa .bmb-kod {
-  font-size: 7.95px;
+  font-size: 9.54px;
   font-weight: 700;
   opacity: .75;
   min-width: 0;
@@ -293,21 +293,11 @@
   padding: 2px 5px; border-radius: 5px; white-space: nowrap;
 }
 
-/* ---- SÜREÇ ŞERİDİ (18.10.2026, Abdullah'ın isteğiyle — mockup üzerinden
-   onaylandı): belgenin dönüşüm geçmişi (varsa), cari bilginin ÜSTÜNDE,
-   kronolojik bir zincir olarak. belge-render.js'teki surecBandiHtml()
-   tarafından üretilir, satır/nokta/rozet görünümü YUKARIDAKİ .belge-
-   gecmis-adim2 ailesiyle BİREBİR aynı (yeni bir görsel dil değil) — bu iki
-   kural sadece dış çerçeve/boşluk için. Tek adımlı kayıtlarda hiç
-   basılmaz. ---- */
-.belge-onizleme-sayfa .belge-surec-bandi { margin-bottom: 1mm; }
-.belge-onizleme-sayfa .belge-surec-zincir {
-  background: #F4F6F8;
-  border: 1px solid #C7D2DB;
-  border-radius: 8px;
-  padding: 7px 2mm 3px;
-  margin-bottom: 4px;
-}
+/* ---- SÜREÇ ŞERİDİ KALDIRILDI (19.10.2026, Abdullah onayı — "iki yerde
+   tasarlanmış" turu): .belge-surec-bandi/.belge-surec-zincir, alttaki
+   #belgeGecmisiKutu ile aynı geçmişi ikinci kez gösteriyordu; kural
+   kaldırıldı, .belge-gecmis-adim2 ailesi (üstte) sadece #belgeGecmisiKutu
+   tarafından kullanılmaya devam ediyor. ---- */
 
 /* ---- Alt buton çubuğu — "Yazdır" burada yok (zaten yoktu); güvenli alan
    payı korunuyor. ÜSTTEKİ PRİM kutusuyla aralarına boşluk (14.10.2026,

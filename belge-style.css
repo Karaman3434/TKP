@@ -1,4 +1,4 @@
-/* belge-style.css — WG.191026.0854.849
+/* belge-style.css — WG.191026.1340.853
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -320,7 +320,7 @@
      BİREBİR aynı ölçü. */
   justify-content: flex-start;
   gap: 3mm;
-  font-size: 15.9px;
+  font-size: 17.49px;
   /* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "simetrik hale
      getir" turu): iç boşluk eskiden SADECE cart-sayfa'da 6px/14px'e
      eziliyordu (10px/16px taban) — Gönder/Belge Önizleme'nin kutularıyla
@@ -334,7 +334,7 @@
    FARKLIYDI. Artık açıkça 800/600, birebir aynı. */
 .belge-belge-baslik-serit-metin { font-weight: 800; }
 .belge-belge-baslik-serit-tarih { font-weight: 600; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.belge-belge-baslik-serit-kod { font-size: 7.95px; font-weight: 700; opacity: .75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.belge-belge-baslik-serit-kod { font-size: 9.54px; font-weight: 700; opacity: .75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* ÜST BİLGİ ŞERİDİ (08.10.2026, Abdullah'ın isteğiyle) — belge-onizleme.html'de
    (belgeyiCiz) SİPARİŞ/TEKLİF başlığı + "Bu işlemde X kuru kullanıldı" notu +
@@ -996,7 +996,7 @@
    (Belge Önizleme) ve belge-belge-baslik-serit-metin (Sepet) ile BİREBİR
    aynı ölçü. Kutu boyu SABİT (min-height:40px, max-height YOK). */
 .belge-form-baslik-etiket {
-  font-size: 15.9px;
+  font-size: 17.49px;
   /* TEK TASARIM — KESİN KURAL (19.10.2026): kalınlık eskiden üstteki
      .belge-form-baslik'in taban font-weight'ından (700) miras alınıyordu —
      Belge Önizleme/Sepet'in etiketi (800) ile FARKLIYDI. Artık açıkça 800. */
@@ -1009,7 +1009,7 @@
   flex: 0 0 auto;
 }
 .belge-form-baslik-tarih {
-  font-size: 15.9px;
+  font-size: 17.49px;
   line-height: 1;
   font-weight: 600;
   opacity: .85;
@@ -1020,7 +1020,7 @@
   flex: 0 0 auto;
 }
 .belge-form-baslik-kod {
-  font-size: 7.95px;
+  font-size: 9.54px;
   line-height: 1;
   font-weight: 700;
   opacity: .75;

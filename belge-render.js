@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.191026.0854.849
+  belge-render.js — WG.191026.1325.851
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -144,39 +144,13 @@ function belgeHesaplaAdaptoru(adetAlani, kaydinKuru){
   return function(item){ return belgeSatirDegerHesapla(item, item[adetAlani], kaydinKuru); };
 }
 
-// SÜREÇ ŞERİDİ (18.10.2026, Abdullah'ın isteğiyle — mockup üzerinden
-// onaylandı): belgenin dönüşüm geçmişini (varsa) cari bilginin ÜSTÜNDE,
-// kronolojik bir zincir olarak gösterir — çalışan belgeye baktığında
-// "bu kayıt hangi aşamalardan geçti" sorusunu bir bakışta anlasın diye.
-// Eski gecmisCipSatiriHtml(kayit, false)'ın yerini aldı (aynı yer, aynı
-// zincir verisi — belgeZinciriBulRota), sadece görünümü .belge-gecmis-
-// adim2 ailesiyle (belge-onizleme-style-v2.css) birebir, kendi dış
-// çerçevesiyle (.belge-surec-bandi/.belge-surec-zincir) sade bir kutuda.
-// Tek adımlı (henüz dönüşmemiş) kayıtlarda hiçbir şey basmaz.
-function surecBandiHtml(kayit){
-  var zincir = (kayit.rota && kayit.rota.length) ? belgeZinciriBulRota(kayit) : [];
-  if(zincir.length <= 1) return "";
-
-  var zincirHtml = "<div class='belge-surec-zincir'>" + zincir.map(function(adim, i){
-    var renk = TIP_RENK_BELGE[adim.tip] || "#3569b8";
-    var onek = KOD_ONEK_BELGE[adim.tip] || "?";
-    var rozetRenk = ONEK_RENK_BELGE[onek] || {yazi:renk, bg:renk+"18"};
-    var aktifMi = (i === zincir.length-1);
-    return "<div class='belge-gecmis-adim2" + (aktifMi?"":" belge-gecmis-adim2--baglantili") + "'>"
-      + "<div class='belge-gecmis-nokta2' style='background:" + renk + ";'></div>"
-      + "<div class='belge-gecmis-satir2' style='background:" + renk + "14;'>"
-      + "<span class='belge-gecmis-tarih2' style='color:" + renk + ";'>" + htmlEsc(kisaTarihBelge(adim.tarih)) + "</span>"
-      + "<span class='belge-gecmis-rozet2' style='background:" + rozetRenk.bg + ";color:" + rozetRenk.yazi + ";'>" + onek + "</span>"
-      + "<span class='belge-gecmis-baslik2' style='color:" + rozetRenk.yazi + ";'>" + (TIP_ETIKET_UZUN[adim.tip]||"") + "</span>"
-      + (aktifMi
-          ? "<span class='belge-gecmis-suan2'>ŞU AN</span>"
-          : "<span class='belge-gecmis-kod2' style='color:" + rozetRenk.yazi + ";'>" + htmlEsc(adim.kod||"") + "</span>")
-      + "</div>"
-      + "</div>";
-  }).join("") + "</div>";
-
-  return "<div class='belge-surec-bandi'>" + zincirHtml + "</div>";
-}
+// SÜREÇ ŞERİDİ KALDIRILDI (19.10.2026, Abdullah onayı — "iki yerde
+// tasarlanmış" turu): surecBandiHtml() cari bilginin üstünde, alttaki
+// #belgeGecmisiKutu (belgeGecmisiniCiz) ile AYNI geçmişi ikinci kez
+// gösteriyordu. İkisinden daha eksiksiz olan (rota alanı olmayan eski
+// kayıtlarda da belgeZinciriBul ile yedekten bulan, önceki adıma
+// tıklayıp geçebilen, kendini "📜 Belge Geçmişi" başlığıyla açıklayan)
+// #belgeGecmisiKutu bırakıldı, bu üstteki şerit kaldırıldı.
 
 function belgeyiCiz(kayit, musteri){
   try{
@@ -277,15 +251,17 @@ function belgeyiCiz(kayit, musteri){
       + (bmbKodMetin ? "<span class='bmb-kod'>" + bmbKodMetin + "</span>" : "")
       + "</div></div>"
       + "<div class='belge-musteri-govde'>"
-      // Geçmiş rota çipi (varsa) artık mavi şeridin İÇİNDE değil — kendi eski
-      // bağımsız kutusuyla (icMi=false) cari bilginin ÜSTÜNDE gösteriliyor
-      // (18.10.2026, mavi şerit kaldırıldığı için yeni yer bulundu).
-      + surecBandiHtml(kayit)
+      // Geçmiş gösterimi artık SADECE #belgeGecmisiKutu'da (alttaki
+      // "📜 Belge Geçmişi" kutusu) — buradaki süreç şeridi kaldırıldı,
+      // aynı bilgiyi ikinci kez basıyordu (19.10.2026, Abdullah onayı).
       // ŞİRKET TELEFONU/E-POSTASI (19.10.2026, Abdullah onayı — "7 fotoğraf"
       // turu): cariKutulariHtml artık musteri.telefon/eposta varsa Fatura
       // Adresi'nin altında gösteriyor — bu sayfa kendi sentetik {ad, sehir}
       // objesini geçtiği için bu iki alan da elle eklendi.
-      + HareketTablo.cariKutulariHtml({ad: kayit.musteri, sehir: sehir, telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer)
+      // NOT ALANI (19.10.2026, Abdullah onayı — "cari kart çerçeve" turu):
+      // aynı sentetik obje mantığıyla, Cari Kart'taki not da notlar/not
+      // alanlarıyla buraya elle taşındı — artık Belge Önizleme'de de görünür.
+      + HareketTablo.cariKutulariHtml({ad: kayit.musteri, sehir: sehir, telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer)
       + "</div>";
 
     var kurIcHtml = kayit.kur

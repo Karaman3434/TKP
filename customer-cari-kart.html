@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- WEICON ASİST V2 — VERSİYON: WG.181026.0530.838 — customer-cari-kart.html -->
+<!-- WEICON ASİST V2 — VERSİYON: WG.191026.1325.851 — customer-cari-kart.html -->
 <!--
   WEICON ASİST — CARİ KART v7
   ==============================
@@ -67,11 +67,14 @@
     <div class="ozet-alan"><span class="ozet-ikon">🚚</span><div class="ozet-metin"><div class="ozet-baslik">KARGO</div><div class="ozet-deger" id="ozetKargoDeger">—</div></div></div>
   </div>
 
-  <!-- TEK ÇERÇEVE (18.10.2026, Abdullah onayı — Cari Kart mockup): Fatura/
-       Teslimat/Yetkili artık ayrı ayrı değil, üçünü birlikte saran TEK dış
-       çerçeve içinde (bkz. cari-kart-style.css .belge-adres-yetkili-cerceve
-       — Sipariş Formu'nda da aynı sınıf kullanılıyor). Not bloğu kapsam
-       dışı, aşağıda AYRI kaldı. -->
+  <!-- TEK ÇERÇEVE (18.10.2026, Abdullah onayı — Cari Kart mockup; 19.10.2026
+       GÜNCELLEME, Abdullah onayı: Not bloğu da artık AYNI çerçevenin İÇİNDE
+       — eskiden kapsam dışı, kendi çerçevesiz "dışarıda" bırakılmıştı, bu
+       hem görsel tutarsızlıktı hem de Abdullah'ın isteğiyle kaldırıldı):
+       Fatura/Teslimat/Yetkili/Not artık ayrı ayrı değil, dördünü birlikte
+       saran TEK dış çerçeve içinde (bkz. cari-kart-style.css
+       .belge-adres-yetkili-cerceve — Sipariş Formu'nda da aynı sınıf
+       kullanılıyor). -->
   <div class="belge-adres-yetkili-cerceve">
 
   <!-- FATURA ADRESLERİ -->
@@ -101,9 +104,6 @@
     <div class="ck-kart-liste" id="yetkiliListesi"></div>
   </section>
 
-  </div>
-  <!-- /belge-adres-yetkili-cerceve -->
-
   <!-- NOTLAR -->
   <div class="ck-blok-etiket ck-blok-etiket--not">
     <span>📝 NOT</span>
@@ -111,6 +111,9 @@
   <section class="ck-blok ck-tiklanabilir-alan" data-bolum="not">
     <div class="ck-kart-liste" id="notListesi"></div>
   </section>
+
+  </div>
+  <!-- /belge-adres-yetkili-cerceve -->
 
   <div class="ck-alt-buton-satir">
     <a class="cari-kapat-buton" id="cariKapatBtn" href="customer-hub.html">Kapat</a>
@@ -213,7 +216,7 @@
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("customer-cari-kart.html", "🏢 Cari Bilgi"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="weicon-ai-config.js?v=WG.181026.2315.834"></script>
 <script src="foto-doldur.js?v=WG.181026.2315.834"></script>
-<script src="cari-kart-render.js?v=WG.191026.0112.842"></script>
+<script src="cari-kart-render.js?v=WG.191026.1325.851"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
 <script>
   window.BEKLEYEN_ISLEM_AYAR = {

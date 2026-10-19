@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — WG.191026.0351.847
+  hareket-tablo.js — WG.191026.1332.852
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -308,14 +308,36 @@ var HareketTablo = (function(){
       +   (faturaAdr ? htmlEsc(faturaAdr) + sehirEk : "<span class='belge-adres-bos'>Girilmemiş</span>")
       +   faturaIletisimHtml
       + "</div></div></div>";
-    if(teslimatAdr){
-      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>🚚 TESLİMAT ADRESİ</span></div>"
-        + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>" + htmlEsc(teslimatAdr) + "</div></div></div>";
-    }
+    // HATA DÜZELTME (19.10.2026, Abdullah'ın bildirdiği hata): Teslimat
+    // Adresi, Fatura Adresi'nin aksine boşsa HİÇ basılmıyordu (kutu baştan
+    // kayboluyordu) — bu kaydın teslimatAdresi henüz girilmemişse (örn.
+    // eski bir Fiyat Teklifi), Belge Önizleme'de "neden görünmüyor" izlenimi
+    // veriyordu. Artık Fatura ile BİREBİR aynı kural: her zaman basılır,
+    // boşsa "Girilmemiş" yazar.
+    adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>🚚 TESLİMAT ADRESİ</span></div>"
+      + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
+      +   (teslimatAdr ? htmlEsc(teslimatAdr) : "<span class='belge-adres-bos'>Girilmemiş</span>")
+      + "</div></div></div>";
     var yetkiliIcHtml = (yetkiliListesi||[]).map(function(k){ return yetkiliSatiriHtml(k.isim, k.telefon, k.eposta); }).join("");
     if(yetkiliIcHtml){
       adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--yetkili'><span>👤 YETKİLİ</span></div>"
         + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>" + yetkiliIcHtml + "</div></div></div>";
+    }
+    // NOT (19.10.2026, Abdullah onayı — "cari kart çerçeve" turu): Cari
+    // Kart'ta yazılan not artık bu PAYLAŞILAN kutuda da gösteriliyor, yani
+    // Belge Önizleme/Gönder/Mail-WhatsApp metninde de görünüyor — ayrı ayrı
+    // taşımak yerine tek yerden (cari-kart-render.js'teki ".ck-kart"
+    // görünümüyle BİREBİR aynı). Yeni "notlar" dizisi varsa onu, yoksa eski
+    // tekil "not" alanını kullanır (customer-data.js ikisini senkron tutuyor).
+    var notListesi = (musteri.notlar && musteri.notlar.length) ? musteri.notlar
+      : ((musteri.not && musteri.not.trim()) ? [{baslik:"", metin: musteri.not.trim()}] : []);
+    if(notListesi.length){
+      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--not'><span>📝 NOT</span></div>"
+        + "<div class='ck-blok'><div class='ck-kart-liste'>" + notListesi.map(function(n){
+            // cari-kart-render.js'teki kayitBaslik("not",...) ile BİREBİR aynı
+            // varsayılan: başlık boşsa "Not" yazısı (escapeText == htmlEsc).
+            return "<div class='ck-kart'><div class='ck-kart-ust'>" + htmlEsc(n.baslik||"Not") + "</div><div class='ck-kart-alt'>" + htmlEsc(n.metin||"") + "</div></div>";
+          }).join("") + "</div></div>";
     }
     html += "<div class='belge-adres-yetkili-cerceve'>" + adresYetkiliIcHtml + "</div>";
     return html;

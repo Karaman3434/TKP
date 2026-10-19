@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.191026.0112.842
+  cari-kart-render.js — WG.191026.1325.851
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -116,9 +116,9 @@ function anaSayfayiRenderEt(){
       return;
     }
 
-    // "Not" bloğu TASARIM DIŞI bırakıldı — eski .ck-kart görünümü,
-    // rozet/daraltma yok, mail/WhatsApp gönderimiyle (send-render.js)
-    // aynı şekilde DEĞİŞMEDİ.
+    // "Not" bloğu artık çerçeve İÇİNDE (customer-cari-kart.html, 19.10.2026
+    // Abdullah onayı) ama kendi İÇ görünümü hâlâ eski .ck-kart (rozet/
+    // daraltma yok) — bu DEĞİŞMEDİ, sadece dış konumu değişti.
     if(tip === "not"){
       kapsayici.innerHTML = liste.map(function(k){
         return "<div class='ck-kart'><div class='ck-kart-ust'>" + escapeText(kayitBaslik(tip,k)) + "</div><div class='ck-kart-alt'>" + escapeText(kayitAltMetin(tip,k)) + "</div></div>";
@@ -164,9 +164,15 @@ function anaSayfayiRenderEt(){
 }
 
 function secimTiklariniBagla(){
+  // HATA DÜZELTME (19.10.2026, Abdullah'ın bildirdiği hata): ev.stopPropagation()
+  // satırın tıklamasını üstteki ".ck-tiklanabilir-alan[data-bolum]" dinleyicisine
+  // hiç ulaştırmıyordu — bir bölümde (örn. Yetkili) 2+ kayıt varsa satırlar
+  // kutunun TAMAMINI kaplıyor, boş alan kalmıyor, bu yüzden Ekle/Düzenle/Sil
+  // popup'ı asla açılamıyordu (sadece satırı "seçili" yapıp duruyordu).
+  // stopPropagation kaldırıldı: artık satıra dokununca hem seçim güncelleniyor
+  // hem de tıklama yukarı taşıp bölüm eylem popup'ını açıyor (tek dokunuşla iki iş).
   document.querySelectorAll(".ck-satir--secilebilir").forEach(function(el){
     el.onclick = function(ev){
-      ev.stopPropagation();
       var tip = this.getAttribute("data-tip");
       var i = parseInt(this.getAttribute("data-i"), 10);
       secimler[tip] = i;
