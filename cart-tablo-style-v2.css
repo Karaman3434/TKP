@@ -1,5 +1,5 @@
 /*
-  cart-tablo-style-v2.css — WG.191026.0112.842
+  cart-tablo-style-v2.css — WG.191026.0310.845
   ================================================================
   Belge Önizleme'de onaylanan tasarım dili (açık gri zemin + türün
   rengi SADECE kendi rozetinde) Sepet/Hesapla tablosuna taşındı
@@ -26,10 +26,12 @@
    kuralları da bugün kaldırıldığı için artık gerek yok: başlık renk
    şimdi belge-style.css'teki standart #c3dcf4'ten, her yerde aynı. */
 
-/* GENEL TOPLAM kutusu — dikey yükseklik DAHA DA azaltıldı (15.10.2026,
-   Abdullah'ın isteğiyle — bu turda kod/tarih şeridi + PRİM ile birlikte
-   üç kutu da dikeyde daraltıldı). */
-body.cart-sayfa .belge-gt-satir { padding: 7px 16px; }
+/* KALDIRILDI (19.10.2026, Abdullah onayı — "TEK TASARIM, KESİN KURAL"):
+   "body.cart-sayfa .belge-gt-satir { padding: 7px 16px; }" burada
+   duruyordu, gonder-tablo-style-v2.css'te de AYNI kutu için 10px 16px
+   vardı — GENEL TOPLAM kutusu 3 ekranda 3 farklı boyda görünüyordu. Artık
+   TEK kaynak: belge-style.css'teki taban kural (12px 16px), her yerde
+   aynı. */
 
 /* KOD/TARİH ŞERİDİ (15.10.2026, Abdullah onayı) — Sepet'te HESAPLANDI
    grubunun üstüne artık Belge Önizleme ile AYNI şerit (.belge-belge-

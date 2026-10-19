@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.191026.0233.843
+  send-render.js — WG.191026.0310.845
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -89,7 +89,10 @@ function mesajMetniOlustur(musteri, sepet, tip, kanal){
 // 2) VADE/FATURA/KARGO üç kutu yerine tek satır (etiket değerin başında).
 // Yeni sınıflar SADECE bu dosyada kullanılır — belge-render.js (Belge
 // Önizleme) eski .belge-kosul-grid / .belge-musteri-baslik yapısını korur.
-var FORM_BASLIK = {numune:"NUMUNE FORMU", teklif:"FİYAT TEKLİFİ FORMU", proforma:"PROFORMA FORMU", siparis:"SİPARİŞ FORMU"};
+// TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı): "FORMU" eki
+// kaldırıldı — Belge Önizleme'nin TIP_ETIKET_BELGE'si ile BİREBİR aynı
+// kelimeler (tek kelime haznesi, iki yerde farklı yazı YOK).
+var FORM_BASLIK = {numune:"NUMUNE", teklif:"FİYAT TEKLİFİ", proforma:"PROFORMA FATURA", siparis:"SİPARİŞ"};
 // TÜRE ÖZEL RENK (12.10.2026, Abdullah onayı): "tip-<tip>" sınıfı eklendi —
 // gerçek renk belge-style.css'teki .belge-form-baslik.tip-* kurallarından
 // geliyor, bu şerit artık belgenin tek renkli göstergesi.
@@ -103,7 +106,7 @@ var FORM_BASLIK = {numune:"NUMUNE FORMU", teklif:"FİYAT TEKLİFİ FORMU", profo
 // önizlemesinde gerçek işlem kodu, giden görselde sadece tarih; bkz.
 // çağıran fonksiyonlar).
 function formBaslikHtml(tip, sagMetin){
-  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span class='belge-form-baslik-etiket'>" + (FORM_BASLIK[tip]||"SİPARİŞ FORMU") + "</span>"
+  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span class='belge-form-baslik-etiket'>" + (FORM_BASLIK[tip]||"SİPARİŞ") + "</span>"
     + (sagMetin ? "<span class='belge-form-baslik-tarih'>" + htmlEsc(sagMetin) + "</span>" : "")
     + "</div>";
 }

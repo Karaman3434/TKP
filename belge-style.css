@@ -1,4 +1,4 @@
-/* belge-style.css — WG.191026.0252.844
+/* belge-style.css — WG.191026.0310.845
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -967,16 +967,15 @@
   min-height: 40px;
   box-sizing: border-box;
 }
-/* BÜYÜTME + EŞİTLEME (19.10.2026, Abdullah onayı — "işlem etiketi ve tarih
-   aynı boyda, %50 büyüsün, kutu boyu SABİT kalsın" isteği): etiket metni
-   ("FİYAT TEKLİFİ FORMU" vb.) eskiden kendi sınıfı olmayan çıplak bir
-   <span> idi, ebeveynden (13.2px) miras alıyordu — artık KENDİ sınıfı
-   (.belge-form-baslik-etiket, 19.8px, +%50) VE bmb-tip'teki ile AYNI
-   nowrap/ellipsis/flex:0 0 auto önlemi var — yoksa büyüyünce alt satıra
-   kayıp kutuyu (min-height:40px, max-height YOK) büyütüyordu (mockup'ta
-   görüldü, S22'de 3 satıra bölünmüştü). */
+/* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı): 19.8px (Gönder/
+   Mail) ile bmb-tip'in 26.25px'i (Belge Önizleme) AYNI "+%50" kuralı farklı
+   taban değerlere (13.2px vs 17.5px) uygulanınca birbirinden FARKLI çıkmıştı
+   — ekranlar arası etiket/tarih harf boyu tutarsızlığına sebep oluyordu.
+   Artık TEK değer: 26.25px, bmb-tip/bmb-alt ile BİREBİR aynı. nowrap/
+   ellipsis/flex:0 0 auto önlemi aynı sebeple duruyor (kutu boyu SABİT,
+   min-height:40px, max-height YOK — büyüyen harf alt satıra kaymasın). */
 .belge-form-baslik-etiket {
-  font-size: 19.8px;
+  font-size: 26.25px;
   line-height: 1;
   min-width: 0;
   white-space: nowrap;
@@ -988,10 +987,10 @@
    başlığın ALTINDA ayrı bir kutuda ("FİYAT TEKLİFİ · tarih") tekrar
    gösteriliyordu — çift gösterimdi. Artık WEICON rozetinin olduğu yerde,
    bu başlığın SAĞINDA, tek satırda — rengi "tip-*" ile boyanmıyor, sabit
-   soluk gri (ikincil bilgi). BÜYÜTME (19.10.2026, aynı tur): 11px->19.8px
-   (+%50), .belge-form-baslik-etiket ile BİREBİR eşit.*/
+   soluk gri (ikincil bilgi). TEK TASARIM — KESİN KURAL (19.10.2026):
+   26.25px, .belge-form-baslik-etiket ve bmb-tip/bmb-alt ile BİREBİR eşit.*/
 .belge-form-baslik-tarih {
-  font-size: 19.8px;
+  font-size: 26.25px;
   line-height: 1;
   font-weight: 600;
   color: #556170;

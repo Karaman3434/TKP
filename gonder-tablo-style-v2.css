@@ -1,5 +1,5 @@
 /*
-  gonder-tablo-style-v2.css — WG.191026.0252.844
+  gonder-tablo-style-v2.css — WG.191026.0310.845
   ================================================================
   Belge Önizleme/Sepet'te onaylanan açık gri zemin dili Gönder
   ekranının ürün tablosuna da taşındı (12.10.2026, Abdullah onayı).
@@ -29,7 +29,11 @@
 /* 1mm KURAL (18.10.2026, Abdullah onayı): sayfanın sağ/sol kenarına olan
    boşluk 1mm'ye sabitlendi. Sadece yatay yön — üst/alt boşluk DEĞİŞMEDİ. */
 .gonder-sayfa .sayfa { padding-left: 1mm; padding-right: 1mm; }
-body.gonder-sayfa .belge-gt-satir { padding: 10px 16px; }
+/* KALDIRILDI (19.10.2026, Abdullah onayı — "TEK TASARIM, KESİN KURAL"):
+   "body.gonder-sayfa .belge-gt-satir { padding: 10px 16px; }" burada
+   duruyordu — artık GEREKSİZ, GENEL TOPLAM kutusu belge-style.css'teki
+   TEK taban kuraldan (12px 16px) geliyor, 3 ekranda da (Sepet/Gönder/
+   Belge Önizleme) birebir aynı boyda. */
 body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   .belge-belge-baslik-serit-metin { color: #249147; }
 body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  .belge-belge-baslik-serit-metin { color: #38469a; }
 body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-proforma .belge-belge-baslik-serit-metin { color: #d2691e; }
