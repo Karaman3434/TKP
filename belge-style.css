@@ -1,4 +1,4 @@
-/* belge-style.css — WG.191026.0310.845
+/* belge-style.css — WG.191026.0329.846
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -307,14 +307,19 @@
   min-height: 40px;
   box-sizing: border-box;
   /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): metin artık ortalı değil,
-     satırın BAŞINDAN başlıyor — ayrıca yazı %20 büyütüldü (11px -> 13.2px).
+     satırın BAŞINDAN başlıyor.
      DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): "flex-start" yerine
      "space-between" yapıldı — tek öğe (metin) varken ikisi GÖRSEL OLARAK
      birebir aynıdır (CSS standardına göre tek flex öğesinde space-between
      = flex-start), ama geçmiş rota çipi eklendiğinde (iki öğe) çip artık
-     şeridin SAĞ UCUNA gidebiliyor — flex-start'ta bu mümkün değildi. */
+     şeridin SAĞ UCUNA gidebiliyor — flex-start'ta bu mümkün değildi.
+     TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı): bu şerit
+     Sepet'in İŞLEM ETİKETİ+TARİH/KOD kutusu — 13.2px kalmıştı, Gönder/Mail
+     (.belge-form-baslik-etiket/tarih) ve Belge Önizleme (.bmb-tip/.bmb-alt)
+     ise 26.25px'e çıkarılmıştı: 3. bir farklı boy. Artık ÜÇÜ DE 26.25px,
+     BİREBİR aynı — "tüm formlarda/sayfalarda aynı olacak" kesin kuralı. */
   justify-content: space-between;
-  font-size: 13.2px;
+  font-size: 26.25px;
 }
 
 /* ÜST BİLGİ ŞERİDİ (08.10.2026, Abdullah'ın isteğiyle) — belge-onizleme.html'de
