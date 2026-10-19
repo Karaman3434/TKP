@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.191026.0351.847
+  cart-render.js — WG.191026.0854.849
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -42,7 +42,9 @@ function crIzinVarMi(anahtar){
   catch(e){ return true; }
 }
 
-var TIP_ETIKET_ROZET = {numune:"NUMUNE", teklif:"FİYAT TEKLİFİ", proforma:"PROFORMA FATURA", siparis:"SİPARİŞ"};
+// KISALTMA — KESİN KURAL (19.10.2026, Abdullah onayı — "%20 büyüt" turu):
+// TIP_ETIKET_BELGE (belge-render.js) ile BİREBİR aynı kısaltmalar.
+var TIP_ETIKET_ROZET = {numune:"NUMUNE", teklif:"F. TEKLİFİ", proforma:"PROFORMA", siparis:"SİPARİŞ"};
 var secilenTip = "siparis";
 var seciliAdresler = {};
 var revizeSecimBekleniyor = null;

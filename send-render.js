@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.191026.0351.847
+  send-render.js — WG.191026.0854.849
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -92,7 +92,9 @@ function mesajMetniOlustur(musteri, sepet, tip, kanal){
 // TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı): "FORMU" eki
 // kaldırıldı — Belge Önizleme'nin TIP_ETIKET_BELGE'si ile BİREBİR aynı
 // kelimeler (tek kelime haznesi, iki yerde farklı yazı YOK).
-var FORM_BASLIK = {numune:"NUMUNE", teklif:"FİYAT TEKLİFİ", proforma:"PROFORMA FATURA", siparis:"SİPARİŞ"};
+// KISALTMA — KESİN KURAL (19.10.2026, Abdullah onayı — "%20 büyüt" turu):
+// TIP_ETIKET_BELGE (belge-render.js) ile BİREBİR aynı kısaltmalar.
+var FORM_BASLIK = {numune:"NUMUNE", teklif:"F. TEKLİFİ", proforma:"PROFORMA", siparis:"SİPARİŞ"};
 // TÜRE ÖZEL RENK (12.10.2026, Abdullah onayı): "tip-<tip>" sınıfı eklendi —
 // gerçek renk belge-style.css'teki .belge-form-baslik.tip-* kurallarından
 // geliyor, bu şerit artık belgenin tek renkli göstergesi.
@@ -269,7 +271,7 @@ function kisiAlanlariniDoldur(kisi){
 }
 
 
-var TIP_ETIKET_BELGE_G = {numune:"NUMUNE", teklif:"FİYAT TEKLİFİ", proforma:"PROFORMA FATURA", siparis:"SİPARİŞ"};
+var TIP_ETIKET_BELGE_G = {numune:"NUMUNE", teklif:"F. TEKLİFİ", proforma:"PROFORMA", siparis:"SİPARİŞ"};
 
 function fmtG2(n){
   return (n||0).toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2});

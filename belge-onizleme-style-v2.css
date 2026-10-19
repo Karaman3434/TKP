@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.191026.0351.847
+  belge-onizleme-style-v2.css — WG.191026.0854.849
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -46,7 +46,11 @@
   padding: 4px 16px;
   letter-spacing: .4px;
   align-items: center;
-  background: #FFFFFF;
+  /* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "simetrik hale
+     getir" turu): "background: #FFFFFF" burada duruyordu — Gönder (#E7E9EE)
+     ve Sepet (#E7E9EE) ile FARKLI zemindi, ölçüm tablosunda ortaya çıktı.
+     Kaldırıldı, artık belge-style.css'teki taban rengi (#E7E9EE) miras
+     alınıyor — 3 ekranda da birebir aynı. */
   /* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "amina koyayım"
      turu): etiket/tarih/kod 26.25px->15.25px küçülünce bu kutu da doğal
      olarak küçülüyordu (28px) — Gönder (.belge-form-baslik, 40px sabit) ve
@@ -98,7 +102,7 @@
    Gönder/Mail (.belge-form-baslik-etiket/tarih/kod) ve Sepet (.belge-belge-
    baslik-serit-metin) ile BİREBİR aynı ölçü. */
 .belge-onizleme-sayfa .bmb-tip {
-  font-size: 13.25px;
+  font-size: 15.9px;
   line-height: 1;
   font-weight: 800;
   min-width: 0;
@@ -108,7 +112,7 @@
   flex: 0 0 auto;
 }
 .belge-onizleme-sayfa .bmb-alt {
-  font-size: 13.25px;
+  font-size: 15.9px;
   font-weight: 600;
   opacity: .85;
   min-width: 0;
@@ -118,7 +122,7 @@
   flex: 0 0 auto;
 }
 .belge-onizleme-sayfa .bmb-kod {
-  font-size: 6.625px;
+  font-size: 7.95px;
   font-weight: 700;
   opacity: .75;
   min-width: 0;

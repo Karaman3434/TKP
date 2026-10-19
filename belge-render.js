@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.191026.0351.847
+  belge-render.js — WG.191026.0854.849
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -28,7 +28,10 @@ function fmt(n){
   return (n||0).toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
-var TIP_ETIKET_BELGE = {numune:"NUMUNE", teklif:"FİYAT TEKLİFİ", proforma:"PROFORMA FATURA", siparis:"SİPARİŞ"};
+// KISALTMA — KESİN KURAL (19.10.2026, Abdullah onayı — "%20 büyüt" turu):
+// "FİYAT TEKLİFİ"->"F. TEKLİFİ", "PROFORMA FATURA"->"PROFORMA" — en uzun
+// etiket kısalınca kutuya %20 daha büyük harfle de kırpılmadan sığıyor.
+var TIP_ETIKET_BELGE = {numune:"NUMUNE", teklif:"F. TEKLİFİ", proforma:"PROFORMA", siparis:"SİPARİŞ"};
 var KOD_ONEK_BELGE = {numune:"NM", teklif:"FT", proforma:"PF", siparis:"SP"};
 // HATA DÜZELTME (WG.090926.196): SP/FT/PF/NM standardından önce oluşan
 // eski belgelerin kodu hâlâ eski önekle (SİP./F.TEK./P.FAT./NUM.)

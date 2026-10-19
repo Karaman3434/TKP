@@ -1,5 +1,5 @@
 /*
-  cart-tablo-style-v2.css — WG.191026.0351.847
+  cart-tablo-style-v2.css — WG.191026.0842.848
   ================================================================
   Belge Önizleme'de onaylanan tasarım dili (açık gri zemin + türün
   rengi SADECE kendi rozetinde) Sepet/Hesapla tablosuna taşındı
@@ -39,9 +39,10 @@
    opts.kodMetni) ekleniyor. Şeridin YAZI rengi işlem türüne göre
    (belge-onizleme-style-v2.css'teki palet ile birebir) — o kural SADECE
    .belge-onizleme-sayfa'ya scope'luydu, burada aynısı cart-sayfa için.
-   Dikey yükseklik SADECE Sepet'te daraltıldı (10px->6px) — Belge
-   Önizleme'deki aynı şeridin kendi boyutuna dokunulmadı. */
-body.cart-sayfa .belge-belge-baslik-serit--mavi { padding: 6px 14px; }
+   KALDIRILDI (19.10.2026, Abdullah onayı — "simetrik hale getir" turu):
+   "padding: 6px 14px;" burada duruyordu — Gönder/Belge Önizleme'nin
+   kutularıyla (4px/16px) FARKLIYDI, ölçüm tablosunda ortaya çıktı. Artık
+   TEK kaynak: belge-style.css'teki taban kural (4px 16px), her yerde aynı. */
 /* TEK RENK — KESİN KURAL (19.10.2026, Abdullah onayı): artık sadece -metin
    (etiket) değil, PARENT (.tip-X) boyanıyor — -tarih ve -kod span'ları
    kendi color'u olmadığı için otomatik miras alır (hepsi aynı renk). */
