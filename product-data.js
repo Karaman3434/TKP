@@ -1,5 +1,5 @@
 /*
-  product-data.js
+  product-data.js — WG.191026.1630.854
   ===============
   TEK görevi: ürün kataloğunu Firebase'den çekmek ve sepet (basket)
   durumunu yönetmek. DOM'a dokunmaz.
@@ -99,30 +99,21 @@ var ProductData = (function(){
         urunlerDinlemeyeBasla(db);
         return;
       }
-      tanilaKaydet("Ürün kataloğu: urunler/ düğümü boş/yok geldi — kökten taşıma deneniyor.");
-      // "urunler/" boş — kökteki eskileri bir kereye mahsus taşı.
-      db.ref("/").once("value").then(function(kokSnap){
-        var tumData = kokSnap.val();
-        var tasinacak = {};
-        if(tumData && typeof tumData === "object" && !Array.isArray(tumData)){
-          Object.keys(tumData).forEach(function(k){
-            if(!isNaN(parseInt(k,10)) && tumData[k] && typeof tumData[k]==="object" && tumData[k].urun){
-              tasinacak[k] = tumData[k];
-            }
-          });
-        }
-        if(Object.keys(tasinacak).length > 0){
-          db.ref("urunler").set(tasinacak).then(function(){
-            urunlerDinlemeyeBasla(db);
-          }).catch(function(err){
-            tanilaKaydet("Ürün kataloğu: urunler/ yoluna taşınamadı (yazma izni sorunu olabilir), geçici olarak kökten okunuyor.", err && err.message);
-            urunlerKoktenOku(db); // yedek yol — taşıma başarısız olursa eski yöntem
-          });
-        } else {
-          tanilaKaydet("Ürün kataloğu: kökte de taşınacak ürün bulunamadı — katalog gerçekten boş görünüyor.");
-          urunlerDinlemeyeBasla(db); // hiç ürün yok, boş urunler/ dinlenir
-        }
-      }).catch(function(err){ tanilaKaydet("Ürün kataloğu: kök okuma hatası (izin sorunu olabilir).", err && err.message); });
+      // HATA DÜZELTME (19.10.2026, Abdullah'ın bildirdiği hata — Hata
+      // Kayıtları'nda günde onlarca kez AYNI iki satır): buradaki eski
+      // "kökten taşıma" denemesi KALDIRILDI. O göç zaten 06.09.2026'da
+      // tek seferlik yapılmıştı (bkz. yukarıdaki not) ve db.ref("/") kökü
+      // TAM O GÜN, GÜVENLİK İÇİN BİLEREK kapatılmıştı — yani kök okuma
+      // denemesi buradan HER SAYFA AÇILIŞINDA garanti "permission_denied"
+      // ile patlıyordu (gerçek bir arıza değildi, beklenen davranıştı).
+      // Daha kötüsü: kök okuma başarısız olunca urunlerDinlemeyeBasla hiç
+      // çağrılmıyordu — yani CANLI Firebase dinleyicisi hiç kurulmuyordu,
+      // sayfa sadece yerel önbellek + yedek JSON ile ayakta duruyordu.
+      // Artık "urunler/" ilk okumada boş gelse bile canlı dinleyici
+      // DOĞRUDAN kuruluyor; veri az sonra gelirse (bağlantı/senkron
+      // gecikmesi) dinleyici kendiliğinden tetiklenip kataloğu günceller.
+      tanilaKaydet("Ürün kataloğu: urunler/ ilk okumada boş geldi, canlı dinleyici yine de kuruluyor.");
+      urunlerDinlemeyeBasla(db);
     }).catch(function(err){ tanilaKaydet("Ürün kataloğu: urunler/ kontrol hatası (izin/bağlantı sorunu olabilir).", err && err.message); });
   }
 
@@ -236,16 +227,9 @@ var ProductData = (function(){
       tanilaKaydet("Ürün kataloğu: canlı dinleme hatası (izin sorunu olabilir).", err && err.message);
     });
   }
-
-  // Sadece taşıma işlemi başarısız olursa devreye giren, eski davranışı
-  // koruyan yedek yol (kalıcı çözüm değildir).
-  function urunlerKoktenOku(db){
-    db.ref("/").on("value", function(snap){
-      katalogGuncelle(snap.val());
-    }, function(err){
-      tanilaKaydet("Ürün kataloğu: kök dinleme hatası.", err && err.message);
-    });
-  }
+  // urunlerKoktenOku KALDIRILDI (19.10.2026) — sadece yukarıdaki, artık
+  // silinen "kökten taşıma" denemesi başarısız olursa çağrılıyordu; db.ref("/")
+  // zaten 06.09.2026'dan beri güvenlik için kapalı, hiçbir zaman çalışamazdı.
 
   function katalogDegistiginde(fn){
     katalogDinleyicileri.push(fn);
