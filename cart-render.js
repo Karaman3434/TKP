@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.191026.0854.849
+  cart-render.js — WG.201026.1130.861
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -558,10 +558,13 @@ function musterisizOzetMetniOlustur(){
 // diğer TÜM belge/gönder ekranlarıyla birebir aynı tasarım). Müşteri
 // kaydı YOK, kayıt yok, İşlem Geçmişi'ne düşmez.
 // GÖNDERİM BİÇİMİ (13.10.2026, Abdullah onayı — mockup üzerinden): "metin"
-// (varsayılan, eski davranış) veya "tablo" (ÜRÜN TABLOSU'nu gerçek PNG
-// görsele çevirip paylaşır — bkz. musterisizTabloGonder). Popup her
-// açıldığında "metin"e sıfırlanır.
-var musterisizBicim = "metin";
+// veya "tablo" (ÜRÜN TABLOSU'nu gerçek PNG görsele çevirip paylaşır — bkz.
+// musterisizTabloGonder).
+// DÜZELTME (20.10.2026, Abdullah'ın isteğiyle): varsayılan artık "tablo" —
+// müşteriye WhatsApp'tan düz yazı değil, ürün bilgisi tablosu (görsel)
+// gitsin istiyor. Popup her açıldığında "tablo"ya sıfırlanır; "Metin"
+// sekmesi hâlâ orada, isterse elle geçebilir.
+var musterisizBicim = "tablo";
 function bicimTiklariniBagla(){
   var btnMetin = document.getElementById("btnBicimMetin");
   var btnTablo = document.getElementById("btnBicimTablo");
@@ -628,12 +631,12 @@ function musterisizOnizlemeAc(){
         primGizli: true,
         genelToplam: toplamlar.toplamEuro
       });
-    musterisizBicim = "metin";
+    musterisizBicim = "tablo";
     var btnMetinEl = document.getElementById("btnBicimMetin");
     var btnTabloEl = document.getElementById("btnBicimTablo");
     if(btnMetinEl && btnTabloEl){
-      btnMetinEl.classList.add("sekme-btn--secili");
-      btnTabloEl.classList.remove("sekme-btn--secili");
+      btnTabloEl.classList.add("sekme-btn--secili");
+      btnMetinEl.classList.remove("sekme-btn--secili");
     }
     document.getElementById("musterisizGonderOverlay").hidden = false;
   }catch(e){ hataGoster("Önizleme açılamadı: " + e.message); }

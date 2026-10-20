@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.201026.1005.858
+  send-render.js — WG.201026.1130.860
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -656,7 +656,25 @@ function gonderTiklandi(kanal, ozelKonu){
         // navigator.clipboard.writeText(konu) çağrıları) — gövdeye bir de
         // burada eklenince mail gövdesinde KONU metni İKİ KEZ görünüyordu.
         // Gövde artık kanal farketmeksizin SADECE mesaj metni.
+        //
+        // DÜZELTME (20.10.2026, Abdullah'ın iPhone'da bildirdiği hata, Mail
+        // ekran görüntüsüyle doğrulandı): "Merhaba," satırı ile devamı
+        // arasında olması gerekenden çok daha büyük bir boşluk çıkıyordu.
+        // Sebep yukarıdaki 28.09.2026 notuyla aynı kökten: iOS Mail,
+        // paylaşım sayfasından gelen metindeki her normal satır sonunu ayrı
+        // bir PARAGRAF gibi işleyip aralarına ekstra boşluk ekliyor (mailto
+        // gövdesindeki aynı sorunun navigator.share sürümü). 28.09.2026'da
+        // bu, mail kanalı dahil TÜM paylaşımlar için özel bir satır-ayırıcı
+        // karaktere çevrilmeye çalışılmış ama o zaman Android'deki
+        // Gmail/Outlook satırı hiç atlamaz hale gelmiş, o yüzden geri
+        // alınmıştı. Artık sadece iOS cihazlarda (iPhone/iPad), ve sadece
+        // mail kanalında, aynı özel karakter kullanılıyor; Android'de (S22)
+        // ve WhatsApp'ta hiçbir şey değişmedi, davranışları eskisi gibi.
         var paylasimMetni = metin;
+        if(kanal === "mail" && /iPhone|iPad|iPod/i.test(navigator.userAgent || "")){
+          var satirAyiriciOzelKarakter = String.fromCharCode(8232);
+          paylasimMetni = metin.split("\n").join(satirAyiriciOzelKarakter);
+        }
 
         if(navigator.canShare && navigator.canShare({files:[dosya]})){
           navigator.share({files:[dosya], title:konuMetni, text:paylasimMetni}).then(function(){
