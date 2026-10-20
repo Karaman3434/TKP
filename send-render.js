@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.191026.0854.849
+  send-render.js — WG.201026.1005.858
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -324,12 +324,17 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   var seciliYetkili = yetkililer[yki];
   var yetkiliBilgiHtml = seciliYetkili ? HareketTablo.yetkiliSatiriHtml(seciliYetkili.isim, seciliYetkili.telefon, seciliYetkili.eposta) : "";
 
-  // Giden görselde dahili belge kodu (F.TEK.../SİP...) GÖSTERİLMEZ — sadece
-  // tarih. (Sistem içi görünümde — belge-onizleme.html — kod hâlâ gösterilir,
-  // o ayrı bir fonksiyon/dosyadır.) GÜNCELLEME (19.10.2026, Abdullah onayı):
-  // bu artık ayrı bir şeritte DEĞİL, üstteki başlığın yanında (bkz.
-  // formBaslikHtml çağrıları aşağıda) — tür zaten başlıkta yazdığı için
-  // burada sadece tarih geçiliyor (tekrar "tür · tarih" olmasın diye).
+  // Giden görselde dahili işlem kısa kodu (FT001... gibi) GÖSTERİLMEZ —
+  // sadece tarih. HATA DÜZELTME (20.10.2026, Abdullah'ın bildirdiği hata —
+  // WhatsApp ekran görüntüsüyle doğrulandı): 19.10.2026'daki "başlığın
+  // yanına taşı" güncellemesinde formBaslikHtml çağrılarına yanlışlıkla
+  // `kod` DEĞİŞKENİ geçiriliyordu, bu yüzden bu kural burada BOZULMUŞTU —
+  // kısa kod müşteriye/merkeze giden gerçek görselde (belgeGorselHtmlOlustur,
+  // html2canvas ile yakalanan asıl paylaşılan resim) görünüyordu. Aşağıdaki
+  // iki formBaslikHtml çağrısına artık BİLEREK null geçiliyor — kısa kod
+  // SADECE programın kendi içinde (Belge Önizleme, Gönder'in canlı
+  // önizlemesi/Mail-WhatsApp önizleme sheet'leri — hepsi ayrı fonksiyonlar)
+  // gösterilir, gerçekten gönderilen/kopyalanan görselde asla basılmaz.
 
   // Cari Bilgi bloğu — WhatsApp'ta SADECE müşteri adı ve şehir gösterilir
   // (vade, fatura, kargo, adresler, yetkili bilgisi YOK). Mail'de hâlâ TAM
@@ -337,7 +342,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   // olmadan) ayrı bir tercih, aynı "basit" bayrağını paylaşıyor.
   var cariBaslikHtml, cariGovdeHtml;
   if(basit){
-    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr, kod)
+    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr, null)
       + "<div class='belge-musteri-govde'>"
       + "<div class='belge-musteri-ad belge-musteri-ad--sade'>" + htmlEsc(musteri.ad) + "</div>"
       + (musteri.sehir ? "<div class='belge-musteri-sehir'>" + htmlEsc(musteri.sehir) + "</div>" : "")
@@ -350,7 +355,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     // GERÇEK görselde müşteri cari kodu ("M-0017") HİÇ basılmaz — son
     // parametre (true) SADECE burada verilir, programın başka hiçbir yerinde
     // (Cari Kart, Sepet, Gönder'in canlı önizlemesi, Belge Önizleme) yok.
-    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr, kod) + "</div>";
+    cariBaslikHtml = "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr, null) + "</div>";
     cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : [], true);
   }
 
