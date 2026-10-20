@@ -1,5 +1,5 @@
 /*
-  foto-doldur.js — WG.151026.1015.825
+  foto-doldur.js — WG.201026.1045.859
   =====================================
   "📷 Fotoğraf/Ekran Görüntüsünden Doldur" — TEK KAYNAK paylaşılan modül
   (15.10.2026, Abdullah'ın isteğiyle, eski tek-dosyalık v1 uygulamadaki
@@ -71,18 +71,56 @@ var FotoDoldur = (function(){
     document.getElementById("fdSecBaslik").textContent = "⏳ Fotoğraf okunuyor...";
     document.querySelector("#fdSecOverlay .sheet-alt").textContent = "Bu birkaç saniye sürebilir, lütfen bekleyin.";
 
-    var reader = new FileReader();
-    reader.onload = function(){
-      var dataUrl = reader.result; // "data:image/jpeg;base64,xxxx"
+    // HATA DÜZELTME (20.10.2026, Abdullah'ın bildirdiği hata — "AI
+    // servisinden geçerli bir yanıt alınamadı"): iPhone'da "Kamera ile Çek"
+    // veya galeriden HEIC formatlı bir fotoğraf seçilince, eskiden dosya
+    // OLDUĞU GİBİ (image/heic MIME tipiyle) sunucuya gidiyordu — OpenAI'nin
+    // görsel API'si HEIC'i desteklemiyor, bu yüzden arka uç OpenAI'den
+    // 400 benzeri bir hata alıp bu genel mesajı döndürüyordu. Artık her
+    // fotoğraf, göndermeden önce tarayıcıda (OS'un kendi HEIC çözücüsü
+    // üzerinden) bir canvas'a çizilip JPEG'e çevriliyor — hem format
+    // sorunu çözülüyor hem de dosya boyutu küçülüp daha hızlı yükleniyor.
+    // Tarayıcı bu dönüşümü desteklemiyorsa (eski/az rastlanan durum),
+    // eskisi gibi dosyayı OLDUĞU GİBİ göndermeye geri dönülüyor.
+    resmiJpegeCevir(dosya).then(function(dataUrl){
       var virgul = dataUrl.indexOf(",");
-      var mimeType = dataUrl.substring(5, dataUrl.indexOf(";"));
       var base64 = dataUrl.substring(virgul + 1);
-      sunucuyaGonder(base64, mimeType);
-    };
-    reader.onerror = function(){
-      tamamlaHata("Fotoğraf okunamadı, tekrar deneyin.");
-    };
-    reader.readAsDataURL(dosya);
+      sunucuyaGonder(base64, "image/jpeg");
+    }).catch(function(){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataUrl = reader.result; // "data:image/jpeg;base64,xxxx"
+        var virgul = dataUrl.indexOf(",");
+        var mimeType = dataUrl.substring(5, dataUrl.indexOf(";"));
+        var base64 = dataUrl.substring(virgul + 1);
+        sunucuyaGonder(base64, mimeType);
+      };
+      reader.onerror = function(){
+        tamamlaHata("Fotoğraf okunamadı, tekrar deneyin.");
+      };
+      reader.readAsDataURL(dosya);
+    });
+  }
+
+  // Dosyayı (HEIC dahil, tarayıcı/OS destekliyorsa) bir canvas'a çizip
+  // JPEG data URL'i olarak döner — OpenAI'nin görsel API'si sadece
+  // png/jpeg/webp/gif kabul ediyor, HEIC'i değil. Uzun kenar 1600px'e
+  // indirilir (okuma kalitesini etkilemez, yükleme hızını artırır).
+  function resmiJpegeCevir(dosya){
+    if(typeof createImageBitmap !== "function"){
+      return Promise.reject(new Error("createImageBitmap desteklenmiyor"));
+    }
+    return createImageBitmap(dosya).then(function(bitmap){
+      var maxKenar = 1600;
+      var olcek = Math.min(1, maxKenar / Math.max(bitmap.width, bitmap.height));
+      var canvas = document.createElement("canvas");
+      canvas.width = Math.round(bitmap.width * olcek);
+      canvas.height = Math.round(bitmap.height * olcek);
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      if(bitmap.close) bitmap.close();
+      return canvas.toDataURL("image/jpeg", 0.85);
+    });
   }
 
   function sunucuyaGonder(base64, mimeType){
