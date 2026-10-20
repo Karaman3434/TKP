@@ -1,5 +1,5 @@
 /*
-  customer-add-render.js — WG.151026.1015.825
+  customer-add-render.js — WG.201026.0610.857
   =======================
   Sadece yeni müşteri ekleme formunun mantığı. customer-render.js'ten
   ayrı — o dosya artık sadece LİSTE ile ilgileniyor.
@@ -56,6 +56,35 @@ document.addEventListener("DOMContentLoaded", function(){
       doldurBosIse("yeniMusteriTelefon", veri.telefon);
       doldurBosIse("yeniMusteriEposta", veri.eposta);
       doldurBosIse("yeniMusteriTeslimatAdresi", veri.teslimatAdresi);
+      // EKLENDİ (20.10.2026, Abdullah onayı): aynı fotoğrafta yetkili kişi
+      // bilgisi de varsa (örn. kartvizitteki isim/unvan), Yetkili Kişi
+      // kutusu da aynı anda dolsun — ayrıca fotoğraf çekmeye gerek kalmaz.
+      doldurBosIse("yeniMusteriYIsim", veri.yetkiliIsim);
+      doldurBosIse("yeniMusteriYGorev", veri.yetkiliGorev);
+      doldurBosIse("yeniMusteriYTelefon", veri.telefon);
+      doldurBosIse("yeniMusteriYEposta", veri.eposta);
+    });
+  };
+
+  // EKLENDİ (20.10.2026, Abdullah onayı — "Yeni Müşteri'de Yetkili Kişi"
+  // turu): Teslimat Adresi ve Yetkili Kişi kutularının artık KENDİ ayrı
+  // 📷 butonu var — üstteki ana kartvizit fotoğrafından farklı, ayrı bir
+  // belge (örn. kargo etiketi) yüklenmek istenirse diye. Cari Kart'taki
+  // aynı mantığın (formAlanlariniFotoIleDoldur) birebir karşılığı.
+  var btnTeslimatFoto = document.getElementById("btnTeslimatFotoDoldur");
+  if(btnTeslimatFoto) btnTeslimatFoto.onclick = function(){
+    FotoDoldur.ac(function(veri){
+      doldurBosIse("yeniMusteriTeslimatAdresi", veri.teslimatAdresi || veri.acikAdres);
+    });
+  };
+
+  var btnYetkiliFoto = document.getElementById("btnYetkiliFotoDoldur");
+  if(btnYetkiliFoto) btnYetkiliFoto.onclick = function(){
+    FotoDoldur.ac(function(veri){
+      doldurBosIse("yeniMusteriYIsim", veri.yetkiliIsim);
+      doldurBosIse("yeniMusteriYGorev", veri.yetkiliGorev);
+      doldurBosIse("yeniMusteriYTelefon", veri.telefon);
+      doldurBosIse("yeniMusteriYEposta", veri.eposta);
     });
   };
 
@@ -69,7 +98,14 @@ document.addEventListener("DOMContentLoaded", function(){
       telefon: document.getElementById("yeniMusteriTelefon").value,
       eposta: document.getElementById("yeniMusteriEposta").value,
       kargo: document.getElementById("yeniMusteriKargo").value,
-      teslimatAdresi: document.getElementById("yeniMusteriTeslimatAdresi").value
+      teslimatAdresi: document.getElementById("yeniMusteriTeslimatAdresi").value,
+      // EKLENDİ (20.10.2026, Abdullah onayı): Yetkili Kişi kutusu artık
+      // Yeni Müşteri formunda da var — doluysa customer-data.js kayda
+      // ilk iletişim kaydı olarak ekliyor.
+      yIsim: document.getElementById("yeniMusteriYIsim").value,
+      yGorev: document.getElementById("yeniMusteriYGorev").value,
+      yTelefon: document.getElementById("yeniMusteriYTelefon").value,
+      yEposta: document.getElementById("yeniMusteriYEposta").value
     };
 
     var benzerler = CustomerData.benzerMusterileriBul(bilgi.ad);

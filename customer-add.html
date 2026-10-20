@@ -65,12 +65,28 @@
         <input type="email" id="yeniMusteriEposta" placeholder="E-posta">
       </div>
     </div>
-    <div class="yardim-notu">💡 Belirli bir kişi (isim) eklemek isterseniz, kaydettikten sonra müşteri kartından "Yetkili Kişi Ekle" ile ekleyebilirsiniz.</div>
-
+    <!-- EKLENDİ (20.10.2026, Abdullah onayı — mockup üzerinden): Teslimat
+         Adresi ve Yetkili Kişi artık Cari Kart'taki gibi KENDİ 📷 butonuna
+         sahip; Yetkili Kişi kutusu da bu ekrana (kaydetmeden önce) eklendi. -->
     <div class="ic-kutu">
       <div class="ic-kutu-baslik">🚚 Teslimat Adresi (varsa, opsiyonel)</div>
+      <button class="form-foto-doldur-btn" type="button" id="btnTeslimatFotoDoldur">📷 Fotoğraf/Ekran Görüntüsünden Doldur</button>
       <textarea id="yeniMusteriTeslimatAdresi" placeholder="Teslimat adresi" rows="2"></textarea>
     </div>
+
+    <div class="ic-kutu">
+      <div class="ic-kutu-baslik">👤 Yetkili Kişi (varsa, opsiyonel)</div>
+      <button class="form-foto-doldur-btn" type="button" id="btnYetkiliFotoDoldur">📷 Fotoğraf/Ekran Görüntüsünden Doldur</button>
+      <div class="form-satir-2">
+        <input type="text" id="yeniMusteriYIsim" placeholder="İsim Soyisim">
+        <input type="text" id="yeniMusteriYGorev" placeholder="Görev">
+      </div>
+      <div class="form-satir-2" style="margin-top:10px">
+        <input type="tel" id="yeniMusteriYTelefon" placeholder="Telefon">
+        <input type="email" id="yeniMusteriYEposta" placeholder="E-posta">
+      </div>
+    </div>
+    <div class="yardim-notu">💡 Daha fazla yetkili kişi eklemek isterseniz, kaydettikten sonra müşteri kartından "Yetkili Kişi Ekle" ile ekleyebilirsiniz.</div>
 
     <button class="form-kaydet-btn form-kaydet-btn--buyuk" id="btnYeniMusteriKaydet">YENİ MÜŞTERİ BİLGİLERİNİ KAYDET</button>
   </section>
@@ -83,11 +99,11 @@
 <script src="firebase-config.js?v=WG.011026.2340.706"></script>
 <script src="auth.js?v=WG.051026.1055.730"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
-<script src="customer-data.js?v=WG.191026.0112.842"></script>
+<script src="customer-data.js?v=WG.201026.0610.857"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
 <script src="weicon-ai-config.js?v=WG.191026.1930.856"></script>
 <script src="foto-doldur.js?v=WG.181026.2315.834"></script>
-<script src="customer-add-render.js?v=WG.181026.2315.834"></script>
+<script src="customer-add-render.js?v=WG.201026.0610.857"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=WG.151026.1455.828"></script>
 </body>

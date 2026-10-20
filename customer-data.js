@@ -1,5 +1,5 @@
 /*
-  customer-data.js
+  customer-data.js — WG.201026.0610.857
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -597,7 +597,6 @@ var CustomerData = (function(){
         eposta: (bilgi.eposta||"").trim(),
         kargo: (bilgi.kargo||"").trim(),
         ziyaretGecmisi: [],
-        iletisimler: [],
         // Kural: ekstra/ayrı bir fatura adresi girilmediği sürece, müşteri
         // eklenirken girilen İLK adres (Açık Adres) otomatik olarak Fatura
         // Adresi sayılır — "Fatura Adresi: Girilmemiş" görünüp de aslında
@@ -607,6 +606,20 @@ var CustomerData = (function(){
           : [],
         teslimatAdresleri: (bilgi.teslimatAdresi && bilgi.teslimatAdresi.trim())
           ? [{etiket:"Teslimat Adresi", adres: bilgi.teslimatAdresi.trim()}]
+          : [],
+        // EKLENDİ (20.10.2026, Abdullah onayı — "Yeni Müşteri'de Yetkili Kişi"
+        // turu): artık Yeni Müşteri formunda da (kaydetmeden önce) bir yetkili
+        // kişi girilebiliyor — girildiyse ilk iletişim kaydı olarak eklenir;
+        // isim formatı Cari Kart'taki Yetkili Ekle ile AYNI kurala uyar
+        // (yetkiliIsimDurumuYap). Girilmediyse eskisi gibi boş dizi kalır,
+        // kullanıcı sonradan Cari Kart'tan ekleyebilir.
+        iletisimler: (bilgi.yIsim && bilgi.yIsim.trim())
+          ? [{
+              isim: yetkiliIsimDurumuYap(bilgi.yIsim.trim()),
+              gorev: (bilgi.yGorev||"").trim(),
+              telefon: (bilgi.yTelefon||"").trim(),
+              eposta: (bilgi.yEposta||"").trim()
+            }]
           : []
       };
       tazeListe.unshift(yeniKayit);
