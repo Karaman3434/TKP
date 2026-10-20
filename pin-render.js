@@ -1,5 +1,5 @@
 /*
-  pin-render.js
+  pin-render.js — WG.201026.1615.863
   =============
   4 haneli tuş takımı + gizli input ile PIN toplar, pinDogrula() ile
   kontrol eder, doğruysa aktivite zamanını güncelleyip home.html'e döner.
@@ -51,14 +51,22 @@ function pinEkraniniSifirla(){
 // weicon_pin_donus_sayfa'ya kaydeder. PIN doğru girilince oraya dönülür;
 // kayıt yoksa (örn. login sonrası ilk PIN kurulumu) Ana Sayfa'ya gidilir.
 // pin.html/login.html gibi döngüye sokacak sayfalar asla hedef olamaz.
+//
+// 30 DAKİKA EŞİĞİ (20.10.2026, Abdullah'ın isteğiyle): "kaldığı yerden
+// devam" artık sadece 30 dakikadan KISA bir ayrılıkta geçerli. auth.js
+// aynı anda weicon_pin_donus_uzun_sure'u da kaydediyor ("1" = 30 dakikadan
+// uzun süre dokunulmamış) — "1" ise PIN doğru girilse bile o yarım kalmış
+// ekrana değil doğrudan Ana Sayfa'ya gidilir.
 function pinBasariliYonlendir(){
   var hedef = "home.html";
   try{
     var kayitli = localStorage.getItem("weicon_pin_donus_sayfa");
-    if(kayitli && kayitli.indexOf("pin.html") === -1 && kayitli.indexOf("login.html") === -1){
+    var uzunSureGecmis = localStorage.getItem("weicon_pin_donus_uzun_sure") === "1";
+    if(kayitli && !uzunSureGecmis && kayitli.indexOf("pin.html") === -1 && kayitli.indexOf("login.html") === -1){
       hedef = kayitli;
     }
     localStorage.removeItem("weicon_pin_donus_sayfa");
+    localStorage.removeItem("weicon_pin_donus_uzun_sure");
   }catch(e){}
   window.location.href = hedef;
 }
