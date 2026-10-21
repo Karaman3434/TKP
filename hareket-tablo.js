@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — WG.191026.1332.852
+  hareket-tablo.js — WG.211026.1500.903
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -39,16 +39,29 @@ var HareketTablo = (function(){
     return "<div class='belge-net-tl'>≈ " + Math.round(netEuro*kur).toLocaleString("tr-TR") + " TL</div>";
   }
 
-  // BAKİYE NOTU (07.10.2026, Abdullah'ın isteğiyle) — ürün satırının altına
-  // DEĞİL, TÜM tablonun altına, tek ve tek seferlik bir not: siparişte
-  // bakiyede bırakılan herhangi bir ürün varsa gösterilir. Hangi ürün/kaç
-  // adet olduğu burada YAZILMAZ — o bilgi zaten "Düzenle" ekranında/kayıtta
-  // duruyor, bu sadece "dikkat, bu siparişte bekleyen var" uyarısıdır.
+  // BAKİYE NOTU (07.10.2026 → 21.10.2026 güncellemesi, Abdullah'ın isteğiyle)
+  // — ürün satırının altına DEĞİL, TÜM tablonun altına, tek ve tek seferlik
+  // bir not: siparişte bekleyen/bakiyede ürün varsa gösterilir. "Tamamen
+  // bekleyen" (elde hiç yok, adet=0) ile "kısmi bakiye" (adet>0) SAYICA
+  // ayrı ayrı bildirilir — hangi ürün/kaç adet olduğu burada YAZILMAZ (o
+  // bilgi zaten "Düzenle" ekranında/kayıtta duruyor), bu sadece "dikkat,
+  // bu siparişte bekleyen var" uyarısıdır. Bu fonksiyon send-render.js
+  // (WhatsApp/e-posta) tarafından da kullanıldığı için metin MÜŞTERİYE
+  // UYGUN kalmalı — iç kısa kod/ürün adı/adet detayı asla eklenmez.
   function bakiyeNotuGerekliMi(urunler){
     return (urunler||[]).some(function(u){ return (u.bakiyeAdet||0) > 0; });
   }
   function bakiyeNotuHtml(urunler){
-    return bakiyeNotuGerekliMi(urunler) ? "<div class='belge-siparis-bakiye-not'>📦 Bu siparişte bekleyen ürün var</div>" : "";
+    var tamamenYok = 0, kismiBakiye = 0;
+    (urunler||[]).forEach(function(u){
+      if(!((u.bakiyeAdet||0) > 0)) return;
+      if((u.adet||0) > 0) kismiBakiye++; else tamamenYok++;
+    });
+    if(!tamamenYok && !kismiBakiye) return "";
+    var parcalar = [];
+    if(tamamenYok) parcalar.push("🚫 " + tamamenYok + " ürün tamamen bekliyor");
+    if(kismiBakiye) parcalar.push("📦 " + kismiBakiye + " üründe bakiye var");
+    return "<div class='belge-siparis-bakiye-not'>" + parcalar.join(" · ") + "</div>";
   }
 
   function satirlarHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur){

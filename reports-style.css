@@ -367,6 +367,15 @@
 }
 .duzenle-bakiye-alan input.duzenle-bakiye-adet { margin-bottom: 7px; text-align: center; }
 .duzenle-bakiye-alan input.duzenle-bakiye-not { font-weight: 500; font-size: 12px; }
+
+/* "TAMAMI BEKLİYOR" KIRMIZI VARYANT (21.10.2026, Abdullah'ın isteğiyle) —
+   Adet=0 ise (elde hiç yok) panel kısmi-bakiye amber yerine kırmızı vurgu
+   alır; buton metni/yapısı DEĞİŞMİYOR, sadece bakiyeModuGuncelle() bu
+   sınıfı ekleyip/çıkarıyor (bkz. belge-render.js). */
+.duzenle-bakiye-alan--yok { border-color: #c0392b; background: #fff8f7; }
+.duzenle-bakiye-alan--yok .duzenle-bakiye-alan-baslik { color: #c0392b; }
+.duzenle-bakiye-alan--yok .duzenle-bakiye-kapat { color: #c0392b; }
+.duzenle-bakiye-alan--yok input { border-color: #f0b4ac; }
 .duzenle-urun-arama-input {
   width: 100%;
   box-sizing: border-box;
@@ -945,3 +954,20 @@
 .tl-kart--bekleyen .tl-serit { background: #faeeda; border: 1.5px solid #b7601f;}
 .bekleyen-not { font-size: 11px; font-weight: 700; color: #b7601f; padding: 0 8px 8px 8px; }
 .bekleyen-not--bos { color: #b7601f; font-weight: 600; }
+
+/* .bu-kart* — "Bakiyedeki / Bekleyen Ürünler" ekranına ÖZEL kart sınıfları
+   (21.10.2026, Abdullah'ın isteğiyle). Diğer liste ekranlarının (Son
+   İşlemler, Müşteri Geçmişi, Satış Listesi, Kaçan Satışlar) paylaşılan
+   .tl-kart/.tl-govde yapısına BİLEREK dokunulmadı — onlarda regresyon
+   riski almamak için bu ekran kendi sınıflarını kullanıyor.
+   KESİN KURAL: ne müşteri satırı ne de durum notu hiçbir koşulda 2
+   satırın üzerine taşmaz — nowrap+ellipsis ile zorlanıyor. */
+.bu-kart{ display:flex; align-items:stretch; background:#fff; cursor:pointer; }
+.bu-kart-serit{ width:4px; flex-shrink:0; }
+.bu-kart-govde{ flex:1; min-width:0; padding:7px 8px; }
+.bu-kart-satir1{ display:flex; align-items:center; gap:6px; }
+.bu-kart-musteri{ flex:1; min-width:0; font-size:11.7px; font-weight:400; color:#111827; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.bu-kart-sag{ flex-shrink:0; font-size:9.9px; color:#042c53; white-space:nowrap; }
+.bu-kart-ok{ flex-shrink:0; width:16px; height:16px; display:flex; align-items:center; justify-content:center; background:none; border:none; padding:0; }
+.bu-kart-satir2{ margin-top:4px; font-size:11px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.bu-kart-ayrac{ height:0; border:0; border-top:1px solid #d3d7de; margin-left:4px; }

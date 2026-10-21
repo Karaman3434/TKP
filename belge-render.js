@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.191026.1325.851
+  belge-render.js — WG.211026.1500.904
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -475,14 +475,40 @@ var duzenlemeUrunDegisiklikleri = {}; // { i: {ad, berta, abas} } — "🔄 Ür�
 // merkez "stokta yok / şu kadar gönderebiliriz" dedikten SONRA, siparişi
 // İşlem Geçmişi'nden açıp Düzenle'ye girince burada girilir. "Adet" alanı
 // HER ZAMAN gönderilen/faturalanan miktar olarak kalır, bakiye ayrı metadata.
+//
+// AKILLI TEK BUTON (21.10.2026 güncellemesi, Abdullah'ın isteğiyle): "elde
+// hiç yok" (adet=0, tamamen bekliyor) ile "kısmen var" (adet>0, kalanı
+// bakiyede) ayrımı YENİ bir alan eklenmeden, salt mevcut "Adet" kutusunun
+// değerinden türetilir. Buton metni HER ZAMAN aynı ("📦 Bakiye/Bekleyen
+// Ekle") — sadece tıklanınca açılan PANELİN başlığı/rengi Adet'e göre
+// değişir (0 ise kırmızı "🚫 Tamamı Bekliyor", >0 ise amber "📦 Bakiyede
+// Kalan Adet"). bakiyeModuGuncelle(i) bu modu her zaman güncel tutar —
+// panel ilk açılırken VE kullanıcı Adet kutusunu sonradan değiştirirse.
 function bakiyeAlaniHtml(u, i){
   var varMi = u.bakiyeAdet > 0;
-  return "<div class='duzenle-bakiye-link' id='duzenleBakiyeLink-" + i + "' data-bakiye-i='" + i + "'" + (varMi ? " hidden" : "") + ">📦 Bakiye Ekle</div>"
-    + "<div class='duzenle-bakiye-alan' id='duzenleBakiyeAlan-" + i + "'" + (varMi ? "" : " hidden") + ">"
-    + "<div class='duzenle-bakiye-alan-baslik'><span>📦 Bakiyede Kalan Adet</span><button type='button' class='duzenle-bakiye-kapat' data-bakiye-i='" + i + "'>✕</button></div>"
+  var tamamenYokMu = !((u.adet||0) > 0);
+  var alanSinif = tamamenYokMu ? " duzenle-bakiye-alan--yok" : "";
+  var baslikMetni = tamamenYokMu ? "🚫 Tamamı Bekliyor — elde hiç yok" : "📦 Bakiyede Kalan Adet";
+  return "<div class='duzenle-bakiye-link' id='duzenleBakiyeLink-" + i + "' data-bakiye-i='" + i + "'" + (varMi ? " hidden" : "") + ">📦 Bakiye/Bekleyen Ekle</div>"
+    + "<div class='duzenle-bakiye-alan" + alanSinif + "' id='duzenleBakiyeAlan-" + i + "'" + (varMi ? "" : " hidden") + ">"
+    + "<div class='duzenle-bakiye-alan-baslik'><span id='duzenleBakiyeBaslik-" + i + "'>" + baslikMetni + "</span><button type='button' class='duzenle-bakiye-kapat' data-bakiye-i='" + i + "'>✕</button></div>"
     + "<input type='number' step='1' min='0' class='duzenle-bakiye-adet' id='duzenleBakiyeAdet-" + i + "' placeholder='0' value='" + (varMi ? u.bakiyeAdet : "") + "'>"
     + "<input type='text' class='duzenle-bakiye-not' id='duzenleBakiyeNot-" + i + "' placeholder='Not (opsiyonel) — örn. ne zaman tamamlanacak' value='" + htmlEsc(u.bakiyeNot||"") + "'>"
     + "</div>";
+}
+
+// Panel modunu (renk + başlık) kayıttaki "Adet" kutusunun ANLIK değerine
+// göre günceller — panel ilk açılırken ve Adet sonradan değiştirilince
+// çağrılır, bkz. duzenlemeAc().
+function bakiyeModuGuncelle(i){
+  var adetEl = document.querySelector("[data-alan='adet'][data-i='" + i + "']");
+  var adet = adetEl ? (parseFloat(adetEl.value) || 0) : 0;
+  var tamamenYokMu = !(adet > 0);
+  var alanEl = document.getElementById("duzenleBakiyeAlan-" + i);
+  var baslikEl = document.getElementById("duzenleBakiyeBaslik-" + i);
+  if(!alanEl || !baslikEl) return;
+  alanEl.classList.toggle("duzenle-bakiye-alan--yok", tamamenYokMu);
+  baslikEl.textContent = tamamenYokMu ? "🚫 Tamamı Bekliyor — elde hiç yok" : "📦 Bakiyede Kalan Adet";
 }
 
 function duzenlemeAc(k){
@@ -504,7 +530,7 @@ function duzenlemeAc(k){
       + "<div class='duzenle-alan-grid'>"
       + "<div class='duzenle-alan'><label class='duzenle-etiket'>Liste Fiyat</label><input type='number' step='0.01' data-alan='listeFiyat' data-i='" + i + "' value='" + (u.listeFiyat||0) + "'></div>"
       + "<div class='duzenle-alan'><label class='duzenle-etiket'>İskonto %</label><input type='number' step='0.1' data-alan='iskonto' data-i='" + i + "' value='" + (u.iskonto||0) + "'></div>"
-      + "<div class='duzenle-alan'><label class='duzenle-etiket'>Adet</label><input type='number' step='1' data-alan='adet' data-i='" + i + "' value='" + (u.adet||1) + "'></div>"
+      + "<div class='duzenle-alan'><label class='duzenle-etiket'>Adet</label><input type='number' step='1' min='0' data-alan='adet' data-i='" + i + "' value='" + (u.adet != null ? u.adet : 1) + "'></div>"
       + "<div class='duzenle-alan'><label class='duzenle-etiket'>Dip Fiyat</label><input type='number' step='0.01' data-alan='dipFiyat' data-i='" + i + "' value='" + (u.dipFiyat||0) + "'></div>"
       + "</div>"
       + bakiyeAlaniHtml(u, i)
@@ -514,6 +540,7 @@ function duzenlemeAc(k){
   kapsayici.querySelectorAll(".duzenle-bakiye-link").forEach(function(link){
     link.onclick = function(){
       var i = this.getAttribute("data-bakiye-i");
+      bakiyeModuGuncelle(i); // panel açılırken Adet'in O ANKİ değerine göre mod (yok/kısmi) belirlenir
       document.getElementById("duzenleBakiyeLink-" + i).hidden = true;
       document.getElementById("duzenleBakiyeAlan-" + i).hidden = false;
       document.getElementById("duzenleBakiyeAdet-" + i).focus();
@@ -527,6 +554,13 @@ function duzenlemeAc(k){
       document.getElementById("duzenleBakiyeAlan-" + i).hidden = true;
       document.getElementById("duzenleBakiyeLink-" + i).hidden = false;
     };
+  });
+  // Kullanıcı panel AÇIKKEN Adet kutusunu değiştirirse (örn. 0'dan 50'ye
+  // çıkarırsa), panel modu (renk/başlık) canlı güncellensin.
+  kapsayici.querySelectorAll("[data-alan='adet']").forEach(function(input){
+    input.addEventListener("input", function(){
+      bakiyeModuGuncelle(this.getAttribute("data-i"));
+    });
   });
 
   kapsayici.querySelectorAll(".duzenle-urun-sil-btn").forEach(function(btn){
@@ -592,7 +626,12 @@ function duzenlemeKaydet(){
       if(duzenlemeSilinenIndeksler.indexOf(i) >= 0) return; // silinmiş ürün, atla
       var listeFiyat = parseFloat(document.querySelector("[data-alan='listeFiyat'][data-i='"+i+"']").value)||0;
       var iskonto = parseFloat(document.querySelector("[data-alan='iskonto'][data-i='"+i+"']").value)||0;
-      var adet = parseFloat(document.querySelector("[data-alan='adet'][data-i='"+i+"']").value)||1;
+      // DÜZELTME (21.10.2026): "||1" ile Adet=0 YANLIŞLIKLA 1'e dönüşüyordu
+      // (JS'te 0 "falsy") — bu da "elde hiç yok" (Adet=0) durumunun hiç
+      // kaydedilememesine yol açıyordu. Artık SADECE kutu gerçekten boş/
+      // sayı değilse (NaN) 1'e düşer; kasıtlı 0 olduğu gibi kaydedilir.
+      var adetGirisi = parseFloat(document.querySelector("[data-alan='adet'][data-i='"+i+"']").value);
+      var adet = isNaN(adetGirisi) ? 1 : adetGirisi;
       var dipFiyat = parseFloat(document.querySelector("[data-alan='dipFiyat'][data-i='"+i+"']").value)||0;
       var iskontoluFiyat = listeFiyat - (listeFiyat*iskonto/100);
       var degisen = duzenlemeUrunDegisiklikleri[i];

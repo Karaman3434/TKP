@@ -1,5 +1,5 @@
 /*
-  reports-data.js — WG.181026.2037.839
+  reports-data.js — WG.211026.1500.902
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -343,6 +343,10 @@ var ReportsData = (function(){
   // olur. Her satır kendi siparişini (tip+ts) taşır — "Bakiyedeki
   // Ürünler" ekranında bir satıra dokununca o siparişin TAM tablosu
   // açılabilsin diye (bkz. bakiye-urunler-render.js).
+  // adet (21.10.2026, Abdullah'ın isteğiyle, SALT EKLENTİ): u.adet'in
+  // kopyası — tüketici ekran bununla "tamamen yok" (adet<=0) ile "kısmi
+  // bakiye" (adet>0) ayrımını kendi başına türetebilsin diye. Mevcut
+  // alanların hiçbiri değişmedi, sadece bu alan eklendi.
   function bakiyedekiUrunler(){
     var satirlar = [];
     sonIslemler().forEach(function(k){
@@ -351,7 +355,8 @@ var ReportsData = (function(){
         satirlar.push({
           tip:k.tip, ts:k.ts, kod:k.kod, tarih:k.tarih||"",
           musteri:k.musteri, musteriId:k.musteriId||null, sehir:k.sehir||"",
-          urunAd:u.ad||"İsimsiz Ürün", bakiyeAdet:u.bakiyeAdet, bakiyeNot:u.bakiyeNot||""
+          urunAd:u.ad||"İsimsiz Ürün", bakiyeAdet:u.bakiyeAdet, bakiyeNot:u.bakiyeNot||"",
+          adet:u.adet||0
         });
       });
     });

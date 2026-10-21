@@ -1,15 +1,20 @@
 /*
-  bakiye-urunler-render.js — WG.071026.1645.746
+  bakiye-urunler-render.js — WG.211026.1500.901
   ================================================
-  "Bakiyedeki Ürünler" ekranı (07.10.2026, Abdullah'ın isteğiyle) — stokta
-  tam olmayıp müşteride bakiyede bırakılan ürün SATIRLARINI (ReportsData.
+  "Bakiyedeki / Bekleyen Ürünler" ekranı — stokta tam olmayıp müşteride
+  bekleyen/bakiyede bırakılan ürün SATIRLARINI (ReportsData.
   bakiyedekiUrunler(), reports-data.js) tek bir listede gösterir.
 
-  KURAL (Abdullah'ın isteğiyle, aynı gün): listede ÜRÜN ADEDİ KESİNLİKLE
-  YAZILMAZ — sadece müşteri/işlem bilgisi ve ürün adı + not gösterilir.
+  AYRIM (21.10.2026, Abdullah'ın isteğiyle): "tamamen yok" (elde hiç yok,
+  adet=0) ile "kısmi bakiye" (bir kısmı teslim edildi, adet>0) ayrı ayrı
+  gösterilir — YENİ bir veri alanı eklenMEDEN, salt mevcut u.adet / u.
+  bakiyeAdet karşılaştırmasından türetilir (s.adet reports-data.js'den
+  geliyor). Kart tasarımı KESİN 2 SATIR kuralına uyar (müşteri bilgisi
+  + durum notu hiçbir koşulda sarmaz, uzunsa "..." ile kırpılır) — bunun
+  için bu ekrana ÖZEL, paylaşılmayan .bu-kart* sınıfları kullanılır
+  (diğer liste ekranlarının ortak .tl-kart/.tl-govde yapısına DOKUNULMAZ).
   Bir satıra dokunulunca o siparişin TAM tablosu açılır (satış listesindeki
-  "Belgeyi Aç" ile birebir aynı localStorage devri + yönlendirme) — adet
-  orada, tabloda zaten görünüyor (bkz. hareket-tablo.js bakiye rozeti).
+  "Belgeyi Aç" ile birebir aynı localStorage devri + yönlendirme).
 */
 
 function hataGoster(mesaj){
@@ -54,21 +59,25 @@ function kodHTML(kod, tip){
   return "<span style='color:" + (HARF_RENK[tip] || HARF_RENK.siparis) + ";'>" + htmlEsc(harf) + "</span>" + htmlEsc(kalan);
 }
 
-// ADET YAZILMAZ — sadece ürün adı + (varsa) rep'in kendi notu. Tarih,
-// müşteri satırının sağında, kodun altında küçük/soluk gösterilir
-// (07.10.2026, Abdullah'ın isteğiyle — "tarihiyle birlikte").
+// "Tamamen yok" (s.adet<=0 — elde hiç kalmamış, sipariş tamamen bekliyor)
+// ile "kısmi bakiye" (s.adet>0 — bir kısmı zaten teslim/fatura edilmiş,
+// kalanı bakiyede) ayrımı SADECE bu satırda, ikon/renk/metin olarak
+// yapılır — veri modeline yeni alan eklenmez (21.10.2026, Abdullah'ın
+// isteğiyle). Her iki satır da KESİN 2 SATIR için nowrap+ellipsis.
 function bakiyeKartHTML(s){
-  return "<div class='tl-kart tl-kart--bekleyen' data-i='" + s._i + "'>"
-    + "<div class='tl-serit' style='background:#faeeda;'></div>"
-    + "<div class='tl-govde'>"
-    + "<div class='tl-satir'>" + "<div class='tl-ust'>" + cariSatirHTML(s.musteriId, s.musteri, s.sehir) + "</div>"
-    + "<div class='tl-sagblok'><div class='tl-kod-satir'>"
-    + "<span class='tl-kod'>" + kodHTML(s.kod, s.tip) + "</span></div>"
-    + (s.tarih ? "<div class='tl-kod-tarih'>" + htmlEsc(s.tarih) + "</div>" : "")
-    + "</div></div>"
-    + "<button class='tl-ok' aria-label='Siparişin tam tablosunu aç'>" + OK_SVG + "</button>"
+  var tamamenYokMu = !((s.adet||0) > 0);
+  var renk = tamamenYokMu ? "#c0392b" : "#b7601f";
+  var durumMetni = tamamenYokMu ? "🚫 Tamamı bekliyor" : ("📦 " + (s.bakiyeAdet||0) + " adet bakiyede");
+  var satir2 = durumMetni + " — " + htmlEsc(s.urunAd) + (s.bakiyeNot ? " · " + htmlEsc(s.bakiyeNot) : "");
+  return "<div class='bu-kart' data-i='" + s._i + "'>"
+    + "<div class='bu-kart-serit' style='background:#faeeda;border-right:1.5px solid #b7601f;'></div>"
+    + "<div class='bu-kart-govde'>"
+    + "<div class='bu-kart-satir1'>"
+    + "<span class='bu-kart-musteri'>" + cariSatirHTML(s.musteriId, s.musteri, s.sehir) + "</span>"
+    + "<span class='bu-kart-sag'>" + kodHTML(s.kod, s.tip) + (s.tarih ? " · " + htmlEsc(s.tarih) : "") + "</span>"
+    + "<button class='bu-kart-ok' aria-label='Siparişin tam tablosunu aç'>" + OK_SVG + "</button>"
     + "</div>"
-    + "<div class='bekleyen-not'>📦 " + htmlEsc(s.urunAd) + (s.bakiyeNot ? " — " + htmlEsc(s.bakiyeNot) : "") + "</div>"
+    + "<div class='bu-kart-satir2' style='color:" + renk + ";'>" + satir2 + "</div>"
     + "</div>"
     + "</div>";
 }
@@ -120,9 +129,9 @@ function listeyiCiz(){
       : "📦 BAKİYEDE BEKLEYEN ÜRÜNLER — " + satirlar.length + " kayıt";
 
     satirlar.forEach(function(s, i){ s._i = i; });
-    kapsayici.innerHTML = "<div class='tl-liste-kutu'>" + satirlar.map(bakiyeKartHTML).join("<div class='tl-arasi'></div>") + "</div>";
+    kapsayici.innerHTML = "<div class='tl-liste-kutu'>" + satirlar.map(bakiyeKartHTML).join("<div class='bu-kart-ayrac'></div>") + "</div>";
 
-    kapsayici.querySelectorAll(".tl-kart[data-i]").forEach(function(el){
+    kapsayici.querySelectorAll(".bu-kart[data-i]").forEach(function(el){
       el.onclick = function(){
         var s = satirlar[parseInt(this.getAttribute("data-i"), 10)];
         localStorage.setItem("weiconv2_goruntulenen_belge", JSON.stringify({tip:s.tip, ts:s.ts}));
