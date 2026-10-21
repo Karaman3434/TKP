@@ -1,4 +1,4 @@
-/* son-islemler-style.css — WG.211026.2235.924 */
+/* son-islemler-style.css — WG.211026.2310.934 */
 
 /* Bu sayfaya özgü "Siyah" tema (Ana Sayfa'daki Son İşlemler kutucuğunun
    rengiyle devam ediyor) — sadece #islemAra'yı hedefler, diğer tl- sayfalarını
@@ -71,3 +71,43 @@
 #islemlerListesi .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; }
 #islemlerListesi .sr-satir--beklemede { background: #f5ede1; }
 #islemlerListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }
+
+/* TÜR FİLTRESİ — ÖZEL DÜĞME+PANEL (21.10.2026, Abdullah onayı — mockup "B"
+   tasarımı birebir onaylandı). Native <select> mobil tarayıcılarda
+   option arka planını yok saydığı için "Tüm Türler" seçici bu sayfaya
+   özel kendi çizdiğimiz bir düğme+panele çevrildi — yapı, avans-takibi.
+   html'deki "av-tip-btn/av-tip-popup/av-tip-secenek" kalıbıyla AYNI
+   mimari (düğme + position:absolute panel + seçenek satırları), sadece
+   bu sayfaya özel "sif-" önekiyle. Renkler, onaylanan mockup'taki ile
+   BİREBİR AYNI. */
+.sif-tip-wrap { position: relative; flex-shrink: 0; }
+.sif-tip-btn {
+  border: 2px solid #cbd5e1; border-radius: 8px;
+  background: #fff; color: #2d3540;
+  padding: 10px 10px; font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; gap: 5px; white-space: nowrap; cursor: pointer;
+}
+.sif-tip-btn--aktif { border-color: #0d3d8c; background: #eaf1fc; color: #0d3d8c; }
+.sif-tip-ok { font-size: 9px; color: #8a93a1; }
+.sif-tip-btn--aktif .sif-tip-ok { color: #0d3d8c; }
+.sif-tip-popup {
+  position: absolute; top: 44px; left: 0;
+  background: #fff; border: 1px solid #d8d8e0; border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  overflow: hidden; z-index: 500; width: 168px;
+}
+.sif-tip-popup[hidden] { display: none; }
+.sif-tip-secenek {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; text-align: left; box-sizing: border-box;
+  padding: 11px 13px; border: none; border-bottom: 1px solid rgba(0,0,0,.06);
+  font-size: 12.5px; font-weight: 800; color: #1a2a3a; cursor: pointer;
+}
+.sif-tip-secenek:last-child { border-bottom: none; }
+.sif-tip-secenek--tum { background: #eef1f5; }
+.sif-tip-secenek--numune { background: #fbd7e6; }
+.sif-tip-secenek--teklif { background: #cdeee0; }
+.sif-tip-secenek--proforma { background: #ffddb8; }
+.sif-tip-secenek--siparis { background: #cfe2fa; }
+.sif-tip-secenek--beklemede { background: #e9d4b3; }
+.sif-tip-check { font-size: 13px; }

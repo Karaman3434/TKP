@@ -1,5 +1,5 @@
 /*
-  son-islemler-render.js — WG.211026.2235.917
+  son-islemler-render.js — WG.211026.2310.933
   =======================
   reports-render.js'deki islemleriCiz/islemlerExcelAktar buradan taşındı.
   13.10.2026: kartlı/2 satırlı yapı kaldırıldı — GERÇEK TEK SATIRLIK TABLO
@@ -143,10 +143,15 @@ function tlListeHTML(gruplar){
 // bileşeni, DOMContentLoaded içinde kurulup buraya atanır.
 var tarihFiltreKontrol = null;
 
+// TÜR FİLTRESİ (21.10.2026, Abdullah onayı — mockup "B" tasarımı) — eskiden
+// #islemTipFiltre native <select>'in .value'suydu; artık özel düğme+panel
+// (bkz. tipFiltreKur()) bu değişkeni güncelliyor. "" = Tüm Türler.
+var tipFiltreSecili = "";
+
 function islemleriCiz(){
   try{
     var q = (document.getElementById("islemAra").value||"").trim().toLocaleLowerCase("tr-TR");
-    var tipFiltre = document.getElementById("islemTipFiltre").value;
+    var tipFiltre = tipFiltreSecili;
 
     var liste = ReportsData.sonIslemler();
     if(tipFiltre === "beklemede") liste = liste.filter(function(k){ return k.durum === "beklemede"; });
@@ -190,7 +195,7 @@ function islemlerExcelAktar(){
       return;
     }
     var q = (document.getElementById("islemAra").value||"").trim().toLocaleLowerCase("tr-TR");
-    var tipFiltre = document.getElementById("islemTipFiltre").value;
+    var tipFiltre = tipFiltreSecili;
     var liste = ReportsData.sonIslemler();
     if(tipFiltre === "beklemede") liste = liste.filter(function(k){ return k.durum === "beklemede"; });
     else if(tipFiltre) liste = liste.filter(function(k){ return k.tip === tipFiltre; });
@@ -221,6 +226,45 @@ function islemlerExcelAktar(){
   }catch(e){ hataGoster("Excel oluşturulamadı: " + e.message); }
 }
 
+// TÜR FİLTRESİ düğme+panel (21.10.2026, Abdullah onayı — mockup "B") —
+// avans-takibi.html'deki "av-tip-btn/av-tip-popup/av-tip-secenek" ile
+// AYNI mimari: düğme tıklanınca panel açılır, seçenek tıklanınca
+// tipFiltreSecili güncellenir, düğme etiketi/✓ işareti yenilenir, panel
+// kapanır ve liste yeniden çizilir. Panel dışına tıklanınca kapanır.
+var TIP_FILTRE_ETIKET = {"":"Tüm Türler", numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş", beklemede:"⏳ Beklemede"};
+function tipFiltreKur(){
+  var btn = document.getElementById("islemTipBtn");
+  var panel = document.getElementById("islemTipPopup");
+  if(!btn || !panel) return;
+  btn.addEventListener("click", function(e){
+    e.stopPropagation();
+    panel.hidden = !panel.hidden;
+  });
+  var secenekler = panel.querySelectorAll(".sif-tip-secenek");
+  secenekler.forEach(function(sec){
+    sec.addEventListener("click", function(){
+      tipFiltreSecili = this.getAttribute("data-tip") || "";
+      btn.innerHTML = htmlEsc(TIP_FILTRE_ETIKET[tipFiltreSecili] || tipFiltreSecili) + "<span class='sif-tip-ok'>▾</span>";
+      btn.classList.toggle("sif-tip-btn--aktif", tipFiltreSecili !== "");
+      secenekler.forEach(function(s){
+        var mevcutCheck = s.querySelector(".sif-tip-check");
+        if(mevcutCheck) mevcutCheck.remove();
+      });
+      var check = document.createElement("span");
+      check.className = "sif-tip-check";
+      check.textContent = "✓";
+      this.appendChild(check);
+      panel.hidden = true;
+      islemleriCiz();
+    });
+  });
+  document.addEventListener("click", function(e){
+    if(!panel.hidden && !panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+      panel.hidden = true;
+    }
+  });
+}
+
 window.addEventListener("error", function(ev){
   hataGoster("HATA: " + ev.message + " (" + (ev.filename||"").split("/").pop() + ":" + ev.lineno + ")");
 });
@@ -231,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function(){
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
   tarihFiltreKontrol = TarihFiltre.ekle("tarihFiltreYeri", { varsayilan: "tumu", degisti: islemleriCiz });
   document.getElementById("islemAra").addEventListener("input", islemleriCiz);
-  document.getElementById("islemTipFiltre").addEventListener("change", islemleriCiz);
+  tipFiltreKur();
   ReportsData.arsivDegistiginde(islemleriCiz);
   islemleriCiz();
 });
