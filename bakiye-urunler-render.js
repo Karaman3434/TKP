@@ -1,5 +1,5 @@
 /*
-  bakiye-urunler-render.js — WG.211026.1500.901
+  bakiye-urunler-render.js — WG.211026.2100.913
   ================================================
   "Bakiyedeki / Bekleyen Ürünler" ekranı — stokta tam olmayıp müşteride
   bekleyen/bakiyede bırakılan ürün SATIRLARINI (ReportsData.
@@ -101,6 +101,10 @@ function ayniMusteriMi(kayitAd, kayitId, seciliAd, seciliId){
   return !!a && !!b && a === b;
 }
 
+// TARİH FİLTRESİ (21.10.2026, Abdullah onayı) — paylaşılan TarihFiltre
+// bileşeni, DOMContentLoaded içinde kurulup buraya atanır.
+var tarihFiltreKontrol = null;
+
 function listeyiCiz(){
   try{
     var tumSatirlar = ReportsData.bakiyedekiUrunler();
@@ -112,6 +116,7 @@ function listeyiCiz(){
     var satirlar = musteriFiltre
       ? tumSatirlar.filter(function(s){ return ayniMusteriMi(s.musteri, s.musteriId, musteriFiltre.ad, musteriFiltre.id); })
       : tumSatirlar;
+    if(tarihFiltreKontrol) satirlar = satirlar.filter(function(s){ return tarihFiltreKontrol.icindeMi(s.ts); });
 
     if(!satirlar.length){
       kapsayici.innerHTML = "";
@@ -145,5 +150,6 @@ document.addEventListener("DOMContentLoaded", function(){
   tarihiGuncelle();
   var btnMenuEl = document.getElementById("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
+  tarihFiltreKontrol = TarihFiltre.ekle("tarihFiltreYeri", { varsayilan: "tumu", degisti: listeyiCiz });
   ReportsData.arsivDegistiginde(listeyiCiz);
 });

@@ -1,5 +1,5 @@
 /*
-  reports-data.js — WG.211026.1500.902
+  reports-data.js — WG.211026.2100.907
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -617,11 +617,16 @@ var ReportsData = (function(){
   // "Bugünün Satışları" / "Bu Ayın Satışları" ekranları için — sadece
   // SİPARİŞ (gerçekleşmiş satış) kayıtlarını, seçilen kapsama göre
   // filtreleyip en yeniden en eskiye sıralar.
+  // "tumu" (21.10.2026, Abdullah'ın isteğiyle — Tarih Filtresi): sınır
+  // YOK, tüm zamanlar döner. satis-listesi-render.js artık HER ZAMAN
+  // "tumu" ile çekip asıl daraltmayı kendi TarihFiltre bileşeniyle
+  // (varsayılanı ?kapsam=bugun/ay'dan gelir) istemci tarafında yapıyor —
+  // "bugun"/"ay" değerleri geriye dönük uyumluluk için hâlâ destekleniyor.
   function satislarListele(kapsam){
     var simdi = new Date();
     var gunBasiTs = new Date(simdi.getFullYear(), simdi.getMonth(), simdi.getDate()).getTime();
     var ayBasiTs = new Date(simdi.getFullYear(), simdi.getMonth(), 1).getTime();
-    var esikTs = kapsam === "bugun" ? gunBasiTs : ayBasiTs;
+    var esikTs = kapsam === "bugun" ? gunBasiTs : (kapsam === "tumu" ? 0 : ayBasiTs);
     return tumSiparisler()
       .filter(function(k){ return (k.ts||0) >= esikTs; })
       .map(function(k){

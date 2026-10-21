@@ -25,7 +25,7 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1455.828">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
-<link rel="stylesheet" href="reports-style.css?v=WG.121026.1455.777">
+<link rel="stylesheet" href="reports-style.css?v=WG.211026.2100.908">
 <link rel="stylesheet" href="gecmis-style.css?v=WG.141026.1605.804">
 </head>
 <body>
@@ -62,6 +62,7 @@
     <button class="gecmis-filtre-cip" data-tip="teklif" style="--cip-renk:#28a745;">Teklif</button>
     <button class="gecmis-filtre-cip" data-tip="numune" style="--cip-renk:#b7601f;">Numune</button>
     <button class="gecmis-filtre-cip" data-tip="proforma" style="--cip-renk:#8e44ad;">Proforma</button>
+    <div id="tarihFiltreYeri"></div>
   </div>
 
   <label class="gecmis-beklemede-satir">
@@ -81,12 +82,13 @@
 <script src="auth.js?v=WG.201026.1615.862"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="customer-data.js?v=WG.201026.0610.857"></script>
-<script src="reports-data.js?v=WG.131026.1455.798"></script>
+<script src="reports-data.js?v=WG.211026.2100.907"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1523.89"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("gecmis.html", "🕐 İşlem Geçmişi"); RotaTakip.ciz("rotaSeridi"); });</script>
-<script src="gecmis-render.js?v=WG.141026.0010.803"></script>
+<script src="tarih-filtre.js?v=WG.211026.2100.906"></script>
+<script src="gecmis-render.js?v=WG.211026.2100.910"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
 <script>
   window.BEKLEYEN_ISLEM_AYAR = {

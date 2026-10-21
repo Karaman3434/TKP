@@ -1,4 +1,4 @@
-/* kacan-satislar-render.js — WG.141026.0010.803 */
+/* kacan-satislar-render.js — WG.211026.2100.912 */
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -28,6 +28,9 @@ function fmt(n){
 }
 
 var siralamaYonu = "yeni"; // yeni | eski
+// TARİH FİLTRESİ (21.10.2026, Abdullah onayı) — paylaşılan TarihFiltre
+// bileşeni, DOMContentLoaded içinde kurulup buraya atanır.
+var tarihFiltreKontrol = null;
 
 // v3 — tarih gruplu tasarım (05.09.2026). Bu sabitler gecmis-render.js,
 // son-islemler-render.js, satis-listesi-render.js ve reports-render.js'de
@@ -99,6 +102,7 @@ function tlGrupla(liste){
 function listeyiCiz(){
   try{
     var liste = ReportsData.tumKacanlar(siralamaYonu);
+    if(tarihFiltreKontrol) liste = liste.filter(function(k){ return tarihFiltreKontrol.icindeMi(k.ts); });
     var kapsayici = document.getElementById("ksListe");
     var bos = document.getElementById("ksBos");
     if(!liste.length){ kapsayici.innerHTML = ""; bos.hidden = false; return; }
@@ -131,6 +135,7 @@ document.addEventListener("DOMContentLoaded", function(){
     this.textContent = siralamaYonu === "yeni" ? "Yeni → Eski ⇅" : "Eski → Yeni ⇅";
     listeyiCiz();
   };
+  tarihFiltreKontrol = TarihFiltre.ekle("tarihFiltreYeri", { varsayilan: "tumu", degisti: listeyiCiz });
 
   ReportsData.arsivDegistiginde(listeyiCiz);
 });

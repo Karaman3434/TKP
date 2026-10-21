@@ -1,4 +1,11 @@
-/* satis-listesi-render.js — WG.141026.0010.803 */
+/* satis-listesi-render.js — WG.211026.2100.911
+   TARİH FİLTRESİ (21.10.2026, Abdullah onayı): liste artık HER ZAMAN
+   ReportsData.satislarListele("tumu") ile (sınırsız) çekilir — eski
+   ?kapsam=bugun/ay URL parametresi SADECE paylaşılan TarihFiltre
+   bileşeninin BAŞLANGIÇ ön-ayarını belirler (sayfa ilk açıldığında hangi
+   çip aktif görünsün), asıl daraltmayı istemci tarafında TarihFiltre
+   yapar — kullanıcı istediğinde "Tümü"ye veya başka bir aralığa
+   genişletebilir/daraltabilir. */
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -129,11 +136,16 @@ function bekleyenListeHTML(bekleyenler){
     + "</div>";
 }
 
-function listeyiCiz(kapsam){
+// TARİH FİLTRESİ (21.10.2026, Abdullah onayı) — paylaşılan TarihFiltre
+// bileşeni, DOMContentLoaded içinde kurulup buraya atanır.
+var tarihFiltreKontrol = null;
+
+function listeyiCiz(){
   try{
-    var tumListe = ReportsData.satislarListele(kapsam);
+    var tumListe = ReportsData.satislarListele("tumu");
     var kapsayici = document.getElementById("slListe");
     var bos = document.getElementById("slBos");
+    if(tarihFiltreKontrol) tumListe = tumListe.filter(function(k){ return tarihFiltreKontrol.icindeMi(k.ts); });
     if(!tumListe.length){ kapsayici.innerHTML = ""; bos.hidden = false; return; }
     bos.hidden = true;
 
@@ -172,5 +184,10 @@ document.addEventListener("DOMContentLoaded", function(){
   var kapsam = params.get("kapsam") === "ay" ? "ay" : "bugun";
   document.getElementById("rotaBaslik").textContent = kapsam === "ay" ? "Bu Ayın Satışları" : "Bugünün Satışları";
 
-  ReportsData.arsivDegistiginde(function(){ listeyiCiz(kapsam); });
+  tarihFiltreKontrol = TarihFiltre.ekle("tarihFiltreYeri", {
+    varsayilan: kapsam === "ay" ? "bu_ay" : "bugun",
+    degisti: listeyiCiz
+  });
+
+  ReportsData.arsivDegistiginde(listeyiCiz);
 });

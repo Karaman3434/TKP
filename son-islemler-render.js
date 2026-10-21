@@ -1,5 +1,5 @@
 /*
-  son-islemler-render.js — WG.141026.1605.804
+  son-islemler-render.js — WG.211026.2100.909
   =======================
   reports-render.js'deki islemleriCiz/islemlerExcelAktar buradan taşındı.
   13.10.2026: kartlı/2 satırlı yapı kaldırıldı — GERÇEK TEK SATIRLIK TABLO
@@ -138,6 +138,10 @@ function tlListeHTML(gruplar){
   }).join("");
 }
 
+// TARİH FİLTRESİ (21.10.2026, Abdullah onayı) — paylaşılan TarihFiltre
+// bileşeni, DOMContentLoaded içinde kurulup buraya atanır.
+var tarihFiltreKontrol = null;
+
 function islemleriCiz(){
   try{
     var q = (document.getElementById("islemAra").value||"").trim().toLocaleLowerCase("tr-TR");
@@ -146,6 +150,7 @@ function islemleriCiz(){
     var liste = ReportsData.sonIslemler();
     if(tipFiltre) liste = liste.filter(function(k){ return k.tip === tipFiltre; });
     if(q) liste = liste.filter(function(k){ return (k.musteri||"").toLocaleLowerCase("tr-TR").indexOf(q) >= 0; });
+    if(tarihFiltreKontrol) liste = liste.filter(function(k){ return tarihFiltreKontrol.icindeMi(k.ts); });
     liste = liste.slice(0, 100);
 
     var kapsayici = document.getElementById("islemlerListesi");
@@ -187,6 +192,7 @@ function islemlerExcelAktar(){
     var liste = ReportsData.sonIslemler();
     if(tipFiltre) liste = liste.filter(function(k){ return k.tip === tipFiltre; });
     if(q) liste = liste.filter(function(k){ return (k.musteri||"").toLocaleLowerCase("tr-TR").indexOf(q) >= 0; });
+    if(tarihFiltreKontrol) liste = liste.filter(function(k){ return tarihFiltreKontrol.icindeMi(k.ts); });
 
     if(liste.length === 0){
       alert("Aktarılacak kayıt bulunamadı.");
@@ -220,6 +226,7 @@ document.addEventListener("DOMContentLoaded", function(){
   tarihiGuncelle();
   var btnMenuEl = document.getElementById("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
+  tarihFiltreKontrol = TarihFiltre.ekle("tarihFiltreYeri", { varsayilan: "tumu", degisti: islemleriCiz });
   document.getElementById("islemAra").addEventListener("input", islemleriCiz);
   document.getElementById("islemTipFiltre").addEventListener("change", islemleriCiz);
   ReportsData.arsivDegistiginde(islemleriCiz);

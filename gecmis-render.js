@@ -1,5 +1,5 @@
 /*
-  gecmis-render.js — WG.141026.0010.803
+  gecmis-render.js — WG.211026.2100.910
   ================
   Müşteriye özel İşlem Geçmişi sayfası. ReportsData.sonIslemler() zaten
   en yeniden en eskiye sıralı geliyor (bkz. reports-data.js); burada
@@ -41,6 +41,9 @@ function fmt(n){
 
 var seciliMusteriAdi = null;
 var aktifTip = "";
+// TARİH FİLTRESİ (21.10.2026, Abdullah onayı) — paylaşılan TarihFiltre
+// bileşeni, DOMContentLoaded içinde kurulup buraya atanır.
+var tarihFiltreKontrol = null;
 
 function ayniMusteriKaydiMi(kayitMusteriAdi, kayitMusteriId, seciliAd, seciliId){
   if(seciliId && kayitMusteriId) return kayitMusteriId === seciliId;
@@ -166,6 +169,7 @@ function listeyiCiz(){
     }
 
     var filtreli = aktifTip ? bunaAit.filter(function(k){ return k.tip === aktifTip; }) : bunaAit;
+    if(tarihFiltreKontrol) filtreli = filtreli.filter(function(k){ return tarihFiltreKontrol.icindeMi(k.ts); });
 
     var kapsayici = document.getElementById("gecmisListesi");
     var bos = document.getElementById("gecmisBos");
@@ -249,6 +253,7 @@ document.addEventListener("DOMContentLoaded", function(){
       listeyiCiz();
     };
   });
+  tarihFiltreKontrol = TarihFiltre.ekle("tarihFiltreYeri", { varsayilan: "tumu", degisti: listeyiCiz });
 
   var beklemedeToggle = document.getElementById("gecmisBeklemedeToggle");
   beklemedeToggle.checked = localStorage.getItem(BEKLEMEDE_DAHIL_ANAHTAR) === "1";
