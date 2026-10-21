@@ -1,4 +1,4 @@
-/* satis-listesi-render.js — WG.211026.2100.911
+/* satis-listesi-render.js — WG.211026.2235.919
    TARİH FİLTRESİ (21.10.2026, Abdullah onayı): liste artık HER ZAMAN
    ReportsData.satislarListele("tumu") ile (sınırsız) çekilir — eski
    ?kapsam=bugun/ay URL parametresi SADECE paylaşılan TarihFiltre
@@ -41,8 +41,8 @@ function fmt(n){
 var TIP_META = {
   siparis:  {rozet:"SP",    rozetBg:"#e6f1fb", rozetRenk:"#0c447c", serit:"#185fa5", kodRenk:"#003a70"},
   teklif:   {rozet:"FT",    rozetBg:"#e1f5ee", rozetRenk:"#0e6b58", serit:"#28a745", kodRenk:"#1a7431"},
-  proforma: {rozet:"PF",    rozetBg:"#f3e8fb", rozetRenk:"#6a1b9a", serit:"#8e44ad", kodRenk:"#5c1680"},
-  numune:   {rozet:"NM",    rozetBg:"#faeeda", rozetRenk:"#854f0b", serit:"#b7601f", kodRenk:"#7a4008"}
+  proforma: {rozet:"PF",    rozetBg:"#ffe4cc", rozetRenk:"#b45309", serit:"#e8690a", kodRenk:"#8a4306"},
+  numune:   {rozet:"NM",    rozetBg:"#fce4ec", rozetRenk:"#ad1457", serit:"#c2185b", kodRenk:"#8e0e45"}
 };
 var RVZ_META = {rozet:"RVZ", rozetBg:"#faeeda", rozetRenk:"#854f0b", serit:"#b7601f"};
 var KACAN_META = {rozet:"KAÇTI", rozetBg:"#fdecea", rozetRenk:"#a32d2d", serit:"#c0392b"};
@@ -77,7 +77,7 @@ function kodHTML(kod, tip){
   var kalan = i > 0 ? kod.slice(i) : "";
   return "<span style='color:" + (HARF_RENK[tip] || HARF_RENK.siparis) + ";'>" + htmlEsc(harf) + "</span>" + htmlEsc(kalan);
 }
-var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#8e44ad", numune:"#b7601f"};
+var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#e8690a", numune:"#c2185b"};
 function srSatirHTML(k, serit, rozetMeta, kod, tutarHucre, dataAd, dataDeger){
   return "<div class='sr-satir' data-" + dataAd + "='" + dataDeger + "' style='border-left-color:" + serit + ";'>"
     + "<div class='sr-firma-h'>" + htmlEsc(k.musteri||"") + "</div>"
@@ -125,8 +125,8 @@ function tlListeHTML(gruplar){
 function bekleyenKartHTML(k){
   var meta = TIP_META[k.tip] || TIP_META.siparis;
   var kod = k.kod || meta.rozet;
-  var durumHucre = "<span class='sr-durum-ek'>⏳ " + htmlEsc(k.beklemedeNot || "Bekliyor") + "</span>";
-  return srSatirHTML(k, "#ef9f27", {rozetBg:"#FFF0D9", rozetRenk:"#b7601f", rozet:meta.rozet}, kod, durumHucre, "bekleyen-i", k._bi);
+  var durumHucre = "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ " + htmlEsc(k.beklemedeNot || "Bekliyor") + "</span>";
+  return srSatirHTML(k, "#a9743b", {rozetBg:"#e9d9c3", rozetRenk:"#5b3c1e", rozet:meta.rozet}, kod, durumHucre, "bekleyen-i", k._bi);
 }
 function bekleyenListeHTML(bekleyenler){
   if(!bekleyenler.length) return "";

@@ -1,5 +1,5 @@
 /*
-  son-islemler-render.js — WG.211026.2100.909
+  son-islemler-render.js — WG.211026.2235.917
   =======================
   reports-render.js'deki islemleriCiz/islemlerExcelAktar buradan taşındı.
   13.10.2026: kartlı/2 satırlı yapı kaldırıldı — GERÇEK TEK SATIRLIK TABLO
@@ -47,8 +47,8 @@ var TIP_ETIKET = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis
 var TIP_META = {
   siparis:  {rozet:"SP",    rozetBg:"#e6f1fb", rozetRenk:"#0c447c", serit:"#185fa5", kodRenk:"#003a70"},
   teklif:   {rozet:"FT",    rozetBg:"#e1f5ee", rozetRenk:"#0e6b58", serit:"#28a745", kodRenk:"#1a7431"},
-  proforma: {rozet:"PF",    rozetBg:"#f3e8fb", rozetRenk:"#6a1b9a", serit:"#8e44ad", kodRenk:"#5c1680"},
-  numune:   {rozet:"NM",    rozetBg:"#faeeda", rozetRenk:"#854f0b", serit:"#b7601f", kodRenk:"#7a4008"}
+  proforma: {rozet:"PF",    rozetBg:"#ffe4cc", rozetRenk:"#b45309", serit:"#e8690a", kodRenk:"#8a4306"},
+  numune:   {rozet:"NM",    rozetBg:"#fce4ec", rozetRenk:"#ad1457", serit:"#c2185b", kodRenk:"#8e0e45"}
 };
 var RVZ_META = {rozet:"RVZ", rozetBg:"#faeeda", rozetRenk:"#854f0b", serit:"#b7601f"};
 var KACAN_META = {rozet:"KAÇTI", rozetBg:"#fdecea", rozetRenk:"#a32d2d", serit:"#c0392b"};
@@ -76,7 +76,7 @@ function gunBasligi(ts){
 }
 // Belge kodunun BAŞ HARFLERİ (SP/FT/PF/NM) işlem türünün kendi renginde;
 // numara kısmı normal renkte kalır (WG.210926.1709.589'dan değişmedi).
-var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#8e44ad", numune:"#b7601f"};
+var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#e8690a", numune:"#c2185b"};
 function kodHTML(kod, tip){
   kod = String(kod == null ? "" : kod);
   var i = kod.indexOf(".");
@@ -101,14 +101,15 @@ function bakiyeKayitVarMi(k){
   return !!k.bakiyeVarMi || (k.urunler||[]).some(function(u){ return (u.bakiyeAdet||0)>0; });
 }
 function islemTutarDurumHTML(k){
-  if(k.durum === "beklemede") return "<span class='sr-durum-ek'>⏳ Beklemede</span>";
+  if(k.durum === "beklemede") return "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Beklemede</span>";
   if(bakiyeKayitVarMi(k)) return "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 Bekleyen</span>";
   // Referans talimatı: "İşlem tutarı bulunmayan satırlara tutar uydurma."
   return k._tutar > 0 ? fmt(k._tutar) + " €" : "<span class='sr-tutar-yok'>—</span>";
 }
 function islemSatiriHTML(k){
   var rozetMeta = islemRozetMeta(k);
-  return "<div class='sr-satir' data-i='" + k._i + "' style='border-left-color:" + rozetMeta.serit + ";'>"
+  var beklemedeMi = k.durum === "beklemede";
+  return "<div class='sr-satir" + (beklemedeMi ? " sr-satir--beklemede" : "") + "' data-i='" + k._i + "' style='border-left-color:" + rozetMeta.serit + ";'>"
     + "<div class='sr-firma-h'>" + htmlEsc(k.musteri||"") + "</div>"
     + "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
     + "<span class='sr-rozet-h' style='background:" + rozetMeta.rozetBg + ";color:" + rozetMeta.rozetRenk + ";'>" + rozetMeta.rozet + "</span>"
@@ -148,7 +149,8 @@ function islemleriCiz(){
     var tipFiltre = document.getElementById("islemTipFiltre").value;
 
     var liste = ReportsData.sonIslemler();
-    if(tipFiltre) liste = liste.filter(function(k){ return k.tip === tipFiltre; });
+    if(tipFiltre === "beklemede") liste = liste.filter(function(k){ return k.durum === "beklemede"; });
+    else if(tipFiltre) liste = liste.filter(function(k){ return k.tip === tipFiltre; });
     if(q) liste = liste.filter(function(k){ return (k.musteri||"").toLocaleLowerCase("tr-TR").indexOf(q) >= 0; });
     if(tarihFiltreKontrol) liste = liste.filter(function(k){ return tarihFiltreKontrol.icindeMi(k.ts); });
     liste = liste.slice(0, 100);
@@ -190,7 +192,8 @@ function islemlerExcelAktar(){
     var q = (document.getElementById("islemAra").value||"").trim().toLocaleLowerCase("tr-TR");
     var tipFiltre = document.getElementById("islemTipFiltre").value;
     var liste = ReportsData.sonIslemler();
-    if(tipFiltre) liste = liste.filter(function(k){ return k.tip === tipFiltre; });
+    if(tipFiltre === "beklemede") liste = liste.filter(function(k){ return k.durum === "beklemede"; });
+    else if(tipFiltre) liste = liste.filter(function(k){ return k.tip === tipFiltre; });
     if(q) liste = liste.filter(function(k){ return (k.musteri||"").toLocaleLowerCase("tr-TR").indexOf(q) >= 0; });
     if(tarihFiltreKontrol) liste = liste.filter(function(k){ return tarihFiltreKontrol.icindeMi(k.ts); });
 

@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.211026.1500.904
+  belge-render.js — WG.211026.2235.923
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -39,12 +39,12 @@ var KOD_ONEK_BELGE = {numune:"NM", teklif:"FT", proforma:"PF", siparis:"SP"};
 var ONEK_RENK_BELGE = {
   "SP": {yazi:"#003a70", bg:"#eaf2fc"},
   "FT": {yazi:"#0e6b58", bg:"#eafaf3"},
-  "PF": {yazi:"#5b3a86", bg:"#f1ecf9"},
-  "NM": {yazi:"#b7601f", bg:"#fff4e5"},
+  "PF": {yazi:"#8a4306", bg:"#ffe4cc"},
+  "NM": {yazi:"#8e0e45", bg:"#fce4ec"},
   "SİP": {yazi:"#003a70", bg:"#eaf2fc"},
   "F.TEK": {yazi:"#0e6b58", bg:"#eafaf3"},
-  "P.FAT": {yazi:"#5b3a86", bg:"#f1ecf9"},
-  "NUM": {yazi:"#b7601f", bg:"#fff4e5"}
+  "P.FAT": {yazi:"#8a4306", bg:"#ffe4cc"},
+  "NUM": {yazi:"#8e0e45", bg:"#fce4ec"}
 };
 // RENK GÜNCELLEMESİ (12.10.2026): kod formatı değişti (v3 — artık önek
 // hemen ardından 3 haneli günlük sıra, "FT001   12.10.2026   15:45" gibi;
@@ -68,7 +68,7 @@ var DURUM_ETIKET = {
   iptal: {ikon:"🚫", ad:"İPTAL EDİLDİ", renk:"#c0392b", bg:"#fdeceb"},
   iade: {ikon:"↩️", ad:"İADE EDİLDİ", renk:"#6a1b9a", bg:"#f3e5f5"},
   kacan: {ikon:"❌", ad:"KAÇAN SİPARİŞ", renk:"#c0392b", bg:"#fff4e5"},
-  beklemede: {ikon:"⏳", ad:"BEKLEMEDE", renk:"#633806", bg:"#faeeda"}
+  beklemede: {ikon:"⏳", ad:"BEKLEMEDE", renk:"#5b3c1e", bg:"#e9d9c3"}
 };
 
 function tarihiGuncelle(){
@@ -325,7 +325,7 @@ var TIP_ETIKET_UZUN = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Profor
 var TIP_IKON_BELGE = {numune:"🧪", teklif:"📝", proforma:"🧾", siparis:"📦"};
 // RENK GÜNCELLEMESİ (12.10.2026, Abdullah onayı — kurumsal/yumuşatılmış
 // "Seçenek B" paleti, swatch fotoğraflarından örneklenip yumuşatıldı).
-var TIP_RENK_BELGE = {numune:"#c0453a", teklif:"#249147", proforma:"#dcb13c", siparis:"#38469a"};
+var TIP_RENK_BELGE = {numune:"#c2185b", teklif:"#249147", proforma:"#e8690a", siparis:"#38469a"};
 // Sarı (proforma) açık zeminde/zeminin soluk tonunda METİN olarak
 // kullanıldığında okunmuyor (kontrast ~2:1) — bu yüzden metin rengi için
 // ayrı, koyu bir karşılık tanımlı; zemin/nokta/çerçeve hâlâ TIP_RENK_BELGE.

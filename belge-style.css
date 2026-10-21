@@ -1,4 +1,4 @@
-/* belge-style.css — WG.191026.1340.853
+/* belge-style.css — WG.211026.2235.928
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -1032,8 +1032,8 @@
 }
 .belge-form-baslik.tip-teklif   { color:#249147; }
 .belge-form-baslik.tip-siparis  { color:#38469a; }
-.belge-form-baslik.tip-proforma { color:#d2691e; }
-.belge-form-baslik.tip-numune   { color:#c0453a; }
+.belge-form-baslik.tip-proforma { color:#8a4306; }
+.belge-form-baslik.tip-numune   { color:#8e0e45; }
 .belge-kosul-satir {
   white-space: nowrap;
   overflow: hidden;

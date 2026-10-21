@@ -1,5 +1,5 @@
 /*
-  gecmis-render.js — WG.211026.2100.910
+  gecmis-render.js — WG.211026.2235.918
   ================
   Müşteriye özel İşlem Geçmişi sayfası. ReportsData.sonIslemler() zaten
   en yeniden en eskiye sıralı geliyor (bkz. reports-data.js); burada
@@ -60,8 +60,8 @@ function ayniMusteriKaydiMi(kayitMusteriAdi, kayitMusteriId, seciliAd, seciliId)
 var TIP_META = {
   siparis:  {rozet:"SP",    rozetBg:"#e6f1fb", rozetRenk:"#0c447c", serit:"#185fa5", kodRenk:"#003a70"},
   teklif:   {rozet:"FT",    rozetBg:"#e1f5ee", rozetRenk:"#0e6b58", serit:"#28a745", kodRenk:"#1a7431"},
-  proforma: {rozet:"PF",    rozetBg:"#f3e8fb", rozetRenk:"#6a1b9a", serit:"#8e44ad", kodRenk:"#5c1680"},
-  numune:   {rozet:"NM",    rozetBg:"#faeeda", rozetRenk:"#854f0b", serit:"#b7601f", kodRenk:"#7a4008"}
+  proforma: {rozet:"PF",    rozetBg:"#ffe4cc", rozetRenk:"#b45309", serit:"#e8690a", kodRenk:"#8a4306"},
+  numune:   {rozet:"NM",    rozetBg:"#fce4ec", rozetRenk:"#ad1457", serit:"#c2185b", kodRenk:"#8e0e45"}
 };
 var RVZ_META = {rozet:"RVZ", rozetBg:"#faeeda", rozetRenk:"#854f0b", serit:"#b7601f"};
 var KACAN_META = {rozet:"KAÇTI", rozetBg:"#fdecea", rozetRenk:"#a32d2d", serit:"#c0392b"};
@@ -84,7 +84,7 @@ function gunBasligi(ts){
 // Belge kodunun BAŞ HARFLERİ (SP/FT/PF/NM) işlem türünün kendi renginde
 // (WG.210926.1709.589); numara kısmı normal renkte kalır. Renkler uygulamadaki
 // işlem tipi renkleriyle aynı (SİPARİŞ navy, TEKLİF yeşil, PROFORMA mor, NUMUNE turuncu).
-var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#8e44ad", numune:"#b7601f"};
+var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#e8690a", numune:"#c2185b"};
 function kodHTML(kod, tip){
   kod = String(kod == null ? "" : kod);
   var i = kod.indexOf(".");
@@ -105,10 +105,11 @@ function tlKartHTML(k){
   var meta = TIP_META[k.tip] || TIP_META.siparis;
   var rozetMeta = kacanMi ? KACAN_META : (revizeMi ? RVZ_META : meta);
   var kod = k.kod || meta.rozet;
-  var tutarHucre = k.durum==="beklemede"
-    ? "<span class='sr-durum-ek'>⏳ Beklemede</span>"
+  var beklemedeMi = k.durum === "beklemede";
+  var tutarHucre = beklemedeMi
+    ? "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Beklemede</span>"
     : (bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 Bekleyen</span>" : fmt(k._tutar) + " €");
-  return "<div class='sr-satir sr-satir--tekmusteri' data-i='" + k._i + "' style='border-left-color:" + rozetMeta.serit + ";'>"
+  return "<div class='sr-satir sr-satir--tekmusteri" + (beklemedeMi ? " sr-satir--beklemede" : "") + "' data-i='" + k._i + "' style='border-left-color:" + rozetMeta.serit + ";'>"
     + "<span class='sr-rozet-h' style='background:" + rozetMeta.rozetBg + ";color:" + rozetMeta.rozetRenk + ";'>" + rozetMeta.rozet + "</span>"
     + "<div class='sr-belge-h'>" + kanalHarfHTML(k.kanal) + kodHTML(kod, k.tip) + (kacanMi && k.kacanRakip ? "<span class='sr-rakip'> · Rakip: " + htmlEsc(k.kacanRakip) + "</span>" : "") + "</div>"
     + "<div class='sr-tutar-h'>" + tutarHucre + "</div>"
@@ -168,7 +169,8 @@ function listeyiCiz(){
       uyusmazlikKutu.hidden = true;
     }
 
-    var filtreli = aktifTip ? bunaAit.filter(function(k){ return k.tip === aktifTip; }) : bunaAit;
+    var filtreli = aktifTip === "beklemede" ? bunaAit.filter(function(k){ return k.durum === "beklemede"; })
+      : (aktifTip ? bunaAit.filter(function(k){ return k.tip === aktifTip; }) : bunaAit);
     if(tarihFiltreKontrol) filtreli = filtreli.filter(function(k){ return tarihFiltreKontrol.icindeMi(k.ts); });
 
     var kapsayici = document.getElementById("gecmisListesi");

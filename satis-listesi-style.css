@@ -74,7 +74,7 @@
   font-weight: 700; line-height: 1.2; margin: 3px 0 2px;
 }
 #slListe .sr-grup-baslik:first-child, #ksListe .sr-grup-baslik:first-child { margin-top: 0; }
-#slListe .sr-grup-baslik--turuncu, #ksListe .sr-grup-baslik--turuncu { background: #FFF0D9; color: #b7601f; margin-top: 0; }
+#slListe .sr-grup-baslik--turuncu, #ksListe .sr-grup-baslik--turuncu { background: #e9d9c3; color: #5b3c1e; margin-top: 0; }
 #slListe .sr-liste-kutu, #ksListe .sr-liste-kutu { margin-bottom: 0; }
 #slListe .sr-satir, #ksListe .sr-satir {
   cursor: pointer;
@@ -99,4 +99,5 @@
 #slListe .sr-kanal-harf, #ksListe .sr-kanal-harf { font-weight: 900; margin-right: 2px; }
 #slListe .sr-tutar-h, #ksListe .sr-tutar-h { font-size: 11.5px; font-weight: 800; color: #0755C9; text-align: right; overflow-wrap: anywhere; line-height: 1.15; }
 #slListe .sr-durum-ek, #ksListe .sr-durum-ek { font-size: 10px; font-weight: 800; color: #b7601f; background: #FFF0D9; padding: 2px 4px; border-radius: 5px; white-space: nowrap; display: inline-block; }
+#slListe .sr-durum-ek--beklemede, #ksListe .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; }
 #slListe .sr-ok-h, #ksListe .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }

@@ -1,4 +1,4 @@
-/* ay-detay-style.css — WG.141026.1605.804 (YENİ DOSYA, 14.10.2026)
+/* ay-detay-style.css — WG.211026.2235.925 (YENİ DOSYA, 14.10.2026)
    Bu sayfa eskiden hiç kendi stil dosyasına sahip değildi, tüm satır
    görünümü paylaşılan reports-style.css'teki .tl-* sınıflarından
    geliyordu. Müşteri Listesi/Son İşlemler'deki tek-satırlık tablo
@@ -41,4 +41,5 @@
 #ayDetayListesi .sr-kanal-harf { font-weight: 900; margin-right: 2px; }
 #ayDetayListesi .sr-tutar-h { font-size: 11.5px; font-weight: 800; color: #0755C9; text-align: right; overflow-wrap: anywhere; line-height: 1.15; }
 #ayDetayListesi .sr-durum-ek { font-size: 10px; font-weight: 800; color: #b7601f; background: #FFF0D9; padding: 2px 4px; border-radius: 5px; white-space: nowrap; display: inline-block; }
+#ayDetayListesi .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; }
 #ayDetayListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }

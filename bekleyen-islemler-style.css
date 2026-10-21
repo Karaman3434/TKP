@@ -1,4 +1,4 @@
-/* bekleyen-islemler-style.css — WG.151026.1455.828
+/* bekleyen-islemler-style.css — WG.211026.2235.926
    ====================================
    15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı; "istisnasız
    tüm sayfalar" talebiyle genişletildi): "Beklet / Bekleyen İşlemler"
@@ -149,9 +149,9 @@
    beklemede, bkz. belge-render.js) aynı — yeni bir renk icat edilmedi. */
 .bi-beklet-buton {
   flex: 1;
-  background: #faeeda;
-  color: #633806;
-  border: 1.5px solid #e8c789;
+  background: #e9d9c3;
+  color: #5b3c1e;
+  border: 1.5px solid #a9743b;
   border-radius: 10px;
   padding: 13px 4px;
   min-height: 44px;

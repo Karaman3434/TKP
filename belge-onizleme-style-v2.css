@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.191026.1340.853
+  belge-onizleme-style-v2.css — WG.211026.2235.927
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -146,10 +146,10 @@
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  .bmb-kod { color: #38469a; }
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-tip,
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-alt,
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-kod { color: #d2691e; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-kod { color: #8a4306; }
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   .bmb-tip,
 .belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   .bmb-alt,
-.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   .bmb-kod { color: #c0453a; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   .bmb-kod { color: #8e0e45; }
 
 /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup19): üst boşluk daraltıldı
    (başlık şeridi ile müşteri ismi arası sıkılaştı) — alt/yanlar aynı. */
@@ -225,16 +225,16 @@
    TIP_RENK_BELGE paletiyle birebir aynı. ---- */
 .belge-onizleme-sayfa .belge-kart.tip-teklif .ck-isim-nokta { color: #249147; }
 .belge-onizleme-sayfa .belge-kart.tip-siparis .ck-isim-nokta { color: #38469a; }
-.belge-onizleme-sayfa .belge-kart.tip-proforma .ck-isim-nokta { color: #d2691e; }
-.belge-onizleme-sayfa .belge-kart.tip-numune .ck-isim-nokta { color: #c0453a; }
+.belge-onizleme-sayfa .belge-kart.tip-proforma .ck-isim-nokta { color: #8a4306; }
+.belge-onizleme-sayfa .belge-kart.tip-numune .ck-isim-nokta { color: #8e0e45; }
 
 /* TABLO ÜSTÜ ŞERİDİN YAZISI (14.10.2026, Abdullah'ın isteğiyle) — "FİYAT
    TEKLİFİ · FT002 ..." metni artık işlem türünün kendi rengini taşıyor,
    yukarıdaki nokta rengiyle BİREBİR aynı palet. */
 .belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-teklif { color: #249147; }
 .belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-siparis { color: #38469a; }
-.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-proforma { color: #d2691e; }
-.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-numune { color: #c0453a; }
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-proforma { color: #8a4306; }
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi.tip-numune { color: #8e0e45; }
 
 /* ---- Belge geçmişi (13.10.2026 — dikey zaman çizgisi, kutu ve her
    satırın sol/sağ boşluğu tam 2mm). Bu kutunun KENDİ çerçevesi şimdilik

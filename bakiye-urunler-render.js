@@ -1,5 +1,5 @@
 /*
-  bakiye-urunler-render.js — WG.211026.2100.913
+  bakiye-urunler-render.js — WG.211026.2235.921
   ================================================
   "Bakiyedeki / Bekleyen Ürünler" ekranı — stokta tam olmayıp müşteride
   bekleyen/bakiyede bırakılan ürün SATIRLARINI (ReportsData.
@@ -42,7 +42,7 @@ function htmlEsc(s){
   return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 
-var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#8e44ad", numune:"#b7601f"};
+var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#e8690a", numune:"#c2185b"};
 var OK_SVG = "<svg width='8' height='12' viewBox='0 0 20 32' fill='none'><path d='M4 4 L16 16 L4 28' stroke='#e24b4a' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/></svg>";
 
 function cariSatirHTML(kod, isim, sehir){

@@ -1,5 +1,5 @@
 /*
-  cart-tablo-style-v2.css — WG.191026.0842.848
+  cart-tablo-style-v2.css — WG.211026.2235.929
   ================================================================
   Belge Önizleme'de onaylanan tasarım dili (açık gri zemin + türün
   rengi SADECE kendi rozetinde) Sepet/Hesapla tablosuna taşındı
@@ -48,8 +48,8 @@
    kendi color'u olmadığı için otomatik miras alır (hepsi aynı renk). */
 body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   { color: #249147; }
 body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  { color: #38469a; }
-body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-proforma { color: #d2691e; }
-body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { color: #c0453a; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-proforma { color: #8a4306; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { color: #8e0e45; }
 
 /* HESAPLANDI satırındaki işlem türü rozeti — artık türün kendi rengini
    taşıyor (sabit yeşil yerine). opts.tip verilmeyen diğer kullanımlar
@@ -61,8 +61,8 @@ body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { color: #c0453a; }
    (bu seçiciler zaten daha spesifik, !important gerekmiyor). */
 body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-teklif   { background:#eafaf0; border-color:#249147; color:#249147; }
 body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-siparis  { background:#38469a; border-color:#2c3774; }
-body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-proforma { background:#dcb13c; border-color:#c99a2e; color:#2b2300; }
-body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-numune   { background:#c0453a; border-color:#a8382e; }
+body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-proforma { background:#ffe4cc; border-color:#e8a560; color:#8a4306; }
+body.cart-sayfa .hareket-grup-etiket-rozet--islem-tipi.tip-numune   { background:#c2185b; border-color:#8e0e45; }
 
 /* 40PX KURAL (19.10.2026, Abdullah onayı — "7 fotoğraf" turu): HESAPLANACAK/
    HESAPLANDI şeridinin yüksekliği, üstündeki kod/tarih şeridiyle (yukarıdaki

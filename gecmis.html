@@ -23,10 +23,10 @@
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1455.828">
+<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
 <link rel="stylesheet" href="reports-style.css?v=WG.211026.2100.908">
-<link rel="stylesheet" href="gecmis-style.css?v=WG.141026.1605.804">
+<link rel="stylesheet" href="gecmis-style.css?v=WG.211026.2235.931">
 </head>
 <body>
 
@@ -60,8 +60,9 @@
     <button class="gecmis-filtre-cip gecmis-filtre-cip--aktif" data-tip="">Tümü</button>
     <button class="gecmis-filtre-cip" data-tip="siparis" style="--cip-renk:#003a70;">Sipariş</button>
     <button class="gecmis-filtre-cip" data-tip="teklif" style="--cip-renk:#28a745;">Teklif</button>
-    <button class="gecmis-filtre-cip" data-tip="numune" style="--cip-renk:#b7601f;">Numune</button>
-    <button class="gecmis-filtre-cip" data-tip="proforma" style="--cip-renk:#8e44ad;">Proforma</button>
+    <button class="gecmis-filtre-cip" data-tip="numune" style="--cip-renk:#c2185b;">Numune</button>
+    <button class="gecmis-filtre-cip" data-tip="proforma" style="--cip-renk:#e8690a;">Proforma</button>
+    <button class="gecmis-filtre-cip" data-tip="beklemede" style="--cip-renk:#a9743b;">⏳ Beklemede</button>
     <div id="tarihFiltreYeri"></div>
   </div>
 
@@ -88,7 +89,7 @@
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("gecmis.html", "🕐 İşlem Geçmişi"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="tarih-filtre.js?v=WG.211026.2100.906"></script>
-<script src="gecmis-render.js?v=WG.211026.2100.910"></script>
+<script src="gecmis-render.js?v=WG.211026.2235.918"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
 <script>
   window.BEKLEYEN_ISLEM_AYAR = {

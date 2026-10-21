@@ -1,5 +1,5 @@
 /*
-  ay-detay-render.js — WG.141026.0010.803
+  ay-detay-render.js — WG.211026.2235.922
   ===================
   Aylık Özet tablosunda bir aya dokununca açılan, o ayın sipariş
   kayıtlarını gün gün listeleyen AYRI sayfa. Hangi ay gösterilecek,
@@ -45,8 +45,8 @@ function fmt(n){
 var TIP_META = {
   siparis:  {rozet:"SP",    rozetBg:"#e6f1fb", rozetRenk:"#0c447c", serit:"#185fa5", kodRenk:"#003a70"},
   teklif:   {rozet:"FT",    rozetBg:"#e1f5ee", rozetRenk:"#0e6b58", serit:"#28a745", kodRenk:"#1a7431"},
-  proforma: {rozet:"PF",    rozetBg:"#f3e8fb", rozetRenk:"#6a1b9a", serit:"#8e44ad", kodRenk:"#5c1680"},
-  numune:   {rozet:"NM",    rozetBg:"#faeeda", rozetRenk:"#854f0b", serit:"#b7601f", kodRenk:"#7a4008"}
+  proforma: {rozet:"PF",    rozetBg:"#ffe4cc", rozetRenk:"#b45309", serit:"#e8690a", kodRenk:"#8a4306"},
+  numune:   {rozet:"NM",    rozetBg:"#fce4ec", rozetRenk:"#ad1457", serit:"#c2185b", kodRenk:"#8e0e45"}
 };
 var RVZ_META = {rozet:"RVZ", rozetBg:"#faeeda", rozetRenk:"#854f0b", serit:"#b7601f"};
 var KACAN_META = {rozet:"KAÇTI", rozetBg:"#fdecea", rozetRenk:"#a32d2d", serit:"#c0392b"};
@@ -69,7 +69,7 @@ function gunBasligi(ts){
 // Belge kodunun BAŞ HARFLERİ (SP/FT/PF/NM) işlem türünün kendi renginde
 // (WG.210926.1709.589); numara kısmı normal renkte kalır. Renkler uygulamadaki
 // işlem tipi renkleriyle aynı (SİPARİŞ navy, TEKLİF yeşil, PROFORMA mor, NUMUNE turuncu).
-var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#8e44ad", numune:"#b7601f"};
+var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#e8690a", numune:"#c2185b"};
 function kodHTML(kod, tip){
   kod = String(kod == null ? "" : kod);
   var i = kod.indexOf(".");
@@ -89,7 +89,7 @@ function tlKartHTML(k){
   var rozetMeta = kacanMi ? KACAN_META : (revizeMi ? RVZ_META : meta);
   var kod = k.kod || meta.rozet;
   var tutarHucre = k.durum==="beklemede"
-    ? "<span class='sr-durum-ek'>⏳ Beklemede</span>"
+    ? "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Beklemede</span>"
     : (bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 Bekleyen</span>" : fmt(k._tutar) + " €");
   return "<div class='sr-satir' data-i='" + k._i + "' style='border-left-color:" + rozetMeta.serit + ";'>"
     + "<div class='sr-firma-h'>" + htmlEsc(k.musteri||"") + "</div>"

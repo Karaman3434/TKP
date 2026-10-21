@@ -1,4 +1,4 @@
-/* kacan-satislar-render.js — WG.211026.2100.912 */
+/* kacan-satislar-render.js — WG.211026.2235.920 */
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -40,8 +40,8 @@ var TIP_ETIKET_KS = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", sipa
 var TIP_META = {
   siparis:  {rozet:"SP",    kodRenk:"#003a70"},
   teklif:   {rozet:"FT",    kodRenk:"#1a7431"},
-  proforma: {rozet:"PF",    kodRenk:"#5c1680"},
-  numune:   {rozet:"NM",    kodRenk:"#7a4008"}
+  proforma: {rozet:"PF",    kodRenk:"#8a4306"},
+  numune:   {rozet:"NM",    kodRenk:"#8e0e45"}
 };
 var KACAN_META = {rozet:"KAÇTI", rozetBg:"#fdecea", rozetRenk:"#a32d2d", serit:"#c0392b"};
 var GUNLER_UZUN = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
@@ -57,7 +57,7 @@ function gunBasligi(ts){
 // Belge kodunun BAŞ HARFLERİ (SP/FT/PF/NM) işlem türünün kendi renginde
 // (WG.210926.1709.589); numara kısmı normal renkte kalır. Renkler uygulamadaki
 // işlem tipi renkleriyle aynı (SİPARİŞ navy, TEKLİF yeşil, PROFORMA mor, NUMUNE turuncu).
-var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#8e44ad", numune:"#b7601f"};
+var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#e8690a", numune:"#c2185b"};
 function kodHTML(kod, tip){
   kod = String(kod == null ? "" : kod);
   var i = kod.indexOf(".");
