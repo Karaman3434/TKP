@@ -35,7 +35,12 @@
 </header>
 
 <nav class="app-nav">
-  <a class="nav-btn nav-btn--geri" href="raporlar.html"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></a>
+  <!-- 21.10.2026 (Abdullah'ın isteğiyle): Geri artık Raporlar'a değil
+       doğrudan Ana Sayfa'ya gidiyor — Son İşlemler'den açılan bir işlemde
+       "Geri" zaten tarayıcı geçmişiyle (akilliGeriBagla, bkz. belge-
+       render.js) buraya doğru döner; buradan ileri bir "Geri" ise artık
+       Raporlar'ı hiç göstermeden Ana Sayfa'ya gider. -->
+  <a class="nav-btn nav-btn--geri" href="home.html"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></a>
   <a class="nav-btn nav-btn--ana" href="home.html"><span class='nav-ikon'>🏠</span><span class='nav-etiket'>Ana Sayfa</span></a>
 </nav>
 </div>
