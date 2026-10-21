@@ -1,6 +1,6 @@
 {
-  "name": "WEICON ASİST",
-  "short_name": "WEICON ASİST",
+  "name": "İş Takip",
+  "short_name": "İş Takip",
   "start_url": "https://karaman3434.github.io/WE-CON-CRM/home.html",
   "scope": "https://karaman3434.github.io/WE-CON-CRM/",
   "display": "standalone",

@@ -1,5 +1,5 @@
 /*
-  teklif-pdf.js — WG.141026.2228.817
+  teklif-pdf.js — WG.211026.1700.895
   ===================================
   14.10.2026 (Abdullah'ın isteğiyle, mockup üzerinden onaylandı): müşteriye
   giden TEKLİF/SİPARİŞ/PROFORMA/NUMUNE kayıtları için gerçek, biçimlendirilmiş
@@ -171,7 +171,7 @@
     doc.setTextColor.apply(doc, RENK.metin);
     doc.text(veri.baslik, SOL, y + 4);
 
-    var logo = await resimYukle("weicon-logo-temiz.png");
+    var logo = await resimYukle("is-takip-logo.png");
     if(logo){
       var logoY_h = 11.5, logoW = logoY_h * (logo.width / logo.height);
       doc.addImage(logo, "PNG", 210 - SAG - logoW, y - 4, logoW, logoY_h);
