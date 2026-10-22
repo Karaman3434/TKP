@@ -1,5 +1,5 @@
 /*
-  auth.js — WG.221026.0658.935
+  auth.js — WG.221026.1210.945
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -430,6 +430,21 @@
       // zorlamayı önlemek için aktiviteyi HEMEN tazeleyip durum kontrolünü
       // hiç uygulamadan doğrudan Ana Sayfa'ya geç.
       if(buSayfaLogin){
+        // DÜZELTME (22.10.2026, Abdullah'ın bildirdiği hata) — "Giriş Linki"
+        // (?kullanici=... ile açılan link) KESİNLİKLE o kullanıcı için bir
+        // giriş formu göstermek amaçlı. Cihazda BAŞKA bir hesap (örn.
+        // Abdullah'ın kendi hesabı) zaten açık kalmışsa, eskiden buradaki
+        // kod sessizce o hesapla home.html'e geçiyordu — link hiç
+        // denenmeden "tüm sistemlere erişim var" gibi görünüyordu. Linkte
+        // ?kullanici= varsa önce mevcut oturumdan çıkış yapıp GERÇEKTEN
+        // giriş formunu gösteriyoruz; bu dal tekrar user=null ile
+        // tetiklenince aşağıdaki "else" kolu formu zaten görünür yapıyor.
+        var zorlaGirisFormu = false;
+        try{ zorlaGirisFormu = /[?&]kullanici=/.test(window.location.search); }catch(e){}
+        if(zorlaGirisFormu){
+          firebase.auth().signOut();
+          return;
+        }
         aktiviteZamaniniGuncelle();
         window.location.href = "home.html";
         return;
