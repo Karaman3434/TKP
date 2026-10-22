@@ -1,5 +1,5 @@
 /*
-  auth.js — WG.201026.1615.862
+  auth.js — WG.221026.0658.935
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -333,6 +333,96 @@
   window.addEventListener("offline", cevrimdisiDurumGuncelle);
   document.addEventListener("DOMContentLoaded", cevrimdisiDurumGuncelle);
 
+  // GÜNLÜK ARAÇ KM HATIRLATMA / KISITLAMA (16.10.2026 — Abdullah'ın ayrı
+  // bir oturumda hazırlattığı paket; 20.10.2026'daki PIN "kaldığı yerden
+  // devam" güncellemesinde auth.js'in bu bloğu yanlışlıkla atlanmış/
+  // kaybolmuştu — 22.10.2026'da yüklediği orijinal paketten BİREBİR
+  // AYNI mantıkla geri eklendi, tek değişen auth.js'in geri kalanıyla
+  // bütünleşmesi). Mevcut km.html ve KmData kayıt yapısını kullanır;
+  // yeni giriş sayfası oluşturmaz ve KM hesaplama/kayıt fonksiyonlarına
+  // müdahale etmez.
+  var KM_GUNLUK_HATIRLATMA_SNOOZE = "weicon_km_hatirlatma_erteleme";
+  var KM_GUNLUK_HATIRLATMA_GOSTERILDI = "weicon_km_hatirlatma_gosterildi";
+  var KM_GUNLUK_KONTROL_TIMER = null;
+  function kmYerelTarihAnahtari(d){
+    d = d || new Date();
+    return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);
+  }
+  function kmSaatDakika(d){ return d.getHours()*60+d.getMinutes(); }
+  function kmSaatKur(d, saat, dakika){ var x=new Date(d.getTime()); x.setHours(saat,dakika,0,0); return x; }
+  function kmGunlukKontrolu(user, tamam){
+    if(!user || buSayfaLogin || buSayfaPin || buSayfaCihazEngelli || window.location.pathname.split("/").pop()==="erisim-reddedildi.html"){
+      tamam(); return;
+    }
+    // KM giriş formu bizzat erişilebilir kalır; mevcut modüle yönlendirilir.
+    var dosya = window.location.pathname.split("/").pop() || "home.html";
+    var kmSayfasi = dosya === "km.html";
+    var simdi = new Date();
+    var dakika = kmSaatDakika(simdi);
+    var baslangic = 6*60, bitis = 13*60;
+    try{ if(KM_GUNLUK_KONTROL_TIMER) clearTimeout(KM_GUNLUK_KONTROL_TIMER); }catch(e){}
+
+    function timerKur(hedef){
+      var ms = Math.max(1000, hedef.getTime()-Date.now());
+      KM_GUNLUK_KONTROL_TIMER = setTimeout(function(){ kmGunlukKontrolu(firebase.auth().currentUser, function(){}); }, ms);
+    }
+    function hatirlatmaGoster(){
+      if(kmSayfasi || !document.body || document.getElementById("weiconKmGunlukOverlay")) return;
+      var overlay=document.createElement("div");
+      overlay.id="weiconKmGunlukOverlay";
+      overlay.style.cssText="position:fixed;inset:0;z-index:100000;background:rgba(9,28,54,.70);display:flex;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;font-family:Arial,sans-serif;";
+      var kutu=document.createElement("div");
+      kutu.style.cssText="width:100%;max-width:390px;background:#fff;border-radius:16px;padding:22px 18px 18px;box-sizing:border-box;box-shadow:0 18px 55px rgba(0,0,0,.28);text-align:center;color:#17365f;";
+      var ikon=document.createElement("div"); ikon.textContent="🚗"; ikon.style.cssText="font-size:38px;margin-bottom:8px;";
+      var baslik=document.createElement("div"); baslik.textContent="Günlük Araç KM Girişi"; baslik.style.cssText="font-size:21px;font-weight:800;margin:0 0 12px;";
+      var metin=document.createElement("p"); metin.textContent="Bugünün ("+("0"+simdi.getDate()).slice(-2)+"."+("0"+(simdi.getMonth()+1)).slice(-2)+"."+simdi.getFullYear()+") tarihli araç KM girişi henüz yapılmamış."; metin.style.cssText="font-size:15px;line-height:1.5;margin:0 0 18px;color:#34445b;";
+      var git=document.createElement("button"); git.type="button"; git.textContent="🚘  KM Giriş Sayfasına Git"; git.style.cssText="display:block;width:100%;border:0;border-radius:10px;padding:14px 10px;background:linear-gradient(135deg,#1684f8,#0758cf);color:#fff;font-size:15px;font-weight:800;margin-bottom:10px;";
+      git.onclick=function(){ window.location.href="km.html?kmHatirlatma=1"; };
+      var ertele=document.createElement("button"); ertele.type="button"; ertele.textContent="◷  1 Saat Ertele"; ertele.style.cssText="display:block;width:100%;border:1px solid #e05b5b;border-radius:10px;padding:13px 10px;background:#fff;color:#c62828;font-size:15px;font-weight:800;";
+      ertele.onclick=function(){
+        try{ localStorage.setItem(KM_GUNLUK_HATIRLATMA_SNOOZE,String(Date.now()+60*60*1000)); localStorage.setItem(KM_GUNLUK_HATIRLATMA_GOSTERILDI,kmYerelTarihAnahtari()); }catch(e){}
+        overlay.remove();
+        var hedef=new Date(Date.now()+60*60*1000), kilit=kmSaatKur(new Date(),13,0);
+        if(kilit.getTime()<hedef.getTime()) hedef=kilit;
+        timerKur(hedef);
+      };
+      kutu.appendChild(ikon); kutu.appendChild(baslik); kutu.appendChild(metin); kutu.appendChild(git); kutu.appendChild(ertele); overlay.appendChild(kutu); document.body.appendChild(overlay);
+    }
+    function kaydiKontrolEt(){
+      // Okuma hatasında kullanıcıyı yanlışlıkla kilitleme; yalnızca kayıt
+      // açıkça bulunamadığında hatırlatma/kısıtlama uygula.
+      firebase.database().ref("kmTakip/"+kmYerelTarihAnahtari(simdi)).once("value").then(function(snap){
+        var kayit=snap.val();
+        var kmVar=!!(kayit && kayit.km!==undefined && kayit.km!==null && String(kayit.km).trim()!=="");
+        if(kmVar){
+          try{ localStorage.removeItem(KM_GUNLUK_HATIRLATMA_SNOOZE); localStorage.removeItem(KM_GUNLUK_HATIRLATMA_GOSTERILDI); }catch(e){}
+          tamam(); return;
+        }
+        var simdiKontrol=new Date(), dk=kmSaatDakika(simdiKontrol);
+        if(dk>=bitis){
+          if(!kmSayfasi){ document.documentElement.style.visibility="hidden"; window.location.replace("km.html?kmZorunlu=1"); return; }
+          tamam(); return;
+        }
+        if(dk<baslangic){
+          tamam(); timerKur(kmSaatKur(simdiKontrol,6,0)); return;
+        }
+        if(kmSayfasi){ tamam(); timerKur(kmSaatKur(simdiKontrol,13,0)); return; }
+        var ertelenme=0;
+        try{ ertelenme=parseInt(localStorage.getItem(KM_GUNLUK_HATIRLATMA_SNOOZE)||"0",10)||0; }catch(e){}
+        if(ertelenme>Date.now()){
+          tamam(); var sonraki=new Date(ertelenme), kilitSaati=kmSaatKur(simdiKontrol,13,0);
+          if(kilitSaati.getTime()<sonraki.getTime()) sonraki=kilitSaati;
+          timerKur(sonraki); return;
+        }
+        tamam(); hatirlatmaGoster();
+        timerKur(kmSaatKur(simdiKontrol,13,0));
+      }).catch(function(err){ console.warn("Günlük KM kontrolü okunamadı; program normal açılıyor.",err); tamam(); });
+    }
+    // 06:00 öncesinde kayda bakmak gerekmez; 06:00 başlangıcında kontrol başlar.
+    if(dakika<baslangic){ tamam(); timerKur(kmSaatKur(simdi,6,0)); return; }
+    kaydiKontrolEt();
+  }
+
   function normalAkisiIsle(user){
     if(user){
       // Giriş sayfasındaysak (yeni tamamlanmış bir giriş demektir), bayat
@@ -364,19 +454,23 @@
           }
           kisitliSayfaKontrolu(user, function(izinVar){
             if(!izinVar) return; // yönlendirme/çıkış zaten tetiklendi
-            document.documentElement.style.visibility = "visible";
-            if(!buSayfaPin) aktiviteZamaniniGuncelle();
-            cihazKaydiGuncelle();
-            window.dispatchEvent(new CustomEvent("weiconAuthHazir", {detail:{user:user}}));
+            kmGunlukKontrolu(user, function(){
+              document.documentElement.style.visibility = "visible";
+              if(!buSayfaPin) aktiviteZamaniniGuncelle();
+              cihazKaydiGuncelle();
+              window.dispatchEvent(new CustomEvent("weiconAuthHazir", {detail:{user:user}}));
+            });
           });
         });
         return;
       }
       kisitliSayfaKontrolu(user, function(izinVar){
         if(!izinVar) return;
-        document.documentElement.style.visibility = "visible";
-        if(!buSayfaPin) aktiviteZamaniniGuncelle();
-        window.dispatchEvent(new CustomEvent("weiconAuthHazir", {detail:{user:user}}));
+        kmGunlukKontrolu(user, function(){
+          document.documentElement.style.visibility = "visible";
+          if(!buSayfaPin) aktiviteZamaniniGuncelle();
+          window.dispatchEvent(new CustomEvent("weiconAuthHazir", {detail:{user:user}}));
+        });
       });
     } else {
       if(buSayfaCihazEngelli){
