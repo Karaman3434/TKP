@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: WG.221026.1245.948
+  cihaz-kullanici-render.js — VERSİYON: WG.221026.1405.950
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -748,6 +748,24 @@ function ceKullaniciKartHtml(uid, veri){
     '</section>';
 }
 
+// EKLENDİ (22.10.2026, "HİT/YENİ kısıtlaması tutmuyor" hatasının kök nedeni
+// düzeltmesi) — "kisitliKullanicilar" düğümü HER kullanıcıda, HER cihazda,
+// HER işlemde (yeni kullanıcı oluşturma, devre dışı bırakma, başka bir
+// kartın izinlerini kaydetme, vs.) değiştiği an bu .on("value") dinleyicisi
+// tetiklenir ve ceListeyiCiz TÜM kartları Firebase'deki GÜNCEL (henüz
+// kaydedilmemiş olan kartlar için ESKİ) veriden SIFIRDAN yeniden çiziyordu.
+// Yönetici bir kartta kutucukları işaretleyip "Kaydet"e basmadan ÖNCE
+// (örn. başka bir çalışanı oluşturduğu/devre dışı bıraktığı an) bu yeniden
+// çizim araya girerse, henüz kaydedilmemiş işaretlemeler sessizce ESKİ
+// haline dönüyor ve yönetici fark etmeden "Kaydet"e bastığında yanlışlıkla
+// ESKİ (işaretlemeden önceki) değerler kaydediliyordu — tam olarak
+// Abdullah'ın bildirdiği "HİT/YENİ kapalı gösteriyor ama kullanıcı hâlâ
+// kullanabiliyor" hatasının kök nedeni budur. Çözüm: bir kartın izin
+// kutucuklarından biri değiştirilip henüz "Kaydet" ile onaylanmadıysa, o
+// kart bu yeniden çizimde AYNEN bırakılır (Firebase'deki yeni veriyle
+// ezilmez); "Kaydet" başarıyla tamamlanınca koruma kaldırılır.
+var ceDuzenlemedeOlanKartlar = {};
+
 function ceListeyiCiz(tumKullanicilar){
   var kapsayici = document.getElementById("ceKullaniciListesi");
   var bosMesaj = document.getElementById("ceBosMesaj");
@@ -758,12 +776,42 @@ function ceListeyiCiz(tumKullanicilar){
     return;
   }
   bosMesaj.hidden = true;
-  kapsayici.innerHTML = uidler.map(function(uid){
-    return ceKullaniciKartHtml(uid, tumKullanicilar[uid] || {});
-  }).join("");
+
+  var oncekiKartlar = {};
+  kapsayici.querySelectorAll(".ce-kart[data-uid]").forEach(function(k){
+    oncekiKartlar[k.getAttribute("data-uid")] = k;
+  });
+
+  // ÖNEMLİ: korunan kartlar için outerHTML (string) ile yeniden kurmak,
+  // kutucukların CANLI ".checked" ÖZELLİĞİNİ (JS property) KAYBEDER —
+  // tarayıcı HTML'i sadece ORİJİNAL "checked" ATTRIBUTE'una göre serileştirir,
+  // işaretleme sırasında yapılan canlı değişikliği değil. Bu yüzden
+  // GERÇEK DOM düğümünü (klonlamadan/serileştirmeden) doğrudan TAŞIYORUZ.
+  var parca = document.createDocumentFragment();
+  uidler.forEach(function(uid){
+    if(ceDuzenlemedeOlanKartlar[uid] && oncekiKartlar[uid]){
+      parca.appendChild(oncekiKartlar[uid]);
+    } else {
+      var sarici = document.createElement("div");
+      sarici.innerHTML = ceKullaniciKartHtml(uid, tumKullanicilar[uid] || {});
+      parca.appendChild(sarici.firstElementChild);
+    }
+  });
+  kapsayici.innerHTML = "";
+  kapsayici.appendChild(parca);
 
   kapsayici.querySelectorAll(".ce-kart").forEach(function(kart){
     var uid = kart.getAttribute("data-uid");
+
+    // İzin kutucuklarından biri değiştirildiğinde bu kartı "kaydedilmemiş
+    // değişiklik var" olarak işaretle (yukarıdaki not). ".onchange =" ile
+    // atanıyor (addEventListener değil) ki korunan kartlar her yeniden
+    // çizimde dinleyici biriktirmesin.
+    kart.querySelectorAll('input[type="checkbox"][data-anahtar]').forEach(function(kutu){
+      kutu.onchange = function(){
+        ceDuzenlemedeOlanKartlar[uid] = true;
+      };
+    });
 
     // 🔗 Giriş Linki — 📋 Kopyala
     ceLinkKopyalaBtnBagla(
@@ -803,6 +851,7 @@ function ceListeyiCiz(tumKullanicilar){
         kaydetBtn.disabled = true;
         kaydetBtn.textContent = "⏳ Kaydediliyor...";
         firebase.database().ref("kisitliKullanicilar/" + uid + "/izinler").set(yeniIzinler).then(function(){
+          delete ceDuzenlemedeOlanKartlar[uid];
           kaydetBtn.disabled = false;
           kaydetBtn.textContent = "✓ Kaydet";
         }).catch(function(e){
