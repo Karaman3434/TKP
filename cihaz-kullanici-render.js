@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: WG.221026.1113.938
+  cihaz-kullanici-render.js — VERSİYON: WG.221026.1145.941
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -290,13 +290,27 @@ function ckYonetimAlaniniGoster(){
     var sifre = document.getElementById("ceSifre").value;
     btn.disabled = true;
     btn.textContent = "⏳ Oluşturuluyor...";
-    ceKullaniciOlustur(kullaniciAdi, sifre, function(basarili, hata){
+    ceKullaniciOlustur(kullaniciAdi, sifre, function(basarili, hata, olusanKullaniciAdi){
       btn.disabled = false;
       btn.textContent = "✓ Kullanıcı Oluştur";
       if(!basarili){
         hataEl.textContent = "❌ " + hata;
         hataEl.hidden = false;
         return;
+      }
+      // EKLENDİ (22.10.2026, Abdullah'ın isteğiyle) — Kullanıcı
+      // oluşturulduğu ANDA "Giriş Linki"ni de burada göster; aynı link
+      // zaten aşağıdaki kullanıcı kartında da kalıcı olarak kalacak.
+      var yeniLinkBlok = document.getElementById("ceYeniLinkBlok");
+      var yeniLinkKutu = document.getElementById("ceYeniLinkKutu");
+      if(yeniLinkBlok && yeniLinkKutu){
+        yeniLinkKutu.value = ceGirisLinkiOlustur(olusanKullaniciAdi);
+        yeniLinkBlok.hidden = false;
+        ceLinkKopyalaBtnBagla(
+          document.getElementById("ceYeniLinkKopyalaBtn"),
+          yeniLinkKutu,
+          document.getElementById("ceYeniLinkKopyalandi")
+        );
       }
       document.getElementById("ceKullaniciAdi").value = "";
       document.getElementById("ceSifre").value = "";
@@ -604,7 +618,12 @@ function ceKullaniciOlustur(kullaniciAdiGirilen, sifre, cb){
       });
     });
   }).then(function(){
-    cb(true);
+    // EKLENDİ (22.10.2026, Abdullah'ın isteğiyle) — "Giriş Linki" özelliği
+    // için, hesap gerçekten hangi kullanıcı adıyla oluşturulduysa (boşluk/
+    // büyük harf temizlenmiş hali) onu çağırana geri bildiriyoruz; böylece
+    // link, formdaki ham girdiden değil, Firebase'e yazılan GERÇEK adından
+    // üretilir.
+    cb(true, null, kullaniciAdi);
   }).catch(function(e){
     var mesaj = (e && e.code === "auth/email-already-in-use")
       ? "Bu kullanıcı adı zaten kullanılıyor."
@@ -638,10 +657,48 @@ function ceAcikSayfaSayisi(izinler){
   return sayac;
 }
 
+// EKLENDİ (22.10.2026, Abdullah'ın isteğiyle) — Her kullanıcı için, giriş
+// sayfasında o kullanıcının adını otomatik dolduran bir link üretir.
+// Şifre linkte YOKTUR — çalışan şifreyi yine kendisi elle yazar (yeni bir
+// Cloud Function / sunucu tarafı GEREKTİRMEZ, Abdullah'ın bu seçeneği
+// tercih etmesiyle netleşti). Link her zaman GERÇEK kullanıcı adından
+// üretilir, böylece kullanıcı adı ne olursa olsun link de otomatik
+// doğru olur — ayrıca bir "link oluştur" adımına gerek kalmaz.
+function ceGirisLinkiOlustur(kullaniciAdi){
+  var klasorYolu = window.location.pathname.replace(/[^/]*$/, "");
+  return window.location.origin + klasorYolu + "login.html?kullanici=" + encodeURIComponent(kullaniciAdi || "");
+}
+
+// Bir "Giriş Linki" kutusunun 📋 Kopyala düğmesini bağlar — hem kullanıcı
+// kartlarında hem de "➕ Yeni Kullanıcı" formunun altındaki tek seferlik
+// onay kutusunda AYNI fonksiyon kullanılıyor.
+function ceLinkKopyalaBtnBagla(kopyalaBtn, linkInput, kopyalandiEl){
+  if(!kopyalaBtn || !linkInput || !kopyalandiEl) return;
+  kopyalaBtn.onclick = function(){
+    var kopyalaBasarili = function(){
+      kopyalandiEl.hidden = false;
+      setTimeout(function(){ kopyalandiEl.hidden = true; }, 2000);
+    };
+    var yedekYontem = function(){
+      try{
+        linkInput.select();
+        document.execCommand("copy");
+        kopyalaBasarili();
+      }catch(e){ hataGoster("Link kopyalanamadı: " + e.message); }
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(linkInput.value).then(kopyalaBasarili).catch(yedekYontem);
+    } else {
+      yedekYontem();
+    }
+  };
+}
+
 function ceKullaniciKartHtml(uid, veri){
   var izinler = veri.izinler || {};
   var aktifMi = veri.aktif !== false;
   var ozet = aktifMi ? (ceAcikSayfaSayisi(izinler) + " sayfa açık") : "devre dışı";
+  var girisLinki = ceGirisLinkiOlustur(veri.kullaniciAdi);
   return '<section class="ce-kart" data-uid="' + uid + '">' +
     '<div class="ce-kullanici-ust">' +
       '<div class="ce-kullanici-ad' + (aktifMi ? "" : " ce-kullanici-ad--devredisi") + '">👤 ' + (veri.kullaniciAdi||"?") + '</div>' +
@@ -649,6 +706,14 @@ function ceKullaniciKartHtml(uid, veri){
     '</div>' +
     '<div class="ce-kullanici-ozet">' + ozet + '</div>' +
     (aktifMi ? "" : '<div class="ce-devredisi-rozet">⛔ Bu hesap devre dışı — hiçbir sayfaya girilemez</div>') +
+    '<div class="ce-link-blok">' +
+      '<div class="ce-link-etiket">🔗 Giriş Linki <span class="ce-link-ipucu">(kullanıcı adını otomatik doldurur, şifreyi kendisi yazar)</span></div>' +
+      '<div class="ce-link-satir">' +
+        '<input type="text" class="ce-link-kutu" readonly value="' + htmlEsc(girisLinki) + '">' +
+        '<button type="button" class="ce-link-kopyala-btn">📋 Kopyala</button>' +
+      '</div>' +
+      '<div class="ce-link-kopyalandi" hidden>✓ Kopyalandı</div>' +
+    '</div>' +
     ceGrupHtml(uid, izinler, aktifMi) +
     (aktifMi
       ? '<button class="ce-kaydet-btn" data-aksiyon="kaydet">✓ Kaydet</button>'
@@ -673,6 +738,13 @@ function ceListeyiCiz(tumKullanicilar){
 
   kapsayici.querySelectorAll(".ce-kart").forEach(function(kart){
     var uid = kart.getAttribute("data-uid");
+
+    // 🔗 Giriş Linki — 📋 Kopyala
+    ceLinkKopyalaBtnBagla(
+      kart.querySelector(".ce-link-kopyala-btn"),
+      kart.querySelector(".ce-link-kutu"),
+      kart.querySelector(".ce-link-kopyalandi")
+    );
 
     var devreDisiBtn = kart.querySelector('[data-aksiyon="devredisi"]');
     if(devreDisiBtn){

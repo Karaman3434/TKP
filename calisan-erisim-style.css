@@ -159,6 +159,29 @@
   margin-top: 10px;
 }
 
+/* 22.10.2026 (Abdullah'ın isteğiyle) — Her kullanıcı için otomatik "Giriş
+   Linki": sadece kullanıcı adını otomatik doldurur, şifreyi kullanıcı
+   kendisi yazar (yeni bir Cloud Function / sunucu tarafı GEREKTİRMEZ).
+   Hem kullanıcı oluşturulduğu anda (➕ Yeni Kullanıcı formunun altında)
+   hem de kullanıcı listesindeki her kartta kalıcı olarak gösterilir —
+   aynı blok, iki yerde birebir aynı stille kullanılıyor. */
+.ce-link-blok { margin: 10px 0 12px; padding-top: 10px; border-top: 1px solid #e5eaf1; }
+.ce-link-etiket { font-size: 12px; font-weight: 800; color: #556170; margin-bottom: 6px; }
+.ce-link-ipucu { font-weight: 600; color: #9aa5b1; }
+.ce-link-satir { display: flex; align-items: center; gap: 6px; }
+.ce-link-kutu {
+  flex: 1; min-width: 0;
+  border: 1.5px solid #cbd5e1; border-radius: 7px;
+  padding: 8px 9px; font-size: 12px; color: #0c2f66; font-weight: 700;
+  background: #f6f9fd;
+}
+.ce-link-kopyala-btn {
+  flex-shrink: 0;
+  border: 1.5px solid #9ebde0; background: #e6eef7; color: #003a70;
+  border-radius: 7px; padding: 8px 12px; font-size: 12px; font-weight: 800; cursor: pointer;
+}
+.ce-link-kopyalandi { font-size: 11px; font-weight: 800; color: #16a085; margin-top: 5px; }
+
 .surum-bilgisi {
   text-align: center;
   font-size: 11px;

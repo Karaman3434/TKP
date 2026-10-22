@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.211026.1700.875 — cihaz-kullanici.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.221026.1145.943 — cihaz-kullanici.html -->
 <!--
   CİHAZLAR VE KULLANICILAR (03.10.2026, Abdullah'ın isteğiyle)
   ================================================================
@@ -43,7 +43,7 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
 <link rel="stylesheet" href="pin-style.css">
 <link rel="stylesheet" href="cihazlar-style.css?v=WG.101026.1325.759">
-<link rel="stylesheet" href="calisan-erisim-style.css?v=WG.011026.2340.706">
+<link rel="stylesheet" href="calisan-erisim-style.css?v=WG.221026.1145.942">
 <link rel="stylesheet" href="ayarlar-style.css?v=WG.071026.1445.745">
 </head>
 <body>
@@ -125,6 +125,18 @@
       <div class="ck-sifre-not">🔒 Şifreyi sadece sen belirlersin — kullanıcı kendi şifresini değiştiremez.</div>
       <p class="ce-hata" id="ceOlusturHata" hidden></p>
       <button class="ce-olustur-btn" id="btnCeOlustur">✓ Kullanıcı Oluştur</button>
+
+      <!-- EKLENDİ (22.10.2026, Abdullah'ın isteğiyle) — Kullanıcı
+           oluşturulduğu anda "Giriş Linki" burada da gösterilir; aynı
+           blok, aşağıdaki kullanıcı kartlarında da kalıcı olarak var. -->
+      <div class="ce-link-blok" id="ceYeniLinkBlok" hidden>
+        <div class="ce-link-etiket">✅ Kullanıcı oluşturuldu — Giriş Linki <span class="ce-link-ipucu">(kullanıcı adını otomatik doldurur, şifreyi kendisi yazar)</span></div>
+        <div class="ce-link-satir">
+          <input type="text" class="ce-link-kutu" id="ceYeniLinkKutu" readonly value="">
+          <button type="button" class="ce-link-kopyala-btn" id="ceYeniLinkKopyalaBtn">📋 Kopyala</button>
+        </div>
+        <div class="ce-link-kopyalandi" id="ceYeniLinkKopyalandi" hidden>✓ Kopyalandı</div>
+      </div>
     </section>
 
     <div id="ceKullaniciListesi"></div>
@@ -142,7 +154,7 @@
 <script src="pin-utils.js?v=WG.150926.1241.572"></script>
 <script src="cihaz-data.js?v=WG.101026.1325.759"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
-<script src="cihaz-kullanici-render.js?v=WG.221026.1113.938"></script>
+<script src="cihaz-kullanici-render.js?v=WG.221026.1145.941"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=WG.221026.1113.940"></script>
 </body>

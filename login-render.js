@@ -10,6 +10,18 @@ document.addEventListener("DOMContentLoaded", function(){
   var btn = document.getElementById("girisBtn");
   var hataEl = document.getElementById("girisHata");
 
+  // EKLENDİ (22.10.2026, Abdullah'ın isteğiyle) — "Giriş Linki" özelliği:
+  // ...login.html?kullanici=<ad> ile açılan link, kullanıcı adını otomatik
+  // doldurur; şifreyi çalışan kendisi yazar (şifre linkte YOKTUR).
+  try{
+    var url = new URL(window.location.href);
+    var onDoldurDeger = url.searchParams.get("kullanici");
+    if(onDoldurDeger){
+      document.getElementById("girisEmail").value = onDoldurDeger;
+      document.getElementById("girisSifre").focus();
+    }
+  }catch(e){}
+
   window.addEventListener("error", function(ev){
     console.error("Sayfa hatası:", ev);
     hataEl.textContent = "Sayfa hatası: " + ev.message;
