@@ -1,5 +1,5 @@
 /*
-  urun-arama.js — WG.121026.1820.779
+  urun-arama.js — WG.221026.1113.939
   ===================================
   04.10.2026 (Abdullah'ın isteğiyle) — Ürün Satış Geçmişi / Hit Ürünler
   listesi açıkken sepetin "boş" mesajı ve Kaydet/Görüntüle ve Gönder
@@ -35,10 +35,20 @@ function uaIzinVarMi(anahtar){
   catch(e){ return true; }
 }
 
+// EKLENDİ (22.10.2026, Abdullah'ın isteğiyle): HİT ve YENİ düğmeleri ayrı
+// ayrı kısıtlanabilsin diye izin durumu burada tutulur — uaAramaSatiriDurumunuGuncelle
+// odak/yazma durumuna göre görünürlüğü her güncellediğinde bu bayrakları da
+// hesaba katar, yoksa izin kapalı olsa bile odaklanınca düğme geri gelirdi.
+var UA_HIT_IZIN_VAR = true;
+var UA_YENI_IZIN_VAR = true;
+
 function uaIzinleriUygula(){
   try{
     var aramaBolumu = document.getElementById("uaAramaBolumu");
     if(aramaBolumu) aramaBolumu.hidden = !uaIzinVarMi("sepetAramaGoster");
+    UA_HIT_IZIN_VAR = uaIzinVarMi("sepetHitGoster");
+    UA_YENI_IZIN_VAR = uaIzinVarMi("sepetYeniUrunGoster");
+    uaAramaSatiriDurumunuGuncelle(document.activeElement === document.getElementById("searchInput"));
   }catch(e){ hataGoster("Arama izinleri uygulanamadı: " + e.message); }
 }
 
@@ -50,8 +60,8 @@ function uaAramaSatiriDurumunuGuncelle(odaklandiMi){
   try{
     var input = document.getElementById("searchInput");
     var gizle = odaklandiMi || input.value.trim().length > 0;
-    document.getElementById("btnHitUrunler").hidden = gizle;
-    document.getElementById("btnYeniUrunAc").hidden = gizle;
+    document.getElementById("btnHitUrunler").hidden = gizle || !UA_HIT_IZIN_VAR;
+    document.getElementById("btnYeniUrunAc").hidden = gizle || !UA_YENI_IZIN_VAR;
   }catch(e){}
 }
 

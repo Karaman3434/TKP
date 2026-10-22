@@ -1,5 +1,5 @@
 /*
-  bekleyen-islemler.js — WG.151026.1455.828
+  bekleyen-islemler.js — WG.221026.1113.940
   ==========================================
   15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı; "istisnasız tüm
   sayfalar" talebiyle genişletildi): "Beklet / Bekleyen İşlemler" — bir
@@ -263,12 +263,32 @@ var BekleyenIslemler = (function(){
     guncelle();
   }
 
+  // EKLENDİ (22.10.2026, Abdullah'ın isteğiyle): "Beklet" düğmesi SADECE
+  // "Ürün Bul / Hesapla / Sepet" (cart.html) sayfasında, kısıtlı bir
+  // çalışan için kapatılabilsin (bkz. cihaz-kullanici-render.js
+  // İZIN_TANIMLARI "sepetBekletGoster"). Diğer tüm sayfalarda bu izin
+  // ANAHTARI hiç değerlendirilmez — Beklet oralarda her zaman açık kalır.
+  // Düğme DOMContentLoaded'de (auth henüz çözülmeden) zaten oluşturulduğu
+  // için, izin burada "weiconAuthHazir" olayında ayrıca uygulanır (aynı
+  // urun-arama.js'teki uaIzinleriUygula deseni).
+  function biIzinleriUygula(){
+    try{
+      var btn = document.getElementById("biNavBtn");
+      if(!btn) return;
+      if(dosyaAdi() !== "cart.html") return;
+      var izinVar = (typeof izinVarMi !== "function") || izinVarMi("sepetBekletGoster");
+      btn.style.display = izinVar ? "" : "none";
+    }catch(e){}
+  }
+
   function baslat(){
     if(document.readyState === "loading"){
-      document.addEventListener("DOMContentLoaded", elOlustur);
+      document.addEventListener("DOMContentLoaded", function(){ elOlustur(); biIzinleriUygula(); });
     } else {
       elOlustur();
+      biIzinleriUygula();
     }
+    window.addEventListener("weiconAuthHazir", biIzinleriUygula);
   }
   baslat();
 

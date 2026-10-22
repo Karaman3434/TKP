@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: WG.101026.1325.759
+  cihaz-kullanici-render.js — VERSİYON: WG.221026.1113.938
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -539,8 +539,14 @@ var IZIN_TANIMLARI = [
     { anahtar: "sepetWebAc", etiket: "🌐 Ürüne dokununca WEICON sayfasını açabilsin" },
     { anahtar: "sepetHesaplaAc", etiket: "🧮 \"H\" — Hızlı Hesapla penceresini açabilsin" },
     { anahtar: "sepetSec", etiket: "➕ \"SEÇ\" — ürünü Hesaplanacak'a ekleyebilsin" },
+    { anahtar: "sepetAiAc", etiket: "🤖 Ürüne uzun basınca AI Ürün Asistanı panelini açabilsin" },
     { anahtar: "sepetHesaplandiGoster", etiket: "🟢 Hesaplandı listesini görebilsin" },
-    { anahtar: "sepetGonder", etiket: "✓ Kaydet / 📋 Formu Görüntüle yapabilsin" }
+    { anahtar: "sepetGonder", etiket: "✓ Kaydet / 📋 Formu Görüntüle yapabilsin" },
+    // EKLENDİ (22.10.2026, Abdullah'ın isteğiyle) — "Hit Ürünler", "Yeni
+    // Ürün Ekle" ve bu sayfadaki "Beklet" düğmesi ayrı ayrı kısıtlanabilsin.
+    { anahtar: "sepetHitGoster", etiket: "🔥 \"HİT\" — Hit Ürünler listesini açabilsin" },
+    { anahtar: "sepetYeniUrunGoster", etiket: "➕ \"YENİ\" — Yeni Ürün Ekle'yi açabilsin" },
+    { anahtar: "sepetBekletGoster", etiket: "📥 Bu sayfada \"Beklet\" düğmesini görebilsin" }
   ]},
   { grup: "Müşteri", sayfalar: [
     { anahtar: "musteriBul", etiket: "🔍 Müşteri Bul" },
