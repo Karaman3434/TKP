@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: WG.221026.1145.941
+  cihaz-kullanici-render.js — VERSİYON: WG.221026.1245.948
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -585,6 +585,32 @@ var IZIN_TANIMLARI = [
     { anahtar: "anaSayfa", etiket: "🏠 Ana Sayfa" },
     { anahtar: "kmTakip", etiket: "🚗 KM Takip" },
     { anahtar: "bildirimler", etiket: "🔔 Bildirimler" }
+  ]},
+  // EKLENDİ (22.10.2026, Abdullah'ın isteğiyle) — "Beklet" düğmesi önce
+  // SADECE Ürün Bul/Sepet sayfasında (sepetBekletGoster, yukarıdaki grupta)
+  // kısıtlanabiliyordu; şimdi HER sayfa alanında ayrı ayrı kısıtlanabilsin
+  // diye genişletildi (bkz. bekleyen-islemler.js BI_SAYFA_BEKLET_ANAHTARI —
+  // iki dosya senkron olmalı). Ürün Bul/Sepet zaten kendi anahtarını
+  // kullanıyor, burada TEKRAR edilmedi.
+  { grup: "📥 Beklet (Bekleyen İşlemler)", varsayilanAcik: true, sayfalar: [
+    { anahtar: "bekletHesapla", etiket: "🧮 Hızlı Hesapla sayfasında" },
+    { anahtar: "bekletGonder", etiket: "📤 Gönder sayfasında" },
+    { anahtar: "bekletMusteri", etiket: "🔍 Müşteri sayfalarında" },
+    { anahtar: "bekletGecmis", etiket: "🕐 İşlem Geçmişi sayfasında" },
+    { anahtar: "bekletRaporlar", etiket: "📊 Raporlar sayfalarında" },
+    { anahtar: "bekletSatisListesi", etiket: "📋 Satış Listesi sayfasında" },
+    { anahtar: "bekletHareketler", etiket: "🔁 Hareketler sayfasında" },
+    { anahtar: "bekletZiyaret", etiket: "📍 Ziyaret sayfasında" },
+    { anahtar: "bekletTakipGerekenler", etiket: "📌 Takip Gerekenler sayfasında" },
+    { anahtar: "bekletGorevler", etiket: "✅ Görevler sayfasında" },
+    { anahtar: "bekletVadeTakip", etiket: "📅 Vade Takip sayfasında" },
+    { anahtar: "bekletMaasHesaplama", etiket: "💰 Maaş Hesaplama sayfasında" },
+    { anahtar: "bekletNetMaas", etiket: "💵 Net Maaş Hesaplama sayfasında" },
+    { anahtar: "bekletAvans", etiket: "💳 Avans Takibi sayfasında" },
+    { anahtar: "bekletKomisyon", etiket: "🧾 Ödenebilir Komisyon sayfasında" },
+    { anahtar: "bekletAnaSayfa", etiket: "🏠 Ana Sayfa'da" },
+    { anahtar: "bekletKm", etiket: "🚗 KM Takip sayfasında" },
+    { anahtar: "bekletBildirimler", etiket: "🔔 Bildirimler sayfasında" }
   ]}
 ];
 

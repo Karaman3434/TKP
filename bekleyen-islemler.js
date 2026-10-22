@@ -1,5 +1,5 @@
 /*
-  bekleyen-islemler.js — WG.221026.1113.940
+  bekleyen-islemler.js — WG.221026.1245.949
   ==========================================
   15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı; "istisnasız tüm
   sayfalar" talebiyle genişletildi): "Beklet / Bekleyen İşlemler" — bir
@@ -263,11 +263,52 @@ var BekleyenIslemler = (function(){
     guncelle();
   }
 
-  // EKLENDİ (22.10.2026, Abdullah'ın isteğiyle): "Beklet" düğmesi SADECE
-  // "Ürün Bul / Hesapla / Sepet" (cart.html) sayfasında, kısıtlı bir
-  // çalışan için kapatılabilsin (bkz. cihaz-kullanici-render.js
-  // İZIN_TANIMLARI "sepetBekletGoster"). Diğer tüm sayfalarda bu izin
-  // ANAHTARI hiç değerlendirilmez — Beklet oralarda her zaman açık kalır.
+  // EKLENDİ (22.10.2026, Abdullah'ın isteğiyle): "Beklet" düğmesi önce
+  // SADECE cart.html'de kısıtlanabiliyordu; şimdi Abdullah'ın isteğiyle
+  // HER sayfa alanında AYRI AYRI kısıtlanabilsin diye genelleştirildi.
+  // Aşağıdaki harita, auth.js'teki SAYFA_IZIN_ANAHTARI'nın AYNISI (hangi
+  // dosya hangi "alan"a ait) — ama kısıtlı kullanıcı o sayfaya zaten
+  // giremiyorsa bu harita hiç devreye girmez, sadece "sayfaya girebilen
+  // ama Beklet'i görmemeli" durumunu ayırt etmek için var. cart.html/
+  // belge-onizleme.html İSTİSNA: onlar zaten var olan "sepetBekletGoster"
+  // anahtarını (bkz. cihaz-kullanici-render.js İZIN_TANIMLARI, "🛒 Sayfası
+  // İçin İnce Ayar" grubu) kullanmaya devam ediyor — yeni bir anahtara
+  // TAŞINMADI, aksi hâlde önceden kaydedilmiş kısıtlamalar sessizce
+  // geçersiz kalırdı. Haritada OLMAYAN bir sayfa (ör. ileride eklenecek
+  // yeni bir sayfa) için Beklet her zaman AÇIK kalır (güvenli varsayılan).
+  var BI_SAYFA_BEKLET_ANAHTARI = {
+    "calc.html": "bekletHesapla",
+    "cart.html": "sepetBekletGoster",
+    "belge-onizleme.html": "sepetBekletGoster",
+    "send.html": "bekletGonder",
+    "customer.html": "bekletMusteri",
+    "customer-hub.html": "bekletMusteri",
+    "customer-detail.html": "bekletMusteri",
+    "customer-cari-kart.html": "bekletMusteri",
+    "customer-temas.html": "bekletMusteri",
+    "customer-add.html": "bekletMusteri",
+    "gecmis.html": "bekletGecmis",
+    "raporlar.html": "bekletRaporlar",
+    "reports.html": "bekletRaporlar",
+    "kacan-satislar.html": "bekletRaporlar",
+    "satis-listesi.html": "bekletSatisListesi",
+    "hareketler.html": "bekletHareketler",
+    "son-islemler.html": "bekletHareketler",
+    "ziyaret.html": "bekletZiyaret",
+    "takip-gerekenler.html": "bekletTakipGerekenler",
+    "gorevler.html": "bekletGorevler",
+    "vade-takip.html": "bekletVadeTakip",
+    "km.html": "bekletKm",
+    "km-kayitlar.html": "bekletKm",
+    "maas-hesaplama.html": "bekletMaasHesaplama",
+    "maas-menu.html": "bekletMaasHesaplama",
+    "ay-detay.html": "bekletMaasHesaplama",
+    "net-maas-hesaplama.html": "bekletNetMaas",
+    "avans-takibi.html": "bekletAvans",
+    "odenebilir-komisyon.html": "bekletKomisyon",
+    "bildirimler.html": "bekletBildirimler",
+    "home.html": "bekletAnaSayfa"
+  };
   // Düğme DOMContentLoaded'de (auth henüz çözülmeden) zaten oluşturulduğu
   // için, izin burada "weiconAuthHazir" olayında ayrıca uygulanır (aynı
   // urun-arama.js'teki uaIzinleriUygula deseni).
@@ -275,8 +316,8 @@ var BekleyenIslemler = (function(){
     try{
       var btn = document.getElementById("biNavBtn");
       if(!btn) return;
-      if(dosyaAdi() !== "cart.html") return;
-      var izinVar = (typeof izinVarMi !== "function") || izinVarMi("sepetBekletGoster");
+      var anahtar = BI_SAYFA_BEKLET_ANAHTARI[dosyaAdi()];
+      var izinVar = !anahtar || (typeof izinVarMi !== "function") || izinVarMi(anahtar);
       btn.style.display = izinVar ? "" : "none";
     }catch(e){}
   }
