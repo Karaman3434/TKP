@@ -1,5 +1,5 @@
 /*
-  auth.js — WG.221026.1230.946
+  auth.js — WG.221026.1759.951
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -51,11 +51,19 @@
       return id;
     }catch(e){ return "bilinmeyen"; }
   }
-  function cihazKaydiGuncelle(){
+  function cihazKaydiGuncelle(user){
     try{
       var veri = { sonGorulme: Date.now() };
       var yerelAd = localStorage.getItem("weicon_cihaz_adi");
       if(yerelAd) veri.ad = yerelAd;
+      // EKLENDİ (22.10.2026, "Kalıcı Olarak Sil" özelliği için, Abdullah'ın
+      // isteğiyle) — bu cihazda EN SON hangi kısıtlı/kısıtsız hesabın
+      // oturum açtığını da yazıyoruz. "Kalıcı Olarak Sil" bir hesabı
+      // kapattığında, o hesabı kullanmış TÜM cihazları bu alandan bulup
+      // (cihaz-kullanici-render.js) "engelli:true" işaretleyebiliyor —
+      // aynı kişi başka isimle yeni hesap açsa bile o telefon bir daha
+      // asla içeri giremiyor.
+      if(user && user.uid) veri.sonKullaniciUid = user.uid;
       firebase.database().ref("cihazlar/" + cihazIdOku()).update(veri).catch(function(){});
     }catch(e){}
   }
@@ -67,6 +75,26 @@
         .then(function(snap){ geriBildir(snap.val() === true); })
         .catch(function(){ geriBildir(false); });
     }catch(e){ geriBildir(false); }
+  }
+  // EKLENDİ (22.10.2026, "Kalıcı Olarak Sil" özelliği) — bir cihaz engelli
+  // çıktığında VE o anki hesap bir kısıtlı kullanıcı hesabıysa, bunu
+  // "Cihazlar ve Kullanıcılar" panelinde Abdullah'ın görebileceği bir
+  // uyarıya çeviriyoruz ("aynı kişi başka isimle tekrar hesap açmış").
+  // ÖNEMLİ GÜVENLİK NOTU: SADECE kisitliKullanicilar/{uid} kaydı ZATEN
+  // VARSA yazıyoruz (önce .once ile kontrol) — yoksa (örn. Abdullah'ın
+  // kendi admin hesabı kendi cihazında bir şekilde engelli çıkarsa) burada
+  // YENİ bir kayıt oluşturmak, onu bir sonraki sayfa yüklemesinde YANLIŞLIKLA
+  // "kısıtlı ama hiç izni olmayan" bir hesaba çevirip kendi admin erişimini
+  // kilitlerdi (bkz. kisitliSayfaKontrolu'ndaki !snap.exists() -> tam erişim
+  // mantığı). Bu yüzden var olmayan bir kayda ASLA yazılmıyor.
+  function cihazEngelUyarisiYaz(user){
+    try{
+      if(!user || !user.uid) return;
+      var ref = firebase.database().ref("kisitliKullanicilar/" + user.uid);
+      ref.once("value").then(function(snap){
+        if(snap.exists()) ref.update({ cihazEngellendiUyarisi: true }).catch(function(){});
+      }).catch(function(){});
+    }catch(e){}
   }
 
   var yol = window.location.pathname;
@@ -469,6 +497,7 @@
       if(!buSayfaCihazEngelli){
         cihazEngelliMi(function(engelli){
           if(engelli){
+            cihazEngelUyarisiYaz(user);
             firebase.auth().signOut().then(function(){
               window.location.href = "cihaz-engelli.html";
             });
@@ -479,7 +508,7 @@
             kmGunlukKontrolu(user, function(){
               document.documentElement.style.visibility = "visible";
               if(!buSayfaPin) aktiviteZamaniniGuncelle();
-              cihazKaydiGuncelle();
+              cihazKaydiGuncelle(user);
               window.dispatchEvent(new CustomEvent("weiconAuthHazir", {detail:{user:user}}));
             });
           });

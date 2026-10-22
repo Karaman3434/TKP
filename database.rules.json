@@ -2,7 +2,6 @@
   "rules": {
     ".read": false,
     ".write": false,
-
     "musteriler": {
       ".read": "auth != null && (!root.child('kisitliKullanicilar').child(auth.uid).exists() || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('musteriBul').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('sepet').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('urunBul').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('islemGecmisi').val() === true)",
       ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()"
@@ -11,11 +10,22 @@
       ".read": "auth != null && (!root.child('kisitliKullanicilar').child(auth.uid).exists() || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('raporlar').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('satisListesi').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('hareketler').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('islemGecmisi').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('urunBul').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('ziyaret').val() === true)",
       ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()"
     },
+    "gunlukKodSayaci": {
+      ".read": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()",
+      ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()"
+    },
+    "ajanda": {
+      ".read": "auth != null && (!root.child('kisitliKullanicilar').child(auth.uid).exists() || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('ziyaret').val() === true)",
+      ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()"
+    },
     "gorevler": {
       ".read": "auth != null && (!root.child('kisitliKullanicilar').child(auth.uid).exists() || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('gorevler').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('raporlar').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('takipGerekenler').val() === true)",
       ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()"
     },
-    "pin":                 { ".read": "auth != null", ".write": "auth != null" },
+    "pin": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
     "ayarlar": {
       ".read": "auth != null",
       ".write": "auth != null && (!root.child('kisitliKullanicilar').child(auth.uid).exists() || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('sepet').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('maasHesaplama').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('netMaasHesaplama').val() === true)"
@@ -97,12 +107,14 @@
       ".read": "auth != null && (!root.child('kisitliKullanicilar').child(auth.uid).exists() || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('avansTakibi').val() === true)",
       ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()"
     },
-
     "kisitliKullanicilar": {
       ".read": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()",
       ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()",
       "$uid": {
-        ".read": "auth != null && auth.uid === $uid"
+        ".read": "auth != null && auth.uid === $uid",
+        "cihazEngellendiUyarisi": {
+          ".write": "auth != null && auth.uid === $uid"
+        }
       }
     }
   }

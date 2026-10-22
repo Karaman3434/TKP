@@ -159,6 +159,41 @@
   margin-top: 10px;
 }
 
+/* 22.10.2026 (Abdullah'ın isteğiyle, mockup onaylandı) — "Kalıcı Olarak
+   Sil": SADECE devre dışı bırakılmış hesaplarda, "↺ Yeniden Etkinleştir"in
+   altında görünür. .ce-yeniden-etkinlestir-btn ile AYNI yapı, .ce-hata'nın
+   kırmızısıyla (#c0392b) — geri alınamaz/tehlikeli işlem vurgusu. */
+.ce-kalici-sil-btn {
+  width: 100%;
+  background: #ffffff;
+  color: #c0392b;
+  border: 1.5px solid #c0392b;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* 22.10.2026 (Abdullah'ın isteğiyle, mockup onaylandı) — bir hesaba giriş
+   yapan cihazın, daha önce kalıcı olarak silinmiş başka bir hesaba ait
+   çıkması durumunda gösterilen uyarı. .ce-devredisi-rozet ile AYNI yapı,
+   SADECE rengi .ce-hata kırmızısına çevrildi (daha ciddi/güvenlikle ilgili
+   bir durum olduğu için). */
+.ce-cihaz-uyari-rozet {
+  display: block;
+  background: #fbe4e1;
+  color: #c0392b;
+  border: 1px solid #c0392b;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 11px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
 /* 22.10.2026 (Abdullah'ın isteğiyle) — Her kullanıcı için otomatik "Giriş
    Linki": sadece kullanıcı adını otomatik doldurur, şifreyi kullanıcı
    kendisi yazar (yeni bir Cloud Function / sunucu tarafı GEREKTİRMEZ).

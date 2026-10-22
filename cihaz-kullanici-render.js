@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: WG.221026.1405.950
+  cihaz-kullanici-render.js — VERSİYON: WG.221026.1759.952
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -725,13 +725,17 @@ function ceKullaniciKartHtml(uid, veri){
   var aktifMi = veri.aktif !== false;
   var ozet = aktifMi ? (ceAcikSayfaSayisi(izinler) + " sayfa açık") : "devre dışı";
   var girisLinki = ceGirisLinkiOlustur(veri.kullaniciAdi);
-  return '<section class="ce-kart" data-uid="' + uid + '">' +
+  return '<section class="ce-kart" data-uid="' + uid + '" data-kullanici-adi="' + htmlEsc(veri.kullaniciAdi||"") + '">' +
     '<div class="ce-kullanici-ust">' +
       '<div class="ce-kullanici-ad' + (aktifMi ? "" : " ce-kullanici-ad--devredisi") + '">👤 ' + (veri.kullaniciAdi||"?") + '</div>' +
       (aktifMi ? '<button class="ce-devre-disi-btn" data-aksiyon="devredisi" title="Devre dışı bırak">🗑</button>' : "") +
     '</div>' +
     '<div class="ce-kullanici-ozet">' + ozet + '</div>' +
     (aktifMi ? "" : '<div class="ce-devredisi-rozet">⛔ Bu hesap devre dışı — hiçbir sayfaya girilemez</div>') +
+    // EKLENDİ (22.10.2026, "Kalıcı Olarak Sil" özelliği, Abdullah'ın isteğiyle)
+    // — bu hesabın cihazı daha önce KALICI OLARAK SİLİNMİŞ başka bir hesaba
+    // ait çıktıysa (auth.js -> cihazEngelUyarisiYaz), Abdullah'ı uyar.
+    (veri.cihazEngellendiUyarisi ? '<div class="ce-cihaz-uyari-rozet">⚠️ UYARI: Bu hesaba giriş yapan bir cihaz, daha önce kalıcı olarak sildiğin bir hesaba ait. O cihazdan giriş otomatik engellendi.</div>' : "") +
     '<div class="ce-link-blok">' +
       '<div class="ce-link-etiket">🔗 Giriş Linki <span class="ce-link-ipucu">(kullanıcı adını otomatik doldurur, şifreyi kendisi yazar)</span></div>' +
       '<div class="ce-link-satir">' +
@@ -743,7 +747,11 @@ function ceKullaniciKartHtml(uid, veri){
     ceGrupHtml(uid, izinler, aktifMi) +
     (aktifMi
       ? '<button class="ce-kaydet-btn" data-aksiyon="kaydet">✓ Kaydet</button>'
-      : '<button class="ce-yeniden-etkinlestir-btn" data-aksiyon="etkinlestir">↺ Yeniden Etkinleştir</button>'
+      : '<button class="ce-yeniden-etkinlestir-btn" data-aksiyon="etkinlestir">↺ Yeniden Etkinleştir</button>' +
+        // EKLENDİ (22.10.2026, "Kalıcı Olarak Sil" özelliği, Abdullah'ın
+        // isteğiyle) — SADECE devre dışı hesaplarda görünür (önce devre
+        // dışı bırakılmış olması gerekiyor), aynı onaylanmış mockup.
+        '<button class="ce-kalici-sil-btn" data-aksiyon="kalicisil">🗑 Kalıcı Olarak Sil</button>'
     ) +
     '</section>';
 }
@@ -769,7 +777,13 @@ var ceDuzenlemedeOlanKartlar = {};
 function ceListeyiCiz(tumKullanicilar){
   var kapsayici = document.getElementById("ceKullaniciListesi");
   var bosMesaj = document.getElementById("ceBosMesaj");
-  var uidler = Object.keys(tumKullanicilar||{});
+  // EKLENDİ (22.10.2026, "Kalıcı Olarak Sil" özelliği) — "silindi:true"
+  // işaretli (kalıcı olarak silinmiş) kayıtlar ASLA listede gösterilmez.
+  // Kayıt Firebase'den TAMAMEN KALDIRILMIYOR (bkz. kisitliSayfaKontrolu'daki
+  // !snap.exists() -> tam erişim tuzağı) — sadece burada, görüntüde gizleniyor.
+  var uidler = Object.keys(tumKullanicilar||{}).filter(function(uid){
+    return !(tumKullanicilar[uid] || {}).silindi;
+  });
   if(!uidler.length){
     kapsayici.innerHTML = "";
     bosMesaj.hidden = false;
@@ -836,6 +850,48 @@ function ceListeyiCiz(tumKullanicilar){
       etkinlestirBtn.onclick = function(){
         firebase.database().ref("kisitliKullanicilar/" + uid + "/aktif").set(true).catch(function(e){
           hataGoster("Hesap yeniden etkinleştirilemedi: " + e.message);
+          alert("İşlem başarısız: " + e.message);
+        });
+      };
+    }
+
+    // EKLENDİ (22.10.2026, "Kalıcı Olarak Sil" özelliği, Abdullah'ın isteğiyle)
+    // — İKİ ADIM: (1) bu hesabı kullanmış TÜM cihazları "cihazlar/{id}/engelli"
+    // ile işaretle (auth.js'teki MEVCUT cihaz-engelleme mekanizmasının AYNISI
+    // — aynı kişi başka isimle yeni hesap açsa bile o telefon bir daha asla
+    // giremez), (2) hesabı GERÇEKTEN silmek yerine "silindi:true" ile
+    // KAPATILMIŞ (tombstone) olarak işaretle — bkz. yukarıdaki not: düğümü
+    // TAMAMEN kaldırmak kisitliSayfaKontrolu'nde "kayıt yok -> tam erişim"
+    // tuzağına düşürür. Listeden gizlenmesi ceListeyiCiz'deki filtre ile
+    // sağlanıyor.
+    var kaliciSilBtn = kart.querySelector('[data-aksiyon="kalicisil"]');
+    if(kaliciSilBtn){
+      kaliciSilBtn.onclick = function(){
+        var kullaniciAdiGosterim = kart.getAttribute("data-kullanici-adi") || "?";
+        if(!confirm("\"" + kullaniciAdiGosterim + "\" hesabını KALICI OLARAK silmek istediğine emin misin?\n\n- Bu hesap listeden tamamen kaybolacak.\n- Bu hesabı daha önce kullanmış TÜM telefonlar bir daha asla sisteme giremeyecek (aynı kişiye başka isimle yeni hesap açsan bile).\n- Bu işlem GERİ ALINAMAZ.")) return;
+        kaliciSilBtn.disabled = true;
+        kaliciSilBtn.textContent = "⏳ Siliniyor...";
+        firebase.database().ref("cihazlar").once("value").then(function(snap){
+          var tumCihazlar = snap.val() || {};
+          var guncellemeler = [];
+          Object.keys(tumCihazlar).forEach(function(cihazId){
+            if(tumCihazlar[cihazId] && tumCihazlar[cihazId].sonKullaniciUid === uid){
+              guncellemeler.push(firebase.database().ref("cihazlar/" + cihazId + "/engelli").set(true));
+            }
+          });
+          return Promise.all(guncellemeler);
+        }).then(function(){
+          return firebase.database().ref("kisitliKullanicilar/" + uid).set({
+            kullaniciAdi: kullaniciAdiGosterim,
+            aktif: false,
+            silindi: true,
+            silinmeTarihi: Date.now(),
+            izinler: {}
+          });
+        }).catch(function(e){
+          kaliciSilBtn.disabled = false;
+          kaliciSilBtn.textContent = "🗑 Kalıcı Olarak Sil";
+          hataGoster("Hesap kalıcı olarak silinemedi: " + e.message);
           alert("İşlem başarısız: " + e.message);
         });
       };
