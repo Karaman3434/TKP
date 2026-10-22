@@ -58,6 +58,14 @@ document.addEventListener("DOMContentLoaded", function(){
       return;
     }
     var email = girisDegeriEpostaYap(girilenDeger);
+    // DÜZELTME (22.10.2026, Abdullah'ın bildirdiği hata) — auth.js'teki
+    // "?kullanici= linki + zaten açık oturum" kontrolü, BU FORMDAN AZ ÖNCE
+    // TAMAMLANMIŞ gerçek bir girişi de yanlışlıkla "bayat oturum" sanıp
+    // anında signOut yapıyordu — bu da "Giriş yapılıyor..." düğmesinin
+    // sonsuza dek takılı kalmasına yol açıyordu. Bu bayrak, "giriş az önce
+    // BU formdan denendi" bilgisini auth.js'e taşır; o kontrol bu bayrak
+    // varken devreye girmez.
+    window.weiconGirisFormundanDenendi = true;
     btn.disabled = true;
     btn.textContent = "Giriş yapılıyor...";
     try{

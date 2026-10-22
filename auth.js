@@ -1,5 +1,5 @@
 /*
-  auth.js — WG.221026.1210.945
+  auth.js — WG.221026.1230.946
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -439,8 +439,15 @@
         // ?kullanici= varsa önce mevcut oturumdan çıkış yapıp GERÇEKTEN
         // giriş formunu gösteriyoruz; bu dal tekrar user=null ile
         // tetiklenince aşağıdaki "else" kolu formu zaten görünür yapıyor.
+        // DÜZELTME (22.10.2026) — Bu kontrol SADECE "sayfa yeni açıldığında
+        // ZATEN BAŞKA bir oturum açıktı" durumu için; BU formdan az önce
+        // TAMAMLANMIŞ gerçek bir girişi (window.weiconGirisFormundanDenendi,
+        // login-render.js'te girisYap() tıklanır tıklanmaz true olur) YANLIŞ
+        // ALARM sayıp hemen çıkış yapmamalı — aksi hâlde başarılı bir giriş
+        // bile anında kendini sonsuza dek "Giriş yapılıyor..." durumunda
+        // kilitli bırakıyordu (Abdullah'ın bildirdiği hata).
         var zorlaGirisFormu = false;
-        try{ zorlaGirisFormu = /[?&]kullanici=/.test(window.location.search); }catch(e){}
+        try{ zorlaGirisFormu = /[?&]kullanici=/.test(window.location.search) && !window.weiconGirisFormundanDenendi; }catch(e){}
         if(zorlaGirisFormu){
           firebase.auth().signOut();
           return;
