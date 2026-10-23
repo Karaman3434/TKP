@@ -1,0 +1,89 @@
+/*
+  marka-karsilastirma-style.css
+  =============================
+  "Marka Karşılaştırma" sayfasına ÖZEL kart stilleri. Arama kutusu
+  (.arama-kutusu/.arama-ikon) BURADA TEKRAR TANIMLANMIYOR — product-style.css'
+  ten AYNEN geliyor (sayfa onu da yüklüyor). Sadece mockup'ta onaylanan
+  sonuç kartları ve boş durum burada.
+*/
+
+.mk-sonuc-karti {
+  background: #ffffff;
+  border: 1.5px solid #d7deea;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.mk-weicon-etiket {
+  font-size: 10px;
+  font-weight: 800;
+  color: #9aa5b1;
+  letter-spacing: .3px;
+  margin-bottom: 2px;
+}
+.mk-weicon-adi {
+  font-size: 17px;
+  font-weight: 900;
+  color: #0d3d8c;
+  margin-bottom: 10px;
+}
+.mk-eslesen-satir {
+  display: inline-block;
+  background: #e6f4ea;
+  color: #1d7a3c;
+  border: 1px solid #1d7a3c;
+  border-radius: 6px;
+  padding: 4px 9px;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+.mk-marka-listesi {
+  border-top: 1px solid #e5eaf1;
+  padding-top: 8px;
+}
+.mk-marka-satir {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12.5px;
+  padding: 3px 0;
+}
+.mk-marka-adi { color: #556170; font-weight: 700; flex-shrink: 0; }
+.mk-marka-kod { color: #1a2b3c; font-weight: 700; text-align: right; }
+
+.mk-karsilikyok-karti {
+  background: #fff8e9;
+  border: 1.5px solid #b7601f;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.mk-karsilikyok-uyari {
+  font-size: 12px;
+  font-weight: 800;
+  color: #b7601f;
+  margin-bottom: 8px;
+}
+.mk-karsilikyok-aciklama {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a2b3c;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.mk-bos-durum {
+  text-align: center;
+  padding: 50px 20px;
+  color: #9aa5b1;
+}
+.mk-bos-ikon { font-size: 38px; margin-bottom: 10px; }
+.mk-bos-yazi { font-size: 13px; font-weight: 700; line-height: 1.5; }
+
+.mk-sonuc-sayisi {
+  font-size: 11px;
+  font-weight: 800;
+  color: #7a8696;
+  margin: 2px 2px 10px;
+}

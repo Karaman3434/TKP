@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- İŞ TAKİP V2 — VERSİYON: WG.231026.1045.959 — marka-karsilastirma.html -->
+<!--
+  MARKA KARŞILAŞTIRMA (23.10.2026, Abdullah'ın isteğiyle) — Abdullah'ın
+  elindeki 13 markalık (Loctite, Henkel, Teroson, Marston, Delo, OKS,
+  Eurolock, Devcon/Permatex, Loxeal/Wekem, Belzona Metalle, Wencon,
+  Hylomar, Sika) karşılaştırma Excel'inden aktarılan veride, rakip bir
+  ürünün markasını/modelini/kodunu yazınca WEICON karşılığını bulur.
+
+  VERİ: marka-karsilastirma-23102026.json (statik, tek seferlik aktarım —
+  Firebase kullanılmıyor, bkz. marka-karsilastirma-render.js üstündeki not).
+  Arama kutusu product-style.css'teki MEVCUT .arama-kutusu/.arama-ikon
+  stilini AYNEN kullanır (yeniden tanımlanmadı).
+-->
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="manifest" href="manifest.json?v=WG.221026.0755.937">
+<meta name="theme-color" content="#0d3d8c">
+<link rel="apple-touch-icon" href="icon-192.png?v=WG.221026.0755.937">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="İş Takip">
+<title>İş Takip — Marka Karşılaştırma</title>
+<script>document.documentElement.style.visibility='hidden';</script>
+<link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
+<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
+<link rel="stylesheet" href="product-style.css?v=WG.151026.0905.824">
+<link rel="stylesheet" href="marka-karsilastirma-style.css?v=WG.231026.1045.960">
+</head>
+<body>
+
+<div class="app-ust-sabit">
+<header class="app-header">
+  <div class="logo">İŞ TAKİP</div>
+  <div class="tarih" id="gunTarihi"></div>
+</header>
+
+<nav class="app-nav">
+  <a class="nav-btn nav-btn--geri" href="home.html"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></a>
+  <a class="nav-btn nav-btn--ana" href="home.html"><span class='nav-ikon'>🏠</span><span class='nav-etiket'>Ana Sayfa</span></a>
+</nav>
+</div>
+<div class="sayfa-rota-serit">
+  <span class="sayfa-rota-serit-isim">🔄 Marka Karşılaştırma</span>
+  <span class="sayfa-rota-serit-rota">Rakip ürün → WEICON karşılığı</span>
+</div>
+
+<main class="sayfa">
+
+  <div class="arama-kutusu">
+    <input type="text" id="searchInput" placeholder="Marka, model veya ürün kodu yazın..." autocomplete="off">
+    <span class="arama-ikon">🔍</span>
+  </div>
+
+  <div class="mk-sonuc-sayisi" id="mkSonucSayisi" hidden></div>
+  <div id="mkSonucListesi"></div>
+
+  <p class="bos-mesaj" id="mkBosSonuc" hidden>Eşleşme bulunamadı. Marka adını veya ürün kodunu farklı yazarak tekrar deneyebilirsin.</p>
+
+  <div class="mk-bos-durum" id="mkBosDurum">
+    <div class="mk-bos-ikon">🔄</div>
+    <div class="mk-bos-yazi">Rakip bir ürünün markasını, modelini<br>veya kodunu yazarak WEICON<br>karşılığını bul.</div>
+  </div>
+
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="firebase-config.js?v=WG.011026.2340.706"></script>
+<script src="auth.js?v=WG.231026.1045.955"></script>
+<script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
+<script src="hata-log.js?v=WG.130926.2010.553"></script>
+<script src="marka-karsilastirma-render.js?v=WG.231026.1045.961"></script>
+<!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
+<script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
+</body>
+</html>

@@ -1,0 +1,2103 @@
+{
+ "markalar": [
+  "Loctite",
+  "Henkel",
+  "Teroson",
+  "Marston",
+  "Delo",
+  "OKS",
+  "Eurolock",
+  "Devcon / Permatex",
+  "Loxeal / Wekem",
+  "Belzona Metalle",
+  "Wencon",
+  "Hylomar",
+  "Sika"
+ ],
+ "veri": [
+  {
+   "weicon": "Plastik-Stahl A",
+   "karsilikYok": false,
+   "markalar": {
+    "Henkel": "omniPLUS FE",
+    "Devcon / Permatex": "DEVCON A",
+    "Hylomar": "HYLOMAR ST574"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl B",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Hysol 3472*",
+    "Devcon / Permatex": "DEVCON B"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl BR",
+   "karsilikYok": false,
+   "markalar": {
+    "Devcon / Permatex": "DEVCON BR"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl C",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Hysol 3479*",
+    "Devcon / Permatex": "DEVCON C-1",
+    "Belzona Metalle": "1121"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl F",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Hysol 3475* / Loctite 3465* / 147* (24ml Spritze) / 97463",
+    "Henkel": "omniPLUS AL",
+    "Devcon / Permatex": "DEVCON F / Fasmetal™ 10 HVAC Nr.19770"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl F2",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Loctite 3466*",
+    "Devcon / Permatex": "DEVCON F-2",
+    "Belzona Metalle": "1812"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl HB 300",
+   "karsilikYok": false,
+   "markalar": {
+    "Devcon / Permatex": "DEVCON HR-200 / HR Super 3000",
+    "Belzona Metalle": "1111",
+    "Wencon": "Rapid, Cream"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl Keramik BL",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Hysol 7234* / Loctite 7227* / Loctite 7221*",
+    "Delo": "6963",
+    "Devcon / Permatex": "SUPER KERAMIK L / TW Keramik Verschleißschutz (blue, white, red - Tonerde-gefüllt)",
+    "Belzona Metalle": "1321/1391",
+    "Wencon": "Ceramic Coating, Hi-Temp"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl Keramik W",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Hysol 7219*, 7230* / Loctite 7228*, 7230*",
+    "Belzona Metalle": "1311/1811",
+    "Wencon": "Ceramic Cream"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl SF",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Hysol 3473*",
+    "Devcon / Permatex": "DEVCON SF",
+    "Belzona Metalle": "1211"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl ST",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "97443",
+    "Devcon / Permatex": "DEVCON ST"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl TI",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Loctite 3464*",
+    "Delo": "1998",
+    "Devcon / Permatex": "DEVCON TITANIUM (P)"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl UW",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Loctite 3468* / 3026",
+    "Devcon / Permatex": "DEVCON UW",
+    "Belzona Metalle": "1591 / 1831",
+    "Wencon": "UW Cream"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl WP",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Nordbak Wearing Compound",
+    "Devcon / Permatex": "Wear Guard™ High Load"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl WR",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Loctite 3461*",
+    "Delo": "6892",
+    "Devcon / Permatex": "DEVCON WR",
+    "Wencon": "Coating"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl WR2",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Hysol 3478* / 7229* / Loctite 147*, 7218*,7226*,7222*, 3474",
+    "Devcon / Permatex": "DEVCON WR-2"
+   }
+  },
+  {
+   "weicon": "Plastik-Stahl CBC",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Fixmaster Marine Chocking / Nordbak Crusher Backing Material",
+    "Devcon / Permatex": "ITW Chockfast Orange / ITW Epocast Marine / Devcon High Performance Backing Compound"
+   }
+  },
+  {
+   "weicon": "Gießharz MS 1000",
+   "karsilikYok": false,
+   "markalar": {
+    "Delo": "6747 / 6823 // 6950 (jedoch schwarz)"
+   }
+  },
+  {
+   "weicon": "Epoxydharz-Kitt",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7232",
+    "Delo": "DUOPOX 7497 + 7498"
+   }
+  },
+  {
+   "weicon": "Formentrennmittel flüssig F 1000",
+   "karsilikYok": false,
+   "markalar": {
+    "Devcon / Permatex": "(Trennm. Release Agent auf Silikonbasis)"
+   }
+  },
+  {
+   "weicon": "Repair-Stick Aluminium",
+   "karsilikYok": false,
+   "markalar": {
+    "Marston": "Hylomix",
+    "Eurolock": "Kaltmetall LOS 362",
+    "Belzona Metalle": "1211/1221"
+   }
+  },
+  {
+   "weicon": "Repair-Stick Aqua",
+   "karsilikYok": false,
+   "markalar": {
+    "Marston": "Hylomix",
+    "Eurolock": "Kaltmetall LOS 362",
+    "Devcon / Permatex": "MAGIC BOND",
+    "Belzona Metalle": "1211/1221",
+    "Wencon": "UW Putty",
+    "Hylomar": "HYLO®FIX 40"
+   }
+  },
+  {
+   "weicon": "Repair-Stick Holz",
+   "karsilikYok": false,
+   "markalar": {
+    "Marston": "Hylomix",
+    "Eurolock": "Kaltmetall LOS 362",
+    "Belzona Metalle": "1211/1221"
+   }
+  },
+  {
+   "weicon": "Repair-Stick Kupfer",
+   "karsilikYok": false,
+   "markalar": {
+    "Marston": "Hylomix",
+    "Eurolock": "Kaltmetall LOS 362",
+    "Belzona Metalle": "1211/1221"
+   }
+  },
+  {
+   "weicon": "Repair-Stick Stahl",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Hysol 3463",
+    "Marston": "Hylomix",
+    "Eurolock": "Kaltmetall LOS 362",
+    "Loxeal / Wekem": "WS-360",
+    "Belzona Metalle": "1211/1221",
+    "Wencon": "Rapid (8x125 gr), Putty (8x125 gr)",
+    "Hylomar": "HYLO®FIX 10"
+   }
+  },
+  {
+   "weicon": "Repair-Stick Titanium",
+   "karsilikYok": false,
+   "markalar": {
+    "Marston": "Hylomix",
+    "Eurolock": "Kaltmetall HT LOS 362",
+    "Devcon / Permatex": "MAGIC BOND HAT Nr.11610",
+    "Belzona Metalle": "1211/1221"
+   }
+  },
+  {
+   "weicon": "Easy-Mix S 50",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Hysol 3430 / 97434",
+    "Marston": "Hylopox in 50ml",
+    "Delo": "DUOPOX Automix 03 rapid (03 rapid thixotrop=hohe Viskosität)",
+    "Eurolock": "5-Minuten-Epoxy LOS 340/50 ml",
+    "Devcon / Permatex": "5 Min.Epoxy 14270+14271+14265 (Gel)/2-Ton Epoxy 14260 (14355=400ml-Patrone) / HP 250 Nr.14315 (14415=400ml-Patrone) / 14251 (10-Minute-Epoxy-Clear",
+    "Loxeal / Wekem": "31-42"
+   }
+  },
+  {
+   "weicon": "Easy-Mix N 50",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "9481 / 9489",
+    "Delo": "DUOPOX Automix 02 rapid / Automix DK 839",
+    "Loxeal / Wekem": "34-15 / 36-15 (31-10 langsamhärtend 120 min.)"
+   }
+  },
+  {
+   "weicon": "Easy-Mix N 5000",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Hysol 9464 A&B (Topfzeit 20 Min. Handfest in 180 Min., Farbe grau) / 9483 (bis +150°C)",
+    "Devcon / Permatex": "Safety Clear Coat DA 280 (400ml-Patrone)",
+    "Loxeal / Wekem": "31-40 / 35-44 (36-10 langsamhärtend 60 min.)"
+   }
+  },
+  {
+   "weicon": "Easy-Mix Metal",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Loctite Hysol 3423 / 3450",
+    "Delo": "1785 / 1894",
+    "Devcon / Permatex": "14255 (10-Minute-Epoxy-Black) / DA012 (10-Minute-Epoxy-Black in 400ml-Patrone)"
+   }
+  },
+  {
+   "weicon": "Easy-Mix HT 180",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "9492 / 9497 / 9466",
+    "Delo": "1895 / 1897",
+    "Sika": "SikaPower 4720"
+   }
+  },
+  {
+   "weicon": "Epoxyd-Minutenkleber",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "3801 / Hysol 3430 / (3422-> aber im Mix-System)",
+    "Henkel": "metallon FL",
+    "Teroson": "Terokal 221als zwei Tuben A und B mit längerer Aushärtezeit",
+    "Marston": "Hylopox in 24ml",
+    "Delo": "DUOPOX rapid 01",
+    "Eurolock": "5-Minuten-Epoxy LOS 340/24 ml",
+    "Devcon / Permatex": "5 Minuten Epoxy Nr.14250 + Nr.14240 (Gel) / 2-Ton Epoxy Nr.14310/14311 / Plastic-Welder 25 ml Nr.14300",
+    "Loxeal / Wekem": "WK-5"
+   }
+  },
+  {
+   "weicon": "Fast-Metal Minutenkleber",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "3805 / Hysol 3450",
+    "Marston": "Hylomet in 24ml",
+    "Eurolock": "Flüssigmetall LOS 365/24 ml",
+    "Devcon / Permatex": "(F-Spezial Set: 2xTuben Alu-gefüllt)",
+    "Loxeal / Wekem": "WS-362"
+   }
+  },
+  {
+   "weicon": "Urethan 60",
+   "karsilikYok": false,
+   "markalar": {
+    "Teroson": "Terostat 2K Powerset",
+    "Devcon / Permatex": "FLEXANE 60 L"
+   }
+  },
+  {
+   "weicon": "Easy-Mix PU-240",
+   "karsilikYok": false,
+   "markalar": {
+    "Teroson": "Teromix 6700",
+    "Delo": "9692 / 9694 / 9895"
+   }
+  },
+  {
+   "weicon": "Glasfaserband",
+   "karsilikYok": false,
+   "markalar": {
+    "Wencon": "Reinforcement Tape"
+   }
+  },
+  {
+   "weicon": "RK-1300",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "F246, 334, 330+7386 o. 7370 o. 7388 o. 7380, 3298, 3342, 306, 310, 326, 329",
+    "Teroson": "Glas-Metallkleber",
+    "Marston": "Glas/Metallkleber",
+    "Delo": "MAFLEX 8191 // MAFLEX 8195 (höhere Viskositätt 100.000 mPas)",
+    "Eurolock": "Glas/Metall-Klebeset LOS 302",
+    "Devcon / Permatex": "DEVWELD 530/531 & FLEX BOND",
+    "Loxeal / Wekem": "33-00 / 33-47M"
+   }
+  },
+  {
+   "weicon": "RK-1500",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "3292 / 307 / 312 / 317 / 319 = Glas/Metallset",
+    "Teroson": "Glas-Metallkleber",
+    "Marston": "Glas/Metallkleber",
+    "Devcon / Permatex": "FLEX BOND (pipe sealant)",
+    "Loxeal / Wekem": "30-55"
+   }
+  },
+  {
+   "weicon": "Aktivator RK-1300 / RK-1500",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Aktivator: 737 + 738 + 734"
+   }
+  },
+  {
+   "weicon": "Easy-Mix RK-7000",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "330 in 24ml oder 50ml als Mix-System / 3295 in 50 ml + 600ml / V 1315",
+    "Devcon / Permatex": "DEVWELD 534",
+    "Loxeal / Wekem": "WS-364",
+    "Sika": "SikaFast 5221 NT"
+   }
+  },
+  {
+   "weicon": "Easy-Mix RK-7100",
+   "karsilikYok": false,
+   "markalar": {
+    "Hylomar": "HYLOBOND M511",
+    "Sika": "SikaFast 5211 NT, 5215 NT"
+   }
+  },
+  {
+   "weicon": "Easy-Mix RK-7200",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5004"
+   }
+  },
+  {
+   "weicon": "Easy-Mix RK-7300",
+   "karsilikYok": false,
+   "markalar": {
+    "Loxeal / Wekem": "34-60 / 34-61"
+   }
+  },
+  {
+   "weicon": "Easy-Mix PE-PP 45",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "3030/ 3038"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 301-38",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "6300 / 639"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 301-43",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "2400"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 301-65",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "565"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 301-70",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "2700"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 301-72",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5400/5800"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-21",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "221 (etwas höhere Losbrechmomente als WEICON) / 932 / 220",
+    "Eurolock": "A 22.10",
+    "Loxeal / Wekem": "12-36 / 32-18"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-22",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "222 (etwas höhere Losbrechmomente als WEICON)",
+    "Henkel": "OMNIFIT 15M",
+    "Marston": "550-222",
+    "Delo": "5149",
+    "Eurolock": "A 22.20",
+    "Devcon / Permatex": "18222 / 2222 / 22250",
+    "Loxeal / Wekem": "24-18 / 14-36"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-25",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "225 (etwas höhere Losbrechmomente als WEICON) / 570",
+    "Eurolock": "A 22.50",
+    "Loxeal / Wekem": "26-18"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-41",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "274 / 241 (Loctite 241 auch für Buntmetalle geeignet, längere offene Zeit)",
+    "Marston": "541-241",
+    "Delo": "5228",
+    "Eurolock": "A 24.10",
+    "Loxeal / Wekem": "52-03 / 23-18"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-42",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "242 (Loctite 242 ca. 17% teurer als Loctite 2.43)",
+    "Henkel": "OMNIFIT 50M",
+    "Marston": "581-242",
+    "Eurolock": "A 24.20",
+    "Devcon / Permatex": "18242 / 2242 / 24250",
+    "Loxeal / Wekem": "54-03"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-43",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "243 (NSF-Freigabe -> dann 301-43) / 246 (aber bis +230°C!)",
+    "Henkel": "OMNIFIT 50H  (mit DVGW > 306-20)",
+    "Marston": "585-243",
+    "Delo": "5249",
+    "OKS": "(90 Gewindepaste rot, Epoxyacrylat,auch für passive Materialien)",
+    "Eurolock": "A 24.30",
+    "Loxeal / Wekem": "55-03",
+    "Hylomar": "HYLO®GRIP HY2143"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-45",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "245",
+    "Marston": "587-245",
+    "Eurolock": "A 24.50/A 50.00",
+    "Loxeal / Wekem": "56-03 / 15-36"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-60",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "2701 (NSF-Freigabe -> dann 301-70) unser 302-60 ist höher temperaturbeständig / 276",
+    "Henkel": "OMNIFIT Seal 46M",
+    "OKS": "(90 Gewindepaste rot, Epoxyacrylat,auch für passive Materialien)",
+    "Loxeal / Wekem": "83-05"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-62",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "262, 263",
+    "Henkel": "OMNIFIT 100H",
+    "Marston": "681-262",
+    "Eurolock": "A 26.20",
+    "Devcon / Permatex": "2262 / 26250",
+    "Loxeal / Wekem": "55-04"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-70",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "270 (2701->302-60)",
+    "Marston": "641-270",
+    "Delo": "5349",
+    "Eurolock": "A 27.00 / A 270.01 / A 27.80 / A 60.60",
+    "Devcon / Permatex": "18270 / 2270",
+    "Loxeal / Wekem": "83-54 / 83-37",
+    "Hylomar": "HYLO®GRIP HY2170"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-71",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "271 / 279",
+    "Henkel": "OMNIFIT 100M",
+    "Eurolock": "A 27.10/A 27.30",
+    "Devcon / Permatex": "2271 / 27150 / 27125",
+    "Loxeal / Wekem": "83-55 (83-58 blau)"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-72",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "272 / 266",
+    "Henkel": "OMNIFIT 1560",
+    "Marston": "642-272",
+    "Loxeal / Wekem": "86-72"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-75",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "275",
+    "Eurolock": "A 27.50",
+    "Loxeal / Wekem": "86-54"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-77",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "277",
+    "Henkel": "OMNIFIT 1550",
+    "Devcon / Permatex": "2277 / 27725",
+    "Loxeal / Wekem": "86-53 (15-45 niedrigere Festigkeit)"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-80",
+   "karsilikYok": false,
+   "markalar": {
+    "Henkel": "OMNIFIT Seal 58H",
+    "Marston": "676-576 (100 gr. , niedrigfest, DVGW -> evtl. auch 302-43!)",
+    "Loxeal / Wekem": "85-05 / 85-02"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 302-90",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "290 (bei Loctite bis M 12 und hat eine NSF Zulassung) / 084",
+    "Henkel": "OMNIFIT 1710 / 200LL",
+    "Marston": "520-290",
+    "Delo": "5302",
+    "Eurolock": "A 29.00 / A 60.50",
+    "Devcon / Permatex": "18290 / 2290 / 29050 / 29025",
+    "Loxeal / Wekem": "70-14"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 305-10",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "510 / 504 (Mittelfest / 0,4 Spalt / thixotrop / bis ca. 200°C nach 1/2 Std. tempern bei +180°C)",
+    "Henkel": "(OMNIFIT FD30) auch 305-18",
+    "Marston": "5000-510",
+    "Eurolock": "A 51.00",
+    "Loxeal / Wekem": "59-10"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 305-11",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "511 (bei Loctite bis 0,2 Spalt / unseres geht bis 0,4 Spalt)",
+    "Henkel": "OMNIFIT 1150 / Seal 50H auch 305-72",
+    "Marston": "678-511",
+    "Delo": "5249",
+    "Eurolock": "A 51.10 / A 52.70",
+    "Loxeal / Wekem": "18-10 (08-38 höherviskos)"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 305-18",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "518, 5203, (515) besonders für Alu-Gehäuse geeignet  / 504 / 5118 / 5188",
+    "Henkel": "INSTANT GASKET 20 / OMNIFIT FD30",
+    "Marston": "3000-518",
+    "Eurolock": "A 51.18 / A 520.30 / A 58.10",
+    "Loxeal / Wekem": "58-31 / 28-15"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 305-42",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "542 / 545 / 566 / 569",
+    "Henkel": "OMNIFIT 1350",
+    "Marston": "670-542",
+    "Eurolock": "A 54.20",
+    "Devcon / Permatex": "18542",
+    "Loxeal / Wekem": "53-14"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 305-67",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "567",
+    "Loxeal / Wekem": "18-09"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 305-72",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "572 (bis 0,2 Spalt / WEICON bis 0,4 , langsamer als WEICON -> Wichtig bei großen Flächen)",
+    "Henkel": "OMNIFIT PIPEGRIP / FD20",
+    "Marston": "1000-572",
+    "Delo": "5298 blau",
+    "Eurolock": "A 57.20",
+    "Devcon / Permatex": "18572",
+    "Loxeal / Wekem": "18-10",
+    "Hylomar": "HYLO®GRIP HY5172"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 305-73",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "573 (128068) Loctite 573 auch für Buntmetalle geeignet, sehr langsam / 5203",
+    "Henkel": "INSTANT GASKET 10 / FD10",
+    "Marston": "2000-573",
+    "Delo": "5198 gelb",
+    "Eurolock": "A 57.30",
+    "Loxeal / Wekem": "28-10",
+    "Hylomar": "HYLO®GRIP HY5173"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 305-74",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "574 (5208) / 549",
+    "Marston": "4000-574",
+    "Eurolock": "A 57.40",
+    "Loxeal / Wekem": "58-14 (58-10 weiß)",
+    "Hylomar": "HYLO®GRIP HY5174"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 305-77",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "577 (für passive Materialien geeignet)",
+    "Marston": "675-577",
+    "Eurolock": "A 57.70",
+    "Loxeal / Wekem": "58-11  / (55-37 rot)",
+    "Hylomar": "HYLO®GRIP HY5177"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 305-86",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "586 / 554 / 582",
+    "Henkel": "OMNIFIT 1570 / seal 54 H (mit DVGW)",
+    "Eurolock": "A 58.60",
+    "Loxeal / Wekem": "86-55 / 86-58"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 306-01",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "601 (ca. 7% teurer als 603) / 675",
+    "Henkel": "OMNIFIT 1780",
+    "Delo": "5328",
+    "Eurolock": "A 60.10 / A 27.85",
+    "Devcon / Permatex": "18601",
+    "Loxeal / Wekem": "82-21 / 82-13"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 306-03",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "603 / 609",
+    "Henkel": "OMNIFIT 1780",
+    "Marston": "610-603",
+    "Eurolock": "A 60.30 / A 27.85",
+    "Devcon / Permatex": "SUPERLOCK 2609",
+    "Loxeal / Wekem": "82-33"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 306-10",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "642",
+    "Henkel": "220M / 222M / 230L / 230M",
+    "Loxeal / Wekem": "83-05 / 83-03"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 306-20",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "620 (thixotrop, bis +230°C, unseres geht bis +200°C)",
+    "Marston": "665-620 / 666-620",
+    "Delo": "5368 / ML UB 160",
+    "Eurolock": "A 62.00",
+    "Loxeal / Wekem": "85-86 / 86-86"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 306-30",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "278",
+    "Loxeal / Wekem": "85-05"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 306-38",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "638 (hier kann man besser AN 306-30 anbieten -> viel besser + höhere Temperatur)",
+    "Henkel": "OMNIFIT 1730 / 200H",
+    "Marston": "690-638",
+    "Eurolock": "A 63.80",
+    "Devcon / Permatex": "SUPERLOCK 2680",
+    "Loxeal / Wekem": "85-21",
+    "Hylomar": "HYLO®GRIP HY6138"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 306-40",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "640 (Loctite 640 auch für Buntmetalle geeignet)",
+    "Henkel": "OMNIFIT 80M / 150M / 1750 / 280M",
+    "Eurolock": "A 64.00",
+    "Loxeal / Wekem": "83-31"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 306-41",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "641",
+    "Marston": "630-641",
+    "Eurolock": "A 64.10",
+    "Devcon / Permatex": "18641",
+    "Loxeal / Wekem": "53-11 (52-11 etwas niedrigviskoser)"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 306-48",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "648/649",
+    "Henkel": "OMNIFIT 200M",
+    "Marston": "650-648",
+    "Delo": "5327",
+    "Eurolock": "A 64.80",
+    "Loxeal / Wekem": "83-21 / 82-01 / 83-80 / (83-50 blau)",
+    "Hylomar": "HYLO®GRIP HY6148"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK AN 306-60",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "660/ 5205/",
+    "Henkel": "OMNIFIT 1790",
+    "Marston": "668-660",
+    "Loxeal / Wekem": "89-51"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK Aktivator F Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "736/7649/7240/7471/7091/7075 (148 für 648 + 638)",
+    "Henkel": "OMNIFIT VS 2200",
+    "Marston": "Aushärtebeschleuniger Aktivator Nr.11",
+    "Delo": "TOP 5009 / Quick 5002 / Quick 5003",
+    "Eurolock": "LOS 10",
+    "Devcon / Permatex": "19267",
+    "Loxeal / Wekem": "ATT 11150 / Aktivator11 / WK-11"
+   }
+  },
+  {
+   "weicon": "WEICONLOCK Aktivator F Flüssig",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7649",
+    "Henkel": "OMNIFIT VT 2200/3200",
+    "Eurolock": "LOS 11",
+    "Devcon / Permatex": "24163",
+    "Loxeal / Wekem": "Aktivator11 / 18 / 20"
+   }
+  },
+  {
+   "weicon": "Gewinde-Dichtfaden DF 175",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "55"
+   }
+  },
+  {
+   "weicon": "Schrauben-Sicherungslack",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7400"
+   }
+  },
+  {
+   "weicon": "Gasket Maker Schwarz",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "40478 / 40479"
+   }
+  },
+  {
+   "weicon": "Plast-o-Seal",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "(396003) 5293 No.3(Pinseldose) / 5922 No.2 (Tube) / 5926 No.6 / 30515",
+    "Teroson": "Fluid D/Fluid Plast (120°)/Terodicht Elastik",
+    "Marston": "Hylomar / Hylomar M",
+    "Loxeal / Wekem": "08-07",
+    "Hylomar": "HYLOMAR L, M & H. / Universal Blue"
+   }
+  },
+  {
+   "weicon": "VA 20",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "420",
+    "Henkel": "SICOMET 40 / 8300",
+    "Marston": "101",
+    "Delo": "2201 / 2902",
+    "Eurolock": "E 600 / E 630",
+    "Devcon / Permatex": "Zip Grip 4404",
+    "Loxeal / Wekem": "IS 32 / WK-20",
+    "Hylomar": "HYLOGLUE 3",
+    "Sika": "Sika Lock 2020 PR"
+   }
+  },
+  {
+   "weicon": "VA 8312",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "4062 / 495",
+    "Henkel": "SICOMET 50 / 5050  Sicomet 8300",
+    "Marston": "SQ / 150",
+    "Delo": "2905",
+    "Loxeal / Wekem": "IS 34",
+    "Hylomar": "HYLOGLUE 3"
+   }
+  },
+  {
+   "weicon": "VA 8406",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "406 / 407",
+    "Henkel": "SICOMET 8200",
+    "Marston": "BS / Hyloglue 111",
+    "Delo": "2505",
+    "Loxeal / Wekem": "IS 41",
+    "Hylomar": "HYLOGLUE 3"
+   }
+  },
+  {
+   "weicon": "VA 100",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "413 / 414 / 424  / 404 / 4203",
+    "Henkel": "SICOMET 63 / 5229",
+    "Delo": "s.VA 1401",
+    "Eurolock": "E 540 / E 610 / E 620 / E 640",
+    "Devcon / Permatex": "Zip Grip 4495",
+    "Loxeal / Wekem": "IS 23 / IS 43",
+    "Hylomar": "HYLOGLUE 120"
+   }
+  },
+  {
+   "weicon": "VA 1401",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "401",
+    "Marston": "BS-100",
+    "Delo": "2207",
+    "Eurolock": "E 570",
+    "Devcon / Permatex": "(Zip Grip 4495)",
+    "Loxeal / Wekem": "IS 43S / WK-110"
+   }
+  },
+  {
+   "weicon": "VA 300",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "4850 / 4851 / 405 / 435 (aber Visk.200 mPas) / 498 / 4471 / 4850",
+    "Henkel": "SICOMET 8400",
+    "Marston": "200",
+    "Delo": "2219 / 2229",
+    "Loxeal / Wekem": "IS 25",
+    "Hylomar": "HYLOGLUE 300"
+   }
+  },
+  {
+   "weicon": "VA 1500",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "416 / 431",
+    "Henkel": "SICOMET 77 / 5168",
+    "Marston": "300",
+    "Eurolock": "E 550",
+    "Devcon / Permatex": "Zip Grip HV1200",
+    "Loxeal / Wekem": "IS 27 / 29 / 45",
+    "Hylomar": "HYLOGLUE 1000"
+   }
+  },
+  {
+   "weicon": "VA 2500 HT",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "421 / 422 / 4860 / 4204",
+    "Henkel": "SICOMET 5019 / 5044",
+    "Marston": "EL (bis 180°C) // plus 405",
+    "Delo": "2256",
+    "Devcon / Permatex": "Zip Grip HV2200",
+    "Loxeal / Wekem": "WK-2500",
+    "Hylomar": "HYLOGLUE 2500"
+   }
+  },
+  {
+   "weicon": "VA 30 Black",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "480 / (438 aber Visk.200 mPas und 100°C max.)",
+    "Marston": "SW 4",
+    "Loxeal / Wekem": "IS 54"
+   }
+  },
+  {
+   "weicon": "VA 250 Black",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "380 / 380e / 4210 / 410",
+    "Henkel": "SICOMET 5181 / 5182",
+    "Marston": "SW 15",
+    "Delo": "2262",
+    "Eurolock": "E 525",
+    "Devcon / Permatex": "72940",
+    "Loxeal / Wekem": "WK-2000"
+   }
+  },
+  {
+   "weicon": "VA 1408",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "408 (ca.10 m.Pas.) / 460",
+    "Henkel": "SICOMET 6023/6085/9000/9004/9006",
+    "Marston": "GA",
+    "Loxeal / Wekem": "IS 61 / WK-45"
+   }
+  },
+  {
+   "weicon": "VA 1460",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "460",
+    "Henkel": "SICOMET 9010",
+    "Marston": "FL",
+    "Loxeal / Wekem": "IS 63"
+   }
+  },
+  {
+   "weicon": "VA 1403",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "403 (1100 - 1600 m.Pa.s) / 4031 (1.200 m.Pa.s)",
+    "Henkel": "SICOMET 9020",
+    "Delo": "2348",
+    "Loxeal / Wekem": "IS 67"
+   }
+  },
+  {
+   "weicon": "VA 5000 THIX",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "411"
+   }
+  },
+  {
+   "weicon": "Contact GEL",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "409 / 454 / 39202",
+    "Henkel": "SICOMET thixotrop 5132",
+    "Marston": "Gel",
+    "Delo": "2994",
+    "Eurolock": "E 700 GEL",
+    "Loxeal / Wekem": "IS 47 / WK-Gel"
+   }
+  },
+  {
+   "weicon": "VM 20",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "493 / 430 (65-95 m.Pas.)",
+    "Henkel": "SICOMET 85",
+    "Delo": "2106",
+    "Loxeal / Wekem": "IS 10"
+   }
+  },
+  {
+   "weicon": "VM 120",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "496",
+    "Henkel": "SICOMET 7000",
+    "Delo": "2725",
+    "Eurolock": "M 580",
+    "Loxeal / Wekem": "IS 14"
+   }
+  },
+  {
+   "weicon": "VM 2000",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "415",
+    "Henkel": "SICOMET 99",
+    "Marston": "310",
+    "Delo": "2153",
+    "Eurolock": "M 590",
+    "Loxeal / Wekem": "IS 17"
+   }
+  },
+  {
+   "weicon": "CA-Primer",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "770/7239",
+    "Henkel": "SICOMET POWER PRIMER",
+    "Marston": "Primer für CA-Verklebungen",
+    "Delo": "PRE 2005",
+    "Eurolock": "LOS 13",
+    "Loxeal / Wekem": "Primer7 / WK-7"
+   }
+  },
+  {
+   "weicon": "CA-Aktivator Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "713/7458/ (7455-> andere chemische Basis) / 712",
+    "Henkel": "SICOMET HI-SPEED Beschleuniger",
+    "Marston": "Hyloglue Aushärtebeschleuniger Aktivator Nr.9",
+    "Delo": "QUICK 2002",
+    "Eurolock": "LOS 12",
+    "Loxeal / Wekem": "Aktivator9 / WK-9"
+   }
+  },
+  {
+   "weicon": "CA-Aktivator Spray AC",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7452"
+   }
+  },
+  {
+   "weicon": "Contact Füller",
+   "karsilikYok": false,
+   "markalar": {
+    "Loxeal / Wekem": "WK-10"
+   }
+  },
+  {
+   "weicon": "O-Ring Klebstoff-Set",
+   "karsilikYok": false,
+   "markalar": {
+    "Eurolock": "MDF Schnellkleber LOS 384",
+    "Loxeal / Wekem": "KOMBILOX"
+   }
+  },
+  {
+   "weicon": "Flex 310 M Classic weiß",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5064 / 5068",
+    "Teroson": "939 / 9120 / 9380",
+    "Marston": "Hylo Flex MS60",
+    "Eurolock": "LOS 398",
+    "Loxeal / Wekem": "WK-121",
+    "Hylomar": "HYLO®FLEX MS60",
+    "Sika": "Sikaflex 515"
+   }
+  },
+  {
+   "weicon": "Flex 310 M Classic schwarz",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5062 / 5065 / 5069 / 930",
+    "Teroson": "939 / 9120 / 9220 / 9320 / 9380 / 9360",
+    "Marston": "Hylo Flex MS60",
+    "Eurolock": "LOS 398",
+    "Loxeal / Wekem": "WK-120",
+    "Hylomar": "HYLO®FLEX MS60",
+    "Sika": "Sikaflex 515"
+   }
+  },
+  {
+   "weicon": "Flex 310 M Classic grau",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5063 / 5066 / 5067",
+    "Teroson": "939 / 9120 / 9320 / 9380",
+    "Marston": "Hylo Flex MS60",
+    "Eurolock": "LOS 398",
+    "Loxeal / Wekem": "WK-122",
+    "Hylomar": "HYLO®FLEX MS60",
+    "Sika": "Sikaflex 515"
+   }
+  },
+  {
+   "weicon": "Flex 310 M -2K- grau",
+   "karsilikYok": false,
+   "markalar": {
+    "Teroson": "MS 9399 (Topfzeit 20 Min.!) Gebinde: 50ml, 400ml",
+    "Loxeal / Wekem": "WK-127",
+    "Sika": "Sikaflex 553 2K"
+   }
+  },
+  {
+   "weicon": "Flex 310 M Kristall",
+   "karsilikYok": false,
+   "markalar": {
+    "Marston": "Hylo Flex MS40",
+    "Eurolock": "LOS 398",
+    "Loxeal / Wekem": "WK-126",
+    "Hylomar": "HYLO®FLEX MS40",
+    "Sika": "Sikaflex 521 FC"
+   }
+  },
+  {
+   "weicon": "Flex 310 M flüssig",
+   "karsilikYok": false,
+   "markalar": {
+    "Sika": "Sikaflex 228"
+   }
+  },
+  {
+   "weicon": "Speed-Flex weiß",
+   "karsilikYok": false,
+   "markalar": {
+    "Loxeal / Wekem": "WK-124",
+    "Sika": "Sikaflex 252, 252 i, 552"
+   }
+  },
+  {
+   "weicon": "Speed-Flex grau",
+   "karsilikYok": false,
+   "markalar": {
+    "Marston": "HYLO MK 3000",
+    "Sika": "Sikaflex 252, 252 i, 552"
+   }
+  },
+  {
+   "weicon": "Solar-Flex weiß",
+   "karsilikYok": false,
+   "markalar": {
+    "Sika": "Sikaflex 521 UV"
+   }
+  },
+  {
+   "weicon": "Solar-Flex grau",
+   "karsilikYok": false,
+   "markalar": {
+    "Sika": "Sikaflex 521 UV"
+   }
+  },
+  {
+   "weicon": "Multi-Flex",
+   "karsilikYok": false,
+   "markalar": {
+    "Marston": "MS 2K SPEED POLYMER"
+   }
+  },
+  {
+   "weicon": "Primer M 100",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7251 / 7252 / 7253",
+    "Teroson": "Terostat 102 / 8510 / 102 / 103",
+    "Delo": "DELO SACO SIL E (allerdings auf Ethanol-Basis)"
+   }
+  },
+  {
+   "weicon": "Primer K 200",
+   "karsilikYok": false,
+   "markalar": {
+    "Teroson": "450"
+   }
+  },
+  {
+   "weicon": "Primer E 500",
+   "karsilikYok": false,
+   "markalar": {
+    "Delo": "DELO PRE 3003"
+   }
+  },
+  {
+   "weicon": "Flex 310 PU weiß",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5222/ 5225",
+    "Teroson": "Terostat 92 / 9100",
+    "Loxeal / Wekem": "WK-51",
+    "Sika": "Sikaflex 221, 221 i, 223"
+   }
+  },
+  {
+   "weicon": "Flex 310 PU schwarz",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5220 / 5226 / 3951",
+    "Teroson": "Terostat 92 / 9200 / 8597* / 8596*",
+    "Loxeal / Wekem": "WK-50",
+    "Sika": "Sikaflex 221, 260 N"
+   }
+  },
+  {
+   "weicon": "Flex 310 PU grau",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5221",
+    "Teroson": "Terostat 92 / 9100",
+    "Loxeal / Wekem": "WK-52",
+    "Sika": "Sikaflex 221"
+   }
+  },
+  {
+   "weicon": "Fast-Bond",
+   "karsilikYok": false,
+   "markalar": {
+    "Eurolock": "LOS 325",
+    "Loxeal / Wekem": "WK-38"
+   }
+  },
+  {
+   "weicon": "Montage-Klebeband grau",
+   "karsilikYok": false,
+   "markalar": {
+    "Teroson": "5080"
+   }
+  },
+  {
+   "weicon": "Silicon A transparent",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5366 / 59530",
+    "Henkel": "omniVisc 1050",
+    "Teroson": "Terostat 107/ Terostat 55",
+    "Marston": "Hylosil",
+    "Eurolock": "LOS 201",
+    "Devcon / Permatex": "Silite Silicone (Clear)",
+    "Loxeal / Wekem": "WK-226 / WK-326",
+    "Hylomar": "HYLOSIL 303, Hylosil Silikon Dichtung (Tube 40ml)",
+    "Sika": "Sikasil E Plus"
+   }
+  },
+  {
+   "weicon": "Silicon A weiß",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5367 / 59430",
+    "Marston": "Hylosil",
+    "Eurolock": "LOS 201",
+    "Devcon / Permatex": "Silite Silicone",
+    "Loxeal / Wekem": "59-20 / WK-221 / WK-321",
+    "Sika": "Sikasil E Plus"
+   }
+  },
+  {
+   "weicon": "Silicon A schwarz",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5368",
+    "Teroson": "Atmosit-compact (nur schwarz)",
+    "Marston": "Hylosil",
+    "Eurolock": "LOS 201",
+    "Devcon / Permatex": "Silite Silicone",
+    "Loxeal / Wekem": "59-20",
+    "Sika": "Sikasil E Plus"
+   }
+  },
+  {
+   "weicon": "Silicon A grau",
+   "karsilikYok": false,
+   "markalar": {
+    "Loxeal / Wekem": "WK-222",
+    "Sika": "Sikasil E Plus"
+   }
+  },
+  {
+   "weicon": "Silicon sonstige",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5331 KTW+NSF-Zulassung (norm. Silikon, schnellhärtend)",
+    "Henkel": "omniVisc 1002 (Standard-Silicon)"
+   }
+  },
+  {
+   "weicon": "Silicon F flüssig",
+   "karsilikYok": false,
+   "markalar": {
+    "Delo": "3697 (SI480 + 3599 + 3597 =  aber diese sind alle neutralvernetzend !)"
+   }
+  },
+  {
+   "weicon": "Silicon N",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5140 / 5145 / 5375 / 5999",
+    "Delo": "siehe Silikon F",
+    "Eurolock": "LOS 204",
+    "Devcon / Permatex": "82195 / 82194 / 18572",
+    "Sika": "Sikasil N Plus, AS-70"
+   }
+  },
+  {
+   "weicon": "Silicon HT 300",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "5399 / 5398 / 5927 / 40465",
+    "Marston": "Hylosil rot bis 300°C",
+    "Delo": "3695 (niedrigviskos) // 3699",
+    "Eurolock": "LOS 300 / LOS 301",
+    "Devcon / Permatex": "Silite Silicone High Temperature",
+    "Loxeal / Wekem": "59-30 / WK-158",
+    "Hylomar": "HYLOSIL 310"
+   }
+  },
+  {
+   "weicon": "Black-Seal",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Black-Tite 30740 / 5900 / 5920 (Kupfer-Farbton bis max.+350°C) / 5910 / 598 / 5926 (blau) / 5972 / 5990 (grau) / 5970 / 587 (blau) / 40464",
+    "Teroson": "33",
+    "Marston": "Hylosil Automatik Kartusche",
+    "Loxeal / Wekem": "104N (Lösemittelhaltig) / WK-148",
+    "Hylomar": "HYLOSIL 302"
+   }
+  },
+  {
+   "weicon": "GMK 2410",
+   "karsilikYok": false,
+   "markalar": {
+    "Sika": "SikaSence 8400/31"
+   }
+  },
+  {
+   "weicon": "Zink-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7800",
+    "Teroson": "Zink Spray",
+    "Marston": "Hylo-Spray Zink",
+    "OKS": "2511",
+    "Eurolock": "Zink Spray Spezial LOS 95",
+    "Devcon / Permatex": "DEVCON Z"
+   }
+  },
+  {
+   "weicon": "Zink-Spray spezial hell",
+   "karsilikYok": false,
+   "markalar": {
+    "OKS": "2521",
+    "Eurolock": "Zink-Ausbesserungsspray LOS 97"
+   }
+  },
+  {
+   "weicon": "Zink-Alu-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Marston": "Hylo-Spray Zink-Alu",
+    "Eurolock": "Zink-Alu-Mix LOS 99"
+   }
+  },
+  {
+   "weicon": "Alu-Spray A-100 abriebfest",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7801",
+    "OKS": "2531",
+    "Eurolock": "Aluminium-Spray LOS 90"
+   }
+  },
+  {
+   "weicon": "Alu-Spray A-400 brilliant",
+   "karsilikYok": false,
+   "markalar": {
+    "Eurolock": "LOS 93"
+   }
+  },
+  {
+   "weicon": "Edelstahl-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "OKS": "2541",
+    "Eurolock": "Edelstahlspray LOS 75"
+   }
+  },
+  {
+   "weicon": "Kupfer-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Eurolock": "Kupfer-Spray LOS 85"
+   }
+  },
+  {
+   "weicon": "Messing-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Eurolock": "Messing-Spray LOS 80"
+   }
+  },
+  {
+   "weicon": "Corro-Schutz",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7802 (aber auf Harz-Basis,Farbe:blau)",
+    "Teroson": "Terotex-Ultra/Schutzwachs/Multi-Wax-Spray*",
+    "OKS": "361 (eher ölig)  / 2100 / 2101 / 2301-> mit Grünfärbung > erleichtert Kontrolle",
+    "Eurolock": "Korro-Lock LOS 15 / LOS 808*"
+   }
+  },
+  {
+   "weicon": "Oberflächen-Reiniger",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7063/7070",
+    "Devcon / Permatex": "82194"
+   }
+  },
+  {
+   "weicon": "Sprühreiniger S",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7061",
+    "Henkel": "OMNICLEAN UL",
+    "Marston": "Universal-Schnellreiniger",
+    "Delo": "DELOTHEN NK 1 / DELO Reiniger EP",
+    "OKS": "2661",
+    "Eurolock": "LOS 2000",
+    "Devcon / Permatex": "FAST CLEANER (2000)",
+    "Loxeal / Wekem": "CLEANER 10 / WS-2000",
+    "Wencon": "Cleaner",
+    "Hylomar": "Hyloclean"
+   }
+  },
+  {
+   "weicon": "Plastic-Cleaner",
+   "karsilikYok": false,
+   "markalar": {
+    "Loxeal / Wekem": "WS-2400"
+   }
+  },
+  {
+   "weicon": "Bremsenreiniger",
+   "karsilikYok": false,
+   "markalar": {
+    "Teroson": "Bremsen & Kupplungspray",
+    "Marston": "Hylo-Spray Bremsenreiniger",
+    "Delo": "DELOTHEN NK 3",
+    "OKS": "2610 / 2611*",
+    "Eurolock": "LOS 1000 / 1100 / 1150"
+   }
+  },
+  {
+   "weicon": "Brennerreiniger",
+   "karsilikYok": false,
+   "markalar": {
+    "Eurolock": "LOS 650 / LOS 690"
+   }
+  },
+  {
+   "weicon": "Multi-Schaum",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "Superschaum (reinigt aber kein Glas)",
+    "Teroson": "Super-Schaum",
+    "Eurolock": "LOS 2200"
+   }
+  },
+  {
+   "weicon": "Dicht- und Klebstoffentferner",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7200 / 790 / 7360",
+    "Eurolock": "LOS 185",
+    "Devcon / Permatex": "FL Stripper",
+    "Loxeal / Wekem": "WK-8 / WS-90"
+   }
+  },
+  {
+   "weicon": "Druckluft-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "OKS": "2721",
+    "Eurolock": "LOS 505"
+   }
+  },
+  {
+   "weicon": "AT-44",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "(8010 = auf synthetischer Basis bis +250°C)",
+    "OKS": "3751 (mit H1 Zulassung) / 670 / 671",
+    "Eurolock": "LOS 267"
+   }
+  },
+  {
+   "weicon": "W 44 T",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8201 / 7803 / 8201 / 8202",
+    "Teroson": "MO-Universal",
+    "OKS": "600 / 601 (611 > aber mit MoS2)",
+    "Eurolock": "Mehrzweckspray LOS 50 / LOS 60"
+   }
+  },
+  {
+   "weicon": "Bio-Fluid",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8000 / 8001",
+    "OKS": "8600 / 8601* / 370 / 371 / 3760 / 701",
+    "Eurolock": "LOS 145"
+   }
+  },
+  {
+   "weicon": "Silicon-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8021 / 8020-> Flüssig-Wirkst.(beide mit  Lebensmittel-Freigabe)",
+    "Teroson": "Silikonspray",
+    "Marston": "Hylo-Spray Silikon",
+    "OKS": "1360 / 1361 / 1000 (Flüssigware)",
+    "Eurolock": "LOS 170"
+   }
+  },
+  {
+   "weicon": "Bio-Cut",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8030 / 8031 -> mineralöl-haltig",
+    "OKS": "390 / 391*",
+    "Eurolock": "LOS 237 / LOS 248 / LOS 250",
+    "Devcon / Permatex": "Safe Tap / Safe Cut"
+   }
+  },
+  {
+   "weicon": "PTFE-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Marston": "Hylo-Spray Teflon",
+    "Delo": "DELOPART 6000",
+    "OKS": "570 / 571 / 3750 (mit H1 Zulassung)",
+    "Eurolock": "LOS 210"
+   }
+  },
+  {
+   "weicon": "PTFE-Fluid",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8192"
+   }
+  },
+  {
+   "weicon": "Gleitlack-Spray MoS2",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8154/8155",
+    "OKS": "310 / 510 / 511 / 500 / 530"
+   }
+  },
+  {
+   "weicon": "Ketten- und Seilspray",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8011 (hat aber NSF H2-Zulassung)",
+    "Teroson": "Fett-Spray",
+    "OKS": "340 / 341 / 451",
+    "Eurolock": "LOS 105 / LOS 110"
+   }
+  },
+  {
+   "weicon": "Top-Lube",
+   "karsilikYok": false,
+   "markalar": {
+    "OKS": "350 (MoS2-Zusatz) / 352 / 3521* / 354 / 3541*",
+    "Eurolock": "LOS 245 / LOS 265 / LOS 268 / LOS 443"
+   }
+  },
+  {
+   "weicon": "Keilriemen-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8005",
+    "OKS": "2901"
+   }
+  },
+  {
+   "weicon": "Sprühfett weiß",
+   "karsilikYok": false,
+   "markalar": {
+    "Teroson": "Weißes Fett",
+    "OKS": "360",
+    "Eurolock": "Weißes Fettspray LOS 35"
+   }
+  },
+  {
+   "weicon": "Rost-Schock",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8040 Schnellrostlöser EIS",
+    "Teroson": "Schnell-Rostlöser",
+    "OKS": "621",
+    "Eurolock": "Rost-Protector LOS 115"
+   }
+  },
+  {
+   "weicon": "Rostlöser- und Kontaktspray",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8018 /7039",
+    "Marston": "Hylo-Spray Rostlöser",
+    "OKS": "600 / 601 / 641 / 700",
+    "Eurolock": "LOS 40 / LOS 120"
+   }
+  },
+  {
+   "weicon": "Rostumwandler",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7500"
+   }
+  },
+  {
+   "weicon": "Schweißschutz-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "SF 7900",
+    "OKS": "1501 / 1511",
+    "Eurolock": "LOS 230"
+   }
+  },
+  {
+   "weicon": "Formentrennmittel",
+   "karsilikYok": false,
+   "markalar": {
+    "OKS": "1511",
+    "Wencon": "Release Agent"
+   }
+  },
+  {
+   "weicon": "Etiketten-Entferner",
+   "karsilikYok": false,
+   "markalar": {
+    "Loxeal / Wekem": "WS-94"
+   }
+  },
+  {
+   "weicon": "Edelstahlpflege-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Eurolock": "LOS 9400"
+   }
+  },
+  {
+   "weicon": "Metal-Fluid",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7066 -> Metal-Fluid wegen NSF Zulassung"
+   }
+  },
+  {
+   "weicon": "Cockpit-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Teroson": "Cockpit-Spray",
+    "Eurolock": "LOS 7000"
+   }
+  },
+  {
+   "weicon": "Sprühkleber",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "3020",
+    "Teroson": "Karosserie-Klebe-Spray",
+    "Eurolock": "Sprühkleber LOS 350"
+   }
+  },
+  {
+   "weicon": "Lecksuch-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7100",
+    "OKS": "2800 / 2801",
+    "Eurolock": "LOS 130"
+   }
+  },
+  {
+   "weicon": "Kälte-Spray",
+   "karsilikYok": false,
+   "markalar": {
+    "OKS": "2701",
+    "Eurolock": "LOS 500"
+   }
+  },
+  {
+   "weicon": "Flüssigwirkstoff Workshop-Cleaner",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "7840",
+    "OKS": "2650",
+    "Eurolock": "LOS 7100 / LOS 7200 / LOS 9500"
+   }
+  },
+  {
+   "weicon": "Flüssigwirkstoff Bio-Schweißschutz",
+   "karsilikYok": false,
+   "markalar": {
+    "OKS": "1600 / 1601",
+    "Eurolock": "LOS 233 / LOS 235*"
+   }
+  },
+  {
+   "weicon": "Anti-Seize",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8013/8023 / 76764",
+    "OKS": "255 / 251* / 290",
+    "Eurolock": "LOS 410 / LOS 428",
+    "Devcon / Permatex": "Stop Seize"
+   }
+  },
+  {
+   "weicon": "Anti-Seize Nickel",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "771 / 77164",
+    "OKS": "260/ 214 / 250 / 2501* / 280 / 235 (auf Alu-Basis)",
+    "Devcon / Permatex": "Never Seez Pure Nickel Special Anti-Seize"
+   }
+  },
+  {
+   "weicon": "Anti-Seize High-Tech",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8009* / 8013* / 8014* / 8153* / 8156*",
+    "Eurolock": "LOS 440 / 460 / 470 / 475",
+    "Devcon / Permatex": "DEVCON MO-PA"
+   }
+  },
+  {
+   "weicon": "Kupferpaste",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8007 / 8008 / 8065 / 8152 / 51007",
+    "Marston": "Kupferpaste Anti-Seize",
+    "OKS": "240 / 241* / 245 / 290"
+   }
+  },
+  {
+   "weicon": "AL-M",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8103/8191",
+    "OKS": "200 / 400 (bis -30°C) / 410 / 418 (aber bis +150°C)",
+    "Eurolock": "LOS 448 / LOS 450 / LOS 455"
+   }
+  },
+  {
+   "weicon": "AL-W",
+   "karsilikYok": false,
+   "markalar": {
+    "Teroson": "Plastilube",
+    "OKS": "403"
+   }
+  },
+  {
+   "weicon": "AL-H",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8105 (auf Mineralöl-Basis, unseres: Polyalphaolefin) / 36781",
+    "OKS": "479/424 (+200°C)/422",
+    "Eurolock": "LOS 905"
+   }
+  },
+  {
+   "weicon": "AL-F",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8101 / 8106 / 8015",
+    "OKS": "265 / 270 / 402 / 470 / 471 / 404 (aber bis +150°C)"
+   }
+  },
+  {
+   "weicon": "AL-T",
+   "karsilikYok": false,
+   "markalar": {
+    "OKS": "432/404"
+   }
+  },
+  {
+   "weicon": "Silikonfett",
+   "karsilikYok": false,
+   "markalar": {
+    "Loctite": "8104"
+   }
+  },
+  {
+   "weicon": "zweikomponentiges, anaerobes Acrylat",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "3273.3292",
+    "Henkel": "SICOMET Color Blue: Farbstoff für CA",
+    "Teroson": "Fluid: Kunstharz flüssig",
+    "Marston": "Marstoplast: halbaushärtende Flüssig-Dichtung (nicht plastisch)",
+    "OKS": "220/221: MoS2 Paste bis 450°C",
+    "Devcon / Permatex": "14177 (1-Minute-Epoxy-Gel): Min.Kleber in 400ml-Patrone",
+    "Loxeal / Wekem": "30-20/30-21/30-22/30-23/30-24/30-37: UV-härtende",
+    "Hylomar": "Hylomar EAP5 – Auspuff-Montagepaste (Flüssigglas)"
+   }
+  },
+  {
+   "weicon": "wie CA-Primer aber andere chemische Basis",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "793",
+    "Henkel": "SICOMET Color UV: Fluoreszenzeinfärbung für CA",
+    "Teroson": "8517H + 8525: spezielle PU-Primer",
+    "Delo": "MONOPOX 6093/6095/MG063/1196/1197: 1-K-Epoxy heißhärtend",
+    "OKS": "30 / 300: Additiv zur Beigabe bei Schmierölen",
+    "Devcon / Permatex": "Epoxy Plus 25 Nr.14278: Gummi gefüllter Epoxy im Auto-Mix 50ml",
+    "Loxeal / Wekem": "33-47 (wie RK1300, ohne Aktivator, A+B-Verfahren)",
+    "Hylomar": "EPN2 Electrical Putty"
+   }
+  },
+  {
+   "weicon": "wie Lock-Aktivator aber auf organische Basis",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "7471",
+    "Teroson": "Terolan-53: Karosseriedichtmasse (SBK)",
+    "Delo": "MONOPOX AD066/MK096/MK295: 1-K-Epoxy heißhärtend",
+    "OKS": "3720/3730: Getriebeöl f. d. Lebensmitteltechnik",
+    "Devcon / Permatex": "Epoxy Plus 25 Nr.14350: Gummi gefüllter Epoxy im Auto-Mix 400ml-Patrone",
+    "Loxeal / Wekem": "IS 60: Alkoxy-CA (wie 1408 aber dünnflüssiger)",
+    "Hylomar": "HYLOSIL 101 IVORY SILICONE (50 X 85G)"
+   }
+  },
+  {
+   "weicon": "LOCK-Prittstift",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "268 / 561 / 668 / 534 / 548",
+    "Teroson": "Terostat II: Spritzbares Dichtband",
+    "Delo": "AD895: wie Plastik-Stahl B oder F2 aber mineralisch gefüllt mit UL-Zulassung",
+    "OKS": "3770: Hydrauliköl f. d. Lebensmitteltechnik",
+    "Devcon / Permatex": "DA 999: Epoxy 400ml-Patrone f. Lebensmittelindustrie (certifikate 21 CFR 175.300)",
+    "Hylomar": "HYLOSIL 101 IVORY SILICONE (12 X 300ML)"
+   }
+  },
+  {
+   "weicon": "UV-Klebstoffe",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "302/322/350/352/3504/3491/3922/3201",
+    "Teroson": "9140 wie Black-Seal aber Neutral-Vernetzend",
+    "Delo": "5449: anaerob warmfest",
+    "OKS": "1110/1133/1140/1144/1148/1155/: div. Siliconfette",
+    "Devcon / Permatex": "Tru-Bond 214 & 215 & Tru-Bond 206A: elektrisch leitende Epoxies 10 Gramm",
+    "Hylomar": "HYLOSIL 102 BLACK SILICONE (50 X 85G)"
+   }
+  },
+  {
+   "weicon": "Polyesterharz / Glasfaser-Paste",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "3022/3024/3025/3028",
+    "Delo": "5549: anaerob farblos, adhäsiv, für flächige Verklebungen",
+    "OKS": "416: wassermischbarer Kühlschmierstoff bis -55°C",
+    "Hylomar": "HYLOMAR 102 BLACK SILICONE (12 X 300ML)"
+   }
+  },
+  {
+   "weicon": "MoS2 Paste bis 400°C",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "8012",
+    "Delo": "Metalix A / Metalix S: Polyesterharz",
+    "OKS": "4200: wie ALM aber synthetische Basis, kein Mineralöl",
+    "Hylomar": "HYLOSIL 103 CLEAR SILICONE (12 X 300ML)"
+   }
+  },
+  {
+   "weicon": "Handreiniger",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "7855/7850",
+    "Delo": "DELO PRE 4003: Primer für PHOTOBOND (lichthärtende Systeme)",
+    "OKS": "422: ähnlich ALH aber Basis: Barium-Komplex-Seife +180°C",
+    "Hylomar": "Hylosil 923 2-Komponenten Silikondichtung"
+   }
+  },
+  {
+   "weicon": "PUR-Schaum",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "5006",
+    "OKS": "4220: Lagerfett +280°C, Basis: PTFE und Syntheseöl",
+    "Hylomar": "Tilebond ==> WAL 06"
+   }
+  },
+  {
+   "weicon": "wie Easy-Mix, Visk.40.000, Topfzeit 180 Min.",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "Loctite Hysol 3421",
+    "OKS": "428: Getriebefett"
+   }
+  },
+  {
+   "weicon": "wie Easy-Mix, Visk.1.000.000, Topfzeit 120 Min.",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "Loctite Hysol 3425",
+    "OKS": "475: ähnlich ALH aber mit Lithiumseife und PTFE"
+   }
+  },
+  {
+   "weicon": "wie Black-Seal aber Neutral-Vernetzend",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "5699",
+    "OKS": "477: \"Hahnfett f.d.Lebensmitteltechnik\"; ähnlich ALH; NLGI-Klasse 3"
+   }
+  },
+  {
+   "weicon": "entspricht dem AL-H, geht aber bis 200°C",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "8102",
+    "OKS": "490: sprühbares Aluminiumkomplexseife-Mineralöl-Fett bis +180°C"
+   }
+  },
+  {
+   "weicon": "entspricht dem AL-H, geht aber bis 400°C",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "8014 wird als Anti-Seize mit Lebensmittelfreigabe verkauft",
+    "OKS": "491: trockenes Zahnrad-Spray (Basis: natürl. u. synthetische Harze)"
+   }
+  },
+  {
+   "weicon": "Epoxy (1 Kg) flüssig, Schnellhärtend > 10 bis 20 min. !",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "3462",
+    "OKS": "100/110/111: div. MoS2-Pulver (vermindert Reibung und Verschleiß)"
+   }
+  },
+  {
+   "weicon": "Schraubensicherung mittelfest als Stick (\"Pritt-Stift\")",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "248",
+    "OKS": "1300/1301/1700/1750/: div. Gleitlacke (synthet. Wachse + Wasser)"
+   }
+  },
+  {
+   "weicon": "Repair Stick Stahl + Glasfaserband",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "5070 Rohr Reparatur Band besteht aus Metal Magic Steel Stick + Glasfaserband",
+    "OKS": "536: Graphit-Gleitlack (Graphit, Additive, Wasser)"
+   }
+  },
+  {
+   "weicon": "1-Komp. Epoxydharz warmhärtend",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "9533 / 9514",
+    "OKS": "1103: Wärmeleitpaste"
+   }
+  },
+  {
+   "weicon": "5083 UV-härtendes Acetoxy-Silikon",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "5083",
+    "OKS": "2621: ähnlich R+K jedoch mit teilhalogenierte Lösemittel"
+   }
+  },
+  {
+   "weicon": "MoS2-Trockenschmiermittel bis +1300°C",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "8016 / 8017",
+    "OKS": "387: Kettenschmierstoff bis +600°C mit Graphit (H1 Zulassung)"
+   }
+  },
+  {
+   "weicon": "Sofortklebstoff - Spaltfüllend, 2-komponentig, 10g",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "3090 / 4090"
+   }
+  },
+  {
+   "weicon": "2-K Alkoxy Silikon, Farbe rot, Temp. Bis 220°C",
+   "karsilikYok": true,
+   "markalar": {
+    "Loctite": "5612"
+   }
+  }
+ ]
+}

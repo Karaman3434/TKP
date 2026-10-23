@@ -1,5 +1,5 @@
 /*
-  auth.js — WG.221026.1759.951
+  auth.js — WG.231026.1045.955
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -142,13 +142,17 @@
     "avans-takibi.html": "avansTakibi",
     "odenebilir-komisyon.html": "odenebilirKomisyon",
     "bildirimler.html": "bildirimler",
-    "home.html": "anaSayfa"
+    "home.html": "anaSayfa",
+    // EKLENDİ (23.10.2026, Abdullah'ın isteğiyle) — "Marka Karşılaştırma"
+    // (rakip ürün -> WEICON karşılığı arama sayfası).
+    "marka-karsilastirma.html": "markaKarsilastirma"
   };
   // Hiçbir izin eşleşmediğinde yönlendirilecek ilk uygun sayfayı bulmak için
   // taranan sıra (anahtar -> o izne ait varsayılan sayfa).
   var SAYFA_IZIN_SIRASI = ["hesapla","urunBul","sepet","gonder","musteriBul","islemGecmisi",
     "raporlar","satisListesi","hareketler","ziyaret","takipGerekenler","gorevler","vadeTakip",
-    "maasHesaplama","netMaasHesaplama","avansTakibi","odenebilirKomisyon","anaSayfa","kmTakip","bildirimler"];
+    "maasHesaplama","netMaasHesaplama","avansTakibi","odenebilirKomisyon","anaSayfa","kmTakip","bildirimler",
+    "markaKarsilastirma"];
   var SAYFA_IZIN_DOSYA = {
     hesapla:"calc.html", urunBul:"product.html", sepet:"cart.html", gonder:"send.html",
     musteriBul:"customer.html", islemGecmisi:"gecmis.html", raporlar:"raporlar.html",
@@ -156,7 +160,8 @@
     takipGerekenler:"takip-gerekenler.html", gorevler:"gorevler.html", vadeTakip:"vade-takip.html",
     maasHesaplama:"maas-hesaplama.html", netMaasHesaplama:"net-maas-hesaplama.html",
     avansTakibi:"avans-takibi.html", odenebilirKomisyon:"odenebilir-komisyon.html",
-    anaSayfa:"home.html", kmTakip:"km.html", bildirimler:"bildirimler.html"
+    anaSayfa:"home.html", kmTakip:"km.html", bildirimler:"bildirimler.html",
+    markaKarsilastirma:"marka-karsilastirma.html"
   };
   // Bu sayfalar kısıtlı hesaplar için de HER ZAMAN erişilebilir — giriş/kilit
   // akışının kendisi oldukları için izin kontrolünden muaf tutulurlar.

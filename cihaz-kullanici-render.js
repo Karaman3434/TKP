@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: WG.221026.1759.952
+  cihaz-kullanici-render.js — VERSİYON: WG.231026.1045.957
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -584,7 +584,9 @@ var IZIN_TANIMLARI = [
   { grup: "Diğer", sayfalar: [
     { anahtar: "anaSayfa", etiket: "🏠 Ana Sayfa" },
     { anahtar: "kmTakip", etiket: "🚗 KM Takip" },
-    { anahtar: "bildirimler", etiket: "🔔 Bildirimler" }
+    { anahtar: "bildirimler", etiket: "🔔 Bildirimler" },
+    // EKLENDİ (23.10.2026, Abdullah'ın isteğiyle) — "Marka Karşılaştırma".
+    { anahtar: "markaKarsilastirma", etiket: "🔄 Marka Karşılaştırma" }
   ]},
   // EKLENDİ (22.10.2026, Abdullah'ın isteğiyle) — "Beklet" düğmesi önce
   // SADECE Ürün Bul/Sepet sayfasında (sepetBekletGoster, yukarıdaki grupta)
@@ -610,7 +612,9 @@ var IZIN_TANIMLARI = [
     { anahtar: "bekletKomisyon", etiket: "🧾 Ödenebilir Komisyon sayfasında" },
     { anahtar: "bekletAnaSayfa", etiket: "🏠 Ana Sayfa'da" },
     { anahtar: "bekletKm", etiket: "🚗 KM Takip sayfasında" },
-    { anahtar: "bekletBildirimler", etiket: "🔔 Bildirimler sayfasında" }
+    { anahtar: "bekletBildirimler", etiket: "🔔 Bildirimler sayfasında" },
+    // EKLENDİ (23.10.2026, Abdullah'ın isteğiyle) — "Marka Karşılaştırma".
+    { anahtar: "bekletMarkaKarsilastirma", etiket: "🔄 Marka Karşılaştırma sayfasında" }
   ]}
 ];
 

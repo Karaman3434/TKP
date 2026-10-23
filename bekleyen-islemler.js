@@ -1,5 +1,5 @@
 /*
-  bekleyen-islemler.js — WG.221026.1245.949
+  bekleyen-islemler.js — WG.231026.1045.956
   ==========================================
   15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı; "istisnasız tüm
   sayfalar" talebiyle genişletildi): "Beklet / Bekleyen İşlemler" — bir
@@ -307,7 +307,9 @@ var BekleyenIslemler = (function(){
     "avans-takibi.html": "bekletAvans",
     "odenebilir-komisyon.html": "bekletKomisyon",
     "bildirimler.html": "bekletBildirimler",
-    "home.html": "bekletAnaSayfa"
+    "home.html": "bekletAnaSayfa",
+    // EKLENDİ (23.10.2026, Abdullah'ın isteğiyle) — "Marka Karşılaştırma".
+    "marka-karsilastirma.html": "bekletMarkaKarsilastirma"
   };
   // Düğme DOMContentLoaded'de (auth henüz çözülmeden) zaten oluşturulduğu
   // için, izin burada "weiconAuthHazir" olayında ayrıca uygulanır (aynı
