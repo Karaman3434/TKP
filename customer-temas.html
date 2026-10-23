@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.211026.1700.879 — customer-temas.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.231026.1200.982 — customer-temas.html -->
 <!--
   WEICON ASİST — TEMAS (Temas Geçmişi) — ayrı sayfa (WG.100926.196)
   ===================================================================
@@ -29,19 +29,62 @@
      kenardan kenara — genel "body{max-width:640px}" burada geçersiz
      kılınıyor. Telefon genişliği HİÇ ETKİLENMİYOR. -->
 <style>@media (min-width:641px){ body{ max-width:none !important; } } </style>
+<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
+<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.231026.1051.962">
+<link rel="stylesheet" href="menu-cekmece-style.css?v=WG.231026.1200.966">
 </head>
 <body>
 
 <div class="app-ust-sabit">
-<header class="app-header">
-  <div class="logo">İŞ TAKİP</div>
-  <div class="tarih" id="gunTarihi"></div>
-</header>
-
 <nav class="app-nav">
   <a class="nav-btn nav-btn--geri" href="customer-detail.html"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></a>
-  <a class="nav-btn nav-btn--ana" href="home.html"><span class='nav-ikon'>🏠</span><span class='nav-etiket'>Ana Sayfa</span></a>
+  <button type="button" class="nav-btn nav-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="nav-menu-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span><span class="nav-etiket">Menü</span></button>
 </nav>
+</div>
+<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
+     onaylandı: "Okey tamam kodlayalım") — çekmece menü artık SADECE Ana
+     Sayfa'da değil, bu sayfada da var. İçerik (hangi satır kilitli/açık)
+     sayfa yüklenirken DEĞİL, izinler Firebase'den çözüldükten SONRA
+     menu-cekmece.js tarafından TEK bir yerden (MC_OGELER tablosu)
+     dinamik oluşturulur — bkz. menu-cekmece.js. Yapı ve stil home.html
+     ile BİREBİR aynı (home-anasayfa-style.css + menu-cekmece-style.css). -->
+<div class="as-drawer-overlay" id="asDrawerOverlay" hidden>
+  <div class="as-drawer" id="asDrawer">
+
+    <div class="as-drawer-ustbar">
+      <span class="as-drawer-logo">İŞ TAKİP</span>
+      <button class="as-drawer-kapat" id="btnAsMenuKapat" aria-label="Menüyü kapat">✕</button>
+    </div>
+
+    <div class="as-drawer-profil">
+      <div class="as-drawer-avatar" aria-hidden="true">👤</div>
+      <div class="as-drawer-isim-blok">
+        <div class="as-drawer-isim" id="asDrawerIsim">Hesabım</div>
+        <div class="as-drawer-eposta" id="asDrawerEposta">…</div>
+      </div>
+    </div>
+
+    <a class="as-drawer-anasayfa" id="asDrawerAnaSayfa" href="home.html">
+      <span class="as-drawer-ikon" aria-hidden="true">🏠</span>
+      <span class="as-drawer-etiket">Ana Sayfa</span>
+      <span class="as-drawer-ok" aria-hidden="true">›</span>
+    </a>
+
+    <nav class="as-drawer-liste" id="asDrawerListe"></nav>
+
+    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.231026.1200.982 ***</div>
+
+    <div class="as-drawer-ayarlar-blok">
+      <a class="as-drawer-oge" href="menu.html"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">⚙️</span><span class="as-drawer-etiket">Ayarlar</span><span class="as-drawer-hata-rozet" id="asAyarlarHataRozeti" hidden>0</span></a>
+    </div>
+
+    <button class="as-drawer-cikis" id="btnAsCikis"><span aria-hidden="true">🚪</span>Çıkış Yap</button>
+  </div>
+
+  <div class="as-drawer-altmenu" id="asDrawerAltMenu" hidden>
+    <div class="as-drawer-altmenu-baslik" id="asDrawerAltMenuBaslik"></div>
+    <div class="as-drawer-altmenu-liste" id="asDrawerAltMenuListe"></div>
+  </div>
 </div>
 
 <div class="sayfa-rota-serit" id="rotaSeridi"></div>
@@ -112,5 +155,7 @@
 </script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
+<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
+<script src="menu-cekmece.js?v=WG.231026.1200.965"></script>
 </body>
 </html>

@@ -1,0 +1,73 @@
+/*
+  menu-cekmece-style.css — WG.231026.1200.966
+  ============================================================================
+  "Menü her sayfada" (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı).
+  Bu dosya SADECE net-yeni sınıfları içerir:
+    - .nav-btn--menu / .nav-menu-cizgiler  → eski "Ana Sayfa" (.nav-btn--ana)
+      düğmesinin yerini alan kırmızı "Menü" düğmesi (.app-nav içinde).
+    - .as-drawer-oge--kilitli              → izni olmayan çekmece satırları
+      için soluk/pasif görünüm.
+  Çekmecenin KENDİSİNİN (.as-drawer-*) mevcut, zaten test edilmiş/onaylanmış
+  stilleri BİLEREK burada TEKRAR TANIMLANMADI — home-anasayfa-style.css'teki
+  halleri aynen kullanılıyor (bu dosyayı kullanan her sayfa o dosyayı da
+  link eder). Amaç: home.html'in zaten çalışan görünümüne hiç dokunmadan,
+  SADECE net-yeni parçaları tek bir yerde tutmak.
+*/
+
+/* "Geri" (.nav-btn--geri) ile BİREBİR aynı ölçü/his — sadece zemin rengi
+   kırmızı ve içeriği hamburger ikonu + "Menü" etiketi. */
+.nav-btn--menu {
+  height: 49px;
+  background: linear-gradient(180deg, #e0485c 0%, #c1121f 55%, #9c0d17 100%);
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 0 #7a0a12, 0 5px 12px rgba(120,10,15,.35), inset 0 1px 0 rgba(255,255,255,.35);
+  position: relative;
+  overflow: hidden;
+  border: none;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.nav-btn--menu::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 45%;
+  background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,0));
+  pointer-events: none;
+}
+.nav-menu-cizgiler {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 22px;
+}
+.nav-menu-cizgiler span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: #fff;
+  border-radius: 2px;
+}
+.nav-btn--menu .nav-etiket {
+  position: relative;
+  margin: 0;
+  font-size: 19px;
+  font-weight: 900;
+  color: #fff;
+}
+
+/* Kilitli (izni olmayan) çekmece satırı — soluk + "not-allowed" imleç.
+   Gerçek erişim koruması zaten auth.js'teki sayfa düzeyi kontrolde;
+   burası sadece gösterim/UX katmanı (href/data-alt-menu kasıtlı olarak
+   HTML tarafında konmuyor — bkz. menu-cekmece.js mcOgeHtml). */
+.as-drawer-oge--kilitli {
+  opacity: .45;
+  cursor: not-allowed;
+}
+.as-drawer-oge--kilitli:active { background: none; }
