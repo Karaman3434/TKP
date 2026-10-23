@@ -1,5 +1,5 @@
 /*
-  home-anasayfa-style.css — WG.141026.2201.815
+  home-anasayfa-style.css — WG.231026.1051.962
   ========================
   SADECE home.html'e özel — Abdullah'ın paylaştığı referans fotoğrafa göre
   yeniden tasarlanan Ana Sayfa (canlı mavi/yeşil, kartlı, çekmece menülü).
@@ -35,7 +35,7 @@
   display: flex;
   align-items: stretch;
   gap: 8px;
-  padding: 14px 14px 20px;
+  padding: 11px 14px 16px;
   box-sizing: border-box;
 }
 /* YENİ (06.10.2026, Abdullah'ın isteğiyle) — Menü tuşu ile WEICON logosunu
@@ -60,10 +60,14 @@
    değil YATAY yönde büyüdü — kan kırmızısı zemin, kalın çizgili
    hamburger ikonu ve yanında "Menü" yazısıyla göze çarpıyor. Genişliği
    artık sabit değil, üst bar satırının 1/3'ü (bkz. .as-ust-birlesik-satir). */
+/* KÜÇÜLTÜLDÜ (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı) —
+   üst bar daha az yer kaplasın diye Menü düğmesi ve logo yüksekliği
+   60px'ten 48px'e (%20) indirildi; .as-ust-birlesik-satir'ın dikey
+   padding'i de aynı oranda daraltıldı. */
 .as-menu-btn {
   flex: 1 1 33.333%;
   width: auto;
-  height: 60px;
+  height: 48px;
   border-radius: 10px;
   background: #c1121f;
   border: none;
@@ -109,7 +113,7 @@
 .as-logo-gorsel-ustte {
   flex: 1 1 66.666%;
   min-width: 0;
-  height: 60px;
+  height: 48px;
   width: 100%;
   object-fit: contain;
   object-position: center;
