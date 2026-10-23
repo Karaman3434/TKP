@@ -97,6 +97,16 @@ body {
 .mini-aksiyon-btn .mini-aksiyon-ikon { font-size: 17px; line-height: 1; }
 .mini-aksiyon-btn--hit { background: #fdeaea; color: #c0392b; border-color: #c0392b; }
 .mini-aksiyon-btn--ekle { background: #f0fdfa; color: #0e6b58; border-color: #0e6b58; }
+/* DÜZELTME (23.10.2026, "HİT/YENİ izni kapalı ama buton hâlâ çalışıyor"
+   hatasının GERÇEK kök nedeni) — .mini-aksiyon-btn { display:flex } kuralı,
+   tarayıcının yerleşik [hidden]{display:none} kuralını eziyordu (ikisi de
+   aynı özgüllükte ama bu bir YAZAR kuralı, UA kuralına her zaman kazanır).
+   Sonuç: urun-arama.js içinde btnHitUrunler/btnYeniUrunAc.hidden=true
+   DOĞRU şekilde ayarlanıyordu ama düğme GÖRSEL OLARAK hiç gizlenmiyor ve
+   tıklanabilir kalıyordu — izin kaydı/kontrolü değil, SADECE bu CSS eksikti.
+   cart-style.css'teki .sepet-alt-buton-satir[hidden] kuralıyla AYNI, daha
+   önce bu projede zaten doğru uygulanmış desen burada da eklendi. */
+.mini-aksiyon-btn[hidden] { display: none; }
 
 /* ---------- Sepet satırı ---------- */
 .ozel-liste-satiri {
