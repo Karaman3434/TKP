@@ -1,5 +1,5 @@
 /*
-  auth.js — WG.231026.1045.955
+  auth.js — WG.251026.0145.1012
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -97,10 +97,70 @@
     }catch(e){}
   }
 
+  // ---- CİHAZ ONAYI (25.10.2026, "izin vermeden bağlanamasın" isteği,
+  // Abdullah'ın isteğiyle) ----
+  // SADECE kısıtlı/çalışan hesapları etkiler (bkz. kisitliSayfaKontrolu
+  // içindeki çağrı — !snap.exists() dalında, yani Abdullah'ın KENDİ admin
+  // hesabında, bu fonksiyon HİÇ ÇAĞRILMIYOR). Böylece Abdullah'ın kendi
+  // girişi hangi cihazda olursa olsun, cihazı kaç kere sıfırlarsa
+  // sıfırlasın asla "onay bekliyor"na düşmez — asıl güvence budur.
+  // "Samsung S22" adı (cihaz-data.js'teki KORUMALI_AD ile aynı) İKİNCİ,
+  // ek bir güvence: bu isimdeki bir cihaz kısıtlı bir hesapla bile girse
+  // otomatik onaylı sayılır. (Bu dosya cihaz-data.js'e BAĞIMLI DEĞİL,
+  // yukarıdaki nota bkz., o yüzden isim burada kendi başına karşılaştırılır.)
+  var ONAY_KORUMALI_AD = "samsung s22";
+  function cihazOnayKontrolEt(uid, kullaniciAdi, geriBildir){
+    try{
+      var id = cihazIdOku();
+      var ref = firebase.database().ref("cihazlar/" + id);
+      ref.once("value").then(function(snap){
+        var c = snap.val() || {};
+        // Her kontrolde tazelenir — "Cihazlar ve Kullanıcılar" panelindeki
+        // gruplama ve cihaz sınırı özellikleri bu alana dayanıyor.
+        var guncelleme = { sonGirisHesabi: kullaniciAdi||"", sonGirisHesabiUid: uid||"" };
+
+        if(String(c.ad||"").trim().toLowerCase() === ONAY_KORUMALI_AD){
+          if(c.onayDurumu !== "onayli") guncelleme.onayDurumu = "onayli";
+          ref.update(guncelleme).catch(function(){});
+          geriBildir(true);
+          return;
+        }
+        if(c.onayDurumu === "onayli"){
+          ref.update(guncelleme).catch(function(){});
+          geriBildir(true);
+          return;
+        }
+        // ÖNEMLİ AYRIM: "onayDurumu tanımsız" TEK BAŞINA "bu özellikten önce
+        // var olan cihaz" anlamına gelmez — hiç görülmemiş YEPYENİ bir cihaz
+        // da Firebase'den aynı şekilde boş ({}) döner. İkisini ayırmak için
+        // "sonGorulme" kullanılıyor: bu alan SADECE kapıdan daha önce
+        // BAŞARIYLA geçmiş bir cihaz için (kaydiGuncelle/cihazKaydiGuncelle
+        // tarafından) yazılır. sonGorulme VARSA bu özellikten önceki bir
+        // cihazdır -> geriye dönük bozulma olmasın diye otomatik "onaylı"
+        // sayılır (tek seferlik geçiş). YOKSA bu cihaz kapıdan hiç
+        // geçmemiştir -> gerçekten yeni -> onay gerekir.
+        if(c.onayDurumu === undefined && c.sonGorulme !== undefined){
+          guncelleme.onayDurumu = "onayli";
+          ref.update(guncelleme).catch(function(){});
+          geriBildir(true);
+          return;
+        }
+        // "bekliyor", hiç görülmemiş yepyeni bir cihaz, ya da tanımsız bir
+        // değer — onay yok. Abdullah'ın panelde görebilmesi için hangi
+        // hesapla denendiğini de yazıyoruz.
+        guncelleme.onayDurumu = "bekliyor";
+        if(!c.ilkGorulme) guncelleme.ilkGorulme = Date.now();
+        ref.update(guncelleme).catch(function(){});
+        geriBildir(false);
+      }).catch(function(){ geriBildir(true); }); // okunamazsa (çevrimdışı vb.) engelleme
+    }catch(e){ geriBildir(true); }
+  }
+
   var yol = window.location.pathname;
   var buSayfaLogin = yol.indexOf("login.html") >= 0;
   var buSayfaPin = yol.indexOf("pin.html") >= 0;
   var buSayfaCihazEngelli = yol.indexOf("cihaz-engelli.html") >= 0;
+  var buSayfaOnayBekliyor = yol.indexOf("cihaz-onay-bekliyor.html") >= 0;
 
   // ---- ÇALIŞAN ERİŞİMİ / SINIRLI HESAP KONTROLÜ (01.10.2026) ----
   // Abdullah'ın Ayarlar > Çalışan Erişimi'nden oluşturduğu sınırlı hesaplar
@@ -165,7 +225,7 @@
   };
   // Bu sayfalar kısıtlı hesaplar için de HER ZAMAN erişilebilir — giriş/kilit
   // akışının kendisi oldukları için izin kontrolünden muaf tutulurlar.
-  var KISITLI_MUSTESNA_SAYFALAR = ["login.html","pin.html","cihaz-engelli.html","erisim-reddedildi.html"];
+  var KISITLI_MUSTESNA_SAYFALAR = ["login.html","pin.html","cihaz-engelli.html","erisim-reddedildi.html","cihaz-onay-bekliyor.html"];
 
   // İNCE AYAR (BUTON BAZLI) İZİNLER (02.10.2026, Birleşik Sayfa) — sayfa
   // seviyesinin altında, tek bir sayfa içindeki belirli düğmeleri açıp
@@ -196,6 +256,24 @@
           cb(false);
           return;
         }
+        // YENİ (25.10.2026, "cihaz onayı" özelliği) — SADECE buraya kadar
+        // gelmiş (yani kısıtlı/çalışan) hesaplar için: bu cihaz bu hesap
+        // için daha önce onaylanmamışsa, hesaba giriş yaptırmadan onay
+        // bekleme ekranına yönlendir. Bkz. yukarıdaki cihazOnayKontrolEt.
+        cihazOnayKontrolEt(user.uid, veri.kullaniciAdi, function(onayli){
+          if(!onayli){
+            document.documentElement.style.visibility = "hidden";
+            firebase.auth().signOut().then(function(){
+              window.location.href = "cihaz-onay-bekliyor.html";
+            });
+            cb(false);
+            return;
+          }
+          izinKontroluneDevamEt(veri);
+        });
+      }).catch(function(){ window.WEICON_IZINLER = null; cb(true); }); // okunamazsa (çevrimdışı vb.) engelleme
+
+      function izinKontroluneDevamEt(veri){
         var izinler = veri.izinler || {};
         var gerekliAnahtar = SAYFA_IZIN_ANAHTARI[dosyaAdi];
         if(gerekliAnahtar && izinler[gerekliAnahtar] === true){ window.WEICON_IZINLER = izinler; cb(true); return; }
@@ -212,7 +290,7 @@
         }
         window.location.replace(SAYFA_IZIN_DOSYA[hedefAnahtar]);
         cb(false);
-      }).catch(function(){ window.WEICON_IZINLER = null; cb(true); }); // okunamazsa (çevrimdışı vb.) engelleme
+      }
     }catch(e){ window.WEICON_IZINLER = null; cb(true); }
   }
 
@@ -267,7 +345,7 @@
   // Şimdi sayfa tekrar görünür olduğunda da aynı kontrol yapılır.
   var kilitleniyor = false;
   function geriDonusKilitKontrolu(){
-    if(kilitleniyor || buSayfaLogin || buSayfaPin || buSayfaCihazEngelli) return;
+    if(kilitleniyor || buSayfaLogin || buSayfaPin || buSayfaCihazEngelli || buSayfaOnayBekliyor) return;
     try{ if(!firebase.auth().currentUser) return; }catch(e){ return; }
     var durum = gecenSureDurumu();
     if(durum === 0) return;
@@ -384,7 +462,7 @@
   function kmSaatDakika(d){ return d.getHours()*60+d.getMinutes(); }
   function kmSaatKur(d, saat, dakika){ var x=new Date(d.getTime()); x.setHours(saat,dakika,0,0); return x; }
   function kmGunlukKontrolu(user, tamam){
-    if(!user || buSayfaLogin || buSayfaPin || buSayfaCihazEngelli || window.location.pathname.split("/").pop()==="erisim-reddedildi.html"){
+    if(!user || buSayfaLogin || buSayfaPin || buSayfaCihazEngelli || buSayfaOnayBekliyor || window.location.pathname.split("/").pop()==="erisim-reddedildi.html"){
       tamam(); return;
     }
     // KM giriş formu bizzat erişilebilir kalır; mevcut modüle yönlendirilir.
@@ -499,7 +577,7 @@
         window.location.href = "pin.html";
         return;
       }
-      if(!buSayfaCihazEngelli){
+      if(!buSayfaCihazEngelli && !buSayfaOnayBekliyor){
         cihazEngelliMi(function(engelli){
           if(engelli){
             cihazEngelUyarisiYaz(user);
@@ -529,7 +607,7 @@
         });
       });
     } else {
-      if(buSayfaCihazEngelli){
+      if(buSayfaCihazEngelli || buSayfaOnayBekliyor){
         document.documentElement.style.visibility = "visible";
       } else if(!buSayfaLogin){
         window.location.href = "login.html";

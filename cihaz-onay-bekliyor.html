@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!-- WEICON ASİST V2 — VERSİYON: WG.251026.0145.1014 — cihaz-onay-bekliyor.html -->
+<!--
+  CİHAZ ONAYI (25.10.2026, Abdullah'ın isteğiyle — "izin vermeden
+  bağlanamasın" talebi)
+  ================================================================
+  cihaz-engelli.html'in ikizi. Kısıtlı/çalışan bir hesap (özel link ile
+  paylaşılan) daha önce hiç onaylanmamış bir cihazdan girmeye çalıştığında
+  auth.js ÖNCE oturumu kapatır, SONRA buraya yönlendirir — burada da
+  (cihaz-engelli.html gibi) tekrar giriş formu YOK, sadece bilgilendirme
+  var. Abdullah "Cihazlar ve Kullanıcılar" panelindeki "⏳ Onay Bekleyen
+  Cihazlar" bölümünden bu cihaza bir isim verip onaylayınca, kişi aynı
+  linkle tekrar girince içeri alınır.
+
+  ÖNEMLİ: Bu kontrol SADECE kısıtlı/çalışan hesapları etkiler — Abdullah'ın
+  kendi admin hesabı bu sayfaya hiçbir zaman düşmez (bkz. auth.js'teki
+  kisitliSayfaKontrolu notu).
+-->
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d3d8c">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WEICON ASİST">
+<title>WEICON ASİST — Onay Bekliyor</title>
+<script>document.documentElement.style.visibility='hidden';</script>
+<link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
+<link rel="stylesheet" href="cihaz-engelli-style.css">
+<link rel="stylesheet" href="cihaz-onay-bekliyor-style.css?v=WG.251026.0145.1014">
+</head>
+<body>
+<div class="sayfa-rota-serit">
+  <span class="sayfa-rota-serit-isim">⏳ Onay Bekliyor</span>
+  <span class="sayfa-rota-serit-rota">Giriş</span>
+</div>
+
+<main class="engelli-kutu">
+  <div class="logo">WEICON</div>
+  <div class="engelli-ikon">⏳</div>
+  <h1 class="onay-bekliyor-baslik">Bu Cihaz Onay Bekliyor</h1>
+  <p>Bu cihaz daha önce bu hesapla hiç giriş yapmamış, bu yüzden önce yöneticinin onaylaması gerekiyor.</p>
+  <p>Yöneticinle iletişime geç — o, "Cihazlar ve Kullanıcılar" ekranından bu cihaza bir isim verip onayladığında, aynı linkle tekrar giriş yapabilirsin.</p>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="firebase-config.js?v=WG.011026.2340.706"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="auth.js?v=WG.251026.0145.1012"></script>
+</body>
+</html>

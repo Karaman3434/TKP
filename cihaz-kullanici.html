@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.231026.1200.977 — cihaz-kullanici.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.251026.0145.1018 — cihaz-kullanici.html -->
 <!--
   CİHAZLAR VE KULLANICILAR (03.10.2026, Abdullah'ın isteğiyle)
   ================================================================
@@ -42,65 +42,22 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
 <link rel="stylesheet" href="pin-style.css">
-<link rel="stylesheet" href="cihazlar-style.css?v=WG.101026.1325.759">
-<link rel="stylesheet" href="calisan-erisim-style.css?v=WG.221026.1759.953">
+<link rel="stylesheet" href="cihazlar-style.css?v=WG.251026.0145.1016">
+<link rel="stylesheet" href="calisan-erisim-style.css?v=WG.251026.0145.1017">
 <link rel="stylesheet" href="ayarlar-style.css?v=WG.071026.1445.745">
-<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.231026.1051.962">
-<link rel="stylesheet" href="menu-cekmece-style.css?v=WG.231026.1200.966">
 </head>
 <body>
 
 <div class="app-ust-sabit">
+<header class="app-header">
+  <div class="logo">İŞ TAKİP</div>
+  <div class="tarih" id="gunTarihi"></div>
+</header>
+
 <nav class="app-nav">
   <a class="nav-btn nav-btn--geri" href="ayarlar.html"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></a>
-  <button type="button" class="nav-btn nav-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="nav-menu-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span><span class="nav-etiket">Menü</span></button>
+  <a class="nav-btn nav-btn--ana" href="home.html"><span class='nav-ikon'>🏠</span><span class='nav-etiket'>Ana Sayfa</span></a>
 </nav>
-</div>
-<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
-     onaylandı: "Okey tamam kodlayalım") — çekmece menü artık SADECE Ana
-     Sayfa'da değil, bu sayfada da var. İçerik (hangi satır kilitli/açık)
-     sayfa yüklenirken DEĞİL, izinler Firebase'den çözüldükten SONRA
-     menu-cekmece.js tarafından TEK bir yerden (MC_OGELER tablosu)
-     dinamik oluşturulur — bkz. menu-cekmece.js. Yapı ve stil home.html
-     ile BİREBİR aynı (home-anasayfa-style.css + menu-cekmece-style.css). -->
-<div class="as-drawer-overlay" id="asDrawerOverlay" hidden>
-  <div class="as-drawer" id="asDrawer">
-
-    <div class="as-drawer-ustbar">
-      <span class="as-drawer-logo">İŞ TAKİP</span>
-      <button class="as-drawer-kapat" id="btnAsMenuKapat" aria-label="Menüyü kapat">✕</button>
-    </div>
-
-    <div class="as-drawer-profil">
-      <div class="as-drawer-avatar" aria-hidden="true">👤</div>
-      <div class="as-drawer-isim-blok">
-        <div class="as-drawer-isim" id="asDrawerIsim">Hesabım</div>
-        <div class="as-drawer-eposta" id="asDrawerEposta">…</div>
-      </div>
-    </div>
-
-    <a class="as-drawer-anasayfa" id="asDrawerAnaSayfa" href="home.html">
-      <span class="as-drawer-ikon" aria-hidden="true">🏠</span>
-      <span class="as-drawer-etiket">Ana Sayfa</span>
-      <span class="as-drawer-ok" aria-hidden="true">›</span>
-    </a>
-
-    <nav class="as-drawer-liste" id="asDrawerListe"></nav>
-
-    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.231026.1200.977 ***</div>
-
-    <div class="as-drawer-ayarlar-blok">
-      <a class="as-drawer-oge" href="menu.html"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">⚙️</span><span class="as-drawer-etiket">Ayarlar</span><span class="as-drawer-hata-rozet" id="asAyarlarHataRozeti" hidden>0</span></a>
-    </div>
-
-    <button class="as-drawer-cikis" id="btnAsCikis"><span aria-hidden="true">🚪</span>Çıkış Yap</button>
-  </div>
-
-  <div class="as-drawer-altmenu" id="asDrawerAltMenu" hidden>
-    <div class="as-drawer-altmenu-baslik" id="asDrawerAltMenuBaslik"></div>
-    <div class="as-drawer-altmenu-liste" id="asDrawerAltMenuListe"></div>
-  </div>
 </div>
 <div class="sayfa-rota-serit">
   <span class="sayfa-rota-serit-isim">📡 Cihazlar ve Kullanıcılar</span>
@@ -154,9 +111,34 @@
   <!-- PIN DOĞRULANDIKTAN SONRA — İKİ BÖLÜM BİRDEN -->
   <div id="ckYonetimAlani" hidden>
 
+    <!-- EKLENDİ (25.10.2026, Abdullah'ın isteğiyle — "izin vermeden
+         bağlanamasın" talebi). Sadece onayDurumu "bekliyor" olan cihaz
+         varsa görünür (bkz. cihaz-kullanici-render.js czBekleyenListesiniCiz). -->
+    <div id="czBekleyenBolum" hidden>
+      <div class="ay-bolum-baslik">⏳ Onay Bekleyen Cihazlar</div>
+      <div id="czBekleyenListe"></div>
+    </div>
+
     <div class="ay-bolum-baslik">📱 Cihazlar</div>
     <div id="czListe"></div>
     <p class="bos-mesaj" id="czBos" hidden>Henüz hiçbir cihaz kayıt olmadı.</p>
+
+    <!-- YENİDEN TASARLANDI (25.10.2026, Abdullah'ın isteğiyle — liste çok
+         yer kaplıyordu). Aynı hesapla (sonGirisHesabi) giriş yapmış 2+
+         cihaz artık inline açılmıyor; TEK satırlık bir buton (bkz. czListe
+         içindeki .cz-grup-satir, cihaz-kullanici-render.js'te çiziliyor) —
+         tıklanınca cihazlar bu popup/sheet'te (.overlay/.sheet, genel
+         standart) listeleniyor. İçindeki kartlar AYNI czAktifKartHtml()
+         çıktısı — işlevsellik (Engelle, isim/PIN düzenle, geçmiş) hiç
+         değişmedi, sadece konumu değişti. -->
+    <div class="overlay" id="czGrupOverlay" hidden>
+      <div class="sheet">
+        <div class="sheet-baslik"><span id="czGrupBaslik"></span> <span class="sheet-baslik-sayi" id="czGrupSayi"></span></div>
+        <div class="sheet-alt">Bu hesapla giriş yapmış, onaylı cihazlar</div>
+        <div id="czGrupPopupListe" class="cz-grup-popup-liste"></div>
+        <div class="sheet-buton-satir"><button type="button" class="btn-vazgec" id="czGrupKapatBtn">Kapat</button></div>
+      </div>
+    </div>
 
     <div class="ay-bolum-baslik">👥 Kullanıcılar (şifreli giriş hesapları)</div>
     <section class="ce-kart">
@@ -171,7 +153,7 @@
 
       <!-- EKLENDİ (22.10.2026, Abdullah'ın isteğiyle) — Kullanıcı
            oluşturulduğu anda "Giriş Linki" burada da gösterilir; aynı
-           blok, aşağıdaki kullanıcı kartlarında da kalıcı olarak var. -->
+           blok, aşağıdaki izin popup'ında da kalıcı olarak var. -->
       <div class="ce-link-blok" id="ceYeniLinkBlok" hidden>
         <div class="ce-link-etiket">✅ Kullanıcı oluşturuldu — Giriş Linki <span class="ce-link-ipucu">(kullanıcı adını otomatik doldurur, şifreyi kendisi yazar)</span></div>
         <div class="ce-link-satir">
@@ -184,6 +166,41 @@
 
     <div id="ceKullaniciListesi"></div>
     <p class="ce-bos-mesaj" id="ceBosMesaj" hidden>Henüz çalışan hesabı oluşturmadın.</p>
+
+    <!-- YENİDEN TASARLANDI — kullanıcı kartı artık tek satır: ad + özet +
+         "İzinler, Cihaz Sınırı ve Link" butonu. Giriş linki, izin grupları
+         (.ce-grup, aynı <details> yapısı, değişmedi) ve YENİ "Cihaz sınırı"
+         alanı buraya, tek paylaşılan popup'a taşındı. -->
+    <div class="overlay" id="ceIzinOverlay" hidden>
+      <div class="sheet">
+        <div class="sheet-baslik"><span id="ceIzinBaslik"></span></div>
+
+        <div class="ce-link-blok">
+          <div class="ce-link-etiket">🔗 Giriş Linki <span class="ce-link-ipucu">(kullanıcı adını otomatik doldurur, şifreyi kendisi yazar)</span></div>
+          <div class="ce-link-satir">
+            <input type="text" class="ce-link-kutu" id="ceIzinLinkKutu" readonly value="">
+            <button type="button" class="ce-link-kopyala-btn" id="ceIzinLinkKopyalaBtn">📋 Kopyala</button>
+          </div>
+          <div class="ce-link-kopyalandi" id="ceIzinLinkKopyalandi" hidden>✓ Kopyalandı</div>
+        </div>
+
+        <div id="ceIzinGruplar"></div>
+
+        <!-- YENİ (25.10.2026, Abdullah'ın isteğiyle) — "Cihaz sınırı".
+             Sert bir engel DEĞİL (CihazData.aktifAyniIsimdeBaskaCihazBulAsync'teki
+             "karar her zaman insana bırakılır" ilkesiyle aynı): sınır
+             dolunca sadece uyarı gösterilir, yeni cihaz yine de "Onay
+             Bekleyen" listesine düşer, Abdullah isterse onaylar. -->
+        <div class="ce-cihaz-sinir-blok">
+          <label class="ce-cihaz-sinir-etiket">📱 Cihaz sınırı <span class="ce-link-ipucu">(boş = sınırsız)</span></label>
+          <input type="number" class="ce-cihaz-sinir-input" id="ceIzinSinirInput" min="1">
+          <div class="ce-cihaz-sinir-uyari" id="ceIzinSinirUyari" hidden></div>
+        </div>
+
+        <button class="ce-kaydet-btn" id="ceIzinKaydetBtn">✓ Kaydet</button>
+        <div class="sheet-buton-satir"><button type="button" class="btn-vazgec" id="ceIzinKapatBtn">Kapat</button></div>
+      </div>
+    </div>
   </div>
 
 </main>
@@ -192,15 +209,13 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="firebase-config.js?v=WG.011026.2340.706"></script>
-<script src="auth.js?v=WG.231026.1045.955"></script>
+<script src="auth.js?v=WG.251026.0145.1012"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="pin-utils.js?v=WG.150926.1241.572"></script>
-<script src="cihaz-data.js?v=WG.101026.1325.759"></script>
+<script src="cihaz-data.js?v=WG.251026.0145.1013"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
-<script src="cihaz-kullanici-render.js?v=WG.231026.1045.957"></script>
+<script src="cihaz-kullanici-render.js?v=WG.251026.0145.1015"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
-<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=WG.231026.1200.965"></script>
 </body>
 </html>

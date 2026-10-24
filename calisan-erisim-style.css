@@ -159,64 +159,6 @@
   margin-top: 10px;
 }
 
-/* 22.10.2026 (Abdullah'ın isteğiyle, mockup onaylandı) — "Kalıcı Olarak
-   Sil": SADECE devre dışı bırakılmış hesaplarda, "↺ Yeniden Etkinleştir"in
-   altında görünür. .ce-yeniden-etkinlestir-btn ile AYNI yapı, .ce-hata'nın
-   kırmızısıyla (#c0392b) — geri alınamaz/tehlikeli işlem vurgusu. */
-.ce-kalici-sil-btn {
-  width: 100%;
-  background: #ffffff;
-  color: #c0392b;
-  border: 1.5px solid #c0392b;
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
-  margin-top: 8px;
-}
-
-/* 22.10.2026 (Abdullah'ın isteğiyle, mockup onaylandı) — bir hesaba giriş
-   yapan cihazın, daha önce kalıcı olarak silinmiş başka bir hesaba ait
-   çıkması durumunda gösterilen uyarı. .ce-devredisi-rozet ile AYNI yapı,
-   SADECE rengi .ce-hata kırmızısına çevrildi (daha ciddi/güvenlikle ilgili
-   bir durum olduğu için). */
-.ce-cihaz-uyari-rozet {
-  display: block;
-  background: #fbe4e1;
-  color: #c0392b;
-  border: 1px solid #c0392b;
-  border-radius: 6px;
-  padding: 6px 8px;
-  font-size: 11px;
-  font-weight: 800;
-  margin-bottom: 10px;
-  line-height: 1.4;
-}
-
-/* 22.10.2026 (Abdullah'ın isteğiyle) — Her kullanıcı için otomatik "Giriş
-   Linki": sadece kullanıcı adını otomatik doldurur, şifreyi kullanıcı
-   kendisi yazar (yeni bir Cloud Function / sunucu tarafı GEREKTİRMEZ).
-   Hem kullanıcı oluşturulduğu anda (➕ Yeni Kullanıcı formunun altında)
-   hem de kullanıcı listesindeki her kartta kalıcı olarak gösterilir —
-   aynı blok, iki yerde birebir aynı stille kullanılıyor. */
-.ce-link-blok { margin: 10px 0 12px; padding-top: 10px; border-top: 1px solid #e5eaf1; }
-.ce-link-etiket { font-size: 12px; font-weight: 800; color: #556170; margin-bottom: 6px; }
-.ce-link-ipucu { font-weight: 600; color: #9aa5b1; }
-.ce-link-satir { display: flex; align-items: center; gap: 6px; }
-.ce-link-kutu {
-  flex: 1; min-width: 0;
-  border: 1.5px solid #cbd5e1; border-radius: 7px;
-  padding: 8px 9px; font-size: 12px; color: #0c2f66; font-weight: 700;
-  background: #f6f9fd;
-}
-.ce-link-kopyala-btn {
-  flex-shrink: 0;
-  border: 1.5px solid #9ebde0; background: #e6eef7; color: #003a70;
-  border-radius: 7px; padding: 8px 12px; font-size: 12px; font-weight: 800; cursor: pointer;
-}
-.ce-link-kopyalandi { font-size: 11px; font-weight: 800; color: #16a085; margin-top: 5px; }
-
 .surum-bilgisi {
   text-align: center;
   font-size: 11px;
@@ -224,3 +166,37 @@
   color: #9aa5b1;
   margin-top: 18px;
 }
+
+/* ========================================================================
+   YENİDEN TASARLANDI (25.10.2026, Abdullah'ın isteğiyle — kart çok yer
+   kaplıyordu) — giriş linki, izin grupları ve cihaz sınırı ortak
+   #ceIzinOverlay popup'ına taşındı; kart artık tek satır: ad + özet +
+   "İzinler, Cihaz Sınırı ve Link" butonu.
+   ======================================================================== */
+.ce-kart--kompakt { padding: 12px 14px; }
+.ce-ozet-uyari { color: #a66a0a; }
+.ce-izin-ac-btn {
+  width: 100%;
+  margin-top: 8px;
+  background: #f3f6fb;
+  color: #0c2f66;
+  border: 1.5px solid #d8e0ea;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* YENİ — "Cihaz sınırı" alanı (popup içinde, ce-grup listesinin altında). */
+.ce-cihaz-sinir-blok { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e4ea; }
+.ce-cihaz-sinir-etiket { font-size: 12px; font-weight: 800; color: #2d3540; display: block; margin-bottom: 6px; }
+.ce-cihaz-sinir-input {
+  width: 70px;
+  padding: 8px;
+  border: 1.5px solid #d8dde3;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.ce-cihaz-sinir-uyari { font-size: 11.5px; font-weight: 700; color: #a66a0a; margin-top: 6px; }

@@ -252,3 +252,58 @@
 }
 .cz-pin-kutu h1 { font-size: 20px; font-weight: 900; color: #003a70; margin-bottom: 6px; }
 .cz-pin-kutu .giris-hata { color: #c0392b; font-size: 13px; font-weight: 700; margin-top: 12px; }
+
+/* ========================================================================
+   ⏳ ONAY BEKLEYEN CİHAZLAR (25.10.2026, "izin vermeden bağlanamasın"
+   isteği, Abdullah'ın isteğiyle) — .cz-kart'ın aynısı, sadece amber bir
+   vurgu; mevcut .cz-kart-rozet/.cz-kart-alt--iki/.cz-ad-duzenle-input
+   sınıflarıyla aynı yapı kullanılıyor, kopyalanmadı.
+   ======================================================================== */
+.cz-kart--bekliyor { border: 1.5px solid #e0a328; background: #fffaf0; }
+.cz-kart-rozet--bekliyor { background: #fff3da; color: #a66a0a; border: 1.5px solid #e0a328; }
+.cz-bekleyen-hesap { font-size: 12.5px; font-weight: 700; color: #a66a0a; margin-top: 4px; }
+.cz-onay-satir { margin-top: 8px; }
+.cz-onayla-btn, .cz-reddet-btn {
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-size: 12.5px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+.cz-onayla-btn { background: #eafaf0; color: #0e6b34; border: 1.5px solid #0e6b34; }
+.cz-reddet-btn { background: #fdeaea; color: #c0392b; border: 1.5px solid #c0392b; }
+
+/* ========================================================================
+   YENİDEN TASARLANDI (25.10.2026, Abdullah'ın isteğiyle — liste çok yer
+   kaplıyordu) — aynı hesapla giriş yapmış 2+ cihaz artık TEK satırlık bir
+   buton; tıklanınca .overlay/.sheet (ayarlar-style.css'teki genel standart)
+   içinde açılan popup'ta listeleniyor.
+   ======================================================================== */
+.cz-grup-satir {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #eef2f8;
+  border: 1.5px solid #d8e0ea;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0c2f66;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.cz-grup-ikon { font-size: 14px; }
+.cz-grup-etiket { flex: 1; text-align: left; }
+.cz-grup-sayi { font-size: 11px; font-weight: 700; color: #556170; background: #fff; border-radius: 20px; padding: 2px 8px; }
+.cz-grup-ok { font-size: 15px; color: #8b95a1; }
+.cz-grup-popup-liste .cz-kart { margin-bottom: 8px; }
+.cz-grup-popup-liste .cz-kart:last-child { margin-bottom: 0; }
+
+/* Popup başlığındaki küçük gri alt-bilgi (örn. "— 3 cihaz") — hem cihaz
+   grubu popup'ında hem kullanıcı izin popup'ında (calisan-erisim-style.css)
+   kullanılıyor. */
+.sheet-baslik-sayi { font-weight: 700; color: #556170; font-size: 13px; }

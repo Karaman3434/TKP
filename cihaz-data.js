@@ -229,6 +229,28 @@ var CihazData = (function(){
     }catch(e){ cb(false, e.message); }
   }
 
+  /* ---------- CİHAZ ONAYI (25.10.2026, "izin vermeden bağlanamasın"
+     isteği, Abdullah'ın isteğiyle) ----------
+     Onay kontrolünün KENDİSİ (okuma + "bekliyor" yazma) BİLEREK auth.js
+     içinde, buradan BAĞIMSIZ duruyor — tıpkı yukarıdaki cihaz-engelleme
+     gibi, auth.js TÜM sayfalarda yüklenip cihaz-data.js'in her sayfada
+     yüklü olmasına güvenemiyor (bkz. auth.js'teki "KASITLI OLARAK
+     cihaz-data.js'e bağımlı değil" notu). Bu fonksiyon SADECE "Cihazlar ve
+     Kullanıcılar" panelindeki "✓ Onayla" düğmesi için — admin panelinin
+     kendisi zaten cihaz-data.js'i yüklüyor. */
+  function onaylaCihazi(id, yeniAd, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      if(!id){ cb(false, "Cihaz kimliği eksik."); return; }
+      baslat();
+      var guncelleme = { onayDurumu: "onayli" };
+      yeniAd = String(yeniAd||"").trim();
+      if(yeniAd) guncelleme.ad = yeniAd;
+      firebase.database().ref("cihazlar/" + id).update(guncelleme)
+        .then(function(){ cb(true); }).catch(function(err){ cb(false, err.message); });
+    }catch(e){ cb(false, e.message); }
+  }
+
   // TEK SEFERLİK kontrol — auth.js her sayfa açılışında bunu çağırır.
   // Bu cihaz engellenmişse geriBildir(true) döner.
   function benEngelliMiyim(geriBildir){
@@ -253,6 +275,7 @@ var CihazData = (function(){
     tumCihazlariDinle: tumCihazlariDinle,
     engelle: engelle,
     engeliKaldir: engeliKaldir,
+    onaylaCihazi: onaylaCihazi,
     benEngelliMiyim: benEngelliMiyim,
     aktifAyniIsimdeBaskaCihazBulAsync: aktifAyniIsimdeBaskaCihazBulAsync,
     cihaziSil: cihaziSil

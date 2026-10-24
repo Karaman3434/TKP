@@ -1,0 +1,7 @@
+/* cihaz-onay-bekliyor-style.css — WG.251026.0145.1014
+   cihaz-engelli-style.css'in paylaştığı .engelli-kutu/.logo/.engelli-ikon
+   aynen kullanılıyor (bkz. cihaz-onay-bekliyor.html) — SADECE başlık rengi
+   "engellendi" kırmızısı yerine, bekleme durumuna uygun amber ile
+   değiştiriliyor (cihaz-kullanici.html'deki "Onay bekliyor" rozetiyle aynı
+   ton: #a66a0a). */
+h1.onay-bekliyor-baslik { color: #a66a0a; }
