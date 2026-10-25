@@ -1,12 +1,13 @@
 /*
-  cart-render.js — WG.261026.0205.1050
+  cart-render.js — WG.261026.0240.1052
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
   Bir ürüne dokununca calc.html'e gidilir (hesapla/düzenle). Kaydet/Gönder
   artık GERÇEKTEN kaydeder (kur tazelik kontrolü + anomali uyarısı + varsa
   aşama seçimi dahil) — ikinci bir onay ekranına gerek yok; başarılı kayıt
-  sonrası: "Kaydet" -> Ana Sayfa, "Formu Görüntüle" -> send.html (mail/WhatsApp paneli).
+  sonrası: "Kaydet" -> Ana Sayfa, "📨 Önizleme İletişim" -> send.html?ac=iletisim
+  (doğrudan Mail/WhatsApp kanal seçimi açık gelir, bkz. aşağıdaki not).
 */
 
 function hataGoster(mesaj){
@@ -616,7 +617,13 @@ function kaydetGercekIslem(niyet){
           musteri: musteri, sepet: sepet, tip: secilenTip, kur: kur, kdv: kdv,
           kayit: sonuc, revizeMi: !!revizeMi, niyet: niyet
         }));
-        window.location.href = "send.html";
+        // TEK TUŞ "📨 Önizleme İletişim" (26.10.2026, Abdullah onayı): eskiden
+        // send.html'e düz gidilip önce genel önizleme gösteriliyor, kanal
+        // seçimi (Mail/WhatsApp) için ayrıca "İletişim" tuşuna basmak
+        // gerekiyordu. Artık o ikinci dokunuş gerekmesin diye send.html'e
+        // "?ac=iletisim" ile gidiliyor — urun-arama.js'teki "?ac=hit/yeniurun"
+        // ile AYNI kalıp (bkz. send-render.js, DOMContentLoaded sonu).
+        window.location.href = "send.html?ac=iletisim";
       } else {
         document.getElementById("btnSepetKaydet").disabled = false;
         document.getElementById("btnSepetGonder").disabled = false;

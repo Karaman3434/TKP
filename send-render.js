@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.201026.1130.860
+  send-render.js — WG.261026.0240.1053
   ==============
   ARTIK SADECE gönderme paneli — kaydetme işi cart.html'e taşındı. Sayfa
   açılışında "weiconv2_son_kaydedilen_belge" localStorage anahtarını okur
@@ -7,6 +7,11 @@
   yönlendirir. "Formu Görüntüle" ile tam önizleme + "Geri" ile Sepet'e
   dönüp düzeltme imkânı sunar (aynı gün+müşteri+ürün seti eşleştiğinde
   SendData.kaydet zaten revize eder, yeni kayıt açmaz).
+  26.10.2026 (Abdullah onayı): "?ac=iletisim" ile açılınca İletişim sheet'i
+  (Mail/WhatsApp/Tablo/PDF) otomatik açılır — cart.html'deki tek tuş
+  "📨 Önizleme İletişim" artık buraya böyle geliyor. Mail seçimi de
+  WhatsApp'la simetrik hale getirildi: ikisi de önce kendi önizlemesini
+  gösterir, altındaki "✓ Gönder" ile devam eder.
 */
 
 function hataGoster(mesaj){
@@ -429,10 +434,9 @@ function tabloyuPanoyaKopyala(kanal, btnEl){
   });
 }
 
-// YENİ (04.10.2026) — konu metni artık tek yerden hesaplanıyor: hem
-// (artık hiçbir yerden açılmayan, dokunulmadan bırakılan) mailOnizlemeAc
-// hem de "Yeni mail"in doğrudan-gönder akışı (bkz. DOMContentLoaded içindeki
-// mailSecenekYeniMail.onclick) bunu kullanıyor.
+// YENİ (04.10.2026) — konu metni tek yerden hesaplanıyor: hem mailOnizlemeAc
+// (26.10.2026'dan beri "Yeni mail"in TEK akışı, bkz. aşağısı) hem de
+// mailOnizlemeGonderBtn.onclick bunu kullanıyor.
 function mailKonuOlustur(){
   var g = gonderBaglam;
   var TIP_ETIKET5 = {numune:"NUMUNE", teklif:"FİYAT TEKLİFİ", proforma:"PROFORMA FATURA", siparis:"SİPARİŞ"};
@@ -934,23 +938,21 @@ document.addEventListener("DOMContentLoaded", function(){
       pop.style.left = r.left + "px";
     }
   };
-  // DÜZELTME (04.10.2026, Abdullah'ın isteğiyle): "Yeni mail" artık ayrı
-  // "Mail Önizleme" ekranını/"✓ Gönder (yeni mail aç)" butonunu HİÇ
-  // göstermeden, doğrudan mail uygulamasını açar (mailOnizlemeGonderBtn'in
-  // daha önce yaptığıyla AYNI: konu hesaplanır, güvenlik ağı olarak panoya
-  // kopyalanır, gonderTiklandi("mail", konu) çağrılır). Eski ara ekran
-  // (mailOnizlemeOverlay) koddan silinmedi — artık hiçbir yerden açılmıyor.
+  // GERİ ALINDI (26.10.2026, Abdullah onayı — "seçim yapıldıktan sonra
+  // otomatik önizleme açılsın" kesin kuralı): "Yeni mail" artık WhatsApp'la
+  // SİMETRİK — doğrudan mail uygulamasını açmak yerine önce "Mail Önizleme"
+  // ekranını (mailOnizlemeAc, bkz. yukarısı) açar, kullanıcı altındaki
+  // "✓ Gönder (yeni mail aç)" butonuna basınca devam eder (bkz.
+  // mailOnizlemeGonderBtn.onclick, o da gonderTiklandi("mail", konu)
+  // çağırıyor — konu panoya kopyalama güvenlik ağı ORADA zaten var, burada
+  // tekrarlamaya gerek yok). 04.10.2026'daki "doğrudan aç" kısayolu bu
+  // kuralla çakıştığı için kaldırıldı — btnUstWhatsapp.onclick ile BİREBİR
+  // aynı desen.
   document.getElementById("mailSecenekYeniMail").onclick = function(ev){
     ev.stopPropagation();
     document.getElementById("mailSecenekPopover").hidden = true;
     iletisimSheetiniKapat();
-    var konu = mailKonuOlustur();
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(konu).then(function(){
-        bilgiGoster("Konu panoya kopyalandı — Konu kutusu yanlış/boş gelirse yapıştır");
-      }).catch(function(){});
-    }
-    gonderTiklandi("mail", konu);
+    mailOnizlemeAc();
   };
   document.getElementById("mailSecenekZincir").onclick = function(ev){
     ev.stopPropagation();
@@ -1033,4 +1035,17 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("tabloSadeceOverlay").addEventListener("click", function(ev){
     if(ev.target === this) this.hidden = true;
   });
+
+  // "?ac=iletisim" (26.10.2026, Abdullah onayı) — cart.html'deki tek tuş
+  // "📨 Önizleme İletişim" artık buraya "send.html?ac=iletisim" ile geliyor;
+  // urun-arama.js'teki "?ac=hit/yeniurun" ile AYNI kalıp — sayfa açılır
+  // açılmaz İletişim sheet'i (Mail/WhatsApp/Tablo/PDF) otomatik açılır,
+  // genel önizlemeyi görüp ayrıca "İletişim" tuşuna basmaya gerek kalmaz.
+  try{
+    var srAcParam = new URLSearchParams(window.location.search).get("ac");
+    if(srAcParam === "iletisim"){
+      var btnIletisim = document.getElementById("btnIletisimAc");
+      if(btnIletisim && !btnIletisim.hidden) btnIletisim.click();
+    }
+  }catch(e){}
 });
