@@ -1,5 +1,5 @@
 /*
-  product-data.js — WG.251026.1030.1025
+  product-data.js — WG.251026.2030.1030
   ===============
   TEK görevi: ürün kataloğunu Firebase'den çekmek ve sepet (basket)
   durumunu yönetmek. DOM'a dokunmaz.
@@ -21,7 +21,6 @@ var ProductData = (function(){
   var katalogDinleyicileri = [];
   var katalogDinleyiciBagli = false;
   var dbRef = null;
-  var onarimDenendi = false;
 
   try{
     var kayitliSepet = localStorage.getItem(SEPET_KEY);
@@ -58,7 +57,6 @@ var ProductData = (function(){
           katalog = katalogBirlestir(firebaseKatalog, yedekKatalog);
           try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(katalog)); }catch(e){}
           katalogDinleyicileri.forEach(function(fn){ fn(); });
-          canliKatalogOnarimiDene();
         })
         .catch(function(err){ tanilaKaydet("Yedek ürün kataloğu yüklenemedi.", err && err.message); });
     }catch(e){
@@ -174,48 +172,26 @@ var ProductData = (function(){
       tanilaKaydet("Ürün kataloğu yüklendi: " + urunler.length + " ürün.");
     }
     katalogDinleyicileri.forEach(function(fn){ fn(); });
-    canliKatalogOnarimiDene();
   }
 
-  // TEK SEFERLİK ONARIM (18.10.2026) — "B - A - Garanti Mührü Mavi" ürünü
-  // eklenirken yaşanan transaction hatası (bkz. yeniUrunEkle içindeki not),
-  // Firebase'deki CANLI "urunler/" düğümünü gerçekten tek bir kayda
-  // düşürmüş olabilir. Hem Firebase katalogu (firebaseKatalog) hem de
-  // yedek JSON (yedekKatalog) yüklenmiş OLMADAN hiçbir karar verilmez —
-  // sadece biri yüklenmişken "az kayıt var" sonucuna varmak, henüz
-  // yüklenmemiş sağlıklı bir kataloğu YANLIŞLIKLA üzerine yazabilir.
-  // "urunler_onarim_18102026" yolunda bir transaction ile kilitleniyor;
-  // böylece birden fazla cihaz aynı anda açılsa da onarım SADECE BİR KEZ
-  // (ve sadece gerçekten gerekliyse) çalışır.
-  function canliKatalogOnarimiDene(){
-    if(onarimDenendi) return;
-    if(!ilkYuklemeLoglandi) return; // Firebase'den en az bir kez gerçek cevap gelmeli
-    if(yedekKatalog.length < 100) return; // yedek JSON henüz yüklenmedi
-    if(firebaseKatalog.length >= 100) return; // canlı katalog zaten sağlıklı, onarıma gerek yok
-    if(!dbRef) return;
-    onarimDenendi = true;
-    var ONARIM_YOLU = "urunler_onarim_18102026";
-    var onceki = firebaseKatalog.length;
-    dbRef.ref(ONARIM_YOLU).transaction(function(mevcut){
-      if(mevcut) return; // undefined dönünce transaction iptal olur — başka cihaz zaten üstlenmiş
-      return {ts: Date.now(), durum: "basladi", onceki_sayi: onceki};
-    }).then(function(sonuc){
-      if(!sonuc.committed) return; // yarışı kaybettik, başka cihaz yapıyor/yapmış
-      var onarilmis = {};
-      katalog.forEach(function(x, i){
-        var kopya = {};
-        for(var k in x){ if(x.hasOwnProperty(k) && k !== "_anahtar") kopya[k] = x[k]; }
-        onarilmis[String(i)] = kopya;
-      });
-      dbRef.ref("urunler").set(onarilmis).then(function(){
-        dbRef.ref(ONARIM_YOLU).update({durum:"tamamlandi", sonraki_sayi: katalog.length});
-        tanilaKaydet("Ürün kataloğu onarıldı: " + onceki + " -> " + katalog.length + " ürün (yedek liste ile).");
-      }).catch(function(err){
-        dbRef.ref(ONARIM_YOLU).remove();
-        tanilaKaydet("Ürün kataloğu onarımı yazılamadı (izin sorunu olabilir).", err && err.message);
-      });
-    }).catch(function(err){ tanilaKaydet("Ürün kataloğu onarım kontrolü başarısız.", err && err.message); });
-  }
+  // KALDIRILDI (25.10.2026, Abdullah'ın "Hata Kayıtları"nda günde onlarca
+  // kez tekrar eden 'permission_denied' şikayeti üzerine) — burada
+  // "canliKatalogOnarimiDene" adında, 18.10.2026'daki TEK SEFERLİK bir
+  // olay için yazılmış bir "otomatik tamir" fonksiyonu vardı. O olay çoktan
+  // geçmişte kaldı; fonksiyon hâlâ her sayfa açılışında (canlı katalog
+  // ilk anda < 100 ürün gösterdiğinde — ki bu genelde sadece bağlantının
+  // daha yeni kurulduğu anlık bir durumdur) tetikleniyor, kullandığı
+  // Firebase yoluna ("urunler_onarim_18102026") hiç izin tanımlanmadığı
+  // için her defasında "permission_denied" ile başarısız oluyor ve bu
+  // yüzden Hata Kayıtları'nı dolduruyordu — SADECE log gürültüsü değil,
+  // asıl tehlikeli yanı şuydu: izin verilseydi, katalog.forEach(...) ile
+  // oluşturduğu "onarilmis" nesnesini dbRef.ref("urunler").set(...) ile
+  // DOĞRUDAN ÜZERİNE YAZIYORDU — yani eğer bu tetiklendiği anda
+  // firebaseKatalog gerçekten eksik/yarım yüklenmişse (sadece bir
+  // zamanlama rastlantısıyla, kataloğun GERÇEKTEN bozuk olmasından değil),
+  // canlı kataloğun büyük kısmını 21.09.2026 tarihli eski yedek JSON ile
+  // SESSİZCE EZEBİLİRDİ. Bu riski almamak için izin vermek yerine
+  // fonksiyonun kendisi tamamen kaldırıldı.
 
   function urunlerDinlemeyeBasla(db){
     db.ref("urunler").on("value", function(snap){
