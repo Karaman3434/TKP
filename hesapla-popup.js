@@ -1,5 +1,5 @@
 /*
-  hesapla-popup.js — WG.261026.0049.1035
+  hesapla-popup.js — WG.261026.0049.1039
   =======================================
   Birleşik Sayfa (cart.html) için Hızlı Hesapla'nın POPUP hâli — 02.10.2026,
   Abdullah'ın isteğiyle: "ürünün üzerine tıkladığımda popup gibi hesaplama
@@ -234,9 +234,15 @@ var HesaplaPopup = (function(){
         if(ozelEtiket) yeniUrun.ozelEtiket = ozelEtiket;
         CartData.ekle(yeniUrun);
       }
+      var yeniEklemeMiydi = (duzenlenenIdx === null);
       kapat();
       if(typeof sayfayiCiz === "function") sayfayiCiz();
-      if(typeof onEklendiCallback === "function") onEklendiCallback();
+      // EKLENDİ (26.10.2026): kancaya artık bunun YENİ bir ekleme mi yoksa
+      // sepetteki mevcut bir satırın DÜZENLENMESİ mi olduğu da geçiliyor —
+      // calc.html'in mevcut kancası (argümansız tanımlı) bundan etkilenmez,
+      // cart.html'in arama kutusunu sadece gerçek "yeni ekleme"de sıfırlayan
+      // kancası bunu kullanıyor (bkz. urun-arama.js).
+      if(typeof onEklendiCallback === "function") onEklendiCallback(yeniEklemeMiydi);
     }catch(e){ hataGoster("Listeye eklenemedi: " + e.message); }
   }
 

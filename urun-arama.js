@@ -1,5 +1,5 @@
 /*
-  urun-arama.js — WG.261026.0049.1032
+  urun-arama.js — WG.261026.0049.1038
   ===================================
   04.10.2026 (Abdullah'ın isteğiyle) — Ürün Satış Geçmişi / Hit Ürünler
   listesi açıkken sepetin "boş" mesajı ve Kaydet/Görüntüle ve Gönder
@@ -351,4 +351,27 @@ document.addEventListener("DOMContentLoaded", function(){
   uaIzinleriUygula();
   ProductData.katalogDegistiginde(uaSonuclariCiz);
   uaSonuclariCiz();
+
+  // EKLENDİ (26.10.2026, Abdullah'ın isteğiyle): Hesapla popup'tan "✓ SEPETE
+  // EKLE" ile sepete eklenince, arama kutusu + sonuç listesi burada HEMEN
+  // sıfırlanır — eskiden arama metni/sonuç listesi ekrandan gitmiyordu,
+  // kullanıcı her seferinde elle silmek zorunda kalıyordu. HesaplaPopup'ın
+  // zaten var olan genel kancasını kullanıyoruz (bkz. hesapla-popup.js
+  // onEklendi — calc.html da kendi kancasını AYRI AYRI bağlıyor, burada
+  // birbirlerini ETKİLEMİYOR). Kutuyu boşaltıp odağı geri vermek, yeni
+  // ürünü aramaya hemen devam edebilsin diye.
+  if(typeof HesaplaPopup !== "undefined"){
+    HesaplaPopup.onEklendi(function(yeniEklemeMiydi){
+      // SADECE arama sonucundan YENİ bir ürün eklendiğinde sıfırlanır —
+      // sepetteki mevcut bir satır düzenlenip güncellendiğinde (popup oraya
+      // tıklanarak açıldıysa) arama kutusuna dokunulmaz, çünkü o akışta
+      // zaten arama kutusuyla bir ilgisi yoktu.
+      if(!yeniEklemeMiydi) return;
+      var input = document.getElementById("searchInput");
+      if(!input) return;
+      input.value = "";
+      uaSonuclariCiz();
+      input.focus();
+    });
+  }
 });

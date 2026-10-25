@@ -1,5 +1,5 @@
 /*
-  cart-style.css — WG.151026.0006.821
+  cart-style.css — WG.261026.0049.1040
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -470,7 +470,8 @@
 .hesapla-overlay[hidden] { display: none; }
 .hesapla-kutu {
   background: #ffffff;
-  border-radius: 0 0 14px 14px;
+  border-radius: 14px; /* 26.10.2026: üstte köşe artık sivri değil — bkz. margin-top */
+  margin-top: 12px; /* 26.10.2026, Abdullah'ın isteğiyle: üst menüye yapışık durmasın diye küçük bir boşluk eklendi */
   padding: 18px 16px;
   width: 100%;
   max-height: 85vh;
