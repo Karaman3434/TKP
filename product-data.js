@@ -1,5 +1,5 @@
 /*
-  product-data.js — WG.191026.1630.854
+  product-data.js
   ===============
   TEK görevi: ürün kataloğunu Firebase'den çekmek ve sepet (basket)
   durumunu yönetmek. DOM'a dokunmaz.
@@ -20,8 +20,6 @@ var ProductData = (function(){
   var sepet = [];
   var katalogDinleyicileri = [];
   var katalogDinleyiciBagli = false;
-  var dbRef = null;
-  var onarimDenendi = false;
 
   try{
     var kayitliSepet = localStorage.getItem(SEPET_KEY);
@@ -36,7 +34,6 @@ var ProductData = (function(){
     try{
       if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
       var db = firebase.database();
-      dbRef = db;
 
       try{
         var local = localStorage.getItem(STORAGE_KEY);
@@ -58,7 +55,6 @@ var ProductData = (function(){
           katalog = katalogBirlestir(firebaseKatalog, yedekKatalog);
           try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(katalog)); }catch(e){}
           katalogDinleyicileri.forEach(function(fn){ fn(); });
-          canliKatalogOnarimiDene();
         })
         .catch(function(err){ tanilaKaydet("Yedek ürün kataloğu yüklenemedi.", err && err.message); });
     }catch(e){
@@ -99,21 +95,30 @@ var ProductData = (function(){
         urunlerDinlemeyeBasla(db);
         return;
       }
-      // HATA DÜZELTME (19.10.2026, Abdullah'ın bildirdiği hata — Hata
-      // Kayıtları'nda günde onlarca kez AYNI iki satır): buradaki eski
-      // "kökten taşıma" denemesi KALDIRILDI. O göç zaten 06.09.2026'da
-      // tek seferlik yapılmıştı (bkz. yukarıdaki not) ve db.ref("/") kökü
-      // TAM O GÜN, GÜVENLİK İÇİN BİLEREK kapatılmıştı — yani kök okuma
-      // denemesi buradan HER SAYFA AÇILIŞINDA garanti "permission_denied"
-      // ile patlıyordu (gerçek bir arıza değildi, beklenen davranıştı).
-      // Daha kötüsü: kök okuma başarısız olunca urunlerDinlemeyeBasla hiç
-      // çağrılmıyordu — yani CANLI Firebase dinleyicisi hiç kurulmuyordu,
-      // sayfa sadece yerel önbellek + yedek JSON ile ayakta duruyordu.
-      // Artık "urunler/" ilk okumada boş gelse bile canlı dinleyici
-      // DOĞRUDAN kuruluyor; veri az sonra gelirse (bağlantı/senkron
-      // gecikmesi) dinleyici kendiliğinden tetiklenip kataloğu günceller.
-      tanilaKaydet("Ürün kataloğu: urunler/ ilk okumada boş geldi, canlı dinleyici yine de kuruluyor.");
-      urunlerDinlemeyeBasla(db);
+      tanilaKaydet("Ürün kataloğu: urunler/ düğümü boş/yok geldi — kökten taşıma deneniyor.");
+      // "urunler/" boş — kökteki eskileri bir kereye mahsus taşı.
+      db.ref("/").once("value").then(function(kokSnap){
+        var tumData = kokSnap.val();
+        var tasinacak = {};
+        if(tumData && typeof tumData === "object" && !Array.isArray(tumData)){
+          Object.keys(tumData).forEach(function(k){
+            if(!isNaN(parseInt(k,10)) && tumData[k] && typeof tumData[k]==="object" && tumData[k].urun){
+              tasinacak[k] = tumData[k];
+            }
+          });
+        }
+        if(Object.keys(tasinacak).length > 0){
+          db.ref("urunler").set(tasinacak).then(function(){
+            urunlerDinlemeyeBasla(db);
+          }).catch(function(err){
+            tanilaKaydet("Ürün kataloğu: urunler/ yoluna taşınamadı (yazma izni sorunu olabilir), geçici olarak kökten okunuyor.", err && err.message);
+            urunlerKoktenOku(db); // yedek yol — taşıma başarısız olursa eski yöntem
+          });
+        } else {
+          tanilaKaydet("Ürün kataloğu: kökte de taşınacak ürün bulunamadı — katalog gerçekten boş görünüyor.");
+          urunlerDinlemeyeBasla(db); // hiç ürün yok, boş urunler/ dinlenir
+        }
+      }).catch(function(err){ tanilaKaydet("Ürün kataloğu: kök okuma hatası (izin sorunu olabilir).", err && err.message); });
     }).catch(function(err){ tanilaKaydet("Ürün kataloğu: urunler/ kontrol hatası (izin/bağlantı sorunu olabilir).", err && err.message); });
   }
 
@@ -148,14 +153,12 @@ var ProductData = (function(){
   var ilkYuklemeLoglandi = false;
   function katalogGuncelle(tumData){
     var urunler = [];
-    // AŞAMA 3 (11.10.2026) — AI Ürün Asistanı projesi: her ürüne, Firebase'
-    // deki GERÇEK anahtarını ("_anahtar") ekliyoruz. Bu, urun-medya-
-    // eslestir ekranının bir ürüne görsel/TDS bağlarken TAHMİNİ bir yol
-    // değil, doğrudan o ürünün kendi Firebase düğümünü hedeflemesini sağlar
-    // (bkz. urunMedyaGuncelle). Firebase, ardışık sayısal anahtarlı
-    // ("0","1","2"...) objeleri otomatik olarak DİZİYE çevirdiği için
-    // (urunler/ burada genelde böyledir) dizi dalında da indeks = gerçek
-    // anahtar olur.
+    // Her ürüne, Firebase'deki GERÇEK anahtarını ("_anahtar") ekliyoruz —
+    // katalogBirlestir() bunu TAHMİNİ bir sıra yerine ürünün kendi Firebase
+    // düğümünü hedeflemek isteyen kodlar için kullanır. Firebase, ardışık
+    // sayısal anahtarlı ("0","1","2"...) objeleri otomatik olarak DİZİYE
+    // çevirdiği için (urunler/ burada genelde böyledir) dizi dalında da
+    // indeks = gerçek anahtar olur.
     if(Array.isArray(tumData)){
       tumData.forEach(function(x, i){
         if(x && x.urun){ x._anahtar = String(i); urunler.push(x); }
@@ -177,47 +180,6 @@ var ProductData = (function(){
       tanilaKaydet("Ürün kataloğu yüklendi: " + urunler.length + " ürün.");
     }
     katalogDinleyicileri.forEach(function(fn){ fn(); });
-    canliKatalogOnarimiDene();
-  }
-
-  // TEK SEFERLİK ONARIM (18.10.2026) — "B - A - Garanti Mührü Mavi" ürünü
-  // eklenirken yaşanan transaction hatası (bkz. yeniUrunEkle içindeki not),
-  // Firebase'deki CANLI "urunler/" düğümünü gerçekten tek bir kayda
-  // düşürmüş olabilir. Hem Firebase katalogu (firebaseKatalog) hem de
-  // yedek JSON (yedekKatalog) yüklenmiş OLMADAN hiçbir karar verilmez —
-  // sadece biri yüklenmişken "az kayıt var" sonucuna varmak, henüz
-  // yüklenmemiş sağlıklı bir kataloğu YANLIŞLIKLA üzerine yazabilir.
-  // "urunler_onarim_18102026" yolunda bir transaction ile kilitleniyor;
-  // böylece birden fazla cihaz aynı anda açılsa da onarım SADECE BİR KEZ
-  // (ve sadece gerçekten gerekliyse) çalışır.
-  function canliKatalogOnarimiDene(){
-    if(onarimDenendi) return;
-    if(!ilkYuklemeLoglandi) return; // Firebase'den en az bir kez gerçek cevap gelmeli
-    if(yedekKatalog.length < 100) return; // yedek JSON henüz yüklenmedi
-    if(firebaseKatalog.length >= 100) return; // canlı katalog zaten sağlıklı, onarıma gerek yok
-    if(!dbRef) return;
-    onarimDenendi = true;
-    var ONARIM_YOLU = "urunler_onarim_18102026";
-    var onceki = firebaseKatalog.length;
-    dbRef.ref(ONARIM_YOLU).transaction(function(mevcut){
-      if(mevcut) return; // undefined dönünce transaction iptal olur — başka cihaz zaten üstlenmiş
-      return {ts: Date.now(), durum: "basladi", onceki_sayi: onceki};
-    }).then(function(sonuc){
-      if(!sonuc.committed) return; // yarışı kaybettik, başka cihaz yapıyor/yapmış
-      var onarilmis = {};
-      katalog.forEach(function(x, i){
-        var kopya = {};
-        for(var k in x){ if(x.hasOwnProperty(k) && k !== "_anahtar") kopya[k] = x[k]; }
-        onarilmis[String(i)] = kopya;
-      });
-      dbRef.ref("urunler").set(onarilmis).then(function(){
-        dbRef.ref(ONARIM_YOLU).update({durum:"tamamlandi", sonraki_sayi: katalog.length});
-        tanilaKaydet("Ürün kataloğu onarıldı: " + onceki + " -> " + katalog.length + " ürün (yedek liste ile).");
-      }).catch(function(err){
-        dbRef.ref(ONARIM_YOLU).remove();
-        tanilaKaydet("Ürün kataloğu onarımı yazılamadı (izin sorunu olabilir).", err && err.message);
-      });
-    }).catch(function(err){ tanilaKaydet("Ürün kataloğu onarım kontrolü başarısız.", err && err.message); });
   }
 
   function urunlerDinlemeyeBasla(db){
@@ -227,9 +189,16 @@ var ProductData = (function(){
       tanilaKaydet("Ürün kataloğu: canlı dinleme hatası (izin sorunu olabilir).", err && err.message);
     });
   }
-  // urunlerKoktenOku KALDIRILDI (19.10.2026) — sadece yukarıdaki, artık
-  // silinen "kökten taşıma" denemesi başarısız olursa çağrılıyordu; db.ref("/")
-  // zaten 06.09.2026'dan beri güvenlik için kapalı, hiçbir zaman çalışamazdı.
+
+  // Sadece taşıma işlemi başarısız olursa devreye giren, eski davranışı
+  // koruyan yedek yol (kalıcı çözüm değildir).
+  function urunlerKoktenOku(db){
+    db.ref("/").on("value", function(snap){
+      katalogGuncelle(snap.val());
+    }, function(err){
+      tanilaKaydet("Ürün kataloğu: kök dinleme hatası.", err && err.message);
+    });
+  }
 
   function katalogDegistiginde(fn){
     katalogDinleyicileri.push(fn);
@@ -280,10 +249,8 @@ var ProductData = (function(){
       var pf = parseFloat(String(pt).replace(",","."));
       if(!isNaN(pf)) cp = pf;
     }
-    // AŞAMA 3 — görsel/TDS alanları İSTEĞE BAĞLI: eski ürün kayıtlarında
-    // hiç yok (tanımsız kalır), ai-urun-panel.js bunu zaten "henüz
-    // yüklenmedi" olarak gösteriyor. _anahtar, urunMedyaGuncelle'nin
-    // doğru Firebase düğümünü bulması için gerekli.
+    // Görsel/TDS alanları İSTEĞE BAĞLI: eski ürün kayıtlarında hiç yok
+    // (tanımsız kalır).
     return {
       berta:bt, abas:at, ad:nt, fiyat:cp,
       gorselUrl: item.gorselUrl || undefined,
@@ -337,23 +304,8 @@ var ProductData = (function(){
 
       var db = firebase.database();
       db.ref("urunler").transaction(function(tumData){
-        // KÖK NEDEN DÜZELTMESİ (18.10.2026) — "B - A - Garanti Mührü Mavi"
-        // ürünü eklendiğinde TÜM katalog tek kayda düşmüştü. Sebebi: Firebase,
-        // ardışık sayısal anahtarlı "urunler/" düğümünü SDK üzerinden DİZİ
-        // olarak döndürür (bkz. urunlerYoluHazirla üstündeki not). Eskiden bu
-        // durumda "typeof tumData==='object' && !Array.isArray(tumData)" koşulu
-        // dizi için YANLIŞ dönüyor, "veri" boş bir nesneye sıfırlanıyor ve
-        // transaction mevcut TÜM ürünleri silip sadece yeni ürünü yazıyordu.
-        // Artık dizi geldiğinde, index'ler korunarak önce bir nesneye
-        // çevriliyor — hiçbir mevcut kayıt kaybolmaz.
-        var veri = {};
-        if(tumData){
-          if(Array.isArray(tumData)){
-            tumData.forEach(function(x, i){ if(x!==null && x!==undefined) veri[String(i)] = x; });
-          } else if(typeof tumData === "object"){
-            veri = tumData;
-          }
-        }
+        tumData = tumData || {};
+        var veri = (typeof tumData === "object" && !Array.isArray(tumData)) ? tumData : {};
         var mukerrer = false;
         var maxIndex = -1;
         Object.keys(veri).forEach(function(k){
@@ -384,37 +336,6 @@ var ProductData = (function(){
     }catch(e){ geriBildir(false, e); }
   }
 
-  // AŞAMA 3 (11.10.2026) — AI Ürün Asistanı projesi: tek bir ürünün
-  // görsel/TDS alanlarını, ürünün GERÇEK Firebase anahtarını ("_anahtar",
-  // bkz. katalogGuncelle/urunBilgisi) hedefleyerek günceller. urun-yukle-
-  // render.js'teki toplu ".set()" ile KARIŞTIRILMASIN: burada SADECE tek
-  // bir düğüme ".update()" yapılır — kataloğun geri kalanı asla etkilenmez,
-  // yarım kalan/başarısız bir çağrı o ürünün urun/berta/abas/fiyat
-  // alanlarına DOKUNMAZ (update() sadece gönderilen alanları birleştirir).
-  // "veri" içinde null gönderilen bir alan RTDB'de SİLİNİR (ör. bir
-  // görseli kaldırırken {gorselUrl:null, gorselYol:null} gönderilir).
-  function urunMedyaGuncelle(anahtar, veri, geriBildir){
-    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
-    try{
-      if(anahtar===undefined || anahtar===null || anahtar===""){
-        cb(false, "Ürün anahtarı eksik — önce listeden gerçek bir ürün kaydı seçilmeli.");
-        return;
-      }
-      var IZINLI_ALANLAR = ["gorselUrl","gorselYol","tdsUrl","tdsYol","tdsMetinOzet","tdsRevizyon","medyaDurum"];
-      var guncelleme = {};
-      var varMi = false;
-      IZINLI_ALANLAR.forEach(function(k){
-        if(veri && veri.hasOwnProperty(k)){ guncelleme[k] = veri[k]; varMi = true; }
-      });
-      if(!varMi){ cb(false, "Güncellenecek bir alan belirtilmedi."); return; }
-      var kullanici = (typeof firebase!=="undefined" && firebase.auth && firebase.auth().currentUser) ? firebase.auth().currentUser.uid : null;
-      guncelleme.medyaGuncelleme = {ts: Date.now(), uid: kullanici};
-      firebase.database().ref("urunler/" + anahtar).update(guncelleme)
-        .then(function(){ cb(true); })
-        .catch(function(err){ cb(false, err && err.message ? err.message : String(err)); });
-    }catch(e){ cb(false, e && e.message ? e.message : String(e)); }
-  }
-
   return {
     baslat: baslat,
     katalogDegistiginde: katalogDegistiginde,
@@ -425,8 +346,7 @@ var ProductData = (function(){
     sepetSayisi: sepetSayisi,
     sepetiBosalt: sepetiBosalt,
     katalogUzunluk: function(){ return katalog.length; },
-    yeniUrunEkle: yeniUrunEkle,
-    urunMedyaGuncelle: urunMedyaGuncelle
+    yeniUrunEkle: yeniUrunEkle
   };
 
 })();

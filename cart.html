@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.231026.1200.976 — cart.html -->
+<!-- WEICON ASİST V2 — VERSİYON: WG.151026.1550.830 — cart.html -->
 <!--
   WEICON ASİST — BİRLEŞİK SAYFA: ÜRÜN BUL + HIZLI HESAPLA + SEPET v6
   ================================================================
@@ -16,21 +16,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="manifest" href="manifest.json?v=WG.221026.0755.937">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d3d8c">
-<link rel="apple-touch-icon" href="icon-192.png?v=WG.221026.0755.937">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="İş Takip">
-<title>İş Takip — Ürün Bul / Hesapla / Sepet</title>
+<meta name="apple-mobile-web-app-title" content="WEICON ASİST">
+<title>WEICON ASİST — Ürün Bul / Hesapla / Sepet</title>
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
-<link rel="stylesheet" href="product-style.css?v=WG.231026.1120.964">
+<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1455.828">
+<link rel="stylesheet" href="product-style.css?v=WG.151026.0905.824">
 <link rel="stylesheet" href="calc-style.css?v=WG.141026.2143.814">
-<link rel="stylesheet" href="belge-style.css?v=WG.211026.2235.928">
-<link rel="stylesheet" href="musteri-serit.css?v=WG.191026.0112.842">
+<link rel="stylesheet" href="belge-style.css?v=WG.151026.1135.826">
+<link rel="stylesheet" href="musteri-serit.css?v=WG.121026.2358.786">
 <link rel="stylesheet" href="cart-style.css?v=WG.151026.0006.821">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
 <link rel="stylesheet" href="ai-urun-panel.css?v=WG.111026.1150.762">
@@ -38,68 +38,25 @@
      gri zemin + türe-özel rozet renk tasarımı Sepet tablosuna taşındı.
      SADECE .cart-sayfa altında (calc.html/send.html'in paylaştığı
      belge-style.css/cart-style.css ETKİLENMEDİ). -->
-<link rel="stylesheet" href="cart-tablo-style-v2.css?v=WG.211026.2235.929">
+<link rel="stylesheet" href="cart-tablo-style-v2.css?v=WG.151026.0006.821">
 <!-- YENİ (06.10.2026, Abdullah'ın isteğiyle) — SADECE bu sayfada: iPad/tablet
      genişliğinde (>640px) içerik artık home.html'deki kuralla AYNI şekilde
      kenardan kenara — genel "body{max-width:640px}" burada geçersiz
      kılınıyor. Telefon genişliği HİÇ ETKİLENMİYOR. -->
 <style>@media (min-width:641px){ body{ max-width:none !important; } } </style>
-<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.231026.1051.962">
-<link rel="stylesheet" href="menu-cekmece-style.css?v=WG.231026.1200.966">
 </head>
 <body class="cart-sayfa">
 
 <div class="app-ust-sabit">
+<header class="app-header">
+  <div class="logo">WEICON</div>
+  <div class="tarih" id="gunTarihi"></div>
+</header>
+
 <nav class="app-nav">
   <a class="nav-btn nav-btn--geri" href="home.html"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></a>
-  <button type="button" class="nav-btn nav-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="nav-menu-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span><span class="nav-etiket">Menü</span></button>
+  <a class="nav-btn nav-btn--ana" href="home.html"><span class='nav-ikon'>🏠</span><span class='nav-etiket'>Ana Sayfa</span></a>
 </nav>
-</div>
-<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
-     onaylandı: "Okey tamam kodlayalım") — çekmece menü artık SADECE Ana
-     Sayfa'da değil, bu sayfada da var. İçerik (hangi satır kilitli/açık)
-     sayfa yüklenirken DEĞİL, izinler Firebase'den çözüldükten SONRA
-     menu-cekmece.js tarafından TEK bir yerden (MC_OGELER tablosu)
-     dinamik oluşturulur — bkz. menu-cekmece.js. Yapı ve stil home.html
-     ile BİREBİR aynı (home-anasayfa-style.css + menu-cekmece-style.css). -->
-<div class="as-drawer-overlay" id="asDrawerOverlay" hidden>
-  <div class="as-drawer" id="asDrawer">
-
-    <div class="as-drawer-ustbar">
-      <span class="as-drawer-logo">İŞ TAKİP</span>
-      <button class="as-drawer-kapat" id="btnAsMenuKapat" aria-label="Menüyü kapat">✕</button>
-    </div>
-
-    <div class="as-drawer-profil">
-      <div class="as-drawer-avatar" aria-hidden="true">👤</div>
-      <div class="as-drawer-isim-blok">
-        <div class="as-drawer-isim" id="asDrawerIsim">Hesabım</div>
-        <div class="as-drawer-eposta" id="asDrawerEposta">…</div>
-      </div>
-    </div>
-
-    <a class="as-drawer-anasayfa" id="asDrawerAnaSayfa" href="home.html">
-      <span class="as-drawer-ikon" aria-hidden="true">🏠</span>
-      <span class="as-drawer-etiket">Ana Sayfa</span>
-      <span class="as-drawer-ok" aria-hidden="true">›</span>
-    </a>
-
-    <nav class="as-drawer-liste" id="asDrawerListe"></nav>
-
-    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.231026.1200.976 ***</div>
-
-    <div class="as-drawer-ayarlar-blok">
-      <a class="as-drawer-oge" href="menu.html"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">⚙️</span><span class="as-drawer-etiket">Ayarlar</span><span class="as-drawer-hata-rozet" id="asAyarlarHataRozeti" hidden>0</span></a>
-    </div>
-
-    <button class="as-drawer-cikis" id="btnAsCikis"><span aria-hidden="true">🚪</span>Çıkış Yap</button>
-  </div>
-
-  <div class="as-drawer-altmenu" id="asDrawerAltMenu" hidden>
-    <div class="as-drawer-altmenu-baslik" id="asDrawerAltMenuBaslik"></div>
-    <div class="as-drawer-altmenu-liste" id="asDrawerAltMenuListe"></div>
-  </div>
 </div>
 <div class="sayfa-rota-serit" id="rotaSeridi"></div>
 
@@ -364,8 +321,8 @@
            AYNI html2canvas yöntemiyle gerçek bir PNG'ye çevrilip paylaşılır. -->
       <div class="musterisiz-onizleme-etiket" style="margin-top:0;">GÖNDERİM BİÇİMİ</div>
       <div class="sekme-secim" style="margin-bottom:14px;">
-        <button class="sekme-btn" id="btnBicimMetin">📝 Metin</button>
-        <button class="sekme-btn sekme-btn--secili" id="btnBicimTablo">📊 Tablo Görseli</button>
+        <button class="sekme-btn sekme-btn--secili" id="btnBicimMetin">📝 Metin</button>
+        <button class="sekme-btn" id="btnBicimTablo">📊 Tablo Görseli</button>
       </div>
 
       <div class="iletisim-secenek-grid iletisim-secenek-grid--iki">
@@ -422,24 +379,24 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="firebase-config.js?v=WG.021026.1150.708"></script>
-<script src="auth.js?v=WG.231026.1045.955"></script>
+<script src="auth.js?v=WG.161026.1130.829"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="ayarlar-sync.js?v=WG.091026.2250.757"></script>
-<script src="hareket-tablo.js?v=WG.211026.1500.903"></script>
+<script src="hareket-tablo.js?v=WG.151026.0800.823"></script>
 <script src="cart-data.js?v=WG.091026.2250.757"></script>
-<script src="product-data.js?v=WG.191026.1630.854"></script>
-<script src="customer-data.js?v=WG.201026.0610.857"></script>
-<script src="musteri-serit.js?v=WG.181026.2315.834"></script>
-<script src="reports-data.js?v=WG.211026.2100.907"></script>
+<script src="product-data.js?v=WG.251026.0200.1019"></script>
+<script src="customer-data.js?v=WG.300926.1130.675"></script>
+<script src="musteri-serit.js?v=WG.121026.2358.786"></script>
+<script src="reports-data.js?v=WG.131026.1455.798"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1338.87"></script>
 <script src="send-data.js?v=WG.131026.1500.799"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="cart-render.js?v=WG.201026.1130.861"></script>
+<script src="cart-render.js?v=WG.151026.0800.823"></script>
 <script src="ai-urun-panel.js?v=WG.111026.1150.762"></script>
-<script src="urun-arama.js?v=WG.221026.1113.939"></script>
+<script src="urun-arama.js?v=WG.121026.1820.779"></script>
 <script src="hesapla-popup.js?v=WG.121026.2340.785"></script>
 <script src="yarim-kalan-uyari.js?v=WG.100926.1021.435"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
@@ -451,8 +408,6 @@
   };
 </script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
-<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=WG.231026.1200.965"></script>
+<script src="bekleyen-islemler.js?v=WG.151026.1455.828"></script>
 </body>
 </html>

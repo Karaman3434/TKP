@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: WG.251026.0145.1015
+  cihaz-kullanici-render.js — VERSİYON: WG.251026.0400.1020
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -1082,6 +1082,33 @@ function ceListeyiCiz(tumKullanicilar){
   });
 }
 
+// EKLENDİ (25.10.2026, Abdullah'ın isteğiyle) — "🔐 Uygulama PIN Değiştir"
+// artık Menü'den DEĞİL, buradan (Cihazlar ve Kullanıcılar — zaten S22+PIN
+// ile kilitli admin alanı) yönetiliyor. BU, bu sayfanın KENDİ erişim
+// PIN'inden (ckPinAlani / weicon_cihaz_pin_hash / Firebase "cihazPin")
+// TAMAMEN AYRI bir şey — uygulama genelindeki 5 dk hareketsizlik kilidinin
+// PIN'i (pin.html / weicon_pin_hash / Firebase "pin"). Akış menu-render.js'
+// teki eski pinDegistirTiklandi ile BİREBİR aynı (pin-utils.js zaten bu
+// sayfada da yüklü) — sadece konumu değişti, davranışı değişmedi.
+function ckUygulamaPinDegistirTiklandi(){
+  var mevcut = prompt("Mevcut uygulama kilidi PIN'ini girin (ilk kez ayarlıyorsan varsayılan: 1234):");
+  if(mevcut === null) return;
+  pinDogrula(mevcut.trim()).then(function(dogruMu){
+    if(!dogruMu){ alert("Mevcut PIN hatalı."); return; }
+    var yeni = prompt("Yeni 4 haneli PIN girin:");
+    if(yeni === null) return;
+    yeni = yeni.trim();
+    if(!/^[0-9]{4}$/.test(yeni)){ alert("PIN 4 haneli rakamlardan oluşmalı."); return; }
+    var tekrar = prompt("Yeni PIN'i tekrar girin:");
+    if(tekrar === null) return;
+    if(tekrar.trim() !== yeni){ alert("PIN'ler eşleşmiyor."); return; }
+    pinHashHesapla(yeni).then(function(yeniHash){
+      pinYeniHashKaydet(yeniHash);
+      alert("✓ Uygulama kilidi PIN'i güncellendi.");
+    });
+  });
+}
+
 window.addEventListener("error", function(ev){
   hataGoster("HATA: " + ev.message + " (" + (ev.filename||"").split("/").pop() + ":" + ev.lineno + ")");
 });
@@ -1101,4 +1128,9 @@ document.addEventListener("DOMContentLoaded", function(){
   if(czGrupKapatBtn) czGrupKapatBtn.onclick = function(){ document.getElementById("czGrupOverlay").hidden = true; };
   var ceIzinKapatBtn = document.getElementById("ceIzinKapatBtn");
   if(ceIzinKapatBtn) ceIzinKapatBtn.onclick = function(){ document.getElementById("ceIzinOverlay").hidden = true; };
+
+  // EKLENDİ (25.10.2026, Abdullah'ın isteğiyle) — Menü'den taşınan
+  // "Uygulama PIN'ini Değiştir" butonu.
+  var btnCkUygulamaPinDegistir = document.getElementById("btnCkUygulamaPinDegistir");
+  if(btnCkUygulamaPinDegistir) btnCkUygulamaPinDegistir.onclick = ckUygulamaPinDegistirTiklandi;
 });

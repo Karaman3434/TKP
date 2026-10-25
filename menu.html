@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.231026.1200.995 — menu.html -->
 <!--
   WEICON ASİST — MENÜ v3
   =========================
@@ -11,74 +10,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="manifest" href="manifest.json?v=WG.221026.0755.937">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d3d8c">
-<link rel="apple-touch-icon" href="icon-192.png?v=WG.221026.0755.937">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="İş Takip">
-<title>İş Takip — Menü</title>
+<meta name="apple-mobile-web-app-title" content="WEICON ASİST">
+<title>WEICON ASİST — Menü</title>
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
+<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1455.828">
 <link rel="stylesheet" href="menu-style.css?v=WG.011026.2210.702">
-<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.231026.1051.962">
-<link rel="stylesheet" href="menu-cekmece-style.css?v=WG.231026.1200.966">
 </head>
 <body>
 
 <div class="app-ust-sabit">
+<header class="app-header">
+  <div class="logo">WEICON</div>
+  <div class="tarih" id="gunTarihi"></div>
+</header>
+
 <nav class="app-nav">
   <a class="nav-btn nav-btn--geri" href="home.html"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></a>
-  <button type="button" class="nav-btn nav-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="nav-menu-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span><span class="nav-etiket">Menü</span></button>
+  <a class="nav-btn nav-btn--ana" href="home.html"><span class='nav-ikon'>🏠</span><span class='nav-etiket'>Ana Sayfa</span></a>
 </nav>
-</div>
-<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
-     onaylandı: "Okey tamam kodlayalım") — çekmece menü artık SADECE Ana
-     Sayfa'da değil, bu sayfada da var. İçerik (hangi satır kilitli/açık)
-     sayfa yüklenirken DEĞİL, izinler Firebase'den çözüldükten SONRA
-     menu-cekmece.js tarafından TEK bir yerden (MC_OGELER tablosu)
-     dinamik oluşturulur — bkz. menu-cekmece.js. Yapı ve stil home.html
-     ile BİREBİR aynı (home-anasayfa-style.css + menu-cekmece-style.css). -->
-<div class="as-drawer-overlay" id="asDrawerOverlay" hidden>
-  <div class="as-drawer" id="asDrawer">
-
-    <div class="as-drawer-ustbar">
-      <span class="as-drawer-logo">İŞ TAKİP</span>
-      <button class="as-drawer-kapat" id="btnAsMenuKapat" aria-label="Menüyü kapat">✕</button>
-    </div>
-
-    <div class="as-drawer-profil">
-      <div class="as-drawer-avatar" aria-hidden="true">👤</div>
-      <div class="as-drawer-isim-blok">
-        <div class="as-drawer-isim" id="asDrawerIsim">Hesabım</div>
-        <div class="as-drawer-eposta" id="asDrawerEposta">…</div>
-      </div>
-    </div>
-
-    <a class="as-drawer-anasayfa" id="asDrawerAnaSayfa" href="home.html">
-      <span class="as-drawer-ikon" aria-hidden="true">🏠</span>
-      <span class="as-drawer-etiket">Ana Sayfa</span>
-      <span class="as-drawer-ok" aria-hidden="true">›</span>
-    </a>
-
-    <nav class="as-drawer-liste" id="asDrawerListe"></nav>
-
-    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.231026.1200.995 ***</div>
-
-    <div class="as-drawer-ayarlar-blok">
-      <a class="as-drawer-oge" href="menu.html"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">⚙️</span><span class="as-drawer-etiket">Ayarlar</span><span class="as-drawer-hata-rozet" id="asAyarlarHataRozeti" hidden>0</span></a>
-    </div>
-
-    <button class="as-drawer-cikis" id="btnAsCikis"><span aria-hidden="true">🚪</span>Çıkış Yap</button>
-  </div>
-
-  <div class="as-drawer-altmenu" id="asDrawerAltMenu" hidden>
-    <div class="as-drawer-altmenu-baslik" id="asDrawerAltMenuBaslik"></div>
-    <div class="as-drawer-altmenu-liste" id="asDrawerAltMenuListe"></div>
-  </div>
 </div>
 <div class="sayfa-rota-serit">
   <span class="sayfa-rota-serit-isim">☰ Menü</span>
@@ -90,11 +46,9 @@
   <div class="menu-liste">
     <a class="menu-satir menu-satir--veri" href="veri.html"><span class="menu-satir-etiket">📁 Veri</span><span class="menu-satir-ok"><svg width="8" height="12" viewBox="0 0 20 32" fill="none"><path d="M4 4 L16 16 L4 28" stroke="#e24b4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
     <a class="menu-satir menu-satir--veri" href="urun-yukle.html"><span class="menu-satir-etiket">📦 Ürün Kataloğu Yükle</span><span class="menu-satir-ok"><svg width="8" height="12" viewBox="0 0 20 32" fill="none"><path d="M4 4 L16 16 L4 28" stroke="#e24b4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-    <a class="menu-satir menu-satir--veri" href="urun-medya-eslestir.html"><span class="menu-satir-etiket">🖼️ Ürün Görsel/TDS Eşleştir</span><span class="menu-satir-ok"><svg width="8" height="12" viewBox="0 0 20 32" fill="none"><path d="M4 4 L16 16 L4 28" stroke="#e24b4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-    <button class="menu-satir menu-satir--pin" id="btnPinDegistir"><span class="menu-satir-etiket">🔐 PIN Değiştir</span><span class="menu-satir-ok"><svg width="8" height="12" viewBox="0 0 20 32" fill="none"><path d="M4 4 L16 16 L4 28" stroke="#e24b4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
     <a class="menu-satir menu-satir--sablon" href="mesaj-sablonlari.html"><span class="menu-satir-etiket">✉️ Mesaj Ayarları</span><span class="menu-satir-ok"><svg width="8" height="12" viewBox="0 0 20 32" fill="none"><path d="M4 4 L16 16 L4 28" stroke="#e24b4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
     <a class="menu-satir menu-satir--ayarlar" href="ayarlar.html"><span class="menu-satir-etiket">💱 Finansal Ayarlar</span><span class="menu-satir-ok"><svg width="8" height="12" viewBox="0 0 20 32" fill="none"><path d="M4 4 L16 16 L4 28" stroke="#e24b4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-    <a class="menu-satir menu-satir--cihaz" href="cihaz-kullanici.html?v=WG.211026.1700.875"><span class="menu-satir-etiket">📡 Cihazlar ve Kullanıcılar</span><span class="menu-satir-ok"><svg width="8" height="12" viewBox="0 0 20 32" fill="none"><path d="M4 4 L16 16 L4 28" stroke="#e24b4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+    <a class="menu-satir menu-satir--cihaz" href="cihaz-kullanici.html?v=WG.251026.0400.1021"><span class="menu-satir-etiket">📡 Cihazlar ve Kullanıcılar</span><span class="menu-satir-ok"><svg width="8" height="12" viewBox="0 0 20 32" fill="none"><path d="M4 4 L16 16 L4 28" stroke="#e24b4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
     <a class="menu-satir menu-satir--hata" href="hata-kayitlari.html"><span class="menu-satir-etiket">🐞 Hata Kayıtları</span><span class="menu-satir-ok"><svg width="8" height="12" viewBox="0 0 20 32" fill="none"><path d="M4 4 L16 16 L4 28" stroke="#e24b4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
     <button class="menu-satir menu-satir--cikis" id="btnCikis">🔒 Çıkış Yap</button>
   </div>
@@ -107,17 +61,13 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="firebase-config.js?v=WG.011026.2340.706"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script src="auth.js?v=WG.231026.1045.955"></script>
-<script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
-<script src="pin-utils.js?v=WG.150926.1241.572"></script>
-<script src="customer-data.js?v=WG.201026.0610.857"></script>
-<script src="reports-data.js?v=WG.211026.2100.907"></script>
+<script src="auth.js?v=WG.161026.1130.829"></script>
+<script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script><script src="customer-data.js?v=WG.300926.1130.675"></script>
+<script src="reports-data.js?v=WG.131026.1455.798"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1338.87"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
-<script src="menu-render.js?v=WG.011026.0920.685"></script>
+<script src="menu-render.js?v=WG.251026.0400.1022"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
-<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=WG.231026.1200.965"></script>
+<script src="bekleyen-islemler.js?v=WG.151026.1455.828"></script>
 </body>
 </html>
