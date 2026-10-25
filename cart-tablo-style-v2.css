@@ -1,5 +1,5 @@
 /*
-  cart-tablo-style-v2.css — WG.211026.2235.929
+  cart-tablo-style-v2.css — WG.261026.0145.1047
   ================================================================
   Belge Önizleme'de onaylanan tasarım dili (açık gri zemin + türün
   rengi SADECE kendi rozetinde) Sepet/Hesapla tablosuna taşındı
@@ -50,6 +50,29 @@ body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   { color: #249147; }
 body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  { color: #38469a; }
 body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-proforma { color: #8a4306; }
 body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { color: #8e0e45; }
+
+/* İŞLEME ÖZEL ZEMİN (26.10.2026, Abdullah onayı — mockup üzerinden): kod/
+   tarih şeridi artık sadece yazı rengiyle değil, AÇIK TONLU zeminiyle de
+   işlem türünü gösteriyor — aynı anda ayrıca bir "HESAPLANDI" bandı
+   olmadığı için (bkz. cart-render.js, "etiket" opt'u artık geçilmiyor)
+   durumu gösteren TEK yer burası oldu. Tonlar, bu tabloda zaten var olan
+   rozet paletiyle (.hareket-grup-etiket-rozet--islem-tipi.tip-*, aşağıda)
+   birebir aynı — yeni bir renk icat edilmedi, sadece rozetteki renk
+   şeridin TAMAMINA yayıldı. SADECE .cart-sayfa — Belge Önizleme/Gönder'in
+   kendi .belge-belge-baslik-serit--mavi kullanımı (gri zemin) DEĞİŞMEDİ. */
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   { background: #eafaf0; border-color: #249147; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  { background: #eef0fb; border-color: #38469a; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-proforma { background: #fff3e6; border-color: #e8a560; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { background: #fde9f1; border-color: #8e0e45; }
+
+/* ÜRÜN TABLOSU BEYAZ ZEMİN (26.10.2026, Abdullah onayı — mockup üzerinden):
+   satır zemini artık SADECE Sepet'te beyaz — HESAPLANACAK/HESAPLANDI farkı
+   zaten yukarıdaki şerit rengiyle gösterildiği için satırları ayrıca
+   boyamaya gerek kalmadı. belge-style.css'teki taban kural (.hareket-
+   satir--sari/--yesil, açık turuncu/yeşil) Belge Önizleme/Gönder'de
+   AYNEN duruyor — bu kural SADECE burada, body.cart-sayfa altında eziyor. */
+body.cart-sayfa .hareket-satir--sari,
+body.cart-sayfa .hareket-satir--yesil { background: #ffffff; }
 
 /* HESAPLANDI satırındaki işlem türü rozeti — artık türün kendi rengini
    taşıyor (sabit yeşil yerine). opts.tip verilmeyen diğer kullanımlar

@@ -1,5 +1,5 @@
 /*
-  customer-render.js — WG.151026.1430.829
+  customer-render.js — WG.261026.0128.1043
   ==================
   Liste davranışı (arama/Tüm Müşteriler/şehir filtresi/sıralama) AYNI kaldı.
   13.10.2026 (Abdullah'ın paylaştığı referans görsel + gerçek ChatGPT kodu +
@@ -390,9 +390,19 @@ function cmTipMenuKapat(){
 // (customer.html) dönülüyor, arama kutusu + şehir filtresi de geri
 // yükleniyor ki aranan müşteri listede yeniden görünsün. Bayrak yoksa
 // (Bildirimler/Takip Gerekenler gibi eski girişler) hiçbir şey değişmiyor.
-function cmDonusRotasiniKaydet(){
+function cmDonusRotasiniKaydet(aksiyon){
   try{
     localStorage.setItem("weiconv2_musteri_donus_sayfa", "customer.html");
+    // İSTİSNA (26.10.2026, Abdullah'ın isteğiyle): "İşlem Yap" ile ilerlenip
+    // geri dönüldüğünde arama kutusu artık eski müşteri adıyla GERİ
+    // YÜKLENMİYOR — sıfırlanmış/boş karşılıyor, yeni arama için hemen hazır.
+    // Diğer aksiyonlarda (Cari Kart/Temas/Fatura/Geçmiş/Görev/Ürün/Bekleyen)
+    // 06.10.2026'da onaylanan "dönüş rotası" kuralı (arama geri yüklenir)
+    // AYNEN duruyor — SADECE "islemyap" burada istisna.
+    if(aksiyon === "islemyap"){
+      localStorage.removeItem("weiconv2_musteri_arama_durumu");
+      return;
+    }
     var araEl = document.getElementById("musteriAra");
     var sehirEl = document.getElementById("musteriSehirFiltre");
     localStorage.setItem("weiconv2_musteri_arama_durumu", JSON.stringify({
@@ -409,7 +419,7 @@ function cmDonusRotasiniKaydet(){
 // otomatik açması için küçük bir ek (bkz. detail-render.js).
 function cmAksiyonuUygula(aksiyon){
   if(!cmAcikMusteri) return;
-  cmDonusRotasiniKaydet();
+  cmDonusRotasiniKaydet(aksiyon);
   switch(aksiyon){
     case "cari":
       window.location.href = "customer-cari-kart.html";
@@ -489,7 +499,12 @@ document.addEventListener("DOMContentLoaded", function(){
     btn.onclick = function(){
       if(!cmAcikMusteri) return;
       var tip = this.getAttribute("data-tip");
-      cmDonusRotasiniKaydet();
+      // DÜZELTME: bu, "İşlem Yap" akışının asıl (gerçek) yönlendirme anı —
+      // yukarıdaki cmAksiyonuUygula("islemyap") henüz sadece tip seçim
+      // panelini açıyordu, gerçek navigasyon BURADA oluyor. "islemyap"
+      // geçilmezse bu ikinci çağrı arama kutusunu yine kaydedip az önceki
+      // sıfırlamayı ezerdi.
+      cmDonusRotasiniKaydet("islemyap");
       localStorage.setItem("weiconv2_onceden_secilen_tip", tip);
       localStorage.setItem("weiconv2_tip_oncesecim_hizli", "1");
       localStorage.setItem("weiconv2_islem_yap_akisi", "1");

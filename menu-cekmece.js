@@ -1,4 +1,4 @@
-// menu-cekmece.js — WG.231026.1200.965
+// menu-cekmece.js — WG.261026.0145.1044
 // ============================================================================
 // MENÜ ÇEKMECESİ — TÜM SAYFALARDA PAYLAŞILAN TEK KAYNAK (23.10.2026,
 // Abdullah'ın isteğiyle — mockup onaylandı: "Okey tamam kodlayalım").
@@ -38,7 +38,13 @@
 // href: doğrudan bağlantı (altMenu YOKSA).
 // altMenu: DRAWER_ALT_MENULERI'ndeki anahtar (tıklayınca yana panel açılır).
 var MC_OGELER = [
-  { anahtarlar: ["sepet"], ikon: "🔍", renk: "#5dade2", etiket: "Ürün Bul", href: "cart.html" },
+  // DEĞİŞİKLİK (26.10.2026, Abdullah onayı — mockup üzerinden): "Ürün Bul"
+  // artık diğer satırların çoğu gibi doğrudan linke gitmiyor — "Müşteri"
+  // satırındaki AYNI mekanizmayla (altMenu) küçük bir alt menü açıyor
+  // (bkz. DRAWER_ALT_MENULERI.urun). Etiket de "Ürün" olarak kısaltıldı —
+  // açılan alt menünün başlığı zaten "Ürün Bul" diyor, iki seviyede aynı
+  // metni tekrar etmemek için.
+  { anahtarlar: ["sepet"], ikon: "🔍", renk: "#5dade2", etiket: "Ürün", altMenu: "urun" },
   { anahtarlar: ["musteriBul"], ikon: "👥", renk: "#5dade2", etiket: "Müşteri", altMenu: "musteri" },
   { anahtarlar: ["islemGecmisi"], ikon: "🕐", etiket: "Son İşlemler", href: "son-islemler.html" },
   { anahtarlar: ["markaKarsilastirma"], ikon: "🔄", renk: "#5dade2", etiket: "Marka Karşılaştırma", href: "marka-karsilastirma.html" },
@@ -69,6 +75,20 @@ var DRAWER_ALT_MENULERI = {
     ogeler: [
       {ikon:"📋", etiket:"Müşteri Listesi", href:"customer.html"},
       {ikon:"➕", etiket:"Yeni Müşteri", href:"customer-add.html", sinif:"as-drawer-altmenu-oge--yesil"}
+    ]
+  },
+  // EKLENDİ (26.10.2026, Abdullah onayı — mockup üzerinden): "Ürün Bul"
+  // satırının artık açtığı alt menü. "Hit Ürünler"/"Yeni Ürün Ekle" cart.
+  // html'e "?ac=hit" / "?ac=yeniurun" ile gidiyor — customer-render.js'in
+  // "?ac=fatura/gorev/urun" deseniyle AYNI mantık: cart.html kendi
+  // DOMContentLoaded'ında bu parametreyi okuyup ilgili paneli otomatik
+  // açıyor (bkz. urun-arama.js).
+  urun: {
+    baslik: "Ürün",
+    ogeler: [
+      {ikon:"🔍", etiket:"Ürün Bul", href:"cart.html"},
+      {ikon:"🔥", etiket:"Hit Ürünler", href:"cart.html?ac=hit"},
+      {ikon:"➕", etiket:"Yeni Ürün Ekle", href:"cart.html?ac=yeniurun", sinif:"as-drawer-altmenu-oge--yesil"}
     ]
   },
   arackm: {

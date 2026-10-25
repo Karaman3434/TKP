@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.261026.0049.1041
+  cart-render.js — WG.261026.0145.1046
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -268,11 +268,16 @@ function sayfayiCiz(){
     // GÜNCELLEME (19.10.2026, Abdullah onayı — "7 fotoğraf" turu): "(taslak)"
     // ibaresi ve tekrarlı tür rozeti (etiketRozet — kod/tarih şeridinde zaten
     // "FİYAT TEKLİFİ" yazıyordu, altındaki renkli şeritte bir daha vardı)
-    // kaldırıldı. İki kutu (kod/tarih şeridi + renkli HESAPLANACAK/HESAPLANDI
-    // şeridi) AYNEN iki ayrı kutu olarak kalıyor — birleştirme YAPILMADI.
+    // kaldırıldı.
+    // BİRLEŞTİRME (26.10.2026, Abdullah onayı — mockup üzerinden): yukarıdaki
+    // notun aksine, renkli HESAPLANACAK/HESAPLANDI şeridi (.hareket-grup-
+    // etiket) artık BURADA YOK — "etiket" opt'u hiç geçilmiyor, grupHtml()
+    // o div'i üretmiyor. İşlem durumu artık kod/tarih şeridinin KENDİSİNİN
+    // işlem türüne özel renk alt zeminiyle gösteriliyor (bkz.
+    // cart-tablo-style-v2.css .tip-* background kuralları, SADECE
+    // .cart-sayfa altında — Belge Önizleme/Gönder'in kendi kullanımı
+    // ETKİLENMEDİ, onlar hâlâ etiket geçiyor).
     grupSariAlani.innerHTML = bekleyenler.length === 0 ? "" : HareketTablo.grupHtml({
-      etiket: "🟡 HESAPLANACAK",
-      etiketOrtali: true,
       tip: secilenTip,
       seritEtiket: TIP_ETIKET_ROZET[secilenTip] || "",
       seritTarih: kodTarihMetni,
@@ -295,8 +300,6 @@ function sayfayiCiz(){
     var hesaplananToplam = 0;
     hesaplananlar.forEach(function(u){ hesaplananToplam += hesapla(u).toplamEuro; });
     grupYesilAlani.innerHTML = hesaplananlar.length === 0 ? "" : HareketTablo.grupHtml({
-      etiket: "🟢 HESAPLANDI",
-      etiketOrtali: true,
       tip: secilenTip,
       seritEtiket: TIP_ETIKET_ROZET[secilenTip] || "",
       seritTarih: kodTarihMetni,

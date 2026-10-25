@@ -1,5 +1,5 @@
 /*
-  urun-arama.js — WG.261026.0049.1038
+  urun-arama.js — WG.261026.0145.1045
   ===================================
   04.10.2026 (Abdullah'ın isteğiyle) — Ürün Satış Geçmişi / Hit Ürünler
   listesi açıkken sepetin "boş" mesajı ve Kaydet/Görüntüle ve Gönder
@@ -374,4 +374,23 @@ document.addEventListener("DOMContentLoaded", function(){
       input.focus();
     });
   }
+
+  // AÇILIR MENÜ KISAYOLU (26.10.2026, Abdullah onayı — mockup üzerinden):
+  // Ana sayfa çekmece menüsündeki "Ürün" alt menüsünden "Hit Ürünler" /
+  // "Yeni Ürün Ekle" ile buraya "?ac=hit" / "?ac=yeniurun" parametresiyle
+  // gelinirse, ilgili panel sayfa açılır açılmaz otomatik açılır —
+  // customer-render.js'teki "?ac=fatura/gorev/urun" deseniyle AYNI mantık
+  // (bkz. menu-cekmece.js DRAWER_ALT_MENULERI.urun). uaIzinleriUygula()
+  // ZATEN yukarıda çalıştığı için izinsiz/gizli düğmeye dokunulmuyor —
+  // izni olmayan bir çalışan bu parametreyle paneli açamaz.
+  try{
+    var uaAcParam = new URLSearchParams(window.location.search).get("ac");
+    if(uaAcParam === "hit"){
+      var btnHit = document.getElementById("btnHitUrunler");
+      if(btnHit && !btnHit.hidden) btnHit.click();
+    } else if(uaAcParam === "yeniurun"){
+      var btnYeni = document.getElementById("btnYeniUrunAc");
+      if(btnYeni && !btnYeni.hidden) btnYeni.click();
+    }
+  }catch(e){}
 });
