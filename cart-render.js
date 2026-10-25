@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.261026.0145.1046
+  cart-render.js — WG.261026.0205.1050
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -203,6 +203,59 @@ function musteriGecmisiniAc(){
   }catch(e){ hataGoster("İşlem geçmişi açılamadı: " + e.message); }
 }
 
+// SAĞA/SOLA ÇEKİNCE İŞLEM İPTAL (26.10.2026, Abdullah onayı — mockup
+// üzerinden). Kod/tarih şeridini (.belge-belge-baslik-serit--mavi) çekince
+// kırmızı "🗑️ İşlemi İptal Et" belirir — dokununca gerçek buton mantığı
+// TEK yerde kalsın diye, aşağıda (DOMContentLoaded içinde) zaten tanımlı
+// #btnSepetIptal'e .click() ile devrediliyor — o buton artık hiç
+// GÖSTERİLMİYOR (her zaman [hidden]), sadece bu şeritten tetiklenen
+// programatik bir hedef olarak duruyor. Kendi onay penceresi (iptalOnayGoster/
+// #iptalOnayOverlay) DEĞİŞMEDİ — çekme + dokunma + "Evet, Sil ve Çık" onayı,
+// 3 kasıtlı adım (bütün sepeti/müşteriyi silip ana sayfaya dönen, geri
+// alınamaz bir işlem olduğu için satır bazlı "çekince SİL"den daha temkinli
+// tutuldu — o işlemde onay sorulmuyordu, burada soruluyor).
+function kodSeridiIptalEtkilesimBagla(container){
+  if(!container) return;
+  var serit = container.querySelector(".belge-belge-baslik-serit--mavi");
+  if(!serit || serit.querySelector(".islem-serit-iptal-btn")) return;
+  serit.classList.add("islem-serit-iptal-sarmalayici");
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "islem-serit-iptal-btn";
+  btn.textContent = "🗑️ İşlemi İptal Et — Sepeti Boşalt";
+  btn.setAttribute("aria-label", "İşlemi iptal et, sepeti boşalt");
+  btn.onclick = function(e){
+    e.stopPropagation();
+    var proxy = document.getElementById("btnSepetIptal");
+    if(proxy) proxy.click();
+  };
+  serit.appendChild(btn);
+
+  var basX = null, basY = null, kaydirildiMi = false;
+  serit.addEventListener("touchstart", function(e){
+    if(e.touches.length !== 1) return;
+    basX = e.touches[0].clientX;
+    basY = e.touches[0].clientY;
+  }, {passive:true});
+  serit.addEventListener("touchend", function(e){
+    if(basX === null) return;
+    var t = (e.changedTouches && e.changedTouches[0]) || null;
+    var dx = t ? (t.clientX - basX) : 0;
+    var dy = t ? (t.clientY - basY) : 0;
+    basX = null; basY = null;
+    if(Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy) * 1.5){
+      kaydirildiMi = true;
+      serit.classList.toggle("islem-serit-iptal-acik");
+    }
+  }, {passive:true});
+  serit.addEventListener("click", function(){
+    if(kaydirildiMi){ kaydirildiMi = false; return; }
+    if(serit.classList.contains("islem-serit-iptal-acik")){
+      serit.classList.remove("islem-serit-iptal-acik");
+    }
+  });
+}
+
 function sayfayiCiz(){
   try{
     var liste = CartData.liste();
@@ -226,7 +279,11 @@ function sayfayiCiz(){
     }
     bosMesaj.hidden = true;
     altButonSatiri.hidden = false;
-    document.getElementById("btnSepetIptal").hidden = false;
+    // KALDIRILDI (26.10.2026, Abdullah onayı — mockup üzerinden): bu buton
+    // artık HİÇ gösterilmiyor ("En altta ki paneli kaldır") — [hidden]
+    // olarak kalıyor, SADECE yukarıdaki kodSeridiIptalEtkilesimBagla'nın
+    // programatik .click() hedefi olarak DOM'da duruyor (onclick mantığı
+    // aşağıda, DOMContentLoaded içinde, DEĞİŞMEDİ).
 
     // MÜŞTERİSİZ SEPET (13.10.2026, Abdullah onayı): müşteri seçilmeden de
     // ürün eklenip hesaplanabilir — Cari Bilgi şeridi/adresler SADECE
@@ -315,6 +372,16 @@ function sayfayiCiz(){
 
     var kurRozeti = document.querySelector(".belge-gt-kur-ic--tiklanabilir");
     if(kurRozeti) kurRozeti.onclick = kurManuelOverlayAc;
+
+    // SAĞA/SOLA ÇEKİNCE İŞLEM İPTAL (26.10.2026, Abdullah onayı — mockup
+    // üzerinden): alttaki ayrı "🗑️ İşlemi İptal Et" butonu KALDIRILDI —
+    // yerine kod/tarih şeridini (F. TEKLİFİ/SİPARİŞ/... tarih (taslak))
+    // sağa veya sola çekince AYNI işlevi açan bir mekanizma geldi (satır
+    // bazlı "çekince SİL" ile BİREBİR aynı dokunma mantığı, bkz. aşağıdaki
+    // satirEtkilesimleriniBagla). "Boşlukları daralt" isteğiyle de uyumlu:
+    // ekranda ayrıca yer kaplayan bir kırmızı buton kalmadı.
+    kodSeridiIptalEtkilesimBagla(grupSariAlani);
+    kodSeridiIptalEtkilesimBagla(grupYesilAlani);
 
     // DEĞİŞİKLİK (26.10.2026, Abdullah onayı — mockup üzerinden): eski
     // "SR hücresine dokun → küçük 🗑️ ikonuna dönüş → bir daha dokun → onay

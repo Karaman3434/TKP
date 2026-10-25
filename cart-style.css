@@ -1,5 +1,5 @@
 /*
-  cart-style.css — WG.261026.0049.1042
+  cart-style.css — WG.261026.0205.1048
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -40,7 +40,12 @@
 #grupYesilAlani .data-table-container {
   border: none;
   border-radius: 0;
-  margin-bottom: 12px;
+  /* BOŞLUK DARALTILDI (26.10.2026, Abdullah onayı): 12px -> 1mm — tablo
+     altındaki GENEL TOPLAM kutusu zaten margin-top:1mm kullanıyordu, ama
+     komşu kenar boşlukları birleştiği (margin collapse) için görünen
+     boşluk bu değerdeki BÜYÜK olanı (12px) kadardı. Program genelindeki
+     "1mm kuralı"yla eşitlendi. */
+  margin-bottom: 1mm;
 }
 
 .kur-satiri {
@@ -334,7 +339,9 @@
 .sepet-alt-buton-satir {
   display: flex;
   gap: 8px;
-  margin-top: 16px;
+  /* BOŞLUK DARALTILDI (26.10.2026, Abdullah onayı): 16px -> 1mm, program
+     genelindeki "1mm kuralı"yla eşitlendi. */
+  margin-top: 1mm;
 }
 /* 06.10.2026, Abdullah'ın bildirdiği hata: display:flex kuralı [hidden]
    özniteliğinin native display:none kuralını eziyordu, bu yüzden sepet
