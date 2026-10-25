@@ -495,16 +495,21 @@ body {
 /* Hızlı Hesapla butonu (02.10.2026, Birleşik Sayfa) — eskiden burada
    WEICON sayfasını açan .btn-link-ac (🔗) duruyordu; o davranış artık
    doğrudan ürün hücresine taşındı (bkz. birlesik-arama.js), bu buton
-   yerine HIZLI HESAPLA penceresini açıyor. Aynı kutu ölçüsü/şekli
-   (.btn-link-ac ile birebir aynı boy), sadece okunabilirlik için koyu
-   zemin + kalın beyaz "H" harfi (Abdullah'ın isteği, 02.10.2026). */
+   yerine HIZLI HESAPLA penceresini açıyor.
+   GENİŞLETME (26.10.2026, Abdullah onayı — SEÇ butonu sadeleştirme):
+   "SEÇ" (.btn-add, eskiden 50.54px + 6px boşluk) kaldırıldığı için bu
+   buton artık tek başına — eskiden ikisinin birlikte kapladığı alanı
+   (36.72 + 6 + 50.54 ≈ 93px) dolduracak şekilde genişletildi, metin de
+   tek harf "H" yerine "HESAPLA" oldu. SATIRIN/HÜCRENİN TOPLAM GENİŞLİĞİ
+   DEĞİŞMEDİ — sadece tek kalan buton, iki butonun yerini dolduruyor. */
 .btn-hesapla-ac {
-  width: 36.72px; /* 06.10.2026, Abdullah'ın isteğiyle: önce %20 büyütüldü, sonra %10 küçültüldü (34*1.2*0.9) */
-  height: 30.24px; /* 28*1.2*0.9 */
+  width: 93px; /* 26.10.2026: eski H (36.72) + boşluk (6) + SEÇ (50.54) yerini aldı */
+  height: 30.24px; /* 28*1.2*0.9 — değişmedi */
   border: none;
   border-radius: 7px;
-  font-size: 16.2px; /* 15*1.2*0.9 */
+  font-size: 13px; /* 26.10.2026: "HESAPLA" sığsın diye 16.2px'ten küçültüldü */
   font-weight: 900;
+  letter-spacing: .3px;
   line-height: 1;
   cursor: pointer;
   display: flex;

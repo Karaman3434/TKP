@@ -1,5 +1,5 @@
 /*
-  urun-arama.js — WG.221026.1113.939
+  urun-arama.js — WG.261026.0049.1032
   ===================================
   04.10.2026 (Abdullah'ın isteğiyle) — Ürün Satış Geçmişi / Hit Ürünler
   listesi açıkken sepetin "boş" mesajı ve Kaydet/Görüntüle ve Gönder
@@ -14,11 +14,17 @@
       "göz at" listesi vardı) — kutuya yazdıkça altı büyüyüp eşleşenleri
       listeler (Abdullah'ın onayladığı tasarım, 02.10.2026).
     - Ürün hücresine dokununca artık DOĞRUDAN WEICON sayfası açılır (eskiden
-      bu 🔗 ayrı bir butondu — o buton artık "H" Hızlı Hesapla butonu).
-    - SEÇ, ayrı bir "Sepet (n)" sayfasına gitmek yerine ürünü DOĞRUDAN
-      aşağıdaki HESAPLANACAK tablosuna ekler (bkz. cart-render.js sayfayiCiz).
-    - "H" butonu, ürünü hiç sepete eklemeden doğrudan Hızlı Hesapla
-      penceresini açar (bkz. hesapla-popup.js).
+      bu 🔗 ayrı bir butondu — o buton artık "HESAPLA" butonu).
+
+  SADELEŞTİRME (26.10.2026, Abdullah onayı — "hesapla ve hesaplanacak
+  sayfalarını kaldıralım" isteği): "SEÇ" butonu (ürünü hesaplamadan doğrudan
+  HESAPLANACAK'a ekleyen kısayol) TAMAMEN KALDIRILDI — artık her ürün
+  sepete girmeden önce MUTLAKA Hesapla popup'ından geçiyor. Tek kalan buton
+  (eski "H") artık "HESAPLA" yazıyor ve aynı işi yapıyor: Hesapla popup'ını
+  açar (bkz. hesapla-popup.js) — oradaki "✓ SEPETE EKLE" ile ürün sepete
+  eklenir. SEÇ kalktığı için boşalan yatay alan HESAPLA butonuna verildi
+  (bkz. product-style.css .btn-hesapla-ac) — satırın toplam genişliği
+  DEĞİŞMEDİ.
 
   NOT: hataGoster / tarihiGuncelle / htmlEsc burada YENİDEN TANIMLANMAZ —
   cart-render.js bu sayfada daha önce yüklendiği için zaten global olarak
@@ -27,7 +33,10 @@
   ÇALIŞAN İZİNLERİ (02.10.2026): auth.js, kısıtlı bir çalışan için
   window.izinVarMi(anahtar) fonksiyonunu sağlar (kısıtlı değilse / henüz
   yüklenmediyse her zaman true döner — bkz. auth.js). Burada şu anahtarlar
-  kullanılır: sepetAramaGoster, sepetWebAc, sepetHesaplaAc, sepetSec.
+  kullanılır: sepetAramaGoster, sepetWebAc, sepetHesaplaAc. ("sepetSec" artık
+  burada KULLANILMIYOR — SEÇ butonu kaldırıldığı için; izin tanımı
+  cihaz-kullanici-render.js/calisan-erisim-render.js ayarlar ekranında
+  geriye dönük uyumluluk için duruyor, ama artık hiçbir etkisi yok.)
 */
 
 function uaIzinVarMi(anahtar){
@@ -92,7 +101,6 @@ function uaSonuclariCiz(){
 
     var webAcVarMi = uaIzinVarMi("sepetWebAc");
     var hesaplaVarMi = uaIzinVarMi("sepetHesaplaAc");
-    var secVarMi = uaIzinVarMi("sepetSec");
     // AŞAMA 2 (11.10.2026) — AI Ürün Asistanı: ai-urun-panel.js yüklü
     // değilse (örn. başka bir sayfa) veya izin kapalıysa hem uzun basma
     // hem erişilebilir 🤖 düğmesi tamamen devre dışı kalır, satırın
@@ -111,8 +119,7 @@ function uaSonuclariCiz(){
         + "</td>"
         + "<td class='urun-islem-hucre'><div class='urun-islem-grup'>"
         + "<span class='urun-fiyat-yazi'>" + bilgi.fiyat.toFixed(2) + " €</span>"
-        + (hesaplaVarMi ? "<button class='btn-hesapla-ac' data-idx='" + idx + "' title='Hızlı Hesapla' aria-label='Hızlı Hesapla'>H</button>" : "")
-        + (secVarMi ? "<button class='btn-add' data-idx='" + idx + "'>SEÇ</button>" : "")
+        + (hesaplaVarMi ? "<button class='btn-hesapla-ac' data-idx='" + idx + "' title='Hesapla ve Sepete Ekle' aria-label='Hesapla ve Sepete Ekle'>HESAPLA</button>" : "")
         + (aiVarMi ? "<button class='btn-ai-ac' data-idx='" + idx + "' title='AI Ürün Asistanı' aria-label='AI Ürün Asistanını aç'>🤖</button>" : "")
         + "</div></td>"
         + "</tr>";
@@ -143,29 +150,11 @@ function uaSonuclariCiz(){
       });
     }
 
-    // NOT (02.10.2026): ProductData.sepeteEkleCikar() KULLANILMIYOR — o
-    // fonksiyon product-data.js'in KENDİ ayrı bellek kopyasına yazıyor;
-    // bu sayfada aynı anda yüklü olan CartData'nın kopyası bundan haberdar
-    // olmaz ve tablo tazelenmez. Onun yerine doğrudan CartData üzerinden
-    // aynı "ekle/çıkar" (toggle) davranışı uygulanıyor.
-    if(secVarMi){
-      liste.querySelectorAll(".btn-add").forEach(function(btn){
-        btn.onclick = function(e){
-          e.stopPropagation();
-          var realIdx = parseInt(this.getAttribute("data-idx"), 10);
-          var mevcut = CartData.liste().find(function(u){ return u.idx === realIdx; });
-          if(mevcut){
-            CartData.sil(realIdx);
-          } else {
-            var bilgi = ProductData.urunBilgisi(sonuclar.find(function(s){return s.idx===realIdx;}).item);
-            CartData.ekle({idx:realIdx, ad:bilgi.ad, berta:bilgi.berta, abas:bilgi.abas, listeFiyat:bilgi.fiyat, dipFiyat:0, iskonto:0, adet:1, hesaplandi:false});
-            document.getElementById("searchInput").value = "";
-          }
-          uaSonuclariCiz();
-          if(typeof sayfayiCiz === "function") sayfayiCiz();
-        };
-      });
-    }
+    // KALDIRILDI (26.10.2026, Abdullah onayı — SEÇ butonu sadeleştirme):
+    // burada SEÇ ("btn-add") butonunun hesaplamadan direkt CartData.ekle(...)
+    // yapan tıklama işleyicisi vardı — buton kaldırıldığı için bu blok da
+    // tamamen silindi. Artık TEK giriş yolu: HESAPLA → Hesapla popup →
+    // "✓ SEPETE EKLE" (bkz. hesapla-popup.js listeyeEkleTiklandi).
 
     // AŞAMA 2 (11.10.2026) — AI Ürün Asistanı: erişilebilir 🤖 düğmesi
     // (klavye/ekran okuyucu için, uzun basmaya alternatif) + ürün

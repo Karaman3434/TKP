@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.201026.1130.861
+  cart-render.js — WG.261026.0049.1034
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -218,7 +218,7 @@ function sayfayiCiz(){
       grupSariAlani.innerHTML = "";
       grupYesilAlani.innerHTML = "";
       bosMesaj.hidden = false;
-      bosMesaj.textContent = "Sepetiniz boş. Yukarıdaki arama kutusundan ürün bulup SEÇ'e dokunun.";
+      bosMesaj.textContent = "Sepetiniz boş. Yukarıdaki arama kutusundan ürün bulup HESAPLA'ya dokunun.";
       altButonSatiri.hidden = true;
       document.getElementById("btnSepetIptal").hidden = true;
       devamUyari.hidden = true;
@@ -282,11 +282,19 @@ function sayfayiCiz(){
       zeminSinifi: "hareket-satir--sari"
     });
 
-    var hesaplandiGosterVarMi = crIzinVarMi("sepetHesaplandiGoster");
-
+    // KALDIRILDI (26.10.2026, Abdullah onayı — SEÇ butonu sadeleştirme):
+    // burada "sepetHesaplandiGoster" iznine göre bu YEŞİL grubun tamamen
+    // gizlenmesi vardı. SEÇ kalktığı için her ürün artık hesaplanmış olarak
+    // giriyor (bekleyenler HER ZAMAN boş) — bu grup, sepetin GÖSTERİLEBİLECEĞİ
+    // TEK yer. İzin kapalıyken eski davranış aynen kalsaydı, o izni kapalı
+    // olan bir çalışan ürün ekleyebilecek ama sepetini HİÇ GÖREMEYECEKTİ
+    // (boşmuş gibi görünürdü) — bu yüzden izin kontrolü kaldırıldı. İzin
+    // tanımı (cihaz-kullanici-render.js/calisan-erisim-render.js ayarlar
+    // ekranı) geriye dönük uyumluluk için duruyor, ama artık hiçbir etkisi
+    // yok — sepet erişimi zaten "sepet" ana izniyle kontrol ediliyor.
     var hesaplananToplam = 0;
     hesaplananlar.forEach(function(u){ hesaplananToplam += hesapla(u).toplamEuro; });
-    grupYesilAlani.innerHTML = (hesaplananlar.length === 0 || !hesaplandiGosterVarMi) ? "" : HareketTablo.grupHtml({
+    grupYesilAlani.innerHTML = hesaplananlar.length === 0 ? "" : HareketTablo.grupHtml({
       etiket: "🟢 HESAPLANDI",
       etiketOrtali: true,
       tip: secilenTip,

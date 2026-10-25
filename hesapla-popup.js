@@ -1,5 +1,5 @@
 /*
-  hesapla-popup.js — WG.121026.2340.785
+  hesapla-popup.js — WG.261026.0049.1035
   =======================================
   Birleşik Sayfa (cart.html) için Hızlı Hesapla'nın POPUP hâli — 02.10.2026,
   Abdullah'ın isteğiyle: "ürünün üzerine tıkladığımda popup gibi hesaplama
@@ -133,14 +133,18 @@ var HesaplaPopup = (function(){
       // butonu yok — hesaplama her girişte otomatik/canlı çalışıyor. Bu
       // yüzden Listeye Ekle butonu geçerli bir sonuç olup olmamasına göre
       // turuncu ("bekliyor") / yeşil ("hazır") arasında geçiş yapıyor.
+      // ETİKET SADELEŞTİRME (26.10.2026, Abdullah onayı — SEÇ butonunun
+      // kaldırılmasıyla birlikte): "LİSTEYE EKLE" → "SEPETE EKLE" — bu
+      // popup cart.html'de de calc.html'de de AYNI sepete (CartData) ekliyor,
+      // metin bunu daha açık yansıtıyor. Renk/boyut/geçiş mantığı AYNEN kaldı.
       var listeyeEkleBtn = document.getElementById("hpBtnListeyeEkle");
       var sonucHazirMi = listeFiyat > 0 && urun.adet > 0;
       if(sonucHazirMi){
         listeyeEkleBtn.className = "hc-listeye-ekle-buton hc-listeye-ekle-buton--hazir";
-        listeyeEkleBtn.textContent = "✓ HESAPLANDI LİSTEYE EKLE";
+        listeyeEkleBtn.textContent = "✓ SEPETE EKLE";
       } else {
         listeyeEkleBtn.className = "hc-listeye-ekle-buton hc-listeye-ekle-buton--bekliyor";
-        listeyeEkleBtn.textContent = "➕ LİSTEYE EKLE";
+        listeyeEkleBtn.textContent = "➕ SEPETE EKLE";
       }
       kurDegeriniGoster();
     }catch(e){ hataGoster("Hesaplama yapılamadı: " + e.message); }
