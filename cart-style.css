@@ -1,5 +1,5 @@
 /*
-  cart-style.css — WG.261026.0049.1040
+  cart-style.css — WG.261026.0049.1042
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -389,22 +389,50 @@
   cursor: pointer;
   margin-top: 10px;
 }
-.sepet-sira-numara {
-  display: inline-block;
-  min-width: 18px;
-  cursor: pointer;
-  text-decoration: underline dotted;
-  text-underline-offset: 2px;
+/* KALDIRILDI (26.10.2026, Abdullah onayı): .sepet-sira-numara ve
+   .sepet-sira-sil-btn (eski "SR hücresine dokun → 🗑️'ye dönüş" mekanizması)
+   — yerine satırı çekince (swipe) PRİM hücresinde beliren "🗑️ SİL" geldi,
+   bkz. aşağıdaki .sepet-prim-sil-hucre / .sepet-sil-swipe-btn (cart-render.js
+   satirEtkilesimleriniBagla). */
+
+/* SEPET SATIRI SİL (26.10.2026, Abdullah onayı — mockup üzerinden):
+   satırın PRİM hücresi (son sütun, EK YER KAPLAMAZ) sağa/sola çekilince
+   bu görünüme geçiyor — normal prim değeri kayboluyor, kırmızı "🗑️ SİL"
+   beliriyor. Dokununca İKİNCİ bir onay sormadan direkt siliniyor (çekme +
+   dokunma zaten iki aşamalı kasıtlı bir hareket). */
+.sepet-prim-sil-hucre {
+  position: relative;
+  overflow: hidden;
 }
-.sepet-sira-sil-btn {
-  background: #fdeaea;
-  border: 1px solid #c0392b;
-  border-radius: 5px;
-  color: #c0392b;
-  font-size: 12px;
+.sepet-prim-sil-hucre-ic {
+  display: block;
+  transition: opacity .12s;
+}
+.sepet-satir--sil-acik .sepet-prim-sil-hucre-ic {
+  opacity: 0;
+}
+.sepet-sil-swipe-btn {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #c0392b;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 800;
+  line-height: 1.2;
   cursor: pointer;
-  padding: 3px 5px;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .12s;
+}
+.sepet-satir--sil-acik .sepet-sil-swipe-btn {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ---------- HESAPLANACAK grubu: kart listesi, sarı zemin ---------- */

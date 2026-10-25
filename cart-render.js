@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.261026.0049.1034
+  cart-render.js — WG.261026.0049.1041
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -313,39 +313,74 @@ function sayfayiCiz(){
     var kurRozeti = document.querySelector(".belge-gt-kur-ic--tiklanabilir");
     if(kurRozeti) kurRozeti.onclick = kurManuelOverlayAc;
 
-    function siraHucresineSilTiklamasiEkle(tr, urun){
-      var siraHucre = tr.querySelector("td.belge-td-sira");
-      if(!siraHucre) return;
-      var orijinalSira = siraHucre.textContent;
-      function numaraHalineGetir(){
-        siraHucre.innerHTML = "<span class='sepet-sira-numara'>" + orijinalSira + "</span>";
-        siraHucre.querySelector(".sepet-sira-numara").onclick = function(e){
+    // DEĞİŞİKLİK (26.10.2026, Abdullah onayı — mockup üzerinden): eski
+    // "SR hücresine dokun → küçük 🗑️ ikonuna dönüş → bir daha dokun → onay
+    // penceresi" mekanizması KALDIRILDI (hedef çok küçüktü, keşfedilmesi
+    // zordu — "silinmiyor, hata var" şikayetinin asıl sebebi muhtemelen
+    // buydu). Yerine satırı sağa/sola ÇEKME (swipe) geldi: PRİM hücresi
+    // (satırda zaten var olan son sütun — YER KAPLAMAZ, yeni sütun
+    // eklenmedi) çekilince kırmızı "🗑️ SİL" haline dönüyor, dokununca
+    // İKİNCİ bir onay sorulmadan direkt siliniyor (çekme hareketinin
+    // kendisi zaten yeterince kasıtlı bir eylem). Satıra normal (çekmeden)
+    // dokunmak YİNE düzenleme popup'ını açıyor — DEĞİŞMEDİ.
+    function satirEtkilesimleriniBagla(tr, urun){
+      var primHucre = tr.querySelector("td.belge-td-prim");
+      var kaydirmaAktif = !!primHucre;
+      if(primHucre){
+        var orijinalIcerik = primHucre.innerHTML;
+        primHucre.classList.add("sepet-prim-sil-hucre");
+        primHucre.innerHTML = "<span class='sepet-prim-sil-hucre-ic'>" + orijinalIcerik + "</span>"
+          + "<button type='button' class='sepet-sil-swipe-btn' title='Sil' aria-label='" + htmlEsc(urun.ad) + " sepetten sil'>🗑️ SİL</button>";
+        primHucre.querySelector(".sepet-sil-swipe-btn").onclick = function(e){
           e.stopPropagation();
-          silButonuHalineGetir();
-        };
-      }
-      function silButonuHalineGetir(){
-        siraHucre.innerHTML = "<button class='sepet-sira-sil-btn' title='Sil'>🗑️</button>";
-        siraHucre.querySelector("button").onclick = function(e){
-          e.stopPropagation();
-          if(!confirm(urun.ad + " sepetten kaldırılsın mı?")){ numaraHalineGetir(); return; }
           CartData.sil(urun.idx);
           sayfayiCiz();
         };
       }
-      numaraHalineGetir();
+
+      var basX = null, basY = null, kaydirildiMi = false;
+      tr.addEventListener("touchstart", function(e){
+        if(!kaydirmaAktif || e.touches.length !== 1) return;
+        basX = e.touches[0].clientX;
+        basY = e.touches[0].clientY;
+      }, {passive:true});
+      tr.addEventListener("touchend", function(e){
+        if(!kaydirmaAktif || basX === null) return;
+        var t = (e.changedTouches && e.changedTouches[0]) || null;
+        var dx = t ? (t.clientX - basX) : 0;
+        var dy = t ? (t.clientY - basY) : 0;
+        basX = null; basY = null;
+        // Yatay hareket 35px'i geçtiyse VE düşeyden belirgin şekilde daha
+        // baskınsa (normal dikey kaydırmayı yanlışlıkla yakalamasın diye)
+        // — yön (sağ/sol) önemsiz, Abdullah'ın isteği ikisi de çalışsın.
+        if(Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy) * 1.5){
+          kaydirildiMi = true;
+          digerSepetSatirlariniKapat(tr);
+          tr.classList.toggle("sepet-satir--sil-acik");
+        }
+      }, {passive:true});
+
+      tr.onclick = function(){
+        if(kaydirildiMi){ kaydirildiMi = false; return; }
+        if(tr.classList.contains("sepet-satir--sil-acik")){
+          tr.classList.remove("sepet-satir--sil-acik");
+          return;
+        }
+        urunuHesaplamayaGonder(urun.idx);
+      };
+    }
+    function digerSepetSatirlariniKapat(haricTr){
+      document.querySelectorAll(".sepet-satir--sil-acik").forEach(function(acikTr){
+        if(acikTr !== haricTr) acikTr.classList.remove("sepet-satir--sil-acik");
+      });
     }
     grupSariAlani.querySelectorAll("tbody tr").forEach(function(tr, i){
       tr.style.cursor = "pointer";
-      var urun = bekleyenler[i];
-      tr.onclick = function(){ urunuHesaplamayaGonder(urun.idx); };
-      siraHucresineSilTiklamasiEkle(tr, urun);
+      satirEtkilesimleriniBagla(tr, bekleyenler[i]);
     });
     grupYesilAlani.querySelectorAll("tbody tr").forEach(function(tr, i){
       tr.style.cursor = "pointer";
-      var urun = hesaplananlar[i];
-      tr.onclick = function(){ urunuHesaplamayaGonder(urun.idx); };
-      siraHucresineSilTiklamasiEkle(tr, urun);
+      satirEtkilesimleriniBagla(tr, hesaplananlar[i]);
     });
 
     var gonderVarMi = crIzinVarMi("sepetGonder");
