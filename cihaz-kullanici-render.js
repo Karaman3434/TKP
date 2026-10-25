@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: WG.251026.0400.1020
+  cihaz-kullanici-render.js — VERSİYON: WG.251026.0430.1024
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -276,6 +276,15 @@ function ckYonetimAlaniniGoster(){
 
   CihazData.tumCihazlariDinle(cihazListesiniCiz);
 
+  // EKLENDİ (25.10.2026, "manuel cihaz gruplama" özelliği, Abdullah'ın
+  // isteğiyle) — manuel gruplar da cihazlar gibi canlı dinleniyor; hangisi
+  // önce/sonra tetiklenirse tetiklensin liste her zaman güncel veriyle
+  // yeniden çizilsin diye ckSonCihazListesi üzerinden yeniden çiziliyor.
+  CihazData.manuelGruplariDinle(function(gruplar){
+    ckSonManuelGruplar = gruplar;
+    cihazListesiniCiz(ckSonCihazListesi);
+  });
+
   firebase.database().ref("kisitliKullanicilar").on("value", function(snap){
     ckSonKullanicilarVeri = snap.val() || {};
     ceListeyiCiz(ckSonKullanicilarVeri);
@@ -337,6 +346,13 @@ var czEngellenenlerAcikMi = false;
 var ckSonCihazListesi = [];
 var ckSonKullanicilarVeri = {};
 
+// EKLENDİ (25.10.2026, "manuel cihaz gruplama" özelliği, Abdullah'ın
+// isteğiyle — "aynı linki/daveti kullanan ama FARKLI hesapla giriş yapan"
+// cihazlar otomatik gruplamanın (sonGirisHesabi) yakalayamadığı durum).
+var ckSonManuelGruplar = {};     // Firebase'teki cihazManuelGruplari, olduğu gibi
+var czSecimModuAcikMi = false;   // "Seç" butonuna basılınca true olur
+var czSeciliCihazlar = {};       // seçim modunda işaretlenen cihaz id'leri (Set gibi kullanılır)
+
 function czKullaniciSatiriHtml(c){
   var kullaniciSatiri = c.kullaniciAdi
     ? "<div class='cz-kart-kullanici' id='czAd-" + htmlEsc(c.id) + "'>👤 " + htmlEsc(c.kullaniciAdi) + "</div>"
@@ -374,15 +390,28 @@ function czGecmisHtml(c){
     + "</div>";
 }
 
-function czAktifKartHtml(c, benimId){
+// manuelGrupId: SADECE manuel grup popup'ında dolu gelir -> "➖ Gruptan
+// Çıkar" düğmesi eklenir. secimModu: SADECE ana listede, "Seç" modu
+// açıkken dolu gelir -> kart başına işaretleme kutucuğu eklenir. İkisi de
+// ESKİ çağrılarla (czAktifKartHtml(c, benimId)) TAM geriye dönük uyumlu —
+// ikisi de boş geçilirse çıktı birebir eskisiyle aynı kalır.
+function czAktifKartHtml(c, benimId, manuelGrupId, secimModu){
   var buCihazMi = c.id === benimId;
   var rozet = buCihazMi ? "<span class='cz-kart-rozet cz-kart-rozet--bu'>Bu cihaz</span>" : "";
+  var cikarBtn = manuelGrupId
+    ? "<button type='button' class='cz-gruptan-cikar-btn' data-id='" + htmlEsc(c.id) + "' data-grup-id='" + htmlEsc(manuelGrupId) + "'>➖ Gruptan Çıkar</button>"
+    : "";
+  var checkbox = secimModu
+    ? "<input type='checkbox' class='cz-kart-checkbox' data-id='" + htmlEsc(c.id) + "'" + (czSeciliCihazlar[c.id] ? " checked" : "") + ">"
+    : "";
+  var ustSinif = secimModu ? "cz-kart-ust cz-kart-ust--secim" : "cz-kart-ust";
+
   var alt = buCihazMi
     ? ""
     : "<div class='cz-kart-alt'><button class='cz-engelle-btn' data-id='" + htmlEsc(c.id) + "' data-ad='" + htmlEsc(c.ad||"") + "'>🚫 Engelle</button></div>";
 
   return "<div class='cz-kart'>"
-    + "<div class='cz-kart-ust'><span class='cz-kart-ad'>" + htmlEsc(c.ad || "Adsız Cihaz") + "</span>" + rozet + "</div>"
+    + "<div class='" + ustSinif + "'>" + checkbox + "<span class='cz-kart-ad'>" + htmlEsc(c.ad || "Adsız Cihaz") + "</span>" + rozet + cikarBtn + "</div>"
     + czKullaniciSatiriHtml(c)
     + czPinSatiriHtml(c)
     + "<div class='cz-kart-son-gorulme'>Son görülme: " + zamanGoster(c.sonGorulme) + "</div>"
@@ -477,6 +506,18 @@ function czGrupSatiriHtml(hesapAdi, cihazlar){
     + "</button>";
 }
 
+// EKLENDİ (25.10.2026, "manuel cihaz gruplama") — otomatik (👤, mavi)
+// gruplardan ayırt edilsin diye 🏷️ ikonu ve .cz-grup-satir--manuel
+// (sarı ton) ile çiziliyor; işlev olarak czGrupSatiriHtml ile aynı.
+function czManuelGrupSatiriHtml(grupId, isim, cihazlar){
+  return "<button type='button' class='cz-grup-satir cz-grup-satir--manuel' data-grup-id='" + htmlEsc(grupId) + "'>"
+    + "<span class='cz-grup-ikon'>🏷️</span>"
+    + "<span class='cz-grup-etiket'>" + htmlEsc(isim) + "</span>"
+    + "<span class='cz-grup-sayi'>" + cihazlar.length + " cihaz</span>"
+    + "<span class='cz-grup-ok'>›</span>"
+    + "</button>";
+}
+
 // Hem ana listedeki tekli kartlara, hem grup popup'ı içindeki kartlara
 // AYNI düğme bağlama mantığı uygulanır — tekrar yazmamak için ortak.
 function czKartButonlariniBagla(kapsayici){
@@ -564,15 +605,71 @@ function czKartButonlariniBagla(kapsayici){
   });
 }
 
-function czGrupPopupAc(hesapAdi, cihazlar){
+// EKLENDİ/GENİŞLETİLDİ (25.10.2026, "manuel cihaz gruplama") — artık hem
+// otomatik (👤, aynı hesap) hem manuel (🏷️, Abdullah'ın elle oluşturduğu)
+// gruplar AYNI popup'ı paylaşıyor. manuelGrupId SADECE manuel gruplarda
+// dolu gelir -> "Yeniden Adlandır"/"Grubu Dağıt" yönetim satırı ve her
+// karttaki "Gruptan Çıkar" düğmesi SADECE bu durumda görünür.
+function czGrupPopupAc(ikon, baslik, cihazlar, manuelGrupId){
   var overlay = document.getElementById("czGrupOverlay");
   if(!overlay) return;
-  document.getElementById("czGrupBaslik").textContent = "👤 " + hesapAdi;
+  document.getElementById("czGrupBaslik").textContent = ikon + " " + baslik;
   document.getElementById("czGrupSayi").textContent = "— " + cihazlar.length + " cihaz";
+  var altYazi = document.getElementById("czGrupAltYazi");
+  if(altYazi) altYazi.textContent = manuelGrupId ? "Elle oluşturduğun grup" : "Bu hesapla giriş yapmış, onaylı cihazlar";
   var benimId = CihazData.benimIdim();
   var liste = document.getElementById("czGrupPopupListe");
-  liste.innerHTML = cihazlar.map(function(c){ return czAktifKartHtml(c, benimId); }).join("");
+  liste.innerHTML = cihazlar.map(function(c){ return czAktifKartHtml(c, benimId, manuelGrupId); }).join("");
   czKartButonlariniBagla(liste);
+
+  liste.querySelectorAll(".cz-gruptan-cikar-btn").forEach(function(btn){
+    btn.onclick = function(){
+      var cihazId = this.getAttribute("data-id");
+      var grupId = this.getAttribute("data-grup-id");
+      this.disabled = true; this.textContent = "⏳ Çıkarılıyor...";
+      CihazData.manuelGruptanCikar(grupId, cihazId, function(basarili, hata){
+        if(!basarili){
+          hataGoster(hata || "Cihaz gruptan çıkarılamadı.");
+          return;
+        }
+        // Firebase dinleyicisi ana listeyi zaten yeniden çizecek — popup'ı
+        // kapatıyoruz ki eski (artık yanlış) üye sayısıyla açık kalmasın.
+        overlay.hidden = true;
+      });
+    };
+  });
+
+  var yonetimAlani = document.getElementById("czGrupYonetimAlani");
+  if(yonetimAlani){
+    if(manuelGrupId){
+      yonetimAlani.hidden = false;
+      yonetimAlani.innerHTML = "<div class='cz-grup-yonetim-satir'>"
+        + "<button type='button' class='cz-grup-yeniden-adlandir-btn' id='czGrupYenidenAdlandirBtn'>✏️ Yeniden Adlandır</button>"
+        + "<button type='button' class='cz-grup-dagit-btn' id='czGrupDagitBtn'>🗑 Grubu Dağıt</button>"
+        + "</div>";
+      document.getElementById("czGrupYenidenAdlandirBtn").onclick = function(){
+        var yeniIsim = prompt("Yeni grup adı:", baslik);
+        if(yeniIsim === null) return;
+        yeniIsim = yeniIsim.trim();
+        if(!yeniIsim){ hataGoster("Grup adı boş olamaz."); return; }
+        CihazData.manuelGrubuYenidenAdlandir(manuelGrupId, yeniIsim, function(basarili, hata){
+          if(!basarili) hataGoster(hata || "Grup adı değiştirilemedi.");
+          else overlay.hidden = true;
+        });
+      };
+      document.getElementById("czGrupDagitBtn").onclick = function(){
+        if(!confirm("\"" + baslik + "\" grubu dağıtılsın mı? Cihazlar SİLİNMEZ, sadece gruplama kaldırılır.")) return;
+        CihazData.manuelGrubuDagit(manuelGrupId, function(basarili, hata){
+          if(!basarili) hataGoster(hata || "Grup dağıtılamadı.");
+          else overlay.hidden = true;
+        });
+      };
+    } else {
+      yonetimAlani.hidden = true;
+      yonetimAlani.innerHTML = "";
+    }
+  }
+
   overlay.hidden = false;
 }
 
@@ -600,25 +697,56 @@ function cihazListesiniCiz(liste){
     var aktifler = liste.filter(function(c){ return !c.engelli && c.onayDurumu !== "bekliyor"; });
     var engellenenler = liste.filter(function(c){ return c.engelli; });
 
+    // EKLENDİ (25.10.2026, "manuel cihaz gruplama") — önce hangi cihazın
+    // hangi MANUEL gruba ait olduğunu bul. Manuel gruba alınmış bir cihaz
+    // artık otomatik (aynı hesap) gruplamaya KARIŞMAZ — manuel grup her
+    // zaman önceliklidir, çünkü Abdullah'ın kendi elleriyle verdiği karar.
+    var manuelGrupIdByCihaz = {};
+    Object.keys(ckSonManuelGruplar).forEach(function(grupId){
+      var g = ckSonManuelGruplar[grupId];
+      if(!g || !g.cihazlar) return;
+      Object.keys(g.cihazlar).forEach(function(cihazId){ manuelGrupIdByCihaz[cihazId] = grupId; });
+    });
+
     // YENİ — aynı hesapla (sonGirisHesabi) giriş yapmış, 2+ cihazı olan
     // hesapları grupla; tek cihazı olanlar eskisi gibi tek tek kalır.
+    // (Manuel gruba alınmış cihazlar bu sayıma dahil edilmez.)
     var hesapSayaci = {};
     aktifler.forEach(function(c){
+      if(manuelGrupIdByCihaz[c.id]) return;
       if(c.sonGirisHesabi) hesapSayaci[c.sonGirisHesabi] = (hesapSayaci[c.sonGirisHesabi]||0) + 1;
     });
     var tekler = [];
     var gruplar = {};
+    var manuelGruplarGosterim = {};
     aktifler.forEach(function(c){
-      if(c.sonGirisHesabi && hesapSayaci[c.sonGirisHesabi] >= 2){
+      var manuelGrupId = manuelGrupIdByCihaz[c.id];
+      if(manuelGrupId){
+        (manuelGruplarGosterim[manuelGrupId] = manuelGruplarGosterim[manuelGrupId] || []).push(c);
+      } else if(c.sonGirisHesabi && hesapSayaci[c.sonGirisHesabi] >= 2){
         (gruplar[c.sonGirisHesabi] = gruplar[c.sonGirisHesabi] || []).push(c);
       } else {
         tekler.push(c);
       }
     });
+    // Firebase'de hâlâ kayıtlı ama artık 2'den az aktif cihazı kalmış bir
+    // manuel grup (ör. biri engellendi) "grup" olarak gösterilmez — kalan
+    // tek cihaz normal tekli kart olarak listeye döner.
+    Object.keys(manuelGruplarGosterim).forEach(function(grupId){
+      if(manuelGruplarGosterim[grupId].length < 2){
+        tekler = tekler.concat(manuelGruplarGosterim[grupId]);
+        delete manuelGruplarGosterim[grupId];
+      }
+    });
 
-    var html = tekler.map(function(c){ return czAktifKartHtml(c, benimId); }).join("");
+    var html = tekler.map(function(c){ return czAktifKartHtml(c, benimId, null, czSecimModuAcikMi); }).join("");
     html += Object.keys(gruplar).sort().map(function(hesapAdi){
       return czGrupSatiriHtml(hesapAdi, gruplar[hesapAdi]);
+    }).join("");
+    // YENİ — manuel gruplar (🏷️), otomatik gruplardan sonra listelenir.
+    html += Object.keys(manuelGruplarGosterim).map(function(grupId){
+      var g = ckSonManuelGruplar[grupId] || {};
+      return czManuelGrupSatiriHtml(grupId, g.isim || "İsimsiz Grup", manuelGruplarGosterim[grupId]);
     }).join("");
 
     if(engellenenler.length){
@@ -631,13 +759,36 @@ function cihazListesiniCiz(liste){
     kapsayici.innerHTML = html;
     czKartButonlariniBagla(kapsayici);
 
-    // YENİ — grup satırına tıklanınca popup aç
-    kapsayici.querySelectorAll(".cz-grup-satir").forEach(function(btn){
+    // YENİ — grup satırına tıklanınca popup aç (otomatik ve manuel ayrı
+    // seçicilerle bağlanıyor, çünkü manuel satır da .cz-grup-satir taşıyor)
+    kapsayici.querySelectorAll(".cz-grup-satir:not(.cz-grup-satir--manuel)").forEach(function(btn){
       btn.onclick = function(){
         var hesapAdi = btn.getAttribute("data-hesap");
-        czGrupPopupAc(hesapAdi, gruplar[hesapAdi] || []);
+        czGrupPopupAc("👤", hesapAdi, gruplar[hesapAdi] || [], null);
       };
     });
+    kapsayici.querySelectorAll(".cz-grup-satir--manuel").forEach(function(btn){
+      btn.onclick = function(){
+        var grupId = btn.getAttribute("data-grup-id");
+        var g = ckSonManuelGruplar[grupId] || {};
+        czGrupPopupAc("🏷️", g.isim || "İsimsiz Grup", manuelGruplarGosterim[grupId] || [], grupId);
+      };
+    });
+
+    // EKLENDİ (25.10.2026, "manuel cihaz gruplama") — seçim modu açıkken
+    // her tekli kartın başındaki kutucuk işaretlenince seçili cihaz
+    // kümesini ve seçim çubuğundaki sayıyı/düğmeyi güncelle.
+    if(czSecimModuAcikMi){
+      kapsayici.querySelectorAll(".cz-kart-checkbox").forEach(function(kutu){
+        kutu.onchange = function(){
+          var id = this.getAttribute("data-id");
+          if(this.checked) czSeciliCihazlar[id] = true;
+          else delete czSeciliCihazlar[id];
+          czSecimCubuguGuncelle();
+        };
+      });
+    }
+    czSecimCubuguGuncelle();
 
     var toggleBtn = document.getElementById("czEngellenenlerToggle");
     if(toggleBtn){
@@ -674,6 +825,63 @@ function cihazListesiniCiz(liste){
     // sınır uyarısı da güncel kalsın diye kullanıcı listesi de yeniden çizilir.
     ceListeyiCiz(ckSonKullanicilarVeri);
   }catch(e){ hataGoster("Cihaz listesi çizilemedi: " + e.message); }
+}
+
+/* ========================================================================
+   EKLENDİ (25.10.2026, "manuel cihaz gruplama" özelliği, Abdullah'ın
+   isteğiyle) — "Seç" butonu, seçim çubuğu ve grup adı verme sheet'i.
+   Mockup'ta onaylanan akış: Seç -> cihazları işaretle -> Grup Oluştur ->
+   isim ver -> Kaydet. "Seç" butonu aynı zamanda "✕ Vazgeç" olarak da
+   çalışır (seçim modundan çıkar, işaretlenenleri temizler).
+   ======================================================================== */
+function czSecimCubuguGuncelle(){
+  var cubuk = document.getElementById("czSecimCubugu");
+  var sayiEl = document.getElementById("czSecimSayi");
+  var gruplaBtn = document.getElementById("czSecimGruplaBtn");
+  if(!cubuk || !sayiEl || !gruplaBtn) return;
+  cubuk.hidden = !czSecimModuAcikMi;
+  var seciliSayi = Object.keys(czSeciliCihazlar).length;
+  sayiEl.textContent = seciliSayi + " cihaz seçildi";
+  gruplaBtn.disabled = seciliSayi < 2;
+}
+
+function czSecModuTiklandi(){
+  czSecimModuAcikMi = !czSecimModuAcikMi;
+  czSeciliCihazlar = {};
+  var btn = document.getElementById("czSecModuBtn");
+  if(btn){
+    btn.textContent = czSecimModuAcikMi ? "✕ Vazgeç" : "☑️ Seç";
+    btn.classList.toggle("cz-sec-modu-btn--aktif", czSecimModuAcikMi);
+  }
+  cihazListesiniCiz(ckSonCihazListesi);
+}
+
+function czManuelGrupAdSheetAc(){
+  var seciliSayi = Object.keys(czSeciliCihazlar).length;
+  if(seciliSayi < 2){ hataGoster("Grup oluşturmak için en az 2 cihaz seç."); return; }
+  var overlay = document.getElementById("czManuelGrupAdOverlay");
+  var altYazi = document.getElementById("czManuelGrupAdAltYazi");
+  var girdi = document.getElementById("czManuelGrupAdInput");
+  if(!overlay || !girdi) return;
+  if(altYazi) altYazi.textContent = "Bu " + seciliSayi + " cihaz, verdiğin isimle birlikte tek satırda görünecek.";
+  girdi.value = "";
+  overlay.hidden = false;
+  girdi.focus();
+}
+
+function czManuelGrupAdKaydetTiklandi(){
+  var girdi = document.getElementById("czManuelGrupAdInput");
+  var isim = girdi ? girdi.value.trim() : "";
+  if(!isim){ hataGoster("Grup adı boş olamaz."); return; }
+  var btn = document.getElementById("czManuelGrupAdKaydetBtn");
+  var cihazIdleri = Object.keys(czSeciliCihazlar);
+  if(btn){ btn.disabled = true; btn.textContent = "⏳ Oluşturuluyor..."; }
+  CihazData.manuelGrupOlustur(isim, cihazIdleri, function(basarili, hata){
+    if(btn){ btn.disabled = false; btn.textContent = "✓ Grubu Oluştur"; }
+    if(!basarili){ hataGoster(hata || "Grup oluşturulamadı."); return; }
+    document.getElementById("czManuelGrupAdOverlay").hidden = true;
+    czSecModuTiklandi(); // seçim modundan çık, işaretlenenleri temizle, listeyi yenile
+  });
 }
 
 /* ========================================================================
@@ -1133,4 +1341,17 @@ document.addEventListener("DOMContentLoaded", function(){
   // "Uygulama PIN'ini Değiştir" butonu.
   var btnCkUygulamaPinDegistir = document.getElementById("btnCkUygulamaPinDegistir");
   if(btnCkUygulamaPinDegistir) btnCkUygulamaPinDegistir.onclick = ckUygulamaPinDegistirTiklandi;
+
+  // EKLENDİ (25.10.2026, "manuel cihaz gruplama" özelliği, Abdullah'ın
+  // isteğiyle) — "Seç" / seçim çubuğu / grup adı verme sheet'i.
+  var czSecModuBtn = document.getElementById("czSecModuBtn");
+  if(czSecModuBtn) czSecModuBtn.onclick = czSecModuTiklandi;
+  var czSecimGruplaBtn = document.getElementById("czSecimGruplaBtn");
+  if(czSecimGruplaBtn) czSecimGruplaBtn.onclick = czManuelGrupAdSheetAc;
+  var czManuelGrupAdKaydetBtn = document.getElementById("czManuelGrupAdKaydetBtn");
+  if(czManuelGrupAdKaydetBtn) czManuelGrupAdKaydetBtn.onclick = czManuelGrupAdKaydetTiklandi;
+  var czManuelGrupAdVazgecBtn = document.getElementById("czManuelGrupAdVazgecBtn");
+  if(czManuelGrupAdVazgecBtn) czManuelGrupAdVazgecBtn.onclick = function(){
+    document.getElementById("czManuelGrupAdOverlay").hidden = true;
+  };
 });

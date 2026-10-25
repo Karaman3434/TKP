@@ -328,3 +328,98 @@
   text-align: left;
 }
 .ck-uygulama-pin-ipucu { font-size: 11.5px; font-weight: 700; color: #7a8696; }
+
+/* ========================================================================
+   EKLENDİ (25.10.2026, "manuel cihaz gruplama" özelliği, Abdullah'ın
+   isteğiyle) — "aynı linki/daveti kullanan ama FARKLI hesapla giriş yapan"
+   cihazları (otomatik sonGirisHesabi-gruplamasının yakalayamadığı durum)
+   Abdullah'ın kendi seçip isim vererek gruplayabilmesi için: "Seç" modu,
+   seçim çubuğu ve 🏷️ manuel grup satırı/popup'ı. Onaylanan mockup ile
+   BİREBİR aynı sınıf adları/görünüm. bkz. cihaz-kullanici-render.js.
+   ======================================================================== */
+.cz-sec-modu-btn {
+  background: #f3f6fb;
+  color: #0c2f66;
+  border: 1.5px solid #d8e0ea;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.cz-sec-modu-btn--aktif { background: #0d3d8c; color: #fff; border-color: #0d3d8c; }
+
+.cz-secim-cubugu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #eaf2fc;
+  border: 1.5px solid #b7d2f5;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+.cz-secim-cubugu[hidden] { display: none; }
+.cz-secim-sayi { font-size: 13px; font-weight: 800; color: #0c2f66; }
+.cz-secim-grupla-btn {
+  background: #0d3d8c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.cz-secim-grupla-btn:disabled { background: #aab6c6; cursor: not-allowed; }
+
+.cz-kart-checkbox { width: 22px; height: 22px; accent-color: #0d3d8c; margin-right: 4px; flex-shrink: 0; }
+.cz-kart-ust--secim { display: flex; align-items: center; gap: 8px; }
+
+/* Manuel grup satırı — otomatik (👤 mavi) gruptan ayırt edilsin diye
+   sarı/amber ton ve 🏷️ ikonu; .cz-grup-satir'in TÜM diğer stillerini
+   (boyut, padding, yazı tipi) aynen miras alır. */
+.cz-grup-satir--manuel { background: #fef6e8; border-color: #ecd9ab; }
+
+.cz-gruptan-cikar-btn {
+  background: none;
+  border: 1.5px solid #e0b060;
+  color: #a66a0a;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+.cz-grup-yonetim-satir { display: flex; gap: 8px; margin-top: 10px; }
+.cz-grup-yeniden-adlandir-btn, .cz-grup-dagit-btn {
+  flex: 1;
+  border-radius: 8px;
+  padding: 9px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  border: 1.5px solid;
+}
+.cz-grup-yeniden-adlandir-btn { background: #f3f6fb; color: #0c2f66; border-color: #d8e0ea; }
+.cz-grup-dagit-btn { background: #fdecea; color: #c0392b; border-color: #f3c6c2; }
+
+/* Grup adı verme sheet'indeki metin girişi — mevcut .cz-ad-duzenle-input'tan
+   bilerek AYRI: o küçük, satır-içi bir "yeniden adlandır" girişiyken bu,
+   tek başına duran, daha büyük bir modal başlık girişi (onaylanan mockup
+   ile birebir aynı ölçüler). */
+.cz-manuel-grup-ad-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 11px 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #003a70;
+  margin: 10px 0;
+}
+.cz-manuel-grup-ad-input:focus { outline: none; border-color: #0d3d8c; }

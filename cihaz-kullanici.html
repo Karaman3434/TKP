@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.251026.0400.1021 — cihaz-kullanici.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.251026.0430.1024 — cihaz-kullanici.html -->
 <!--
   CİHAZLAR VE KULLANICILAR (03.10.2026, Abdullah'ın isteğiyle)
   ================================================================
@@ -42,9 +42,9 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
 <link rel="stylesheet" href="pin-style.css">
-<link rel="stylesheet" href="cihazlar-style.css?v=WG.251026.0400.1023">
+<link rel="stylesheet" href="cihazlar-style.css?v=WG.251026.0430.1024">
 <link rel="stylesheet" href="calisan-erisim-style.css?v=WG.251026.0145.1017">
-<link rel="stylesheet" href="ayarlar-style.css?v=WG.071026.1445.745">
+<link rel="stylesheet" href="ayarlar-style.css?v=WG.251026.0430.1024">
 </head>
 <body>
 
@@ -128,9 +128,33 @@
       <div id="czBekleyenListe"></div>
     </div>
 
-    <div class="ay-bolum-baslik">📱 Cihazlar</div>
+    <!-- EKLENDİ (25.10.2026, "manuel cihaz gruplama" özelliği, Abdullah'ın
+         isteğiyle — "aynı linki kullanan ama farklı hesapla giriş yapan"
+         cihazlar otomatik gruplamanın yakalayamadığı durum). "Seç" butonu
+         aynı zamanda "✕ Vazgeç" olarak da çalışır (bkz. cihaz-kullanici-
+         render.js czSecModuTiklandi). -->
+    <div class="ay-bolum-baslik-satir">
+      <div class="ay-bolum-baslik" style="margin:0;">📱 Cihazlar</div>
+      <button type="button" class="cz-sec-modu-btn" id="czSecModuBtn">☑️ Seç</button>
+    </div>
+    <div class="cz-secim-cubugu" id="czSecimCubugu" hidden>
+      <span class="cz-secim-sayi" id="czSecimSayi">0 cihaz seçildi</span>
+      <span><button type="button" class="cz-secim-grupla-btn" id="czSecimGruplaBtn" disabled>🏷️ Grup Oluştur</button></span>
+    </div>
     <div id="czListe"></div>
     <p class="bos-mesaj" id="czBos" hidden>Henüz hiçbir cihaz kayıt olmadı.</p>
+
+    <!-- EKLENDİ (25.10.2026, "manuel cihaz gruplama") — seçili cihazlara
+         grup adı verme sheet'i (bkz. czManuelGrupAdSheetAc/czManuelGrupAdKaydetTiklandi). -->
+    <div class="overlay" id="czManuelGrupAdOverlay" hidden>
+      <div class="sheet">
+        <div class="sheet-baslik">🏷️ Grup Adı Ver</div>
+        <div class="sheet-alt" id="czManuelGrupAdAltYazi"></div>
+        <input type="text" class="cz-manuel-grup-ad-input" id="czManuelGrupAdInput" placeholder="Örn. Yasin (Tüm Telefonları)">
+        <div class="sheet-buton-satir"><button type="button" class="btn-kaydet" id="czManuelGrupAdKaydetBtn">✓ Grubu Oluştur</button></div>
+        <div class="sheet-buton-satir"><button type="button" class="btn-vazgec" id="czManuelGrupAdVazgecBtn">Vazgeç</button></div>
+      </div>
+    </div>
 
     <!-- YENİDEN TASARLANDI (25.10.2026, Abdullah'ın isteğiyle — liste çok
          yer kaplıyordu). Aynı hesapla (sonGirisHesabi) giriş yapmış 2+
@@ -143,8 +167,11 @@
     <div class="overlay" id="czGrupOverlay" hidden>
       <div class="sheet">
         <div class="sheet-baslik"><span id="czGrupBaslik"></span> <span class="sheet-baslik-sayi" id="czGrupSayi"></span></div>
-        <div class="sheet-alt">Bu hesapla giriş yapmış, onaylı cihazlar</div>
+        <div class="sheet-alt" id="czGrupAltYazi">Bu hesapla giriş yapmış, onaylı cihazlar</div>
         <div id="czGrupPopupListe" class="cz-grup-popup-liste"></div>
+        <!-- EKLENDİ (25.10.2026, "manuel cihaz gruplama") — SADECE manuel
+             gruplarda dolar (bkz. czGrupPopupAc). -->
+        <div id="czGrupYonetimAlani" hidden></div>
         <div class="sheet-buton-satir"><button type="button" class="btn-vazgec" id="czGrupKapatBtn">Kapat</button></div>
       </div>
     </div>
@@ -221,9 +248,9 @@
 <script src="auth.js?v=WG.251026.0145.1012"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="pin-utils.js?v=WG.150926.1241.572"></script>
-<script src="cihaz-data.js?v=WG.251026.0145.1013"></script>
+<script src="cihaz-data.js?v=WG.251026.0430.1024"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
-<script src="cihaz-kullanici-render.js?v=WG.251026.0400.1020"></script>
+<script src="cihaz-kullanici-render.js?v=WG.251026.0430.1024"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
 </body>

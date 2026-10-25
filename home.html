@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.231026.1200.968 — home.html -->
+<!-- WEICON ASİST V2 — VERSİYON: WG.131026.1540.801 — home.html -->
 <!--
   WEICON ASİST — ANA SAYFA v5 (sade "flat" tasarım + gerçek hedef ilerlemesi)
   =============================================================================
@@ -40,21 +40,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="manifest" href="manifest.json?v=WG.221026.0755.937">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1257c7">
-<link rel="apple-touch-icon" href="icon-192.png?v=WG.221026.0755.937">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="İş Takip">
-<title>İş Takip — Ana Sayfa</title>
+<meta name="apple-mobile-web-app-title" content="WEICON ASİST">
+<title>WEICON ASİST — Ana Sayfa</title>
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
-<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.231026.1051.962">
-<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) —
-     .as-drawer-oge--kilitli (kilitli satır görünümü), tüm sayfalarla ortak. -->
-<link rel="stylesheet" href="menu-cekmece-style.css?v=WG.231026.1200.966">
+<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.151026.1455.828">
+<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.141026.2201.815">
 </head>
 <body>
 
@@ -78,7 +75,7 @@
         <span class="as-menu-btn-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span>
         <span class="as-menu-btn-etiket">Menü</span>
       </button>
-      <img class="as-logo-gorsel-ustte" src="is-takip-logo.png?v=WG.211026.1700.897" alt="İş Takip">
+      <img class="as-logo-gorsel-ustte" src="weicon-logo-temiz.png?v=WG.061026.1550.736" alt="WEICON">
     </div>
   </div>
 </div>
@@ -180,7 +177,7 @@
   </div>
 
   <div class="as-urun-gorsel-blok">
-    <img class="as-urun-gorsel" src="anasayfa-urun-banner.jpg?v=WG.211026.1700.896" alt="Ürünlerimiz">
+    <img class="as-urun-gorsel" src="anasayfa-urun-banner.jpg?v=WG.300926.1130.675" alt="WEICON ürünleri">
   </div>
 
 </main>
@@ -190,7 +187,7 @@
   <div class="as-drawer" id="asDrawer">
 
     <div class="as-drawer-ustbar">
-      <span class="as-drawer-logo">İŞ TAKİP</span>
+      <span class="as-drawer-logo">WEICON</span>
       <button class="as-drawer-kapat" id="btnAsMenuKapat" aria-label="Menüyü kapat">✕</button>
     </div>
 
@@ -205,19 +202,23 @@
       </div>
     </div>
 
-    <a class="as-drawer-anasayfa" id="asDrawerAnaSayfa" href="home.html">
+    <a class="as-drawer-anasayfa" href="home.html">
       <span class="as-drawer-ikon" aria-hidden="true">🏠</span>
       <span class="as-drawer-etiket">Ana Sayfa</span>
       <span class="as-drawer-ok" aria-hidden="true">›</span>
     </a>
 
-    <!-- DEĞİŞTİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) —
-         bu liste artık statik değil: içerik, izinler çözüldükten sonra
-         menu-cekmece.js'teki MC_OGELER tablosundan dinamik oluşturuluyor
-         (tek kaynak — diğer tüm sayfalarla birebir aynı mantık). -->
-    <nav class="as-drawer-liste" id="asDrawerListe"></nav>
+    <nav class="as-drawer-liste">
+      <a class="as-drawer-oge" href="cart.html"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">🔍</span><span class="as-drawer-etiket">Ürün Bul</span><span class="as-drawer-ok" aria-hidden="true">›</span></a>
+      <button type="button" class="as-drawer-oge as-drawer-oge--buton" id="drawerAltMenuBtn-musteri" data-alt-menu="musteri"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">👥</span><span class="as-drawer-etiket">Müşteri</span><span class="as-drawer-ok" aria-hidden="true">›</span></button>
+      <a class="as-drawer-oge" href="son-islemler.html"><span class="as-drawer-ikon" aria-hidden="true">🕐</span><span class="as-drawer-etiket">Son İşlemler</span><span class="as-drawer-ok" aria-hidden="true">›</span></a>
+      <button type="button" class="as-drawer-oge as-drawer-oge--buton" id="drawerAltMenuBtn-arackm" data-alt-menu="arackm"><span class="as-drawer-ikon" style="color:#ec7063;" aria-hidden="true">🚗</span><span class="as-drawer-etiket">Araç KM</span><span class="as-drawer-ok" aria-hidden="true">›</span></button>
+      <button type="button" class="as-drawer-oge as-drawer-oge--buton" id="drawerAltMenuBtn-raporlar" data-alt-menu="raporlar"><span class="as-drawer-ikon" style="color:#f5b041;" aria-hidden="true">📊</span><span class="as-drawer-etiket">Raporlar</span><span class="as-drawer-ok" aria-hidden="true">›</span></button>
+      <a class="as-drawer-oge" href="vade-takip.html"><span class="as-drawer-ikon" aria-hidden="true">📄</span><span class="as-drawer-etiket">Fatura · Vade · Ödeme Takip</span><span class="as-drawer-ok" aria-hidden="true">›</span></a>
+      <a class="as-drawer-oge" href="kisisel.html"><span class="as-drawer-ikon" style="color:#f5c451;" aria-hidden="true">🔒</span><span class="as-drawer-etiket">Kişisel</span><span class="as-drawer-ok" aria-hidden="true">›</span></a>
+    </nav>
 
-    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.231026.1200.968 ***</div>
+    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** WEİCON ASİST WG.151026.1550.830 ***</div>
 
     <div class="as-drawer-ayarlar-blok">
       <a class="as-drawer-oge" href="menu.html"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">⚙️</span><span class="as-drawer-etiket">Ayarlar</span><span class="as-drawer-hata-rozet" id="asAyarlarHataRozeti" hidden>0</span></a>
@@ -228,7 +229,7 @@
 
   <!-- Menü içi "yana açılan" alt menü paneli (30.09.2026, Abdullah'ın
        isteğiyle) — GENEL/tekrar kullanılabilir bir altyapı: hangi
-       etikete tıklandığı data-alt-menu="..." ile menu-cekmece.js'teki
+       etikete tıklandığı data-alt-menu="..." ile home-render.js'deki
        DRAWER_ALT_MENULERI tablosundan okunur ve bu TEK panel doldurulup
        tıklanan satırın yanına konumlandırılır. Yarın başka bir etikete
        (örn. Müşteri) alt menü eklemek için sadece o tabloya birkaç satır
@@ -263,20 +264,17 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="firebase-config.js?v=WG.021026.1510.710"></script>
-<script src="auth.js?v=WG.231026.1045.955"></script>
+<script src="auth.js?v=WG.161026.1130.829"></script>
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="ayarlar-sync.js?v=WG.091026.2250.757"></script>
-<script src="cihaz-data.js?v=WG.101026.1325.759"></script>
+<script src="cihaz-data.js?v=WG.251026.0430.1024"></script>
 <script src="home-data.js?v=WG.150926.1241.572"></script>
-<script src="customer-data.js?v=WG.201026.0610.857"></script>
+<script src="customer-data.js?v=WG.300926.1130.675"></script>
 <script src="hata-log.js?v=WG.140926.1412.560"></script>
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
 <script>RotaTakip.kaydet("home.html", "🏠 Ana Sayfa", true);</script>
-<!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) — çekmece
-     aç/kapat + izin filtreleme artık burada, tüm sayfalarla paylaşılan. -->
-<script src="menu-cekmece.js?v=WG.231026.1200.965"></script>
-<script src="home-render.js?v=WG.231026.1200.967"></script>
+<script src="home-render.js?v=WG.071026.2300.749"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
+<script src="bekleyen-islemler.js?v=WG.151026.1455.828"></script>
 </body>
 </html>

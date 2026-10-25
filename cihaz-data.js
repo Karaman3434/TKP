@@ -262,6 +262,84 @@ var CihazData = (function(){
     }catch(e){ geriBildir(false); }
   }
 
+  /* ---------- MANUEL CİHAZ GRUPLARI (25.10.2026, Abdullah'ın isteğiyle)
+     ----------
+     Otomatik gruplama (sonGirisHesabi) SADECE aynı HESAPLA giriş yapan
+     cihazları birleştirir. Abdullah aynı daveti/linki birden fazla kişiye
+     gönderip her biri KENDİ ayrı hesabıyla giriş yaptığında (örn. 3 ayrı
+     "Yasin" hesabı, aynı link üzerinden) otomatik gruplama bunları
+     birleştiremez — bu yüzden Abdullah'ın kendi seçtiği cihazları, kendi
+     verdiği bir isimle ELLE gruplayabilmesi gerekiyor. Firebase'de
+     "cihazManuelGruplari/{grupId}" altında saklanır:
+       { isim: "Yasin (Tüm Telefonları)", cihazlar: {cihazId1:true,...},
+         olusturma: <ms> }
+     2'den az cihazı kalan bir grup artık "grup" sayılmaz ve otomatik
+     olarak tamamen silinir (bkz. manuelGruptanCikar). */
+  function manuelGruplariDinle(fn){
+    try{
+      baslat();
+      firebase.database().ref("cihazManuelGruplari").on("value", function(snap){
+        fn(snap.val() || {});
+      });
+    }catch(e){}
+  }
+
+  function manuelGrupOlustur(isim, cihazIdleri, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      isim = String(isim||"").trim();
+      if(!isim){ cb(false, "Grup adı boş olamaz."); return; }
+      if(!cihazIdleri || cihazIdleri.length < 2){ cb(false, "En az 2 cihaz seçmelisin."); return; }
+      baslat();
+      var cihazlarObj = {};
+      cihazIdleri.forEach(function(id){ cihazlarObj[id] = true; });
+      firebase.database().ref("cihazManuelGruplari").push({
+        isim: isim, cihazlar: cihazlarObj, olusturma: Date.now()
+      }).then(function(){ cb(true); }).catch(function(err){ cb(false, err.message); });
+    }catch(e){ cb(false, e.message); }
+  }
+
+  function manuelGrubuYenidenAdlandir(grupId, yeniIsim, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      yeniIsim = String(yeniIsim||"").trim();
+      if(!grupId || !yeniIsim){ cb(false, "Grup adı boş olamaz."); return; }
+      baslat();
+      firebase.database().ref("cihazManuelGruplari/" + grupId + "/isim").set(yeniIsim)
+        .then(function(){ cb(true); }).catch(function(err){ cb(false, err.message); });
+    }catch(e){ cb(false, e.message); }
+  }
+
+  // Bir cihazı manuel gruptan çıkarır. Kalan cihaz sayısı 2'nin altına
+  // düşerse (0 veya 1) grup artık "grup" sayılmaz, tamamen silinir — tek
+  // kalan cihaz normal tekli karta geri döner.
+  function manuelGruptanCikar(grupId, cihazId, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      if(!grupId || !cihazId){ cb(false, "Cihaz gruptan çıkarılamadı."); return; }
+      baslat();
+      var db = firebase.database();
+      db.ref("cihazManuelGruplari/" + grupId + "/cihazlar/" + cihazId).remove().then(function(){
+        return db.ref("cihazManuelGruplari/" + grupId + "/cihazlar").once("value");
+      }).then(function(snap){
+        var kalanlar = snap.val() || {};
+        if(Object.keys(kalanlar).length < 2){
+          return db.ref("cihazManuelGruplari/" + grupId).remove();
+        }
+      }).then(function(){ cb(true); }).catch(function(err){ cb(false, err.message); });
+    }catch(e){ cb(false, e.message); }
+  }
+
+  function manuelGrubuDagit(grupId, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      if(!grupId){ cb(false, "Grup kimliği eksik."); return; }
+      baslat();
+      firebase.database().ref("cihazManuelGruplari/" + grupId).remove()
+        .then(function(){ cb(true); }).catch(function(err){ cb(false, err.message); });
+    }catch(e){ cb(false, e.message); }
+  }
+
   return {
     benimIdim: benimIdim,
     benimAdim: benimAdim,
@@ -278,7 +356,12 @@ var CihazData = (function(){
     onaylaCihazi: onaylaCihazi,
     benEngelliMiyim: benEngelliMiyim,
     aktifAyniIsimdeBaskaCihazBulAsync: aktifAyniIsimdeBaskaCihazBulAsync,
-    cihaziSil: cihaziSil
+    cihaziSil: cihaziSil,
+    manuelGruplariDinle: manuelGruplariDinle,
+    manuelGrupOlustur: manuelGrupOlustur,
+    manuelGrubuYenidenAdlandir: manuelGrubuYenidenAdlandir,
+    manuelGruptanCikar: manuelGruptanCikar,
+    manuelGrubuDagit: manuelGrubuDagit
   };
 
 })();
