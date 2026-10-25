@@ -110,12 +110,16 @@
 }
 .ay-bolum-baslik:first-of-type { margin-top: 4px; }
 
-/* EKLENDİ (25.10.2026, "manuel cihaz gruplama" özelliği, Abdullah'ın
-   isteğiyle) — bölüm başlığının yanına bir aksiyon düğmesi (örn. cihaz-
-   kullanici.html'deki "☑️ Seç") koymak için; .ay-bolum-baslik'in kendi
-   margin'i değişmesin diye içindeki başlık inline style ile margin:0
-   alır (bkz. cihaz-kullanici.html). */
-.ay-bolum-baslik-satir { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 18px 2px 8px; }
+/* EKLENDİ (25.10.2026, "manuel cihaz gruplama" özelliği) — bölüm başlığının
+   yanına "☑️ Seç" düğmesi koymak için (bkz. cihaz-kullanici.html). Satırın
+   kendisi dış boşluğu üstleniyor, içindeki .ay-bolum-baslik (style="margin:0"
+   ile birlikte) kendi boşluğunu bırakıyor ki çift boşluk oluşmasın. */
+.ay-bolum-baslik-satir {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 18px 2px 8px;
+}
 .ay-bolum-baslik-satir .ay-bolum-baslik { margin: 0; }
 
 .ay-nav-liste { border: 1.5px solid #e3e7ee; border-radius: 14px; overflow: hidden; background: #fff; }

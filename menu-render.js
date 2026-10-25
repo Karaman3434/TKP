@@ -1,10 +1,11 @@
 /*
-  menu-render.js
+  menu-render.js — VERSİYON: WG.251026.1030.1026
   ==============
   Menü artık sadece liste + 1 doğrudan aksiyon (Çıkış Yap). Ayarlar/
-  Şablonlar/Veri kendi sayfalarında. "PIN Değiştir" artık burada değil —
-  (25.10.2026, Abdullah'ın isteğiyle) cihaz-kullanici-render.js'e taşındı,
-  bkz. oradaki ckUygulamaPinDegistirTiklandi.
+  Şablonlar/Veri kendi sayfalarında. "🔐 Uygulama PIN Değiştir" artık
+  buradan DEĞİL, "Cihazlar ve Kullanıcılar" sayfasından yönetiliyor
+  (25.10.2026, Abdullah'ın isteğiyle — bkz. cihaz-kullanici-render.js'teki
+  ckUygulamaPinDegistirTiklandi).
 */
 
 function hataGoster(mesaj){
