@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.231026.1200.972 — bakiye-urunler.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.261026.0820.1058 — bakiye-urunler.html -->
+<!-- GÜNCELLEME (26.10.2026, Abdullah onayı) — başlık/sekme adı "Bakiyedeki
+     Ürünler" → "Bakiye ve Bekleyen Ürünler" (liste/davranış AYNI — bu ekran
+     zaten hem tamamen bekleyen hem kısmi bakiyedeki ürünleri birlikte
+     gösteriyordu; bkz. menu-cekmece.js'teki aynı değişiklik). -->
 <!--
   "Bakiyedeki Ürünler" (07.10.2026, Abdullah'ın isteğiyle) — stokta tam
   olmayıp müşteride bakiyede bırakılan ürün satırlarını tek listede
@@ -16,7 +20,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="İş Takip">
-<title>İş Takip — Bakiyedeki Ürünler</title>
+<title>İş Takip — Bakiye ve Bekleyen Ürünler</title>
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
@@ -65,7 +69,7 @@
 
     <nav class="as-drawer-liste" id="asDrawerListe"></nav>
 
-    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.231026.1200.972 ***</div>
+    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.261026.0820.1058 ***</div>
 
     <div class="as-drawer-ayarlar-blok">
       <a class="as-drawer-oge" href="menu.html"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">⚙️</span><span class="as-drawer-etiket">Ayarlar</span><span class="as-drawer-hata-rozet" id="asAyarlarHataRozeti" hidden>0</span></a>
@@ -80,7 +84,7 @@
   </div>
 </div>
 <div class="sayfa-rota-serit">
-  <span class="sayfa-rota-serit-isim">📦 Bakiyedeki Ürünler</span>
+  <span class="sayfa-rota-serit-isim">📦 Bakiye ve Bekleyen Ürünler</span>
   <span class="sayfa-rota-serit-rota">Raporlar</span>
 </div>
 
@@ -111,6 +115,6 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=WG.231026.1200.965"></script>
+<script src="menu-cekmece.js?v=WG.261026.0820.1056"></script>
 </body>
 </html>

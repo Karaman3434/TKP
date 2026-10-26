@@ -1,4 +1,8 @@
-// menu-cekmece.js — WG.261026.0145.1044
+// menu-cekmece.js — WG.261026.0820.1056
+// GÜNCELLEME (26.10.2026, Abdullah onayı) — "Bakiyedeki Ürünler" etiketi,
+// bu ekranın "tamamen bekleyen" + "kısmi bakiyede" ürünleri BİRLİKTE
+// gösterdiğini daha net yansıtsın diye "Bakiye ve Bekleyen Ürünler" olarak
+// değiştirildi (davranış/liste AYNI — sadece etiket).
 // ============================================================================
 // MENÜ ÇEKMECESİ — TÜM SAYFALARDA PAYLAŞILAN TEK KAYNAK (23.10.2026,
 // Abdullah'ın isteğiyle — mockup onaylandı: "Okey tamam kodlayalım").
@@ -67,7 +71,7 @@ var DRAWER_ALT_MENULERI = {
       {ikon:"📌", etiket:"Görevlerim", href:"gorevler.html"},
       {ikon:"📆", etiket:"Ziyaret Takvimi", href:"ziyaret.html"},
       {ikon:"❌", etiket:"Kaçan Satışlar", href:"kacan-satislar.html"},
-      {ikon:"📦", etiket:"Bakiyedeki Ürünler", href:"bakiye-urunler.html"}
+      {ikon:"📦", etiket:"Bakiye ve Bekleyen Ürünler", href:"bakiye-urunler.html"}
     ]
   },
   musteri: {
