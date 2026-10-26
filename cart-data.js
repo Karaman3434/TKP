@@ -1,5 +1,5 @@
 /*
-  cart-data.js
+  cart-data.js — WG.261026.0745.1055
   ============
   TEK görevi: sepet verisini (product-data.js ile PAYLAŞILAN localStorage
   anahtarı üzerinden) okumak/güncellemek ve fiyat hesaplama formüllerini
@@ -50,12 +50,16 @@ var CartData = (function(){
     }catch(e){ console.error("Sepet yedeği okunamadı:", e); }
   }
 
+  // DÜZELTME (26.10.2026): artık yazma Promise'ini GERİ DÖNDÜRÜYOR — aşağıdaki
+  // sifirla(callback) bu Promise'i bekleyip Firebase yedeği GERÇEKTEN
+  // boşaldıktan SONRA navigasyona izin verebilsin diye (bkz. aşağıdaki not).
+  // Normal kaydet() akışını DEĞİŞTİRMEDİ, o hâlâ "fire and forget".
   function fbKaydet(){
-    if(!fbUid || typeof firebase === "undefined") return;
+    if(!fbUid || typeof firebase === "undefined") return null;
     try{
-      firebase.database().ref(fbYoluAl()).set({sepet: sepet, zaman: Date.now()})
+      return firebase.database().ref(fbYoluAl()).set({sepet: sepet, zaman: Date.now()})
         .catch(function(err){ console.error("Sepet yedeği Firebase'e yazılamadı:", err); });
-    }catch(e){ console.error("Sepet yedeği Firebase'e yazılamadı:", e); }
+    }catch(e){ console.error("Sepet yedeği Firebase'e yazılamadı:", e); return null; }
   }
 
   try{
@@ -68,6 +72,44 @@ var CartData = (function(){
   function kaydet(){
     try{ localStorage.setItem(SEPET_KEY, JSON.stringify(sepet)); }catch(e){}
     fbKaydet();
+  }
+
+  // HATA DÜZELTMESİ (26.10.2026, Abdullah'ın bildirdiği kritik hata —
+  // "İptal ediyorum ama sepet silinmiyor, yeniden hazır hale gelmiyor"):
+  // İKİ AYRI SORUN BİRLİKTE BULUNDU:
+  // 1) "İşlemi İptal Et" bu modülün HİÇ bilmediği şekilde doğrudan
+  //    localStorage["weiconv2_sepet"]'i "[]" yazıyordu (bkz. cart-render.js
+  //    herSeyiSifirlaVeGit) — ama yukarıdaki "sepet" DEĞİŞKENİ (bu modülün
+  //    asıl kaynağı, CartData.liste()/sayfayiCiz() hep BUNU okur) hiç
+  //    güncellenmiyordu.
+  // 2) DAHA DERİN SORUN — YARIŞ DURUMU: hatta #1 CartData.sifirla() ile
+  //    düzeltilse bile, Firebase'e yazma (fbKaydet) ASENKRON — "İşlemi
+  //    İptal Et" hemen arkasından window.location.href ile BAŞKA SAYFAYA
+  //    (home.html) gidiyor, sayfa değişince Firebase yazması YARIDA
+  //    KESİLEBİLİYOR. Yeni sayfa açılınca "weiconAuthHazir" yine ateşleniyor,
+  //    fbYukle() çalışıyor, Firebase'de HÂLÂ ESKİ (boşaltılmamış) yedeği
+  //    görüyor, "sepet bu cihazda boş" kuralına uyduğu için GERİ YÜKLÜYOR —
+  //    yani iptal, az sonra Firebase'in kendi yedeğiyle SESSİZCE GERİ
+  //    ALINIYORDU. Artık sifirla(callback): Firebase yazması bitene KADAR
+  //    (ya da 1.2sn içinde bitmezse — çevrimdışı/yavaş bağlantı güvenlik
+  //    ağı) callback'i (navigasyonu) ERTELİYOR, böylece yedek GERÇEKTEN
+  //    boşalmadan sayfa değişmiyor.
+  function sifirla(callback){
+    sepet = [];
+    try{ localStorage.setItem(SEPET_KEY, JSON.stringify(sepet)); }catch(e){}
+    var soz = fbKaydet();
+    var tamamlandiMi = false;
+    function bitir(){
+      if(tamamlandiMi) return;
+      tamamlandiMi = true;
+      if(typeof callback === "function") callback();
+    }
+    if(soz && typeof soz.then === "function"){
+      soz.then(bitir).catch(bitir);
+      setTimeout(bitir, 1200);
+    } else {
+      bitir();
+    }
   }
 
   function liste(){ return sepet; }
@@ -185,6 +227,7 @@ var CartData = (function(){
 
   return {
     liste: liste,
+    sifirla: sifirla,
     sil: sil,
     ekle: ekle,
     alaniGuncelle: alaniGuncelle,

@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.261026.0240.1052
+  cart-render.js — WG.261026.0745.1054
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -8,6 +8,11 @@
   aşama seçimi dahil) — ikinci bir onay ekranına gerek yok; başarılı kayıt
   sonrası: "Kaydet" -> Ana Sayfa, "📨 Önizleme İletişim" -> send.html?ac=iletisim
   (doğrudan Mail/WhatsApp kanal seçimi açık gelir, bkz. aşağıdaki not).
+  26.10.2026 — KRİTİK HATA DÜZELTMESİ: sepeti sıfırlayan 3 yer de (İşlemi
+  İptal Et, Kaydet sonrası Ana Sayfa, Müşterisiz Gönder sonrası) artık
+  CartData.sifirla() kullanıyor — doğrudan localStorage yazmak CartData'nın
+  bellek içi dizisini boş bırakıyordu, bu da "iptal ediyorum ama sepet hâlâ
+  dolu görünüyor" hatasına yol açıyordu (bkz. cart-data.js).
 */
 
 function hataGoster(mesaj){
@@ -575,7 +580,11 @@ function oncedenSecilenTipVarsaUygula(){
 // Et" akışlarıyla AYNI şekilde temizlenir. Form görüntüleme/gönderme için
 // "📋 Formu Görüntüle" butonu (niyet = "gonder") eskisi gibi send.html'e gider.
 function kaydetSonrasiAnaSayfayaGit(){
-  try{ localStorage.setItem("weiconv2_sepet", "[]"); }catch(e){}
+  // KRİTİK HATA DÜZELTMESİ (26.10.2026) — bkz. herSeyiSifirlaVeGit'teki aynı
+  // yorum: CartData.sifirla(callback) kullanılıyor — hem bellek içi "sepet"
+  // dizisini boşaltıyor HEM DE navigasyonu Firebase yedeği gerçekten
+  // boşalana (ya da en fazla 1.2sn sonra) kadar erteliyor; yoksa home.html'in
+  // kendi fbYukle()'si eski yedeği geri yükleyip burayı da etkileyebilirdi.
   try{ CustomerData.secimiKaldir(); }catch(e){}
   ["weiconv2_sepet_kur_override","weiconv2_onceden_secilen_tip","weiconv2_hesapla_duzenle_idx",
    "weiconv2_ilerlet_kaynak","weiconv2_islem_yap_akisi","weiconv2_secili_iletisim",
@@ -583,7 +592,9 @@ function kaydetSonrasiAnaSayfayaGit(){
    "weiconv2_musteri_donus_sayfa","weiconv2_musteri_arama_durumu"].forEach(function(k){
     try{ localStorage.removeItem(k); }catch(e){}
   });
-  window.location.href = "home.html";
+  CartData.sifirla(function(){
+    window.location.href = "home.html";
+  });
 }
 
 function kaydetGercekIslem(niyet){
@@ -776,8 +787,12 @@ function musterisizOnizlemeAc(){
 // yerinde sıfırla — hiçbir window.location değişikliği yok, dolayısıyla
 // yarış durumu da yok. Gecikmeye de artık gerek kalmadı.
 function musterisizSepetiSifirla(){
+  // KRİTİK HATA DÜZELTMESİ (26.10.2026) — bkz. herSeyiSifirlaVeGit'teki
+  // aynı yorum: burada navigasyon da YOK (bilerek — yukarıdaki yorum),
+  // sayfayiCiz() HEMEN arkadan çağrılıyor — CartData'nın bellek içi dizisi
+  // gerçekten boşalmazsa sepet EKRANDA DA sıfırlanmış görünmezdi.
   try{
-    localStorage.setItem("weiconv2_sepet", "[]");
+    CartData.sifirla();
     localStorage.removeItem("weiconv2_sepet_kur_override");
   }catch(e){}
   var overlay = document.getElementById("musterisizGonderOverlay");
@@ -867,17 +882,35 @@ document.addEventListener("DOMContentLoaded", function(){
 
   // İşlemi İptal Onay Popup — SADECE "🗑️ İşlemi İptal Et" butonu kullanıyor
   // (02.10.2026: "Geri" tuşu artık bunu tetiklemiyor, bkz. yukarısı).
+  // KRİTİK HATA DÜZELTMESİ (26.10.2026, Abdullah'ın bildirdiği hata —
+  // "iptal ediyorum ama silmiyor, yeniden hazır hale getirmiyor"):
+  // burada DOĞRUDAN localStorage["weiconv2_sepet"]'e "[]" yazılıyordu —
+  // ama CartData modülünün KENDİ bellek içi "sepet" dizisi (sayfayiCiz'in
+  // GERÇEKTEN okuduğu kaynak) hiç haberdar edilmiyordu. Arkadan gelen
+  // herhangi bir kaydet() çağrısı (sil/ekle/alaniGuncelle) ya da Firebase
+  // yedeği (fbYukle) o eski dolu diziyi geri yazıp iptali boşa çıkarabiliyordu
+  // — ekranda ürün hâlâ duruyor gibi görünmesinin asıl sebebi buydu. Artık
+  // CartData.sifirla() çağrılıyor (bkz. cart-data.js) — hem bellek hem
+  // localStorage hem Firebase yedeği TEK seferde, tutarlı şekilde boşalıyor.
+  // CustomerData.secimiKaldir() de artık kendi try/catch'i içinde — orada
+  // beklenmedik bir hata çıksa bile sepet sıfırlama ve yönlendirme ASLA
+  // yarıda kalmasın diye.
   function herSeyiSifirlaVeGit(hedefUrl){
-    localStorage.setItem("weiconv2_sepet", "[]");
     localStorage.removeItem("weiconv2_sepet_kur_override");
-    CustomerData.secimiKaldir();
+    try{ CustomerData.secimiKaldir(); }catch(e){}
     try{
       localStorage.removeItem("weiconv2_onceden_secilen_tip");
       localStorage.removeItem("weiconv2_hesapla_duzenle_idx");
       localStorage.removeItem("weiconv2_ilerlet_kaynak");
       localStorage.removeItem("weiconv2_islem_yap_akisi");
     }catch(e){}
-    window.location.href = hedefUrl;
+    // YARIŞ DURUMU DÜZELTMESİ (26.10.2026, bkz. cart-data.js sifirla() yorumu):
+    // navigasyon artık Firebase yedeği GERÇEKTEN boşaldıktan (ya da en fazla
+    // 1.2sn sonra) SONRA tetikleniyor — yoksa yeni sayfadaki fbYukle() eski
+    // yedeği geri yükleyip iptali sessizce boşa çıkarabiliyordu.
+    CartData.sifirla(function(){
+      window.location.href = hedefUrl;
+    });
   }
   var iptalOnayHedefUrl = null;
   function iptalOnayGoster(hedefUrl){
