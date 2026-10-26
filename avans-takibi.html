@@ -1,6 +1,23 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.231026.1200.970 — avans-takibi.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.261026.1645.1065 — avans-takibi.html -->
 <!--
+  26.10.2026 (Abdullah onayı, mockup üzerinden: "Okey kesinlikle bu
+  tasarımı istiyorum kodlayalım") — sayfaya girince artık ÖNCE "Yıllık
+  KM Ödeme" (yillik-km-odeme.html) ile AYNI Excel/tablo tarzında bir
+  "{yıl} — Avans Tablosu" görünür: üstte 3 özet kutusu (ÇEKİLEN AVANS /
+  FATURALANDIRILAN / KALAN AVANS — tüm yılın toplamı) + altında, o yılın
+  Ocak'tan (bu ayki) açık döneme kadarki aylarını satır satır listeleyen
+  bir tablo (bkz. #avTabloGorunumu). Bir aya dokununca eski/mevcut
+  ayrıntı ekranı (AVANS EKLE / HARCAMALAR formları ya da kapalı dönem
+  özeti — hiçbiri değişmedi) açılır (bkz. #avAyrintiGorunumu,
+  "‹ Aylara Dön" ile geri dönülür). Eski "GEÇMİŞ AVANSLAR" tablosu
+  (#avGecmisSection) kaldırıldı — yeni yıllık tablo onun yerini daha
+  zengin bilgiyle (Çekilen/Faturalandırılan ayrımı dahil) alıyor.
+  Kullanılan bileşenler km-style.css'ten AYNEN alındı (.km-tablo-baslik-
+  satir, .excel-buton, .km-toplam-kutu, .data-table-container/.km-veri-
+  tablo) — bkz. avans-takibi-style.css'teki yeni eklenen birkaç kural
+  (yeşil kutu varyantı, 3'lü ızgara, durum renkleri).
+  =====================================================================
   İŞ TAKİP V2 — VERSİYON: WG.211026.1700.867 — avans-takibi.html
   =====================================================================
   AVANS TAKİBİ — Özel Avans ve İş Avansı (+ belgeleme harcamaları) için
@@ -40,7 +57,10 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
 <link rel="stylesheet" href="odenebilir-komisyon-style.css?v=WG.121026.1455.777">
 <link rel="stylesheet" href="maas-hesaplama-style.css?v=WG.021026.1910.713">
-<link rel="stylesheet" href="avans-takibi-style.css?v=WG.021026.1940.714">
+<!-- EKLENDİ (26.10.2026, "Yıllık Avans Tablosu" — mockup onaylandı) —
+     yillik-km-odeme.html ile AYNI tablo/kutu bileşenleri. -->
+<link rel="stylesheet" href="km-style.css?v=WG.031026.1900.722">
+<link rel="stylesheet" href="avans-takibi-style.css?v=WG.261026.1645.1063">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.231026.1051.962">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=WG.231026.1200.966">
@@ -84,7 +104,7 @@
 
     <nav class="as-drawer-liste" id="asDrawerListe"></nav>
 
-    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.231026.1200.970 ***</div>
+    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.261026.1645.1065 ***</div>
 
     <div class="as-drawer-ayarlar-blok">
       <a class="as-drawer-oge" href="menu.html"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">⚙️</span><span class="as-drawer-etiket">Ayarlar</span><span class="as-drawer-hata-rozet" id="asAyarlarHataRozeti" hidden>0</span></a>
@@ -103,7 +123,51 @@
   <span class="sayfa-rota-serit-rota">Raporlar › Maaş</span>
 </div>
 
-<main class="sayfa">
+<main class="sayfa kmk-sayfa">
+
+  <!-- YENİ İNİŞ EKRANI (26.10.2026, Abdullah onayı) — sayfaya girince
+       ÖNCE bu görünür: üstte 3 özet kutusu + altta yıllık, Excel tarzı
+       ay ay tablo. Bir aya dokununca #avAyrintiGorunumu açılır. -->
+  <div id="avTabloGorunumu">
+    <div class="km-tablo-baslik-satir">
+      <div class="km-tablo-baslik" id="avYilBaslik">— Avans Tablosu</div>
+      <div class="km-tablo-baslik-butonlar">
+        <button type="button" class="excel-buton" id="btnAvExcel">📊 Excel'e Aktar</button>
+      </div>
+    </div>
+
+    <section class="km-toplam-satir av-toplam-satir-3" id="avYilOzetKutular">
+      <div class="km-toplam-kutu km-toplam-kutu--is-dolu">
+        <div class="km-toplam-kutu-etiket">ÇEKİLEN AVANS</div>
+        <div class="km-toplam-kutu-deger" id="avYilCekilen">0,00 TL</div>
+      </div>
+      <div class="km-toplam-kutu km-toplam-kutu--yesil-dolu">
+        <div class="km-toplam-kutu-etiket">FATURALANDIRILAN</div>
+        <div class="km-toplam-kutu-deger" id="avYilFatura">0,00 TL</div>
+      </div>
+      <div class="km-toplam-kutu km-toplam-kutu--kalan">
+        <div class="km-toplam-kutu-etiket">KALAN AVANS</div>
+        <div class="km-toplam-kutu-deger" id="avYilKalan">0,00 TL</div>
+      </div>
+    </section>
+
+    <div class="data-table-container" id="avYilTabloKutu">
+      <table class="data-table km-veri-tablo av-yil-tablo">
+        <thead><tr>
+          <th>Ay</th><th>Çekilen<br>Avans</th><th>Faturalandırılan</th><th>Kalan<br>Avans</th><th>Durum</th>
+        </tr></thead>
+        <tbody id="avYilTabloGovde"></tbody>
+      </table>
+    </div>
+    <p class="bos-mesaj" id="avYilBos" hidden>Bu yıl için henüz avans kaydı yok.</p>
+    <p style="font-size:11px; color:#8a8f98; margin-top:8px;">↕ Bir aya dokununca o ayın ayrıntı ekranı (avans ekleme / harcama belgeleme) açılır.</p>
+  </div>
+
+  <!-- AYRINTI EKRANI (26.10.2026) — bir aya dokununca açılır; tüm içeriği
+       27.09.2026/02.10.2026 tasarımından AYNEN (değişmeden) taşındı,
+       sadece bu sarmalayıcı ve üstteki "‹ Aylara Dön" düğmesi yeni. -->
+  <div id="avAyrintiGorunumu" hidden>
+  <button type="button" class="av-aylara-don-btn" id="btnAvAylaraDon">‹ Aylara Dön</button>
 
   <!-- DÖNEM BARI (27.09.2026 tasarım, 02.10.2026 revize): ‹ › okları
        (veya kaydırarak) ile aya geçilir. "+ Yeni Ay" düğmesi kaldırıldı —
@@ -198,20 +262,13 @@
     <button type="button" id="btnAvManuelKaydet2" class="av-manuel-kaydet-btn">💾 Bilgileri Kaydet</button>
   </section>
 
-  <!-- GEÇMİŞ AVANSLAR (02.10.2026, Abdullah'ın isteğiyle) — kapanmış tüm
-       avans dönemlerini, tutar ve maaşa dahil edilip edilmediğiyle
-       (bekliyor / hangi aya dahil edildi) tek tabloda gösterir. -->
-  <section class="ok-kutu" id="avGecmisSection" hidden>
-    <div class="mh-kutu-baslik-satir">📋 GEÇMİŞ AVANSLAR — kesinti durumu</div>
-    <table class="mh-harcama-tablo av-gecmis-tablo">
-      <thead><tr><th>DÖNEM</th><th>TUTAR</th><th>DURUM</th></tr></thead>
-      <tbody id="avGecmisTabloGovde"></tbody>
-    </table>
-    <p class="bos-mesaj" id="avGecmisOzet"></p>
-  </section>
+  </div><!-- /#avAyrintiGorunumu -->
 
 </main>
 
+<!-- EKLENDİ (26.10.2026, "Yıllık Avans Tablosu" — Yıllık KM Ödeme'yle AYNI
+     kütüphane) — sadece "📊 Excel'e Aktar" için. -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -220,10 +277,10 @@
 <script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
 <script src="maas-kayit-data.js?v=WG.270926.2340.653"></script>
 <script src="avans-kayit-data.js?v=WG.021026.1835.712"></script>
-<script src="avans-takibi-render.js?v=WG.021026.1940.714"></script>
+<script src="avans-takibi-render.js?v=WG.261026.1645.1064"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=WG.231026.1200.965"></script>
+<script src="menu-cekmece.js?v=WG.261026.0820.1056"></script>
 </body>
 </html>

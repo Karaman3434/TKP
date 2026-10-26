@@ -183,3 +183,37 @@
 }
 .av-gecmis-durum--bekliyor { background: #fdf2e3; color: #b7601f; border: 1.5px solid #e0a94a; }
 .av-gecmis-durum--tamam { background: #eafaf0; color: #0e6b34; border: 1.5px solid #0e6b34; }
+
+/* ============================================================
+   YENİ (26.10.2026, Abdullah onayı — mockup üzerinden: "Okey kesinlikle
+   bu tasarımı istiyorum kodlayalım") — "{yıl} — Avans Tablosu" iniş
+   ekranı. km-style.css'teki .km-tablo-baslik-satir / .excel-buton /
+   .km-toplam-satir+.km-toplam-kutu / .data-table-container+.km-veri-
+   tablo bileşenleri AYNEN kullanıldı (değiştirilmedi) — burada sadece
+   onlarda eksik olanlar eklendi: yeşil "dolu" kutu varyantı (mevcut
+   --is-dolu/--ozel-dolu/--kalan ile AYNI kalıpta, rengi home-style.css
+   .kart--koyu-yesil ile aynı #0e6b58), 3'lü ızgara (mevcut
+   .km-toplam-satir 2 sütunlu), satır tıklanabilirlik görünümü ve DURUM
+   metin renkleri. ============================================== */
+.km-toplam-kutu--yesil-dolu { background: #0e6b58; color: #fff; }
+
+.av-toplam-satir-3 { grid-template-columns: repeat(3, 1fr); }
+.av-toplam-satir-3 .km-toplam-kutu-etiket { font-size: 8.5px; letter-spacing: 0; }
+.av-toplam-satir-3 .km-toplam-kutu-deger { font-size: 14px; }
+.av-toplam-satir-3 .km-toplam-kutu { padding: 8px 5px; }
+
+.av-yil-tablo tbody tr { cursor: pointer; }
+.av-yil-tablo tbody tr:active { background: #faeeda; }
+.av-durum-acik { color: #003a70; font-weight: 800; }
+.av-durum-tamam { color: #0e6b34; font-weight: 800; }
+.av-durum-bekliyor { color: #b7601f; font-weight: 800; }
+
+.av-aylara-don-btn {
+  background: none;
+  border: none;
+  color: #003a70;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 6px 2px;
+  margin-bottom: 8px;
+}
