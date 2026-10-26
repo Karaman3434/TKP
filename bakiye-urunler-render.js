@@ -1,6 +1,16 @@
 /*
-  bakiye-urunler-render.js — WG.211026.2235.921
+  bakiye-urunler-render.js — WG.261026.0845.1059
   ================================================
+  GÜNCELLEME (26.10.2026, Abdullah onayı — mockup üzerinden: "Evet, bu
+  tasarımı onaylıyorum, kodlayın" + "önce tamamen bekleyenler" sırası
+  onaylandı): Liste artık TEK birleşik blok değil, İKİ AYRI başlıklı bölüm
+  olarak çiziliyor — "🚫 Stokta Hiç Yok — Sipariş Bekliyor" (adet<=0) ÖNCE,
+  "📦 Bakiyede Kalan (Kısmen Teslim Edildi)" (adet>0) SONRA. Veri kaynağı
+  ve kart tasarımı (bakiyeKartHTML) DEĞİŞMEDİ — sadece gruplama ve başlık
+  katmanı eklendi (bkz. bolumHTML()). Mevcut .bekleyen-blok/.bekleyen-baslik/
+  .tl-liste-kutu sınıfları (satis-listesi-render.js'teki "BEKLEYEN ÜRÜNLER"
+  bölümüyle AYNI, reports-style.css) birebir yeniden kullanıldı — yeni CSS
+  eklenmedi.
   "Bakiyedeki / Bekleyen Ürünler" ekranı — stokta tam olmayıp müşteride
   bekleyen/bakiyede bırakılan ürün SATIRLARINI (ReportsData.
   bakiyedekiUrunler(), reports-data.js) tek bir listede gösterir.
@@ -105,12 +115,24 @@ function ayniMusteriMi(kayitAd, kayitId, seciliAd, seciliId){
 // bileşeni, DOMContentLoaded içinde kurulup buraya atanır.
 var tarihFiltreKontrol = null;
 
+// Bir bölümün başlık şeridini (mevcut .bekleyen-baslik — satis-listesi-
+// render.js'teki "BEKLEYEN ÜRÜNLER" bölümüyle AYNI sınıf) + ya kart
+// listesini ya da "bu bölüm boş" mesajını üretir. Hem "🚫 Stokta Hiç Yok"
+// hem "📦 Bakiyede Kalan" bölümü bu TEK fonksiyonu kullanır.
+function bolumHTML(baslikMetin, liste, bosMetin){
+  var ic = liste.length
+    ? "<div class='tl-liste-kutu'>" + liste.map(bakiyeKartHTML).join("<div class='bu-kart-ayrac'></div>") + "</div>"
+    : "<p class='bos-mesaj' style='margin:10px 12px;'>" + htmlEsc(bosMetin) + "</p>";
+  return "<div class='bekleyen-blok'>"
+    + "<div class='bekleyen-baslik'>" + htmlEsc(baslikMetin) + " — " + liste.length + " kayıt</div>"
+    + ic
+    + "</div>";
+}
+
 function listeyiCiz(){
   try{
     var tumSatirlar = ReportsData.bakiyedekiUrunler();
-    var kapsayici = document.getElementById("buListe");
-    var bos = document.getElementById("buBos");
-    var baslik = document.getElementById("buBaslik");
+    var govde = document.getElementById("buGovde");
 
     var musteriFiltre = musteriFiltresiniAlVeTemizle();
     var satirlar = musteriFiltre
@@ -119,24 +141,27 @@ function listeyiCiz(){
     if(tarihFiltreKontrol) satirlar = satirlar.filter(function(s){ return tarihFiltreKontrol.icindeMi(s.ts); });
 
     if(!satirlar.length){
-      kapsayici.innerHTML = "";
-      baslik.hidden = true;
-      bos.hidden = false;
-      bos.textContent = musteriFiltre
-        ? (musteriFiltre.ad + " için bakiyede bekleyen ürün yok.")
-        : "Bakiyede bekleyen ürün yok.";
+      govde.innerHTML = "<p class='bos-mesaj' style='margin:10px 12px;'>" + (musteriFiltre
+        ? (htmlEsc(musteriFiltre.ad) + " için bakiyede bekleyen ürün yok.")
+        : "Bakiyede bekleyen ürün yok.") + "</p>";
       return;
     }
-    bos.hidden = true;
-    baslik.hidden = false;
-    baslik.textContent = musteriFiltre
-      ? ("📦 " + musteriFiltre.ad.toLocaleUpperCase("tr-TR") + " — BEKLEYEN ÜRÜNLER — " + satirlar.length + " kayıt")
-      : "📦 BAKİYEDE BEKLEYEN ÜRÜNLER — " + satirlar.length + " kayıt";
 
     satirlar.forEach(function(s, i){ s._i = i; });
-    kapsayici.innerHTML = "<div class='tl-liste-kutu'>" + satirlar.map(bakiyeKartHTML).join("<div class='bu-kart-ayrac'></div>") + "</div>";
+    // AYRIM (26.10.2026, Abdullah'ın isteğiyle — "iki farklı terim"):
+    // "tamamen bekleyen" (adet<=0 — ürünün hiçbir kısmı teslim edilmemiş,
+    // sipariş TAMAMEN stok bekliyor) ile "kısmi bakiye" (adet>0 — bir
+    // kısmı zaten teslim edilmiş, kalanı bakiyede) artık İKİ AYRI bölümde,
+    // önce "tamamen bekleyen" (daha kritik) gösterilir.
+    var tamamenBekleyen = satirlar.filter(function(s){ return !((s.adet||0) > 0); });
+    var kismiBakiye = satirlar.filter(function(s){ return (s.adet||0) > 0; });
+    var musteriEk = musteriFiltre ? (musteriFiltre.ad.toLocaleUpperCase("tr-TR") + " — ") : "";
 
-    kapsayici.querySelectorAll(".bu-kart[data-i]").forEach(function(el){
+    govde.innerHTML =
+      bolumHTML("🚫 " + musteriEk + "STOKTA HİÇ YOK — SİPARİŞ BEKLİYOR", tamamenBekleyen, "Stokta hiç olmayıp tamamen bekleyen ürün yok.") +
+      bolumHTML("📦 " + musteriEk + "BAKİYEDE KALAN (KISMEN TESLİM EDİLDİ)", kismiBakiye, "Bakiyede kalan ürün yok.");
+
+    govde.querySelectorAll(".bu-kart[data-i]").forEach(function(el){
       el.onclick = function(){
         var s = satirlar[parseInt(this.getAttribute("data-i"), 10)];
         localStorage.setItem("weiconv2_goruntulenen_belge", JSON.stringify({tip:s.tip, ts:s.ts}));

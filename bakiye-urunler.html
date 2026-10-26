@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.261026.0820.1058 — bakiye-urunler.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.261026.0845.1060 — bakiye-urunler.html -->
 <!-- GÜNCELLEME (26.10.2026, Abdullah onayı) — başlık/sekme adı "Bakiyedeki
-     Ürünler" → "Bakiye ve Bekleyen Ürünler" (liste/davranış AYNI — bu ekran
-     zaten hem tamamen bekleyen hem kısmi bakiyedeki ürünleri birlikte
-     gösteriyordu; bkz. menu-cekmece.js'teki aynı değişiklik). -->
+     Ürünler" → "Bakiye ve Bekleyen Ürünler" (bkz. menu-cekmece.js'teki aynı
+     değişiklik). AYRICA (aynı gün, mockup onaylı — "Evet, bu tasarımı
+     onaylıyorum, kodlayın") — liste artık "🚫 Stokta Hiç Yok" ve "📦
+     Bakiyede Kalan" olarak İKİ AYRI bölüm (bkz. bakiye-urunler-render.js). -->
 <!--
   "Bakiyedeki Ürünler" (07.10.2026, Abdullah'ın isteğiyle) — stokta tam
   olmayıp müşteride bakiyede bırakılan ürün satırlarını tek listede
@@ -69,7 +70,7 @@
 
     <nav class="as-drawer-liste" id="asDrawerListe"></nav>
 
-    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.261026.0820.1058 ***</div>
+    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.261026.0845.1060 ***</div>
 
     <div class="as-drawer-ayarlar-blok">
       <a class="as-drawer-oge" href="menu.html"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">⚙️</span><span class="as-drawer-etiket">Ayarlar</span><span class="as-drawer-hata-rozet" id="asAyarlarHataRozeti" hidden>0</span></a>
@@ -94,10 +95,13 @@
     <div id="tarihFiltreYeri"></div>
   </div>
 
-  <div class="bekleyen-baslik" id="buBaslik" style="margin-bottom:8px;" hidden></div>
-  <div id="buListe"></div>
-
-  <p class="bos-mesaj" id="buBos" hidden>Bakiyede bekleyen ürün yok.</p>
+  <!-- GÜNCELLEME (26.10.2026, Abdullah onayı — mockup üzerinden: "Evet, bu
+       tasarımı onaylıyorum, kodlayın") — eskiden TEK birleşik liste
+       (buBaslik+buListe+buBos) buradaydı; artık "🚫 Stokta Hiç Yok" ve
+       "📦 Bakiyede Kalan" iki AYRI başlıklı bölüm olarak tek kapsayıcıya
+       (buGovde) bakiye-urunler-render.js tarafından yazılıyor — bkz. o
+       dosyadaki bolumHTML(). -->
+  <div id="buGovde"></div>
 
 </main>
 
@@ -111,7 +115,7 @@
 <script src="reports-safety-fix.js?v=WG.020926.1523.89"></script>
 <script src="hata-log.js?v=WG.130926.2010.553"></script>
 <script src="tarih-filtre.js?v=WG.211026.2100.906"></script>
-<script src="bakiye-urunler-render.js?v=WG.211026.2235.921"></script>
+<script src="bakiye-urunler-render.js?v=WG.261026.0845.1059"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
