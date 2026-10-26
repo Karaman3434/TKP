@@ -1,5 +1,5 @@
 /*
-  menu-cekmece-style.css — WG.231026.1200.966
+  menu-cekmece-style.css — WG.261026.1830.1067
   ============================================================================
   "Menü her sayfada" (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı).
   Bu dosya SADECE net-yeni sınıfları içerir:
@@ -71,3 +71,27 @@
   cursor: not-allowed;
 }
 .as-drawer-oge--kilitli:active { background: none; }
+
+/* ARAÇ KM DURUM ETİKETİ (26.10.2026, Abdullah onayı — mockup üzerinden:
+   "Ok süper kodlayalım onaylıyorum") — "Araç KM" satırı altında görünen
+   küçük durum yazısı. Yeni bir görsel dil icat etmek yerine, çekmecede
+   zaten var olan .as-drawer-profil > .as-drawer-isim-blok'taki "üstte
+   kalın etiket / altta küçük-soluk ikinci satır" kalıbı AYNEN tekrar
+   kullanıldı (bkz. home-anasayfa-style.css .as-drawer-isim/.as-drawer-
+   eposta) — sadece bu sefer liste satırı (.as-drawer-oge) içinde. */
+.as-drawer-etiket-blok {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.as-drawer-oge .as-drawer-etiket-blok .as-drawer-etiket { flex: none; }
+.as-drawer-km-durum {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #7fdba0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

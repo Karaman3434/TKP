@@ -1,8 +1,18 @@
-// menu-cekmece.js — WG.261026.0820.1056
+// menu-cekmece.js — WG.261026.1830.1066
 // GÜNCELLEME (26.10.2026, Abdullah onayı) — "Bakiyedeki Ürünler" etiketi,
 // bu ekranın "tamamen bekleyen" + "kısmi bakiyede" ürünleri BİRLİKTE
 // gösterdiğini daha net yansıtsın diye "Bakiye ve Bekleyen Ürünler" olarak
 // değiştirildi (davranış/liste AYNI — sadece etiket).
+// GÜNCELLEME (26.10.2026, Abdullah onayı — mockup üzerinden: "Ok süper
+// kodlayalım onaylıyorum") — "Araç KM" satırının altına, en son girilen
+// günün tarihi + km'si küçük bir durum satırı olarak eklendi (bkz.
+// mcAracKmDurumunuGetir / mcOgeHtml altındaki "aracKmDurum" dalı). Bu
+// durum SADECE "kmTakip" Firebase düğümünden TEK SEFERLİK (.once) okunur
+// — km-data.js'in TAMAMI (ödeme/çarpan/hak/not için 4 ayrı SÜREKLİ
+// dinleyici daha) bilerek buraya dahil edilmedi, çünkü bu dosya ~42
+// sayfanın HEPSİNDE yükleniyor ve o kadar sayfada 5 kalıcı dinleyici
+// başlatmak gereksiz yük olurdu. firebase SDK + app init zaten her
+// sayfada auth.js ile (menu-cekmece.js'ten ÖNCE) hazır oluyor.
 // ============================================================================
 // MENÜ ÇEKMECESİ — TÜM SAYFALARDA PAYLAŞILAN TEK KAYNAK (23.10.2026,
 // Abdullah'ın isteğiyle — mockup onaylandı: "Okey tamam kodlayalım").
@@ -52,7 +62,7 @@ var MC_OGELER = [
   { anahtarlar: ["musteriBul"], ikon: "👥", renk: "#5dade2", etiket: "Müşteri", altMenu: "musteri" },
   { anahtarlar: ["islemGecmisi"], ikon: "🕐", etiket: "Son İşlemler", href: "son-islemler.html" },
   { anahtarlar: ["markaKarsilastirma"], ikon: "🔄", renk: "#5dade2", etiket: "Marka Karşılaştırma", href: "marka-karsilastirma.html" },
-  { anahtarlar: ["kmTakip"], ikon: "🚗", renk: "#ec7063", etiket: "Araç KM", altMenu: "arackm" },
+  { anahtarlar: ["kmTakip"], ikon: "🚗", renk: "#ec7063", etiket: "Araç KM", altMenu: "arackm", aracKmDurum: true },
   { anahtarlar: ["raporlar", "satisListesi", "hareketler", "ziyaret", "takipGerekenler", "gorevler"], ikon: "📊", renk: "#f5b041", etiket: "Raporlar", altMenu: "raporlar" },
   { anahtarlar: ["vadeTakip"], ikon: "📄", etiket: "Fatura · Vade · Ödeme Takip", href: "vade-takip.html" },
   { anahtarlar: ["maasHesaplama", "netMaasHesaplama", "avansTakibi", "odenebilirKomisyon"], ikon: "🔒", renk: "#f5c451", etiket: "Kişisel", href: "kisisel.html" }
@@ -104,6 +114,39 @@ var DRAWER_ALT_MENULERI = {
     ]
   }
 };
+
+// ---------- ARAÇ KM DURUM ETİKETİ (26.10.2026) ----------
+// km-data.js'teki sonKayitliGunAnahtari() ile AYNI mantık (en son km
+// girilmiş günü bulur — "dün" değil, kronolojik olarak en son kayıtlı
+// gün), burada bağımsız/küçük bir kopyası — km-data.js'in TAMAMINI
+// yüklemeden. mcAracKmDurumMetni null ise (hiç kayıt yoksa) satır eski
+// haliyle (tek satır) görünür.
+var AY_ADLARI_KISA_MC = ["", "Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+var mcAracKmDurumMetni = null;
+
+function mcAracKmDurumunuGetir(){
+  try{
+    firebase.database().ref("kmTakip").once("value").then(function(snap){
+      var kayitlar = snap.val() || {};
+      var enSonAnahtar = null;
+      Object.keys(kayitlar).forEach(function(k){
+        var kayit = kayitlar[k];
+        if(!kayit || kayit.km===undefined || kayit.km===null || kayit.km==="") return;
+        if(!enSonAnahtar || k > enSonAnahtar) enSonAnahtar = k;
+      });
+      if(enSonAnahtar){
+        var parcalar = enSonAnahtar.split("-");
+        var gun = parseInt(parcalar[2], 10);
+        var ay = parseInt(parcalar[1], 10);
+        var kmMetni = Number(kayitlar[enSonAnahtar].km).toLocaleString("tr-TR");
+        mcAracKmDurumMetni = gun + " " + AY_ADLARI_KISA_MC[ay] + " · KM Girildi (" + kmMetni + ")";
+      } else {
+        mcAracKmDurumMetni = null;
+      }
+      mcDrawerListesiOlustur();
+    }).catch(function(err){ console.error("Araç KM durumu okunamadı:", err); });
+  }catch(e){}
+}
 
 var mcAltMenuAcikTetikleyici = null;
 
@@ -189,7 +232,12 @@ function mcOgeHtml(o){
   var acik = mcIzinliMi(o.anahtarlar);
   var ikonStil = o.renk ? " style='color:" + o.renk + ";'" : "";
   var ikHtml = "<span class='as-drawer-ikon'" + ikonStil + " aria-hidden='true'>" + o.ikon + "</span>";
-  var etHtml = "<span class='as-drawer-etiket'>" + o.etiket + "</span>";
+  var etHtml;
+  if(o.aracKmDurum && acik && mcAracKmDurumMetni){
+    etHtml = "<span class='as-drawer-etiket-blok'><span class='as-drawer-etiket'>" + o.etiket + "</span><span class='as-drawer-km-durum'>" + mcAracKmDurumMetni + "</span></span>";
+  } else {
+    etHtml = "<span class='as-drawer-etiket'>" + o.etiket + "</span>";
+  }
   var okHtml = "<span class='as-drawer-ok' aria-hidden='true'>" + (acik ? "›" : "🔒") + "</span>";
   if(!acik){
     if(o.altMenu){
@@ -283,6 +331,7 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 window.addEventListener("weiconAuthHazir", function(ev){
   mcDrawerListesiOlustur();
+  mcAracKmDurumunuGetir();
   try{
     var el = document.getElementById("asDrawerEposta");
     if(el && ev.detail && ev.detail.user) el.textContent = ev.detail.user.email;
