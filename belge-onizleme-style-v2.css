@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.271026.1235.1074
+  belge-onizleme-style-v2.css — WG.271026.2359.1182
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -220,6 +220,32 @@
 .belge-onizleme-sayfa .belge-yetkili-satir { font-size: 12.5px; }
 .belge-onizleme-sayfa .belge-yetkili-satir b { font-weight: 400; }
 .belge-onizleme-sayfa .belge-yetkili-detay { font-size: 12.5px; }
+
+/* ============================================================
+   CARİ BİLGİ SATIR ARALIKLARI DARALTILDI (27.10.2026, Abdullah onayı —
+   kırmızı kalemle işaretlenmiş ekran görüntüsü + ölçülü mockup
+   üzerinden, iki turda onaylandı): "Fatura Adresi / Teslimat Adresi /
+   Yetkili" kutusundaki satır araları gerçek/render edilmiş görsellerde
+   piksel piksel ölçülüp onaylandı — SADECE bu sayfaya özgü (".belge-
+   onizleme-sayfa" kapsamı), paylaşılan cari-kart-style.css'in .ck-*
+   temel kuralları DEĞİŞMEDİ — bu yüzden Sepet/Gönder/Cari Kart ekranları
+   bu değişiklikten ETKİLENMİYOR.
+
+   1. TUR — bloklar arası boşluk (Fatura→Teslimat / Teslimat→Yetkili
+   etiketleri: 7.9px->3px) + adres satırı ile altındaki telefon/e-posta
+   satırı arası (17px->7px).
+   2. TUR — etiketin (📄 FATURA ADRESİ vb.) KENDİ içeriğiyle arası
+   (3 yerde de: 7.8px->3px) + Yetkili'nin telefon/e-posta satırından
+   çerçevenin alt kenarına kadar olan boşluk (21px->3px).
+   Boşluklar daraldığı için ayraç çizgileri de hafifçe koyulaştırıldı
+   (#e1e6ea/#eef1f5 -> #a3adba) — bölümler arası ayrım artık çizgiye
+   dayanıyor. ============================================================ */
+.belge-onizleme-sayfa .ck-kart-iletisim { margin-top: 3px; padding-top: 3px; border-top-color: #a3adba; }
+.belge-onizleme-sayfa .ck-blok-etiket { padding-top: 3px; margin-top: 0; margin-bottom: 2px; }
+.belge-onizleme-sayfa .ck-blok { padding-bottom: 3px; margin-bottom: 0; border-bottom-color: #a3adba; }
+.belge-onizleme-sayfa .ck-kart { padding-top: 1px; padding-bottom: 1px; }
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve { padding-bottom: 1px; }
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .ck-blok:last-child { padding-bottom: 0; }
 
 /* ---- İŞLEM TÜRÜ RENGİ — isim önündeki büyük nokta, belge-render.js'teki
    TIP_RENK_BELGE paletiyle birebir aynı. ---- */
