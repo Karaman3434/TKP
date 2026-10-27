@@ -1,5 +1,5 @@
 /*
-  reports-data.js — WG.211026.2100.907
+  reports-data.js — WG.271026.1318.1079
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -583,6 +583,12 @@ var ReportsData = (function(){
     } else {
       localStorage.removeItem("weiconv2_onceden_secilen_tip");
     }
+    // MÜŞTERİ SIZINTISI DÜZELTMESİ (27.10.2026) — bkz. cart-render.js
+    // sepetMusteriBaglantisiniDogrula: bu bayrak olmadan cart.html, burada
+    // yazılan müşteriyi yine gösterir (kritik işlem akışı için gerekli),
+    // ama ayrıca ileride ayrı/ilgisiz bir Ürün Bul girişinde sızmayı
+    // önlemek için bayrak her zaman birlikte set edilir.
+    localStorage.setItem("weiconv2_sepet_musteri_baglantisi", "1");
     window.location.href = "cart.html";
     return true;
   }
@@ -610,6 +616,9 @@ var ReportsData = (function(){
     localStorage.setItem("weicon_secili_musteri", JSON.stringify({ad:kayit.musteri, sehir:kayit.sehir||"", id:kayit.musteriId||null}));
     localStorage.removeItem("weiconv2_ilerlet_kaynak");
     localStorage.setItem("weiconv2_onceden_secilen_tip", kayit.tip);
+    // MÜŞTERİ SIZINTISI DÜZELTMESİ (27.10.2026) — bkz. revizeBaslat'taki
+    // aynı yorum / cart-render.js sepetMusteriBaglantisiniDogrula.
+    localStorage.setItem("weiconv2_sepet_musteri_baglantisi", "1");
     window.location.href = "cart.html";
     return true;
   }

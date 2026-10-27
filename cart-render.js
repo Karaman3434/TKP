@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.261026.0745.1054
+  cart-render.js — WG.271026.1318.1077
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -305,7 +305,11 @@ function sayfayiCiz(){
       if(btnMusteriGecmisEl2) btnMusteriGecmisEl2.onclick = musteriGecmisiniAc;
       adresleriBelirle(musteri);
     } else {
-      document.getElementById("cariBilgiAlani").innerHTML = "<p class='bos-mesaj' style='padding:6px 0;'>👤 Müşteri seçilmedi — hızlı gönderim modu. Kaydetmek için önce müşteri seçmelisin.</p>";
+      // DÜZELTME (27.10.2026, Abdullah'ın isteğiyle): müşterisiz modda
+      // önceden "👤 Müşteri seçilmedi — hızlı gönderim modu..." uyarısı
+      // gösteriliyordu — Abdullah zaten müşteriye gönderecekse müşteriyi
+      // önceden seçtiği için bu bilgi gereksiz yer kaplıyordu, kaldırıldı.
+      document.getElementById("cariBilgiAlani").innerHTML = "";
       seciliAdresler = {};
     }
 
@@ -568,6 +572,38 @@ function asamaSecimPopupunuAc(devamFn){
   overlay.hidden = false;
 }
 
+// MÜŞTERİ SIZINTISI DÜZELTMESİ — KRİTİK, KALICI KURAL (27.10.2026, Abdullah'ın
+// bildirdiği hata): "weicon_secili_musteri" (CustomerData'nın seçili müşterisi)
+// UYGULAMA GENELİNDE kalıcı bir localStorage anahtarı — müşteri listesi,
+// Cari Kart, Temas, Bildirimler, Takip Gerekenler, Ana Sayfa'daki mini-arama
+// hızlı penceresi gibi bu sayfayla HİÇ ilgisi olmayan onlarca yer, sırf "şu an
+// hangi müşteriye bakılıyor" demek için CustomerData.sec() çağırıyor. Bu
+// yüzden Abdullah bir müşteriyi arayıp bilgisine baktıktan sonra Ana Sayfa'ya
+// dönüp SADECE "Ürün Bul" ile bağımsız bir ürün hesabı yapmak istediğinde,
+// o eski müşteri hâlâ "seçili" kaldığı için burada sessizce beliriyordu.
+//
+// Çözüm: cart.html'e SADECE gerçek bir işlem başlatma akışıyla (▶️ İşleme
+// Devam Et — cari-kart-render.js, İlerlet/Tekrarla — reports-data.js)
+// gelindiğinde "weiconv2_sepet_musteri_baglantisi" bayrağı "1" yazılıyor.
+// Bu bayrak YOKSA (ör. Ana Sayfa > 🔍 Ürün Bul linkiyle veya doğrudan URL ile
+// gelindiyse), önceden kalmış olabilecek seçili müşteri burada TAMAMEN
+// temizlenir — sayfa sıfırdan, müşterisiz hızlı hesaplama modunda açılır.
+// Bayrak BİLEREK burada silinmiyor (tek seferlik tüketilmiyor) — aksi halde
+// gerçek bir işlem ortasında sayfa yenilenirse (F5, sekme arka plana atılıp
+// geri gelme) müşteri yanlışlıkla kaybolurdu. Bayrak yalnızca oturum gerçekten
+// bittiğinde (Kaydet sonrası, İşlemi İptal Et, Gönder tamamlanınca) diğer
+// oturum anahtarlarıyla (weiconv2_onceden_secilen_tip, weicon_secili_musteri
+// vb.) BİRLİKTE temizlenir — bkz. kaydetSonrasiAnaSayfayaGit,
+// herSeyiSifirlaVeGit (bu dosyada) ve send-render.js anaSayfayaDonVeTemizle.
+function sepetMusteriBaglantisiniDogrula(){
+  try{
+    var baglantiliMi = localStorage.getItem("weiconv2_sepet_musteri_baglantisi") === "1";
+    if(!baglantiliMi){
+      CustomerData.secimiKaldir();
+    }
+  }catch(e){}
+}
+
 function oncedenSecilenTipVarsaUygula(){
   try{
     var tip = localStorage.getItem("weiconv2_onceden_secilen_tip");
@@ -589,7 +625,8 @@ function kaydetSonrasiAnaSayfayaGit(){
   ["weiconv2_sepet_kur_override","weiconv2_onceden_secilen_tip","weiconv2_hesapla_duzenle_idx",
    "weiconv2_ilerlet_kaynak","weiconv2_islem_yap_akisi","weiconv2_secili_iletisim",
    "weiconv2_son_kaydedilen_belge","weiconv2_gonderim_kanali","weicon_secili_musteri",
-   "weiconv2_musteri_donus_sayfa","weiconv2_musteri_arama_durumu"].forEach(function(k){
+   "weiconv2_musteri_donus_sayfa","weiconv2_musteri_arama_durumu",
+   "weiconv2_sepet_musteri_baglantisi"].forEach(function(k){
     try{ localStorage.removeItem(k); }catch(e){}
   });
   CartData.sifirla(function(){
@@ -866,6 +903,7 @@ window.addEventListener("error", function(ev){
 });
 
 document.addEventListener("DOMContentLoaded", function(){
+  sepetMusteriBaglantisiniDogrula();
   tarihiGuncelle();
   oncedenSecilenTipVarsaUygula();
   ilerletKaynagiVarsaSekmeAyarla();
@@ -903,6 +941,7 @@ document.addEventListener("DOMContentLoaded", function(){
       localStorage.removeItem("weiconv2_hesapla_duzenle_idx");
       localStorage.removeItem("weiconv2_ilerlet_kaynak");
       localStorage.removeItem("weiconv2_islem_yap_akisi");
+      localStorage.removeItem("weiconv2_sepet_musteri_baglantisi");
     }catch(e){}
     // YARIŞ DURUMU DÜZELTMESİ (26.10.2026, bkz. cart-data.js sifirla() yorumu):
     // navigasyon artık Firebase yedeği GERÇEKTEN boşaldıktan (ya da en fazla

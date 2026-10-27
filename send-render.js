@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.261026.1300.1061
+  send-render.js — WG.271026.1318.1080
   GÜNCELLEME (26.10.2026, Abdullah onayı — mockup üzerinden: "Okey tamam
   süper onaylıyorum kodlayalım"): hem WhatsApp hem Mail'e giden görselde
   (ve Gönder ekranının canlı önizlemesinde) tür/tarih paneli (SİPARİŞ/
@@ -905,6 +905,7 @@ document.addEventListener("DOMContentLoaded", function(){
     try{ localStorage.removeItem("weiconv2_secili_iletisim"); }catch(e){}
     try{ localStorage.removeItem("weiconv2_onceden_secilen_tip"); }catch(e){}
     try{ localStorage.removeItem("weiconv2_son_kaydedilen_belge"); }catch(e){}
+    try{ localStorage.removeItem("weiconv2_sepet_musteri_baglantisi"); }catch(e){}
     window.location.href = "home.html";
   }
 

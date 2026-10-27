@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.191026.1325.851
+  cari-kart-render.js — WG.271026.1318.1078
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -743,6 +743,12 @@ document.addEventListener("DOMContentLoaded", function(){
       localStorage.setItem("weiconv2_onceden_secilen_tip", secilenTip);
       localStorage.setItem("weiconv2_secili_iletisim", JSON.stringify(secimler));
       localStorage.removeItem("weiconv2_islem_yap_akisi");
+      // MÜŞTERİ SIZINTISI DÜZELTMESİ (27.10.2026, Abdullah'ın bildirdiği
+      // kritik hata — bkz. cart-render.js sepetMusteriBaglantisiniDogrula):
+      // cart.html'e SADECE gerçekten bir işlem başlatılırken (burada) bu
+      // bayrak "1" yazılırsa müşteri gösterilir; Ana Sayfa > Ürün Bul gibi
+      // bağımsız girişlerde önceden kalmış seçili müşteri artık sızmaz.
+      localStorage.setItem("weiconv2_sepet_musteri_baglantisi", "1");
       // Birleşik Sayfa (02.10.2026): Ürün Bul artık cart.html'in içinde.
       window.location.href = "cart.html";
     }
