@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.181026.2037.839 */
+/* cari-kart-style.css — WG.271026.1613.1085 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -356,6 +356,41 @@
   margin: 8px 0 0;
   line-height: 1.4;
   border: 1.5px solid #c0392b;
+}
+
+/* EKLENDİ (27.10.2026, Abdullah onayı, mockup üzerinden onaylandı —
+   "pat tablomuz açılsın" turu): "açık belge" uyarısındaki kod/tarih/tutar
+   satırı artık tıklanabilir — dokununca belgenin gerçek ürün tablosu
+   (#acikBelgeOnizlemeAlani, bkz. cari-kart-render.js
+   acikBelgeOnizlemeAcKapat) aynı pencerede, sayfa değişmeden açılır.
+   Kutu bu yüzden kaydırılabilir yapıldı (uzun ürün listelerinde taşma
+   olmasın). SADECE bu overlay'e özel (ID ile sınırlı) — diğer
+   .tip-secim-overlay kullanan sayfalar (cart.html/calc.html vb.)
+   ETKİLENMEDİ. */
+#acikBelgeUyariOverlay {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.ck-belge-tiklanabilir {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.ck-belge-tiklanabilir:active {
+  background: #fdf3d8;
+}
+.ck-belge-ok {
+  font-size: 15px;
+  font-weight: 900;
+  color: #b58900;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+.ck-belge-ok--acik {
+  transform: rotate(180deg);
 }
 
 /* ---------- Cari Kart v5 — çoklu kayıt, salt görüntüleme blokları ---------- */

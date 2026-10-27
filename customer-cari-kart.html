@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.231026.1200.979 — customer-cari-kart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.271026.1613.1086 — customer-cari-kart.html -->
 <!--
   WEICON ASİST — CARİ KART v7
   ==============================
@@ -31,9 +31,14 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
 <link rel="stylesheet" href="customer-style.css?v=WG.151026.1430.829">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
-<link rel="stylesheet" href="cari-kart-style.css?v=WG.181026.0410.836">
+<link rel="stylesheet" href="cari-kart-style.css?v=WG.271026.1613.1085">
 <link rel="stylesheet" href="musteri-serit.css?v=WG.191026.0112.842">
 <link rel="stylesheet" href="send-style.css?v=WG.191026.0233.843">
+<!-- EKLENDİ (27.10.2026, Abdullah'ın isteğiyle — "açık belge" uyarısında
+     belgenin ürün tablosunu görüntüleme): Sepet/Gönder/Belge Önizleme ile
+     BİREBİR aynı ürün tablosu tasarımı için gereken paylaşılan CSS (bkz.
+     acikBelgeOnizlemeAlani, cari-kart-render.js). -->
+<link rel="stylesheet" href="belge-style.css?v=WG.211026.2235.928">
 <!-- YENİ (06.10.2026, Abdullah'ın isteğiyle) — SADECE bu sayfada: iPad/tablet
      genişliğinde (>640px) içerik artık home.html'deki kuralla AYNI şekilde
      kenardan kenara — genel "body{max-width:640px}" burada geçersiz
@@ -194,12 +199,24 @@
   <!-- Açık Teklif Uyarısı (22.09.2026) — "SİPARİŞ" seçilince, aynı
        müşteride henüz siparişe dönüşmemiş bir teklif/proforma/numune
        varsa burada uyarır. Ürün eşleştirmesi yapmaz — sadece "açık bir
-       şey var mı" kontrolü. -->
+       şey var mı" kontrolü.
+       EKLENDİ (27.10.2026, Abdullah onayı, mockup üzerinden onaylandı —
+       "pat tablomuz açılsın" turu): kod/tarih/tutar satırı artık
+       tıklanabilir — dokununca sayfa DEĞİŞMEDEN, aynı pencerenin içinde,
+       belgenin gerçek ürün tablosu (Sepet/Gönder/Belge Önizleme ile
+       BİREBİR aynı tasarım, bkz. cari-kart-render.js
+       acikBelgeOnizlemeAcKapat) #acikBelgeOnizlemeAlani içine çizilir.
+       "Bu belgeyi kullan"/"Hayır" butonları yerinde kalır, kutu kaydırılabilir
+       (overflow-y, bkz. cari-kart-style.css #acikBelgeUyariOverlay). -->
   <div class="tip-secim-overlay" id="acikBelgeUyariOverlay" hidden>
     <div class="tip-secim-kutu">
       <div class="tip-secim-baslik" style="color:#7a5c00;">⚠ Bu müşteride açık bir belge var</div>
       <p class="ck-not-aciklama" id="acikBelgeUyariMetin" style="margin:0 0 10px;"></p>
-      <div class="ck-sil-uyari-notu" id="acikBelgeUyariKayit" style="background:#fff;border-color:#e8c368;color:#333;font-weight:700;margin-bottom:12px;"></div>
+      <div class="ck-sil-uyari-notu ck-belge-tiklanabilir" id="acikBelgeUyariKayit" style="background:#fff;border-color:#e8c368;color:#333;font-weight:700;margin-bottom:12px;">
+        <span class="ck-belge-metin" id="acikBelgeUyariKayitMetin"></span>
+        <span class="ck-belge-ok" id="acikBelgeUyariKayitOk">▾</span>
+      </div>
+      <div id="acikBelgeOnizlemeAlani" hidden style="margin:-4px 0 14px;"></div>
       <button class="cari-islemedevam-buton" id="btnAcikBelgeKullan" style="width:100%;margin-bottom:8px;">📄 Bu belgeyi kullan</button>
       <button class="tip-secim-vazgec-btn" id="btnAcikBelgeYeniSiparis">Hayır, bambaşka bir sipariş oluşturuyorum</button>
     </div>
@@ -259,7 +276,11 @@
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("customer-cari-kart.html", "🏢 Cari Bilgi"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="weicon-ai-config.js?v=WG.191026.1930.856"></script>
 <script src="foto-doldur.js?v=WG.201026.1045.859"></script>
-<script src="cari-kart-render.js?v=WG.271026.1325.1081"></script>
+<!-- EKLENDİ (27.10.2026, Abdullah'ın isteğiyle) — "açık belge" uyarısında
+     belgenin ürün tablosunu çizmek için Sepet/Gönder/Belge Önizleme ile
+     paylaşılan TEK tablo üretici (bkz. cari-kart-render.js). -->
+<script src="hareket-tablo.js?v=WG.211026.1500.903"></script>
+<script src="cari-kart-render.js?v=WG.271026.1613.1084"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
 <script>
   window.BEKLEYEN_ISLEM_AYAR = {

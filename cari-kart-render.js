@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.271026.1325.1081
+  cari-kart-render.js — WG.271026.1613.1084
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -33,6 +33,73 @@ function hataGoster(mesaj){
 // Açık Teklif Uyarısı (22.09.2026) için küçük yardımcılar.
 function fmt(n){ return (n||0).toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2}); }
 var TIP_ETIKET_B = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma Fatura", siparis:"Sipariş"};
+
+// EKLENDİ (27.10.2026, Abdullah onayı, mockup üzerinden onaylandı — "pat
+// tablomuz açılsın" turu): "açık belge" uyarısındaki kod/tarih/tutar
+// satırına dokununca, belgenin gerçek ürün tablosunu (Sepet/Gönder/Belge
+// Önizleme ile BİREBİR aynı tasarım) #acikBelgeOnizlemeAlani içinde
+// çizmek için gerekli iki küçük yardımcı — belge-render.js'teki
+// belgeSatirDegerHesapla/belgeHesaplaAdaptoru ile AYNI formül (KASITLI
+// OLARAK KOPYALANDI: bu belge-render.js, belge-onizleme.html'e ÖZEL bir
+// dosya, buraya dahil edilmedi — gereksiz bağımlılık/çakışma riski almamak
+// için formül burada kendi küçük, bağımsız kopyasıyla duruyor). Kayıtta
+// zaten duran iskBirim/dipFiyat'tan okur (CartData.hesapla gibi güncel
+// fiyat listesinden YENİDEN hesaplamaz) — çünkü bu KAYDEDİLMİŞ/tarihi bir
+// belge, fiyat listesi sonradan değişse bile olduğu gibi gösterilmeli.
+function belgeSatirDegerHesaplaCK(item, adet, kaydinKuru){
+  var netBirimFiyat = item.iskBirim!==undefined ? item.iskBirim : (item.listeFiyat||0);
+  var toplamEuro = netBirimFiyat * (adet||0);
+  var mk = netBirimFiyat - (item.dipFiyat||0);
+  var ozelFiyatMi = (item.iskonto||0) > 60;
+  var satirPrim = ozelFiyatMi ? 0 : mk*(adet||0)*0.22;
+  var satirPrimTl = Math.round(satirPrim * kaydinKuru);
+  return { toplamEuro: toplamEuro, iskontoluFiyat: netBirimFiyat, prim: satirPrim, primTl: satirPrimTl, mudurPrimTL: satirPrimTl };
+}
+// HareketTablo.urunTablosuHtml/grupHtml'in beklediği "hesapla(u)" imzasında
+// bir adaptör — belgeHesaplaAdaptoru ile AYNI mantık.
+function belgeHesaplaAdaptoruCK(adetAlani, kaydinKuru){
+  return function(item){ return belgeSatirDegerHesaplaCK(item, item[adetAlani], kaydinKuru); };
+}
+// Satıra dokununca/tekrar dokununca ürün tablosunu açar/kapatır. "kayit"
+// ReportsData.sonIslemler()'den bulunan TAM kayıt (urunler dizisi dahil) —
+// acikBelge nesnesi sadece {tip,ts,kod,tarih,tutar} taşıyor, urunler yok.
+function acikBelgeOnizlemeAcKapat(kayit){
+  var alan = document.getElementById("acikBelgeOnizlemeAlani");
+  var okEl = document.getElementById("acikBelgeUyariKayitOk");
+  if(!alan) return;
+  if(!alan.hidden){
+    alan.hidden = true;
+    if(okEl) okEl.classList.remove("ck-belge-ok--acik");
+    return;
+  }
+  if(!alan.innerHTML){
+    if(typeof HareketTablo === "undefined" || !kayit){
+      hataGoster("Belge tablosu yüklenemedi.");
+      return;
+    }
+    var kaydinKuru = kayit.kur || (parseFloat(localStorage.getItem("weicon_kur"))||0);
+    var hesapla = belgeHesaplaAdaptoruCK("adet", kaydinKuru);
+    var tutar = 0;
+    (kayit.urunler||[]).forEach(function(u){ tutar += belgeSatirDegerHesaplaCK(u, u.adet, kaydinKuru).toplamEuro; });
+    var etiket = TIP_ETIKET_B ? TIP_ETIKET_B[kayit.tip] : kayit.tip;
+    // NOT: seritKod BİLEREK verilmiyor — kod zaten üstteki tıklanabilir
+    // satırda tam/kesintisiz görünüyor; üçünü (etiket+tarih+kod) birden
+    // vermek dar ekranda (S22/360px) bu şeridi "..." ile kırpıyordu
+    // (27.10.2026, Playwright ile tespit edildi) — sadece etiket+tarih
+    // ile şerit rahatça sığıyor.
+    alan.innerHTML = HareketTablo.grupHtml({
+      urunler: kayit.urunler || [],
+      hesapla: hesapla,
+      seritEtiket: etiket || kayit.tip,
+      seritTarih: kayit.tarih || "",
+      genelToplam: tutar,
+      kur: kaydinKuru,
+      primGizli: false
+    });
+  }
+  alan.hidden = false;
+  if(okEl) okEl.classList.add("ck-belge-ok--acik");
+}
 
 var seciliMusteriAdi = null;
 var musteriVerisi = null;
@@ -757,8 +824,25 @@ document.addEventListener("DOMContentLoaded", function(){
       var etiket = TIP_ETIKET_B ? TIP_ETIKET_B[acikBelge.tip] : acikBelge.tip;
       document.getElementById("acikBelgeUyariMetin").textContent =
         musteriVerisi.ad + " için, henüz siparişe dönüşmemiş bir " + (etiket||acikBelge.tip) + " bulundu:";
-      document.getElementById("acikBelgeUyariKayit").textContent =
+      document.getElementById("acikBelgeUyariKayitMetin").textContent =
         (acikBelge.kod||"") + " · " + (acikBelge.tarih||"") + " · " + fmt(acikBelge.tutar) + " EURO";
+      // EKLENDİ (27.10.2026, Abdullah onayı): satıra dokununca, aynı pencere
+      // içinde, belgenin gerçek ürün tablosu açılır — bkz.
+      // acikBelgeOnizlemeAcKapat. Her yeni uyarı gösteriminde önizleme alanı
+      // ve ok ikonu sıfırlanır (önceki müşteri/belgeden kalma içerik
+      // kalmasın).
+      var onizlemeAlani = document.getElementById("acikBelgeOnizlemeAlani");
+      if(onizlemeAlani){ onizlemeAlani.hidden = true; onizlemeAlani.innerHTML = ""; }
+      var okEl = document.getElementById("acikBelgeUyariKayitOk");
+      if(okEl) okEl.classList.remove("ck-belge-ok--acik");
+      var tamKayit = null;
+      if(typeof ReportsData !== "undefined"){
+        var tumu = ReportsData.sonIslemler();
+        tamKayit = tumu.find(function(x){ return x.tip===acikBelge.tip && x.ts===acikBelge.ts; });
+      }
+      document.getElementById("acikBelgeUyariKayit").onclick = function(){
+        acikBelgeOnizlemeAcKapat(tamKayit);
+      };
       document.getElementById("btnAcikBelgeKullan").onclick = function(){
         document.getElementById("acikBelgeUyariOverlay").hidden = true;
         ilerletFonksiyonuCagir(acikBelge);
