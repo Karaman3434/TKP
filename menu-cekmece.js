@@ -1,4 +1,21 @@
-// menu-cekmece.js — WG.261026.1830.1066
+// menu-cekmece.js — WG.271026.1148.1068
+// GÜNCELLEME (27.10.2026, Abdullah onayı — mockup5 üzerinden, 5 tur geri
+// bildirim sonrası: "Ok tmm kodlayalım") — "Ürün" ve "Müşteri" satırlarına,
+// etiketin hemen yanında DOĞRUDAN yazılabilen bir mini arama kutusu
+// eklendi (bkz. "MİNİ ARAMA" bölümü aşağıda). Yazılan sorguya göre ayrı,
+// yüzen bir sonuç penceresinde (altMenuAc'ın "yana açılan panel"iyle AYNI
+// konumlandırma dili, ama bu sefer kutunun altında) gerçek Ürün Bul /
+// Müşteri Listesi satırları gösterilir; bir sonuca dokununca normal
+// akıştaki SAME hedefe gidilir — "Ürün Bul sayfasına gidip orada ara"
+// ara adımı atlanır. ProductData/CustomerData bu dosyanın yüklendiği
+// HER sayfada mevcut DEĞİL (ikisi de sadece bir alt küme sayfada
+// yükleniyor) — bu yüzden ilk kullanımda (ilk odaklanma/yazma) GEREKEN
+// modül dinamik <script> ile BİR KEZ eklenir (zaten o sayfada yüklüyse
+// hiç dokunulmaz). İki varsayım, kullanıcıya KODLAMA TESLİMİNDE açıkça
+// not edilecek: (1) "M-1234 formatı" talebi bu özelliğin KENDİ tasarımıyla
+// karşılanıyor, diğer sayfalara YAYILMADI; (2) müşteri sonucuna dokununca
+// customer.html'deki ara "hızlı pencere" adımı ATLANIP doğrudan
+// customer-cari-kart.html'e gidiliyor.
 // GÜNCELLEME (26.10.2026, Abdullah onayı) — "Bakiyedeki Ürünler" etiketi,
 // bu ekranın "tamamen bekleyen" + "kısmi bakiyede" ürünleri BİRLİKTE
 // gösterdiğini daha net yansıtsın diye "Bakiye ve Bekleyen Ürünler" olarak
@@ -58,8 +75,16 @@ var MC_OGELER = [
   // (bkz. DRAWER_ALT_MENULERI.urun). Etiket de "Ürün" olarak kısaltıldı —
   // açılan alt menünün başlığı zaten "Ürün Bul" diyor, iki seviyede aynı
   // metni tekrar etmemek için.
-  { anahtarlar: ["sepet"], ikon: "🔍", renk: "#5dade2", etiket: "Ürün", altMenu: "urun" },
-  { anahtarlar: ["musteriBul"], ikon: "👥", renk: "#5dade2", etiket: "Müşteri", altMenu: "musteri" },
+  // EKLENDİ (27.10.2026): miniArama — bu satırın yanına inline arama kutusu
+  // basar (bkz. mcOgeHtml). "urun" satırında AYRICA miniAramaIzin ile ince
+  // taneli bir izin kontrolü var — Ürün Bul sayfasının KENDİSİNDE arama
+  // kutusu "sepetAramaGoster" iznine bağlı (bkz. urun-arama.js uaIzinleriUygula);
+  // bu izin kapalıyken drawer kısayolu sayfadan DAHA FAZLA yetki vermemeli,
+  // o yüzden aynı anahtar burada da kontrol ediliyor (yoksa satır eski
+  // haline / sadece altMenu'ye düşer). Müşteri'de böyle ince bir alt izin
+  // yok (customer.html'de arama herkese "musteriBul" ile açık).
+  { anahtarlar: ["sepet"], ikon: "🔍", renk: "#5dade2", etiket: "Ürün", altMenu: "urun", miniArama: "urun", miniAramaIzin: "sepetAramaGoster" },
+  { anahtarlar: ["musteriBul"], ikon: "👥", renk: "#5dade2", etiket: "Müşteri", altMenu: "musteri", miniArama: "musteri" },
   { anahtarlar: ["islemGecmisi"], ikon: "🕐", etiket: "Son İşlemler", href: "son-islemler.html" },
   { anahtarlar: ["markaKarsilastirma"], ikon: "🔄", renk: "#5dade2", etiket: "Marka Karşılaştırma", href: "marka-karsilastirma.html" },
   { anahtarlar: ["kmTakip"], ikon: "🚗", renk: "#ec7063", etiket: "Araç KM", altMenu: "arackm", aracKmDurum: true },
@@ -148,6 +173,303 @@ function mcAracKmDurumunuGetir(){
   }catch(e){}
 }
 
+// ============================================================================
+// MİNİ ARAMA (27.10.2026, Abdullah onayı — mockup5 üzerinden: "Ok tmm
+// kodlayalım") — "Ürün"/"Müşteri" etiketlerinin yanındaki inline arama
+// kutuları. TEK bir paylaşılan yüzen sonuç paneli (altMenuAc'ın "yana
+// açılan panel"iyle AYNI konumlandırma/kapanma dili) hangi kutu aktifse
+// onun altına konumlanır ve içeriği o kutunun türüne (ürün/müşteri) göre
+// yeniden çizilir.
+//
+// VERİ YÜKLEME: ProductData/CustomerData bu dosyanın yüklendiği 42
+// sayfanın SADECE bir kısmında zaten var. İlk kullanımda (ilk odaklanma)
+// eksikse dinamik <script> ile BİR KEZ eklenir (zaten varsa dokunulmaz) —
+// km-data.js için Araç KM durumu eklenirken benimsenen "sıfır maliyet, ta
+// kullanılana kadar" ilkesiyle AYNI. NOT: aşağıdaki iki ?v= numarası bu
+// dosyaya ELLE kopyalanmıştır — product-data.js/customer-data.js ileride
+// güncellenirse buradaki numaralar da elle güncellenmeli (aksi halde
+// işlevi BOZMAZ, sadece tarayıcı önbellek numarası eskir).
+// ============================================================================
+var mcMiniAramaPanel = null;
+var mcMiniAramaAktifInput = null;
+var mcUrunModulYukleniyor = false;
+var mcUrunModulBekleyenler = [];
+var mcMusteriModulYukleniyor = false;
+var mcMusteriModulBekleyenler = [];
+var mcUrunDinleyiciBagliMi = false;
+var mcMusteriDinleyiciBagliMi = false;
+
+// Katalog/müşteri listesi Firebase'den ASENKRON gelir — modül script'i
+// yüklenir yüklenmez (onload) veri henüz gelmemiş olabilir (ProductData.
+// ara("...") o an 0 sonuç döner). urun-arama.js'teki gerçek sayfanın
+// ProductData.katalogDegistiginde(uaSonuclariCiz) deseniyle AYNI şekilde,
+// veri geldiğinde panel kendiliğinden yeniden çizilsin diye BİR KEZ
+// dinleyici bağlanır (modül zaten DOM'da varsa da, yeni yüklendiyse de).
+function mcUrunDinleyiciyiBagla(){
+  if(mcUrunDinleyiciBagliMi) return;
+  mcUrunDinleyiciBagliMi = true;
+  ProductData.katalogDegistiginde(function(){ mcMiniAramaYenidenCiz("urun"); });
+}
+function mcMusteriDinleyiciyiBagla(){
+  if(mcMusteriDinleyiciBagliMi) return;
+  mcMusteriDinleyiciBagliMi = true;
+  CustomerData.listeDegistiginde(function(){ mcMiniAramaYenidenCiz("musteri"); });
+}
+// Şu an EKRANDA AÇIK olan panel, hâlâ aynı tür + aynı (boş olmayan) kutu
+// aktifken veri değiştiğinde yeniden çizilir — kapalıyken veya başka bir
+// kutuya geçilmişken sessizce atlanır.
+function mcMiniAramaYenidenCiz(tur){
+  if(!mcMiniAramaAktifInput || !mcMiniAramaPanel || mcMiniAramaPanel.hidden) return;
+  if(mcMiniAramaAktifInput.getAttribute("data-mini-arama") !== tur) return;
+  if(mcMiniAramaAktifInput.value.trim().length === 0) return;
+  if(tur === "urun"){ mcUrunSonuclariniCiz(mcMiniAramaAktifInput.value, mcMiniAramaPanel); }
+  else { mcMusteriSonuclariniCiz(mcMiniAramaAktifInput.value, mcMiniAramaPanel); }
+  mcMiniSonucKonumla(mcMiniAramaAktifInput);
+}
+
+function mcHtmlEsc(s){
+  return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function mcUrunModulunuYukle(hazirOlunca){
+  if(typeof ProductData !== "undefined"){ mcUrunDinleyiciyiBagla(); hazirOlunca(); return; }
+  mcUrunModulBekleyenler.push(hazirOlunca);
+  if(mcUrunModulYukleniyor) return;
+  mcUrunModulYukleniyor = true;
+  var s = document.createElement("script");
+  s.src = "product-data.js?v=WG.251026.2030.1030";
+  s.onload = function(){
+    mcUrunDinleyiciyiBagla();
+    mcUrunModulBekleyenler.forEach(function(fn){ fn(); });
+    mcUrunModulBekleyenler = [];
+  };
+  s.onerror = function(){
+    mcUrunModulYukleniyor = false;
+    mcUrunModulBekleyenler = [];
+    if(typeof hataGoster === "function") hataGoster("Ürün arama modülü yüklenemedi.");
+  };
+  document.body.appendChild(s);
+}
+
+function mcMusteriModulunuYukle(hazirOlunca){
+  if(typeof CustomerData !== "undefined"){ mcMusteriDinleyiciyiBagla(); hazirOlunca(); return; }
+  mcMusteriModulBekleyenler.push(hazirOlunca);
+  if(mcMusteriModulYukleniyor) return;
+  mcMusteriModulYukleniyor = true;
+  var s = document.createElement("script");
+  s.src = "customer-data.js?v=WG.201026.0610.857";
+  s.onload = function(){
+    mcMusteriDinleyiciyiBagla();
+    mcMusteriModulBekleyenler.forEach(function(fn){ fn(); });
+    mcMusteriModulBekleyenler = [];
+  };
+  s.onerror = function(){
+    mcMusteriModulYukleniyor = false;
+    mcMusteriModulBekleyenler = [];
+    if(typeof hataGoster === "function") hataGoster("Müşteri arama modülü yüklenemedi.");
+  };
+  document.body.appendChild(s);
+}
+
+function mcMiniSonucPaneliOlustur(){
+  if(mcMiniAramaPanel) return mcMiniAramaPanel;
+  var panel = document.createElement("div");
+  panel.className = "as-drawer-mini-sonuc-panel";
+  panel.id = "asDrawerMiniSonucPanel";
+  panel.hidden = true;
+  var ustKap = document.getElementById("asDrawerOverlay") || document.body;
+  ustKap.appendChild(panel);
+  mcMiniAramaPanel = panel;
+  return panel;
+}
+
+function mcMiniSonucKapat(){
+  if(mcMiniAramaPanel) mcMiniAramaPanel.hidden = true;
+  mcMiniAramaAktifInput = null;
+}
+
+// altMenuAc'daki kenar-taşma kontrolüyle AYNI formül (hem yatay hem dikey).
+function mcMiniSonucKonumla(input){
+  var panel = mcMiniAramaPanel;
+  var rect = input.getBoundingClientRect();
+  var panelGenislik = panel.offsetWidth;
+  var sol = rect.left;
+  if(sol + panelGenislik > window.innerWidth - 8){ sol = window.innerWidth - panelGenislik - 8; }
+  if(sol < 8) sol = 8;
+  var ust = rect.bottom + 4;
+  var panelYukseklik = panel.offsetHeight;
+  if(ust + panelYukseklik > window.innerHeight - 8){ ust = window.innerHeight - panelYukseklik - 8; }
+  if(ust < 8) ust = 8;
+  panel.style.left = sol + "px";
+  panel.style.top = ust + "px";
+}
+
+// ---- Ürün sonuçları: urun-arama.js uaSonuclariCiz ile AYNI satır/izin
+// mantığı (sepetWebAc/sepetHesaplaAc), sadece 30 değil 8 sonuçla sınırlı
+// (küçük yüzen pencere) ve HESAPLA butonu yerine kısaltılmış "HESAP". ----
+function mcUrunSonuclariniCiz(q, panel){
+  var webAcVarMi = window.izinVarMi("sepetWebAc");
+  var hesaplaVarMi = window.izinVarMi("sepetHesaplaAc");
+  var sonuclar = ProductData.ara(q).slice(0, 8);
+  if(sonuclar.length === 0){
+    panel.innerHTML = "<p class='as-drawer-mini-bos'>Sonuç bulunamadı.</p>";
+    return;
+  }
+  var html = "<div class='data-table-container'><table class='data-table'><tbody>";
+  for(var i=0;i<sonuclar.length;i++){
+    var idx = sonuclar[i].idx;
+    var bilgi = ProductData.urunBilgisi(sonuclar[i].item);
+    html += "<tr>"
+      + "<td class='product-cell" + (webAcVarMi ? " product-cell--tikla" : "") + "' data-idx='" + idx + "' title='" + (webAcVarMi ? "dokununca WEICON sayfası açılır" : "") + "'>"
+      + "<div class='tablo-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + mcHtmlEsc(bilgi.berta||"-") + "</span> <span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + mcHtmlEsc(bilgi.abas||"-") + "</span></div>"
+      + "<div class='urun-adi'>" + mcHtmlEsc(bilgi.ad) + "</div>"
+      + "</td>"
+      + "<td class='urun-islem-hucre'><div class='urun-islem-grup'>"
+      + "<span class='urun-fiyat-yazi'>" + bilgi.fiyat.toFixed(2) + " €</span>"
+      + (hesaplaVarMi ? "<button class='btn-hesapla-ac' data-idx='" + idx + "' title='Hesapla ve Sepete Ekle' aria-label='Hesapla ve Sepete Ekle'>HESAP</button>" : "")
+      + "</div></td>"
+      + "</tr>";
+  }
+  html += "</tbody></table></div>";
+  panel.innerHTML = html;
+
+  if(webAcVarMi){
+    panel.querySelectorAll(".product-cell--tikla").forEach(function(td){
+      td.onclick = function(){
+        var realIdx = parseInt(this.getAttribute("data-idx"), 10);
+        var s = sonuclar.find(function(sn){ return sn.idx===realIdx; });
+        if(!s) return;
+        var bilgi = ProductData.urunBilgisi(s.item);
+        var aramaKodu = bilgi.abas || bilgi.berta || bilgi.ad;
+        window.open("https://www.weicon.com.tr/search?search=" + encodeURIComponent(aramaKodu), "_blank");
+      };
+    });
+  }
+  if(hesaplaVarMi){
+    panel.querySelectorAll(".btn-hesapla-ac").forEach(function(btn){
+      btn.onclick = function(e){
+        e.stopPropagation();
+        var realIdx = parseInt(this.getAttribute("data-idx"), 10);
+        var s = sonuclar.find(function(sn){ return sn.idx===realIdx; });
+        if(!s) return;
+        var bilgi = ProductData.urunBilgisi(s.item);
+        var kod = bilgi.abas || bilgi.berta || "";
+        // cart.html kendi DOMContentLoaded'ında "?ac=hesapla&kod=..."
+        // parametresini okuyup Hesapla popup'ını otomatik açar (bkz.
+        // urun-arama.js — "?ac=hit"/"?ac=yeniurun" İLE AYNI desen).
+        window.location.href = "cart.html?ac=hesapla&kod=" + encodeURIComponent(kod);
+      };
+    });
+  }
+}
+
+// ---- Müşteri sonuçları: customer-render.js listeyiCiz ile AYNI satır
+// markup'ı (.musteri-karti grid). Rozet/tarih sütunu SADECE o sayfada
+// ReportsData zaten yüklüyse hesaplanır (home.html gibi bazı sayfalarda
+// yok) — yoksa customer-render.js'teki "işlem yok" durumuyla (—) AYNI
+// şekilde nötr gösterilir; bu özellik için reports-data.js'i TÜM 42
+// sayfaya ekstra yüklemek kapsam dışı tutuldu. ----
+var MC_MUSTERI_TIP_ROZET = {
+  numune:   {kisa:"NM", bg:"#FFF0D9", fg:"#b7601f"},
+  teklif:   {kisa:"FT", bg:"#DDF5E9", fg:"#0e6b34"},
+  proforma: {kisa:"PF", bg:"#f3e8fb", fg:"#6a1b9a"},
+  siparis:  {kisa:"SP", bg:"#DCEEFF", fg:"#0c447c"}
+};
+function mcMusteriSonIslemBilgisi(m){
+  try{
+    if(typeof ReportsData === "undefined") return null;
+    var en = null;
+    ReportsData.sonIslemler().forEach(function(k){
+      if(!MC_MUSTERI_TIP_ROZET[k.tip]) return;
+      var eslesir = (m.id && k.musteriId) ? (k.musteriId === m.id) : ((k.musteri||"").toLocaleLowerCase("tr-TR") === (m.ad||"").toLocaleLowerCase("tr-TR"));
+      if(!eslesir) return;
+      if(!en || k.ts > en.ts) en = {tip:k.tip, ts:k.ts};
+    });
+    return en;
+  }catch(e){ return null; }
+}
+function mcMusteriTarihKisaYil(ts){
+  var d = new Date(ts);
+  var gg = String(d.getDate()).padStart(2,"0");
+  var aa = String(d.getMonth()+1).padStart(2,"0");
+  var yy = String(d.getFullYear()).slice(-2);
+  return gg + "." + aa + "." + yy;
+}
+function mcMusteriSonuclariniCiz(q, panel){
+  var sonuclar = CustomerData.ara(q).slice(0, 8);
+  if(sonuclar.length === 0){
+    panel.innerHTML = "<p class='as-drawer-mini-bos'>Sonuç bulunamadı.</p>";
+    return;
+  }
+  var html = "<div class='musteri-liste-kutu'>";
+  for(var i=0;i<sonuclar.length;i++){
+    var m = sonuclar[i];
+    var islem = mcMusteriSonIslemBilgisi(m);
+    var serit = islem ? MC_MUSTERI_TIP_ROZET[islem.tip].fg : "#c3cad4";
+    var rozetHtml = islem
+      ? "<span class='musteri-rozet-h' style='background:" + MC_MUSTERI_TIP_ROZET[islem.tip].bg + ";color:" + MC_MUSTERI_TIP_ROZET[islem.tip].fg + ";'>" + MC_MUSTERI_TIP_ROZET[islem.tip].kisa + "</span>"
+      : "<span class='musteri-rozet-h musteri-rozet-h--yok'>—</span>";
+    html += "<div class='musteri-karti' data-i='" + i + "' style='border-left-color:" + serit + ";'>"
+      + "<div class='musteri-kod-h'>" + mcHtmlEsc(m.id||"—") + "</div>"
+      + "<div class='musteri-firma-h'>" + mcHtmlEsc(m.ad||"") + "</div>"
+      + "<div class='musteri-konum-h'>" + mcHtmlEsc(m.sehir||"") + "</div>"
+      + rozetHtml
+      + "<div class='musteri-tarih-h'>" + (islem ? mcMusteriTarihKisaYil(islem.ts) : "—") + "</div>"
+      + "<div class='musteri-ok-h'>&#8250;</div>"
+      + "</div>";
+  }
+  html += "</div>";
+  panel.innerHTML = html;
+
+  panel.querySelectorAll(".musteri-karti").forEach(function(kart, i){
+    kart.onclick = function(){
+      var m = sonuclar[i];
+      CustomerData.sec(m);
+      CustomerData.sonGoruntulendi(m.ad);
+      // HATA DÜZELTME (WG.100926.196) İLE AYNI temizlik — customer-render.js
+      // listeyiCiz'deki tıklama işleyicisiyle BİREBİR AYNI gerekçe.
+      try{ localStorage.removeItem("weiconv2_islem_yap_akisi"); }catch(e){}
+      // KASITLI FARK (Abdullah'ın orijinal isteği: "doğrudan... müşteri
+      // cari veya müşteri sayfasına gitsin"): customer.html'deki ara
+      // "hızlı pencere" adımı burada ATLANIP doğrudan Cari Kart'a gidilir.
+      window.location.href = "customer-cari-kart.html";
+    };
+  });
+}
+
+function mcMiniAramaBagla(inp){
+  var tur = inp.getAttribute("data-mini-arama");
+
+  function modulHazirOlunca(cb){
+    if(tur === "urun") mcUrunModulunuYukle(cb);
+    else mcMusteriModulunuYukle(cb);
+  }
+
+  function calistir(){
+    var q = inp.value;
+    if(q.trim().length === 0){
+      if(mcMiniAramaAktifInput === inp) mcMiniSonucKapat();
+      return;
+    }
+    modulHazirOlunca(function(){
+      // Modül yüklenene kadar kullanıcı kutuyu boşaltmış/başka kutuya
+      // geçmiş olabilir — geç gelen sonucu yanlış kutu için göstermeyelim.
+      if(document.activeElement !== inp || inp.value.trim().length === 0) return;
+      var panel = mcMiniSonucPaneliOlustur();
+      mcMiniAramaAktifInput = inp;
+      panel.hidden = false;
+      if(tur === "urun"){ mcUrunSonuclariniCiz(inp.value, panel); }
+      else { mcMusteriSonuclariniCiz(inp.value, panel); }
+      mcMiniSonucKonumla(inp);
+    });
+  }
+
+  inp.addEventListener("input", calistir);
+  inp.addEventListener("focus", function(){
+    if(inp.value.trim().length > 0) calistir();
+  });
+}
+
 var mcAltMenuAcikTetikleyici = null;
 
 function altMenuKapat(){
@@ -207,6 +529,7 @@ function asDrawerKapat(){
     var drawer = document.getElementById("asDrawer");
     if(!overlay || !drawer) return;
     altMenuKapat();
+    mcMiniSonucKapat();
     drawer.classList.remove("as-drawer--acik");
     document.body.classList.remove("as-drawer-kilit");
     setTimeout(function(){ overlay.hidden = true; }, 250);
@@ -232,6 +555,19 @@ function mcOgeHtml(o){
   var acik = mcIzinliMi(o.anahtarlar);
   var ikonStil = o.renk ? " style='color:" + o.renk + ";'" : "";
   var ikHtml = "<span class='as-drawer-ikon'" + ikonStil + " aria-hidden='true'>" + o.ikon + "</span>";
+
+  // MİNİ ARAMA SATIRI — sadece temel izin (acik) VE (varsa) ince taneli
+  // miniAramaIzin açıkken. Değilse aşağıdaki normal akışa (locked/normal
+  // satır) devam eder — yani bu özelliğin KENDİSİ hiçbir zaman ek bir
+  // "kilitli" görünüm icat etmez, sadece var olan davranışa geri döner.
+  if(o.miniArama && acik && (!o.miniAramaIzin || window.izinVarMi(o.miniAramaIzin))){
+    return "<div class='as-drawer-oge as-drawer-oge--miniarama'>"
+      + ikHtml
+      + "<button type='button' class='as-drawer-mini-etiket' data-alt-menu='" + o.altMenu + "'>" + o.etiket + "</button>"
+      + "<input type='search' class='as-drawer-mini-arama-input-sabit' data-mini-arama='" + o.miniArama + "' placeholder='Ara...' autocomplete='off'>"
+      + "</div>";
+  }
+
   var etHtml;
   if(o.aracKmDurum && acik && mcAracKmDurumMetni){
     etHtml = "<span class='as-drawer-etiket-blok'><span class='as-drawer-etiket'>" + o.etiket + "</span><span class='as-drawer-km-durum'>" + mcAracKmDurumMetni + "</span></span>";
@@ -267,6 +603,10 @@ function mcDrawerListesiOlustur(){
           altMenuAc(this.getAttribute("data-alt-menu"), this);
         };
       });
+      // EKLENDİ (27.10.2026): mini arama kutuları da izinler çözüldükten
+      // sonra burada yeniden oluşturuluyor — data-alt-menu düğmeleriyle AYNI
+      // sebep (bu satırlar sayfa ilk yüklenirken DOM'da yok, sonradan basılıyor).
+      liste.querySelectorAll("[data-mini-arama]").forEach(mcMiniAramaBagla);
     }
     var anaSayfaEl = document.getElementById("asDrawerAnaSayfa");
     if(anaSayfaEl){
@@ -313,6 +653,13 @@ function asDrawerBagla(){
       if(!panel || panel.hidden) return;
       if(panel.contains(ev.target) || ev.target.closest("[data-alt-menu]")) return;
       altMenuKapat();
+    });
+    // EKLENDİ (27.10.2026): mini arama sonuç penceresi de dışarı
+    // tıklanınca kapanır — yukarıdaki alt menü ile AYNI desen.
+    document.addEventListener("click", function(ev){
+      if(!mcMiniAramaPanel || mcMiniAramaPanel.hidden) return;
+      if(mcMiniAramaPanel.contains(ev.target) || ev.target.closest("[data-mini-arama]")) return;
+      mcMiniSonucKapat();
     });
     var btnCikis = document.getElementById("btnAsCikis");
     if(btnCikis){

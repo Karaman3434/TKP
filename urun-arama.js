@@ -1,5 +1,10 @@
 /*
-  urun-arama.js — WG.261026.0145.1045
+  urun-arama.js — WG.271026.1148.1070
+  GÜNCELLEME (27.10.2026, Abdullah onayı — mini arama özelliği): aşağıdaki
+  "?ac=hit"/"?ac=yeniurun" bloğuna, AYNI desenle "?ac=hesapla&kod=..."
+  eklendi — ana sayfa çekmecesindeki mini arama panelinden "HESAP"
+  butonuna dokununca buraya bu parametrelerle gelinir, katalog hazır
+  olunca ilgili ürün bulunup Hesapla popup'ı otomatik açılır (bkz. altta).
   ===================================
   04.10.2026 (Abdullah'ın isteğiyle) — Ürün Satış Geçmişi / Hit Ürünler
   listesi açıkken sepetin "boş" mesajı ve Kaydet/Görüntüle ve Gönder
@@ -391,6 +396,40 @@ document.addEventListener("DOMContentLoaded", function(){
     } else if(uaAcParam === "yeniurun"){
       var btnYeni = document.getElementById("btnYeniUrunAc");
       if(btnYeni && !btnYeni.hidden) btnYeni.click();
+    } else if(uaAcParam === "hesapla"){
+      // EKLENDİ (27.10.2026, Abdullah onayı — mini arama özelliği): ana
+      // sayfa çekmecesindeki mini arama panelinden "HESAP" ile buraya
+      // "?ac=hesapla&kod=<berta-veya-abas>" ile gelinir. Katalog Firebase'den
+      // ASENKRON geldiği için (ProductData.katalogDegistiginde deseniyle
+      // AYNI — yukarıda zaten kullanılıyor) hazır olana kadar denenir,
+      // bulununca MUTLAKA tek seferlik açılır (uaHesaplaYapildi bayrağı).
+      var uaHesaplaKod = new URLSearchParams(window.location.search).get("kod");
+      if(uaHesaplaKod){
+        var uaHesaplaYapildi = false;
+        var uaHesaplaDene = function(){
+          try{
+            if(uaHesaplaYapildi || typeof ProductData === "undefined" || typeof HesaplaPopup === "undefined") return;
+            if(!uaIzinVarMi("sepetHesaplaAc")) return;
+            var tumu = ProductData.ara("");
+            if(!tumu.length) return;
+            var kodKucuk = uaHesaplaKod.toLocaleLowerCase("tr-TR");
+            var bulunan = null;
+            for(var i=0;i<tumu.length;i++){
+              var bilgi = ProductData.urunBilgisi(tumu[i].item);
+              if((bilgi.berta||"").toLocaleLowerCase("tr-TR")===kodKucuk || (bilgi.abas||"").toLocaleLowerCase("tr-TR")===kodKucuk){
+                bulunan = bilgi;
+                break;
+              }
+            }
+            if(bulunan){
+              uaHesaplaYapildi = true;
+              HesaplaPopup.ac({ad:bulunan.ad, berta:bulunan.berta, abas:bulunan.abas, fiyat:bulunan.fiyat}, null);
+            }
+          }catch(e){}
+        };
+        ProductData.katalogDegistiginde(uaHesaplaDene);
+        uaHesaplaDene();
+      }
     }
   }catch(e){}
 });

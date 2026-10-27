@@ -1,5 +1,5 @@
 /*
-  menu-cekmece-style.css — WG.261026.1830.1067
+  menu-cekmece-style.css — WG.271026.1148.1069
   ============================================================================
   "Menü her sayfada" (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı).
   Bu dosya SADECE net-yeni sınıfları içerir:
@@ -95,3 +95,114 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ============================================================================
+   MİNİ ARAMA (27.10.2026, Abdullah onayı — 5 tur mockup geri bildirimi
+   sonrası: "Ok tmm kodlayalım") — "Ürün"/"Müşteri" etiketlerinin yanındaki
+   inline arama kutuları + yüzen sonuç penceresi (bkz. menu-cekmece.js
+   mcMiniAramaBagla/mcUrunSonuclariniCiz/mcMusteriSonuclariniCiz).
+
+   NEDEN SATIR KURALLARI BURADA TEKRAR TANIMLANDI (product-style.css /
+   customer-style.css'i doğrudan <link> ETMEK YERİNE): o iki dosyada
+   SAYFA GENELİ resetler var (* {box-sizing...}, body{max-width:640px;
+   margin:0 auto;...}, .sayfa{...}) — bu dosya TÜM 42 sayfada yüklendiği
+   için, o resetleri her sayfaya sızdırmak host sayfaların kendi görünümünü
+   bozardı. Çözüm: sadece ihtiyaç duyulan satır/hücre kurallarının BİREBİR
+   kopyası, ve HEPSİ ".as-drawer-mini-sonuc-panel" atası altına TAMAMEN
+   KAPSANMIŞ (scoped) — bu panelin DIŞINDA hiçbir sayfaya hiçbir etkisi
+   yok, aynı sınıf adı başka bir sayfada farklı bir anlamda kullanılsa
+   bile çakışmaz. product-style.css / customer-style.css'in KENDİLERİ
+   HİÇ DEĞİŞMEDİ — Ürün Bul / Müşteri Listesi sayfalarının görünümü
+   dokunulmadı. ========================================================== */
+.as-drawer-oge--miniarama { display:flex; align-items:center; gap:7px; padding:7px 4px; }
+.as-drawer-oge--miniarama .as-drawer-ikon { flex-shrink:0; }
+.as-drawer-mini-etiket {
+  flex-shrink: 0;
+  width: 54px;
+  background: none; border: none; padding: 0;
+  color: #fff; font-size: 12.5px; font-weight: 700; font-family: inherit;
+  text-align: left;
+}
+.as-drawer-mini-arama-input-sabit {
+  flex: 1; min-width: 0;
+  background: rgba(255,255,255,.1);
+  border: 1.3px solid rgba(255,255,255,.22);
+  border-radius: 8px;
+  padding: 6px 9px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  outline: none;
+}
+.as-drawer-mini-arama-input-sabit::placeholder { color: #8fb0de; font-weight: 600; }
+.as-drawer-mini-arama-input-sabit:focus { background: #153a72; border-color: #4f86d6; }
+
+/* Yüzen sonuç penceresi — altMenuAc'ın "yana açılan panel"iyle AYNI
+   konumlandırma/kapanma dili (bkz. menu-cekmece.js mcMiniSonucKonumla),
+   genişlik Abdullah'ın "isimler tek satırda sığsın" isteğiyle onaylandı. */
+.as-drawer-mini-sonuc-panel {
+  position: fixed;
+  z-index: 2200;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  width: min(430px, calc(100vw - 16px));
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 8px;
+}
+.as-drawer-mini-bos {
+  margin: 0;
+  padding: 14px 6px;
+  text-align: center;
+  color: #8a97a6;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* ---- Ürün satırı: product-style.css'teki .data-table/.tablo-kod/
+   .kod-blok/.urun-adi/.urun-fiyat-yazi/.btn-hesapla-ac kurallarının
+   BİREBİR kopyası (sadece HESAP butonu daha kısa/küçük yazı — Abdullah
+   geri bildirimi), SADECE bu panel içinde geçerli. ---- */
+.as-drawer-mini-sonuc-panel .data-table-container { overflow-x: auto; width: 100%; border: 1px solid #3569b8; border-radius: 8px; }
+.as-drawer-mini-sonuc-panel .data-table { width: 100%; border-collapse: collapse; }
+.as-drawer-mini-sonuc-panel .data-table td { padding: 8px 6px; border-bottom: 1px solid #e2e6ec; vertical-align: middle; font-weight: 500; font-size: 11px; color: #1a1a1a; font-variant-numeric: tabular-nums; }
+.as-drawer-mini-sonuc-panel .data-table td:first-child { border-right: 1px solid #e2e6ec; }
+.as-drawer-mini-sonuc-panel .data-table tbody tr:nth-child(even) td { background: #f7f9fc; }
+.as-drawer-mini-sonuc-panel .tablo-kod { font-size: 9px; font-weight: 500; line-height: 1.3; margin-bottom: 2px; color: #2d3540; }
+.as-drawer-mini-sonuc-panel .kod-harf { font-weight: 900; font-size: 1.25em; padding: 0 1px; }
+.as-drawer-mini-sonuc-panel .kod-blok--b, .as-drawer-mini-sonuc-panel .kod-blok--a { color: #c0392b; }
+.as-drawer-mini-sonuc-panel .urun-adi { font-size: 11px; font-weight: 500; color: #111; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+.as-drawer-mini-sonuc-panel .urun-islem-hucre { white-space: nowrap; }
+.as-drawer-mini-sonuc-panel .urun-islem-grup { display: flex; align-items: center; gap: 6px; }
+.as-drawer-mini-sonuc-panel .urun-fiyat-yazi { display: inline-block; width: 50px; text-align: right; font-size: 11.5px; font-weight: 700; color: #c0392b; margin-right: 2px; white-space: nowrap; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.as-drawer-mini-sonuc-panel .btn-hesapla-ac { width: 56px; height: 30.24px; border: none; border-radius: 7px; font-size: 10.5px; font-weight: 900; letter-spacing: 0; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0; background: #1a2b3c; color: #ffffff; }
+.as-drawer-mini-sonuc-panel .btn-hesapla-ac:active { opacity: .6; }
+.as-drawer-mini-sonuc-panel .product-cell--tikla { cursor: pointer; }
+
+/* ---- Müşteri satırı: customer-style.css'teki .musteri-karti grid
+   satırının BİREBİR kopyası + bu dar yüzen panele özel sütun dağılımı
+   (firma adına daha fazla yer — Abdullah geri bildirimi: "tek satırda
+   olması önemli" / genişlik turu). customer.html'in KENDİ .musteri-karti
+   tanımı (customer-style.css) DEĞİŞMEDİ, bu override SADECE bu panel
+   içinde geçerli. ---- */
+.as-drawer-mini-sonuc-panel .musteri-liste-kutu { }
+.as-drawer-mini-sonuc-panel .musteri-karti {
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 32px minmax(0,1fr) 42px 24px 38px 14px;
+  align-items: center;
+  gap: 4px;
+  min-height: 36px;
+  padding: 6px 2mm 6px calc(2mm + 6px);
+  border-bottom: 1px solid #eef0f3;
+  border-left: 3px solid #c3cad4;
+}
+.as-drawer-mini-sonuc-panel .musteri-karti:last-child { border-bottom: none; }
+.as-drawer-mini-sonuc-panel .musteri-kod-h { font-size: 10px; font-weight: 600; color: #c0392b; overflow-wrap: anywhere; }
+.as-drawer-mini-sonuc-panel .musteri-firma-h { font-size: 12px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.as-drawer-mini-sonuc-panel .musteri-konum-h { font-size: 10px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.as-drawer-mini-sonuc-panel .musteri-rozet-h { display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; padding: 2px 1px; border-radius: 5px; text-align: center; line-height: 1; }
+.as-drawer-mini-sonuc-panel .musteri-rozet-h--yok { color: #c3cad4; font-weight: 600; background: none; }
+.as-drawer-mini-sonuc-panel .musteri-tarih-h { font-size: 10px; color: #5f6b7a; font-weight: 600; text-align: right; white-space: nowrap; }
+.as-drawer-mini-sonuc-panel .musteri-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }
