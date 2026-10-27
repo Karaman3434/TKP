@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.271026.1318.1078
+  cari-kart-render.js — WG.271026.1325.1081
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -778,9 +778,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
   var cariKapatBtnEl = document.getElementById("cariKapatBtn");
   if(cariKapatBtnEl){
-    cariKapatBtnEl.addEventListener("click", function(){
-      localStorage.removeItem("weiconv2_islem_yap_akisi");
-    });
     // "İşlem Yap" akışından gelindiyse Kapat eskisi gibi müşteri listesine
     // döner (hub'a değil) — o akışta hub'ın bir anlamı yok.
     // DÜZELTME (06.10.2026, Abdullah'ın bildirdiği hata): akistanGeldiMi
@@ -792,7 +789,32 @@ document.addEventListener("DOMContentLoaded", function(){
     // cmDonusRotasiniKaydet) da burada ayrıca kontrol ediliyor.
     var donusRotasi = null;
     try{ donusRotasi = localStorage.getItem("weiconv2_musteri_donus_sayfa"); }catch(e){}
-    if(akistanGeldiMi || donusRotasi === "customer.html") cariKapatBtnEl.setAttribute("href", "customer.html");
+    var kapatSabitHedefliMi = akistanGeldiMi || donusRotasi === "customer.html";
+    if(kapatSabitHedefliMi) cariKapatBtnEl.setAttribute("href", "customer.html");
+    // KAPAT "ESKİ/YABANCI SAYFAYA GÖTÜRÜYOR" HATASI DÜZELTMESİ (27.10.2026,
+    // Abdullah'ın bildirdiği hata): HTML'deki sabit varsayılan href
+    // (customer-hub.html) SADECE customer-hub.html'in kendi "🏢 CARİ"
+    // kutucuğundan gelindiğinde doğru — ama Ana Sayfa'daki (veya herhangi
+    // bir sayfadaki) açılır menü > Müşteri mini-arama'dan "Cari" aksiyonuyla
+    // DOĞRUDAN buraya gelindiğinde (bkz. menu-cekmece.js
+    // mcMusteriAksiyonuUygula "cari" case) ne akistanGeldiMi ne de
+    // "dönüş rotası" bayrağı set ediliyor — üstteki iki özel durumdan
+    // hiçbirine girmeyen bu "varsayılan" durumda Kapat, kullanıcının hiç
+    // uğramadığı customer-hub.html'e atıyordu.
+    // Çözüm: cart-render.js'teki "Geri" butonuyla AYNI, zaten kanıtlanmış
+    // kalıp — bu iki özel durum DIŞINDA, gerçek tarayıcı geçmişi varsa
+    // (history.back()) GERÇEKTEN nereden gelindiyse oraya dönülür. Bu hem
+    // customer-hub.html'in kendi CARİ kutucuğu akışını (oraya zaten geri
+    // döner) HEM DE drawer'ın AÇILDIĞI HERHANGİ bir sayfayı (drawer 42
+    // sayfanın hepsinde mevcut) doğru şekilde kapsar. Geçmiş yoksa (örn.
+    // doğrudan URL ile girildiyse) HTML'deki sabit href yedek olarak kalır.
+    cariKapatBtnEl.addEventListener("click", function(ev){
+      localStorage.removeItem("weiconv2_islem_yap_akisi");
+      if(!kapatSabitHedefliMi && window.history.length > 1){
+        ev.preventDefault();
+        window.history.back();
+      }
+    });
   }
 
   // Firebase'den taze veri gelince ana sayfayı ve (açıksa) akordiyonu tazele.
