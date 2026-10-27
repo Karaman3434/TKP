@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.211026.2235.923
+  belge-render.js — WG.271026.1235.1073
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -8,6 +8,23 @@
   "weiconv2_goruntulenen_belge" localStorage anahtarından {tip, ts} okur,
   ReportsData.sonIslemler() içinden o kaydı bulur, eski uygulamanın
   faturaOnizlemeHtmlOlustur() düzenini BİREBİR üreten HTML'i çizer.
+
+  EKLENDİ (27.10.2026, Abdullah onayı — mockup üzerinden onaylandı):
+  üstteki müşteri şeridine (.musteri-serit, HareketTablo.cariKutulariHtml
+  → MusteriSeridi.html ile basılır) dokununca, sayfadan hiç ayrılmadan,
+  customer.html'deki hızlı pencere (cm-altmenu) ile BİREBİR aynı görünüm/
+  davranışta bir pop-up açılır — bkz. aşağıdaki "BELGE HIZLI PENCERE"
+  bölümü. musteri-serit.js/css ve customer-render.js'e DOKUNULMADI; bu
+  pop-up'ın HTML'i/CSS'i (scoped, bkz. belge-onizleme-style-v2.css
+  ".belge-hizli-pencere") ve tüm mantığı SADECE bu dosyada, yerel olarak
+  (bhp* önekiyle) tutuluyor. Rozet sayıları customer-render.js'teki
+  cmRozetSayilariniHesapla ile AYNI hesap, ama VadeTakip bu sayfada YÜKLÜ
+  DEĞİL — bu yüzden "Fatura Takip" rozeti şimdilik hep boş/0 görünür
+  (istenirse ileride vade-takip-data.js bu sayfaya da eklenebilir).
+  "DÖNÜŞ ROTASI" bilerek ayarlanmıyor (weiconv2_musteri_donus_sayfa
+  YAZILMIYOR) — buradan açılan Cari/Temas/Fatura/Geçmiş/Görev/Bekleyen
+  aksiyonları normal tarayıcı geçmişiyle (yeni Kapat/Geri tuşlarının
+  hepsi zaten "önceki sayfaya dön" mantığında) buraya geri dönüyor.
 */
 
 function hataGoster(mesaj){
@@ -318,7 +335,226 @@ function belgeyiCiz(kayit, musteri){
     if(beklemedeRozetBtn){
       beklemedeRozetBtn.onclick = function(){ beklemedeNotAc(kayit); };
     }
+    // MÜŞTERİ HIZLI PENCERESİ (27.10.2026) — şerit her çizimde yeniden
+    // oluştuğu için dinleyici de her seferinde yeniden bağlanıyor.
+    var seritEl = document.querySelector("#belgeIcerik .musteri-serit");
+    if(seritEl && musteri){
+      seritEl.style.cursor = "pointer";
+      seritEl.onclick = function(ev){
+        // ms-gecmis-btn gibi şeridin kendi iç butonlarına basıldıysa
+        // (bu sayfada şu an yok ama ileride eklenirse) pop-up'ı tetikleme.
+        if(ev.target.closest(".ms-gecmis-btn")) return;
+        try{ CustomerData.sec(musteri); CustomerData.sonGoruntulendi(musteri.ad); }catch(e){}
+        bhpAc(musteri, seritEl);
+      };
+    }
   }catch(e){ hataGoster("Belge çizilemedi: " + e.message); }
+}
+
+// ============================================================
+// BELGE HIZLI PENCERE (27.10.2026, Abdullah onayı — mockup üzerinden
+// onaylandı) — customer.html'deki hızlı pencere (cm-altmenu) ile BİREBİR
+// aynı görünüm, tamamen yerel/bağımsız bir kopya (musteri-serit.js/css ve
+// customer-render.js'e DOKUNULMADI). CSS'i belge-onizleme-style-v2.css'te
+// ".belge-onizleme-sayfa .belge-hizli-pencere*" altında, scoped.
+// ============================================================
+var bhpAcikMusteri = null;
+
+function bhpAyniMusteriKaydiMi(kayitMusteriAdi, kayitMusteriId, seciliAd, seciliId){
+  if(seciliId && kayitMusteriId) return kayitMusteriId === seciliId;
+  var a = (kayitMusteriAdi||"").toLocaleLowerCase("tr-TR").trim();
+  var b = (seciliAd||"").toLocaleLowerCase("tr-TR").trim();
+  if(!a || !b) return false;
+  if(a === b) return true;
+  return a.indexOf(b) === 0 || b.indexOf(a) === 0;
+}
+
+// customer-render.js'teki cmRozetSayilariniHesapla ile AYNI hesap —
+// VadeTakip bu sayfada yüklü değil, bu yüzden "fatura" her zaman 0 kalır.
+function bhpRozetSayilariniHesapla(m){
+  var sonuc = {temas:0, gecmis:0, gorev:0, fatura:0, urun:0, bekleyen:0};
+  try{ sonuc.temas = (m.ziyaretGecmisi||[]).length; }catch(e){}
+  try{
+    if(typeof ReportsData !== "undefined"){
+      var tumu = ReportsData.sonIslemler();
+      sonuc.gecmis = tumu.filter(function(k){ return bhpAyniMusteriKaydiMi(k.musteri, k.musteriId, m.ad, m.id); }).length;
+    }
+  }catch(e){}
+  try{
+    if(typeof ReportsData !== "undefined" && ReportsData.gorevleriGetir){
+      var adAnahtar = (m.ad||"").toLocaleLowerCase("tr-TR");
+      sonuc.gorev = ReportsData.gorevleriGetir().filter(function(g){
+        return (g.musteriAd||"").toLocaleLowerCase("tr-TR").indexOf(adAnahtar) >= 0;
+      }).length;
+    }
+  }catch(e){}
+  try{
+    if(typeof VadeTakip !== "undefined"){
+      var ogeler = VadeTakip.musteriIcin(m.id, m.ad);
+      sonuc.fatura = ogeler.filter(function(o){ return o.durum !== "vadesiz" && !o.odendi; }).length;
+    }
+  }catch(e){}
+  try{
+    if(typeof ReportsData !== "undefined" && ReportsData.musteriUrunGecmisi){
+      sonuc.urun = ReportsData.musteriUrunGecmisi(m.ad, m.id).length;
+    }
+  }catch(e){}
+  try{
+    if(typeof ReportsData !== "undefined" && ReportsData.bakiyedekiUrunler){
+      sonuc.bekleyen = ReportsData.bakiyedekiUrunler().filter(function(s){
+        return bhpAyniMusteriKaydiMi(s.musteri, s.musteriId, m.ad, m.id);
+      }).length;
+    }
+  }catch(e){}
+  return sonuc;
+}
+
+function bhpRozetHTML(sayi){
+  return sayi > 0 ? "<span class='cm-altmenu-rozet'>" + sayi + "</span>" : "";
+}
+
+// Panel ve tip-seçim yan penceresi tek sefer oluşturulur (belgeyiCiz her
+// yeniden çizimde #belgeIcerik'i SIFIRLIYOR, bu yüzden bunlar #belgeIcerik
+// DIŞINDA, document.body'ye ekleniyor — yeniden çizimden etkilenmesinler).
+function bhpPencereOlustur(){
+  if(document.getElementById("bhpPencere")) return;
+  var panel = document.createElement("div");
+  panel.className = "belge-hizli-pencere";
+  panel.id = "bhpPencere";
+  panel.hidden = true;
+  panel.innerHTML = "<div class='cm-altmenu-musteri-baslik' id='bhpBaslik'></div><div id='bhpListe'></div>";
+  document.body.appendChild(panel);
+
+  var tipMenu = document.createElement("div");
+  tipMenu.className = "belge-hizli-pencere-tipmenu";
+  tipMenu.id = "bhpTipMenu";
+  tipMenu.hidden = true;
+  tipMenu.innerHTML = "<div class='cm-tipmenu-baslik'>Ne için ürün arıyorsun?</div>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--numune' data-tip='numune'><span class='cm-tipmenu-oge-ikon'>🧪</span><span>Numune</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--teklif' data-tip='teklif'><span class='cm-tipmenu-oge-ikon'>💬</span><span>Fiyat Teklifi</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--proforma' data-tip='proforma'><span class='cm-tipmenu-oge-ikon'>🧾</span><span>Proforma Fatura</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--siparis' data-tip='siparis'><span class='cm-tipmenu-oge-ikon'>📦</span><span>Sipariş</span></button>";
+  document.body.appendChild(tipMenu);
+
+  tipMenu.querySelectorAll(".cm-tipmenu-oge").forEach(function(btn){
+    btn.onclick = function(){
+      if(!bhpAcikMusteri) return;
+      var tip = this.getAttribute("data-tip");
+      localStorage.setItem("weiconv2_onceden_secilen_tip", tip);
+      localStorage.setItem("weiconv2_tip_oncesecim_hizli", "1");
+      localStorage.setItem("weiconv2_islem_yap_akisi", "1");
+      window.location.href = "customer-cari-kart.html";
+    };
+  });
+
+  document.addEventListener("click", function(ev){
+    if(ev.target.closest("#bhpPencere") || ev.target.closest("#bhpTipMenu") || ev.target.closest(".musteri-serit")) return;
+    bhpKapat();
+  });
+  window.addEventListener("resize", function(){
+    var p = document.getElementById("bhpPencere");
+    if(p && !p.hidden && bhpSonAnkorEl) bhpKonumla(bhpSonAnkorEl, p);
+    var tm = document.getElementById("bhpTipMenu");
+    if(tm && !tm.hidden) bhpTipMenuKonumla();
+  });
+}
+
+// menu-cekmece.js mcMiniSonucKonumla ile AYNI ekran-kenarı taşma formülü.
+var bhpSonAnkorEl = null;
+function bhpKonumla(ankorEl, panel){
+  var rect = ankorEl.getBoundingClientRect();
+  var panelGenislik = panel.offsetWidth;
+  var sol = rect.left;
+  if(sol + panelGenislik > window.innerWidth - 8){ sol = window.innerWidth - panelGenislik - 8; }
+  if(sol < 8) sol = 8;
+  var ust = rect.bottom + 6;
+  var panelYukseklik = panel.offsetHeight;
+  if(ust + panelYukseklik > window.innerHeight - 8){ ust = window.innerHeight - panelYukseklik - 8; }
+  if(ust < 8) ust = 8;
+  panel.style.left = sol + "px";
+  panel.style.top = ust + "px";
+}
+
+function bhpTipMenuKonumla(){
+  try{
+    var ilk = document.getElementById("bhpPencere");
+    var ikinci = document.getElementById("bhpTipMenu");
+    if(!ilk || !ikinci) return;
+    var ilkRect = ilk.getBoundingClientRect();
+    var ikinciGenislik = ikinci.offsetWidth;
+    var sol = ilkRect.right + 8;
+    if(sol + ikinciGenislik > window.innerWidth - 8){ sol = window.innerWidth - 8 - ikinciGenislik; }
+    if(sol < 8) sol = 8;
+    ikinci.style.left = sol + "px";
+    ikinci.style.top = ilkRect.top + "px";
+  }catch(e){}
+}
+
+function bhpAksiyonuUygula(aksiyon){
+  if(!bhpAcikMusteri) return;
+  switch(aksiyon){
+    case "cari": window.location.href = "customer-cari-kart.html"; break;
+    case "temas": window.location.href = "customer-temas.html"; break;
+    case "islemyap":
+      document.getElementById("bhpTipMenu").hidden = false;
+      bhpTipMenuKonumla();
+      break;
+    case "fatura": window.location.href = "customer-detail.html?ac=fatura"; break;
+    case "gecmis": window.location.href = "gecmis.html"; break;
+    case "gorev": window.location.href = "customer-detail.html?ac=gorev"; break;
+    case "urun": window.location.href = "customer-detail.html?ac=urun"; break;
+    case "bekleyen":
+      try{ localStorage.setItem("weiconv2_bakiye_musteri_filtre", JSON.stringify({id:bhpAcikMusteri.id||null, ad:bhpAcikMusteri.ad||""})); }catch(e){}
+      window.location.href = "bakiye-urunler.html";
+      break;
+  }
+}
+
+function bhpKapat(){
+  var p = document.getElementById("bhpPencere");
+  if(p) p.hidden = true;
+  var tm = document.getElementById("bhpTipMenu");
+  if(tm) tm.hidden = true;
+  bhpAcikMusteri = null;
+}
+
+function bhpAc(musteri, ankorEl){
+  try{
+    bhpPencereOlustur();
+    bhpAcikMusteri = musteri;
+    bhpSonAnkorEl = ankorEl;
+    var panel = document.getElementById("bhpPencere");
+    document.getElementById("bhpTipMenu").hidden = true;
+    var rozetler = bhpRozetSayilariniHesapla(musteri);
+
+    document.getElementById("bhpBaslik").innerHTML =
+      "<span><span class='ms-kod'>" + htmlEsc(musteri.id||"—") + "</span></span>"
+      + "<span class='ms-ad'>" + htmlEsc(musteri.ad||"") + "</span>"
+      + (musteri.sehir ? "<span class='ms-sehir'>" + htmlEsc(musteri.sehir) + "</span>" : "");
+
+    var ogeler = [
+      {ikon:"🏢", etiket:"Cari", aksiyon:"cari"},
+      {ikon:"📍", etiket:"Temas", aksiyon:"temas", rozet:rozetler.temas},
+      {ikon:"🔍", etiket:"İşlem Yap", aksiyon:"islemyap"},
+      {ikon:"📄", etiket:"Fatura Takip", aksiyon:"fatura", rozet:rozetler.fatura},
+      {ikon:"🕐", etiket:"İşlem Geçmişi", aksiyon:"gecmis", rozet:rozetler.gecmis},
+      {ikon:"📋", etiket:"Görevlerim", aksiyon:"gorev", rozet:rozetler.gorev},
+      {ikon:"📦", etiket:"Ürün Geçmişi", aksiyon:"urun", rozet:rozetler.urun},
+      {ikon:"📦", etiket:"Bekleyen Ürünler", aksiyon:"bekleyen", rozet:rozetler.bekleyen}
+    ];
+    document.getElementById("bhpListe").innerHTML = ogeler.map(function(o){
+      return "<button type='button' class='cm-altmenu-oge' data-aksiyon='" + o.aksiyon + "'>"
+        + "<span class='cm-altmenu-oge-sol'><span class='cm-altmenu-oge-ikon' aria-hidden='true'>" + o.ikon + "</span><span>" + o.etiket + "</span></span>"
+        + bhpRozetHTML(o.rozet||0)
+        + "</button>";
+    }).join("");
+    document.getElementById("bhpListe").querySelectorAll(".cm-altmenu-oge").forEach(function(btn){
+      btn.onclick = function(){ bhpAksiyonuUygula(this.getAttribute("data-aksiyon")); };
+    });
+
+    panel.hidden = false;
+    bhpKonumla(ankorEl, panel);
+  }catch(e){ hataGoster("Hızlı pencere açılamadı: " + e.message); }
 }
 
 var TIP_ETIKET_UZUN = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma Fatura", siparis:"Sipariş"};

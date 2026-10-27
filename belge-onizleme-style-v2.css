@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.211026.2235.927
+  belge-onizleme-style-v2.css — WG.271026.1235.1074
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -390,3 +390,110 @@
   line-height: 1;
   letter-spacing: 0px;
 }
+
+/* ============================================================
+   BELGE HIZLI PENCERE (27.10.2026, Abdullah onayı — mockup üzerinden
+   onaylandı) — müşteri şeridine (.musteri-serit) dokununca açılan
+   pop-up (bkz. belge-render.js bhp* fonksiyonları). Aşağıdaki
+   .cm-altmenu-musteri-baslik/.cm-altmenu-oge/.cm-altmenu-rozet/
+   .cm-tipmenu-* kuralları customer-style.css'teki GERÇEK hızlı pencere
+   kurallarından HARFİ HARFİNE kopyalandı (o dosya bu sayfada yüklü
+   değil) — SADECE dış kapsayıcı (.belge-hizli-pencere/-tipmenu)
+   position:fixed (customer.html'deki gibi bir ".cm-altmenu-sarmalayici"
+   bu sayfada yok, konum menu-cekmece.js mcMiniSonucKonumla ile AYNI
+   ekran-kenarı taşma formülüyle JS'te hesaplanıyor). musteri-serit.css
+   ve customer-style.css'e DOKUNULMADI. */
+.belge-onizleme-sayfa .belge-hizli-pencere {
+  position: fixed;
+  z-index: 500;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  min-width: 230px;
+  max-width: 280px;
+  padding: 8px 0;
+}
+.belge-onizleme-sayfa .belge-hizli-pencere[hidden] { display: none; }
+.belge-onizleme-sayfa .cm-altmenu-musteri-baslik {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 16px 10px;
+  border-bottom: 1px solid #eef1f5;
+  margin-bottom: 4px;
+  background: #eaf1fa;
+  border-radius: 12px 12px 0 0;
+}
+.belge-onizleme-sayfa .cm-altmenu-musteri-baslik .ms-kod { color: #c0392b; font-weight: 800; font-size: 13px; }
+.belge-onizleme-sayfa .cm-altmenu-musteri-baslik .ms-ad { color: #0a2f5c; font-weight: 800; font-size: 14px; }
+.belge-onizleme-sayfa .cm-altmenu-musteri-baslik .ms-sehir { color: #556170; font-weight: 600; font-size: 11.5px; }
+.belge-onizleme-sayfa .cm-altmenu-oge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  color: #1c2430;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+.belge-onizleme-sayfa .cm-altmenu-oge:active { background: #f1f3f7; }
+.belge-onizleme-sayfa .cm-altmenu-oge-sol { display: flex; align-items: center; gap: 10px; }
+.belge-onizleme-sayfa .cm-altmenu-oge-ikon { font-size: 17px; width: 20px; text-align: center; flex-shrink: 0; }
+.belge-onizleme-sayfa .cm-altmenu-rozet {
+  color: #c0392b;
+  background: #fdeaea;
+  border: 1.5px solid #c0392b;
+  font-size: 12px;
+  font-weight: 900;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  flex-shrink: 0;
+}
+.belge-onizleme-sayfa .belge-hizli-pencere-tipmenu {
+  position: fixed;
+  z-index: 510;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  padding: 8px;
+  width: 168px;
+}
+.belge-onizleme-sayfa .belge-hizli-pencere-tipmenu[hidden] { display: none; }
+.belge-onizleme-sayfa .cm-tipmenu-baslik {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #556170;
+  padding: 4px 6px 8px;
+}
+.belge-onizleme-sayfa .cm-tipmenu-oge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border-radius: 9px;
+  padding: 10px 10px;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: left;
+}
+.belge-onizleme-sayfa .cm-tipmenu-oge:last-child { margin-bottom: 0; }
+.belge-onizleme-sayfa .cm-tipmenu-oge:active { opacity: .8; }
+.belge-onizleme-sayfa .cm-tipmenu-oge-ikon { font-size: 15px; flex-shrink: 0; }
+.belge-onizleme-sayfa .cm-tipmenu-oge--numune   { background: #faeeda; border: 2px solid #b7601f; color: #b7601f; }
+.belge-onizleme-sayfa .cm-tipmenu-oge--teklif   { background: #eafaf0; border: 2px solid #0e6b34; color: #0e6b34; }
+.belge-onizleme-sayfa .cm-tipmenu-oge--proforma { background: #f6f0fd; border: 2px solid #8e44ad; color: #8e44ad; }
+.belge-onizleme-sayfa .cm-tipmenu-oge--siparis  { background: #f0f7ff; border: 2px solid #3569b8; color: #003a70; }
