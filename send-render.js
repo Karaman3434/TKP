@@ -1,5 +1,9 @@
 /*
-  send-render.js — WG.271026.1318.1080
+  send-render.js — WG.271026.2206.1117
+  27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
+  görsel oluşturma/kopyalama özelliklerinden biri GERÇEKTEN kullanıldığında
+  ilk kez indiriliyor (bkz. html2canvasYukle()). Davranış/çıktı değişmedi.
+  ==============
   GÜNCELLEME (26.10.2026, Abdullah onayı — mockup üzerinden: "Okey tamam
   süper onaylıyorum kodlayalım"): hem WhatsApp hem Mail'e giden görselde
   (ve Gönder ekranının canlı önizlemesinde) tür/tarih paneli (SİPARİŞ/
@@ -403,20 +407,41 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     + "</span></div>";
 }
 
+// PERFORMANS KAZANIMI (27.10.2026): html2canvas (büyük, nadiren kullanılan
+// bir kütüphane) artık bu sayfada EN BAŞTA yüklenmiyor — sadece görsel
+// oluşturma/kopyalama özelliklerinden biri GERÇEKTEN tıklandığında ilk kez
+// indiriliyor. Aynı yükleme AYNI oturumda tekrar istenirse kütüphane zaten
+// mevcut olduğundan hiçbir ağ isteği tekrarlanmaz.
+var h2cYukleniyor = false, h2cBekleyenler = [];
+function html2canvasYukle(hazirOlunca){
+  if(typeof html2canvas !== "undefined"){ hazirOlunca(); return; }
+  h2cBekleyenler.push(hazirOlunca);
+  if(h2cYukleniyor) return;
+  h2cYukleniyor = true;
+  var s = document.createElement("script");
+  s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+  s.onload = function(){ h2cBekleyenler.forEach(function(fn){ fn(); }); h2cBekleyenler = []; };
+  s.onerror = function(){ h2cBekleyenler.forEach(function(fn){ fn(); }); h2cBekleyenler = []; };
+  document.head.appendChild(s);
+}
 function belgeGorseliniOlustur(kanal, callback){
   try{
-    if(typeof html2canvas === "undefined"){ callback(null); return; }
-    var g = gonderBaglam;
-    var alan = document.getElementById("belgeGorselAlani");
-    var kayitliKod = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.kod : "";
-    var kayitliTarih = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.tarih : "";
-    alan.innerHTML = belgeGorselHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, kayitliKod, kanal, kayitliTarih);
-    kosulSatirlariniSigdir(alan);
-    setTimeout(function(){
-      html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
-        callback(canvas);
-      }).catch(function(){ callback(null); });
-    }, 60);
+    html2canvasYukle(function(){
+      try{
+        if(typeof html2canvas === "undefined"){ callback(null); return; }
+        var g = gonderBaglam;
+        var alan = document.getElementById("belgeGorselAlani");
+        var kayitliKod = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.kod : "";
+        var kayitliTarih = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.tarih : "";
+        alan.innerHTML = belgeGorselHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, kayitliKod, kanal, kayitliTarih);
+        kosulSatirlariniSigdir(alan);
+        setTimeout(function(){
+          html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
+            callback(canvas);
+          }).catch(function(){ callback(null); });
+        }, 60);
+      }catch(e){ callback(null); }
+    });
   }catch(e){ callback(null); }
 }
 
@@ -507,28 +532,30 @@ function tabloSadeceKopyala(btnEl){
   btnEl.disabled = true;
   var alan = document.getElementById("tabloSadeceAlan");
   function eskiHaleDon(){ btnEl.textContent = eskiMetin; btnEl.disabled = false; alan.classList.remove("net-tl-gizle"); }
-  if(typeof html2canvas === "undefined"){ eskiHaleDon(); alert("Görsel oluşturulamadı."); return; }
-  // NET TL SATIRI (01.10.2026, Abdullah'ın isteğiyle): ekranda görünen TL
-  // karşılığı, ofise/mail'e giden bu kopyada OLMAMALI — sadece EURO kalır.
-  // Kopyalama bitince (başarılı ya da başarısız fark etmez) ekrana geri
-  // getiriliyor.
-  alan.classList.add("net-tl-gizle");
-  html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
-    canvas.toBlob(function(blob){
-      if(!blob || !navigator.clipboard || typeof window.ClipboardItem === "undefined"){
-        eskiHaleDon(); alert("Bu tarayıcı doğrudan panoya kopyalamayı desteklemiyor.");
-        return;
-      }
-      navigator.clipboard.write([new ClipboardItem({"image/png": blob})]).then(function(){
-        btnEl.textContent = "✓ Kopyalandı! Mail/Sohbete yapıştırabilirsin";
-        alan.classList.remove("net-tl-gizle");
-        setTimeout(eskiHaleDon, 2200);
-      }).catch(function(err){
-        eskiHaleDon();
-        alert("Kopyalanamadı: " + (err && err.message ? err.message : "izin verilmedi"));
-      });
-    }, "image/png");
-  }).catch(function(){ eskiHaleDon(); alert("Görsel oluşturulamadı."); });
+  html2canvasYukle(function(){
+    if(typeof html2canvas === "undefined"){ eskiHaleDon(); alert("Görsel oluşturulamadı."); return; }
+    // NET TL SATIRI (01.10.2026, Abdullah'ın isteğiyle): ekranda görünen TL
+    // karşılığı, ofise/mail'e giden bu kopyada OLMAMALI — sadece EURO kalır.
+    // Kopyalama bitince (başarılı ya da başarısız fark etmez) ekrana geri
+    // getiriliyor.
+    alan.classList.add("net-tl-gizle");
+    html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
+      canvas.toBlob(function(blob){
+        if(!blob || !navigator.clipboard || typeof window.ClipboardItem === "undefined"){
+          eskiHaleDon(); alert("Bu tarayıcı doğrudan panoya kopyalamayı desteklemiyor.");
+          return;
+        }
+        navigator.clipboard.write([new ClipboardItem({"image/png": blob})]).then(function(){
+          btnEl.textContent = "✓ Kopyalandı! Mail/Sohbete yapıştırabilirsin";
+          alan.classList.remove("net-tl-gizle");
+          setTimeout(eskiHaleDon, 2200);
+        }).catch(function(err){
+          eskiHaleDon();
+          alert("Kopyalanamadı: " + (err && err.message ? err.message : "izin verilmedi"));
+        });
+      }, "image/png");
+    }).catch(function(){ eskiHaleDon(); alert("Görsel oluşturulamadı."); });
+  });
 }
 
 // Kısa süreli yeşil başarı bildirimi (01.10.2026) — hataGoster ile aynı
@@ -583,40 +610,44 @@ function mailUygulamasiniAcmayiDene(){
 }
 function zinciriCevaplaKopyala(){
   try{
-    if(typeof html2canvas === "undefined"){ alert("Görsel oluşturulamadı."); return; }
-    var g = gonderBaglam;
-    var metin = document.getElementById("gonderMetin").value;
-    var kayitliKod = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.kod : "";
-    var kayitliTarih = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.tarih : "";
-    var alan = document.getElementById("belgeGorselAlani");
-    // DÜZELTME (12.10.2026, Abdullah'ın isteğiyle): KONU satırı artık
-    // kopyalanan görsele HİÇ eklenmiyor — Konu'yu kendisi elle girecek.
-    // Sadece mesaj metni + cari bilgi + ürün tablosu kopyalanıyor.
-    alan.innerHTML = "<div style='font-size:13px;color:#2d3540;line-height:1.5;margin-bottom:14px;white-space:pre-wrap;'>" + htmlEsc(metin) + "</div>"
-      + belgeGorselHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, kayitliKod, "mail", kayitliTarih);
-    kosulSatirlariniSigdir(alan);
-    setTimeout(function(){
-      html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
-        canvas.toBlob(function(blob){
-          if(!blob || !navigator.clipboard || typeof window.ClipboardItem === "undefined"){
-            alert("Bu tarayıcı doğrudan panoya kopyalamayı desteklemiyor.");
-            return;
-          }
-          // DÜZELTME (01.10.2026, Abdullah'ın isteğiyle): artık KONU metni
-          // panoya ayrıca düz metin olarak eklenmiyor — konuyu kendisi elle
-          // yazacak. Sadece görsel (tablo + mesaj) kopyalanıyor.
-          var panoOgesi = new ClipboardItem({"image/png": blob});
-          navigator.clipboard.write([panoOgesi]).then(function(){
-            gonderimKanaliniKaydet("mail_zincir");
-            basariBildirimGoster("Kopyalandı! Mail uygulamasına geçip zincire yapıştırabilirsin.");
-            setTimeout(function(){ mailUygulamasiniAcmayiDene(); }, 350);
-            setTimeout(function(){ basariEkraninaGit("panoya"); }, 1800);
-          }).catch(function(err){
-            alert("Kopyalanamadı: " + (err && err.message ? err.message : "izin verilmedi"));
-          });
-        }, "image/png");
-      }).catch(function(){ alert("Görsel oluşturulamadı."); });
-    }, 60);
+    html2canvasYukle(function(){
+      try{
+        if(typeof html2canvas === "undefined"){ alert("Görsel oluşturulamadı."); return; }
+        var g = gonderBaglam;
+        var metin = document.getElementById("gonderMetin").value;
+        var kayitliKod = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.kod : "";
+        var kayitliTarih = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.tarih : "";
+        var alan = document.getElementById("belgeGorselAlani");
+        // DÜZELTME (12.10.2026, Abdullah'ın isteğiyle): KONU satırı artık
+        // kopyalanan görsele HİÇ eklenmiyor — Konu'yu kendisi elle girecek.
+        // Sadece mesaj metni + cari bilgi + ürün tablosu kopyalanıyor.
+        alan.innerHTML = "<div style='font-size:13px;color:#2d3540;line-height:1.5;margin-bottom:14px;white-space:pre-wrap;'>" + htmlEsc(metin) + "</div>"
+          + belgeGorselHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, kayitliKod, "mail", kayitliTarih);
+        kosulSatirlariniSigdir(alan);
+        setTimeout(function(){
+          html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
+            canvas.toBlob(function(blob){
+              if(!blob || !navigator.clipboard || typeof window.ClipboardItem === "undefined"){
+                alert("Bu tarayıcı doğrudan panoya kopyalamayı desteklemiyor.");
+                return;
+              }
+              // DÜZELTME (01.10.2026, Abdullah'ın isteğiyle): artık KONU metni
+              // panoya ayrıca düz metin olarak eklenmiyor — konuyu kendisi elle
+              // yazacak. Sadece görsel (tablo + mesaj) kopyalanıyor.
+              var panoOgesi = new ClipboardItem({"image/png": blob});
+              navigator.clipboard.write([panoOgesi]).then(function(){
+                gonderimKanaliniKaydet("mail_zincir");
+                basariBildirimGoster("Kopyalandı! Mail uygulamasına geçip zincire yapıştırabilirsin.");
+                setTimeout(function(){ mailUygulamasiniAcmayiDene(); }, 350);
+                setTimeout(function(){ basariEkraninaGit("panoya"); }, 1800);
+              }).catch(function(err){
+                alert("Kopyalanamadı: " + (err && err.message ? err.message : "izin verilmedi"));
+              });
+            }, "image/png");
+          }).catch(function(){ alert("Görsel oluşturulamadı."); });
+        }, 60);
+      }catch(e){ hataGoster("Zincir kopyalama hatası: " + e.message); }
+    });
   }catch(e){ hataGoster("Zincir kopyalama hatası: " + e.message); }
 }
 

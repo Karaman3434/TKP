@@ -1,6 +1,10 @@
 /*
-  ayarlar-sync.js — WG.091026.2250.757
+  ayarlar-sync.js — WG.271026.2206.1115
   ===============
+  27.10.2026 PERFORMANS KAZANIMI: otomatik kur çekme zincirindeki her
+  denemeye (TCMB/Frankfurter/yedek) 5 saniyelik zaman aşımı eklendi — bkz.
+  tekKaynaktanDene(). Kaynak sırası/önceliği ve sonuçtaki değer HİÇ
+  DEĞİŞMEDİ.
   Kur ve KDV oranı SADECE localStorage'da tutulmuyor — Firebase'in
   "ayarlar/" yoluna da yazılıyor ki bir cihazda (örn. Samsung S22) girilen
   kur, diğer cihazlarda (iPhone 13, iPad) de otomatik görünsün.
@@ -70,15 +74,29 @@ var AyarlarSync = (function(){
   //  3) open.er-api.com — son çare yedek kaynak.
   // Sadece kur bayatsa (2 saatten eski) devreye girer — elle girilmiş taze
   // bir kuru asla ezmez.
+  // PERFORMANS KAZANIMI (27.10.2026): fetch() öncesi HİÇBİR zaman aşımı
+  // yoktu — ağ/CORS engeli "hemen" başarısız olmayıp yavaş/askıda kalan bir
+  // istek şeklinde ortaya çıkarsa, zincirdeki sıradaki kaynağa (Frankfurter/
+  // yedek) geçiş gereğinden fazla gecikebiliyordu. KAYNAK SIRASI/ÖNCELİĞİ
+  // (TCMB → Frankfurter → yedek) AYNEN KORUNDU — sadece her denemeye 5
+  // saniyelik bir üst sınır eklendi, böylece takılan bir istek zinciri
+  // tıkamadan hızlıca bir sonraki kaynağa düşülür.
+  var KUR_ISTEK_ZAMAN_ASIMI_MS = 5000;
   function tekKaynaktanDene(url, ayikla, basariCb, hataCb){
-    fetch(url)
+    var controller = (typeof AbortController !== "undefined") ? new AbortController() : null;
+    var zamanAsimi = controller ? setTimeout(function(){ controller.abort(); }, KUR_ISTEK_ZAMAN_ASIMI_MS) : null;
+    fetch(url, controller ? {signal: controller.signal} : undefined)
       .then(function(r){ if(!r.ok) throw new Error("HTTP " + r.status); return ayikla.xml ? r.text() : r.json(); })
       .then(function(veri){
+        if(zamanAsimi) clearTimeout(zamanAsimi);
         var kur = ayikla.xml ? ayikla.xml(veri) : ayikla(veri);
         if(!kur || isNaN(kur) || kur<=0) throw new Error("Kur verisi geçersiz");
         basariCb(kur);
       })
-      .catch(hataCb);
+      .catch(function(err){
+        if(zamanAsimi) clearTimeout(zamanAsimi);
+        hataCb(err);
+      });
   }
 
   function tcmbXmldenKurAyikla(xmlMetin){

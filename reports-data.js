@@ -1,9 +1,13 @@
 /*
-  reports-data.js — WG.271026.1318.1079
+  reports-data.js — WG.271026.2206.1114
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
   yollar — ayrı veri girmeye gerek yok.
+
+  27.10.2026 PERFORMANS KAZANIMI: sonIslemler() artık önbellekli — bkz.
+  fonksiyonun ve "arsiv" dinleyicisinin yanındaki yorumlar. Dışa açık
+  davranış değişmedi.
 
   29.09.2026 GÜVENLİ YAZMA GÜNCELLEMESİ: Bu dosyadaki "önce once('value') ile
   oku, JS'te değiştir, sonra set() ile TÜM listeyi geri yaz" deseni, iki cihaz
@@ -23,6 +27,16 @@ var ReportsData = (function(){
   var gorevler = [];
   var arsivDinleyicileri = [];
   var gorevDinleyicileri = [];
+  // PERFORMANS KAZANIMI (27.10.2026): sonIslemler() ESKİDEN her çağrıda
+  // arşivin TÜMÜNÜ (numune+teklif+proforma+siparis) yeniden düzleştirip
+  // yeniden sıralıyordu — bu fonksiyon kod genelinde çok sık (bir sayfada
+  // onlarca kez) çağrıldığından, veri hacmi büyüdükçe bu YİNELENEN iş
+  // sayfa açılışını/geçişlerini gözle görülür şekilde yavaşlatıyordu. Artık
+  // sonuç önbelleğe alınıyor; önbellek SADECE "arsiv" Firebase'den
+  // gerçekten değiştiğinde (aşağıdaki on("value",...) tetiklendiğinde)
+  // geçersiz kılınıyor. Dışa açık davranış (parametre, dönen dizinin
+  // içeriği/sırası) HİÇ DEĞİŞMEDİ.
+  var sonIslemlerOnbellek = null;
 
   function baslat(){
     try{
@@ -38,6 +52,7 @@ var ReportsData = (function(){
             else if(!Array.isArray(arsiv[t])) arsiv[t] = Object.values(arsiv[t]);
           });
         }
+        sonIslemlerOnbellek = null;
         arsivDinleyicileri.forEach(function(fn){ fn(); });
       });
 
@@ -55,14 +70,17 @@ var ReportsData = (function(){
   function gorevDegistiginde(fn){ gorevDinleyicileri.push(fn); }
 
   function sonIslemler(limit){
-    var hepsi = [];
-    ["numune","teklif","proforma","siparis"].forEach(function(tip){
-      arsiv[tip].forEach(function(k){
-        hepsi.push(Object.assign({tip:tip}, k));
+    if(!sonIslemlerOnbellek){
+      var hepsi = [];
+      ["numune","teklif","proforma","siparis"].forEach(function(tip){
+        arsiv[tip].forEach(function(k){
+          hepsi.push(Object.assign({tip:tip}, k));
+        });
       });
-    });
-    hepsi.sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
-    return limit ? hepsi.slice(0, limit) : hepsi;
+      hepsi.sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
+      sonIslemlerOnbellek = hepsi;
+    }
+    return limit ? sonIslemlerOnbellek.slice(0, limit) : sonIslemlerOnbellek;
   }
 
   function gorevleriGetir(){

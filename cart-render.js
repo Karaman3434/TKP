@@ -1,6 +1,9 @@
 /*
-  cart-render.js — WG.271026.2037.1112
+  cart-render.js — WG.271026.2206.1116
   ==============
+  27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
+  "Tablo Görseli Gönder" gerçekten tıklandığında ilk kez indiriliyor (bkz.
+  html2canvasYukle()). Davranış/çıktı değişmedi.
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
   Bir ürüne dokununca calc.html'e gidilir (hesapla/düzenle). Kaydet/Gönder
@@ -807,6 +810,23 @@ function musterisizWhatsappGonder(){
 function musterisizMailGonder(){
   musterisizTabloGonder("mail");
 }
+// PERFORMANS KAZANIMI (27.10.2026): html2canvas (büyük, nadiren kullanılan
+// bir kütüphane) artık bu sayfada EN BAŞTA yüklenmiyor — sadece "Tablo
+// Görseli Gönder" GERÇEKTEN tıklandığında ilk kez indiriliyor. Aynı
+// yükleme AYNI oturumda tekrar istenirse (ikinci gönderim) kütüphane
+// zaten mevcut olduğundan hiçbir ağ isteği tekrarlanmaz.
+var h2cYukleniyor = false, h2cBekleyenler = [];
+function html2canvasYukle(hazirOlunca){
+  if(typeof html2canvas !== "undefined"){ hazirOlunca(); return; }
+  h2cBekleyenler.push(hazirOlunca);
+  if(h2cYukleniyor) return;
+  h2cYukleniyor = true;
+  var s = document.createElement("script");
+  s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+  s.onload = function(){ h2cBekleyenler.forEach(function(fn){ fn(); }); h2cBekleyenler = []; };
+  s.onerror = function(){ h2cBekleyenler.forEach(function(fn){ fn(); }); h2cBekleyenler = []; };
+  document.head.appendChild(s);
+}
 // TABLO GÖRSELİ OLARAK GÖNDER (13.10.2026, Abdullah onayı): ÜRÜN TABLOSU
 // (#musterisizOnizlemeTablo), Gönder ekranındaki (send-render.js
 // belgeGorseliniOlustur) AYNI yöntemle — html2canvas — gerçek bir PNG'ye
@@ -816,43 +836,45 @@ function musterisizMailGonder(){
 // de kullanılıyor).
 function musterisizTabloGonder(kanal){
   try{
-    if(typeof html2canvas === "undefined"){
-      hataGoster("Görsel oluşturulamadı — sayfayı yenileyip tekrar dene.");
-      return;
-    }
-    var alan = document.getElementById("musterisizOnizlemeTablo");
-    html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
-      canvas.toBlob(function(blob){
-        if(!blob){ hataGoster("Görsel oluşturulamadı."); return; }
-        var dosya = new File([blob], "WEICON_Fiyat_Bilgisi.png", {type:"image/png"});
-        // DÜZELTME (13.10.2026, Abdullah'ın isteğiyle): "Tablo Görseli"
-        // seçiliyken SADECE görsel gitmeli — MESAJ kutusundaki metin ayrıca
-        // caption/body olarak eklenmiyor (eskiden navigator.share'in "text"
-        // alanına ve mailto body'sine de konuyordu, bu da görselin ALTINA
-        // aynı bilgiyi tekrar eden ikinci bir metin mesajı/satırı olarak
-        // gidiyordu — ekran görüntüsüyle doğrulandı).
-        if(navigator.canShare && navigator.canShare({files:[dosya]})){
-          navigator.share({files:[dosya]}).then(function(){
-            musterisizSepetiSifirla();
-          }).catch(function(err){
-            if(err && err.name!=="AbortError") hataGoster("Paylaşım penceresi kapatıldı.");
-          });
-        } else {
-          var url = URL.createObjectURL(blob);
-          var a = document.createElement("a");
-          a.href = url; a.download = "WEICON_Fiyat_Bilgisi.png";
-          document.body.appendChild(a); a.click(); document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-          alert("Bu cihazda direkt paylaşım desteklenmiyor — tablo görseli indirildi. Şimdi " + (kanal==="whatsapp"?"WhatsApp":"Mail") + " açılacak, resmi elle ekleyebilirsin.");
-          if(kanal === "whatsapp"){
-            window.open("https://wa.me/", "_blank");
+    html2canvasYukle(function(){
+      if(typeof html2canvas === "undefined"){
+        hataGoster("Görsel oluşturulamadı — sayfayı yenileyip tekrar dene.");
+        return;
+      }
+      var alan = document.getElementById("musterisizOnizlemeTablo");
+      html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
+        canvas.toBlob(function(blob){
+          if(!blob){ hataGoster("Görsel oluşturulamadı."); return; }
+          var dosya = new File([blob], "WEICON_Fiyat_Bilgisi.png", {type:"image/png"});
+          // DÜZELTME (13.10.2026, Abdullah'ın isteğiyle): "Tablo Görseli"
+          // seçiliyken SADECE görsel gitmeli — MESAJ kutusundaki metin ayrıca
+          // caption/body olarak eklenmiyor (eskiden navigator.share'in "text"
+          // alanına ve mailto body'sine de konuyordu, bu da görselin ALTINA
+          // aynı bilgiyi tekrar eden ikinci bir metin mesajı/satırı olarak
+          // gidiyordu — ekran görüntüsüyle doğrulandı).
+          if(navigator.canShare && navigator.canShare({files:[dosya]})){
+            navigator.share({files:[dosya]}).then(function(){
+              musterisizSepetiSifirla();
+            }).catch(function(err){
+              if(err && err.name!=="AbortError") hataGoster("Paylaşım penceresi kapatıldı.");
+            });
           } else {
-            window.location.href = "mailto:?subject=" + encodeURIComponent("WEICON Fiyat Bilgisi");
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url; a.download = "WEICON_Fiyat_Bilgisi.png";
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert("Bu cihazda direkt paylaşım desteklenmiyor — tablo görseli indirildi. Şimdi " + (kanal==="whatsapp"?"WhatsApp":"Mail") + " açılacak, resmi elle ekleyebilirsin.");
+            if(kanal === "whatsapp"){
+              window.open("https://wa.me/", "_blank");
+            } else {
+              window.location.href = "mailto:?subject=" + encodeURIComponent("WEICON Fiyat Bilgisi");
+            }
+            musterisizSepetiSifirla();
           }
-          musterisizSepetiSifirla();
-        }
-      }, "image/png");
-    }).catch(function(){ hataGoster("Görsel oluşturulamadı."); });
+        }, "image/png");
+      }).catch(function(){ hataGoster("Görsel oluşturulamadı."); });
+    });
   }catch(e){ hataGoster("Tablo gönderimi başarısız: " + e.message); }
 }
 
