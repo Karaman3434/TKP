@@ -1,4 +1,30 @@
-// menu-cekmece.js — WG.271026.1211.1071
+// menu-cekmece.js — WG.271026.1320.1075
+// GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
+// bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
+// mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
+// yerine AYNI yüzen panelin (.as-drawer-mini-sonuc-panel) içeriği, müşteri
+// isminin hemen altında, customer.html'deki hızlı pencereyle BİREBİR aynı
+// görünümde (Cari/Temas/İşlem Yap/Fatura Takip/İşlem Geçmişi/Görevlerim/
+// Ürün Geçmişi/Bekleyen Ürünler) YERİNDE değişiyor — bkz. aşağıdaki
+// "MÜŞTERİ HIZLI PENCERESİ" bölümü (mc* önekli, belge-render.js'teki bhp*
+// bölümünün AYNI mantıkla buraya taşınmış hali — musteri-serit.js/css ve
+// customer-render.js'e YİNE dokunulmadı). Panel bu moddayken standart/dar
+// genişlikte (.as-drawer-mini-sonuc-panel--aksiyon, 230-280px) ve dikeyde
+// kısıtlama/kaydırma OLMADAN (tüm 8 öge görünür) gösteriliyor — asıl
+// arama-sonuç listesi geniş/kaydırmalı haliyle DEĞİŞMEDİ. "‹ Sonuçlara
+// dön" gibi bir buton BİLEREK YOK — arama kutusuna yeniden yazmak zaten
+// otomatik olarak sonuç listesine döndürüyor (calistir() her input
+// olayında panели yeniden çiziyor). Rozet sayıları ReportsData o sayfada
+// yüklüyse hesaplanıyor (çoğu sayfada, ör. home.html'de yüklü değil —
+// graceful degrade, Belge Önizleme'deki Fatura Takip ile AYNI emsal).
+// "Dönüş rotası" (weiconv2_musteri_donus_sayfa) BİLEREK ayarlanmıyor —
+// drawer HER sayfadan açılabildiği için, aksiyonlardan dönüş normal
+// tarayıcı geçmişiyle (zaten önceki sayfa neresiyse oraya) oluyor.
+// Ayrıca DRAWER_ALT_MENULERI.musteri'deki iki satırın etiketi Abdullah'ın
+// istediği metinle değiştirildi (href'ler AYNI): "Müşteri Listesi" →
+// "Tüm Müşterileri Gör", "Yeni Müşteri" → "Yeni Müşteri Ekle".
+// ---- ÖNCEKİ GÜNCELLEME NOTLARI (artık geçerli değil, tarihsel referans
+// için bırakıldı aşağıda) ----
 // GÜNCELLEME (27.10.2026, Abdullah onayı — ekran görüntüsü üzerinden):
 // Müşteri mini arama sonucuna dokununca artık DOĞRUDAN customer-cari-
 // kart.html'e GİTMİYOR — bunun yerine customer.html'e "?musteriAc=<id>"
@@ -123,8 +149,8 @@ var DRAWER_ALT_MENULERI = {
   musteri: {
     baslik: "Müşteri",
     ogeler: [
-      {ikon:"📋", etiket:"Müşteri Listesi", href:"customer.html"},
-      {ikon:"➕", etiket:"Yeni Müşteri", href:"customer-add.html", sinif:"as-drawer-altmenu-oge--yesil"}
+      {ikon:"📋", etiket:"Tüm Müşterileri Gör", href:"customer.html"},
+      {ikon:"➕", etiket:"Yeni Müşteri Ekle", href:"customer-add.html", sinif:"as-drawer-altmenu-oge--yesil"}
     ]
   },
   // EKLENDİ (26.10.2026, Abdullah onayı — mockup üzerinden): "Ürün Bul"
@@ -233,6 +259,9 @@ function mcMiniAramaYenidenCiz(tur){
   if(!mcMiniAramaAktifInput || !mcMiniAramaPanel || mcMiniAramaPanel.hidden) return;
   if(mcMiniAramaAktifInput.getAttribute("data-mini-arama") !== tur) return;
   if(mcMiniAramaAktifInput.value.trim().length === 0) return;
+  // Hızlı pencere (aksiyon) açıkken arka planda veri değişse bile üzerine
+  // YAZILMAZ — kullanıcı o an bir müşterinin işlem menüsüne bakıyor olabilir.
+  if(tur === "musteri" && mcMusteriAksiyonGosteriliyorMu) return;
   if(tur === "urun"){ mcUrunSonuclariniCiz(mcMiniAramaAktifInput.value, mcMiniAramaPanel); }
   else { mcMusteriSonuclariniCiz(mcMiniAramaAktifInput.value, mcMiniAramaPanel); }
   mcMiniSonucKonumla(mcMiniAramaAktifInput);
@@ -295,8 +324,15 @@ function mcMiniSonucPaneliOlustur(){
 }
 
 function mcMiniSonucKapat(){
-  if(mcMiniAramaPanel) mcMiniAramaPanel.hidden = true;
+  if(mcMiniAramaPanel){
+    mcMiniAramaPanel.hidden = true;
+    mcMiniAramaPanel.classList.remove("as-drawer-mini-sonuc-panel--aksiyon");
+  }
   mcMiniAramaAktifInput = null;
+  mcMusteriAksiyonGosteriliyorMu = false;
+  mcMusteriAcikKisi = null;
+  var tipMenu = document.getElementById("mcMusteriTipMenu");
+  if(tipMenu) tipMenu.hidden = true;
 }
 
 // altMenuAc'daki kenar-taşma kontrolüyle AYNI formül (hem yatay hem dikey).
@@ -407,6 +443,11 @@ function mcMusteriTarihKisaYil(ts){
   return gg + "." + aa + "." + yy;
 }
 function mcMusteriSonuclariniCiz(q, panel){
+  // Hızlı pencere (aksiyon) modundan sonuç listesine dönülüyor olabilir —
+  // panel o moddayken dar/kısıtlamasız boyuttaydı, listeye dönerken geniş/
+  // kaydırmalı varsayılana geri alınır (bkz. "--aksiyon" sınıfı aşağıda).
+  panel.classList.remove("as-drawer-mini-sonuc-panel--aksiyon");
+  mcMusteriAksiyonGosteriliyorMu = false;
   var sonuclar = CustomerData.ara(q).slice(0, 8);
   if(sonuclar.length === 0){
     panel.innerHTML = "<p class='as-drawer-mini-bos'>Sonuç bulunamadı.</p>";
@@ -433,18 +474,199 @@ function mcMusteriSonuclariniCiz(q, panel){
   panel.innerHTML = html;
 
   panel.querySelectorAll(".musteri-karti").forEach(function(kart, i){
-    kart.onclick = function(){
-      var m = sonuclar[i];
-      // DEĞİŞİKLİK (27.10.2026, Abdullah onayı — ekran görüntüsü üzerinden:
-      // "müşteri cari kartı açılmasın, ... küçük işlem popop açılsın"):
-      // seçim/sonGoruntulendi/temizlik işleri ARTIK BURADA yapılmıyor —
-      // customer.html'deki GERÇEK hızlı pencere akışı (listeyiCiz'deki
-      // satır tıklamasıyla BİREBİR AYNI) bunları kendisi yapıyor, burada
-      // sadece hangi müşteri olduğunu (id öncelikli, yoksa ad) taşıyoruz.
-      var anahtar = m.id || m.ad;
-      window.location.href = "customer.html?musteriAc=" + encodeURIComponent(anahtar);
+    kart.onclick = function(ev){
+      // DEĞİŞİKLİK (27.10.2026, Abdullah onayı — mockup7b, 2. tur geri
+      // bildirim sonrası): artık customer.html'e HİÇ gidilmiyor — aynı
+      // panelin içeriği, müşteri isminin altında, hızlı pencereye dönüşüyor
+      // (bkz. aşağıdaki "MÜŞTERİ HIZLI PENCERESİ" bölümü).
+      // ev.stopPropagation() ŞART: bu tıklama panelin İÇİNDEKİ innerHTML'i
+      // hemen değiştiriyor (kartın kendisi DOM'dan kopuyor) — durdurulmazsa
+      // aynı click, document'teki "panel dışına tıklanınca kapat"
+      // dinleyicisine kadar kabarcıklanır ve ev.target artık KOPMUŞ bir
+      // düğüm olduğu için .contains() false döner, panel YANLIŞLIKLA
+      // "dışarı tıklandı" sanılıp anında kapanırdı (test sırasında
+      // yakalanan gerçek bir hata — bkz. test raporu).
+      ev.stopPropagation();
+      try{ CustomerData.sec(sonuclar[i]); CustomerData.sonGoruntulendi(sonuclar[i].ad); }catch(e){}
+      mcMusteriHizliPencereGoster(sonuclar[i], panel);
     };
   });
+}
+
+// ============================================================
+// MÜŞTERİ HIZLI PENCERESİ (27.10.2026, Abdullah onayı — mockup7b üzerinden
+// onaylandı) — mini arama sonucuna dokununca customer.html'deki hızlı
+// pencere (cm-altmenu) ile BİREBİR aynı görünüm/davranışta, ama sayfadan
+// hiç ayrılmadan, AYNI yüzen panelin (.as-drawer-mini-sonuc-panel) içinde
+// gösterilir. belge-render.js'teki "BELGE HIZLI PENCERE" (bhp*) bölümüyle
+// AYNI mantık, buraya (mc* önekiyle) taşındı — musteri-serit.js/css ve
+// customer-render.js'e YİNE dokunulmadı; iki kopya birbirinden bağımsız
+// (bilerek — her sayfa kendi bağlamında kendi küçük kopyasını tutuyor,
+// bu projede zaten kurulu olan desen). Rozet sayıları ReportsData o
+// sayfada yüklüyse hesaplanır (home.html gibi birçok sayfada yüklü değil
+// — o zaman rozetsiz/nötr görünür, Belge Önizleme'deki Fatura Takip ile
+// AYNI graceful-degrade emsali).
+// ============================================================
+var mcMusteriAksiyonGosteriliyorMu = false;
+var mcMusteriAcikKisi = null;
+
+function mcMusteriAyniKaydiMi(kayitMusteriAdi, kayitMusteriId, seciliAd, seciliId){
+  if(seciliId && kayitMusteriId) return kayitMusteriId === seciliId;
+  var a = (kayitMusteriAdi||"").toLocaleLowerCase("tr-TR").trim();
+  var b = (seciliAd||"").toLocaleLowerCase("tr-TR").trim();
+  if(!a || !b) return false;
+  if(a === b) return true;
+  return a.indexOf(b) === 0 || b.indexOf(a) === 0;
+}
+
+// customer-render.js'teki cmRozetSayilariniHesapla ile AYNI hesap —
+// VadeTakip bu dosyanın yüklendiği hiçbir sayfada yok, "fatura" hep 0.
+function mcMusteriRozetSayilariniHesapla(m){
+  var sonuc = {temas:0, gecmis:0, gorev:0, fatura:0, urun:0, bekleyen:0};
+  try{ sonuc.temas = (m.ziyaretGecmisi||[]).length; }catch(e){}
+  try{
+    if(typeof ReportsData !== "undefined"){
+      var tumu = ReportsData.sonIslemler();
+      sonuc.gecmis = tumu.filter(function(k){ return mcMusteriAyniKaydiMi(k.musteri, k.musteriId, m.ad, m.id); }).length;
+    }
+  }catch(e){}
+  try{
+    if(typeof ReportsData !== "undefined" && ReportsData.gorevleriGetir){
+      var adAnahtar = (m.ad||"").toLocaleLowerCase("tr-TR");
+      sonuc.gorev = ReportsData.gorevleriGetir().filter(function(g){
+        return (g.musteriAd||"").toLocaleLowerCase("tr-TR").indexOf(adAnahtar) >= 0;
+      }).length;
+    }
+  }catch(e){}
+  try{
+    if(typeof VadeTakip !== "undefined"){
+      var ogeler = VadeTakip.musteriIcin(m.id, m.ad);
+      sonuc.fatura = ogeler.filter(function(o){ return o.durum !== "vadesiz" && !o.odendi; }).length;
+    }
+  }catch(e){}
+  try{
+    if(typeof ReportsData !== "undefined" && ReportsData.musteriUrunGecmisi){
+      sonuc.urun = ReportsData.musteriUrunGecmisi(m.ad, m.id).length;
+    }
+  }catch(e){}
+  try{
+    if(typeof ReportsData !== "undefined" && ReportsData.bakiyedekiUrunler){
+      sonuc.bekleyen = ReportsData.bakiyedekiUrunler().filter(function(s){
+        return mcMusteriAyniKaydiMi(s.musteri, s.musteriId, m.ad, m.id);
+      }).length;
+    }
+  }catch(e){}
+  return sonuc;
+}
+
+function mcMusteriRozetHTML(sayi){
+  return sayi > 0 ? "<span class='cm-altmenu-rozet'>" + sayi + "</span>" : "";
+}
+
+function mcMusteriTipMenuOlustur(){
+  if(document.getElementById("mcMusteriTipMenu")) return document.getElementById("mcMusteriTipMenu");
+  var tipMenu = document.createElement("div");
+  tipMenu.className = "as-drawer-mini-tipmenu";
+  tipMenu.id = "mcMusteriTipMenu";
+  tipMenu.hidden = true;
+  tipMenu.innerHTML = "<div class='cm-tipmenu-baslik'>Ne için ürün arıyorsun?</div>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--numune' data-tip='numune'><span class='cm-tipmenu-oge-ikon'>🧪</span><span>Numune</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--teklif' data-tip='teklif'><span class='cm-tipmenu-oge-ikon'>💬</span><span>Fiyat Teklifi</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--proforma' data-tip='proforma'><span class='cm-tipmenu-oge-ikon'>🧾</span><span>Proforma Fatura</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--siparis' data-tip='siparis'><span class='cm-tipmenu-oge-ikon'>📦</span><span>Sipariş</span></button>";
+  var ustKap = document.getElementById("asDrawerOverlay") || document.body;
+  ustKap.appendChild(tipMenu);
+
+  tipMenu.querySelectorAll(".cm-tipmenu-oge").forEach(function(btn){
+    btn.onclick = function(){
+      if(!mcMusteriAcikKisi) return;
+      var tip = this.getAttribute("data-tip");
+      localStorage.setItem("weiconv2_onceden_secilen_tip", tip);
+      localStorage.setItem("weiconv2_tip_oncesecim_hizli", "1");
+      localStorage.setItem("weiconv2_islem_yap_akisi", "1");
+      window.location.href = "customer-cari-kart.html";
+    };
+  });
+  return tipMenu;
+}
+
+function mcMusteriTipMenuKonumla(){
+  try{
+    var ilk = mcMiniAramaPanel;
+    var ikinci = document.getElementById("mcMusteriTipMenu");
+    if(!ilk || !ikinci) return;
+    var ilkRect = ilk.getBoundingClientRect();
+    var ikinciGenislik = ikinci.offsetWidth;
+    var sol = ilkRect.right + 8;
+    if(sol + ikinciGenislik > window.innerWidth - 8){ sol = window.innerWidth - 8 - ikinciGenislik; }
+    if(sol < 8) sol = 8;
+    ikinci.style.left = sol + "px";
+    ikinci.style.top = ilkRect.top + "px";
+  }catch(e){}
+}
+
+function mcMusteriAksiyonuUygula(aksiyon){
+  if(!mcMusteriAcikKisi) return;
+  switch(aksiyon){
+    case "cari": window.location.href = "customer-cari-kart.html"; break;
+    case "temas": window.location.href = "customer-temas.html"; break;
+    case "islemyap":
+      var tipMenu = mcMusteriTipMenuOlustur();
+      tipMenu.hidden = false;
+      mcMusteriTipMenuKonumla();
+      break;
+    case "fatura": window.location.href = "customer-detail.html?ac=fatura"; break;
+    case "gecmis": window.location.href = "gecmis.html"; break;
+    case "gorev": window.location.href = "customer-detail.html?ac=gorev"; break;
+    case "urun": window.location.href = "customer-detail.html?ac=urun"; break;
+    case "bekleyen":
+      try{ localStorage.setItem("weiconv2_bakiye_musteri_filtre", JSON.stringify({id:mcMusteriAcikKisi.id||null, ad:mcMusteriAcikKisi.ad||""})); }catch(e){}
+      window.location.href = "bakiye-urunler.html";
+      break;
+  }
+}
+
+function mcMusteriHizliPencereGoster(musteri, panel){
+  try{
+    mcMusteriAcikKisi = musteri;
+    mcMusteriAksiyonGosteriliyorMu = true;
+    var tipMenu = document.getElementById("mcMusteriTipMenu");
+    if(tipMenu) tipMenu.hidden = true;
+    // Standart/dar hızlı pencere boyutu — arama sonuç listesinin geniş/
+    // kaydırmalı kutusundan FARKLI (bkz. menu-cekmece-style.css).
+    panel.classList.add("as-drawer-mini-sonuc-panel--aksiyon");
+
+    var rozetler = mcMusteriRozetSayilariniHesapla(musteri);
+    var baslikHtml = "<div class='cm-altmenu-musteri-baslik'>"
+      + "<span><span class='ms-kod'>" + mcHtmlEsc(musteri.id||"—") + "</span></span>"
+      + "<span class='ms-ad'>" + mcHtmlEsc(musteri.ad||"") + "</span>"
+      + (musteri.sehir ? "<span class='ms-sehir'>" + mcHtmlEsc(musteri.sehir) + "</span>" : "")
+      + "</div>";
+
+    var ogeler = [
+      {ikon:"🏢", etiket:"Cari", aksiyon:"cari"},
+      {ikon:"📍", etiket:"Temas", aksiyon:"temas", rozet:rozetler.temas},
+      {ikon:"🔍", etiket:"İşlem Yap", aksiyon:"islemyap"},
+      {ikon:"📄", etiket:"Fatura Takip", aksiyon:"fatura", rozet:rozetler.fatura},
+      {ikon:"🕐", etiket:"İşlem Geçmişi", aksiyon:"gecmis", rozet:rozetler.gecmis},
+      {ikon:"📋", etiket:"Görevlerim", aksiyon:"gorev", rozet:rozetler.gorev},
+      {ikon:"📦", etiket:"Ürün Geçmişi", aksiyon:"urun", rozet:rozetler.urun},
+      {ikon:"📦", etiket:"Bekleyen Ürünler", aksiyon:"bekleyen", rozet:rozetler.bekleyen}
+    ];
+    var listeHtml = ogeler.map(function(o){
+      return "<button type='button' class='cm-altmenu-oge' data-aksiyon='" + o.aksiyon + "'>"
+        + "<span class='cm-altmenu-oge-sol'><span class='cm-altmenu-oge-ikon' aria-hidden='true'>" + o.ikon + "</span><span>" + o.etiket + "</span></span>"
+        + mcMusteriRozetHTML(o.rozet||0)
+        + "</button>";
+    }).join("");
+
+    panel.innerHTML = baslikHtml + "<div id='mcMusteriHizliListe'>" + listeHtml + "</div>";
+    panel.querySelectorAll("#mcMusteriHizliListe .cm-altmenu-oge").forEach(function(btn){
+      btn.onclick = function(){ mcMusteriAksiyonuUygula(this.getAttribute("data-aksiyon")); };
+    });
+
+    if(mcMiniAramaAktifInput) mcMiniSonucKonumla(mcMiniAramaAktifInput);
+  }catch(e){ if(typeof hataGoster === "function") hataGoster("Hızlı pencere açılamadı: " + e.message); }
 }
 
 function mcMiniAramaBagla(inp){
@@ -665,10 +887,12 @@ function asDrawerBagla(){
       altMenuKapat();
     });
     // EKLENDİ (27.10.2026): mini arama sonuç penceresi de dışarı
-    // tıklanınca kapanır — yukarıdaki alt menü ile AYNI desen.
+    // tıklanınca kapanır — yukarıdaki alt menü ile AYNI desen. Müşteri
+    // hızlı penceresinin yanındaki tip seçim paneline (#mcMusteriTipMenu)
+    // tıklamak da "dışarı" sayılmaz (27.10.2026, aksiyon menüsü eklendi).
     document.addEventListener("click", function(ev){
       if(!mcMiniAramaPanel || mcMiniAramaPanel.hidden) return;
-      if(mcMiniAramaPanel.contains(ev.target) || ev.target.closest("[data-mini-arama]")) return;
+      if(mcMiniAramaPanel.contains(ev.target) || ev.target.closest("[data-mini-arama]") || ev.target.closest("#mcMusteriTipMenu")) return;
       mcMiniSonucKapat();
     });
     var btnCikis = document.getElementById("btnAsCikis");

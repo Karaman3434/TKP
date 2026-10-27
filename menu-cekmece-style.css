@@ -1,5 +1,5 @@
 /*
-  menu-cekmece-style.css — WG.271026.1148.1069
+  menu-cekmece-style.css — WG.271026.1320.1076
   ============================================================================
   "Menü her sayfada" (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı).
   Bu dosya SADECE net-yeni sınıfları içerir:
@@ -206,3 +206,105 @@
 .as-drawer-mini-sonuc-panel .musteri-rozet-h--yok { color: #c3cad4; font-weight: 600; background: none; }
 .as-drawer-mini-sonuc-panel .musteri-tarih-h { font-size: 10px; color: #5f6b7a; font-weight: 600; text-align: right; white-space: nowrap; }
 .as-drawer-mini-sonuc-panel .musteri-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }
+
+/* ============================================================
+   MÜŞTERİ HIZLI PENCERESİ (27.10.2026, Abdullah onayı — mockup7b, 2 tur
+   geri bildirim sonrası onaylandı) — mini arama sonucuna dokununca AYNI
+   .as-drawer-mini-sonuc-panel'in içeriği buna dönüşür (bkz. menu-cekmece.js
+   mcMusteriHizliPencereGoster). customer-style.css'teki GERÇEK ".cm-altmenu"
+   kurallarından HARFİ HARFİNE kopyalandı (o dosya bu sayfalarda yüklü
+   değil) — musteri-serit.css/customer-style.css'e DOKUNULMADI.
+   --aksiyon: Abdullah geri bildirimi ("yatayda standart boyut, dikeyde
+   kısıtlama/kaydırma OLMASIN, tüm 8 öge görünsün") — panel bu moddayken
+   geniş/kaydırmalı arama-sonucu varsayılanını ezer. ============================================================ */
+.as-drawer-mini-sonuc-panel.as-drawer-mini-sonuc-panel--aksiyon {
+  width: min(280px, calc(100vw - 16px));
+  max-height: none;
+  overflow: visible;
+  padding: 8px 0;
+}
+.as-drawer-mini-sonuc-panel .cm-altmenu-musteri-baslik {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 16px 10px;
+  border-bottom: 1px solid #eef1f5;
+  margin-bottom: 4px;
+  background: #eaf1fa;
+  border-radius: 12px 12px 0 0;
+}
+.as-drawer-mini-sonuc-panel .cm-altmenu-musteri-baslik .ms-kod { color: #c0392b; font-weight: 800; font-size: 13px; }
+.as-drawer-mini-sonuc-panel .cm-altmenu-musteri-baslik .ms-ad { color: #0a2f5c; font-weight: 800; font-size: 14px; }
+.as-drawer-mini-sonuc-panel .cm-altmenu-musteri-baslik .ms-sehir { color: #556170; font-weight: 600; font-size: 11.5px; }
+.as-drawer-mini-sonuc-panel .cm-altmenu-oge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  color: #1c2430;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+.as-drawer-mini-sonuc-panel .cm-altmenu-oge:active { background: #f1f3f7; }
+.as-drawer-mini-sonuc-panel .cm-altmenu-oge-sol { display: flex; align-items: center; gap: 10px; }
+.as-drawer-mini-sonuc-panel .cm-altmenu-oge-ikon { font-size: 17px; width: 20px; text-align: center; flex-shrink: 0; }
+.as-drawer-mini-sonuc-panel .cm-altmenu-rozet {
+  color: #c0392b;
+  background: #fdeaea;
+  border: 1.5px solid #c0392b;
+  font-size: 12px;
+  font-weight: 900;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  flex-shrink: 0;
+}
+/* "İşlem Yap" tip seçim yan penceresi — customer-style.css'teki
+   ".cm-tipmenu*" kurallarından HARFİ HARFİNE kopyalandı. */
+.as-drawer-mini-tipmenu {
+  position: fixed;
+  z-index: 2210;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  padding: 8px;
+  width: 168px;
+}
+.as-drawer-mini-tipmenu[hidden] { display: none; }
+.as-drawer-mini-tipmenu .cm-tipmenu-baslik {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #556170;
+  padding: 4px 6px 8px;
+}
+.as-drawer-mini-tipmenu .cm-tipmenu-oge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border-radius: 9px;
+  padding: 10px 10px;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: left;
+}
+.as-drawer-mini-tipmenu .cm-tipmenu-oge:last-child { margin-bottom: 0; }
+.as-drawer-mini-tipmenu .cm-tipmenu-oge:active { opacity: .8; }
+.as-drawer-mini-tipmenu .cm-tipmenu-oge-ikon { font-size: 15px; flex-shrink: 0; }
+.as-drawer-mini-tipmenu .cm-tipmenu-oge--numune   { background: #faeeda; border: 2px solid #b7601f; color: #b7601f; }
+.as-drawer-mini-tipmenu .cm-tipmenu-oge--teklif   { background: #eafaf0; border: 2px solid #0e6b34; color: #0e6b34; }
+.as-drawer-mini-tipmenu .cm-tipmenu-oge--proforma { background: #f6f0fd; border: 2px solid #8e44ad; color: #8e44ad; }
+.as-drawer-mini-tipmenu .cm-tipmenu-oge--siparis  { background: #f0f7ff; border: 2px solid #3569b8; color: #003a70; }
