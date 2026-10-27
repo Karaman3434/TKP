@@ -1,5 +1,5 @@
 /*
-  son-islemler-render.js — WG.271026.1843.1102
+  son-islemler-render.js — WG.271026.1855.1105
   =======================
   reports-render.js'deki islemleriCiz/islemlerExcelAktar buradan taşındı.
   13.10.2026: kartlı/2 satırlı yapı kaldırıldı — GERÇEK TEK SATIRLIK TABLO
@@ -154,7 +154,13 @@ function islemleriCiz(){
     var tipFiltre = tipFiltreSecili;
 
     var liste = ReportsData.sonIslemler();
-    if(tipFiltre === "beklemede") liste = liste.filter(function(k){ return k.durum === "beklemede"; });
+    // GENİŞLETİLDİ (27.10.2026, Abdullah onayı — "Stok ve Bakiye Bekleyen"
+    // turu): bu filtre artık SADECE durum==="beklemede" (stok bekliyor)
+    // kayıtları değil, bakiyeKayitVarMi(k) true olan (kısmi teslim, bakiye
+    // bekleyen) kayıtları da gösteriyor — ikisi de rozet olarak aynı
+    // tutar sütununda ("⏳ Stok Bekliyor" / "📦 BAKİYE") görünüyordu, artık
+    // tek filtrede birlikte bulunabiliyorlar.
+    if(tipFiltre === "beklemede") liste = liste.filter(function(k){ return k.durum === "beklemede" || bakiyeKayitVarMi(k); });
     else if(tipFiltre) liste = liste.filter(function(k){ return k.tip === tipFiltre; });
     if(q) liste = liste.filter(function(k){ return (k.musteri||"").toLocaleLowerCase("tr-TR").indexOf(q) >= 0; });
     if(tarihFiltreKontrol) liste = liste.filter(function(k){ return tarihFiltreKontrol.icindeMi(k.ts); });
@@ -197,7 +203,7 @@ function islemlerExcelAktar(){
     var q = (document.getElementById("islemAra").value||"").trim().toLocaleLowerCase("tr-TR");
     var tipFiltre = tipFiltreSecili;
     var liste = ReportsData.sonIslemler();
-    if(tipFiltre === "beklemede") liste = liste.filter(function(k){ return k.durum === "beklemede"; });
+    if(tipFiltre === "beklemede") liste = liste.filter(function(k){ return k.durum === "beklemede" || bakiyeKayitVarMi(k); });
     else if(tipFiltre) liste = liste.filter(function(k){ return k.tip === tipFiltre; });
     if(q) liste = liste.filter(function(k){ return (k.musteri||"").toLocaleLowerCase("tr-TR").indexOf(q) >= 0; });
     if(tarihFiltreKontrol) liste = liste.filter(function(k){ return tarihFiltreKontrol.icindeMi(k.ts); });
@@ -231,7 +237,7 @@ function islemlerExcelAktar(){
 // AYNI mimari: düğme tıklanınca panel açılır, seçenek tıklanınca
 // tipFiltreSecili güncellenir, düğme etiketi/✓ işareti yenilenir, panel
 // kapanır ve liste yeniden çizilir. Panel dışına tıklanınca kapanır.
-var TIP_FILTRE_ETIKET = {"":"Tüm Türler", numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş", beklemede:"⏳ Stok Bekliyor"};
+var TIP_FILTRE_ETIKET = {"":"Tüm Türler", numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş", beklemede:"⏳ Stok ve Bakiye Bekleyen"};
 function tipFiltreKur(){
   var btn = document.getElementById("islemTipBtn");
   var panel = document.getElementById("islemTipPopup");
