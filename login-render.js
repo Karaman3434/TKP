@@ -41,11 +41,11 @@ document.addEventListener("DOMContentLoaded", function(){
   // adıyla girer (01.10.2026) — "@" içermeyen bir değer, Firebase Auth'un
   // e-posta/şifre sağlayıcısı için arka planda sahte bir e-postaya çevrilir.
   // Bu dönüşüm calisan-erisim-render.js'teki hesap oluşturma ile AYNI
-  // sabiti (WEICON_CALISAN_EMAIL_DOMAINI) kullanmalı.
+  // sabiti (ISTAKIP_CALISAN_EMAIL_DOMAINI) kullanmalı.
   function girisDegeriEpostaYap(deger){
     deger = String(deger).trim();
     if(deger.indexOf("@") >= 0) return deger;
-    return deger.toLowerCase().replace(/\s+/g,"") + WEICON_CALISAN_EMAIL_DOMAINI;
+    return deger.toLowerCase().replace(/\s+/g,"") + ISTAKIP_CALISAN_EMAIL_DOMAINI;
   }
 
   function girisYap(){
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function(){
     // sonsuza dek takılı kalmasına yol açıyordu. Bu bayrak, "giriş az önce
     // BU formdan denendi" bilgisini auth.js'e taşır; o kontrol bu bayrak
     // varken devreye girmez.
-    window.weiconGirisFormundanDenendi = true;
+    window.istakipGirisFormundanDenendi = true;
     btn.disabled = true;
     btn.textContent = "Giriş yapılıyor...";
     try{

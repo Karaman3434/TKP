@@ -27,7 +27,7 @@ var HataLog = (function(){
   function kaydet(mesaj, ekBilgi){
     try{
       if(typeof firebase === "undefined") return;
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       var db = firebase.database();
       var simdi = new Date();
       var kayit = {

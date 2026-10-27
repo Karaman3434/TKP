@@ -1,5 +1,5 @@
 /*
-  cart-data.js — WG.261026.0745.1055
+  cart-data.js — WG.271026.2238.1147
   ============
   TEK görevi: sepet verisini (product-data.js ile PAYLAŞILAN localStorage
   anahtarı üzerinden) okumak/güncellemek ve fiyat hesaplama formüllerini
@@ -13,8 +13,8 @@
   kendi oturumuna bağlı "sepetTaslak/{uid}" yoluna da yazılıyor (bkz.
   database.rules.json — bu yol SADECE o kullanıcının kendi uid'siyle
   okunabilir/yazılabilir). Sayfa açıldığında, localStorage boşsa (yeni cihaz
-  veya veri silinmiş) weiconAuthHazir (auth.js) olayından sonra bu yedek bir
-  kez kontrol edilir; bulunursa sepete geri yüklenir ve "weiconSepetGeriYuklendi"
+  veya veri silinmiş) istakipAuthHazir (auth.js) olayından sonra bu yedek bir
+  kez kontrol edilir; bulunursa sepete geri yüklenir ve "istakipSepetGeriYuklendi"
   olayı tetiklenir (cart-render.js bunu dinleyip ekranı yeniden çizer).
 */
 
@@ -44,7 +44,7 @@ var CartData = (function(){
         if(uzak && Array.isArray(uzak.sepet) && sepet.length === 0 && uzak.sepet.length > 0){
           sepet = uzak.sepet;
           try{ localStorage.setItem(SEPET_KEY, JSON.stringify(sepet)); }catch(e){}
-          try{ document.dispatchEvent(new CustomEvent("weiconSepetGeriYuklendi")); }catch(e){}
+          try{ document.dispatchEvent(new CustomEvent("istakipSepetGeriYuklendi")); }catch(e){}
         }
       }).catch(function(err){ console.error("Sepet yedeği okunamadı:", err); });
     }catch(e){ console.error("Sepet yedeği okunamadı:", e); }
@@ -63,7 +63,7 @@ var CartData = (function(){
   }
 
   try{
-    window.addEventListener("weiconAuthHazir", function(ev){
+    window.addEventListener("istakipAuthHazir", function(ev){
       try{ fbUid = ev.detail.user.uid; }catch(e){ fbUid = null; }
       fbYukle();
     });
@@ -86,7 +86,7 @@ var CartData = (function(){
   //    düzeltilse bile, Firebase'e yazma (fbKaydet) ASENKRON — "İşlemi
   //    İptal Et" hemen arkasından window.location.href ile BAŞKA SAYFAYA
   //    (home.html) gidiyor, sayfa değişince Firebase yazması YARIDA
-  //    KESİLEBİLİYOR. Yeni sayfa açılınca "weiconAuthHazir" yine ateşleniyor,
+  //    KESİLEBİLİYOR. Yeni sayfa açılınca "istakipAuthHazir" yine ateşleniyor,
   //    fbYukle() çalışıyor, Firebase'de HÂLÂ ESKİ (boşaltılmamış) yedeği
   //    görüyor, "sepet bu cihazda boş" kuralına uyduğu için GERİ YÜKLÜYOR —
   //    yani iptal, az sonra Firebase'in kendi yedeğiyle SESSİZCE GERİ

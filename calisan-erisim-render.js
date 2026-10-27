@@ -18,7 +18,7 @@
   YANLIŞLIKLA sınırsız hale getirir — bu yüzden bu seçenek bilerek yok.
 */
 
-// WEICON_CALISAN_EMAIL_DOMAINI artık firebase-config.js'de tek ortak
+// ISTAKIP_CALISAN_EMAIL_DOMAINI artık firebase-config.js'de tek ortak
 // sabit olarak tanımlı (login-render.js ile paylaşılıyor).
 
 var IZIN_TANIMLARI = [
@@ -74,7 +74,7 @@ function ceHataGoster(mesaj){
 function ceIkinciFirebaseApp(){
   var ikinciAdi = "calisanOlusturucu";
   var mevcutListe = firebase.apps.filter(function(a){ return a.name === ikinciAdi; });
-  return mevcutListe.length ? mevcutListe[0] : firebase.initializeApp(WEICON_FIREBASE_CONFIG, ikinciAdi);
+  return mevcutListe.length ? mevcutListe[0] : firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG, ikinciAdi);
 }
 
 function ceVarsayilanIzinler(){
@@ -85,7 +85,7 @@ function ceKullaniciOlustur(kullaniciAdiGirilen, sifre, cb){
   var kullaniciAdi = String(kullaniciAdiGirilen||"").trim().toLowerCase().replace(/\s+/g,"");
   if(!kullaniciAdi || !sifre){ cb(false, "Kullanıcı adı ve şifre girin."); return; }
   if(sifre.length < 6){ cb(false, "Şifre en az 6 karakter olmalı."); return; }
-  var email = kullaniciAdi + WEICON_CALISAN_EMAIL_DOMAINI;
+  var email = kullaniciAdi + ISTAKIP_CALISAN_EMAIL_DOMAINI;
   var ikincilApp;
   try{ ikincilApp = ceIkinciFirebaseApp(); }
   catch(e){ cb(false, "İkincil oturum başlatılamadı: " + e.message); return; }
@@ -407,7 +407,7 @@ document.addEventListener("DOMContentLoaded", function(){
     tarihEl.textContent = gunler[d.getDay()] + ", " + d.getDate() + " " + aylar[d.getMonth()] + " " + d.getFullYear();
   }
   var surumEl = document.getElementById("surumBilgisi");
-  if(surumEl) surumEl.textContent = "Sürüm WG.021026.1730.711";
+  if(surumEl) surumEl.textContent = "Sürüm WG.271026.2238.1133";
 
   ceTusTakiminiOlustur();
   ceErisimKontrolEt();

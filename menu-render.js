@@ -1,5 +1,5 @@
 /*
-  menu-render.js — VERSİYON: WG.251026.1030.1026
+  menu-render.js — VERSİYON: WG.271026.2238.1145
   ==============
   Menü artık sadece liste + 1 doğrudan aksiyon (Çıkış Yap). Ayarlar/
   Şablonlar/Veri kendi sayfalarında. "🔐 Uygulama PIN Değiştir" artık
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
   };
 
-  window.addEventListener("weiconAuthHazir", function(ev){
+  window.addEventListener("istakipAuthHazir", function(ev){
     var el = document.getElementById("kullaniciBilgi");
     if(el && ev.detail && ev.detail.user) el.textContent = ev.detail.user.email;
   });

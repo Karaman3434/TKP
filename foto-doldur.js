@@ -1,12 +1,12 @@
 /*
-  foto-doldur.js — WG.201026.1045.859
+  foto-doldur.js — WG.271026.2238.1143
   =====================================
   "📷 Fotoğraf/Ekran Görüntüsünden Doldur" — TEK KAYNAK paylaşılan modül
   (15.10.2026, Abdullah'ın isteğiyle, eski tek-dosyalık v1 uygulamadaki
   "Karttan/Tabeladan Doldur" özelliğinin v2 mimarisinde yeniden kurulmuş
   hâli). Kartvizit/tabela/fatura başlığı fotoğrafını veya WhatsApp/mail'den
   gelen bir ekran görüntüsünü — kamerayla çekerek ya da dosya/galeriden
-  seçerek — weicon-ai-config.js'teki WEICON_AI_WORKER_URL adresindeki
+  seçerek — ai-config.js'teki ISTAKIP_AI_WORKER_URL adresindeki
   Firebase Cloud Function'a gönderir, AI'nin okuduğu alanları JSON olarak
   geri alır ve çağıran sayfaya iletir.
 
@@ -124,7 +124,7 @@ var FotoDoldur = (function(){
   }
 
   function sunucuyaGonder(base64, mimeType){
-    if(typeof WEICON_AI_WORKER_URL === "undefined" || !WEICON_AI_WORKER_URL){
+    if(typeof ISTAKIP_AI_WORKER_URL === "undefined" || !ISTAKIP_AI_WORKER_URL){
       tamamlaHata("Bu özellik henüz bağlanmadı (sunucu adresi ayarlanmamış). Bilgileri elle girebilirsiniz.");
       return;
     }
@@ -133,7 +133,7 @@ var FotoDoldur = (function(){
       return;
     }
     firebase.auth().currentUser.getIdToken().then(function(idToken){
-      return fetch(WEICON_AI_WORKER_URL, {
+      return fetch(ISTAKIP_AI_WORKER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": "Bearer " + idToken },
         body: JSON.stringify({ resim: base64, mimeType: mimeType })

@@ -16,7 +16,7 @@ var MaasKayitData = (function(){
 
   function baslat(){
     try{
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       firebase.database().ref("maasKayitlari").on("value", function(snap){
         kayitlar = snap.val() || {};
         kayitlarYuklendi = true;

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.231026.1200.968 — home.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.271026.2238.1168 — home.html -->
 <!--
-  WEICON ASİST — ANA SAYFA v5 (sade "flat" tasarım + gerçek hedef ilerlemesi)
+  İŞ TAKİP — ANA SAYFA v5 (sade "flat" tasarım + gerçek hedef ilerlemesi)
   =============================================================================
   Ana ekranda SADECE gösterge panelleri var: en üstte tarih satırı + Menü/
-  WEICON logosu satırı (02.10.2026'dan beri — eski motivasyon sözü tamamen
+  İş Takip logosu satırı (02.10.2026'dan beri — eski motivasyon sözü tamamen
   kaldırıldı), İş Günü Kaldı + EUR Kur, koyu lacivert Eylül Satış/Prim kartı
   (aylık hedefe göre GERÇEK ilerleme çubuğu — Ayarlar'da girilen
   "weicon_hedef" değerine göre hesaplanır, hedef girilmemişse çubuk/rozet
@@ -51,7 +51,7 @@
 <link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
-<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.231026.1051.962">
+<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) —
      .as-drawer-oge--kilitli (kilitli satır görünümü), tüm sayfalarla ortak. -->
 <link rel="stylesheet" href="menu-cekmece-style.css?v=WG.271026.1320.1076">
@@ -63,8 +63,8 @@
        satırı kaldırıldı, tarih artık aşağıdaki panel satırında İş Günü
        Kaldı/EUR Kur ile aynı satırda üçüncü bir kutu (bkz. #asTarihGun/
        #asTarihTarih, home-render.js tarihiGuncelle). Menü (satırın 1/3'ü)
-       + WEICON logosu (satırın 2/3'ü, zemin/kutu YOK) yan yana, ikisi de
-       60px yükseklikte, logo weicon-logo-temiz.png (sıkı kırpılmış, boşluksuz)
+       + İş Takip logosu (satırın 2/3'ü, zemin/kutu YOK) yan yana, ikisi de
+       60px yükseklikte, logo is-takip-logo.png (sıkı kırpılmış, boşluksuz)
        kullanıyor. AYNI GÜN, ikinci güncelleme: Abdullah ekran kenarlarına
        olan boşlukların simetrik olmadığını belirtti (Menü'nün dolgun kırmızı
        kutusu kenara bitişikken, logonun object-fit:contain nedeniyle içindeki
@@ -262,21 +262,21 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="firebase-config.js?v=WG.021026.1510.710"></script>
-<script src="auth.js?v=WG.231026.1045.955"></script>
-<script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
-<script src="ayarlar-sync.js?v=WG.271026.2206.1115"></script>
-<script src="cihaz-data.js?v=WG.251026.0430.1024"></script>
-<script src="home-data.js?v=WG.150926.1241.572"></script>
-<script src="customer-data.js?v=WG.201026.0610.857"></script>
-<script src="hata-log.js?v=WG.140926.1412.560"></script>
+<script src="firebase-config.js?v=WG.271026.2238.1121"></script>
+<script src="auth.js?v=WG.271026.2238.1135"></script>
+<script src="ust-sabit-olcum.js?v=WG.271026.2238.1146"></script>
+<script src="ayarlar-sync.js?v=WG.271026.2238.1132"></script>
+<script src="cihaz-data.js?v=WG.271026.2238.1122"></script>
+<script src="home-data.js?v=WG.271026.2238.1129"></script>
+<script src="customer-data.js?v=WG.271026.2238.1134"></script>
+<script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
 <script>RotaTakip.kaydet("home.html", "🏠 Ana Sayfa", true);</script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) — çekmece
      aç/kapat + izin filtreleme artık burada, tüm sayfalarla paylaşılan. -->
-<script src="menu-cekmece.js?v=WG.271026.2037.1108"></script>
-<script src="home-render.js?v=WG.231026.1200.967"></script>
+<script src="menu-cekmece.js?v=WG.271026.2238.1144"></script>
+<script src="home-render.js?v=WG.271026.2238.1141"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
+<script src="bekleyen-islemler.js?v=WG.271026.2238.1149"></script>
 </body>
 </html>

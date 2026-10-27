@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.271026.2206.1118 — cart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.271026.2238.1159 — cart.html -->
 <!--
   27.10.2026 PERFORMANS KAZANIMI: html2canvas'ın bu sayfada en baştan
   yüklenen statik <script> etiketi kaldırıldı — artık cart-render.js'teki
   html2canvasYukle() tarafından sadece ihtiyaç anında indiriliyor.
-  WEICON ASİST — BİRLEŞİK SAYFA: ÜRÜN BUL + HIZLI HESAPLA + SEPET v6
+  İŞ TAKİP — BİRLEŞİK SAYFA: ÜRÜN BUL + HIZLI HESAPLA + SEPET v6
   ================================================================
   02.10.2026 (Abdullah'ın isteğiyle): Ürün Bul ve Hızlı Hesapla artık ayrı
   sayfalar değil — arama kutusu ve ürün listesi doğrudan burada. Ürün
@@ -47,7 +47,7 @@
      kılınıyor. Telefon genişliği HİÇ ETKİLENMİYOR. -->
 <style>@media (min-width:641px){ body{ max-width:none !important; } } </style>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.231026.1051.962">
+<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=WG.271026.1320.1076">
 </head>
 <body class="cart-sayfa">
@@ -412,23 +412,23 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="firebase-config.js?v=WG.021026.1150.708"></script>
-<script src="auth.js?v=WG.231026.1045.955"></script>
-<script src="ust-sabit-olcum.js?v=WG.060926.2105.156"></script>
-<script src="ayarlar-sync.js?v=WG.271026.2206.1115"></script>
+<script src="firebase-config.js?v=WG.271026.2238.1121"></script>
+<script src="auth.js?v=WG.271026.2238.1135"></script>
+<script src="ust-sabit-olcum.js?v=WG.271026.2238.1146"></script>
+<script src="ayarlar-sync.js?v=WG.271026.2238.1132"></script>
 <script src="hareket-tablo.js?v=WG.211026.1500.903"></script>
-<script src="cart-data.js?v=WG.261026.0745.1055"></script>
-<script src="product-data.js?v=WG.251026.2030.1030"></script>
-<script src="customer-data.js?v=WG.201026.0610.857"></script>
+<script src="cart-data.js?v=WG.271026.2238.1147"></script>
+<script src="product-data.js?v=WG.271026.2238.1130"></script>
+<script src="customer-data.js?v=WG.271026.2238.1134"></script>
 <script src="musteri-serit.js?v=WG.181026.2315.834"></script>
-<script src="reports-data.js?v=WG.271026.2206.1114"></script>
+<script src="reports-data.js?v=WG.271026.2238.1136"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1338.87"></script>
-<script src="send-data.js?v=WG.131026.1500.799"></script>
-<script src="hata-log.js?v=WG.130926.2010.553"></script>
+<script src="send-data.js?v=WG.271026.2238.1123"></script>
+<script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="rota-takip.js?v=WG.150926.1300.573"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
-<script src="cart-render.js?v=WG.271026.2206.1116"></script>
-<script src="urun-arama.js?v=WG.271026.1148.1070"></script>
+<script src="cart-render.js?v=WG.271026.2238.1148"></script>
+<script src="urun-arama.js?v=WG.271026.2238.1150"></script>
 <script src="hesapla-popup.js?v=WG.261026.0049.1039"></script>
 <script src="yarim-kalan-uyari.js?v=WG.100926.1021.435"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
@@ -440,8 +440,8 @@
   };
 </script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
+<script src="bekleyen-islemler.js?v=WG.271026.2238.1149"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=WG.271026.2037.1108"></script>
+<script src="menu-cekmece.js?v=WG.271026.2238.1144"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /*
-  home-anasayfa-style.css — WG.231026.1051.962
+  home-anasayfa-style.css — WG.271026.2238.1153
   ========================
   SADECE home.html'e özel — Abdullah'ın paylaştığı referans fotoğrafa göre
   yeniden tasarlanan Ana Sayfa (canlı mavi/yeşil, kartlı, çekmece menülü).
@@ -29,7 +29,7 @@
    kaldırıldı — tarih artık aşağıdaki .as-panel-satir'de üçüncü bir kutu
    (bkz. .as-tarih-panel); sonra Menü ile logo arasındaki kenar boşlukları
    simetrik olmadığı için ikisi .as-ust-cerceve içine alındı (bkz. aşağı).
-   Üstte sadece Menü (1/3 genişlik) + WEICON logosu (2/3 genişlik, zemin/
+   Üstte sadece Menü (1/3 genişlik) + İş Takip logosu (2/3 genişlik, zemin/
    kutu YOK), ikisi AYNI YÜKSEKLİKTE yan yana. ---------- */
 .as-ust-birlesik-satir {
   display: flex;
@@ -38,7 +38,7 @@
   padding: 11px 14px 16px;
   box-sizing: border-box;
 }
-/* YENİ (06.10.2026, Abdullah'ın isteğiyle) — Menü tuşu ile WEICON logosunu
+/* YENİ (06.10.2026, Abdullah'ın isteğiyle) — Menü tuşu ile İş Takip logosunu
    TEK bir çerçeve içine alıyor. Neden: logo object-fit:contain kullandığı
    için (harfler kesilmesin diye) kutusunu tam doldurmuyor, bu da logonun
    sağ kenara olan görsel boşluğunu Menü'nün dolgun kırmızı kutusuna göre
@@ -96,7 +96,7 @@
   font-weight: 700;
   line-height: 1;
 }
-/* WEICON logosu — satırın 2/3'ü, Menü ile aynı yükseklikte, hiçbir zemin
+/* İş Takip logosu — satırın 2/3'ü, Menü ile aynı yükseklikte, hiçbir zemin
    rengi veya kutu yok (02.10.2026, Abdullah'ın isteğiyle: önce denenen
    lacivert zeminli kutu beğenilmedi — sadece logonun kendisi). min-width:0
    ŞART — yoksa flex item img kendi orijinal piksel genişliğinden küçülmeyi
@@ -106,7 +106,7 @@
    dosyasında harflerin etrafında büyük boşluk vardı (piksel analiziyle
    doğrulandı — asıl yazı, tuvalin sadece ~%41'lik yüksekliğini kaplıyordu),
    bu yüzden logo Menü tuşundan kısa görünüyordu. Çözüm: logo dosyası sıkı
-   sınırlara kırpıldı (weicon-logo-temiz.png artık 2035x300px) VE cover
+   sınırlara kırpıldı (is-takip-logo.png artık 2035x300px) VE cover
    yerine contain kullanıldı — cover ile sıkı kırpılmış logo dar (telefon)
    ekranlarda "W" ve "N" harflerini kenarlardan kesiyordu (test edildi,
    kabul edilemezdi); contain hiçbir harfi kesmiyor. */
@@ -346,7 +346,7 @@
 .as-liste-ok { font-size: 16px; color: #b0b6c0; flex-shrink: 0; }
 
 /* ---------- Alt: ürün görseli (kenardan kenara) ---------- */
-/* 30.09.2026: görselin altındaki WEICON logo küpleri kalıcı olarak
+/* 30.09.2026: görselin altındaki İş Takip logo küpleri kalıcı olarak
    kırpıldı (Abdullah: üstteki logo yerinde dursun, sadece bu alttaki
    tekrar eden logo gitsin) — dosya artık 700x372, oran buna göre. */
 .as-urun-gorsel-blok { width: 100%; line-height: 0; aspect-ratio: 700 / 372; overflow: hidden; }

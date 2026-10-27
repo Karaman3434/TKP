@@ -1,5 +1,5 @@
 /*
-  reports-data.js — WG.271026.2206.1114
+  reports-data.js — WG.271026.2238.1136
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -40,7 +40,7 @@ var ReportsData = (function(){
 
   function baslat(){
     try{
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       var db = firebase.database();
 
       db.ref("arsiv").on("value", function(snap){

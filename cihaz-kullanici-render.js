@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: WG.251026.0430.1024
+  cihaz-kullanici-render.js — VERSİYON: WG.271026.2238.1124
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -968,7 +968,7 @@ var IZIN_TANIMLARI = [
 function ceIkinciFirebaseApp(){
   var ikinciAdi = "calisanOlusturucu";
   var mevcutListe = firebase.apps.filter(function(a){ return a.name === ikinciAdi; });
-  return mevcutListe.length ? mevcutListe[0] : firebase.initializeApp(WEICON_FIREBASE_CONFIG, ikinciAdi);
+  return mevcutListe.length ? mevcutListe[0] : firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG, ikinciAdi);
 }
 
 function ceVarsayilanIzinler(){
@@ -979,7 +979,7 @@ function ceKullaniciOlustur(kullaniciAdiGirilen, sifre, cb){
   var kullaniciAdi = String(kullaniciAdiGirilen||"").trim().toLowerCase().replace(/\s+/g,"");
   if(!kullaniciAdi || !sifre){ cb(false, "Kullanıcı adı ve şifre girin."); return; }
   if(sifre.length < 6){ cb(false, "Şifre en az 6 karakter olmalı."); return; }
-  var email = kullaniciAdi + WEICON_CALISAN_EMAIL_DOMAINI;
+  var email = kullaniciAdi + ISTAKIP_CALISAN_EMAIL_DOMAINI;
   var ikincilApp;
   try{ ikincilApp = ceIkinciFirebaseApp(); }
   catch(e){ cb(false, "İkincil oturum başlatılamadı: " + e.message); return; }

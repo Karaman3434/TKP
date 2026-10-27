@@ -10,7 +10,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Marka izi — tek soluk WEICON bloğu, köşeden taşıyor (desen/tekrar YOK) */
+/* Marka izi — tek soluk marka bloğu, köşeden taşıyor (desen/tekrar YOK) */
 body::before,
 body::after {
   content: "";

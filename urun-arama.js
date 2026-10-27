@@ -1,5 +1,5 @@
 /*
-  urun-arama.js — WG.271026.1148.1070
+  urun-arama.js — WG.271026.2238.1150
   GÜNCELLEME (27.10.2026, Abdullah onayı — mini arama özelliği): aşağıdaki
   "?ac=hit"/"?ac=yeniurun" bloğuna, AYNI desenle "?ac=hesapla&kod=..."
   eklendi — ana sayfa çekmecesindeki mini arama panelinden "HESAP"
@@ -352,7 +352,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
   };
 
-  window.addEventListener("weiconAuthHazir", uaIzinleriUygula);
+  window.addEventListener("istakipAuthHazir", uaIzinleriUygula);
   uaIzinleriUygula();
   ProductData.katalogDegistiginde(uaSonuclariCiz);
   uaSonuclariCiz();

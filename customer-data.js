@@ -1,5 +1,5 @@
 /*
-  customer-data.js — WG.201026.0610.857
+  customer-data.js — WG.271026.2238.1134
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -23,7 +23,7 @@ var CustomerData = (function(){
 
   function baslat(){
     try{
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       var db = firebase.database();
       db.ref("musteriler").on("value", function(snap){
         var data = snap.val();

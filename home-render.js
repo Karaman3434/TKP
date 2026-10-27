@@ -1,7 +1,7 @@
 /*
   home-render.js
   ==============
-  Bu dosyanın TEK görevi: WeiconData'dan veriyi okuyup ekrana (DOM'a) yazmak.
+  Bu dosyanın TEK görevi: IsTakipData'dan veriyi okuyup ekrana (DOM'a) yazmak.
   Hiçbir hesaplama yapmaz, hiçbir Firebase çağrısı içermez.
 
   GÜVENLİK AĞI: Her fonksiyon try/catch ile korunuyor ve herhangi bir hata
@@ -42,17 +42,17 @@ function tarihiGuncelle(){
 
 function kartlariGuncelle(){
   try{
-    var ay = WeiconData.buAyinVerisi();
-    var bugun = WeiconData.bugununVerisi();
+    var ay = IsTakipData.buAyinVerisi();
+    var bugun = IsTakipData.bugununVerisi();
 
-    setText("anaSayfaSatisToplam", WeiconData.fmt(ay.toplamEuro));
-    setText("anaSayfaSatisToplamTl", "≈ " + WeiconData.fmt(ay.toplamEuroTl) + " TL");
-    setText("anaSayfaPrimToplam", WeiconData.fmt(ay.toplamPrim));
+    setText("anaSayfaSatisToplam", IsTakipData.fmt(ay.toplamEuro));
+    setText("anaSayfaSatisToplamTl", "≈ " + IsTakipData.fmt(ay.toplamEuroTl) + " TL");
+    setText("anaSayfaPrimToplam", IsTakipData.fmt(ay.toplamPrim));
     setText("anaSayfaAyEtiketi", ay.ayAd + " " + ay.yil + " satışı");
     setText("anaSayfaPrimEtiketi", ay.ayAd + " " + ay.yil + " primi");
 
-    setText("anaSayfaBugunSatis", WeiconData.fmt(bugun.toplamEuro) + " EURO");
-    setText("anaSayfaBugunPrim", WeiconData.fmt(bugun.toplamPrim) + " TL");
+    setText("anaSayfaBugunSatis", IsTakipData.fmt(bugun.toplamEuro) + " EURO");
+    setText("anaSayfaBugunPrim", IsTakipData.fmt(bugun.toplamPrim) + " TL");
 
     hedefGostergesiniGuncelle(ay.toplamEuro);
 
@@ -92,7 +92,7 @@ function hedefGostergesiniGuncelle(satisToplamEuro){
     barTrack.hidden = false;
     barDolu.style.width = Math.min(yuzde, 100) + "%";
     altYazi.hidden = false;
-    altYazi.textContent = "Hedef: " + WeiconData.fmt(hedef) + " EURO";
+    altYazi.textContent = "Hedef: " + IsTakipData.fmt(hedef) + " EURO";
   }catch(e){ hataGoster("Hedef göstergesi güncellenemedi: " + e.message); }
 }
 
@@ -100,7 +100,7 @@ var TEMAS_TUR_ETIKET = {ziyaret:"Ziyaret", telefon:"Telefon", mail:"Mail", whats
 
 function gununOzetiniGuncelle(){
   try{
-    var islem = WeiconData.gununIslemOzeti();
+    var islem = IsTakipData.gununIslemOzeti();
     setText("gununOzetiIslemSayi", islem.toplam);
     setText("gununOzetiSiparisSayi", islem.dokum.siparis||0);
 
@@ -135,7 +135,7 @@ function setText(id, deger){
 
 function bildirimBanneriGuncelle(){
   try{
-    var ozet = WeiconData.bildirimOzetiHesapla();
+    var ozet = IsTakipData.bildirimOzetiHesapla();
     var banner = document.getElementById("bildirimBanner");
     if(ozet.toplam === 0){
       banner.hidden = true;
@@ -183,7 +183,7 @@ function hataRozetiGuncelle(){
   try{
     var rozet = document.getElementById("asAyarlarHataRozeti");
     if(!rozet) return;
-    if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+    if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
     firebase.database().ref("hatalar").on("value", function(snap){
       try{
         var veri = snap.val();
@@ -316,10 +316,10 @@ document.addEventListener("DOMContentLoaded", function(){
   }, 60000);
   kaBaslatVeKontrolEt();
   try{ if(typeof CihazData !== "undefined") CihazData.kaydiGuncelle(); }catch(e){}
-  WeiconData.veriDegistiginde(kartlariGuncelle);
-  WeiconData.bildirimDegistiginde(bildirimBanneriGuncelle);
-  WeiconData.bildirimDegistiginde(gununOzetiniGuncelle);
-  WeiconData.bildirimVerisiDinlemeyeBasla();
+  IsTakipData.veriDegistiginde(kartlariGuncelle);
+  IsTakipData.bildirimDegistiginde(bildirimBanneriGuncelle);
+  IsTakipData.bildirimDegistiginde(gununOzetiniGuncelle);
+  IsTakipData.bildirimVerisiDinlemeyeBasla();
   if(typeof CustomerData !== "undefined") CustomerData.listeDegistiginde(gununOzetiniGuncelle);
   document.getElementById("bildirimBanner").onclick = function(){ window.location.href = "bildirimler.html"; };
   // Firebase verisi henüz gelmemiş olabilir; ilk anda da bir kez dene.
@@ -335,8 +335,8 @@ document.addEventListener("DOMContentLoaded", function(){
   });
   if(typeof AyarlarSync !== "undefined") AyarlarSync.degistiginde(kartlariGuncelle);
   // NOT (23.10.2026) — #asDrawerEposta artık burada değil, menu-cekmece.js'teki
-  // paylaşılan weiconAuthHazir dinleyicisinde dolduruluyor (tüm sayfalarda ortak).
-  window.addEventListener("weiconAuthHazir", function(ev){
+  // paylaşılan istakipAuthHazir dinleyicisinde dolduruluyor (tüm sayfalarda ortak).
+  window.addEventListener("istakipAuthHazir", function(ev){
     asKurGuncelle();
   });
 });

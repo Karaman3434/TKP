@@ -83,7 +83,7 @@
     document.addEventListener("DOMContentLoaded", hazirlik);
     window.addEventListener("resize", olc);
     window.addEventListener("load", hazirlik);
-    window.addEventListener("weiconAuthHazir", hazirlik);
+    window.addEventListener("istakipAuthHazir", hazirlik);
     window.addEventListener("storage", function(ev){ if(ev.key === "weicon_kur") headerKuruGuncelle(); });
   }catch(e){}
 })();

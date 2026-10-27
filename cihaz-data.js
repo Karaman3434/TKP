@@ -24,7 +24,7 @@ var CihazData = (function(){
   var KORUMALI_AD = "samsung s22"; // küçük harfe çevrilip karşılaştırılır
 
   function baslat(){
-    try{ if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); } }catch(e){}
+    try{ if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); } }catch(e){}
   }
 
   function benimIdim(){

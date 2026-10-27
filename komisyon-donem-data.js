@@ -1,5 +1,5 @@
 /*
-  komisyon-donem-data.js — VERSİYON: WG.270926.2245.651
+  komisyon-donem-data.js — VERSİYON: WG.271026.2238.1126
   ==========================================================
   27.09.2026 yeniden tasarım: Ödenebilir Komisyon artık serbest tarihli
   kayıt listesi (eski KomisyonData / odenebilir-komisyon-data.js) yerine,
@@ -21,7 +21,7 @@ var KomisyonDonemData = (function(){
 
   function baslat(){
     try{
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       firebase.database().ref("odenebilirKomisyonDonem").on("value", function(snap){
         veri = snap.val() || null;
         yuklendi = true;

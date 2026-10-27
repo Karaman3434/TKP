@@ -1,4 +1,4 @@
-// menu-cekmece.js — WG.271026.2037.1108
+// menu-cekmece.js — WG.271026.2238.1144
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -87,13 +87,13 @@
 // window.izinVarMi ile) o anahtarlardan EN AZ BİRİNE sahip olması
 // yeterli — örn. "Raporlar" kategorisi, altındaki 6 alt sayfadan
 // herhangi birine izni varsa açık görünür (kilitli değil). Bu, admin/
-// kısıtlanmamış hesaplarda (window.WEICON_IZINLER null/undefined)
+// kısıtlanmamış hesaplarda (window.ISTAKIP_IZINLER null/undefined)
 // izinVarMi() zaten her zaman true döndüğü için HİÇBİR DAVRANIŞ
 // DEĞİŞİKLİĞİ yaratmaz — sadece kısıtlı çalışanlarda devreye girer.
 //
-// ÖNEMLİ — ZAMANLAMA: izinler (window.WEICON_IZINLER) sayfa yüklenir
+// ÖNEMLİ — ZAMANLAMA: izinler (window.ISTAKIP_IZINLER) sayfa yüklenir
 // yüklenmez değil, Firebase'den auth.js çözdükten SONRA hazır olur —
-// auth.js bunu "weiconAuthHazir" custom event'iyle bildirir (tüm
+// auth.js bunu "istakipAuthHazir" custom event'iyle bildirir (tüm
 // sayfalarda zaten kullanılan, kanıtlanmış bir desen). Çekmece İÇERİĞİ
 // (kilitli/açık satırlar) bu event geldiğinde oluşturulur; açma/kapama
 // gibi tıklama bağlamaları ise sayfa yüklenir yüklenmez (DOMContentLoaded)
@@ -277,7 +277,7 @@ function mcUrunModulunuYukle(hazirOlunca){
   if(mcUrunModulYukleniyor) return;
   mcUrunModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "product-data.js?v=WG.251026.2030.1030";
+  s.src = "product-data.js?v=WG.271026.2238.1130";
   s.onload = function(){
     mcUrunDinleyiciyiBagla();
     mcUrunModulBekleyenler.forEach(function(fn){ fn(); });
@@ -297,7 +297,7 @@ function mcMusteriModulunuYukle(hazirOlunca){
   if(mcMusteriModulYukleniyor) return;
   mcMusteriModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "customer-data.js?v=WG.201026.0610.857";
+  s.src = "customer-data.js?v=WG.271026.2238.1134";
   s.onload = function(){
     mcMusteriDinleyiciyiBagla();
     mcMusteriModulBekleyenler.forEach(function(fn){ fn(); });
@@ -936,7 +936,7 @@ function asDrawerBagla(){
 document.addEventListener("DOMContentLoaded", function(){
   asDrawerBagla();
 });
-window.addEventListener("weiconAuthHazir", function(ev){
+window.addEventListener("istakipAuthHazir", function(ev){
   mcDrawerListesiOlustur();
   mcAracKmDurumunuGetir();
   try{

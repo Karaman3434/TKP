@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.271026.2206.1116
+  cart-render.js — WG.271026.2238.1148
   ==============
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
   "Tablo Görseli Gönder" gerçekten tıklandığında ilk kez indiriliyor (bkz.
@@ -977,9 +977,9 @@ document.addEventListener("DOMContentLoaded", function(){
   };
 
   CustomerData.listeDegistiginde(sayfayiCiz);
-  window.addEventListener("weiconAuthHazir", sayfayiCiz);
+  window.addEventListener("istakipAuthHazir", sayfayiCiz);
   // Sepet, bu cihazda boşken Firebase yedeğinden geri yüklenirse (bkz.
   // cart-data.js fbYukle) ekranı yeniden çiz (09.10.2026).
-  document.addEventListener("weiconSepetGeriYuklendi", sayfayiCiz);
+  document.addEventListener("istakipSepetGeriYuklendi", sayfayiCiz);
   sayfayiCiz();
 });

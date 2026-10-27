@@ -47,7 +47,7 @@ var AvansKayitData = (function(){
 
   function baslat(){
     try{
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       var db = firebase.database();
       db.ref("avansKayitlari").on("value", function(snap){
         kayitlar = snap.val() || {};

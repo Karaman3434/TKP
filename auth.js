@@ -1,5 +1,5 @@
 /*
-  auth.js — WG.251026.0145.1012
+  auth.js — WG.271026.2238.1135
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -14,7 +14,7 @@
 
 (function(){
 
-  if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+  if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
 
   // Oturumun kalıcı (LOCAL) modda saklanmasını AÇIKÇA istiyoruz — bu zaten
   // SDK'nın varsayılanı ama bazı Android tarayıcı/sürüm kombinasyonlarında
@@ -229,7 +229,7 @@
 
   // İNCE AYAR (BUTON BAZLI) İZİNLER (02.10.2026, Birleşik Sayfa) — sayfa
   // seviyesinin altında, tek bir sayfa içindeki belirli düğmeleri açıp
-  // kapatmak için. window.WEICON_IZINLER = null demek "kısıtlı değil, her
+  // kapatmak için. window.ISTAKIP_IZINLER = null demek "kısıtlı değil, her
   // şey açık" (Abdullah'ın kendi hesabı); dolu bir obje demek kısıtlı bir
   // çalışan demek — o objede YOKSA veya true İSE açık sayılır, SADECE
   // açıkça false İSE gizlenir/pasifleşir (geriye dönük uyumluluk: eski
@@ -237,9 +237,9 @@
   // YENİ BİR İNCE AYAR İZNİ EKLEMEK İSTERSEN: calisan-erisim-render.js'teki
   // İZIN_TANIMLARI'na aynı anahtarla bir satır eklemen yeterli — burada
   // ayrıca bir şey tanımlamana gerek yok.
-  window.WEICON_IZINLER = undefined; // henüz çözülmedi
+  window.ISTAKIP_IZINLER = undefined; // henüz çözülmedi
   window.izinVarMi = function(anahtar){
-    var iz = window.WEICON_IZINLER;
+    var iz = window.ISTAKIP_IZINLER;
     return !iz || iz[anahtar] !== false;
   };
 
@@ -248,7 +248,7 @@
     if(KISITLI_MUSTESNA_SAYFALAR.indexOf(dosyaAdi) >= 0){ cb(true); return; }
     try{
       firebase.database().ref("kisitliKullanicilar/" + user.uid).once("value").then(function(snap){
-        if(!snap.exists()){ window.WEICON_IZINLER = null; cb(true); return; } // harita yok -> kısıtlı değil
+        if(!snap.exists()){ window.ISTAKIP_IZINLER = null; cb(true); return; } // harita yok -> kısıtlı değil
         var veri = snap.val() || {};
         if(veri.aktif === false){
           document.documentElement.style.visibility = "hidden";
@@ -271,12 +271,12 @@
           }
           izinKontroluneDevamEt(veri);
         });
-      }).catch(function(){ window.WEICON_IZINLER = null; cb(true); }); // okunamazsa (çevrimdışı vb.) engelleme
+      }).catch(function(){ window.ISTAKIP_IZINLER = null; cb(true); }); // okunamazsa (çevrimdışı vb.) engelleme
 
       function izinKontroluneDevamEt(veri){
         var izinler = veri.izinler || {};
         var gerekliAnahtar = SAYFA_IZIN_ANAHTARI[dosyaAdi];
-        if(gerekliAnahtar && izinler[gerekliAnahtar] === true){ window.WEICON_IZINLER = izinler; cb(true); return; }
+        if(gerekliAnahtar && izinler[gerekliAnahtar] === true){ window.ISTAKIP_IZINLER = izinler; cb(true); return; }
         // İzinsiz — izinli ilk sayfaya sessizce yönlendir, hiçbiri yoksa çıkış yap.
         var hedefAnahtar = null;
         for(var i=0; i<SAYFA_IZIN_SIRASI.length; i++){
@@ -291,7 +291,7 @@
         window.location.replace(SAYFA_IZIN_DOSYA[hedefAnahtar]);
         cb(false);
       }
-    }catch(e){ window.WEICON_IZINLER = null; cb(true); }
+    }catch(e){ window.ISTAKIP_IZINLER = null; cb(true); }
   }
 
   function aktiviteZamaniniGuncelle(){
@@ -478,9 +478,9 @@
       KM_GUNLUK_KONTROL_TIMER = setTimeout(function(){ kmGunlukKontrolu(firebase.auth().currentUser, function(){}); }, ms);
     }
     function hatirlatmaGoster(){
-      if(kmSayfasi || !document.body || document.getElementById("weiconKmGunlukOverlay")) return;
+      if(kmSayfasi || !document.body || document.getElementById("istakipKmGunlukOverlay")) return;
       var overlay=document.createElement("div");
-      overlay.id="weiconKmGunlukOverlay";
+      overlay.id="istakipKmGunlukOverlay";
       overlay.style.cssText="position:fixed;inset:0;z-index:100000;background:rgba(9,28,54,.70);display:flex;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;font-family:Arial,sans-serif;";
       var kutu=document.createElement("div");
       kutu.style.cssText="width:100%;max-width:390px;background:#fff;border-radius:16px;padding:22px 18px 18px;box-sizing:border-box;box-shadow:0 18px 55px rgba(0,0,0,.28);text-align:center;color:#17365f;";
@@ -552,13 +552,13 @@
         // tetiklenince aşağıdaki "else" kolu formu zaten görünür yapıyor.
         // DÜZELTME (22.10.2026) — Bu kontrol SADECE "sayfa yeni açıldığında
         // ZATEN BAŞKA bir oturum açıktı" durumu için; BU formdan az önce
-        // TAMAMLANMIŞ gerçek bir girişi (window.weiconGirisFormundanDenendi,
+        // TAMAMLANMIŞ gerçek bir girişi (window.istakipGirisFormundanDenendi,
         // login-render.js'te girisYap() tıklanır tıklanmaz true olur) YANLIŞ
         // ALARM sayıp hemen çıkış yapmamalı — aksi hâlde başarılı bir giriş
         // bile anında kendini sonsuza dek "Giriş yapılıyor..." durumunda
         // kilitli bırakıyordu (Abdullah'ın bildirdiği hata).
         var zorlaGirisFormu = false;
-        try{ zorlaGirisFormu = /[?&]kullanici=/.test(window.location.search) && !window.weiconGirisFormundanDenendi; }catch(e){}
+        try{ zorlaGirisFormu = /[?&]kullanici=/.test(window.location.search) && !window.istakipGirisFormundanDenendi; }catch(e){}
         if(zorlaGirisFormu){
           firebase.auth().signOut();
           return;
@@ -592,7 +592,7 @@
               document.documentElement.style.visibility = "visible";
               if(!buSayfaPin) aktiviteZamaniniGuncelle();
               cihazKaydiGuncelle(user);
-              window.dispatchEvent(new CustomEvent("weiconAuthHazir", {detail:{user:user}}));
+              window.dispatchEvent(new CustomEvent("istakipAuthHazir", {detail:{user:user}}));
             });
           });
         });
@@ -603,7 +603,7 @@
         kmGunlukKontrolu(user, function(){
           document.documentElement.style.visibility = "visible";
           if(!buSayfaPin) aktiviteZamaniniGuncelle();
-          window.dispatchEvent(new CustomEvent("weiconAuthHazir", {detail:{user:user}}));
+          window.dispatchEvent(new CustomEvent("istakipAuthHazir", {detail:{user:user}}));
         });
       });
     } else {

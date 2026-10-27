@@ -1,4 +1,4 @@
-// WEICON ASİST — UI RENDER / NAVIGATION SAFETY LAYER
+// İŞ TAKİP — UI RENDER / NAVIGATION SAFETY LAYER
 // W230826.0824.02 — varsayılan PIN'in zorunlu değiştirilmesi düzeltmesiyle güncellendi
 // Bu katman veri kaydetmez; yalnızca navigasyonun DOM tarafındaki güvenliğini sağlar.
 // Amaç: geçersiz sayfa çağrıları, eksik DOM elemanları ve aynı anda gelen geçişlerin
@@ -6,16 +6,16 @@
 (function(){
   "use strict";
   function kur(){
-    if(typeof window.switchTab !== "function" || window.__weiconSwitchTabGuarded) return;
+    if(typeof window.switchTab !== "function" || window.__istakipSwitchTabGuarded) return;
     var original = window.switchTab;
-    window.__weiconOriginalSwitchTab = original;
+    window.__istakipOriginalSwitchTab = original;
 
     window.switchTab = function(n){
       n = Number(n);
       if(!Number.isInteger(n)) return;
       var page = document.getElementById("page"+n);
       if(!page){
-        console.warn("WEICON UI: olmayan sayfaya geçiş engellendi:", n);
+        console.warn("İŞ TAKİP UI: olmayan sayfaya geçiş engellendi:", n);
         return;
       }
 
@@ -24,7 +24,7 @@
       try {
         return original.call(this, n);
       } catch(err) {
-        console.error("WEICON UI switchTab hatası:", n, err);
+        console.error("İŞ TAKİP UI switchTab hatası:", n, err);
         // UI'ı güvenli biçimde hedef sayfaya getir.
         try{
           document.querySelectorAll(".content-page").forEach(function(el){
@@ -34,12 +34,12 @@
           window.activeCurrentPage = n;
           if(typeof window.navTabsGuncelle === "function") window.navTabsGuncelle();
         }catch(recoverErr){
-          console.error("WEICON UI kurtarma hatası:", recoverErr);
+          console.error("İŞ TAKİP UI kurtarma hatası:", recoverErr);
         }
       }
     };
 
-    window.__weiconSwitchTabGuarded = true;
+    window.__istakipSwitchTabGuarded = true;
   }
 
   if(document.readyState === "loading"){

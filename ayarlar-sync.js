@@ -1,5 +1,5 @@
 /*
-  ayarlar-sync.js — WG.271026.2206.1115
+  ayarlar-sync.js — WG.271026.2238.1132
   ===============
   27.10.2026 PERFORMANS KAZANIMI: otomatik kur çekme zincirindeki her
   denemeye (TCMB/Frankfurter/yedek) 5 saniyelik zaman aşımı eklendi — bkz.
@@ -33,7 +33,7 @@ var AyarlarSync = (function(){
 
   function baslat(){
     try{
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       firebase.database().ref("ayarlar").on("value", function(snap){
         var v = snap.val() || {};
         if(v.kur!=null) localStorage.setItem("weicon_kur", v.kur);

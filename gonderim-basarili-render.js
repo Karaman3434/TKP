@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function(){
   // Ekran 5 saniye görünüp kendiliğinden Ana Sayfa'ya döner (26.09.2026,
   // Abdullah'ın isteğiyle — butona basmaya gerek kalmadan; 30.09.2026'da
   // 6 sn'den 5 sn'ye kısaltıldı ve arka plan fotoğrafı kaldırılıp beyaz
-  // zemin + gerçek WEICON logosu ortalanarak büyütüldü).
+  // zemin + gerçek İş Takip logosu ortalanarak büyütüldü).
   //
   // KÖK NEDEN DÜZELTMESİ (27.09.2026): Mail/WhatsApp paylaşımı seçilince
   // telefon başka bir uygulamaya (Outlook/Gmail/WhatsApp) geçiyor, bu

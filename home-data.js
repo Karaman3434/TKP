@@ -10,7 +10,7 @@
   DEĞİŞMEDİ, sadece dosya/sorumluluk ayrımı yapıldı.
 */
 
-var WeiconData = (function(){
+var IsTakipData = (function(){
 
   var AYLAR = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
   var arsivData = {siparis:[], proforma:[], teklif:[], numune:[]};
@@ -20,7 +20,7 @@ var WeiconData = (function(){
 
   function baslat(){
     try{
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       var db = firebase.database();
       db.ref("arsiv").on("value", function(snap){
         var data = snap.val();
@@ -215,4 +215,4 @@ var WeiconData = (function(){
 
 })();
 
-WeiconData.baslat();
+IsTakipData.baslat();

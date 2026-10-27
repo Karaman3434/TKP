@@ -16,7 +16,7 @@ var KomisyonData = (function(){
 
   function baslat(){
     try{
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       firebase.database().ref("odenebilirKomisyon").on("value", function(snap){
         kayitlar = snap.val() || {};
         dinleyiciler.forEach(function(fn){

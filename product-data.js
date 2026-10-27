@@ -1,5 +1,5 @@
 /*
-  product-data.js — WG.251026.2030.1030
+  product-data.js — WG.271026.2238.1130
   ===============
   TEK görevi: ürün kataloğunu Firebase'den çekmek ve sepet (basket)
   durumunu yönetmek. DOM'a dokunmaz.
@@ -33,7 +33,7 @@ var ProductData = (function(){
 
   function baslat(){
     try{
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       var db = firebase.database();
       dbRef = db;
 

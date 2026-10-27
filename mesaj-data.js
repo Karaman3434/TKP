@@ -1,7 +1,7 @@
 /*
   mesaj-data.js
   =============
-  Mesaj Ayarları — TAMAMEN MANUEL sistem (WG.210926.1603.585).
+  Mesaj Ayarları — TAMAMEN MANUEL sistem (WG.271026.2238.1139).
 
   Kural: Mesaj Ayarları ekranında yazılan mail ve WhatsApp metinleri,
   otomatik "Merhaba," satırı veya otomatik "NOT:" ekleme OLMADAN, YAZILDIĞI
@@ -77,7 +77,7 @@ var MesajData = (function(){
 
   function fbHazirla(){
     if(typeof firebase === "undefined") return null;
-    if(!firebase.apps.length && typeof WEICON_FIREBASE_CONFIG !== "undefined"){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+    if(!firebase.apps.length && typeof ISTAKIP_FIREBASE_CONFIG !== "undefined"){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
     return firebase.apps.length ? firebase.database() : null;
   }
 

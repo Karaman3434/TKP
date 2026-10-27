@@ -1,5 +1,5 @@
 /*
-  ajanda-data.js — VERSİYON: WG.121026.1217.769
+  ajanda-data.js — VERSİYON: WG.271026.2238.1140
   =================================================
   09.10.2026, Abdullah'ın isteğiyle: günlük kağıt ajandasının (not
   defteri) sayfa fotoğraflarını tarihe göre saklayıp hızlıca geri
@@ -47,7 +47,7 @@ var AjandaData = (function(){
 
   function baslat(){
     try{
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       firebase.database().ref("ajanda").on("value", function(snap){
         veri = snap.val() || {};
         yuklendi = true;

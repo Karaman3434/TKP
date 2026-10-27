@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function(){
   };
 
   try{
-    if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+    if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
     firebase.database().ref("hatalar").limitToLast(200).on("value", function(snap){
       var veri = snap.val();
       tumKayitlar = veri ? Object.keys(veri).map(function(anahtar){

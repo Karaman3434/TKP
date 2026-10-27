@@ -1,5 +1,5 @@
 /*
-  bekleyen-islemler.js — WG.231026.1045.956
+  bekleyen-islemler.js — WG.271026.2238.1149
   ==========================================
   15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı; "istisnasız tüm
   sayfalar" talebiyle genişletildi): "Beklet / Bekleyen İşlemler" — bir
@@ -36,7 +36,7 @@
                                               // gösteriyorum" anahtarı
     };
   Hiçbir ayar verilmezse akıllı varsayılan kullanılır: başlık = sayfa
-  başlığı (document.title, "WEICON ASİST — " öneki temizlenmiş), nötr
+  başlığı (document.title, "İş Takip — " öneki temizlenmiş), nötr
   gri çip, resumeKey YOK (devam edince sadece o sayfaya gidilir).
 
   VERİ MODELİ: localStorage["weiconv2_bekleyen_islemler"] — EN FAZLA 2
@@ -121,10 +121,10 @@ var BekleyenIslemler = (function(){
     window.location.href = kayit.url || "home.html";
   }
 
-  // Sayfa adını temizler: "WEICON ASİST — Cari Kart" -> "Cari Kart".
+  // Sayfa adını temizler: "İş Takip — Cari Kart" -> "Cari Kart".
   function temizSayfaAdi(){
     var t = document.title || "";
-    return t.replace(/^WEICON ASİST\s*[—-]\s*/, "") || t || "Bu sayfa";
+    return t.replace(/^İş Takip\s*[—-]\s*/, "") || t || "Bu sayfa";
   }
 
   function dosyaAdi(){
@@ -312,7 +312,7 @@ var BekleyenIslemler = (function(){
     "marka-karsilastirma.html": "bekletMarkaKarsilastirma"
   };
   // Düğme DOMContentLoaded'de (auth henüz çözülmeden) zaten oluşturulduğu
-  // için, izin burada "weiconAuthHazir" olayında ayrıca uygulanır (aynı
+  // için, izin burada "istakipAuthHazir" olayında ayrıca uygulanır (aynı
   // urun-arama.js'teki uaIzinleriUygula deseni).
   function biIzinleriUygula(){
     try{
@@ -331,7 +331,7 @@ var BekleyenIslemler = (function(){
       elOlustur();
       biIzinleriUygula();
     }
-    window.addEventListener("weiconAuthHazir", biIzinleriUygula);
+    window.addEventListener("istakipAuthHazir", biIzinleriUygula);
   }
   baslat();
 

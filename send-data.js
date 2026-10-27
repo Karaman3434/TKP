@@ -1,5 +1,5 @@
 /*
-  send-data.js — WG.131026.1500.799
+  send-data.js — WG.271026.2238.1123
   ============
   TEK görevi: sepeti + seçili müşteriyi + belge türünü alıp Firebase
   arşivine ESKİ UYGULAMAYLA UYUMLU bir kayıt yazmak. Uyumluluk önemli:
@@ -16,7 +16,7 @@ var SendData = (function(){
 
   function baslat(){
     try{
-      if(!firebase.apps.length){ firebase.initializeApp(WEICON_FIREBASE_CONFIG); }
+      if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
     }catch(e){ console.error("Firebase başlatma hatası:", e); }
   }
 
