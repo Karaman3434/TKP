@@ -1,5 +1,10 @@
 /*
-  customer-render.js — WG.261026.0128.1043
+  customer-render.js — WG.271026.1211.1072
+  GÜNCELLEME (27.10.2026, Abdullah onayı — ana sayfa mini arama özelliği):
+  "?musteriAc=<id-veya-ad>" parametresiyle buraya gelinirse, ilgili müşteri
+  bulunup GERÇEK hızlı pencere (hizliPencereyiAc) otomatik açılır — bkz.
+  DOMContentLoaded sonundaki yeni blok. menu-cekmece.js'teki ana sayfa mini
+  arama panelinden bir müşteriye dokununca buraya bu parametreyle gelinir.
   ==================
   Liste davranışı (arama/Tüm Müşteriler/şehir filtresi/sıralama) AYNI kaldı.
   13.10.2026 (Abdullah'ın paylaştığı referans görsel + gerçek ChatGPT kodu +
@@ -528,5 +533,32 @@ document.addEventListener("DOMContentLoaded", function(){
   // veri sonradan gelince liste hiç tazelenmiyor, rozetler kalıcı olarak
   // "yok" görünüyordu. Artık ReportsData değiştiğinde de yeniden çiziliyor.
   if(typeof ReportsData !== "undefined") ReportsData.arsivDegistiginde(listeyiCiz);
+
+  // EKLENDİ (27.10.2026, Abdullah onayı — ana sayfa mini arama özelliği):
+  // "?musteriAc=<id-veya-ad>" ile gelinirse, müşteri bulunur bulunmaz
+  // GERÇEK hızlı pencere otomatik açılır — listeyiCiz'deki satır tıklama
+  // işleyicisiyle (CustomerData.sec + sonGoruntulendi + temizlik +
+  // hizliPencereyiAc) BİREBİR AYNI adımlar, sadece tetikleyici farklı.
+  // CustomerData.listeDegistiginde deseniyle AYNI mantık: liste ilk anda
+  // henüz gelmemiş olabilir, geldiğinde tekrar denenir.
+  try{
+    var cmAcParam = new URLSearchParams(window.location.search).get("musteriAc");
+    if(cmAcParam){
+      var cmAcYapildi = false;
+      var cmAcDene = function(){
+        if(cmAcYapildi || CustomerData.uzunluk() === 0) return;
+        var m = CustomerData.musteriIdIleBul(cmAcParam) || CustomerData.musteriBul(cmAcParam);
+        if(!m) return;
+        cmAcYapildi = true;
+        CustomerData.sec(m);
+        CustomerData.sonGoruntulendi(m.ad);
+        localStorage.removeItem("weiconv2_islem_yap_akisi");
+        hizliPencereyiAc(m);
+      };
+      CustomerData.listeDegistiginde(cmAcDene);
+      cmAcDene();
+    }
+  }catch(e){}
+
   listeyiCiz();
 });

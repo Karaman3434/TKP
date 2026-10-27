@@ -1,4 +1,15 @@
-// menu-cekmece.js — WG.271026.1148.1068
+// menu-cekmece.js — WG.271026.1211.1071
+// GÜNCELLEME (27.10.2026, Abdullah onayı — ekran görüntüsü üzerinden):
+// Müşteri mini arama sonucuna dokununca artık DOĞRUDAN customer-cari-
+// kart.html'e GİTMİYOR — bunun yerine customer.html'e "?musteriAc=<id>"
+// ile gidilip, oradaki GERÇEK "hızlı pencere" (hizliPencereyiAc, Cari/
+// Temas/İşlem Yap/Fatura Takip/İşlem Geçmişi/Görevlerim/Ürün Geçmişi/
+// Bekleyen Ürünler seçenekleriyle) otomatik açılıyor — kullanıcı oradan
+// istediği işlemi seçiyor (bkz. customer-render.js'teki yeni "musteriAc"
+// bloğu). Bu, hızlı pencereyi BURADA (42 sayfada paylaşılan dosyada)
+// ReportsData/VadeTakip gibi ağır modüllerle yeniden inşa etmek yerine,
+// GERÇEK ve TEK yerdeki kodu aynen çağırtan "?ac=" deseninin (bkz.
+// urun-arama.js ?ac=hit/yeniurun/hesapla) bir devamı.
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup5 üzerinden, 5 tur geri
 // bildirim sonrası: "Ok tmm kodlayalım") — "Ürün" ve "Müşteri" satırlarına,
 // etiketin hemen yanında DOĞRUDAN yazılabilen bir mini arama kutusu
@@ -12,10 +23,10 @@
 // yükleniyor) — bu yüzden ilk kullanımda (ilk odaklanma/yazma) GEREKEN
 // modül dinamik <script> ile BİR KEZ eklenir (zaten o sayfada yüklüyse
 // hiç dokunulmaz). İki varsayım, kullanıcıya KODLAMA TESLİMİNDE açıkça
-// not edilecek: (1) "M-1234 formatı" talebi bu özelliğin KENDİ tasarımıyla
-// karşılanıyor, diğer sayfalara YAYILMADI; (2) müşteri sonucuna dokununca
-// customer.html'deki ara "hızlı pencere" adımı ATLANIP doğrudan
-// customer-cari-kart.html'e gidiliyor.
+// not edilecek: "M-1234 formatı" talebi bu özelliğin KENDİ tasarımıyla
+// karşılanıyor, diğer sayfalara YAYILMADI. (Müşteri sonucuna dokununca
+// NE olacağı 27.10.2026'da yukarıdaki güncellemeyle netleşti: hızlı
+// pencere açılıyor, doğrudan Cari Kart'a gidilmiyor.)
 // GÜNCELLEME (26.10.2026, Abdullah onayı) — "Bakiyedeki Ürünler" etiketi,
 // bu ekranın "tamamen bekleyen" + "kısmi bakiyede" ürünleri BİRLİKTE
 // gösterdiğini daha net yansıtsın diye "Bakiye ve Bekleyen Ürünler" olarak
@@ -424,15 +435,14 @@ function mcMusteriSonuclariniCiz(q, panel){
   panel.querySelectorAll(".musteri-karti").forEach(function(kart, i){
     kart.onclick = function(){
       var m = sonuclar[i];
-      CustomerData.sec(m);
-      CustomerData.sonGoruntulendi(m.ad);
-      // HATA DÜZELTME (WG.100926.196) İLE AYNI temizlik — customer-render.js
-      // listeyiCiz'deki tıklama işleyicisiyle BİREBİR AYNI gerekçe.
-      try{ localStorage.removeItem("weiconv2_islem_yap_akisi"); }catch(e){}
-      // KASITLI FARK (Abdullah'ın orijinal isteği: "doğrudan... müşteri
-      // cari veya müşteri sayfasına gitsin"): customer.html'deki ara
-      // "hızlı pencere" adımı burada ATLANIP doğrudan Cari Kart'a gidilir.
-      window.location.href = "customer-cari-kart.html";
+      // DEĞİŞİKLİK (27.10.2026, Abdullah onayı — ekran görüntüsü üzerinden:
+      // "müşteri cari kartı açılmasın, ... küçük işlem popop açılsın"):
+      // seçim/sonGoruntulendi/temizlik işleri ARTIK BURADA yapılmıyor —
+      // customer.html'deki GERÇEK hızlı pencere akışı (listeyiCiz'deki
+      // satır tıklamasıyla BİREBİR AYNI) bunları kendisi yapıyor, burada
+      // sadece hangi müşteri olduğunu (id öncelikli, yoksa ad) taşıyoruz.
+      var anahtar = m.id || m.ad;
+      window.location.href = "customer.html?musteriAc=" + encodeURIComponent(anahtar);
     };
   });
 }
