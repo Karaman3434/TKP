@@ -1,4 +1,4 @@
-/* satis-listesi-render.js — WG.211026.2235.919
+/* satis-listesi-render.js — WG.271026.1843.1104
    TARİH FİLTRESİ (21.10.2026, Abdullah onayı): liste artık HER ZAMAN
    ReportsData.satislarListele("tumu") ile (sınırsız) çekilir — eski
    ?kapsam=bugun/ay URL parametresi SADECE paylaşılan TarihFiltre
@@ -94,7 +94,7 @@ function tlKartHTML(k){
   var meta = TIP_META[k.tip] || TIP_META.siparis;
   var rozetMeta = kacanMi ? KACAN_META : (revizeMi ? RVZ_META : meta);
   var kod = k.kod || meta.rozet;
-  var tutarHucre = bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 Bekleyen</span>" : fmt(k._tutar) + " €";
+  var tutarHucre = bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 BAKİYE</span>" : fmt(k._tutar) + " €";
   return srSatirHTML(k, rozetMeta.serit, rozetMeta, kod, tutarHucre, "i", k._i);
 }
 // BAKİYE (07.10.2026) — kayıt satislarListele/tumKacanlar'dan geldiyse

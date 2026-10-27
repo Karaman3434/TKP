@@ -1,4 +1,4 @@
-/* kacan-satislar-render.js — WG.211026.2235.920 */
+/* kacan-satislar-render.js — WG.271026.1843.1103 */
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -79,7 +79,7 @@ function tlKartHTML(k){
     + "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
     + "<span class='sr-rozet-h' style='background:" + KACAN_META.rozetBg + ";color:" + KACAN_META.rozetRenk + ";'>" + KACAN_META.rozet + "</span>"
     + "<div class='sr-belge-h'>" + kodHTML(kod, k.tip) + "</div>"
-    + "<div class='sr-tutar-h'>" + (bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 Bekleyen</span>" : fmt(k.tutar) + " €") + "</div>"
+    + "<div class='sr-tutar-h'>" + (bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 BAKİYE</span>" : fmt(k.tutar) + " €") + "</div>"
     + "<div class='sr-ok-h'>&#8250;</div>"
     + "</div>";
 }

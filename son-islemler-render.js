@@ -1,5 +1,5 @@
 /*
-  son-islemler-render.js — WG.271026.1828.1097
+  son-islemler-render.js — WG.271026.1843.1102
   =======================
   reports-render.js'deki islemleriCiz/islemlerExcelAktar buradan taşındı.
   13.10.2026: kartlı/2 satırlı yapı kaldırıldı — GERÇEK TEK SATIRLIK TABLO
@@ -102,7 +102,7 @@ function bakiyeKayitVarMi(k){
 }
 function islemTutarDurumHTML(k){
   if(k.durum === "beklemede") return "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Stok Bekliyor</span>";
-  if(bakiyeKayitVarMi(k)) return "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 Bekleyen</span>";
+  if(bakiyeKayitVarMi(k)) return "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 BAKİYE</span>";
   // Referans talimatı: "İşlem tutarı bulunmayan satırlara tutar uydurma."
   return k._tutar > 0 ? fmt(k._tutar) + " €" : "<span class='sr-tutar-yok'>—</span>";
 }
