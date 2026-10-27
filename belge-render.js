@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.271026.1828.1090
+  belge-render.js — WG.271026.2037.1110
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -416,6 +416,31 @@ function bhpRozetHTML(sayi){
 // Panel ve tip-seçim yan penceresi tek sefer oluşturulur (belgeyiCiz her
 // yeniden çizimde #belgeIcerik'i SIFIRLIYOR, bu yüzden bunlar #belgeIcerik
 // DIŞINDA, document.body'ye ekleniyor — yeniden çizimden etkilenmesinler).
+// acik-belge-kontrol.js diğer lazy-load modüllerle AYNI desenle, SADECE
+// gerçekten gerektiğinde (SİPARİŞ seçilip açık belge varken) yükleniyor —
+// bkz. acik-belge-kontrol.js üstündeki not.
+var bhpAbkModulYukleniyor = false;
+var bhpAbkModulBekleyenler = [];
+function bhpAcikBelgeKontrolIleDevamEt(musteri, tip){
+  if(typeof AcikBelgeKontrol !== "undefined"){ AcikBelgeKontrol.tipSeciminiBaslat(musteri, tip); return; }
+  bhpAbkModulBekleyenler.push(function(){ AcikBelgeKontrol.tipSeciminiBaslat(musteri, tip); });
+  if(bhpAbkModulYukleniyor) return;
+  bhpAbkModulYukleniyor = true;
+  var s = document.createElement("script");
+  s.src = "acik-belge-kontrol.js?v=WG.271026.2024.1107";
+  s.onload = function(){
+    bhpAbkModulYukleniyor = false;
+    bhpAbkModulBekleyenler.forEach(function(fn){ fn(); });
+    bhpAbkModulBekleyenler = [];
+  };
+  s.onerror = function(){
+    bhpAbkModulYukleniyor = false;
+    bhpAbkModulBekleyenler = [];
+    if(typeof hataGoster === "function") hataGoster("İşlem modülü yüklenemedi.");
+  };
+  document.body.appendChild(s);
+}
+
 function bhpPencereOlustur(){
   if(document.getElementById("bhpPencere")) return;
   var panel = document.createElement("div");
@@ -436,14 +461,16 @@ function bhpPencereOlustur(){
     + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--siparis' data-tip='siparis'><span class='cm-tipmenu-oge-ikon'>📦</span><span>Sipariş</span></button>";
   document.body.appendChild(tipMenu);
 
+  // ROTA DEĞİŞİKLİĞİ (27.10.2026, Abdullah onayı): tip seçilince artık
+  // Cari Kart'a UĞRAMADAN direkt cart.html'e gidiliyor — bkz.
+  // acik-belge-kontrol.js (açık belge kontrolü dahil, TEK paylaşılan
+  // modülden; aynı değişiklik menu-cekmece.js ve customer-render.js'teki
+  // eşdeğer tip menülerine de uygulandı).
   tipMenu.querySelectorAll(".cm-tipmenu-oge").forEach(function(btn){
     btn.onclick = function(){
       if(!bhpAcikMusteri) return;
       var tip = this.getAttribute("data-tip");
-      localStorage.setItem("weiconv2_onceden_secilen_tip", tip);
-      localStorage.setItem("weiconv2_tip_oncesecim_hizli", "1");
-      localStorage.setItem("weiconv2_islem_yap_akisi", "1");
-      window.location.href = "customer-cari-kart.html";
+      bhpAcikBelgeKontrolIleDevamEt(bhpAcikMusteri, tip);
     };
   });
 

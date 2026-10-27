@@ -1,5 +1,5 @@
 /*
-  customer-render.js — WG.271026.1211.1072
+  customer-render.js — WG.271026.2037.1109
   GÜNCELLEME (27.10.2026, Abdullah onayı — ana sayfa mini arama özelliği):
   "?musteriAc=<id-veya-ad>" parametresiyle buraya gelinirse, ilgili müşteri
   bulunup GERÇEK hızlı pencere (hizliPencereyiAc) otomatik açılır — bkz.
@@ -14,6 +14,31 @@
   kalktı (referans tasarımda yer yok, satır başına tek işlem bilgisi sığıyor)
   — kaybolmadı, müşteri hızlı penceresindeki "Temas" butonundan erişilebilir.
 */
+
+// acik-belge-kontrol.js diğer lazy-load modüllerle AYNI desenle, SADECE
+// gerçekten gerektiğinde (SİPARİŞ seçilip açık belge varken) yükleniyor —
+// bkz. acik-belge-kontrol.js üstündeki not.
+var cmAbkModulYukleniyor = false;
+var cmAbkModulBekleyenler = [];
+function cmAcikBelgeKontrolIleDevamEt(musteri, tip){
+  if(typeof AcikBelgeKontrol !== "undefined"){ AcikBelgeKontrol.tipSeciminiBaslat(musteri, tip); return; }
+  cmAbkModulBekleyenler.push(function(){ AcikBelgeKontrol.tipSeciminiBaslat(musteri, tip); });
+  if(cmAbkModulYukleniyor) return;
+  cmAbkModulYukleniyor = true;
+  var s = document.createElement("script");
+  s.src = "acik-belge-kontrol.js?v=WG.271026.2024.1107";
+  s.onload = function(){
+    cmAbkModulYukleniyor = false;
+    cmAbkModulBekleyenler.forEach(function(fn){ fn(); });
+    cmAbkModulBekleyenler = [];
+  };
+  s.onerror = function(){
+    cmAbkModulYukleniyor = false;
+    cmAbkModulBekleyenler = [];
+    if(typeof hataGoster === "function") hataGoster("İşlem modülü yüklenemedi.");
+  };
+  document.body.appendChild(s);
+}
 
 function hataGoster(mesaj){
   console.error(mesaj);
@@ -226,6 +251,7 @@ function listeyiCiz(){
         // seçim moduna (İşleme Devam Et) açılıyordu. Doğrudan listeden gelen
         // her ziyaret düz görüntüleme modunda başlamalı.
         localStorage.removeItem("weiconv2_islem_yap_akisi");
+        localStorage.removeItem("weiconv2_sepetten_cari_acildi");
         // ROTA DEĞİŞİKLİĞİ (05.10.2026, Abdullah'ın isteğiyle): Müşteri
         // listesinden bir isme dokununca artık Hub/İşlemler sayfalarına
         // GİTMİYOR — tam burada, arama satırının altında küçük bir pencere
@@ -500,6 +526,11 @@ document.addEventListener("DOMContentLoaded", function(){
   // tip zaten burada seçildiği için cari-kart-render.js tam ekran ızgarayı
   // tekrar göstermeden akışa devam ediyor (bkz. o dosyadaki
   // weiconv2_tip_oncesecim_hizli kullanımı).
+  // ROTA DEĞİŞİKLİĞİ (27.10.2026, Abdullah onayı): tip seçilince artık
+  // Cari Kart'a UĞRAMADAN direkt cart.html'e gidiliyor — bkz.
+  // acik-belge-kontrol.js (açık belge kontrolü dahil, TEK paylaşılan
+  // modülden; aynı değişiklik menu-cekmece.js ve belge-render.js'teki
+  // eşdeğer tip menülerine de uygulandı).
   document.querySelectorAll("#cmTipMenu .cm-tipmenu-oge").forEach(function(btn){
     btn.onclick = function(){
       if(!cmAcikMusteri) return;
@@ -510,10 +541,7 @@ document.addEventListener("DOMContentLoaded", function(){
       // geçilmezse bu ikinci çağrı arama kutusunu yine kaydedip az önceki
       // sıfırlamayı ezerdi.
       cmDonusRotasiniKaydet("islemyap");
-      localStorage.setItem("weiconv2_onceden_secilen_tip", tip);
-      localStorage.setItem("weiconv2_tip_oncesecim_hizli", "1");
-      localStorage.setItem("weiconv2_islem_yap_akisi", "1");
-      window.location.href = "customer-cari-kart.html";
+      cmAcikBelgeKontrolIleDevamEt(cmAcikMusteri, tip);
     };
   });
   window.addEventListener("resize", function(){
@@ -553,6 +581,7 @@ document.addEventListener("DOMContentLoaded", function(){
         CustomerData.sec(m);
         CustomerData.sonGoruntulendi(m.ad);
         localStorage.removeItem("weiconv2_islem_yap_akisi");
+        localStorage.removeItem("weiconv2_sepetten_cari_acildi");
         hizliPencereyiAc(m);
       };
       CustomerData.listeDegistiginde(cmAcDene);

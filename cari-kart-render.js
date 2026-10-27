@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.271026.1613.1084
+  cari-kart-render.js — WG.271026.2037.1111
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -170,6 +170,16 @@ var secimler = {fatura:0, teslimat:0, yetkili:0};
 // bölüm-eylem popup'ının (Ekle/Sil/Güncelle) gizlenmesi ve alt "İşleme
 // Devam Et" butonu için kullanılıyor, DEĞİŞMEDİ.
 var akistanGeldiMi = localStorage.getItem("weiconv2_islem_yap_akisi") === "1";
+
+// YENİ MOD (27.10.2026, Abdullah onayı — "Yeni Rota" turu): "İşlem Yap"
+// akışı artık Cari Kart'a UĞRAMADAN direkt cart.html'e gidiyor (bkz.
+// acik-belge-kontrol.js) — Cari Kart artık o akışın durağı değil, cart.
+// html'deki müşteri şeridine dokunarak İSTENİRSE açılan AYRI bir sayfa.
+// Bu bayrak cart-render.js tarafından set ediliyor. akistanGeldiMi'den
+// FARKI: tip zaten seçilmiş VE açık-belge kontrolü zaten yapılmış olarak
+// buraya gelinir — burada sadece fatura/teslimat/yetkili seçimi (+ not
+// ekleme) yapılıp cart.html'e GERİ dönülür, ileri bir tip seçimi olmaz.
+var sepettenAcildiMi = localStorage.getItem("weiconv2_sepetten_cari_acildi") === "1";
 
 function anaSayfayiRenderEt(){
   var m = musteriVerisi;
@@ -710,10 +720,15 @@ document.addEventListener("DOMContentLoaded", function(){
   var acikBolumEylem = null;
   document.querySelectorAll(".ck-tiklanabilir-alan[data-bolum]").forEach(function(alan){
     alan.onclick = function(){
+      var bolum = this.getAttribute("data-bolum");
       // İşlem Yap akışında (seçim modu) bu ekranda bilgi düzenlenmez,
-      // sadece işlem için fatura/teslimat/yetkili seçimi yapılır.
+      // sadece işlem için fatura/teslimat/yetkili seçimi yapılır. YENİ
+      // (27.10.2026, Abdullah onayı — "Yeni Rota" turu): "sepetten açıldı"
+      // modunda NOT bölümü bu kısıtın DIŞINDA — not eklenip düzenlenebilir,
+      // sadece fatura/teslimat/yetkili/temel bilgi seçimle sınırlı kalır.
       if(akistanGeldiMi) return;
-      acikBolumEylem = this.getAttribute("data-bolum");
+      if(sepettenAcildiMi && bolum !== "not") return;
+      acikBolumEylem = bolum;
       var eklenipSilinebilir = acikBolumEylem !== "cari";
       document.getElementById("bolumEylemBaslik").textContent = (TIP_META[acikBolumEylem] ? TIP_META[acikBolumEylem].ikon + " " + TIP_META[acikBolumEylem].baslik : "Temel Bilgiler");
       document.getElementById("btnBolumEkle").hidden = !eklenipSilinebilir;
@@ -858,6 +873,18 @@ document.addEventListener("DOMContentLoaded", function(){
       if(!k){ hataGoster("Kayıt bulunamadı."); return; }
       ReportsData.revizeBaslat(k, "siparis");
     }
+  } else if(sepettenAcildiMi){
+    // YENİ MOD (27.10.2026, Abdullah onayı — "Yeni Rota" turu): tip zaten
+    // seçilmiş ve açık-belge kontrolü zaten yapılmış durumda (bkz. acik-
+    // belge-kontrol.js) — burada tek iş, yapılan seçimleri kaydedip
+    // cart.html'e GERİ dönmek.
+    islemeDevamBtn.hidden = false;
+    islemeDevamBtn.textContent = "✓ Bu Seçimlerle Devam Et";
+    islemeDevamBtn.onclick = function(){
+      localStorage.setItem("weiconv2_secili_iletisim", JSON.stringify(secimler));
+      localStorage.removeItem("weiconv2_sepetten_cari_acildi");
+      window.location.href = "cart.html";
+    };
   }
 
   var cariKapatBtnEl = document.getElementById("cariKapatBtn");
@@ -873,8 +900,12 @@ document.addEventListener("DOMContentLoaded", function(){
     // cmDonusRotasiniKaydet) da burada ayrıca kontrol ediliyor.
     var donusRotasi = null;
     try{ donusRotasi = localStorage.getItem("weiconv2_musteri_donus_sayfa"); }catch(e){}
-    var kapatSabitHedefliMi = akistanGeldiMi || donusRotasi === "customer.html";
-    if(kapatSabitHedefliMi) cariKapatBtnEl.setAttribute("href", "customer.html");
+    // YENİ MOD (27.10.2026, Abdullah onayı — "Yeni Rota" turu): "sepetten
+    // açıldı" modunda Kapat her zaman cart.html'e döner — diğer iki özel
+    // durumla (akistanGeldiMi/dönüş rotası) AYNI önceliğe sahip.
+    var kapatSabitHedefliMi = akistanGeldiMi || sepettenAcildiMi || donusRotasi === "customer.html";
+    if(sepettenAcildiMi) cariKapatBtnEl.setAttribute("href", "cart.html");
+    else if(kapatSabitHedefliMi) cariKapatBtnEl.setAttribute("href", "customer.html");
     // KAPAT "ESKİ/YABANCI SAYFAYA GÖTÜRÜYOR" HATASI DÜZELTMESİ (27.10.2026,
     // Abdullah'ın bildirdiği hata): HTML'deki sabit varsayılan href
     // (customer-hub.html) SADECE customer-hub.html'in kendi "🏢 CARİ"
@@ -894,6 +925,7 @@ document.addEventListener("DOMContentLoaded", function(){
     // doğrudan URL ile girildiyse) HTML'deki sabit href yedek olarak kalır.
     cariKapatBtnEl.addEventListener("click", function(ev){
       localStorage.removeItem("weiconv2_islem_yap_akisi");
+      localStorage.removeItem("weiconv2_sepetten_cari_acildi");
       if(!kapatSabitHedefliMi && window.history.length > 1){
         ev.preventDefault();
         window.history.back();

@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.271026.1342.1082
+  cart-render.js — WG.271026.2037.1112
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -303,6 +303,19 @@ function sayfayiCiz(){
       document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri);
       var btnMusteriGecmisEl2 = document.getElementById("btnMusteriGecmis");
       if(btnMusteriGecmisEl2) btnMusteriGecmisEl2.onclick = musteriGecmisiniAc;
+      // EKLENDİ (27.10.2026, Abdullah onayı — "Yeni Rota" turu): isme
+      // dokununca Cari Kart (fatura/teslimat/yetkili seçimi + not ekleme
+      // için) AYRI bir sayfa olarak açılır — musteri-serit.js'e (11 sayfada
+      // paylaşılan bileşen) DOKUNULMADI, tıklama SADECE burada eklendi.
+      // Görsel ipucu/ikon YOK (Abdullah'ın isteğiyle) — bkz. cart-style.css
+      // #cariBilgiAlani .ms-ad (sadece imleç).
+      var msAdEl = document.querySelector("#cariBilgiAlani .ms-ad");
+      if(msAdEl){
+        msAdEl.onclick = function(){
+          localStorage.setItem("weiconv2_sepetten_cari_acildi", "1");
+          window.location.href = "customer-cari-kart.html";
+        };
+      }
       adresleriBelirle(musteri);
     } else {
       // DÜZELTME (27.10.2026, Abdullah'ın isteğiyle): müşterisiz modda
@@ -626,7 +639,7 @@ function kaydetSonrasiAnaSayfayaGit(){
    "weiconv2_ilerlet_kaynak","weiconv2_islem_yap_akisi","weiconv2_secili_iletisim",
    "weiconv2_son_kaydedilen_belge","weiconv2_gonderim_kanali","weicon_secili_musteri",
    "weiconv2_musteri_donus_sayfa","weiconv2_musteri_arama_durumu",
-   "weiconv2_sepet_musteri_baglantisi"].forEach(function(k){
+   "weiconv2_sepet_musteri_baglantisi","weiconv2_sepetten_cari_acildi"].forEach(function(k){
     try{ localStorage.removeItem(k); }catch(e){}
   });
   CartData.sifirla(function(){
@@ -886,6 +899,7 @@ document.addEventListener("DOMContentLoaded", function(){
       localStorage.removeItem("weiconv2_ilerlet_kaynak");
       localStorage.removeItem("weiconv2_islem_yap_akisi");
       localStorage.removeItem("weiconv2_sepet_musteri_baglantisi");
+      localStorage.removeItem("weiconv2_sepetten_cari_acildi");
     }catch(e){}
     // YARIŞ DURUMU DÜZELTMESİ (26.10.2026, bkz. cart-data.js sifirla() yorumu):
     // navigasyon artık Firebase yedeği GERÇEKTEN boşaldıktan (ya da en fazla

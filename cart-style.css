@@ -1,5 +1,5 @@
 /*
-  cart-style.css — WG.261026.0205.1048
+  cart-style.css — WG.271026.2037.1113
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -751,4 +751,12 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 3px;
+}
+
+/* EKLENDİ (27.10.2026, Abdullah onayı — "Yeni Rota" turu): müşteri şeridindeki
+   isme dokununca Cari Kart açılır (bkz. cart-render.js). Abdullah'ın isteğiyle
+   görsel bir ipucu/ikon YOK — sadece imleç. musteri-serit.css'e (11 sayfada
+   paylaşılan) DOKUNULMADI, bu sınıf SADECE cart.html bağlamında ekleniyor. */
+#cariBilgiAlani .ms-ad {
+  cursor: pointer;
 }

@@ -1,4 +1,4 @@
-// menu-cekmece.js — WG.271026.1320.1075
+// menu-cekmece.js — WG.271026.2037.1108
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -577,17 +577,43 @@ function mcMusteriTipMenuOlustur(){
   var ustKap = document.getElementById("asDrawerOverlay") || document.body;
   ustKap.appendChild(tipMenu);
 
+  // ROTA DEĞİŞİKLİĞİ (27.10.2026, Abdullah onayı): tip seçilince artık
+  // Cari Kart'a UĞRAMADAN direkt cart.html'e gidiliyor — bkz.
+  // acik-belge-kontrol.js (açık belge kontrolü dahil, TEK paylaşılan
+  // modülden; aynı değişiklik customer-render.js ve belge-render.js'teki
+  // eşdeğer tip menülerine de uygulandı).
   tipMenu.querySelectorAll(".cm-tipmenu-oge").forEach(function(btn){
     btn.onclick = function(){
       if(!mcMusteriAcikKisi) return;
       var tip = this.getAttribute("data-tip");
-      localStorage.setItem("weiconv2_onceden_secilen_tip", tip);
-      localStorage.setItem("weiconv2_tip_oncesecim_hizli", "1");
-      localStorage.setItem("weiconv2_islem_yap_akisi", "1");
-      window.location.href = "customer-cari-kart.html";
+      mcAcikBelgeKontrolIleDevamEt(mcMusteriAcikKisi, tip);
     };
   });
   return tipMenu;
+}
+
+// acik-belge-kontrol.js diğer lazy-load modüllerle (product-data.js/
+// customer-data.js) AYNI desenle, SADECE gerçekten gerektiğinde yükleniyor.
+var mcAbkModulYukleniyor = false;
+var mcAbkModulBekleyenler = [];
+function mcAcikBelgeKontrolIleDevamEt(musteri, tip){
+  if(typeof AcikBelgeKontrol !== "undefined"){ AcikBelgeKontrol.tipSeciminiBaslat(musteri, tip); return; }
+  mcAbkModulBekleyenler.push(function(){ AcikBelgeKontrol.tipSeciminiBaslat(musteri, tip); });
+  if(mcAbkModulYukleniyor) return;
+  mcAbkModulYukleniyor = true;
+  var s = document.createElement("script");
+  s.src = "acik-belge-kontrol.js?v=WG.271026.2024.1107";
+  s.onload = function(){
+    mcAbkModulYukleniyor = false;
+    mcAbkModulBekleyenler.forEach(function(fn){ fn(); });
+    mcAbkModulBekleyenler = [];
+  };
+  s.onerror = function(){
+    mcAbkModulYukleniyor = false;
+    mcAbkModulBekleyenler = [];
+    if(typeof hataGoster === "function") hataGoster("İşlem modülü yüklenemedi.");
+  };
+  document.body.appendChild(s);
 }
 
 function mcMusteriTipMenuKonumla(){
