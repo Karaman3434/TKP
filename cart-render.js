@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.271026.1318.1077
+  cart-render.js — WG.271026.1342.1082
   ==============
   Sepeti HESAPLANACAK (sarı) / HESAPLANDI (yeşil) belge-tablosu gruplarıyla
   çizer; HESAPLANDI grubunun etiketinde artık EURO KUR rozeti de var.
@@ -694,60 +694,19 @@ function kaydetTiklandi(niyet){
 }
 
 // ---- Müşterisiz hızlı gönder — kayıt oluşturmadan sadece paylaşım ----
-// DÜZELTME (29.09.2026, Abdullah'ın bildirdiği hata): sepetteki ürün
-// nesnesinde "iskBirim"/"toplamEuro" diye bir alan HİÇ tutulmuyor — bunlar
-// sadece CartData.hesapla()'nın anlık ÇIKTISI, kayıtlı üründe yok. Bu yüzden
-// birim fiyat ve toplam metinde hep 0,00 çıkıyordu. Artık her satır için
-// CartData.hesapla() GERÇEKTEN çağrılıyor, ürün kodu (Berta/Abas) da satıra
-// ekleniyor — telefonda tanışıp sadece WhatsApp'tan fiyat isteyen müşteriye
-// tek dokunuşla doğru, eksiksiz bir metin gönderilebilsin diye.
-function musterisizOzetMetniOlustur(){
-  var sepet = CartData.liste();
-  var kur = aktifKuruOku();
-  var kdv = CartData.kdvOku();
-  var satirlar = sepet.map(function(u, i){
-    var h = CartData.hesapla(u, kur, kdv);
-    var kodParcalari = [];
-    if(u.berta) kodParcalari.push("B" + u.berta);
-    if(u.abas) kodParcalari.push("A" + u.abas);
-    var kod = kodParcalari.length ? " (" + kodParcalari.join(" / ") + ")" : "";
-    var netFiyatSatiri = (u.ozelEtiket === "bedelsiz")
-      ? "   " + (u.adet||0) + " adet — NUMUNE (bedelsiz)"
-      : "   " + (u.adet||0) + " adet x " + CartData.fmt(h.iskontoluFiyat) + " EURO = " + CartData.fmt(h.toplamEuro) + " EURO";
-    return (i+1) + ". " + u.ad + kod + "\n" + netFiyatSatiri;
-  });
-  var toplamlar = CartData.genelToplam(kur, kdv);
-  var metin = "WEICON Fiyat Bilgisi\n\n" + satirlar.join("\n\n") + "\n\nToplam: " + CartData.fmt(toplamlar.toplamEuro) + " EURO";
-  if(kur) metin += " (≈ " + Math.round(toplamlar.toplamEuro*kur).toLocaleString("tr-TR") + " TL)";
-  return metin;
-}
-// Gerçek Gönder ekranıyla (send.html) AYNI görünümde: üstte WhatsApp/Mail,
-// altında düzenlenebilir mesaj metni + ürün tablosu (HareketTablo ile,
-// diğer TÜM belge/gönder ekranlarıyla birebir aynı tasarım). Müşteri
-// kaydı YOK, kayıt yok, İşlem Geçmişi'ne düşmez.
-// GÖNDERİM BİÇİMİ (13.10.2026, Abdullah onayı — mockup üzerinden): "metin"
-// veya "tablo" (ÜRÜN TABLOSU'nu gerçek PNG görsele çevirip paylaşır — bkz.
-// musterisizTabloGonder).
-// DÜZELTME (20.10.2026, Abdullah'ın isteğiyle): varsayılan artık "tablo" —
-// müşteriye WhatsApp'tan düz yazı değil, ürün bilgisi tablosu (görsel)
-// gitsin istiyor. Popup her açıldığında "tablo"ya sıfırlanır; "Metin"
-// sekmesi hâlâ orada, isterse elle geçebilir.
-var musterisizBicim = "tablo";
-function bicimTiklariniBagla(){
-  var btnMetin = document.getElementById("btnBicimMetin");
-  var btnTablo = document.getElementById("btnBicimTablo");
-  if(!btnMetin || !btnTablo) return;
-  btnMetin.onclick = function(){
-    musterisizBicim = "metin";
-    btnMetin.classList.add("sekme-btn--secili");
-    btnTablo.classList.remove("sekme-btn--secili");
-  };
-  btnTablo.onclick = function(){
-    musterisizBicim = "tablo";
-    btnTablo.classList.add("sekme-btn--secili");
-    btnMetin.classList.remove("sekme-btn--secili");
-  };
-}
+// SADELEŞTİRME (27.10.2026, Abdullah'ın isteğiyle — mockup üzerinden
+// onaylandı, "Varyant B"): "GÖNDERİM BİÇİMİ" (Metin/Tablo Görseli) seçimi
+// ve "MESAJ (düzenlenebilir)" metin kutusu TAMAMEN kaldırıldı — Abdullah
+// WhatsApp/Mail'de tablolarını HER ZAMAN resim (Tablo Görseli) olarak
+// gönderdiğini, "Metin" seçeneğini hiç kullanmadığını belirtti. Üstteki
+// "Fiyat bilgisi hazır — göndermek ister misin?" başlığı ve "Müşteri kaydı
+// yok..." uyarı metni de aynı onayla kaldırıldı. Artık WhatsApp/Mail
+// butonlarına basınca DOĞRUDAN tablo görseli gönderiliyor (bkz.
+// musterisizTabloGonder) — eski "metin" yolu (musterisizOzetMetniOlustur,
+// musterisizBicim, bicimTiklariniBagla) hiçbir DOM elemanı tarafından
+// tetiklenemediği için tamamen kaldırıldı, dosyada ölü kod bırakılmadı.
+// Gerçek Gönder ekranıyla (send.html) PAYLAŞIM MEKANİZMASI aynı kalıyor —
+// sadece bu küçük, kayıtsız/CRM'siz önizleme artık doğrudan görsele gidiyor.
 // TABLO GÖRSELİ MESAJI (13.10.2026, Abdullah onayı — mockup üzerinden):
 // Tablo Görseli gönderilirken tablonun ALTINA eklenen sabit, kısa mesaj —
 // WhatsApp'a ayrıca metin gitmiyor, görselin kendi içine gömülüyor. Toplam
@@ -777,7 +736,6 @@ function musterisizOnizlemeAc(){
     var kdv = CartData.kdvOku();
     var hesapla = function(u){ return CartData.hesapla(u, kur, kdv); };
     var toplamlar = CartData.genelToplam(kur, kdv);
-    document.getElementById("musterisizOnizlemeMetin").value = musterisizOzetMetniOlustur();
     // DÜZELTME (13.10.2026, Abdullah onayı — mockup üzerinden): mesaj artık
     // tablonun ÜSTÜNDE (altında değil). HareketTablo.grupHtml'e kur/kurManuelMi
     // BİLEREK geçilmiyor — bu, "Bu işlem kuru" kutusunu, satır altı ≈TL
@@ -799,18 +757,9 @@ function musterisizOnizlemeAc(){
         primGizli: true,
         genelToplam: toplamlar.toplamEuro
       });
-    musterisizBicim = "tablo";
-    var btnMetinEl = document.getElementById("btnBicimMetin");
-    var btnTabloEl = document.getElementById("btnBicimTablo");
-    if(btnMetinEl && btnTabloEl){
-      btnTabloEl.classList.add("sekme-btn--secili");
-      btnMetinEl.classList.remove("sekme-btn--secili");
-    }
     document.getElementById("musterisizGonderOverlay").hidden = false;
   }catch(e){ hataGoster("Önizleme açılamadı: " + e.message); }
 }
-// Mesaj metni textarea'da elle düzenlenebildiği için WhatsApp/Mail butonları
-// metni YENİDEN ÜRETMEZ — o anda kutuda ne yazıyorsa AYNEN onu gönderir.
 // SEPETİ SIFIRLA (13.10.2026, Abdullah'ın isteğiyle; DÜZELTME 13.10.2026
 // gece — Abdullah'ın bildirdiği Mail hatası): Müşterisiz Gönder'de WhatsApp/
 // Mail'e basıldıktan sonra sepet elle temizlenmeyi beklemiyor, otomatik
@@ -836,26 +785,22 @@ function musterisizSepetiSifirla(){
   if(overlay) overlay.hidden = true;
   sayfayiCiz();
 }
+// SADELEŞTİRME (27.10.2026) — bkz. yukarıdaki "Müşterisiz hızlı gönder"
+// bölüm başlığı yorumu: WhatsApp/Mail artık HER ZAMAN doğrudan tablo
+// görseli gönderiyor, eski "metin" dalı kaldırıldı.
 function musterisizWhatsappGonder(){
-  if(musterisizBicim === "tablo"){ musterisizTabloGonder("whatsapp"); return; }
-  var metin = document.getElementById("musterisizOnizlemeMetin").value;
-  window.open("https://wa.me/?text=" + encodeURIComponent(metin), "_blank");
-  musterisizSepetiSifirla();
+  musterisizTabloGonder("whatsapp");
 }
 function musterisizMailGonder(){
-  if(musterisizBicim === "tablo"){ musterisizTabloGonder("mail"); return; }
-  var metin = document.getElementById("musterisizOnizlemeMetin").value;
-  var konu = encodeURIComponent("WEICON Fiyat Bilgisi");
-  window.location.href = "mailto:?subject=" + konu + "&body=" + encodeURIComponent(metin);
-  musterisizSepetiSifirla();
+  musterisizTabloGonder("mail");
 }
 // TABLO GÖRSELİ OLARAK GÖNDER (13.10.2026, Abdullah onayı): ÜRÜN TABLOSU
 // (#musterisizOnizlemeTablo), Gönder ekranındaki (send-render.js
 // belgeGorseliniOlustur) AYNI yöntemle — html2canvas — gerçek bir PNG'ye
 // çevrilir, ardından navigator.share ile (destekleniyorsa) dosya EKİ olarak
-// paylaşım menüsüne açılır; MESAJ kutusundaki metin paylaşımın "text"i olur.
-// navigator.share desteklenmiyorsa görsel indirilir ve kullanıcı WhatsApp/
-// Mail'e elle ekler (aynı yedek yöntem send-render.js'de de kullanılıyor).
+// paylaşım menüsüne açılır. navigator.share desteklenmiyorsa görsel indirilir
+// ve kullanıcı WhatsApp/Mail'e elle ekler (aynı yedek yöntem send-render.js'de
+// de kullanılıyor).
 function musterisizTabloGonder(kanal){
   try{
     if(typeof html2canvas === "undefined"){
@@ -915,7 +860,6 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("btnMusterisizWhatsapp").onclick = musterisizWhatsappGonder;
   document.getElementById("btnMusterisizMail").onclick = musterisizMailGonder;
   document.getElementById("btnMusterisizVazgec").onclick = function(){ document.getElementById("musterisizGonderOverlay").hidden = true; };
-  bicimTiklariniBagla();
   document.getElementById("btnMusteriGecmisKapat").onclick = function(){ document.getElementById("musteriGecmisOverlay").hidden = true; };
 
   // İşlemi İptal Onay Popup — SADECE "🗑️ İşlemi İptal Et" butonu kullanıyor
