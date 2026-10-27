@@ -1,5 +1,5 @@
 /*
-  ay-detay-render.js — WG.211026.2235.922
+  ay-detay-render.js — WG.271026.1828.1087
   ===================
   Aylık Özet tablosunda bir aya dokununca açılan, o ayın sipariş
   kayıtlarını gün gün listeleyen AYRI sayfa. Hangi ay gösterilecek,
@@ -89,7 +89,7 @@ function tlKartHTML(k){
   var rozetMeta = kacanMi ? KACAN_META : (revizeMi ? RVZ_META : meta);
   var kod = k.kod || meta.rozet;
   var tutarHucre = k.durum==="beklemede"
-    ? "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Beklemede</span>"
+    ? "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Stok Bekliyor</span>"
     : (bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 Bekleyen</span>" : fmt(k._tutar) + " €");
   return "<div class='sr-satir' data-i='" + k._i + "' style='border-left-color:" + rozetMeta.serit + ";'>"
     + "<div class='sr-firma-h'>" + htmlEsc(k.musteri||"") + "</div>"

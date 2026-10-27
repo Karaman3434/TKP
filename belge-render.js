@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.271026.1235.1073
+  belge-render.js — WG.271026.1828.1090
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -85,7 +85,7 @@ var DURUM_ETIKET = {
   iptal: {ikon:"🚫", ad:"İPTAL EDİLDİ", renk:"#c0392b", bg:"#fdeceb"},
   iade: {ikon:"↩️", ad:"İADE EDİLDİ", renk:"#6a1b9a", bg:"#f3e5f5"},
   kacan: {ikon:"❌", ad:"KAÇAN SİPARİŞ", renk:"#c0392b", bg:"#fff4e5"},
-  beklemede: {ikon:"⏳", ad:"BEKLEMEDE", renk:"#5b3c1e", bg:"#e9d9c3"}
+  beklemede: {ikon:"⏳", ad:"STOK BEKLİYOR", renk:"#5b3c1e", bg:"#e9d9c3"}
 };
 
 function tarihiGuncelle(){
@@ -1177,7 +1177,7 @@ document.addEventListener("DOMContentLoaded", function(){
   };
   document.getElementById("btnBeklemedeNotSil").onclick = function(){
     if(!beklemedeDuzenlenenKayit) return;
-    if(!confirm("Beklemede durumu kaldırılsın mı? Kayıt tekrar normal şekilde toplamlara dahil olacak.")) return;
+    if(!confirm("Stok bekleme durumu kaldırılsın mı? Kayıt tekrar normal şekilde toplamlara dahil olacak.")) return;
     var btn = document.getElementById("btnBeklemedeNotSil");
     btn.disabled = true;
     ReportsData.kaydiAlanGuncelle(beklemedeDuzenlenenKayit.tip, beklemedeDuzenlenenKayit.ts, {durum:null, beklemedeNot:null}, function(basarili, err){

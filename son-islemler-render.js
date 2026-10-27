@@ -1,5 +1,5 @@
 /*
-  son-islemler-render.js — WG.211026.2310.933
+  son-islemler-render.js — WG.271026.1828.1097
   =======================
   reports-render.js'deki islemleriCiz/islemlerExcelAktar buradan taşındı.
   13.10.2026: kartlı/2 satırlı yapı kaldırıldı — GERÇEK TEK SATIRLIK TABLO
@@ -101,7 +101,7 @@ function bakiyeKayitVarMi(k){
   return !!k.bakiyeVarMi || (k.urunler||[]).some(function(u){ return (u.bakiyeAdet||0)>0; });
 }
 function islemTutarDurumHTML(k){
-  if(k.durum === "beklemede") return "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Beklemede</span>";
+  if(k.durum === "beklemede") return "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Stok Bekliyor</span>";
   if(bakiyeKayitVarMi(k)) return "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 Bekleyen</span>";
   // Referans talimatı: "İşlem tutarı bulunmayan satırlara tutar uydurma."
   return k._tutar > 0 ? fmt(k._tutar) + " €" : "<span class='sr-tutar-yok'>—</span>";
@@ -231,7 +231,7 @@ function islemlerExcelAktar(){
 // AYNI mimari: düğme tıklanınca panel açılır, seçenek tıklanınca
 // tipFiltreSecili güncellenir, düğme etiketi/✓ işareti yenilenir, panel
 // kapanır ve liste yeniden çizilir. Panel dışına tıklanınca kapanır.
-var TIP_FILTRE_ETIKET = {"":"Tüm Türler", numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş", beklemede:"⏳ Beklemede"};
+var TIP_FILTRE_ETIKET = {"":"Tüm Türler", numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş", beklemede:"⏳ Stok Bekliyor"};
 function tipFiltreKur(){
   var btn = document.getElementById("islemTipBtn");
   var panel = document.getElementById("islemTipPopup");

@@ -1,5 +1,5 @@
 /*
-  gecmis-render.js — WG.211026.2235.918
+  gecmis-render.js — WG.271026.1828.1094
   ================
   Müşteriye özel İşlem Geçmişi sayfası. ReportsData.sonIslemler() zaten
   en yeniden en eskiye sıralı geliyor (bkz. reports-data.js); burada
@@ -107,7 +107,7 @@ function tlKartHTML(k){
   var kod = k.kod || meta.rozet;
   var beklemedeMi = k.durum === "beklemede";
   var tutarHucre = beklemedeMi
-    ? "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Beklemede</span>"
+    ? "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Stok Bekliyor</span>"
     : (bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 Bekleyen</span>" : fmt(k._tutar) + " €");
   return "<div class='sr-satir sr-satir--tekmusteri" + (beklemedeMi ? " sr-satir--beklemede" : "") + "' data-i='" + k._i + "' style='border-left-color:" + rozetMeta.serit + ";'>"
     + "<span class='sr-rozet-h' style='background:" + rozetMeta.rozetBg + ";color:" + rozetMeta.rozetRenk + ";'>" + rozetMeta.rozet + "</span>"

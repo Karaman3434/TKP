@@ -1,3 +1,4 @@
+/* gecmis-style.css — WG.271026.1828.1095 */
 .gecmis-musteri-sayac { font-size: 13px; font-weight: 700; opacity: .85; margin-top: 4px; color: #ffffff; }
 
 .gecmis-beklemede-satir {
@@ -88,6 +89,9 @@
 #gecmisListesi .sr-durum-ek { font-size: 10px; font-weight: 800; color: #b7601f; background: #FFF0D9; padding: 2px 4px; border-radius: 5px; white-space: nowrap; display: inline-block; }
 /* BEKLEMEDE RENK GÜNCELLEMESİ (21.10.2026, Abdullah onayı) — son-islemler-
    style.css ile birebir aynı mantık. */
-#gecmisListesi .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; }
+/* YAZI KÜÇÜLTÜLDÜ (27.10.2026, Abdullah onayı — "artık stok bekliyor olacak"
+   turu): ay-detay-style.css ile BİREBİR aynı gerekçe/ölçüm — "Stok Bekliyor"
+   eski font/padding ile 72px sütunda taşma riski taşıyordu. */
+#gecmisListesi .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; font-size: 8.5px; padding: 2px 2px; letter-spacing: -0.1px; }
 #gecmisListesi .sr-satir--beklemede { background: #f5ede1; }
 #gecmisListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }

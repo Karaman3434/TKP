@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.231026.1200.973 — belge-onizleme.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.271026.1828.1091 — belge-onizleme.html -->
 <!--
   İŞ TAKİP — BELGE ÖNİZLEME v2 — VERSİYON: WG.211026.1700.870
   ====================================
@@ -140,7 +140,7 @@
         <button type="button" class="duzenle-menu-secenek" id="btnMenuFaturaAdres">🧾 Fatura Adresi</button>
         <button type="button" class="duzenle-menu-secenek" id="btnMenuTeslimatAdres">🚚 Teslimat Adresi</button>
         <button type="button" class="duzenle-menu-secenek" id="btnMenuNot">📝 Not Ekle</button>
-        <button type="button" class="duzenle-menu-secenek" id="btnMenuBeklemede">⏳ Beklemede olarak işaretle</button>
+        <button type="button" class="duzenle-menu-secenek" id="btnMenuBeklemede">⏳ Stok Bekliyor olarak işaretle</button>
       </div>
       <p class="duzenle-menu-not">Hangisine dokunursan sadece o değişir — belge silinmez, yeniden oluşturmana gerek kalmaz.</p>
       <div class="duzenle-buton-satir">
@@ -204,12 +204,12 @@
   <!-- Beklemede notu — sipariş stokta yok, tedarik/termin bekleniyor -->
   <div class="duzenle-overlay" id="beklemedeNotOverlay" hidden>
     <div class="duzenle-kutu">
-      <div class="duzenle-baslik">⏳ Beklemede notu</div>
-      <p class="ck-not-aciklama" style="margin:-6px 0 10px">Beklemedeyken bu kayıt hiçbir aylık/günlük satış veya prim toplamına dahil edilmez.</p>
+      <div class="duzenle-baslik">⏳ Stok Bekliyor notu</div>
+      <p class="ck-not-aciklama" style="margin:-6px 0 10px">Stok bekliyorken bu kayıt hiçbir aylık/günlük satış veya prim toplamına dahil edilmez.</p>
       <textarea class="beklemede-textarea" id="beklemedeNotMetni" rows="7" placeholder="Örn: Ürün depoda yok, tedarikçiden 10 gün termin verildi"></textarea>
       <div class="duzenle-buton-satir duzenle-buton-satir--dikey">
         <button class="duzenle-kaydet-btn" id="btnBeklemedeNotKaydet">Kaydet</button>
-        <button class="duzenle-kapat-btn" id="btnBeklemedeNotSil">Beklemeyi Kaldır</button>
+        <button class="duzenle-kapat-btn" id="btnBeklemedeNotSil">Stok Beklemeyi Kaldır</button>
         <button class="duzenle-kapat-btn" id="btnBeklemedeNotVazgec">Kapat</button>
       </div>
     </div>
@@ -256,7 +256,7 @@
      çalışıyor. -->
 <script>window.BEKLEYEN_ISLEM_GENERIK_KAPALI = true;</script>
 <script src="bekleyen-islemler.js?v=WG.231026.1045.956"></script>
-<script src="belge-render.js?v=WG.271026.1235.1073"></script>
+<script src="belge-render.js?v=WG.271026.1828.1090"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <script src="menu-cekmece.js?v=WG.271026.1320.1075"></script>
 </body>

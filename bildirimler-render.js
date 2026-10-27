@@ -86,7 +86,7 @@ function bildirimleriCiz(){
     var html = "";
 
     if(beklemedeListe.length > 0){
-      html += "<div class='bildirim-bolum-baslik'>⏳ Beklemede Siparişler</div>";
+      html += "<div class='bildirim-bolum-baslik'>⏳ Stok Bekleyen Siparişler</div>";
       beklemedeListe.forEach(function(b){
         html += "<div class='beklemede-hatirlat-karti' data-ts='" + b.ts + "'>"
           + "<div class='acik-surec-ust'>"

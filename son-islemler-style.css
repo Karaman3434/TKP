@@ -1,4 +1,4 @@
-/* son-islemler-style.css — WG.211026.2310.934 */
+/* son-islemler-style.css — WG.271026.1828.1098 */
 
 /* Bu sayfaya özgü "Siyah" tema (Ana Sayfa'daki Son İşlemler kutucuğunun
    rengiyle devam ediyor) — sadece #islemAra'yı hedefler, diğer tl- sayfalarını
@@ -68,7 +68,10 @@
    renginde — ".sr-durum-ek" taban sınıfı (örn. "📦 Bekleyen" bakiye
    etiketi) DOKUNULMADI. Satırın TAMAMININ zemini de aynı aileden, daha
    açık bir tonla ayırt ediliyor. */
-#islemlerListesi .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; }
+/* YAZI KÜÇÜLTÜLDÜ (27.10.2026, Abdullah onayı — "artık stok bekliyor olacak"
+   turu): ay-detay-style.css ile BİREBİR aynı gerekçe/ölçüm — "Stok Bekliyor"
+   eski font/padding ile sabit 60px sütunda ok ikonuna biniyordu. */
+#islemlerListesi .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; font-size: 8.5px; padding: 2px 2px; letter-spacing: -0.1px; }
 #islemlerListesi .sr-satir--beklemede { background: #f5ede1; }
 #islemlerListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }
 
