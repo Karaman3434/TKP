@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.281026.2232.1211
+  belge-onizleme-style-v2.css — WG.281026.2302.1218
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -104,8 +104,16 @@
    göre ölçeklendirildi — ETİKET/TARİH 15.25px, KOD tam YARISI 7.6px.
    Gönder/Mail (.belge-form-baslik-etiket/tarih/kod) ve Sepet (.belge-belge-
    baslik-serit-metin) ile BİREBİR aynı ölçü. */
+/* HARF BOYU %20 KÜÇÜLTÜLDÜ (28.10.2026, Abdullah onayı — "müşteri kodu
+   sığsın" turu): müşteri kodu eklenince (.ms-kod) müşteri cari ismi
+   paneli tek satıra sığmıyor, şehir kırpılıyordu — Abdullah'ın isteğiyle
+   işlem/hareket paneli + müşteri cari ismi panelindeki TÜM harf/sayı
+   boyları %20 küçültüldü (eskiden bmb-tip/bmb-alt 17.49px, bmb-kod
+   9.54px — şimdi ikisi de x0.8). "hepsi aynı boyda" kuralı (19/28.10.2026)
+   KORUNUYOR — bmb-tip/bmb-alt hâlâ birebir eşit, ms-ad/ms-sehir de
+   aşağıda aynı oranda küçültüldü (bkz. ilgili kural). */
 .belge-onizleme-sayfa .bmb-tip {
-  font-size: 17.49px;
+  font-size: 13.99px;
   line-height: 1;
   font-weight: 800;
   min-width: 0;
@@ -115,7 +123,7 @@
   flex: 0 0 auto;
 }
 .belge-onizleme-sayfa .bmb-alt {
-  font-size: 17.49px;
+  font-size: 13.99px;
   font-weight: 600;
   opacity: .85;
   min-width: 0;
@@ -125,7 +133,7 @@
   flex: 0 0 auto;
 }
 .belge-onizleme-sayfa .bmb-kod {
-  font-size: 9.54px;
+  font-size: 7.63px;
   font-weight: 700;
   opacity: .75;
   min-width: 0;
@@ -401,11 +409,29 @@
    GÜNCELLEME (28.10.2026, Abdullah onayı — "işlem etiketi taşıma" turu,
    mockup üzerinden onaylandı): "SADECE müşteri kodu değil TÜM harfler"
    isteği gereği .ms-sehir (ilçe/il) de eklendi, ikisi de artık .bmb-tip'in
-   GÜNCEL hassas değeriyle (17.49px, eskiden burada yuvarlak 17.5px'ti)
-   birebir aynı. .ms-kod zaten .ms-ad'tan miras aldığı için ayrıca
-   belirtilmedi. */
+   GÜNCEL hassas değeriyle birebir aynı. .ms-kod zaten .ms-ad'tan miras
+   aldığı için ayrıca belirtilmedi.
+   GÜNCELLEME 2 (28.10.2026, Abdullah onayı — "müşteri kodu sığsın" turu):
+   müşteri kodu (.ms-kod) eklenince satır tek satıra sığmıyordu — %20
+   küçültüldü (17.49px->13.99px), .bmb-tip/.bmb-alt ile hâlâ birebir aynı
+   (yukarıdaki kural). */
 .belge-onizleme-sayfa .musteri-serit .ms-ad,
-.belge-onizleme-sayfa .musteri-serit .ms-sehir { font-size: 17.49px; }
+.belge-onizleme-sayfa .musteri-serit .ms-sehir { font-size: 13.99px; }
+
+/* ---- KIRPILMA YERİNE SARMA (28.10.2026, Abdullah onayı — "kodlayalım"
+   turu): S22 (360px) genişliğinde, uzun unvan + uzun şehir kombinasyonlu
+   kayıtlarda %20 küçültme (yukarıda) bile tek satıra sığdıramıyordu —
+   metin "..." ile kırpılıyordu. Artık kırpmak yerine GEREKTİĞİNDE 2.
+   satıra sarıyor (hiçbir harf görünmeden kaybolmuyor); panel min-height
+   40px'ten büyüyebiliyor (zaten sabit değil). Paylaşılan musteri-serit.css
+   kuralına (white-space:nowrap + ellipsis, diğer sayfalarda AYNEN kaldı)
+   DOKUNULMADI — SADECE bu sayfaya scoped override. ---- */
+.belge-onizleme-sayfa .musteri-serit .ms-ad {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+.belge-onizleme-sayfa .musteri-serit { align-items: flex-start; }
 
 /* ---- Müşteri cari ismi paneli — zemin + iç dolgu (28.10.2026, Abdullah
    onayı — "işlem etiketi taşıma" turu, mockup üzerinden onaylandı):
@@ -427,6 +453,14 @@
    İşlem/kod paneli ile ürün tablosu arası ise standart 1mm'de KALDI
    (ayrıca bir şey eklenmedi). ---- */
 .belge-onizleme-sayfa .belge-kart--cari-ust { margin-bottom: 3mm; }
+
+/* ---- İşlem/kod paneli ile ürün tablosu arası boşluk %50 daraltıldı
+   (28.10.2026, Abdullah onayı — "daralt" turu, doğrudan kodlama onayı):
+   eskiden standart ".belge-kart{margin-bottom:1mm}" kuralından geliyordu
+   (1mm) — artık SADECE bu karta özel, 0.5mm'ye düşürüldü. Paylaşılan
+   .belge-kart kuralına DOKUNULMADI (Sepet/Gönder/Cari Kart etkilenmesin
+   diye). ---- */
+.belge-onizleme-sayfa .belge-kart--siparis-paneli { margin-bottom: 0.5mm; }
 
 /* ---- WEICON rozeti (.belge-logo-mini) — kutu boyu SABİT (18.10.2026,
    Abdullah onayı): "kesinlikle değişmeyecek, en büyük hali" isteği gereği
