@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.281026.1223.1190
+  send-render.js — WG.281026.1156.1185
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
   görsel oluşturma/kopyalama özelliklerinden biri GERÇEKTEN kullanıldığında
   ilk kez indiriliyor (bkz. html2canvasYukle()). Davranış/çıktı değişmedi.
@@ -218,11 +218,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   } else {
     // BİRLEŞİK CARİ KUTUSU (27.09.2026): artık Cari Bilgi sayfasıyla aynı
     // renkli-kutu tasarımı — bkz. cariKutulariHtml().
-    // TESLİMAT ADRESİ BOŞSA GİZLE (28.10.2026, Abdullah onayı — "her yerde"
-    // turu, mockup üzerinden onaylandı): son parametre (true) teslimat
-    // adresi girilmemişse bu canlı önizlemede de bloğu hiç göstermez; cari
-    // kodu (koduGizle=false) eskisi gibi görünmeye devam eder.
-    musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : [], false, true);
+    musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : []);
     html = musteriBlokHtml
       + "<div class='belge-kart-ayrac'></div>"
       + "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStrOnizleme, kod) + "</div>"
