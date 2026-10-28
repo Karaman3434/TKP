@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.271026.2206.1117
+  send-render.js — WG.281026.1156.1185
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
   görsel oluşturma/kopyalama özelliklerinden biri GERÇEKTEN kullanıldığında
   ilk kez indiriliyor (bkz. html2canvasYukle()). Davranış/çıktı değişmedi.
@@ -383,7 +383,13 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     // GERÇEK görselde müşteri cari kodu ("M-0017") HİÇ basılmaz — son
     // parametre (true) SADECE burada verilir, programın başka hiçbir yerinde
     // (Cari Kart, Sepet, Gönder'in canlı önizlemesi, Belge Önizleme) yok.
-    cariBaslikHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : [], true);
+    // TESLİMAT ADRESİ BOŞSA GİZLE (28.10.2026, Abdullah onayı — mockup
+    // üzerinden): 9. parametre (true) de SADECE burada verilir — teslimat
+    // adresi girilmemişse bu gerçek Mail/WhatsApp görselinde TESLİMAT
+    // ADRESİ bloğu hiç görünmez. Diğer hiçbir çağrı (Cari Kart, Sepet,
+    // Gönder'in canlı önizlemesi, Belge Önizleme) bunu geçmediği için
+    // hepsi eskisi gibi boşsa "Girilmemiş" göstermeye devam eder.
+    cariBaslikHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : [], true, true);
     cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr, null) + "</div>";
   }
 
@@ -727,7 +733,19 @@ function gonderTiklandi(kanal, ozelKonu){
         var paylasimMetni = metin;
         if(kanal === "mail" && /iPhone|iPad|iPod/i.test(navigator.userAgent || "")){
           var satirAyiriciOzelKarakter = String.fromCharCode(8232);
-          paylasimMetni = metin.split("\n").join(satirAyiriciOzelKarakter);
+          // DÜZELTME (28.10.2026, Abdullah onayı — "Konu: Merhaba," hatası,
+          // mockup üzerinden onaylandı — Seçenek A): yukarıdaki 05.10.2026
+          // notunda açıklanan iOS kısıtı yüzünden bazı Mail uygulamaları
+          // Konu kutusunu "title" yerine gövdenin (text) İLK SATIRIYLA
+          // dolduruyordu — mesaj şablonları "Merhaba," ile başladığından
+          // Konu'da "Merhaba," görünüyordu. Gövdenin elimizdeki TEK
+          // kaldıraç olması nedeniyle (Web Share API'de Konu/gövde ayrı
+          // taşınmıyor), gövdenin ilk satırı artık SADECE mail+iOS'ta tek
+          // bir "." oluyor: "title"ı doğru okuyan uygulamalarda Konu zaten
+          // doğru gelir, gövde üstünde fazladan bir "." satırı görünür;
+          // "title"ı yok sayan uygulamalarda ise Konu'da "Merhaba," yerine
+          // "." görünür. WhatsApp ve Android hiç etkilenmez.
+          paylasimMetni = "." + satirAyiriciOzelKarakter + metin.split("\n").join(satirAyiriciOzelKarakter);
         }
 
         if(navigator.canShare && navigator.canShare({files:[dosya]})){

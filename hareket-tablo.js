@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — WG.211026.1500.903
+  hareket-tablo.js — WG.281026.1156.1184
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -279,7 +279,14 @@ var HareketTablo = (function(){
   // ekranda (Cari Kart, Sepet, Gönder'in canlı önizlemesi, Belge Önizleme)
   // ETKİLENMEZ — hepsi bu parametreyi hiç geçmediği için eskisi gibi
   // gösterilmeye devam eder.
-  function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi, koduGizle){
+  // teslimatBossaGizle (28.10.2026, Abdullah onayı — mockup üzerinden):
+  // true verilirse, teslimatAdr BOŞ olduğunda TESLİMAT ADRESİ bloğu
+  // (etiket + "Girilmemiş") HİÇ basılmaz — SADECE send-render.js'in
+  // Mail/WhatsApp'a giden GÖRSELİNİN ürettiği çağrı bunu true geçer.
+  // Bu parametre hiç geçilmezse (Cari Kart, Sepet, Gönder'in canlı
+  // önizlemesi, Belge Önizleme) davranış ESKİSİ GİBİ — boşsa "Girilmemiş"
+  // yazar, blok yine gösterilir.
+  function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi, koduGizle, teslimatBossaGizle){
     // Cari'deki tek "ŞEHİR" alanı SADECE fatura adresine eklenir — teslimat
     // çoğu zaman bambaşka bir ilçe/ildedir, ona hiç eklenmez (29.09.2026).
     var sehirEk = musteri.sehir ? ", " + htmlEsc(musteri.sehir) : "";
@@ -327,10 +334,12 @@ var HareketTablo = (function(){
     // eski bir Fiyat Teklifi), Belge Önizleme'de "neden görünmüyor" izlenimi
     // veriyordu. Artık Fatura ile BİREBİR aynı kural: her zaman basılır,
     // boşsa "Girilmemiş" yazar.
-    adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>🚚 TESLİMAT ADRESİ</span></div>"
-      + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
-      +   (teslimatAdr ? htmlEsc(teslimatAdr) : "<span class='belge-adres-bos'>Girilmemiş</span>")
-      + "</div></div></div>";
+    if(teslimatAdr || !teslimatBossaGizle){
+      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>🚚 TESLİMAT ADRESİ</span></div>"
+        + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
+        +   (teslimatAdr ? htmlEsc(teslimatAdr) : "<span class='belge-adres-bos'>Girilmemiş</span>")
+        + "</div></div></div>";
+    }
     var yetkiliIcHtml = (yetkiliListesi||[]).map(function(k){ return yetkiliSatiriHtml(k.isim, k.telefon, k.eposta); }).join("");
     if(yetkiliIcHtml){
       adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--yetkili'><span>👤 YETKİLİ</span></div>"

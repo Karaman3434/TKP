@@ -1,5 +1,5 @@
 /*
-  gonder-tablo-style-v2.css — WG.211026.2235.930
+  gonder-tablo-style-v2.css — WG.281026.1156.1186
   ================================================================
   Belge Önizleme/Sepet'te onaylanan açık gri zemin dili Gönder
   ekranının ürün tablosuna da taşındı (12.10.2026, Abdullah onayı).
@@ -38,3 +38,13 @@ body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-teklif   { color: #249147;
 body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  { color: #38469a; }
 body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-proforma { color: #8a4306; }
 body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { color: #8e0e45; }
+
+/* FATURA ADRESİ / İLETİŞİM ÇİZGİSİ KALDIRILDI — SADECE MAİL GÖRSELİNDE
+   (28.10.2026, Abdullah onayı — mockup üzerinden onaylandı): Mail/WhatsApp'a
+   giden gerçek görselde (#belgeGorselAlani, bkz. send-render.js) fatura
+   adresi metni ile altındaki telefon/mail satırları arasındaki ince çizgi
+   kaldırıldı. Bu kural SADECE bu gizli render alanını hedefliyor — Cari
+   Kart, Sepet, Belge Önizleme ve Gönder'in canlı önizlemesi (#tamOnizleme
+   Alani, #mailOnizlemeTablo) .ck-kart-iletisim çizgisini eskisi gibi
+   göstermeye devam eder. */
+#belgeGorselAlani .ck-kart-iletisim { border-top: none; margin-top: 4px; padding-top: 0; }
