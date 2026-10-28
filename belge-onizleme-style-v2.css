@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.281026.2319.1220
+  belge-onizleme-style-v2.css — WG.291026.0009.1222
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -142,8 +142,12 @@
   text-overflow: ellipsis;
   flex: 0 0 auto;
 }
+/* HARF BOYU %20 BÜYÜTÜLDÜ (29.10.2026, Abdullah onayı — "sadece işlem
+   kısa kodu" turu): SADECE .bmb-kod (SP.001 gibi kısa kod) büyütüldü —
+   .bmb-tip/.bmb-alt'a DOKUNULMADI (bu kez "hepsi aynı boyda" kuralı
+   kasıtlı olarak BOZULDU, açıkça sadece kısa kod istendi). 8.77px->10.52px. */
 .belge-onizleme-sayfa .bmb-kod {
-  font-size: 8.77px;
+  font-size: 10.52px;
   font-weight: 700;
   opacity: .75;
   min-width: 0;
@@ -481,8 +485,10 @@
    eskiden standart ".belge-kart{margin-bottom:1mm}" kuralından geliyordu
    (1mm) — artık SADECE bu karta özel, 0.5mm'ye düşürüldü. Paylaşılan
    .belge-kart kuralına DOKUNULMADI (Sepet/Gönder/Cari Kart etkilenmesin
-   diye). ---- */
-.belge-onizleme-sayfa .belge-kart--siparis-paneli { margin-bottom: 0.5mm; }
+   diye).
+   GÜNCELLEME (29.10.2026, Abdullah onayı — "yüzde 40 daha daralt" turu):
+   0.5mm'den %40 daha küçültüldü (0.5mm x0.6 = 0.3mm). ---- */
+.belge-onizleme-sayfa .belge-kart--siparis-paneli { margin-bottom: 0.3mm; }
 
 /* ---- WEICON rozeti (.belge-logo-mini) — kutu boyu SABİT (18.10.2026,
    Abdullah onayı): "kesinlikle değişmeyecek, en büyük hali" isteği gereği
