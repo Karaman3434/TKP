@@ -1,5 +1,5 @@
 /*
-  auth.js — WG.271026.2238.1135
+  auth.js — WG.281026.1031.1183
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -461,6 +461,34 @@
   }
   function kmSaatDakika(d){ return d.getHours()*60+d.getMinutes(); }
   function kmSaatKur(d, saat, dakika){ var x=new Date(d.getTime()); x.setHours(saat,dakika,0,0); return x; }
+
+  // ANA EKRAN KISAYOLU ROZETİ (28.10.2026, Abdullah onayı — görsel mockup
+  // üzerinden iki turda netleşti): "📄 Belge Önizleme" boşluk işinden sonraki
+  // talep. iOS/Android'in "App Badge" (Uygulama Rozeti) API'si SADECE bir
+  // tam sayı kabul eder — harf/metin/renk DEĞİŞTİRİLEMEZ (navigator.
+  // setAppBadge(sayı) — OS bunu hep kırmızı daire + beyaz rakam çizer).
+  // Bu yüzden Abdullah'la konuşulup netleşen gerçekçi karşılığı: 06:00-13:00
+  // arası bugünün KM'si girilmemişse rozet "1" gösterir, girilince veya
+  // 13:00 geçince rozet tamamen KALKAR (yeşile dönmüyor — OS buna izin
+  // vermiyor). YENİ bir Firebase okuması YOK — aşağıdaki kaydiKontrolEt()
+  // zaten her sayfa açılışında bu kaydı okuyor, rozet onun sonucunu
+  // kullanıyor. Push/arka plan altyapısı YOK — rozet SADECE uygulama her
+  // açıldığında (bu fonksiyon zaten her sayfada çalıştığı için) tazelenir,
+  // uygulama hiç açılmazsa güncellenmez (Abdullah'a bu sınır açıkça
+  // söylendi ve onaylandı).
+  var KM_BASLANGIC_DK = 6*60, KM_BITIS_DK = 13*60;
+  function kmRozetGuncelle(kmVar){
+    try{
+      if(!("setAppBadge" in navigator)) return;
+      var dk = kmSaatDakika(new Date());
+      if(!kmVar && dk>=KM_BASLANGIC_DK && dk<KM_BITIS_DK){
+        navigator.setAppBadge(1).catch(function(){});
+      } else if("clearAppBadge" in navigator){
+        navigator.clearAppBadge().catch(function(){});
+      }
+    }catch(e){}
+  }
+
   function kmGunlukKontrolu(user, tamam){
     if(!user || buSayfaLogin || buSayfaPin || buSayfaCihazEngelli || buSayfaOnayBekliyor || window.location.pathname.split("/").pop()==="erisim-reddedildi.html"){
       tamam(); return;
@@ -505,6 +533,7 @@
       firebase.database().ref("kmTakip/"+kmYerelTarihAnahtari(simdi)).once("value").then(function(snap){
         var kayit=snap.val();
         var kmVar=!!(kayit && kayit.km!==undefined && kayit.km!==null && String(kayit.km).trim()!=="");
+        kmRozetGuncelle(kmVar);
         if(kmVar){
           try{ localStorage.removeItem(KM_GUNLUK_HATIRLATMA_SNOOZE); localStorage.removeItem(KM_GUNLUK_HATIRLATMA_GOSTERILDI); }catch(e){}
           tamam(); return;
@@ -530,7 +559,7 @@
       }).catch(function(err){ console.warn("Günlük KM kontrolü okunamadı; program normal açılıyor.",err); tamam(); });
     }
     // 06:00 öncesinde kayda bakmak gerekmez; 06:00 başlangıcında kontrol başlar.
-    if(dakika<baslangic){ tamam(); timerKur(kmSaatKur(simdi,6,0)); return; }
+    if(dakika<baslangic){ kmRozetGuncelle(true); tamam(); timerKur(kmSaatKur(simdi,6,0)); return; }
     kaydiKontrolEt();
   }
 
