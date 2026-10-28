@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.281026.2131.1197 */
+/* cari-kart-style.css — WG.281026.2201.1205 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -78,17 +78,21 @@
    üzerinden onaylandı): eski emoji ~12px tabanından iki kez +%20 büyütülerek
    17.5px'e sabitlendi (12 -> 14.5 -> 17.5), programdaki TÜM ikon örneklerinde
    (ozet-ikon / ck-blok-etiket-ikon / ck-kart-iletisim-ikon) BİREBİR aynı boy.
-   Renk artık dayatılmıyor — ikon komşu metninin rengini (currentColor) alır. */
-.ozet-ikon { width: 17.5px; height: 17.5px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: #0a2f5c; }
+   Renk artık dayatılmıyor — ikon komşu metninin rengini (currentColor) alır.
+   RENK (28.10.2026, Abdullah onayı — "renk denemesi" turu, mockup üzerinden
+   onaylandı): PRİM şeridiyle (belge-style.css .belge-prim-serit) BİREBİR
+   aynı yeşil — önceden #0a2f5c laciverttı, beğenilmedi. */
+.ozet-ikon { width: 17.5px; height: 17.5px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: #16a085; }
 .ozet-ikon svg { width: 100%; height: 100%; display: block; }
 .ozet-metin { min-width: 0; width: 100%; }
 .ozet-baslik {
   font-size: 11px;
   font-weight: 700;
-  /* RENK (28.10.2026, Abdullah onayı — "ikon tasarımı" turu, mockup
-     üzerinden onaylandı): müşteri ismiyle (musteri-serit.css .ms-ad)
-     BİREBİR aynı lacivert — önceden #073B70'ti. */
-  color: #0a2f5c;
+  /* RENK (28.10.2026, Abdullah onayı — "renk denemesi" turu, mockup
+     üzerinden onaylandı): PRİM şeridiyle (belge-style.css .belge-prim-serit)
+     BİREBİR aynı yeşil — önceden #073B70, sonra #0a2f5c (lacivert) idi,
+     ikisi de beğenilmedi. */
+  color: #16a085;
   letter-spacing: .2px;
 }
 .ozet-deger {
@@ -125,14 +129,14 @@
    çizgisi (bkz. aşağıda .ck-blok border-bottom). Gri zemin SADECE
    VADE/FATURA/KARGO kutularında (.ozet-alan, yukarıda) olmalıydı — iki
    kural birbirine karışmış. */
-/* RENK (28.10.2026, Abdullah onayı — "ikon tasarımı" turu): müşteri
-   ismiyle (musteri-serit.css .ms-ad) BİREBİR aynı lacivert — önceden
-   #073B70'ti. */
+/* RENK (28.10.2026, Abdullah onayı — "renk denemesi" turu): PRİM şeridiyle
+   (belge-style.css .belge-prim-serit) BİREBİR aynı yeşil — önceden #073B70,
+   sonra #0a2f5c (lacivert) idi, ikisi de beğenilmedi. */
 .ck-blok-etiket--fatura,
 .ck-blok-etiket--yetkili,
 .ck-blok-etiket--teslimat,
 .ck-blok-etiket--not,
-.ck-blok-etiket--temel { background: none; border: none; color: #0a2f5c; }
+.ck-blok-etiket--temel { background: none; border: none; color: #16a085; }
 .ck-blok-etiket--temel { margin-top: 0; margin-bottom: 4px; }
 /* ETİKET İKONU (28.10.2026, Abdullah onayı — "ikon tasarımı" turu): FATURA
    ADRESİ / TESLİMAT ADRESİ / YETKİLİ / NOT başlıklarının yanındaki SVG ikon.
