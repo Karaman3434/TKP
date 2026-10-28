@@ -1,4 +1,4 @@
-/* belge-style.css — WG.211026.2235.928
+/* belge-style.css — WG.281026.2130.1195
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -261,10 +261,13 @@
   overflow-wrap: break-word;
 }
 
+/* YETKİLİ ismi artık KALIN/KOYU DEĞİL (28.10.2026, Abdullah onayı — "ikon
+   tasarımı" turu, mockup üzerinden onaylandı): kutudaki diğer metinle
+   (.ck-kart) aynı stil — kalın görünüm kaldırıldı. */
 .belge-yetkili-satir {
-  font-size: 13px;
-  color: #111827;
-  font-weight: 700;
+  font-size: 12.5px;
+  color: #1a2733;
+  font-weight: 400;
   line-height: 1.5;
 }
 /* YETKİLİ değeri (07.10.2026): belge-onizleme.html yolunda (.belge-yetkili-blok

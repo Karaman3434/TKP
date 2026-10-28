@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.271026.2037.1111
+  cari-kart-render.js — WG.281026.2132.1198
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -275,14 +275,19 @@ function rozetTiklariniBagla(){
 // müşteri eklenirken girilen telefon/eposta (yetkili kişiden AYRI, şirket
 // seviyesinde) artık Fatura Adresi kutusunun altında gösteriliyor. İkisi
 // de boşsa hiçbir şey eklenmez, kutu eskisi gibi kalır.
+// TEK SATIR + SVG İKON (28.10.2026, Abdullah onayı — "ikon tasarımı" turu,
+// mockup üzerinden onaylandı): telefon ve mail artık HER ZAMAN aynı satırda
+// ("·" ayracıyla, hareket-tablo.js'teki faturaIletisimHtml ile BİREBİR aynı
+// yapı), emoji yerine ikon-svg.js'teki düz SVG'ler kullanılıyor.
 function faturaIletisimSatiri(){
   var m = musteriVerisi;
   if(!m) return "";
-  var satirlar = [];
-  if(m.telefon && m.telefon.trim()) satirlar.push("<div class='ck-kart-iletisim-satir'><span class='ck-kart-iletisim-ikon'>📞</span>" + escapeText(m.telefon.trim()) + "</div>");
-  if(m.eposta && m.eposta.trim()) satirlar.push("<div class='ck-kart-iletisim-satir'><span class='ck-kart-iletisim-ikon'>✉️</span>" + escapeText(m.eposta.trim()) + "</div>");
-  if(satirlar.length === 0) return "";
-  return "<div class='ck-kart-iletisim'>" + satirlar.join("") + "</div>";
+  var ikonVarMi = (typeof IkonSvg !== "undefined");
+  var parcalar = [];
+  if(m.telefon && m.telefon.trim()) parcalar.push("<span class='ck-iletisim-parca'><span class='ck-kart-iletisim-ikon'>" + (ikonVarMi ? IkonSvg.svg("telefon") : "📞") + "</span>" + escapeText(m.telefon.trim()) + "</span>");
+  if(m.eposta && m.eposta.trim()) parcalar.push("<span class='ck-iletisim-parca'><span class='ck-kart-iletisim-ikon'>" + (ikonVarMi ? IkonSvg.svg("mail") : "✉️") + "</span>" + escapeText(m.eposta.trim()) + "</span>");
+  if(parcalar.length === 0) return "";
+  return "<div class='ck-kart-iletisim'>" + parcalar.join("<span class='ck-iletisim-ayrac'>·</span>") + "</div>";
 }
 
 function alanlariDoldur(musteri){
@@ -700,7 +705,27 @@ function tarihiGuncelle(){
   }catch(e){}
 }
 
+// STATİK İKONLAR (28.10.2026, Abdullah onayı — "ikon tasarımı" turu):
+// customer-cari-kart.html'deki VADE/FATURA/KARGO özet kutuları ve FATURA
+// ADRESİ/TESLİMAT ADRESİ/YETKİLİ BİLGİSİ/NOT başlık etiketleri HTML'de
+// sabit (dinamik render edilmiyor) — bu yüzden emoji yerine ikon-svg.js
+// SVG'lerini tek seferlik burada basıyoruz. IkonSvg yüklenmemişse (script
+// sırası bozulmuşsa) emoji aynen kalır, hata vermez.
+function statikIkonlariDoldur(){
+  if(typeof IkonSvg === "undefined") return;
+  var eslesme = {
+    ozetIkonVade: "vade", ozetIkonFatura: "fatura", ozetIkonKargo: "kargo",
+    etiketIkonFatura: "dosya", etiketIkonTeslimat: "kargo",
+    etiketIkonYetkili: "kisi", etiketIkonNot: "not"
+  };
+  Object.keys(eslesme).forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.innerHTML = IkonSvg.svg(eslesme[id]);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function(){
+  statikIkonlariDoldur();
   tarihiGuncelle();
   var btnMenuEl = document.getElementById("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };

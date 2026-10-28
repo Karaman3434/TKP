@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — WG.281026.1156.1184
+  hareket-tablo.js — WG.281026.2130.1196
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -250,13 +250,20 @@ var HareketTablo = (function(){
   // kaldırıldı — ikon artık sadece üstteki "👤 YETKİLİ" etiketinde var,
   // isim etiketle aynı sol kenardan değil, ~3mm daha içeriden başlıyor
   // (bkz. cari-kart-style.css .ck-kart / belge-style.css .belge-yetkili-satir).
+  // İKON SİSTEMİ (28.10.2026, Abdullah onayı — "ikon tasarımı" turu, mockup
+  // üzerinden onaylandı): emoji yerine ikon-svg.js'teki düz SVG'ler, isim
+  // artık KALIN/KOYU DEĞİL — kutudaki diğer metinle (.ck-kart) aynı stil
+  // (bkz. belge-style.css .belge-yetkili-satir).
   function yetkiliSatiriHtml(isim, tel, eposta){
     if(!isim && !tel && !eposta) return "";
+    var ikonVarMi = (typeof IkonSvg !== "undefined");
+    var ikTel = ikonVarMi ? "<span class='ck-kart-iletisim-ikon'>" + IkonSvg.svg("telefon") + "</span>" : "📞 ";
+    var ikMail = ikonVarMi ? "<span class='ck-kart-iletisim-ikon'>" + IkonSvg.svg("mail") + "</span>" : "✉️ ";
     var parcalar = [];
-    if(tel) parcalar.push("📞 " + tel);
-    if(eposta) parcalar.push("✉️ " + eposta);
-    return "<div class='belge-yetkili-satir'><b>" + htmlEsc(isim||"-") + "</b>"
-      + (parcalar.length ? " — <span class='belge-yetkili-detay'>" + htmlEsc(parcalar.join(" · ")) + "</span>" : "")
+    if(tel) parcalar.push(ikTel + htmlEsc(tel));
+    if(eposta) parcalar.push(ikMail + htmlEsc(eposta));
+    return "<div class='belge-yetkili-satir'>" + htmlEsc(isim||"-")
+      + (parcalar.length ? " — <span class='belge-yetkili-detay'>" + parcalar.join(" · ") + "</span>" : "")
       + "</div>";
   }
 
@@ -301,11 +308,17 @@ var HareketTablo = (function(){
     var isimHtml = (typeof MusteriSeridi !== "undefined")
       ? MusteriSeridi.html(musteri, {koduGizle: koduGizle})
       : "<div class='ck-isim-satir'><b class='ck-isim-nokta'>•</b> " + htmlEsc(musteri.ad) + "</div>";
+    // İKON SİSTEMİ (28.10.2026, Abdullah onayı): emoji yerine ikon-svg.js'teki
+    // düz, tek-renk (müşteri ismiyle aynı lacivert) SVG ikonlar, %20 daha
+    // büyük (bkz. cari-kart-style.css .ozet-ikon/.ck-blok-etiket-ikon).
+    var ikonVarMi = (typeof IkonSvg !== "undefined");
+    function ozIk(ad, emoji){ return "<span class='ozet-ikon'>" + (ikonVarMi ? IkonSvg.svg(ad) : emoji) + "</span>"; }
+    function etIk(ad, emoji){ return "<span class='ck-blok-etiket-ikon'>" + (ikonVarMi ? IkonSvg.svg(ad) : emoji) + "</span>"; }
     var html = isimHtml
       + "<div class='ozet-satir-3 ozet-satir-3--birlesik'>"
-      +   "<div class='ozet-alan'><span class='ozet-ikon'>📅</span><div class='ozet-metin'><div class='ozet-baslik'>VADE</div><div class='ozet-deger'>" + htmlEsc(vade||"-") + "</div></div></div>"
-      +   "<div class='ozet-alan'><span class='ozet-ikon'>🧾</span><div class='ozet-metin'><div class='ozet-baslik'>FATURA</div><div class='ozet-deger'>" + htmlEsc(faturaTuru||"-") + "</div></div></div>"
-      +   "<div class='ozet-alan'><span class='ozet-ikon'>🚚</span><div class='ozet-metin'><div class='ozet-baslik'>KARGO</div><div class='ozet-deger'>" + htmlEsc(kargo||"-") + "</div></div></div>"
+      +   "<div class='ozet-alan'>" + ozIk("vade","📅") + "<div class='ozet-metin'><div class='ozet-baslik'>VADE</div><div class='ozet-deger'>" + htmlEsc(vade||"-") + "</div></div></div>"
+      +   "<div class='ozet-alan'>" + ozIk("fatura","🧾") + "<div class='ozet-metin'><div class='ozet-baslik'>FATURA</div><div class='ozet-deger'>" + htmlEsc(faturaTuru||"-") + "</div></div></div>"
+      +   "<div class='ozet-alan'>" + ozIk("kargo","🚚") + "<div class='ozet-metin'><div class='ozet-baslik'>KARGO</div><div class='ozet-deger'>" + htmlEsc(kargo||"-") + "</div></div></div>"
       + "</div>";
     // TEK ÇERÇEVE (18.10.2026, Abdullah onayı — "Sipariş Formu" v3 mockup):
     // Fatura Adresi / Teslimat Adresi / Yetkili artık ayrı ayrı kutucuklar
@@ -316,14 +329,18 @@ var HareketTablo = (function(){
     // (cari-kart-render.js'in KENDİ ayrı çizim yolu, bkz. faturaIletisimSatiri)
     // — bu paylaşılan fonksiyon AYNI ".ck-kart-iletisim" tasarımıyla şimdi
     // Belge Önizleme/Gönder/Mail'e de taşıyor (musteri.telefon/eposta).
+    // TEK SATIR (28.10.2026, Abdullah onayı — "ikon tasarımı" turu, mockup
+    // üzerinden onaylandı): telefon ve mail artık HER ZAMAN aynı satırda,
+    // Yetkili satırındaki "·" ayracıyla aynı dilde yan yana — önceden iki
+    // ayrı alt alta satırdı.
     var faturaIletisimHtml = "";
     if((musteri.telefon && musteri.telefon.trim()) || (musteri.eposta && musteri.eposta.trim())){
-      var faturaIletisimSatirlari = [];
-      if(musteri.telefon && musteri.telefon.trim()) faturaIletisimSatirlari.push("<div class='ck-kart-iletisim-satir'><span class='ck-kart-iletisim-ikon'>📞</span>" + htmlEsc(musteri.telefon.trim()) + "</div>");
-      if(musteri.eposta && musteri.eposta.trim()) faturaIletisimSatirlari.push("<div class='ck-kart-iletisim-satir'><span class='ck-kart-iletisim-ikon'>✉️</span>" + htmlEsc(musteri.eposta.trim()) + "</div>");
-      faturaIletisimHtml = "<div class='ck-kart-iletisim'>" + faturaIletisimSatirlari.join("") + "</div>";
+      var faturaIletisimParcalari = [];
+      if(musteri.telefon && musteri.telefon.trim()) faturaIletisimParcalari.push("<span class='ck-iletisim-parca'><span class='ck-kart-iletisim-ikon'>" + (ikonVarMi ? IkonSvg.svg("telefon") : "📞") + "</span>" + htmlEsc(musteri.telefon.trim()) + "</span>");
+      if(musteri.eposta && musteri.eposta.trim()) faturaIletisimParcalari.push("<span class='ck-iletisim-parca'><span class='ck-kart-iletisim-ikon'>" + (ikonVarMi ? IkonSvg.svg("mail") : "✉️") + "</span>" + htmlEsc(musteri.eposta.trim()) + "</span>");
+      faturaIletisimHtml = "<div class='ck-kart-iletisim'>" + faturaIletisimParcalari.join("<span class='ck-iletisim-ayrac'>·</span>") + "</div>";
     }
-    var adresYetkiliIcHtml = "<div class='ck-blok-etiket ck-blok-etiket--fatura'><span>📄 FATURA ADRESİ</span></div>"
+    var adresYetkiliIcHtml = "<div class='ck-blok-etiket ck-blok-etiket--fatura'><span>" + etIk("dosya","📄") + "FATURA ADRESİ</span></div>"
       + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
       +   (faturaAdr ? htmlEsc(faturaAdr) + sehirEk : "<span class='belge-adres-bos'>Girilmemiş</span>")
       +   faturaIletisimHtml
@@ -335,14 +352,14 @@ var HareketTablo = (function(){
     // veriyordu. Artık Fatura ile BİREBİR aynı kural: her zaman basılır,
     // boşsa "Girilmemiş" yazar.
     if(teslimatAdr || !teslimatBossaGizle){
-      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>🚚 TESLİMAT ADRESİ</span></div>"
+      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>" + etIk("kargo","🚚") + "TESLİMAT ADRESİ</span></div>"
         + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
         +   (teslimatAdr ? htmlEsc(teslimatAdr) : "<span class='belge-adres-bos'>Girilmemiş</span>")
         + "</div></div></div>";
     }
     var yetkiliIcHtml = (yetkiliListesi||[]).map(function(k){ return yetkiliSatiriHtml(k.isim, k.telefon, k.eposta); }).join("");
     if(yetkiliIcHtml){
-      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--yetkili'><span>👤 YETKİLİ</span></div>"
+      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--yetkili'><span>" + etIk("kisi","👤") + "YETKİLİ</span></div>"
         + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>" + yetkiliIcHtml + "</div></div></div>";
     }
     // NOT (19.10.2026, Abdullah onayı — "cari kart çerçeve" turu): Cari

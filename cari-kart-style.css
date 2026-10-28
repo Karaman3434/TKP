@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.281026.1223.1187 */
+/* cari-kart-style.css — WG.281026.2131.1197 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -74,12 +74,21 @@
   text-align: left;
   gap: 6px;
 }
-.ozet-ikon { font-size: 12px; line-height: 1.35; flex-shrink: 0; }
+/* İKON BOYUTU (28.10.2026, Abdullah onayı — "ikon tasarımı" turu, v2 mockup
+   üzerinden onaylandı): eski emoji ~12px tabanından iki kez +%20 büyütülerek
+   17.5px'e sabitlendi (12 -> 14.5 -> 17.5), programdaki TÜM ikon örneklerinde
+   (ozet-ikon / ck-blok-etiket-ikon / ck-kart-iletisim-ikon) BİREBİR aynı boy.
+   Renk artık dayatılmıyor — ikon komşu metninin rengini (currentColor) alır. */
+.ozet-ikon { width: 17.5px; height: 17.5px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: #0a2f5c; }
+.ozet-ikon svg { width: 100%; height: 100%; display: block; }
 .ozet-metin { min-width: 0; width: 100%; }
 .ozet-baslik {
   font-size: 11px;
   font-weight: 700;
-  color: #073B70;
+  /* RENK (28.10.2026, Abdullah onayı — "ikon tasarımı" turu, mockup
+     üzerinden onaylandı): müşteri ismiyle (musteri-serit.css .ms-ad)
+     BİREBİR aynı lacivert — önceden #073B70'ti. */
+  color: #0a2f5c;
   letter-spacing: .2px;
 }
 .ozet-deger {
@@ -116,12 +125,22 @@
    çizgisi (bkz. aşağıda .ck-blok border-bottom). Gri zemin SADECE
    VADE/FATURA/KARGO kutularında (.ozet-alan, yukarıda) olmalıydı — iki
    kural birbirine karışmış. */
+/* RENK (28.10.2026, Abdullah onayı — "ikon tasarımı" turu): müşteri
+   ismiyle (musteri-serit.css .ms-ad) BİREBİR aynı lacivert — önceden
+   #073B70'ti. */
 .ck-blok-etiket--fatura,
 .ck-blok-etiket--yetkili,
 .ck-blok-etiket--teslimat,
 .ck-blok-etiket--not,
-.ck-blok-etiket--temel { background: none; border: none; color: #073B70; }
+.ck-blok-etiket--temel { background: none; border: none; color: #0a2f5c; }
 .ck-blok-etiket--temel { margin-top: 0; margin-bottom: 4px; }
+/* ETİKET İKONU (28.10.2026, Abdullah onayı — "ikon tasarımı" turu): FATURA
+   ADRESİ / TESLİMAT ADRESİ / YETKİLİ / NOT başlıklarının yanındaki SVG ikon.
+   Renk vermiyoruz — üst elemanın (.ck-blok-etiket--*) lacivert rengini
+   (currentColor) otomatik devralır. Boy diğer tüm ikonlarla (.ozet-ikon,
+   .ck-kart-iletisim-ikon) birebir aynı: 17.5px. */
+.ck-blok-etiket-ikon { width: 17.5px; height: 17.5px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 6px; vertical-align: -3.5px; }
+.ck-blok-etiket-ikon svg { width: 100%; height: 100%; display: block; }
 /* Temel Bilgiler bloğunun ilk satırı — müşteri ticari/cari ismi
    (27.09.2026) — sadece isim ayrı bir şerit olarak görünmeyen sayfalarda
    (Sepet önizleme, Mail/WhatsApp gönderim) kullanılır. */
@@ -440,22 +459,31 @@
    TEK kaynak (Belge Önizleme, Gönder canlı önizleme, Mail/WhatsApp görseli,
    Cari Kart ekranı — hepsi bu TEK kuraldan besleniyor, sayfaya özel bir
    ezme kuralına artık gerek yok). */
+/* TEK SATIR (28.10.2026, Abdullah onayı — "ikon tasarımı" turu, v2 mockup
+   üzerinden onaylandı): telefon ve mail artık HER ZAMAN aynı satırda, Yetkili
+   satırındaki "·" ayracıyla aynı dilde yan yana — önceden sütun (alt alta)
+   iki satırdı (bkz. eski .ck-kart-iletisim-satir, artık kullanılmıyor). */
 .ck-kart-iletisim {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
   margin-top: 4px;
   padding-top: 0;
 }
-.ck-kart-iletisim-satir {
+.ck-iletisim-parca {
   font-size: 11.5px;
   color: #556170;
   font-weight: 500;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
-.ck-kart-iletisim-ikon { font-size: 12px; }
+.ck-iletisim-ayrac { color: #aab2bd; font-weight: 600; margin: 0 6px; }
+/* Boy diğer tüm ikonlarla (.ozet-ikon, .ck-blok-etiket-ikon) birebir aynı:
+   17.5px. Renk komşu metnin rengini (currentColor, gri #556170) devralır. */
+.ck-kart-iletisim-ikon { width: 17.5px; height: 17.5px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ck-kart-iletisim-ikon svg { width: 100%; height: 100%; display: block; }
 
 /* İşlem için seçim (WG.090926.196): birden fazla kayıt varsa hangisinin
    bu işlemde kullanılacağını işaretlemek için tik. */
