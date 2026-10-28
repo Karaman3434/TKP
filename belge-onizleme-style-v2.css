@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.281026.1229.1191
+  belge-onizleme-style-v2.css — WG.281026.2232.1211
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -43,7 +43,10 @@
    DEĞİŞİKLİK (18.10.2026, Abdullah onayı): zemin artık gri (#E7E9EE)
    değil, beyaz — çerçeve (lacivert) AYNEN korundu. ---- */
 .belge-onizleme-sayfa .belge-musteri-baslik {
-  padding: 4px 16px;
+  /* İÇ DOLGU (28.10.2026, Abdullah onayı — "işlem etiketi taşıma" turu,
+     mockup üzerinden onaylandı): eskiden 4px 16px — artık her yönde
+     sadece 1mm (müşteri cari ismi paneliyle BİREBİR aynı kural). */
+  padding: 1mm;
   letter-spacing: .4px;
   align-items: center;
   /* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "simetrik hale
@@ -391,12 +394,39 @@
 
 /* ---- FİYAT TEKLİFİ / müşteri ticari unvanı — aynı boy (18.10.2026,
    Abdullah onayı): müşteri ismi (.ms-ad, PAYLAŞILAN musteri-serit bileşeni)
-   SADECE bu sayfada .bmb-tip ile aynı boya (17.5px) getirildi — diğer
-   sayfalardaki (Sepet/Gönder/Cari Kart vb.) 15px DEĞİŞMEDİ. NOT: uzun
-   unvan+şehir kombinasyonlarında S22 (360px) genişliğinde kırpılma
-   (ellipsis) daha erken devreye girebilir — kullanıcı mockup'ta gördü ve
-   kabul etti. */
-.belge-onizleme-sayfa .musteri-serit .ms-ad { font-size: 17.5px; }
+   SADECE bu sayfada .bmb-tip ile aynı boya getirildi — diğer sayfalardaki
+   (Sepet/Gönder/Cari Kart vb.) 15px DEĞİŞMEDİ. NOT: uzun unvan+şehir
+   kombinasyonlarında S22 (360px) genişliğinde kırpılma (ellipsis) daha
+   erken devreye girebilir — kullanıcı mockup'ta gördü ve kabul etti.
+   GÜNCELLEME (28.10.2026, Abdullah onayı — "işlem etiketi taşıma" turu,
+   mockup üzerinden onaylandı): "SADECE müşteri kodu değil TÜM harfler"
+   isteği gereği .ms-sehir (ilçe/il) de eklendi, ikisi de artık .bmb-tip'in
+   GÜNCEL hassas değeriyle (17.49px, eskiden burada yuvarlak 17.5px'ti)
+   birebir aynı. .ms-kod zaten .ms-ad'tan miras aldığı için ayrıca
+   belirtilmedi. */
+.belge-onizleme-sayfa .musteri-serit .ms-ad,
+.belge-onizleme-sayfa .musteri-serit .ms-sehir { font-size: 17.49px; }
+
+/* ---- Müşteri cari ismi paneli — zemin + iç dolgu (28.10.2026, Abdullah
+   onayı — "işlem etiketi taşıma" turu, mockup üzerinden onaylandı):
+   .musteri-serit PAYLAŞILAN bir bileşen (Sepet/Gönder/Cari Kart vb. de
+   kullanıyor) — bu yüzden değişiklik SADECE Belge Önizleme'ye özgü kalsın
+   diye ".belge-onizleme-sayfa" ile sınırlandı, diğer sayfalardaki mavi
+   zemin (#c3dcf4) ve 6px/12px iç dolgu DEĞİŞMEDİ.
+   Zemin: artık mavi değil, programın VADE/FATURA/KARGO ve SİPARİŞ
+   şeridiyle aynı standart gri (#E7E9EE). Çerçeve (lacivert) AYNEN kaldı.
+   İç dolgu: eskiden 6px 12px — artık her yönde sadece 1mm (işlem/kod
+   paneliyle, .belge-musteri-baslik yukarıda, BİREBİR aynı kural). ---- */
+.belge-onizleme-sayfa .musteri-serit { background: #E7E9EE; padding: 1mm; }
+
+/* ---- Cari kutusu ile işlem/kod paneli arası boşluk (28.10.2026, Abdullah
+   onayı — "işlem etiketi taşıma" turu, mockup üzerinden onaylandı):
+   programdaki standart ".belge-kart{margin-bottom:1mm}" kuralına
+   DOKUNULMADI (Sepet/Gönder/Cari Kart etkilenmesin diye) — SADECE bu iki
+   kart arasındaki tek örnek, bu yeni sınıfla, BELİRGİN 3mm'ye büyütüldü.
+   İşlem/kod paneli ile ürün tablosu arası ise standart 1mm'de KALDI
+   (ayrıca bir şey eklenmedi). ---- */
+.belge-onizleme-sayfa .belge-kart--cari-ust { margin-bottom: 3mm; }
 
 /* ---- WEICON rozeti (.belge-logo-mini) — kutu boyu SABİT (18.10.2026,
    Abdullah onayı): "kesinlikle değişmeyecek, en büyük hali" isteği gereği

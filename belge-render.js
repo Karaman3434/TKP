@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.281026.1223.1189
+  belge-render.js — WG.281026.2232.1210
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -262,12 +262,19 @@ function belgeyiCiz(kayit, musteri){
     // başlığından zaten "7 fotoğraf" turunda kaldırılmıştı — bu sayfa
     // (Belge Önizleme) tek kalan yerdi, artık o da kaldırıldı. Boşalan
     // alan bmb-sol'a kaldı (tarih/kod artık daha rahat yer buluyor).
-    var musteriBlokHtml = "<div class='belge-musteri-baslik tip-" + (kayit.tip||"siparis") + "'>"
+    // SIRA DEĞİŞİKLİĞİ (28.10.2026, Abdullah onayı — mockup üzerinden
+    // onaylandı): işlem/kod paneli (aşağıda) artık müşteri cari bilgisinin
+    // ÜSTÜNDE DEĞİL — Gönder/Mail'in (send-render.js, 26.10.2026 onaylı)
+    // BİREBİR aynı sırası: cari kutusu üstte, işlem/kod paneli ürün
+    // tablosunun hemen üstünde, kendi ayrı kartında. "musteriBlokHtml"
+    // artık SADECE cari kutusunu taşıyor; işlem/kod paneli ayrı bir
+    // değişkende (siparisPaneliHtml, aşağıda html birleştirmesinde kullanılır).
+    var siparisPaneliHtml = "<div class='belge-musteri-baslik tip-" + (kayit.tip||"siparis") + "'>"
       + "<div class='bmb-sol'><span class='bmb-tip'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + "</span>"
       + (bmbAltMetin ? "<span class='bmb-alt'>" + bmbAltMetin + "</span>" : "")
       + (bmbKodMetin ? "<span class='bmb-kod'>" + bmbKodMetin + "</span>" : "")
-      + "</div></div>"
-      + "<div class='belge-musteri-govde'>"
+      + "</div></div>";
+    var musteriBlokHtml = "<div class='belge-musteri-govde'>"
       // Geçmiş gösterimi artık SADECE #belgeGecmisiKutu'da (alttaki
       // "📜 Belge Geçmişi" kutusu) — buradaki süreç şeridi kaldırıldı,
       // aynı bilgiyi ikinci kez basıyordu (19.10.2026, Abdullah onayı).
@@ -319,9 +326,12 @@ function belgeyiCiz(kayit, musteri){
     // tam yuvarlak köşesi VE çerçevesi var ("belge-kart--urun-cerceveli" —
     // Gönder'in giden görseliyle BİREBİR aynı çerçeve dili, 18.10.2026).
     // GENEL TOPLAM ve PRİM iki AYRI, bağımsız, tam yuvarlak köşeli kutu.
-    var html = "<div class='belge-kart tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
+    var html = "<div class='belge-kart belge-kart--cari-ust tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
       + durumRozetHtml
       + musteriBlokHtml
+      + "</div>"
+      + "<div class='belge-kart tip-" + (kayit.tip||"siparis") + "'>"
+      + siparisPaneliHtml
       + "</div>"
       + "<div class='belge-kart belge-kart--urun-cerceveli'>"
       + satirlarHtml
