@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.271026.2037.1110
+  belge-render.js — WG.281026.1223.1189
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -278,7 +278,12 @@ function belgeyiCiz(kayit, musteri){
       // NOT ALANI (19.10.2026, Abdullah onayı — "cari kart çerçeve" turu):
       // aynı sentetik obje mantığıyla, Cari Kart'taki not da notlar/not
       // alanlarıyla buraya elle taşındı — artık Belge Önizleme'de de görünür.
-      + HareketTablo.cariKutulariHtml({ad: kayit.musteri, sehir: sehir, telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer)
+      // TESLİMAT ADRESİ BOŞSA GİZLE (28.10.2026, Abdullah onayı — "her
+      // yerde" turu, mockup üzerinden onaylandı): son parametre (true)
+      // teslimat adresi girilmemişse bu bloğu HİÇ göstermez — cari kodu
+      // (koduGizle=false) ESKİSİ GİBİ görünmeye devam eder, SADECE bu
+      // değişti.
+      + HareketTablo.cariKutulariHtml({ad: kayit.musteri, sehir: sehir, telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true)
       + "</div>";
 
     var kurIcHtml = kayit.kur

@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.271026.1613.1085 */
+/* cari-kart-style.css — WG.281026.1223.1187 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -433,15 +433,19 @@
 .ck-kart-alt { font-size: 11.5px; color: #556170; margin-top: 3px; line-height: 1.4; white-space: pre-line; font-weight: 500; }
 
 /* ŞİRKET TELEFONU/E-POSTASI (01.10.2026, Abdullah'ın isteğiyle, mockup
-   üzerinden onaylandı) — Fatura Adresi kutusunun altında, ince bir
-   çizgiyle ayrılmış küçük bir satır. */
+   üzerinden onaylandı) — Fatura Adresi kutusunun altında küçük bir satır.
+   ÇİZGİ KALDIRILDI (28.10.2026, Abdullah onayı — "her yerde" turu, mockup
+   üzerinden onaylandı): adres metni ile telefon/mail satırları arasındaki
+   ayraç çizgisi artık PROGRAM GENELİNDE yok — bu kural tüm sayfalar için
+   TEK kaynak (Belge Önizleme, Gönder canlı önizleme, Mail/WhatsApp görseli,
+   Cari Kart ekranı — hepsi bu TEK kuraldan besleniyor, sayfaya özel bir
+   ezme kuralına artık gerek yok). */
 .ck-kart-iletisim {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid #eef1f5;
+  margin-top: 4px;
+  padding-top: 0;
 }
 .ck-kart-iletisim-satir {
   font-size: 11.5px;

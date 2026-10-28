@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.271026.2359.1182
+  belge-onizleme-style-v2.css — WG.281026.1229.1191
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -240,7 +240,10 @@
    Boşluklar daraldığı için ayraç çizgileri de hafifçe koyulaştırıldı
    (#e1e6ea/#eef1f5 -> #a3adba) — bölümler arası ayrım artık çizgiye
    dayanıyor. ============================================================ */
-.belge-onizleme-sayfa .ck-kart-iletisim { margin-top: 3px; padding-top: 3px; border-top-color: #a3adba; }
+/* border-top-color KALDIRILDI (28.10.2026, Abdullah onayı — "her yerde"
+   turu): çizgi artık program genelinde kalktığı için (bkz. cari-kart-
+   style.css .ck-kart-iletisim) bu ölü renk tanımı da kaldırıldı. */
+.belge-onizleme-sayfa .ck-kart-iletisim { margin-top: 3px; padding-top: 3px; }
 .belge-onizleme-sayfa .ck-blok-etiket { padding-top: 3px; margin-top: 0; margin-bottom: 2px; }
 .belge-onizleme-sayfa .ck-blok { padding-bottom: 3px; margin-bottom: 0; border-bottom-color: #a3adba; }
 .belge-onizleme-sayfa .ck-kart { padding-top: 1px; padding-bottom: 1px; }
