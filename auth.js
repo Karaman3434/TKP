@@ -1,5 +1,5 @@
 /*
-  auth.js — WG.281026.1031.1183
+  auth.js — WG.291026.0912.1224
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -167,8 +167,12 @@
   // "kisitliKullanicilar/{uid}" altında bir izin haritasıyla saklanır.
   // Bu harita YOKSA kullanıcı kısıtlı değildir (Abdullah'ın kendi hesabı).
   // YENİ BİR SAYFA İZNİ EKLEMEK İSTERSEN: bu haritaya dosya adını ekle VE
-  // calisan-erisim-render.js'teki İZIN_TANIMLARI listesine aynı anahtarla
-  // bir satır ekle — iki dosya senkron olmalı.
+  // cihaz-kullanici-render.js'teki İZIN_TANIMLARI listesine aynı anahtarla
+  // bir satır ekle — iki dosya senkron olmalı. (DÜZELTME 29.10.2026: bu not
+  // eskiden "calisan-erisim-render.js" diyordu — o dosya 03.10.2026'da
+  // Cihazlar ve Kullanıcılar sayfasına BİREBİR taşındı ve artık HİÇBİR
+  // HTML dosyası tarafından yüklenmiyor, yani ölü/etkisiz kod; gerçek,
+  // çalışan izin listesi artık cihaz-kullanici-render.js içinde.)
   var SAYFA_IZIN_ANAHTARI = {
     "calc.html": "hesapla",
     "product.html": "urunBul",
@@ -491,6 +495,27 @@
 
   function kmGunlukKontrolu(user, tamam){
     if(!user || buSayfaLogin || buSayfaPin || buSayfaCihazEngelli || buSayfaOnayBekliyor || window.location.pathname.split("/").pop()==="erisim-reddedildi.html"){
+      // HATA DÜZELTME (29.10.2026, Abdullah bildirdi — "rozet sayısı
+      // çıkmadı"): manifest.json'da start_url "/TKP/pin.html" — yani
+      // uygulama ana ekran kısayolundan HER AÇILIŞTA önce PIN ekranına
+      // düşüyor. Bu blok (buSayfaPin true olunca) aşağıdaki TÜM mantığı
+      // (kaydiKontrolEt → kmRozetGuncelle dahil) atlayıp direkt dönüyordu
+      // — yani rozet, kullanıcı PIN'i girip BAŞKA bir sayfaya (home.html
+      // gibi) geçmeden ASLA tazelenmiyordu. Kullanıcı sadece ana ekrandaki
+      // ikona bakıp uygulamayı açmadıysa (veya açıp PIN ekranında kaldıysa)
+      // rozet dünkü son durumunda donuk kalıyordu. Artık PIN ekranındayken
+      // de — kilidi açmadan, SADECE rozet için — Firebase'den bugünün KM
+      // kaydı okunup rozet tazeleniyor; PIN/yönlendirme mantığına
+      // DOKUNULMADI.
+      if(user && buSayfaPin && ("setAppBadge" in navigator)){
+        try{
+          firebase.database().ref("kmTakip/"+kmYerelTarihAnahtari()).once("value").then(function(snap){
+            var kayit = snap.val();
+            var kmVar = !!(kayit && kayit.km!==undefined && kayit.km!==null && String(kayit.km).trim()!=="");
+            kmRozetGuncelle(kmVar);
+          }).catch(function(){});
+        }catch(e){}
+      }
       tamam(); return;
     }
     // KM giriş formu bizzat erişilebilir kalır; mevcut modüle yönlendirilir.

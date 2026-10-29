@@ -1,7 +1,17 @@
 /*
   calisan-erisim-render.js
   =========================
-  "Çalışan Erişimi" sayfasının mantığı:
+  !!! ARTIK KULLANILMIYOR (29.10.2026 tespit edildi) !!!
+  Bu dosya, 03.10.2026'da "Çalışan Erişimi" özelliği cihaz-kullanici.html'e
+  (Cihazlar ve Kullanıcılar, 👥 KULLANICILAR bölümü) BİREBİR taşınınca
+  geride kaldı. Hiçbir HTML dosyası artık <script src> ile bunu yüklemiyor
+  — calisan-erisim.html bile artık sadece cihaz-kullanici.html'e yönlendiriyor.
+  YAŞAYAN, GERÇEK İZİN LİSTESİ şu an cihaz-kullanici-render.js'teki
+  İZIN_TANIMLARI'dır — yeni bir sayfa izni eklerken ORAYA ekle, buraya değil.
+  Bu dosya referans/arşiv amaçlı tutuluyor, silinmedi (geriye dönük bir yerde
+  hâlâ referans edilme ihtimaline karşı), ama artık düzenlenmemeli.
+
+  "Çalışan Erişimi" sayfasının (eski, artık canlı olmayan) mantığı:
     1) Kullanıcı adı + şifre ile sınırlı erişimli bir hesap oluşturma
        (Abdullah'ın kendi oturumunu bozmadan, İKİNCİL bir Firebase app
        örneği üzerinden — tamamen ücretsiz, Cloud Function GEREKMEZ).
