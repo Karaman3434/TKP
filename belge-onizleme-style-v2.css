@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.291026.1838.1233
+  belge-onizleme-style-v2.css — WG.301026.0030.1235
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -623,3 +623,17 @@
 .belge-onizleme-sayfa .cm-tipmenu-oge--teklif   { background: #eafaf0; border: 2px solid #0e6b34; color: #0e6b34; }
 .belge-onizleme-sayfa .cm-tipmenu-oge--proforma { background: #f6f0fd; border: 2px solid #8e44ad; color: #8e44ad; }
 .belge-onizleme-sayfa .cm-tipmenu-oge--siparis  { background: #f0f7ff; border: 2px solid #3569b8; color: #003a70; }
+
+/* GÜNCELLEME (30.10.2026, Abdullah onayı — "gri zemin" turu): Abdullah,
+   İşlem Hareket paneli ile ürün tablosu arasındaki boşluğu margin-bottom
+   ile defalarca küçültmemize rağmen (1mm→0,5mm→0,3mm→0,21mm→0,147mm)
+   görsel olarak "hâlâ 1mm boşluk var" hissinin devam ettiğini fark etti
+   ve bunun sebebini KENDİSİ teşhis etti: asıl kalan gri alan, kart arası
+   margin değil — ürün tablosunun KENDİ başlık satırının (SR/ÜRÜN BİLGİSİ/
+   ADET/...) iç dolgusu (belge-style.css ".belge-urun-tablo th{padding:
+   8px 3px}", zemin #EEF0F3 açık gri). Bu kural PAYLAŞILAN dosyada ve
+   Sepet/Gönder/Cari Kart'taki aynı tabloyu da etkiliyor — o yüzden
+   belge-style.css'teki asıl kurala DOKUNULMADI, sadece bu sayfaya özel,
+   scoped bir override eklendi: üst/alt iç dolgu 8px'ten 4px'e (yarı
+   yarıya) küçültüldü. Mockup onaylandı. */
+.belge-onizleme-sayfa .belge-urun-tablo th { padding: 4px 3px; }
