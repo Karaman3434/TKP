@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.291026.1755.1228
+  belge-onizleme-style-v2.css — WG.291026.1838.1233
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -489,8 +489,11 @@
    GÜNCELLEME (29.10.2026, Abdullah onayı — "yüzde 40 daha daralt" turu):
    0.5mm'den %40 daha küçültüldü (0.5mm x0.6 = 0.3mm).
    GÜNCELLEME (29.10.2026, Abdullah onayı — "yüzde 30 daha daralt" turu):
-   0.3mm'den %30 daha küçültüldü (0.3mm x0.7 = 0.21mm). ---- */
-.belge-onizleme-sayfa .belge-kart--siparis-paneli { margin-bottom: 0.21mm; }
+   0.3mm'den %30 daha küçültüldü (0.3mm x0.7 = 0.21mm).
+   GÜNCELLEME (29.10.2026, Abdullah onayı — ikinci "yüzde 30 daha daralt"
+   turu, bu kez açıkça 0.21mm üzerine ek bir %30):
+   0.21mm'den %30 daha küçültüldü (0.21mm x0.7 = 0.147mm). ---- */
+.belge-onizleme-sayfa .belge-kart--siparis-paneli { margin-bottom: 0.147mm; }
 
 /* ---- WEICON rozeti (.belge-logo-mini) — kutu boyu SABİT (18.10.2026,
    Abdullah onayı): "kesinlikle değişmeyecek, en büyük hali" isteği gereği
