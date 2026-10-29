@@ -1,5 +1,5 @@
 /*
-  auth.js — WG.291026.0912.1224
+  auth.js — WG.291026.0946.1225
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -492,6 +492,36 @@
       }
     }catch(e){}
   }
+
+  // HATA DÜZELTME (29.10.2026, devam — Abdullah güncellemeyi yükledikten
+  // SONRA da rozet hâlâ çıkmadı): asıl kök neden PIN sayfasıyla ilgili
+  // değilmiş — manifest.json'daki launch_handler.client_mode "focus-existing"
+  // YÜZÜNDEN, uygulama arka planda (askıda) açık kalmışken ana ekran
+  // ikonuna dokunmak YENİ bir sayfa yüklemesi YAPMAZ, sadece var olan
+  // pencereyi öne getirir. auth.js'in TÜM mantığı (onAuthStateChanged →
+  // kmGunlukKontrolu → kmRozetGuncelle) SADECE bir sayfa gerçekten
+  // yüklendiğinde bir kez çalıştığı için, bu "öne getirme" durumunda rozet
+  // ASLA tazelenmiyordu — bu, uygulama hangi sayfada bırakılmış olursa
+  // olsun geçerli (pin.html olması bile şart değil). Çözüm: uygulama her
+  // ÖN PLANA geldiğinde (visibilitychange → "visible") rozeti yeniden
+  // kontrol et. Bu, kullanıcıyı bulunduğu sayfadan ATMAZ, formunu/işini
+  // bozmaz — manifest'teki launch_handler ayarına hiç dokunulmadı.
+  function kmRozetOnPlanaGelinceTazele(){
+    try{
+      var u = firebase.auth().currentUser;
+      if(!u || !("setAppBadge" in navigator)) return;
+      firebase.database().ref("kmTakip/"+kmYerelTarihAnahtari()).once("value").then(function(snap){
+        var kayit = snap.val();
+        var kmVar = !!(kayit && kayit.km!==undefined && kayit.km!==null && String(kayit.km).trim()!=="");
+        kmRozetGuncelle(kmVar);
+      }).catch(function(){});
+    }catch(e){}
+  }
+  try{
+    document.addEventListener("visibilitychange", function(){
+      if(document.visibilityState === "visible") kmRozetOnPlanaGelinceTazele();
+    });
+  }catch(e){}
 
   function kmGunlukKontrolu(user, tamam){
     if(!user || buSayfaLogin || buSayfaPin || buSayfaCihazEngelli || buSayfaOnayBekliyor || window.location.pathname.split("/").pop()==="erisim-reddedildi.html"){
