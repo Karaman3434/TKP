@@ -20,6 +20,31 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - name: Kaynak kodu al
+        uses: actions/checkout@v4
+
+      - name: JSON ve JavaScript kaynak kontrolleri
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, sys
+          files = ["manifest.json", "database.rules.json"]
+          failed = False
+          for name in files:
+              try:
+                  json.loads(pathlib.Path(name).read_text(encoding="utf-8"))
+                  print("OK JSON:", name)
+              except Exception as exc:
+                  print("FAIL JSON:", name, exc)
+                  failed = True
+          if failed:
+              sys.exit(1)
+          PY
+          set -e
+          find . -type f -name '*.js' -not -path './.git/*' -print0 | while IFS= read -r -d '' file; do
+            node --check "$file" >/dev/null
+            echo "OK JS: $file"
+          done
+
       - name: Site sağlık kontrolü
         run: |
           python3 - <<'PY'
