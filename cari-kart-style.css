@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.281026.2201.1205 */
+/* cari-kart-style.css — WG.291026.1832.1231 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -164,6 +164,21 @@
 
 .ck-tiklanabilir-alan { cursor: pointer; }
 .ck-tiklanabilir-alan:active { background: #f4f6f9; }
+
+/* EKLENDİ (29.10.2026, Abdullah onayı) — müşteri (ticari) ismi artık
+   doğrudan tıklanabilir; görsel ipucu için küçük bir kalem rozeti.
+   musteri-serit.css'e DOKUNULMADI (paylaşılan bileşen) — sadece bu sayfaya
+   özel sarmalayıcı sınıfları. */
+.ck-isim-sarmal { position: relative; cursor: pointer; border-radius: 10px; }
+.ck-isim-sarmal:active .musteri-serit { filter: brightness(0.96); }
+.ck-isim-duzenle-rozet {
+  position: absolute; top: -7px; right: -7px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #0d3d8c; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; line-height: 1; border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.3); pointer-events: none;
+}
 
 .bolum-eylem-grid {
   display: grid;

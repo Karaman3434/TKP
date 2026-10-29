@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.281026.2202.1206 — customer-cari-kart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: WG.291026.1832.1230 — customer-cari-kart.html -->
 <!--
   İŞ TAKİP — CARİ KART v7
   ==============================
@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.211026.2235.926">
 <link rel="stylesheet" href="customer-style.css?v=WG.151026.1430.829">
 <link rel="stylesheet" href="detail-style.css?v=WG.091026.1010.753">
-<link rel="stylesheet" href="cari-kart-style.css?v=WG.281026.2201.1205">
+<link rel="stylesheet" href="cari-kart-style.css?v=WG.291026.1832.1231">
 <link rel="stylesheet" href="musteri-serit.css?v=WG.191026.0112.842">
 <link rel="stylesheet" href="send-style.css?v=WG.191026.0233.843">
 <!-- EKLENDİ (27.10.2026, Abdullah'ın isteğiyle — "açık belge" uyarısında
@@ -106,7 +106,18 @@
 
 <main class="sayfa">
 
-  <div id="cariKartMusteriSeridi"></div>
+  <!-- EKLENDİ (29.10.2026, Abdullah onayı — mockup) — müşteri (ticari) ismine
+       DOĞRUDAN dokununca (aşağıdaki VADE/FATURA/KARGO satırındaki "Bilgiyi
+       Güncelle" ara popup'ı OLMADAN) "Cari Bilgileri Düzenle" formu açılır
+       — isim bu formun EN ÜSTÜNDE zaten vardı (bkz. cari-kart-render.js
+       formAlanlariHtml "cari-tam"), sadece buraya ikinci, daha net bir giriş
+       noktası eklendi. Tıklama cari-kart-render.js'de bağlanıyor
+       (#cariKartMusteriAlan). musteri-serit.css/js'e DOKUNULMADI (paylaşılan
+       bileşen, sadece bu sayfaya özel sarmalayıcı). -->
+  <div id="cariKartMusteriAlan" class="ck-isim-sarmal">
+    <div id="cariKartMusteriSeridi"></div>
+    <span class="ck-isim-duzenle-rozet">✏️</span>
+  </div>
 
   <!-- "TEMEL BİLGİLER" etiketi 06.10.2026'da Abdullah'ın isteğiyle kaldırıldı. -->
   <div class="ozet-satir-3 ozet-satir-3--birlesik ck-tiklanabilir-alan" data-bolum="cari">
@@ -281,7 +292,7 @@
      paylaşılan TEK tablo üretici (bkz. cari-kart-render.js). -->
 <script src="ikon-svg.js?v=WG.281026.2121.1192"></script>
 <script src="hareket-tablo.js?v=WG.281026.2130.1196"></script>
-<script src="cari-kart-render.js?v=WG.281026.2132.1198"></script>
+<script src="cari-kart-render.js?v=WG.291026.1832.1232"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
 <script>
   window.BEKLEYEN_ISLEM_AYAR = {

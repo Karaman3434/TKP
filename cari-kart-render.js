@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.281026.2132.1198
+  cari-kart-render.js — WG.291026.1832.1232
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -742,6 +742,20 @@ document.addEventListener("DOMContentLoaded", function(){
   // 🗑️ kaldırıldı — artık bölümün İÇERİĞİNE dokununca bir popup açılıyor
   // (Bilgiyi Güncelle / Ekle / Sil / Kapat). "cari" (Temel Bilgiler)
   // eklenip silinemeyeceği için o bölümde sadece Güncelle+Kapat görünür.
+  // EKLENDİ (29.10.2026, Abdullah onayı) — müşteri (ticari) ismine DOĞRUDAN
+  // dokununca, "cari" bölümünün ara popup'ı (Bilgiyi Güncelle/Kapat) hiç
+  // açılmadan, doğrudan "Cari Bilgileri Düzenle" formu (isim dahil) açılır.
+  // Aynı akistanGeldiMi/sepettenAcildiMi kısıtı diğer bölümlerle TUTARLI —
+  // İşlem Yap seçim akışındayken burada da düzenleme yapılamaz.
+  var musteriIsimAlani = document.getElementById("cariKartMusteriAlan");
+  if(musteriIsimAlani){
+    musteriIsimAlani.onclick = function(){
+      if(akistanGeldiMi) return;
+      if(sepettenAcildiMi) return;
+      eylemBaslat("cari", "duzenle");
+    };
+  }
+
   var acikBolumEylem = null;
   document.querySelectorAll(".ck-tiklanabilir-alan[data-bolum]").forEach(function(alan){
     alan.onclick = function(){
