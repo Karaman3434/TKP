@@ -1,0 +1,127 @@
+name: İş Takip Sağlık Kontrolü
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: istakip-health-check
+  cancel-in-progress: true
+
+jobs:
+  site-health:
+    name: Site, PWA ve temel dosya kontrolleri
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Site sağlık kontrolü
+        run: |
+          python3 - <<'PY'
+          import json, re, struct, sys, urllib.request, urllib.error
+
+          BASE = "https://karaman3434.github.io/TKP/"
+          failures = []
+          warnings = []
+
+          def fetch(path):
+              url = BASE + path
+              req = urllib.request.Request(url, headers={"User-Agent": "Istakip-HealthCheck/1.0"})
+              try:
+                  with urllib.request.urlopen(req, timeout=15) as response:
+                      body = response.read()
+                      if response.status != 200:
+                          failures.append(f"{path}: HTTP {response.status}")
+                      else:
+                          print(f"OK HTTP {response.status}: {path} ({len(body)} bayt)")
+                      return body
+              except Exception as exc:
+                  failures.append(f"{path}: {exc}")
+                  print(f"FAIL: {path}: {exc}")
+                  return None
+
+          home = fetch("home.html")
+          pin = fetch("pin.html")
+          manifest_bytes = fetch("manifest.json")
+          sw = fetch("sw.js")
+          icon192 = fetch("icon-192.png")
+          icon512 = fetch("icon-512.png")
+
+          manifest = None
+          if manifest_bytes:
+              try:
+                  manifest = json.loads(manifest_bytes.decode("utf-8-sig"))
+                  for field in ("name", "short_name", "start_url", "scope", "display", "icons"):
+                      if not manifest.get(field):
+                          failures.append(f"manifest.json: zorunlu/önemli alan eksik: {field}")
+                  if manifest.get("display") not in ("standalone", "fullscreen", "minimal-ui"):
+                      failures.append("manifest.json: display uygulama görünümüne uygun değil")
+                  if not isinstance(manifest.get("icons"), list):
+                      failures.append("manifest.json: icons listesi geçersiz")
+                  else:
+                      sizes = {item.get("sizes") for item in manifest["icons"] if isinstance(item, dict)}
+                      if "192x192" not in sizes:
+                          failures.append("manifest.json: 192x192 simge tanımı eksik")
+                      if "512x512" not in sizes:
+                          failures.append("manifest.json: 512x512 simge tanımı eksik")
+              except Exception as exc:
+                  failures.append(f"manifest.json: geçersiz JSON: {exc}")
+
+          def check_png(data, path, expected):
+              if not data:
+                  return
+              if len(data) < 24 or data[:8] != b"\x89PNG\r\n\x1a\n":
+                  failures.append(f"{path}: geçerli PNG değil")
+                  return
+              width, height = struct.unpack(">II", data[16:24])
+              if (width, height) != expected:
+                  failures.append(f"{path}: boyut {width}x{height}, beklenen {expected[0]}x{expected[1]}")
+              else:
+                  print(f"OK PNG: {path} {width}x{height}")
+
+          check_png(icon192, "icon-192.png", (192, 192))
+          check_png(icon512, "icon-512.png", (512, 512))
+
+          if home:
+              text = home.decode("utf-8", "replace")
+              if 'rel="manifest"' not in text:
+                  failures.append("home.html: manifest bağlantısı bulunamadı")
+              if "auth.js" not in text:
+                  warnings.append("home.html: auth.js referansı bulunamadı")
+          if pin:
+              text = pin.decode("utf-8", "replace")
+              if 'rel="manifest"' not in text:
+                  failures.append("pin.html: manifest bağlantısı bulunamadı")
+              if "auth.js" not in text:
+                  warnings.append("pin.html: auth.js referansı bulunamadı")
+          if sw:
+              text = sw.decode("utf-8", "replace")
+              if "addEventListener" not in text or "'fetch'" not in text and '"fetch"' not in text:
+                  warnings.append("sw.js: beklenen fetch olay dinleyicisi bulunamadı")
+
+          if manifest:
+              for item in manifest.get("icons", []):
+                  src = item.get("src", "") if isinstance(item, dict) else ""
+                  if src:
+                      path = src.split("?", 1)[0].lstrip("/")
+                      if path.startswith("TKP/"):
+                          path = path[4:]
+                      if path not in ("icon-192.png", "icon-512.png"):
+                          data = fetch(path)
+                          if not data:
+                              failures.append(f"Manifest simgesi erişilemiyor: {src}")
+
+          for warning in warnings:
+              print("WARN: " + warning)
+          if failures:
+              print("\nSAĞLIK KONTROLÜ BAŞARISIZ:")
+              for failure in failures:
+                  print("- " + failure)
+              sys.exit(1)
+          print("\nSAĞLIK KONTROLÜ BAŞARILI: kontrol edilen site/PWA temel dosyaları erişilebilir.")
+          PY
