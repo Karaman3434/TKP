@@ -1,4 +1,4 @@
-/* satis-listesi-render.js — WG.271026.1843.1104
+/* satis-listesi-render.js — WG.301026.0831.1238
    TARİH FİLTRESİ (21.10.2026, Abdullah onayı): liste artık HER ZAMAN
    ReportsData.satislarListele("tumu") ile (sınırsız) çekilir — eski
    ?kapsam=bugun/ay URL parametresi SADECE paylaşılan TarihFiltre
@@ -94,7 +94,13 @@ function tlKartHTML(k){
   var meta = TIP_META[k.tip] || TIP_META.siparis;
   var rozetMeta = kacanMi ? KACAN_META : (revizeMi ? RVZ_META : meta);
   var kod = k.kod || meta.rozet;
-  var tutarHucre = bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 BAKİYE</span>" : fmt(k._tutar) + " €";
+  // TL KARŞILIĞI — HER SATIR (30.10.2026, Abdullah onayı — "sadece toplam
+  // değil her satış için de" turu): grup başlığındaki toplamın yanı sıra
+  // artık HER satırın kendi Euro tutarının altında, o kaydın KENDİ kuruyla
+  // (k.kur) hesaplanmış TL karşılığı da gösteriliyor.
+  var tutarHucre = bakiyeKayitVarMi(k)
+    ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 BAKİYE</span>"
+    : "<span class='sr-satir-tutar-eur'>" + fmt(k._tutar) + " €</span><span class='sr-satir-tutar-tl'>≈ " + Math.round(k._tutar*(k.kur||0)).toLocaleString("tr-TR") + " TL</span>";
   return srSatirHTML(k, rozetMeta.serit, rozetMeta, kod, tutarHucre, "i", k._i);
 }
 // BAKİYE (07.10.2026) — kayıt satislarListele/tumKacanlar'dan geldiyse
@@ -116,8 +122,17 @@ function tlGrupla(liste){
 function tlListeHTML(gruplar){
   return gruplar.map(function(g){
     var toplamGun = g.kayitlar.reduce(function(s,k){ return s + k._tutar; }, 0);
+    // TL KARŞILIĞI (30.10.2026, Abdullah onayı — mockup üzerinden onaylandı):
+    // gün toplamı TEK bir kurla çarpılmıyor — her kaydın KENDİ kuruyla
+    // (k.kur, bkz. reports-data.js satislarListele) TL'ye çevrilip
+    // toplanıyor, Belge Önizleme'deki GENEL TOPLAM mantığıyla AYNI
+    // ("işlemin yapıldığı günün kuru" — bir günde birden fazla işlem
+    // varsa ve kurlar farklıysa doğru sonuç verir).
+    var toplamGunTl = g.kayitlar.reduce(function(s,k){ return s + k._tutar*(k.kur||0); }, 0);
     var kartlar = g.kayitlar.map(tlKartHTML).join("");
-    return "<div class='sr-grup-baslik'><span>" + gunBasligi(g.ts) + "</span><span>" + fmt(toplamGun) + " €</span></div>"
+    return "<div class='sr-grup-baslik'><span>" + gunBasligi(g.ts) + "</span>"
+      + "<span class='sr-grup-tutar-grup'><span class='sr-grup-tutar-eur'>" + fmt(toplamGun) + " €</span><span class='sr-grup-tutar-tl'>≈ " + Math.round(toplamGunTl).toLocaleString("tr-TR") + " TL</span></span>"
+      + "</div>"
       + "<div class='sr-liste-kutu'>" + kartlar + "</div>";
   }).join("");
 }

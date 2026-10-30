@@ -1,5 +1,5 @@
 /*
-  reports-data.js — WG.271026.2238.1136
+  reports-data.js — WG.301026.0831.1237
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -662,7 +662,15 @@ var ReportsData = (function(){
           return s + satirToplam;
         }, 0);
         var bakiyeVarMi = (k.urunler||[]).some(function(u){ return (u.bakiyeAdet||0)>0; });
-        return {tip:"siparis", ts:k.ts, kod:k.kod, tarih:k.tarih||"", musteri:k.musteri, musteriId:k.musteriId||null, sehir:k.sehir||"", toplam:toplam, kanal:k.kanal||null, durum:k.durum, revizeZamani:k.revizeZamani, bakiyeVarMi:bakiyeVarMi};
+        // TL KARŞILIĞI (30.10.2026, Abdullah'ın isteğiyle — "Son İşlemler"
+        // ekranında Euro toplamın altında, işlemin YAPILDIĞI günün kuruyla
+        // hesaplanmış TL karşılığı da gösterilsin istendi). ayToplami()'deki
+        // AYNI yedek mantığı: kaydın kendi kur'u varsa o, yoksa (eski kayıt)
+        // güncel/son kaydedilmiş kur. Burada ÇÖZÜLMÜŞ olarak dönüyor ki
+        // çağıran ekranlar guncelKurYedek()'e (dışa açık değil) erişmek
+        // zorunda kalmasın.
+        var kKuru = k.kur || guncelKurYedek();
+        return {tip:"siparis", ts:k.ts, kod:k.kod, tarih:k.tarih||"", musteri:k.musteri, musteriId:k.musteriId||null, sehir:k.sehir||"", toplam:toplam, kur:kKuru, kanal:k.kanal||null, durum:k.durum, revizeZamani:k.revizeZamani, bakiyeVarMi:bakiyeVarMi};
       })
       .sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
   }
