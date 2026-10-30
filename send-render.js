@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.281026.1156.1185
+  send-render.js — WG.301026.1159.1240
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
   görsel oluşturma/kopyalama özelliklerinden biri GERÇEKTEN kullanıldığında
   ilk kez indiriliyor (bkz. html2canvasYukle()). Davranış/çıktı değişmedi.
@@ -218,7 +218,11 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   } else {
     // BİRLEŞİK CARİ KUTUSU (27.09.2026): artık Cari Bilgi sayfasıyla aynı
     // renkli-kutu tasarımı — bkz. cariKutulariHtml().
-    musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : []);
+    // TESLİMAT ADRESİ BOŞSA GİZLE (28.10.2026, Abdullah onayı — "her yerde"
+    // turu, mockup üzerinden onaylandı): son parametre (true) teslimat
+    // adresi girilmemişse bu canlı önizlemede de bloğu hiç göstermez; cari
+    // kodu (koduGizle=false) eskisi gibi görünmeye devam eder.
+    musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : [], false, true);
     html = musteriBlokHtml
       + "<div class='belge-kart-ayrac'></div>"
       + "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStrOnizleme, kod) + "</div>"
@@ -607,6 +611,24 @@ function basariBildirimGoster(mesaj){
 // başarısız olursa (iOS'ta, Outlook kurulu değilse veya tarayıcı
 // desteklemiyorsa) sessizce hiçbir şey olmaz, kullanıcı sayfada kalır ve
 // panodaki içerik zaten kopyalanmış durumda — zarar vermez.
+// iOS/iPadOS TESPİTİ (30.10.2026, Abdullah'ın iPad 9'da bildirdiği hata —
+// ekran görüntüsüyle doğrulandı, "Konu: Merhaba," hâlâ çıkıyordu): 28.10.2026
+// tarihli düzeltme SADECE /iPhone|iPad|iPod/ için navigator.userAgent'a
+// bakıyordu — ama iPadOS 13'ten beri Safari'nin VARSAYILAN User-Agent'ı
+// "iPad" YAZMIYOR, bir Mac masaüstü gibi görünüyor (Apple'ın kendi, bilinen
+// davranışı — "isteğe bağlı masaüstü sitesi" kapalıyken bile). Bu yüzden
+// iPhone'da düzelen "Konu: Merhaba," hatası iPad'de HİÇ düzelmemiş —
+// koşul hiç true olmuyordu. Artık UA kontrolüne EK olarak, Apple'ın kendi
+// önerdiği gerçek-iPad tespiti de var: navigator.platform "MacIntel" VE
+// dokunmatik ekran (maxTouchPoints>1) — gerçek Mac'lerde (fare/trackpad)
+// maxTouchPoints 0'dır, iPad'de >1'dir.
+function iosCihazMi(){
+  try{
+    var ua = navigator.userAgent || "";
+    if(/iPhone|iPad|iPod/i.test(ua)) return true;
+    return navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+  }catch(e){ return false; }
+}
 function mailUygulamasiniAcmayiDene(){
   try{
     var ua = navigator.userAgent || "";
@@ -731,7 +753,7 @@ function gonderTiklandi(kanal, ozelKonu){
         // mail kanalında, aynı özel karakter kullanılıyor; Android'de (S22)
         // ve WhatsApp'ta hiçbir şey değişmedi, davranışları eskisi gibi.
         var paylasimMetni = metin;
-        if(kanal === "mail" && /iPhone|iPad|iPod/i.test(navigator.userAgent || "")){
+        if(kanal === "mail" && iosCihazMi()){
           var satirAyiriciOzelKarakter = String.fromCharCode(8232);
           // DÜZELTME (28.10.2026, Abdullah onayı — "Konu: Merhaba," hatası,
           // mockup üzerinden onaylandı — Seçenek A): yukarıdaki 05.10.2026
