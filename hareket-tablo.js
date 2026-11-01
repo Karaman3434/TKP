@@ -1,6 +1,13 @@
 /*
-  hareket-tablo.js — WG.011126.0821.1248
+  hareket-tablo.js — TKP.01.11.26-19:09.1338
   =================
+  GÜNCELLEME (01.11.2026, Abdullah onayı — mockup üzerinden): yeni opsiyonel
+  "opts.primSatirIci" bayrağı — SADECE cart-render.js'in Sepet ekranı
+  (HESAPLANDI grubu) geçiyor. true ise PRİM, "Bu işlem kuru" ile AYNI
+  satırda (GENEL TOPLAM kutusunun İÇİNDE, en solda) çerçeveli-yeşil bir
+  kutu olarak gösterilir, ayrı yeşil şerit YOK. Bayrak geçilmezse (bu
+  dosyanın TÜM diğer çağıranları — Belge Önizleme, Gönder, Cari Kart,
+  Müşteri Ekle) eski davranış BİREBİR aynı kalır.
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
   aynı belge-tablosu tasarımını (belge-style.css -> .belge-urun-tablo)
@@ -211,18 +218,9 @@ var HareketTablo = (function(){
       // İKİ SATIR: üstte kısa etiket, altta kalın rakam + EURO birimi
       // (bkz. belge-style.css .belge-gt-kur-etiket / .belge-gt-kur-deger).
       var kurEtiketMetni = "<span class='belge-gt-kur-etiket'>" + (opts.kurManuelMi ? "✏️ Bu işlem kuru" : "Bu işlem kuru") + "</span><br><span class='belge-gt-kur-deger'>" + fmt(opts.kur) + " EURO</span>";
-      html += "<div class='belge-gt-kutu" + (primSatiriVarMi ? " belge-gt-kutu--altduz" : "") + "'>"
-        + "<div class='belge-gt-satir'>"
-        + (opts.kur ? "<span class='" + kurIcSinifi + "'>" + kurEtiketMetni + "</span>" : "")
-        + "<span class='belge-gt-etiket-deger-grup'>"
-        + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
-        + "<span class='belge-gt-deger'>" + fmt(opts.genelToplam) + " EURO" + (opts.kur ? "<span class='belge-gt-deger-alt'>≈ " + Math.round(opts.genelToplam*opts.kur).toLocaleString("tr-TR") + " TL</span>" : "") + "</span>"
-        + "</span>"
-        + "</div>"
-        + "</div>";
 
+      var primToplamTL = 0;
       if(primSatiriVarMi){
-        var primToplamTL = 0;
         (opts.urunler||[]).forEach(function(u){
           var h = opts.hesapla ? opts.hesapla(u) : null;
           var toplamVarMi = h && h.toplamEuro != null;
@@ -230,10 +228,45 @@ var HareketTablo = (function(){
             primToplamTL += h.mudurPrimTL || 0;
           }
         });
-        html += "<div class='belge-prim-toplam-serit'>"
-          + "<span class='belge-pt-etiket'>PRİM</span>"
-          + "<span class='belge-pt-deger'>" + Math.round(primToplamTL).toLocaleString("tr-TR") + " TL</span>"
+      }
+
+      // GÜNCELLEME (01.11.2026, Abdullah onayı — mockup üzerinden, SADECE
+      // Sepet/cart-render.js "opts.primSatirIci:true" geçtiğinde): PRİM artık
+      // ayrı bir yeşil şerit DEĞİL — "Bu işlem kuru" ile AYNI kalıpta
+      // (çerçeveli, iki satır) ama yeşil zeminli bir kutu olarak GENEL
+      // TOPLAM'la AYNI satırda, en SOLDA. Bu bayrak geçilmezse (Belge
+      // Önizleme/Gönder/Cari Kart/Müşteri Ekle — hareket-tablo.js'in diğer
+      // TÜM çağıranları) eski davranış BİREBİR aynı kalır: ayrı
+      // ".belge-prim-toplam-serit" şeridi, GENEL TOPLAM kutusunun ALTINDA.
+      if(opts.primSatirIci && primSatiriVarMi){
+        var primIcHtml = "<span class='belge-gt-prim-ic'><span class='belge-gt-prim-etiket'>PRİM</span><br><span class='belge-gt-prim-deger'>" + Math.round(primToplamTL).toLocaleString("tr-TR") + " TL</span></span>";
+        html += "<div class='belge-gt-kutu'>"
+          + "<div class='belge-gt-satir belge-gt-satir--uclu'>"
+          + primIcHtml
+          + (opts.kur ? "<span class='" + kurIcSinifi + "'>" + kurEtiketMetni + "</span>" : "")
+          + "<span class='belge-gt-etiket-deger-grup'>"
+          + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
+          + "<span class='belge-gt-deger'>" + fmt(opts.genelToplam) + " EURO" + (opts.kur ? "<span class='belge-gt-deger-alt'>≈ " + Math.round(opts.genelToplam*opts.kur).toLocaleString("tr-TR") + " TL</span>" : "") + "</span>"
+          + "</span>"
+          + "</div>"
           + "</div>";
+      } else {
+        html += "<div class='belge-gt-kutu" + (primSatiriVarMi ? " belge-gt-kutu--altduz" : "") + "'>"
+          + "<div class='belge-gt-satir'>"
+          + (opts.kur ? "<span class='" + kurIcSinifi + "'>" + kurEtiketMetni + "</span>" : "")
+          + "<span class='belge-gt-etiket-deger-grup'>"
+          + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
+          + "<span class='belge-gt-deger'>" + fmt(opts.genelToplam) + " EURO" + (opts.kur ? "<span class='belge-gt-deger-alt'>≈ " + Math.round(opts.genelToplam*opts.kur).toLocaleString("tr-TR") + " TL</span>" : "") + "</span>"
+          + "</span>"
+          + "</div>"
+          + "</div>";
+
+        if(primSatiriVarMi){
+          html += "<div class='belge-prim-toplam-serit'>"
+            + "<span class='belge-pt-etiket'>PRİM</span>"
+            + "<span class='belge-pt-deger'>" + Math.round(primToplamTL).toLocaleString("tr-TR") + " TL</span>"
+            + "</div>";
+        }
       }
     }
     return html;

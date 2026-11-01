@@ -1,4 +1,4 @@
-/* musteri-serit.css — TKP.01.11.26-17:06.1325
+/* musteri-serit.css — TKP.01.11.26-19:09.1341
    ============================================================
    TEK KURAL (22.09.2026): Müşteri adının (ticari unvan) göründüğü HER
    yerde — Sepet, Ürün Bul, Müşteri Hub, Cari Bilgi, İşlemler, Gönder
@@ -104,7 +104,11 @@
   justify-content: center;
   background: #e0730f;
   color: #fff;
-  border: none;
+  /* ÇERÇEVE EKLENDİ (01.11.2026, Abdullah onayı): "border:none" + tarayıcının
+     dokununca gösterdiği varsayılan oval odak halkası (outline) yerine net
+     siyah bir çerçeve. "outline:none" o varsayılan oval çizgiyi kapatıyor. */
+  border: 2px solid #000;
+  outline: none;
   border-radius: 50%;
   padding: 0;
   cursor: pointer;

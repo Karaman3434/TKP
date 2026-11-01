@@ -1,6 +1,10 @@
 /*
-  cart-render.js — TKP.01.11.26-17:06.1327
+  cart-render.js — TKP.01.11.26-19:09.1339
   ==============
+  GÜNCELLEME (01.11.2026, Abdullah onayı — mockup üzerinden): HESAPLANDI
+  grubunun HareketTablo.grupHtml() çağrısına "primSatirIci:true" eklendi —
+  PRİM artık GENEL TOPLAM kutusunun içinde, "Bu işlem kuru" ile aynı satırda
+  (bkz. hareket-tablo.js).
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
   "Tablo Görseli Gönder" gerçekten tıklandığında ilk kez indiriliyor (bkz.
   html2canvasYukle()). Davranış/çıktı değişmedi.
@@ -415,7 +419,11 @@ function sayfayiCiz(){
       genelToplam: hesaplananToplam,
       kur: kur,
       kurManuelMi: aktifKurManuelMi(),
-      kurTiklanabilir: true
+      kurTiklanabilir: true,
+      // EKLENDİ (01.11.2026, Abdullah onayı — mockup üzerinden): PRİM artık
+      // GENEL TOPLAM kutusunun İÇİNDE, "Bu işlem kuru" ile aynı satırda
+      // (bkz. hareket-tablo.js grupHtml() — SADECE burada true geçiliyor).
+      primSatirIci: true
     });
 
     var kurRozeti = document.querySelector(".belge-gt-kur-ic--tiklanabilir");

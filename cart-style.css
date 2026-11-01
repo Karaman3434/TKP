@@ -1,5 +1,5 @@
 /*
-  cart-style.css — TKP.01.11.26-17:06.1328
+  cart-style.css — TKP.01.11.26-19:09.1342
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -413,7 +413,10 @@
   justify-content: center;
   background: #e0730f;
   color: #fff;
-  border: none;
+  /* ÇERÇEVE EKLENDİ (01.11.2026) — musteri-serit.css'teki AYNI değişiklikle
+     senkron (bkz. oradaki yorum). */
+  border: 2px solid #000;
+  outline: none;
   border-radius: 50%;
   padding: 0;
   cursor: pointer;
