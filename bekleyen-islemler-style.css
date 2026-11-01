@@ -1,10 +1,18 @@
-/* bekleyen-islemler-style.css — WG.011126.1022.1259
+/* bekleyen-islemler-style.css — TKP.01.11.26-18:36.1336
    ====================================
+   GÜNCELLEME (01.11.2026, Abdullah onayı — "Beklet tuşu çalışmıyor" hata
+   bildirimi): eski ".bi-nav-btn" (".app-nav" üzerine bindirilen yuvarlak
+   düğme) artık KULLANILMIYOR — ".app-nav" kaldırılalı beri zaten hiç
+   render edilmiyordu (bkz. bekleyen-islemler.js başındaki not). Tetikleyici
+   artık üst bardaki hazır ".ub-btn--bekle" (id="btnUstBeklet") — sayı
+   rozeti (".bi-nav-sayi") o düğmenin köşesine taşındı, aşağıdaki YENİ
+   ".ub-btn--bekle .bi-nav-sayi" kuralıyla yeniden konumlandırıldı. Eski
+   ".bi-nav-btn"/".app-nav" kuralları ZARARSIZ ölü kod olarak bırakıldı
+   (hiçbir sayfada ".app-nav" / "#biNavBtn" artık yok, hiç eşleşmiyorlar).
+
    15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı; "istisnasız
    tüm sayfalar" talebiyle genişletildi): "Beklet / Bekleyen İşlemler"
-   düğmesi ve listesi. Bu dosya, bekleyen-islemler.js'i yükleyen HER
-   sayfaya eklenir (".app-nav" zaten her sayfada aynı yapıda olduğu için
-   düğme konumu her yerde aynı şekilde çalışır).
+   düğmesi ve listesi.
 
    KENDİ KENDİNE YETERLİ (self-contained): liste penceresi ".overlay"/
    ".sheet" gibi SAYFAYA GÖRE DEĞİŞEN paylaşılan sınıfları KULLANMIYOR —
@@ -101,6 +109,21 @@
   border: 2px solid #fff;
 }
 .bi-nav-sayi[hidden] { display: none; }
+
+/* YENİ KONUM (01.11.2026): rozet artık ".ub-btn--bekle" (üst bar, 48.4x44px
+   kare ikon düğme) köşesinde — eski -5px/-5px ofsetleri 46px'lik YUVARLAK
+   düğme içindi, burada daha küçük bir rozetle köşeye sığdırıldı. ".ub-btn"
+   zaten "position:relative" (bkz. ust-bar-style.css), ek bir kapsayıcıya
+   gerek yok. */
+.ub-btn--bekle .bi-nav-sayi {
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  font-size: 9.5px;
+  border-width: 1.5px;
+}
 
 /* Bekleyen işlemler listesindeki her satır — görsel dili, programdaki
    diğer "kayıt özeti" satırlarıyla (örn. belge-gecmis-cip-satir) aynı

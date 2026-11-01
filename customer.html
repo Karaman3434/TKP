@@ -21,7 +21,7 @@
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<link rel="stylesheet" href="bekleyen-islemler-style.css?v=WG.011126.1022.1259">
+<link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
 <link rel="stylesheet" href="customer-style.css?v=WG.011126.0821.1246">
 <!-- YENİ (06.10.2026, Abdullah'ın isteğiyle) — SADECE bu sayfada: iPad/tablet
      genişliğinde (>640px) içerik artık home.html'de zaten uygulanan kuralla
@@ -44,8 +44,8 @@
   <div class="ub-grup">
     <button type="button" class="ub-btn ub-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="ub-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span></button>
     <a class="ub-btn ub-btn--geri" href="home.html" aria-label="Geri">‹</a>
-    <button type="button" class="ub-btn ub-btn--bekle" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
-    <button type="button" class="ub-btn ub-btn--kapat" disabled aria-label="Kapat">✕</button>
+    <button type="button" class="ub-btn ub-btn--bekle" id="btnUstBeklet" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
+    <button type="button" class="ub-btn ub-btn--kapat" id="btnUstKapat" disabled aria-label="Kapat">✕</button>
   </div>
   <div class="ub-sayfa-etiket" id="rotaSeridi"></div>
 </div>
@@ -148,6 +148,7 @@
 <script src="firebase-config.js?v=WG.271026.2238.1121"></script>
 <script src="auth.js?v=WG.291026.1026.1227"></script>
 <script src="ust-sabit-olcum.js?v=WG.271026.2238.1146"></script>
+<script src="ust-bar-davranis.js?v=TKP.01.11.26-18:36.1334"></script>
 <script src="customer-data.js?v=WG.011126.0821.1243"></script>
 <script src="reports-data.js?v=WG.301026.0831.1237"></script>
 <!-- YENİ (05.10.2026) — müşteri hızlı penceresindeki "Fatura Takip" rozeti
@@ -158,7 +159,7 @@
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("customer.html", "🔍 Müşteri Bul"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="customer-render.js?v=WG.271026.2037.1109"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
-<script src="bekleyen-islemler.js?v=WG.271026.2238.1149"></script>
+<script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <script src="menu-cekmece.js?v=WG.271026.2238.1144"></script>
 </body>

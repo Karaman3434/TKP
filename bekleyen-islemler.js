@@ -1,20 +1,26 @@
 /*
-  bekleyen-islemler.js — WG.271026.2238.1149
+  bekleyen-islemler.js — TKP.01.11.26-18:36.1335
   ==========================================
+  GÜNCELLEME (01.11.2026, Abdullah onayı — "Beklet tuşu çalışmıyor" hata
+  bildirimi): Bu dosya eskiden KENDİ yuvarlak düğmesini ".app-nav" içine
+  enjekte ediyordu — ama ".app-nav" bugün erken bir turda birleşik üst
+  bara (".ub-bar") geçilirken KALDIRILMIŞTI, bu yüzden "elOlustur()"
+  sessizce hiçbir şey yapmadan dönüyordu (nav bulunamadı) ve TÜM "Beklet"
+  özelliği (düğme + sheet + rozet) her sayfada fiilen ölmüştü — bu bir
+  regresyon, bilinçli bir kapatma değildi. DÜZELTME: artık kendi düğmesini
+  YARATMIYOR, bunun yerine üst bardaki HAZIR ".ub-btn--bekle" düğmesini
+  (id="btnUstBeklet") kullanıyor — tıklanınca AYNI sheet (hem "Bu sayfayı
+  beklet" hem bekleyen işlemler listesi) açılıyor, sayı rozeti artık bu
+  düğmenin köşesine enjekte ediliyor (bkz. aşağıdaki elOlustur() ve
+  bekleyen-islemler-style.css ".ub-btn--bekle .bi-nav-sayi"). Belge
+  Önizleme (id="btnBelgeBeklet", farklı id) ve Ana Sayfa (düğme yok, hep
+  disabled) bu değişiklikten ETKİLENMEDİ — ikisi de zaten ayrı çalışıyordu.
+
   15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı; "istisnasız tüm
   sayfalar" talebiyle genişletildi): "Beklet / Bekleyen İşlemler" — bir
   işin ortasındayken o işi kenara bırakıp başka bir işe geçebilme, sonra
   kaldığın yerden devam edebilme özelliği. Masaüstündeki "görev çubuğuna
   atma" mantığının karşılığı.
-
-  MİMARİ: Bu dosya, her sayfada (foto-doldur.js ile AYNI paylaşılan-modül
-  deseniyle) kendi kendine ".app-nav" içine (Geri/Ana Sayfa dikişinin tam
-  üstüne) yuvarlak bir düğme + sayı rozeti enjekte eder. Düğmeye dokununca
-  TEK bir sheet içinde HEM "⏸ Bu sayfayı beklet" eylemi HEM bekleyen
-  işlemler listesi birlikte görünür — bu sayede her sayfaya ayrı ayrı
-  "Beklet" butonu YERLEŞTİRMEYE gerek kalmadan (sayfa düzenleri çok
-  farklı olduğu için riskli olurdu), SADECE bu iki dosyayı (css+js)
-  yükleyen HER sayfa otomatik olarak tam "Beklet" yeteneği kazanır.
 
   ÖZEL DURUM — Belge Önizleme (belge-onizleme.html): o sayfanın KENDİ,
   belge türüne göre renklenen (SP/FT/PF/NM) özel bir "⏸ Beklet" düğmesi
@@ -229,11 +235,17 @@ var BekleyenIslemler = (function(){
 
   function elOlustur(){
     if(elemanlarHazirMi) return;
-    var nav = document.querySelector(".app-nav");
-    if(!nav){ return; }
-    var dugmeSarmal = document.createElement("div");
-    dugmeSarmal.innerHTML = "<button type='button' class='bi-nav-btn' id='biNavBtn' title='Beklet / Bekleyen İşlemler'>📥<span class='bi-nav-sayi' id='biNavSayi' hidden>0</span></button>";
-    nav.appendChild(dugmeSarmal.firstChild);
+    var btn = document.getElementById("btnUstBeklet");
+    if(!btn){ return; }
+    if(!document.getElementById("biNavSayi")){
+      var rozet = document.createElement("span");
+      rozet.className = "bi-nav-sayi";
+      rozet.id = "biNavSayi";
+      rozet.hidden = true;
+      rozet.textContent = "0";
+      btn.appendChild(rozet);
+    }
+    btn.disabled = false; // JS yüklendi — gerçek izin biIzinleriUygula()'da belirlenir
 
     var genericKapali = window.BEKLEYEN_ISLEM_GENERIK_KAPALI === true;
     var sheetSarmal = document.createElement("div");
@@ -249,7 +261,7 @@ var BekleyenIslemler = (function(){
       "</div>";
     document.body.appendChild(sheetSarmal.firstChild);
 
-    document.getElementById("biNavBtn").onclick = function(){
+    btn.onclick = function(){
       sheetIcerikDoldur();
       document.getElementById("biSheetOverlay").hidden = false;
     };
@@ -316,11 +328,15 @@ var BekleyenIslemler = (function(){
   // urun-arama.js'teki uaIzinleriUygula deseni).
   function biIzinleriUygula(){
     try{
-      var btn = document.getElementById("biNavBtn");
+      var btn = document.getElementById("btnUstBeklet");
       if(!btn) return;
       var anahtar = BI_SAYFA_BEKLET_ANAHTARI[dosyaAdi()];
       var izinVar = !anahtar || (typeof izinVarMi !== "function") || izinVarMi(anahtar);
-      btn.style.display = izinVar ? "" : "none";
+      // GÜNCELLEME (01.11.2026): eskiden "display:none" ile tamamen
+      // gizleniyordu — artık üst bardaki diğer tüm tuşlarla (Geri/Bekle/
+      // Kapat) TUTARLI olacak şekilde "disabled" (gri) yapılıyor; pozisyon
+      // her sayfada hep aynı yerde duruyor, sadece pasif görünüyor.
+      btn.disabled = !izinVar;
     }catch(e){}
   }
 
