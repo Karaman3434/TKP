@@ -1,5 +1,5 @@
 /*
-  son-islemler-render.js — WG.271026.1855.1105
+  son-islemler-render.js — WG.011126.0932.1255
   =======================
   reports-render.js'deki islemleriCiz/islemlerExcelAktar buradan taşındı.
   13.10.2026: kartlı/2 satırlı yapı kaldırıldı — GERÇEK TEK SATIRLIK TABLO
@@ -41,16 +41,22 @@ function fmt(n){
 }
 
 var TIP_ETIKET = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
-// v3 — tarih gruplu tasarım (05.09.2026). Bu sabitler gecmis-render.js,
-// reports-render.js, satis-listesi-render.js ve
-// kacan-satislar-render.js'de birebir aynı tutulmalı.
+// v3 — tarih gruplu tasarım (05.09.2026). BU SAYFAYA ÖZGÜDÜR — gecmis-
+// render.js, reports-render.js, satis-listesi-render.js ve kacan-satislar-
+// render.js'nin KENDİ ayrı TIP_META kopyaları var, onlara DOKUNULMADI.
+// ROZET TONU "CANLI" (01.11.2026, Abdullah onayı — mockup üzerinden, 3
+// ton seçeneğinden en canlısı onaylandı): rozetBg eskiden çok soluktu
+// (örn. siparis #e6f1fb) — SADECE bu sayfada, aynı renk ailesinde daha
+// canlı/doygun bir tona çevrildi (rozet metni teklif/proforma/numune için
+// okunurluk kontrastı yeterli olsun diye biraz koyulaştırıldı, hâlâ aynı
+// renk ailesinde — siparis zaten yeterli kontrastta olduğu için değişmedi).
 var TIP_META = {
-  siparis:  {rozet:"SP",    rozetBg:"#e6f1fb", rozetRenk:"#0c447c", serit:"#185fa5", kodRenk:"#003a70"},
-  teklif:   {rozet:"FT",    rozetBg:"#e1f5ee", rozetRenk:"#0e6b58", serit:"#28a745", kodRenk:"#1a7431"},
-  proforma: {rozet:"PF",    rozetBg:"#ffe4cc", rozetRenk:"#b45309", serit:"#e8690a", kodRenk:"#8a4306"},
-  numune:   {rozet:"NM",    rozetBg:"#fce4ec", rozetRenk:"#ad1457", serit:"#c2185b", kodRenk:"#8e0e45"}
+  siparis:  {rozet:"SP",    rozetBg:"#a8c5e1", rozetRenk:"#0c447c", serit:"#185fa5"},
+  teklif:   {rozet:"FT",    rozetBg:"#aadebb", rozetRenk:"#0c5b4b", serit:"#28a745"},
+  proforma: {rozet:"PF",    rozetBg:"#f8bf92", rozetRenk:"#7e3a06", serit:"#e8690a"},
+  numune:   {rozet:"NM",    rozetBg:"#eba7c0", rozetRenk:"#790e3d", serit:"#c2185b"}
 };
-var RVZ_META = {rozet:"RVZ", rozetBg:"#faeeda", rozetRenk:"#854f0b", serit:"#b7601f"};
+var RVZ_META = {rozet:"RVZ", rozetBg:"#e6c3a2", rozetRenk:"#714309", serit:"#b7601f"};
 var KACAN_META = {rozet:"KAÇTI", rozetBg:"#fdecea", rozetRenk:"#a32d2d", serit:"#c0392b"};
 var KANAL_HARF = {mail:"M", whatsapp:"W"};
 var KANAL_RENK = {mail:"#185fa5", whatsapp:"#128C7E"};
@@ -74,20 +80,15 @@ function gunBasligi(ts){
   var aa = String(d.getMonth()+1).padStart(2,"0");
   return gg + "." + aa + "." + d.getFullYear() + " • " + GUNLER_UZUN[d.getDay()];
 }
-// Belge kodunun BAŞ HARFLERİ (SP/FT/PF/NM) işlem türünün kendi renginde;
-// numara kısmı normal renkte kalır (WG.210926.1709.589'dan değişmedi).
-var HARF_RENK = {siparis:"#003a70", teklif:"#28a745", proforma:"#e8690a", numune:"#c2185b"};
-function kodHTML(kod, tip){
-  kod = String(kod == null ? "" : kod);
-  var i = kod.indexOf(".");
-  var harf = i > 0 ? kod.slice(0, i) : kod;
-  var kalan = i > 0 ? kod.slice(i) : "";
-  return "<span style='color:" + (HARF_RENK[tip] || HARF_RENK.siparis) + ";'>" + htmlEsc(harf) + "</span>" + htmlEsc(kalan);
-}
-// ROTA ZİNCİRİ (kayıt .rota alanı): tablo SATIRINDA artık gösterilmiyor —
-// referans tasarımın "Belge" sütunu tek bir kod gösteriyor (örn. SP0003).
-// Zincirin TAMAMI hâlâ kayboLMADI: satıra dokunulduğunda açılan Belge
-// Geçmişi (belge-onizleme.html) ekranında aynen gösterilmeye devam ediyor.
+// İŞLEM KODU KALDIRILDI (01.11.2026, Abdullah onayı — "listeyi rahatlatmak"
+// turu, mockup üzerinden): bu sayfanın kısa listesinde işlem kodu (örn.
+// "SP003 ...") artık HİÇ gösterilmiyor — program içi bir iç referans,
+// Abdullah'a bu listede bir fayda sağlamıyordu. Kod hâlâ KAYBOLMADI, satıra
+// dokunulduğunda açılan Belge Önizleme (belge-onizleme.html) ekranında
+// aynen duruyor — SADECE bu kısa listeden kaldırıldı. Eskiden kod burada
+// basılıyordu (kodHTML fonksiyonu ve HARF_RENK sabiti) — artık ikisi de
+// KULLANILMADIĞI için kaldırıldı. ROTA ZİNCİRİ (kayıt .rota alanı) zaten
+// daha önce aynı gerekçeyle satırdan kaldırılmıştı, Belge Geçmişi'nde duruyor.
 function islemRozetMeta(k){
   var kacanMi = k.durum === "kacan";
   var revizeMi = !!k.revizeZamani;
@@ -113,7 +114,7 @@ function islemSatiriHTML(k){
     + "<div class='sr-firma-h'>" + htmlEsc(k.musteri||"") + "</div>"
     + "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
     + "<span class='sr-rozet-h' style='background:" + rozetMeta.rozetBg + ";color:" + rozetMeta.rozetRenk + ";'>" + rozetMeta.rozet + "</span>"
-    + "<div class='sr-belge-h'>" + kanalHarfHTML(k.kanal) + kodHTML(k.kod, k.tip) + "</div>"
+    + "<div class='sr-belge-h'>" + kanalHarfHTML(k.kanal) + "</div>"
     + "<div class='sr-tutar-h'>" + islemTutarDurumHTML(k) + "</div>"
     + "<div class='sr-ok-h'>&#8250;</div>"
     + "</div>";
