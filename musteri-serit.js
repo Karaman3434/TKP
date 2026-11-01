@@ -1,5 +1,5 @@
 /*
-  musteri-serit.js — WG.181026.2315.834
+  musteri-serit.js — TKP.01.11.26-17:06.1326
   ========================================
   TEK KURAL (22.09.2026): Müşteri adının göründüğü hiçbir sayfa kendi
   HTML'ini elle yazmaz — hepsi MusteriSeridi.html(musteri) çağırır. Yeni
@@ -32,14 +32,24 @@ var MusteriSeridi = (function(){
   // true geçer (bkz. hareket-tablo.js cariKutulariHtml / send-render.js
   // belgeGorselHtmlOlustur). Parametre verilmezse (programın geri kalanı)
   // davranış hiç değişmez, kod her zamanki gibi gösterilir.
+  // opts.gonderButonu (01.11.2026, Abdullah onayı — mockup üzerinden):
+  // true verilirse şeridin en sonuna turuncu daire "📨 GÖNDER" ikon butonu
+  // eklenir (id='btnMusteriGonder') — SADECE bunu isteyen sayfalar
+  // (şimdilik cart.html) bunu açıkça true geçer, diğer tüm sayfalar
+  // (parametre verilmezse) HİÇBİR ŞEKİLDE etkilenmez (gecmisButonu ile
+  // AYNI opt-in deseni). opts.gonderDisabled true ise buton görünür ama
+  // tıklanamaz (sepet henüz tamamlanmadıysa).
   function html(musteri, opts){
     if(!musteri) return "";
     var kod = (musteri.id && !(opts && opts.koduGizle)) ? "<b class='ms-kod'>" + esc(musteri.id) + "</b> " : "";
     var sehir = musteri.sehir ? "<span class='ms-ayrac'>-</span><span class='ms-sehir'>" + esc(musteri.sehir) + "</span>" : "";
     var gecmisBtn = (opts && opts.gecmisButonu) ? "<button type='button' class='ms-gecmis-btn' id='btnMusteriGecmis' title='İşlem Geçmişi' aria-label='İşlem Geçmişi'>🕓<span class='ms-gecmis-etiket'>GEÇMİŞ</span></button>" : "";
+    var gonderIkon = (typeof IkonSvg !== "undefined") ? IkonSvg.svg("gonder") : "";
+    var gonderBtn = (opts && opts.gonderButonu) ? "<button type='button' class='ms-gonder-btn' id='btnMusteriGonder' title='Gönder' aria-label='Gönder'" + (opts.gonderDisabled ? " disabled" : "") + ">" + gonderIkon + "</button>" : "";
     return "<div class='musteri-serit'>"
       + "<span class='ms-ad'>" + kod + esc(musteri.ad) + sehir + "</span>"
       + gecmisBtn
+      + gonderBtn
       + "</div>";
   }
 

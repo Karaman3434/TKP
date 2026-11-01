@@ -1,4 +1,4 @@
-/* musteri-serit.css — WG.011126.1022.1257
+/* musteri-serit.css — TKP.01.11.26-17:06.1325
    ============================================================
    TEK KURAL (22.09.2026): Müşteri adının (ticari unvan) göründüğü HER
    yerde — Sepet, Ürün Bul, Müşteri Hub, Cari Bilgi, İşlemler, Gönder
@@ -37,7 +37,9 @@
   box-sizing: border-box;
 }
 .musteri-serit .ms-ad {
-  font-size: 15px;
+  /* %20 KÜÇÜLTME (01.11.2026, Abdullah onayı): 15px -> 12px — panelde
+     Gönder ikonu eklenince isim/şehir için yer kalmıyordu. */
+  font-size: 12px;
   font-weight: 800;
   color: #0a2f5c;
   flex: 1;
@@ -52,7 +54,8 @@
    ("İsim - İlçe, İl") — uzunsa hepsi birlikte ellipsis ile kesilir. */
 .musteri-serit .ms-ayrac { color: #0a2f5c; font-weight: 800; margin: 0 3px; }
 .musteri-serit .ms-sehir {
-  font-size: 13px;
+  /* %20 KÜÇÜLTME (01.11.2026, Abdullah onayı): 13px -> 10.4px. */
+  font-size: 10.4px;
   font-weight: 600;
   color: #556170;
 }
@@ -86,3 +89,31 @@
   cursor: pointer;
 }
 .musteri-serit .ms-gecmis-etiket { font-size: 13.2px; font-weight: 800; }
+
+/* "📨 GÖNDER" ikonu (01.11.2026, Abdullah onayı — mockup üzerinden) —
+   SADECE MusteriSeridi.html(musteri, {gonderButonu:true}) çağıran
+   sayfalarda görünür (şimdilik sadece cart.html). Belge Önizleme
+   panelindeki .ub-gonder-ikon ile AYNI şekil/renk/boyut (32px, turuncu
+   daire) — tek fark: burada AKTİF (Kaydet'in yerini alan asıl işlev). */
+.musteri-serit .ms-gonder-btn {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0730f;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+}
+.musteri-serit .ms-gonder-btn svg { width: 55%; height: 55%; }
+.musteri-serit .ms-gonder-btn:disabled {
+  background: #faeeda;
+  color: #b7601f;
+  filter: grayscale(60%);
+  opacity: .5;
+  cursor: not-allowed;
+}

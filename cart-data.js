@@ -1,5 +1,5 @@
 /*
-  cart-data.js — WG.271026.2238.1147
+  cart-data.js — TKP.01.11.26-17:06.1321
   ============
   TEK görevi: sepet verisini (product-data.js ile PAYLAŞILAN localStorage
   anahtarı üzerinden) okumak/güncellemek ve fiyat hesaplama formüllerini
@@ -23,6 +23,15 @@ var CartData = (function(){
   var SEPET_KEY = "weiconv2_sepet";
   var KDV_KEY = "weicon_kdv_orani"; // eski uygulamayla PAYLAŞILAN anahtar
   var KUR_KEY = "weicon_kur"; // eski uygulamayla PAYLAŞILAN anahtar
+
+  // YARIM KALAN İŞLEM — 10 DAKİKA OTO-SIFIRLAMA (01.11.2026, Abdullah'ın
+  // kesin kuralı): sepete İLK ürün eklendiği an bu zaman damgalanır. 10
+  // dakika geçtiyse (aktif kullanım olsa bile — Abdullah: "ne olursa olsun
+  // boşalt") sepet+müşteri tamamen sıfırlanır; bkz. cart-render.js
+  // yarimKalanIslemKontrolEt() (sayfa açılışında + periyodik + sekme geri
+  // gelince kontrol eder). Sepet boşken bu anahtar hiç yoktur.
+  var BASLANGIC_KEY = "weiconv2_sepet_baslangic_zamani";
+  var ON_DAKIKA_MS = 10 * 60 * 1000;
 
   var sepet = [];
   try{
@@ -97,6 +106,7 @@ var CartData = (function(){
   function sifirla(callback){
     sepet = [];
     try{ localStorage.setItem(SEPET_KEY, JSON.stringify(sepet)); }catch(e){}
+    try{ localStorage.removeItem(BASLANGIC_KEY); }catch(e){}
     var soz = fbKaydet();
     var tamamlandiMi = false;
     function bitir(){
@@ -125,8 +135,21 @@ var CartData = (function(){
   // bellek kopyası yerine DOĞRUDAN bu modülün sepet dizisine yazmalı —
   // yoksa CartData.liste() (sayfayiCiz'in okuduğu) taze veriyi göremez.
   function ekle(urun){
+    if(sepet.length === 0){
+      try{ localStorage.setItem(BASLANGIC_KEY, String(Date.now())); }catch(e){}
+    }
     sepet.push(urun);
     kaydet();
+  }
+
+  // 10 DAKİKA DOLDU MU — bkz. BASLANGIC_KEY yorumu yukarıda.
+  function suresiDoldumu(){
+    if(sepet.length === 0) return false;
+    try{
+      var baslangic = parseInt(localStorage.getItem(BASLANGIC_KEY), 10);
+      if(!baslangic) return false;
+      return (Date.now() - baslangic) > ON_DAKIKA_MS;
+    }catch(e){ return false; }
   }
 
   function alaniGuncelle(idx, alan, deger){
@@ -230,6 +253,7 @@ var CartData = (function(){
     sifirla: sifirla,
     sil: sil,
     ekle: ekle,
+    suresiDoldumu: suresiDoldumu,
     alaniGuncelle: alaniGuncelle,
     hesaplandiIsaretle: hesaplandiIsaretle,
     tamamHesaplandiMi: tamamHesaplandiMi,

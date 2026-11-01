@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — TKP.01.11.26-16:07.1314
+  belge-onizleme-style-v2.css — TKP.01.11.26-17:06.1324
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -84,10 +84,13 @@
 }
 /* Gönder (paylaş) ikonu — İŞLEVİ HENÜZ TANIMLANMADI, bu yüzden şimdilik
    PASİF/soluk (diğer henüz bağlanmamış tuşlarla aynı kural): işlevi
-   netleşince aktif renge (yeşil) ve gerçek bir onclick'e kavuşacak. */
+   netleşince gerçek bir onclick'e kavuşacak. Zemin rengi (01.11.2026,
+   Abdullah onayı — "her yerde aynı logo, turuncu zemin" kuralı) artık
+   Sepet'teki aktif Gönder ikonuyla AYNI turuncu (#e0730f) — program
+   genelinde TEK Gönder renk/ikon dili. */
 .belge-onizleme-sayfa .ub-gonder-ikon {
   width: 32px; height: 32px; flex-shrink: 0; border: none; padding: 0;
-  border-radius: 50%; background: #0e6b34; color: #fff;
+  border-radius: 50%; background: #e0730f; color: #fff;
   display: flex; align-items: center; justify-content: center;
   filter: grayscale(75%); opacity: .38; cursor: not-allowed; pointer-events: none;
 }

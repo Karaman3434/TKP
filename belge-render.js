@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.01.11.26-16:07.1315
+  belge-render.js — TKP.01.11.26-17:06.1323
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -275,9 +275,12 @@ function belgeyiCiz(kayit, musteri){
     // grubu eklendi; eski alt buton satırındaki "AYRINTI" tuşu kaldırıldı,
     // id="btnIslemlerAc" buraya taşındı (bağlama artık denemeCiz() içinde,
     // yukarıda — bu element her çizimde burada yeniden oluşuyor).
+    // TEK KAYNAK (01.11.2026): SVG artık ikon-svg.js'teki paylaşılan
+    // "gonder" tanımından geliyor (bkz. ikon-svg.js IkonSvg.PATH.gonder) —
+    // Sepet'teki yeni Gönder ikonuyla BİREBİR AYNI şekil.
     var ikonGrupHtml = "<span class='ikon-grup'>"
       + "<button type='button' class='ub-gonder-ikon' title='Gönder' aria-label='Gönder' disabled>"
-      +   "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 16V4'/><path d='M7 9l5-5 5 5'/><path d='M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3'/></svg>"
+      +   (typeof IkonSvg !== "undefined" ? IkonSvg.svg("gonder") : "")
       + "</button>"
       + "<button type='button' class='ub-ayrinti-ikon' id='btnIslemlerAc' title='Ayrıntı' aria-label='Ayrıntı'>i</button>"
       + "</span>";

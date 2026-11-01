@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1277 — cart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-17:06.1329 — cart.html -->
 <!--
   27.10.2026 PERFORMANS KAZANIMI: html2canvas'ın bu sayfada en baştan
   yüklenen statik <script> etiketi kaldırıldı — artık cart-render.js'teki
@@ -33,8 +33,8 @@
 <link rel="stylesheet" href="product-style.css?v=WG.011126.1022.1265">
 <link rel="stylesheet" href="calc-style.css?v=WG.011126.1022.1262">
 <link rel="stylesheet" href="belge-style.css?v=WG.011126.1022.1258">
-<link rel="stylesheet" href="musteri-serit.css?v=WG.011126.1022.1257">
-<link rel="stylesheet" href="cart-style.css?v=WG.271026.2037.1113">
+<link rel="stylesheet" href="musteri-serit.css?v=TKP.01.11.26-17:06.1325">
+<link rel="stylesheet" href="cart-style.css?v=TKP.01.11.26-17:06.1328">
 <link rel="stylesheet" href="detail-style.css?v=WG.011126.1022.1263">
 <!-- YENİ (12.10.2026, Abdullah onayı) — Belge Önizleme'de onaylanan açık
      gri zemin + türe-özel rozet renk tasarımı Sepet tablosuna taşındı.
@@ -339,10 +339,11 @@
 
   <p class="bos-mesaj" id="sepetBosMesaj" hidden>Sepetiniz boş. Yukarıdaki arama kutusundan ürün bulup HESAPLA'ya dokunun.</p>
 
-  <div class="sepet-alt-buton-satir" id="sepetAltButonSatiri" hidden>
-    <button class="sepet-kaydet-btn" id="btnSepetKaydet">✓ Kaydet</button>
-    <button class="sepet-gonder-btn" id="btnSepetGonder">📨 Önizleme İletişim</button>
-  </div>
+  <!-- KALDIRILDI (01.11.2026, Abdullah onayı — mockup üzerinden): ayrı
+       "✓ Kaydet" + "📨 Önizleme İletişim" satırı tamamen kalktı. Tek
+       "Gönder" ikonu artık cariBilgiAlani içinde (müşteri seçiliyse
+       musteri-serit'in .ms-gonder-btn'i, seçili değilse aşağıdaki
+       müşterisiz şerit) — bkz. cart-render.js sayfayiCiz(). -->
   <button class="sepet-iptal-btn" id="btnSepetIptal" hidden>🗑️ İşlemi İptal Et — Sepeti Boşalt</button>
   <p class="devam-uyari" id="devamUyari" hidden>⚠️ Devam etmeden önce sarı gruptaki tüm ürünleri hesapla.</p>
 
@@ -422,21 +423,29 @@
 <script src="auth.js?v=WG.291026.1026.1227"></script>
 <script src="ust-sabit-olcum.js?v=WG.271026.2238.1146"></script>
 <script src="ayarlar-sync.js?v=WG.271026.2238.1132"></script>
+<script src="ikon-svg.js?v=TKP.01.11.26-17:06.1322"></script>
 <script src="hareket-tablo.js?v=WG.011126.0821.1248"></script>
-<script src="cart-data.js?v=WG.271026.2238.1147"></script>
+<script src="cart-data.js?v=TKP.01.11.26-17:06.1321"></script>
 <script src="product-data.js?v=WG.271026.2238.1130"></script>
 <script src="customer-data.js?v=WG.011126.0821.1243"></script>
-<script src="musteri-serit.js?v=WG.181026.2315.834"></script>
+<script src="musteri-serit.js?v=TKP.01.11.26-17:06.1326"></script>
 <script src="reports-data.js?v=WG.301026.0831.1237"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1338.87"></script>
 <script src="send-data.js?v=WG.271026.2238.1123"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
-<script src="cart-render.js?v=WG.271026.2238.1148"></script>
+<script src="cart-render.js?v=TKP.01.11.26-17:06.1327"></script>
 <script src="urun-arama.js?v=WG.271026.2238.1150"></script>
 <script src="hesapla-popup.js?v=WG.261026.0049.1039"></script>
-<script src="yarim-kalan-uyari.js?v=WG.100926.1021.435"></script>
+<!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026): bugünkü üst-bar birleştirmesiyle
+     (#btnMenu -> #btnAsMenuAc) bu dosyanın menü tıklamasını yakalayan kısmı zaten
+     kırılmıştı (element bulunamıyordu, confirm() hiç tetiklenmiyordu). Abdullah'ın
+     isteğiyle yerine daha sağlam bir çözüm geldi: sepet artık HANGİ YOLDAN
+     çıkılırsa çıkılsın (Menü, Geri, sekme kapatma, vb.) 10 dakika sonra kendiliğinden
+     sıfırlanıyor (bkz. cart-data.js suresiDoldumu / cart-render.js
+     yarimKalanIslemKontrolEt) — tek bir çıkış butonunu yakalamaya çalışmıyor,
+     bu yüzden gelecekte tasarım değişse bile kırılmaz. -->
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
 <script>
   window.BEKLEYEN_ISLEM_AYAR = {

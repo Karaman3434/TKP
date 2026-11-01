@@ -1,5 +1,5 @@
 /*
-  cart-style.css — WG.271026.2037.1113
+  cart-style.css — TKP.01.11.26-17:06.1328
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -375,6 +375,57 @@
   background: #faeeda;
   color: #b7601f;
   cursor: not-allowed; border: 1.5px solid #b7601f;}
+
+/* MÜŞTERİSİZ GÖNDER ŞERİDİ (01.11.2026, Abdullah onayı — mockup üzerinden):
+   müşteri seçilmediğinde cariBilgiAlani'nda gösterilen ince şerit —
+   .musteri-serit (musteri-serit.css) ile AYNI kutu modeli (40px, 1.5px
+   kenarlık), sadece zemin nötr gri ve içinde isim yerine "Müşteri
+   seçilmedi" metni + Gönder ikonu var. */
+.sepet-musterisiz-gonder-serit {
+  background: #eef2f8;
+  border: 1.5px solid #c7d2e0;
+  border-radius: 10px;
+  padding: 3px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1mm;
+  min-height: 40px;
+  box-sizing: border-box;
+}
+.sepet-musterisiz-gonder-serit .smg-metin {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7a8699;
+  flex: 1;
+  min-width: 0;
+}
+/* .ms-gonder-btn burada musteri-serit.css'teki (.musteri-serit .ms-gonder-btn)
+   TANIMLI DEĞİL çünkü bu şerit .musteri-serit içinde değil — bu yüzden AYNI
+   kuralın bir kopyası burada da var (01.11.2026). İkisi birden değişirse
+   her iki dosyada da güncellenmeli. */
+.sepet-musterisiz-gonder-serit .ms-gonder-btn {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0730f;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+}
+.sepet-musterisiz-gonder-serit .ms-gonder-btn svg { width: 55%; height: 55%; }
+.sepet-musterisiz-gonder-serit .ms-gonder-btn:disabled {
+  background: #faeeda;
+  color: #b7601f;
+  filter: grayscale(60%);
+  opacity: .5;
+  cursor: not-allowed;
+}
 .devam-uyari {
   text-align: center;
   color: #b7601f;

@@ -1,5 +1,5 @@
 /*
-  cart-render.js — WG.271026.2238.1148
+  cart-render.js — TKP.01.11.26-17:06.1327
   ==============
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
   "Tablo Görseli Gönder" gerçekten tıklandığında ilk kez indiriliyor (bkz.
@@ -154,8 +154,25 @@ function urunuHesaplamayaGonder(idx){
 // artık burada DEĞİL, HESAPLANDI grubunun etiket satırının sonunda
 // gösteriliyor (27.09.2026, Abdullah'ın isteğiyle — bkz. sayfayiCiz()).
 // "🕓 Geçmiş" butonu (12.10.2026, Abdullah onayı) — SADECE bu sayfada açık.
-function cariBilgiOzetiHtml(musteri){
-  return MusteriSeridi.html(musteri, {gecmisButonu: true});
+// gonderDisabledMi (01.11.2026): sepet henüz tamamlanmadıysa (hesaplanmamış
+// ürün varsa) veya "sepetGonder" izni yoksa true geçilir — izin yoksa buton
+// hiç basılmaz (gonderButonu olarak izne göre render edilir), izin VARSA
+// ama sepet tamam değilse buton görünür ama pasif/tıklanamaz kalır.
+function cariBilgiOzetiHtml(musteri, gonderDisabledMi){
+  var izinVar = crIzinVarMi("sepetGonder");
+  return MusteriSeridi.html(musteri, {gecmisButonu: true, gonderButonu: izinVar, gonderDisabled: !!gonderDisabledMi});
+}
+
+// MÜŞTERİSİZ GÖNDER ŞERİDİ (01.11.2026, Abdullah onayı — mockup üzerinden):
+// müşteri seçili değilken cariBilgiAlani'nda gösterilen ince şerit —
+// SADECE Gönder ikonunun (musterisizOnizlemeAc akışı) her zaman erişilebilir
+// olmasını sağlar, kayıt/müşteri bilgisi YOK. tamamMi false ise buton pasif.
+function musterisizGonderSeridiHtml(tamamMi){
+  var ikon = (typeof IkonSvg !== "undefined") ? IkonSvg.svg("gonder") : "";
+  return "<div class='sepet-musterisiz-gonder-serit'>"
+    + "<span class='smg-metin'>👤 Müşteri seçilmedi</span>"
+    + "<button type='button' class='ms-gonder-btn' id='btnSepetGonderMusterisiz' title='Gönder' aria-label='Gönder'" + (tamamMi ? "" : " disabled") + ">" + ikon + "</button>"
+    + "</div>";
 }
 
 // MÜŞTERİ İŞLEM GEÇMİŞİ POPUP'I (12.10.2026, Abdullah onayı) — müşteri
@@ -269,11 +286,15 @@ function sayfayiCiz(){
   try{
     var liste = CartData.liste();
     var bosMesaj = document.getElementById("sepetBosMesaj");
-    var altButonSatiri = document.getElementById("sepetAltButonSatiri");
     var devamUyari = document.getElementById("devamUyari");
     var grupSariAlani = document.getElementById("grupSariAlani");
     var grupYesilAlani = document.getElementById("grupYesilAlani");
     var musteri = CustomerData.seciliyiOku();
+    // YUKARI TAŞINDI (01.11.2026): Gönder butonu artık cariBilgiAlani
+    // içinde render edildiği için (musteri-serit ya da müşterisiz şerit),
+    // etkin/pasif durumunun HTML üretilirken hazır olması gerekiyor.
+    var gonderVarMi = crIzinVarMi("sepetGonder");
+    var tamamMi = CartData.tamamHesaplandiMi();
 
     if(liste.length === 0){
       document.getElementById("cariBilgiAlani").innerHTML = "";
@@ -281,13 +302,11 @@ function sayfayiCiz(){
       grupYesilAlani.innerHTML = "";
       bosMesaj.hidden = false;
       bosMesaj.textContent = "Sepetiniz boş. Yukarıdaki arama kutusundan ürün bulup HESAPLA'ya dokunun.";
-      altButonSatiri.hidden = true;
       document.getElementById("btnSepetIptal").hidden = true;
       devamUyari.hidden = true;
       return;
     }
     bosMesaj.hidden = true;
-    altButonSatiri.hidden = false;
     // KALDIRILDI (26.10.2026, Abdullah onayı — mockup üzerinden): bu buton
     // artık HİÇ gösterilmiyor ("En altta ki paneli kaldır") — [hidden]
     // olarak kalıyor, SADECE yukarıdaki kodSeridiIptalEtkilesimBagla'nın
@@ -296,14 +315,15 @@ function sayfayiCiz(){
 
     // MÜŞTERİSİZ SEPET (13.10.2026, Abdullah onayı): müşteri seçilmeden de
     // ürün eklenip hesaplanabilir — Cari Bilgi şeridi/adresler SADECE
-    // müşteri seçiliyse gösterilir. "Kaydet" yine müşteri ister (kayıt bir
-    // müşteriye bağlanmalı, bkz. kaydetGercekIslem), ama "Görüntüle ve
-    // Gönder" müşterisiz hızlı gönderim akışına (musterisizOnizlemeAc)
-    // zaten düşüyor — bkz. kaydetTiklandi(). Eskiden bu ekranın TAMAMI
-    // müşteri seçilmeden hiç gösterilmiyordu, bu yüzden sepete eklenen
-    // ürünler bile görünmüyordu.
+    // müşteri seçiliyse gösterilir. GÖNDER (01.11.2026'dan itibaren TEK
+    // buton — eski "Kaydet" kalktı) müşteri seçiliyse kaydedip gönderiyor,
+    // müşteri seçili değilse müşterisiz hızlı gönderim akışına
+    // (musterisizOnizlemeAc) düşüyor — bkz. kaydetTiklandi(). Her iki
+    // durumda da Gönder erişilebilir olmalı, bu yüzden müşterisiz modda da
+    // artık ince bir "Gönder" şeridi gösteriliyor (eskiden bu alan tamamen
+    // boştu).
     if(musteri){
-      document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri);
+      document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri, !tamamMi);
       var btnMusteriGecmisEl2 = document.getElementById("btnMusteriGecmis");
       if(btnMusteriGecmisEl2) btnMusteriGecmisEl2.onclick = musteriGecmisiniAc;
       // EKLENDİ (27.10.2026, Abdullah onayı — "Yeni Rota" turu): isme
@@ -321,13 +341,15 @@ function sayfayiCiz(){
       }
       adresleriBelirle(musteri);
     } else {
-      // DÜZELTME (27.10.2026, Abdullah'ın isteğiyle): müşterisiz modda
-      // önceden "👤 Müşteri seçilmedi — hızlı gönderim modu..." uyarısı
-      // gösteriliyordu — Abdullah zaten müşteriye gönderecekse müşteriyi
-      // önceden seçtiği için bu bilgi gereksiz yer kaplıyordu, kaldırıldı.
-      document.getElementById("cariBilgiAlani").innerHTML = "";
+      // DEĞİŞİKLİK (01.11.2026, Abdullah onayı): müşterisiz modda artık
+      // boş bırakılmıyor — Gönder'in HER ZAMAN erişilebilir olması gerektiği
+      // için ince bir şerit geldi (sadece izin varsa gösterilir, eski
+      // "sepetGonder" izin kuralıyla aynı).
+      document.getElementById("cariBilgiAlani").innerHTML = gonderVarMi ? musterisizGonderSeridiHtml(tamamMi) : "";
       seciliAdresler = {};
     }
+    var gonderBtnEl = document.getElementById("btnMusteriGonder") || document.getElementById("btnSepetGonderMusterisiz");
+    if(gonderBtnEl) gonderBtnEl.onclick = function(){ kaydetTiklandi("gonder"); };
 
     var kur = aktifKuruOku();
     var kdv = CartData.kdvOku();
@@ -479,14 +501,8 @@ function sayfayiCiz(){
       satirEtkilesimleriniBagla(tr, hesaplananlar[i]);
     });
 
-    var gonderVarMi = crIzinVarMi("sepetGonder");
-    altButonSatiri.hidden = !gonderVarMi;
-    var tamamMi = CartData.tamamHesaplandiMi();
-    // "Kaydet" bir kaydı müşteriye bağladığı için müşteri şart (bkz.
-    // kaydetGercekIslem) — "Görüntüle ve Gönder" müşterisiz de çalışır
-    // (musterisizOnizlemeAc), o yüzden sadece hesaplanmış olmasını ister.
-    document.getElementById("btnSepetKaydet").disabled = !tamamMi || !musteri;
-    document.getElementById("btnSepetGonder").disabled = !tamamMi;
+    // gonderVarMi/tamamMi artık fonksiyon başında hesaplanıyor (Gönder
+    // butonunun HTML'i panelle BİRLİKTE üretiliyor — bkz. yukarısı).
     devamUyari.hidden = tamamMi || !gonderVarMi;
   }catch(e){ hataGoster("Sepet çizilemedi: " + e.message); }
 }
@@ -627,16 +643,11 @@ function oncedenSecilenTipVarsaUygula(){
   }catch(e){}
 }
 
-// KAYDET → ANA SAYFA (WG.210926.1647.588): "✓ Kaydet" işlemi bitirir, Gönder
-// ekranına gitmez. Sepet ve seçili müşteri, "Ana Sayfa'ya Git" ve "İşlemi İptal
-// Et" akışlarıyla AYNI şekilde temizlenir. Form görüntüleme/gönderme için
-// "📋 Formu Görüntüle" butonu (niyet = "gonder") eskisi gibi send.html'e gider.
-function kaydetSonrasiAnaSayfayaGit(){
-  // KRİTİK HATA DÜZELTMESİ (26.10.2026) — bkz. herSeyiSifirlaVeGit'teki aynı
-  // yorum: CartData.sifirla(callback) kullanılıyor — hem bellek içi "sepet"
-  // dizisini boşaltıyor HEM DE navigasyonu Firebase yedeği gerçekten
-  // boşalana (ya da en fazla 1.2sn sonra) kadar erteliyor; yoksa home.html'in
-  // kendi fbYukle()'si eski yedeği geri yükleyip burayı da etkileyebilirdi.
+// Sepet/müşteri oturum anahtarlarının TAMAMI — kaydetSonrasiAnaSayfayaGit
+// VE yarimKalanIslemKontrolEt (10 dakika oto-sıfırlama) tarafından
+// PAYLAŞILAN tek liste (01.11.2026) — biri değişirse diğeri de otomatik
+// güncellensin diye tek yerde tutuluyor.
+function sepetOturumAnahtarlariniTemizle(){
   try{ CustomerData.secimiKaldir(); }catch(e){}
   ["weiconv2_sepet_kur_override","weiconv2_onceden_secilen_tip","weiconv2_hesapla_duzenle_idx",
    "weiconv2_ilerlet_kaynak","weiconv2_islem_yap_akisi","weiconv2_secili_iletisim",
@@ -645,9 +656,52 @@ function kaydetSonrasiAnaSayfayaGit(){
    "weiconv2_sepet_musteri_baglantisi","weiconv2_sepetten_cari_acildi"].forEach(function(k){
     try{ localStorage.removeItem(k); }catch(e){}
   });
+}
+
+// KAYDET → ANA SAYFA (WG.210926.1647.588): "✓ Kaydet" işlemi bitirir, Gönder
+// ekranına gitmez. Sepet ve seçili müşteri, "Ana Sayfa'ya Git" ve "İşlemi İptal
+// Et" akışlarıyla AYNI şekilde temizlenir. Form görüntüleme/gönderme için
+// "📋 Formu Görüntüle" butonu (niyet = "gonder") eskisi gibi send.html'e gider.
+// NOT (01.11.2026): "Kaydet" butonu kalktığı için bu fonksiyonun artık
+// çağrıldığı yer yok (dead code, bilerek silinmedi — zararsız ve ileride
+// benzer bir "kaydet ve ana sayfaya dön" ihtiyacı çıkarsa hazır dursun).
+function kaydetSonrasiAnaSayfayaGit(){
+  // KRİTİK HATA DÜZELTMESİ (26.10.2026) — bkz. herSeyiSifirlaVeGit'teki aynı
+  // yorum: CartData.sifirla(callback) kullanılıyor — hem bellek içi "sepet"
+  // dizisini boşaltıyor HEM DE navigasyonu Firebase yedeği gerçekten
+  // boşalana (ya da en fazla 1.2sn sonra) kadar erteliyor; yoksa home.html'in
+  // kendi fbYukle()'si eski yedeği geri yükleyip burayı da etkileyebilirdi.
+  sepetOturumAnahtarlariniTemizle();
   CartData.sifirla(function(){
     window.location.href = "home.html";
   });
+}
+
+// YARIM KALAN İŞLEM — 10 DAKİKA OTO-SIFIRLAMA (01.11.2026, Abdullah'ın
+// kesin kuralı): eski yöntem (yarim-kalan-uyari.js — Menü/Ana Sayfa
+// tıklamasını yakalayıp confirm() ile soran) bugünkü üst-bar
+// birleştirmesiyle kırılmıştı ve zaten kırılgandı (her yeni çıkış yolu
+// ayrıca yakalanmalıydı). Bunun yerine: sepete ilk ürün eklendiği andan
+// itibaren 10 dakika geçmişse — NASIL çıkılırsa çıkılsın, hatta kullanıcı
+// sayfada aktif kalsa bile ("ne olursa olsun boşalt") — sepet + müşteri +
+// ilgili tüm oturum anahtarları sessizce sıfırlanır, hiçbir onay sorulmaz.
+// DOMContentLoaded'da, periyodik olarak (20sn) ve sekme geri gelince
+// (visibilitychange/pageshow/focus) çağrılır — bkz. aşağıdaki event
+// bağlamaları.
+function yarimKalanIslemKontrolEt(){
+  try{
+    if(!CartData.suresiDoldumu()) return;
+    sepetOturumAnahtarlariniTemizle();
+    CartData.sifirla(function(){ sayfayiCiz(); });
+  }catch(e){}
+}
+
+// Panelde (müşteri seçiliyse musteri-serit, değilse müşterisiz şerit)
+// o an DOM'da hangi Gönder ikonu varsa onu döndürür — sayfayiCiz() her
+// çağrıldığında innerHTML yeniden üretildiği için id sabit kalsa da
+// elementin kendisi değişir, bu yüzden her kullanımda yeniden sorgulanır.
+function gonderButonunuBul(){
+  return document.getElementById("btnMusteriGonder") || document.getElementById("btnSepetGonderMusterisiz");
 }
 
 function kaydetGercekIslem(niyet){
@@ -659,9 +713,8 @@ function kaydetGercekIslem(niyet){
     var kur = aktifKuruOku();
     var kdv = CartData.kdvOku();
 
-    document.getElementById("btnSepetKaydet").disabled = true;
-    document.getElementById("btnSepetGonder").disabled = true;
-    document.getElementById("btnSepetKaydet").textContent = "Kaydediliyor...";
+    var gonderBtn = gonderButonunuBul();
+    if(gonderBtn) gonderBtn.disabled = true;
 
     var kaynak = ilerletKaynagiOku();
     var devralinanKod = (kaynak && kaynak.kod) ? kaynak.kod : null;
@@ -676,22 +729,17 @@ function kaydetGercekIslem(niyet){
         // send.html'e taşınacak bağlam — sepeti/müşteriyi BURADA boşaltmıyoruz,
         // "Geri — Sepete Dön ve Düzelt" hâlâ çalışabilsin diye (aynı gün+
         // müşteri+ürün seti eşleşmesiyle SendData.kaydet zaten revize eder).
-        if(niyet === "kaydet"){ kaydetSonrasiAnaSayfayaGit(); return; }
         localStorage.setItem("weiconv2_son_kaydedilen_belge", JSON.stringify({
           musteri: musteri, sepet: sepet, tip: secilenTip, kur: kur, kdv: kdv,
           kayit: sonuc, revizeMi: !!revizeMi, niyet: niyet
         }));
-        // TEK TUŞ "📨 Önizleme İletişim" (26.10.2026, Abdullah onayı): eskiden
-        // send.html'e düz gidilip önce genel önizleme gösteriliyor, kanal
-        // seçimi (Mail/WhatsApp) için ayrıca "İletişim" tuşuna basmak
-        // gerekiyordu. Artık o ikinci dokunuş gerekmesin diye send.html'e
-        // "?ac=iletisim" ile gidiliyor — urun-arama.js'teki "?ac=hit/yeniurun"
-        // ile AYNI kalıp (bkz. send-render.js, DOMContentLoaded sonu).
+        // Gönder'e basınca müşteri seçiliyse HER HALÜKARDA kayıt edilir (bu
+        // fonksiyon zaten sadece müşteri seçiliyken çağrılır — bkz.
+        // kaydetTiklandi), sonra iletişim kanalı seçimine geçiliyor.
         window.location.href = "send.html?ac=iletisim";
       } else {
-        document.getElementById("btnSepetKaydet").disabled = false;
-        document.getElementById("btnSepetGonder").disabled = false;
-        document.getElementById("btnSepetKaydet").textContent = "✓ Kaydet";
+        var btn = gonderButonunuBul();
+        if(btn) btn.disabled = false;
         hataGoster("Kaydetme başarısız: " + (sonuc && sonuc.message ? sonuc.message : "bilinmeyen hata"));
       }
     }, aktifKurManuelMi());
@@ -888,10 +936,11 @@ document.addEventListener("DOMContentLoaded", function(){
   oncedenSecilenTipVarsaUygula();
   ilerletKaynagiVarsaSekmeAyarla();
   kurManuelOverlayBaglantilariKur();
-  var btnMenuEl = document.getElementById("btnMenu");
-  if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
-  document.getElementById("btnSepetKaydet").onclick = function(){ kaydetTiklandi("kaydet"); };
-  document.getElementById("btnSepetGonder").onclick = function(){ kaydetTiklandi("gonder"); };
+  // NOT (01.11.2026): eski "btnMenu" id'si bugünkü üst-bar birleştirmesiyle
+  // kaldırıldı (artık "btnAsMenuAc", menu-cekmece.js tarafından yönetiliyor)
+  // — bu yüzden o bağlama burada artık YOK. "Kaydet"/"Gönder" statik
+  // bağlaması da kaldırıldı — Gönder artık panelde dinamik üretiliyor,
+  // bağlaması sayfayiCiz() içinde yapılıyor (bkz. gonderBtnEl).
   document.getElementById("btnMusterisizWhatsapp").onclick = musterisizWhatsappGonder;
   document.getElementById("btnMusterisizMail").onclick = musterisizMailGonder;
   document.getElementById("btnMusterisizVazgec").onclick = function(){ document.getElementById("musterisizGonderOverlay").hidden = true; };
@@ -981,5 +1030,14 @@ document.addEventListener("DOMContentLoaded", function(){
   // Sepet, bu cihazda boşken Firebase yedeğinden geri yüklenirse (bkz.
   // cart-data.js fbYukle) ekranı yeniden çiz (09.10.2026).
   document.addEventListener("istakipSepetGeriYuklendi", sayfayiCiz);
+  yarimKalanIslemKontrolEt();
   sayfayiCiz();
+  // PERİYODİK + SEKME GERİ GELİNCE KONTROL (01.11.2026) — auth.js'teki PIN
+  // zaman aşımı kontrolüyle AYNI desen: sadece sayfa açılışında kontrol
+  // etmek yetmez, kullanıcı sayfada 10 dakikadan uzun kalırsa VEYA sekmeyi
+  // arka plana atıp geri dönerse de yakalanmalı.
+  setInterval(yarimKalanIslemKontrolEt, 20000);
+  document.addEventListener("visibilitychange", function(){ if(!document.hidden) yarimKalanIslemKontrolEt(); });
+  window.addEventListener("pageshow", yarimKalanIslemKontrolEt);
+  window.addEventListener("focus", yarimKalanIslemKontrolEt);
 });

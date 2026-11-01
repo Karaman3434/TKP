@@ -1,5 +1,5 @@
 /*
-  ikon-svg.js — WG.281026.2121.1192
+  ikon-svg.js — TKP.01.11.26-17:06.1322
   ==================================
   PAYLAŞILAN TEK-RENK İKON SİSTEMİ (28.10.2026, Abdullah onayı — mockup
   üzerinden onaylandı): Programda emoji ikonlar (📄🚚👤🧾📅📝📞✉️ vb.) yerine
@@ -35,7 +35,12 @@ var IkonSvg = (function(){
     // Telefon
     telefon: "<path d='M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2 2C10.5 20 4 13.5 4 5a2 2 0 0 1 2-2z'/>",
     // Mail
-    mail: "<rect x='2.5' y='5' width='19' height='14' rx='1.5'/><path d='M3 6.5 12 13l9-6.5'/>"
+    mail: "<rect x='2.5' y='5' width='19' height='14' rx='1.5'/><path d='M3 6.5 12 13l9-6.5'/>",
+    // GÖNDER (paylaş/yükle oku) — Belge Önizleme panelindeki Gönder
+    // ikonuyla (eskiden orada tek başına tanımlıydı) ve 01.11.2026'dan
+    // itibaren Sepet'teki Gönder ikonuyla AYNI — TEK KAYNAK kuralı
+    // gereği artık SADECE burada tanımlı.
+    gonder: "<path d='M12 16V4'/><path d='M7 9l5-5 5 5'/><path d='M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3'/>"
   };
 
   function svg(ad){
