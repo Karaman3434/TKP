@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-18:55.1337 — home.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-23:01.1352 — home.html -->
 <!--
   İŞ TAKİP — ANA SAYFA v5 (sade "flat" tasarım + gerçek hedef ilerlemesi)
   =============================================================================
@@ -25,16 +25,18 @@
     home-data.js                — Firebase bağlantısı + veri çekme/hesaplama
     home-render.js              — veriyi okuyup DOM'a yazma + çekmece menü mantığı
 
-  KULLANICI ADI (03.10.2026, Abdullah'ın isteğiyle): bu cihazda hiç
-  "kullanıcı adı" tanımlanmamışsa (CihazData.benimKullaniciAdim() boş),
-  sayfa açılır açılmaz #kaZorunluOverlay tam ekran gösterilir — isim
-  girilmeden kapatılamaz. Bir kere girilince drawer'daki "Hesabım"
-  kartında görünür ve ✏️ ile istenildiğinde değiştirilebilir (bkz.
-  #kaDuzenleOverlay — aynı bileşen, sadece kapatılabilir hali). Bu isim
-  Firebase'de cihazın kendi kaydına (cihazlar/{id}/kullaniciAdi) yazılır
-  — cihaz adından (Abdullah'ın S22'den verdiği "iPhone 13" gibi etiket)
-  AYRI bir alandır, "Cihazlar ve Kullanıcılar" sayfasında ikisi birlikte
-  görünür (bkz. cihaz-kullanici.html).
+  KULLANICI ADI (03.10.2026, Abdullah'ın isteğiyle) — GÜNCELLENDİ
+  (01.11.2026, "cihaz isim zorunluluğu her sayfada" talebi): zorunlu
+  ilk-kayıt kontrolü artık home.html'e özel DEĞİL — TÜM sayfalarda
+  çalışan cihaz-isim-zorunlu.js hallediyor (bkz. o dosyadaki açıklama).
+  #kaOverlay burada SADECE drawer'daki "Hesabım" kartındaki ✏️ ile açılan
+  İSTEĞE BAĞLI "ismi değiştir" akışı için kalıyor (bkz. home-render.js:
+  kaKullaniciAdiPenceresiniAc(false)). Bu isim Firebase'de cihazın kendi
+  kaydına (cihazlar/{id}/kullaniciAdi) yazılır; cihaz-isim-zorunlu.js ilk
+  zorunlu kayıtta AYNI ismi cihazın "ad" alanına da yazar (Abdullah'ın
+  S22'den verdiği "iPhone 13" gibi bir etiketle aynı alan) — böylece panel
+  artık "Adsız Cihaz" göstermiyor. "Cihazlar ve Kullanıcılar" sayfasında
+  ikisi birlikte görünür (bkz. cihaz-kullanici.html).
 -->
 <html lang="tr">
 <head>
@@ -48,10 +50,10 @@
 <meta name="apple-mobile-web-app-title" content="İş Takip">
 <title>İş Takip — Ana Sayfa</title>
 <script>document.documentElement.style.visibility='hidden';</script>
-<link rel="stylesheet" href="home-style.css?v=WG.151026.1455.828">
+<link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
-<link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
+<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.01.11.26-22:45.1345">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) —
      .as-drawer-oge--kilitli (kilitli satır görünümü), tüm sayfalarla ortak. -->
 <link rel="stylesheet" href="menu-cekmece-style.css?v=WG.271026.1320.1076">
@@ -262,6 +264,7 @@
 <script src="ust-sabit-olcum.js?v=WG.271026.2238.1146"></script>
 <script src="ayarlar-sync.js?v=WG.271026.2238.1132"></script>
 <script src="cihaz-data.js?v=WG.271026.2238.1122"></script>
+<script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="home-data.js?v=WG.271026.2238.1129"></script>
 <script src="customer-data.js?v=WG.011126.0821.1243"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
@@ -270,7 +273,7 @@
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) — çekmece
      aç/kapat + izin filtreleme artık burada, tüm sayfalarla paylaşılan. -->
 <script src="menu-cekmece.js?v=WG.271026.2238.1144"></script>
-<script src="home-render.js?v=WG.271026.2238.1141"></script>
+<script src="home-render.js?v=TKP.01.11.26-22:45.1347"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 </body>

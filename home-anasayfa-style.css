@@ -1,5 +1,5 @@
 /*
-  home-anasayfa-style.css — WG.271026.2238.1153
+  home-anasayfa-style.css — TKP.01.11.26-22:45.1345
   ========================
   SADECE home.html'e özel — Abdullah'ın paylaştığı referans fotoğrafa göre
   yeniden tasarlanan Ana Sayfa (canlı mavi/yeşil, kartlı, çekmece menülü).
@@ -456,64 +456,12 @@ body.as-drawer-kilit { overflow: hidden; }
   padding: 0;
 }
 
-/* KULLANICI ADI PENCERESİ (03.10.2026) — tam ekran, iki modda kullanılır
-   (bkz. home.html'deki yorum + home-render.js: kaKullaniciAdiPenceresiniAc). */
-.ka-overlay[hidden] {
-  display: none;
-}
-.ka-overlay {
-  position: fixed;
-  inset: 0;
-  background: #0c2f66;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  text-align: center;
-  z-index: 5000;
-}
-.ka-kapat-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: none;
-  border: none;
-  color: #a9c3e8;
-  font-size: 20px;
-  padding: 6px;
-}
-.ka-ikon { font-size: 40px; margin-bottom: 10px; }
-.ka-baslik { color: #ffffff; font-size: 19px; font-weight: 900; margin-bottom: 8px; }
-.ka-alt { color: #a9c3e8; font-size: 13px; line-height: 1.5; margin-bottom: 22px; max-width: 320px; }
-.ka-input {
-  width: 100%;
-  max-width: 320px;
-  box-sizing: border-box;
-  background: #153a72;
-  border: 1.5px solid #2a5aa8;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 800;
-  text-align: center;
-  padding: 14px;
-  margin-bottom: 6px;
-}
-.ka-input::placeholder { color: #6f8fc2; font-weight: 600; }
-.ka-hata { color: #ff8a80; font-size: 12px; font-weight: 800; margin: 2px 0 10px; }
-.ka-ornek { color: #6f8fc2; font-size: 11px; margin-bottom: 22px; }
-.ka-kaydet-btn {
-  width: 100%;
-  max-width: 320px;
-  background: #e8c46a;
-  color: #1a2a4a;
-  border: none;
-  border-radius: 10px;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: 900;
-}
+/* TAŞINDI (01.11.2026, Abdullah'ın isteğiyle — "cihaz isim zorunluluğu
+   her sayfada" talebi): "KULLANICI ADI PENCERESİ" (.ka-*) stilleri artık
+   TÜM sayfalarda yüklü olan home-style.css'te — cihaz-isim-zorunlu.js bu
+   pencereyi artık SADECE home.html'de değil, HER sayfada açabiliyor.
+   İçerik hiç değişmedi, sadece konum (bkz. home-style.css sonundaki aynı
+   blok). */
 
 .as-drawer-anasayfa {
   margin: 0 12px 6px;

@@ -189,14 +189,11 @@
   text-align: left;
 }
 
-/* YENİ — "Cihaz sınırı" alanı (popup içinde, ce-grup listesinin altında). */
+/* "Cihaz sınırı" alanı (popup içinde, ce-grup listesinin altında).
+   GÜNCELLENDİ (01.11.2026, "3 cihaz sabit sınırı" özelliği, Abdullah'ın
+   isteğiyle) — artık ayarlanabilir bir sayı kutusu YOK (sınır sabit 3,
+   bkz. cihaz-kullanici-render.js CZ_CIHAZ_SINIRI_SABIT), bu yüzden
+   ".ce-cihaz-sinir-input" kuralı kaldırıldı — kullanılmayan kod. */
 .ce-cihaz-sinir-blok { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e4ea; }
 .ce-cihaz-sinir-etiket { font-size: 12px; font-weight: 800; color: #2d3540; display: block; margin-bottom: 6px; }
-.ce-cihaz-sinir-input {
-  width: 70px;
-  padding: 8px;
-  border: 1.5px solid #d8dde3;
-  border-radius: 8px;
-  font-size: 13px;
-}
 .ce-cihaz-sinir-uyari { font-size: 11.5px; font-weight: 700; color: #a66a0a; margin-top: 6px; }

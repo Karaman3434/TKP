@@ -292,9 +292,13 @@ function kaBaslatVeKontrolEt(){
     var duzenleBtn = document.getElementById("btnAsKullaniciDuzenle");
     if(duzenleBtn) duzenleBtn.onclick = function(){ kaKullaniciAdiPenceresiniAc(false); };
 
-    if(!CihazData.benimKullaniciAdim()){
-      kaKullaniciAdiPenceresiniAc(true);
-    }
+    // KALDIRILDI (01.11.2026, Abdullah'ın isteğiyle — "cihaz isim
+    // zorunluluğu her sayfada" talebi): zorunlu ilk-kayıt tetikleyicisi
+    // ("!CihazData.benimKullaniciAdim() ise aç") buradan kaldırıldı —
+    // artık TÜM sayfalarda çalışan cihaz-isim-zorunlu.js bunu yapıyor
+    // (home.html dahil, bu dosyada da yüklü). Bu overlay (#kaOverlay) ve
+    // yukarıdaki kodun geri kalanı SADECE drawer'daki ✏️ ile açılan
+    // İSTEĞE BAĞLI "ismi değiştir" akışı için kalıyor — o hiç değişmedi.
   }catch(e){ hataGoster("Kullanıcı adı kontrolü başarısız: " + e.message); }
 }
 

@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: WG.271026.2238.1124
+  cihaz-kullanici-render.js — VERSİYON: TKP.01.11.26-22:45.1348
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -43,6 +43,15 @@ function tarihiGuncelle(){
 function htmlEsc(s){
   return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
+
+// EKLENDİ (01.11.2026, Abdullah'ın isteğiyle — "bir linke 3 cihazdan
+// fazlası kesinlikle olamaz" net kuralı). Eskiden her kullanıcı için ayrı
+// ayarlanabilen (boş = sınırsız) bir "Cihaz sınırı" kutusu vardı ve sınır
+// dolunca sadece UYARI gösteriliyordu — Abdullah yine de onaylayabiliyordu.
+// Artık SABİT ve HERKES için aynı: 3. Panelden ayarlanamaz, ve sınır
+// dolunca "✓ Onayla" düğmesinin KENDİSİ devre dışı kalır (aşağıda
+// czBekleyenKartHtml) — sadece bir uyarı değil, gerçek bir engel.
+var CZ_CIHAZ_SINIRI_SABIT = 3;
 
 function zamanGoster(ms){
   if(!ms) return "hiç görülmedi";
@@ -444,14 +453,33 @@ function czEngellenmisKartHtml(c){
    Normal "📱 Cihazlar" listesinin tamamen DIŞINDA, ayrı bir bölümde.
    ======================================================================== */
 function czBekleyenKartHtml(c){
+  // EKLENDİ (01.11.2026, "3 cihaz sabit sınırı" özelliği, Abdullah'ın
+  // isteğiyle) — bu cihazın giriş denediği hesabın ZATEN onaylı kaç
+  // cihazı var; sınır (CZ_CIHAZ_SINIRI_SABIT) dolmuşsa "✓ Onayla" düğmesi
+  // tamamen devre dışı — admin bunu artık GEÇEMEZ, önce mevcut
+  // cihazlardan birini engellemesi/kaldırması gerekir.
+  var mevcutSayi = ceCihazSayisi(c.sonGirisHesabi);
+  var sinirDoluMu = mevcutSayi >= CZ_CIHAZ_SINIRI_SABIT;
+
+  var onaySatiri = sinirDoluMu ? "" : "<div class='cz-onay-satir'><input type='text' class='cz-ad-duzenle-input cz-onay-ad-input' data-id='" + htmlEsc(c.id) + "' placeholder='Bu cihaza bir isim ver (örn. Yasin - Telefon)'></div>";
+
+  var sinirNotu = sinirDoluMu
+    ? "<div class='cz-bekleyen-sinir-notu'>🚫 \"" + htmlEsc(c.sonGirisHesabi || "?") + "\" hesabının cihaz sınırı doldu (" + mevcutSayi + "/" + CZ_CIHAZ_SINIRI_SABIT + ") — onaylamak için önce mevcut cihazlardan birini engelle/kaldır.</div>"
+    : "";
+
+  var onaylaBtn = sinirDoluMu
+    ? "<button class='cz-onayla-btn' disabled title='Cihaz sınırı doldu'>🚫 Sınır Doldu (" + mevcutSayi + "/" + CZ_CIHAZ_SINIRI_SABIT + ")</button>"
+    : "<button class='cz-onayla-btn' data-id='" + htmlEsc(c.id) + "'>✓ Onayla</button>";
+
   return "<div class='cz-kart cz-kart--bekliyor' data-id='" + htmlEsc(c.id) + "'>"
     + "<div class='cz-kart-ust'><span class='cz-kart-ad'>" + htmlEsc(c.ad || "Adsız Cihaz") + "</span>"
     + "<span class='cz-kart-rozet cz-kart-rozet--bekliyor'>Onay bekliyor</span></div>"
     + "<div class='cz-bekleyen-hesap'>🔑 Giriş denemesi: <b>" + htmlEsc(c.sonGirisHesabi || "?") + "</b> hesabıyla</div>"
     + "<div class='cz-kart-son-gorulme'>İlk görülme: " + zamanGoster(c.ilkGorulme) + "</div>"
-    + "<div class='cz-onay-satir'><input type='text' class='cz-ad-duzenle-input cz-onay-ad-input' data-id='" + htmlEsc(c.id) + "' placeholder='Bu cihaza bir isim ver (örn. Yasin - Telefon)'></div>"
+    + sinirNotu
+    + onaySatiri
     + "<div class='cz-kart-alt cz-kart-alt--iki'>"
-    + "<button class='cz-onayla-btn' data-id='" + htmlEsc(c.id) + "'>✓ Onayla</button>"
+    + onaylaBtn
     + "<button class='cz-reddet-btn' data-id='" + htmlEsc(c.id) + "' data-ad='" + htmlEsc(c.ad||"Adsız Cihaz") + "'>🚫 Reddet</button>"
     + "</div></div>";
 }
@@ -464,7 +492,9 @@ function czBekleyenListesiniCiz(bekleyenler){
   bolum.hidden = false;
   kapsayici.innerHTML = bekleyenler.map(czBekleyenKartHtml).join("");
 
-  kapsayici.querySelectorAll(".cz-onayla-btn").forEach(function(btn){
+  // "disabled" (sınır dolu) olan onayla düğmelerinde data-id yok — tarayıcı
+  // zaten disabled düğmelere click göndermez, ama yine de bilerek atlıyoruz.
+  kapsayici.querySelectorAll(".cz-onayla-btn:not([disabled])").forEach(function(btn){
     btn.onclick = function(){
       var id = btn.getAttribute("data-id");
       var girdi = kapsayici.querySelector(".cz-onay-ad-input[data-id='" + id + "']");
@@ -1093,9 +1123,8 @@ function ceKullaniciKartHtml(uid, veri){
 
   var cihazSayisi = ceCihazSayisi(veri.kullaniciAdi);
   if(cihazSayisi > 0){
-    var sinir = veri.cihazSiniri;
     var cihazMetni = cihazSayisi + " cihaz";
-    if(sinir && cihazSayisi >= sinir) cihazMetni += ' <span class="ce-ozet-uyari">(sınır ' + sinir + " ⚠️)</span>";
+    if(cihazSayisi >= CZ_CIHAZ_SINIRI_SABIT) cihazMetni += ' <span class="ce-ozet-uyari">(sınır ' + CZ_CIHAZ_SINIRI_SABIT + " ⚠️)</span>";
     ozetParcalari.push(cihazMetni);
   }
 
@@ -1137,14 +1166,16 @@ function ceIzinPopupAc(uid, veri){
   document.getElementById("ceIzinLinkKutu").value = ceGirisLinkiOlustur(veri.kullaniciAdi);
   document.getElementById("ceIzinGruplar").innerHTML = ceGrupHtml(uid, izinler, aktifMi);
 
-  var sinirInput = document.getElementById("ceIzinSinirInput");
-  sinirInput.value = (veri.cihazSiniri != null) ? veri.cihazSiniri : "";
+  // GÜNCELLENDİ (01.11.2026, "3 cihaz sabit sınırı" özelliği) — ayarlanabilir
+  // kutu kaldırıldı, sınır artık SABİT ve HERKES için aynı (CZ_CIHAZ_SINIRI_SABIT).
+  var sinirEtiketEl = document.getElementById("ceIzinSinirDeger");
+  if(sinirEtiketEl) sinirEtiketEl.textContent = CZ_CIHAZ_SINIRI_SABIT;
 
   var cihazSayisi = ceCihazSayisi(veri.kullaniciAdi);
   var uyariEl = document.getElementById("ceIzinSinirUyari");
-  if(veri.cihazSiniri && cihazSayisi >= veri.cihazSiniri){
+  if(cihazSayisi >= CZ_CIHAZ_SINIRI_SABIT){
     uyariEl.hidden = false;
-    uyariEl.textContent = "⚠️ Sınır doldu — " + cihazSayisi + " onaylı cihaz var, sınır " + veri.cihazSiniri + ". Yeni cihazlar yine de \"Onay Bekleyen\" listesine düşer, istersen onaylayabilirsin.";
+    uyariEl.textContent = "🚫 Sınır doldu — " + cihazSayisi + "/" + CZ_CIHAZ_SINIRI_SABIT + " onaylı cihaz var. Yeni bir cihaz artık onaylanamaz; önce mevcut cihazlardan birini engelle/kaldır.";
   } else {
     uyariEl.hidden = true;
   }
@@ -1163,15 +1194,10 @@ function ceIzinPopupAc(uid, veri){
     document.querySelectorAll('#ceIzinGruplar input[type="checkbox"][data-anahtar]').forEach(function(kutu){
       yeniIzinler[kutu.getAttribute("data-anahtar")] = kutu.checked;
     });
-    var sinirHam = sinirInput.value.trim();
-    var sinirYeni = sinirHam === "" ? null : Math.max(1, parseInt(sinirHam, 10) || 1);
 
     kaydetBtn.disabled = true;
     kaydetBtn.textContent = "⏳ Kaydediliyor...";
-    Promise.all([
-      firebase.database().ref("kisitliKullanicilar/" + uid + "/izinler").set(yeniIzinler),
-      firebase.database().ref("kisitliKullanicilar/" + uid + "/cihazSiniri").set(sinirYeni)
-    ]).then(function(){
+    firebase.database().ref("kisitliKullanicilar/" + uid + "/izinler").set(yeniIzinler).then(function(){
       kaydetBtn.disabled = false;
       kaydetBtn.textContent = "✓ Kaydet";
       overlay.hidden = true;

@@ -686,3 +686,67 @@ body {
     box-shadow: 0 8px 28px rgba(0,0,0,.25);
   }
 }
+
+/* TAŞINDI (01.11.2026, Abdullah'ın isteğiyle — "cihaz isim zorunluluğu
+   her sayfada" talebi): "KULLANICI ADI PENCERESİ" stilleri (.ka-*)
+   eskiden SADECE home-anasayfa-style.css'teydi (SADECE home.html'de
+   yükleniyordu). Artık cihaz-isim-zorunlu.js TÜM sayfalarda bu pencereyi
+   açabildiği için stiller de TÜM sayfalarda yüklü olan bu ortak dosyaya
+   taşındı. İçerik home-anasayfa-style.css'teki ile BİREBİR AYNI — sadece
+   konum değişti, hiçbir kural değiştirilmedi. */
+.ka-overlay[hidden] {
+  display: none;
+}
+.ka-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0c2f66;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  z-index: 5000;
+}
+.ka-kapat-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: #a9c3e8;
+  font-size: 20px;
+  padding: 6px;
+}
+.ka-ikon { font-size: 40px; margin-bottom: 10px; }
+.ka-baslik { color: #ffffff; font-size: 19px; font-weight: 900; margin-bottom: 8px; }
+.ka-alt { color: #a9c3e8; font-size: 13px; line-height: 1.5; margin-bottom: 22px; max-width: 320px; }
+.ka-input {
+  width: 100%;
+  max-width: 320px;
+  box-sizing: border-box;
+  background: #153a72;
+  border: 1.5px solid #2a5aa8;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: center;
+  padding: 14px;
+  margin-bottom: 6px;
+}
+.ka-input::placeholder { color: #6f8fc2; font-weight: 600; }
+.ka-hata { color: #ff8a80; font-size: 12px; font-weight: 800; margin: 2px 0 10px; }
+.ka-ornek { color: #6f8fc2; font-size: 11px; margin-bottom: 22px; }
+.ka-kaydet-btn {
+  width: 100%;
+  max-width: 320px;
+  background: #e8c46a;
+  color: #1a2a4a;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 900;
+}
