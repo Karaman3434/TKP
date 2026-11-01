@@ -243,17 +243,19 @@
   cursor: pointer;
   margin-bottom: 8px;
 }
+/* KIRMIZI GRADYAN + ORTAK BOYUT/TAM OVAL KÖŞE (01.11.2026, Abdullah onayı). */
 .ziy-panel-kapat-btn {
   width: 100%;
-  background: #c0392b;
+  background: linear-gradient(180deg, #e0485c 0%, #c1121f 55%, #9c0d17 100%);
   color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 11px;
+  border-radius: 999px;
+  padding: 13px 4px;
   min-height: 44px;
   font-size: 13px;
   font-weight: 800;
   cursor: pointer;
+  box-shadow: 0 3px 0 #7a0a12, 0 5px 12px rgba(120,10,15,.35), inset 0 1px 0 rgba(255,255,255,.35);
 }
 
 .ziy-hatirlatma-overlay {
@@ -281,18 +283,20 @@
   color: #003a70;
   margin-bottom: 12px;
 }
+/* KIRMIZI GRADYAN + ORTAK BOYUT/TAM OVAL KÖŞE (01.11.2026, Abdullah onayı). */
 .ziy-hatirlatma-kapat-btn {
   width: 100%;
-  background: #c0392b;
+  background: linear-gradient(180deg, #e0485c 0%, #c1121f 55%, #9c0d17 100%);
   color: #ffffff;
   border: none;
-  border-radius: 8px;
-  padding: 12px;
+  border-radius: 999px;
+  padding: 13px 4px;
   min-height: 44px;
   font-size: 13px;
   font-weight: 900;
   cursor: pointer;
   margin-top: 8px;
+  box-shadow: 0 3px 0 #7a0a12, 0 5px 12px rgba(120,10,15,.35), inset 0 1px 0 rgba(255,255,255,.35);
 }
 
 .bos-mesaj {

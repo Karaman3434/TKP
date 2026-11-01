@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.291026.1832.1231 */
+/* cari-kart-style.css — WG.011126.1022.1261 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -341,19 +341,26 @@
   gap: 10px;
   margin-top: 10px;
 }
+/* KIRMIZI GRADYAN + ORTAK BOYUT/TAM OVAL KÖŞE (01.11.2026, Abdullah onayı —
+   "kapat tuşları canlı kırmızı + ortak boyut/oval köşe" turu): Menü
+   tuşuyla (.nav-btn--menu) birebir aynı gradyan/gölge; programdaki tüm
+   büyük/birincil KAPAT tuşlarıyla ortak ölçü (padding/min-height/font) ve
+   köşe (999px tam oval). */
 .cari-kapat-buton {
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 1;
-  background: #fdeaea;
-  color: #c0392b;
+  background: linear-gradient(180deg, #e0485c 0%, #c1121f 55%, #9c0d17 100%);
+  color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 14px;
-  font-size: 14px;
+  border-radius: 999px;
+  padding: 13px 4px;
+  min-height: 44px;
+  font-size: 13px;
   font-weight: 900;
   text-decoration: none;
+  box-shadow: 0 3px 0 #7a0a12, 0 5px 12px rgba(120,10,15,.35), inset 0 1px 0 rgba(255,255,255,.35);
 }
 .cari-islemedevam-buton {
   flex: 2;

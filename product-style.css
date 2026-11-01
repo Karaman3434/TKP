@@ -303,15 +303,19 @@ body {
 .urun-gecmis-ozet-sayi { font-size: 20px; font-weight: 900; color: #003a70; }
 .urun-gecmis-ozet-sayi--yesil { color: #0e6b34; }
 .urun-gecmis-ozet-etiket { font-size: 10px; font-weight: 800; color: #2d3540; }
+/* KIRMIZI GRADYAN + ORTAK BOYUT/TAM OVAL KÖŞE (01.11.2026, Abdullah onayı). */
 .urun-gecmis-kapat-btn {
   width: 100%;
-  background: #fdeaea;
-  color: #c0392b;
+  background: linear-gradient(180deg, #e0485c 0%, #c1121f 55%, #9c0d17 100%);
+  color: #fff;
   border: none;
-  padding: 10px;
-  font-size: 12px;
+  padding: 13px 4px;
+  min-height: 44px;
+  border-radius: 999px;
+  font-size: 13px;
   font-weight: 800;
   cursor: pointer;
+  box-shadow: 0 3px 0 #7a0a12, 0 5px 12px rgba(120,10,15,.35), inset 0 1px 0 rgba(255,255,255,.35);
 }
 .urun-gecmis-satir {
   padding: 11px 14px;

@@ -1,4 +1,4 @@
-/* belge-style.css — WG.281026.2130.1195
+/* belge-style.css — WG.011126.1022.1258
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -145,7 +145,8 @@
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  padding: 5px 16px;
+  /* PADDING %50 AZALTILDI (01.11.2026, Abdullah onayı): dikey 5px -> 2.5px. */
+  padding: 2.5px 16px;
   /* DÜZELTME (14.10.2026, Abdullah'ın isteğiyle): yazı boyu artık tablo
      üstündeki şeritle (.belge-belge-baslik-serit--mavi) BİREBİR aynı
      (13.2px) — WEICON rozetinin kendi font-size'ı (.belge-logo-mini,
@@ -329,7 +330,8 @@
      eziliyordu (10px/16px taban) — Gönder/Belge Önizleme'nin kutularıyla
      (4px/16px) FARKLIYDI. Artık taban burada doğrudan 4px/16px, cart-
      sayfa'daki ezen kural kaldırıldı — 3 ekranda da birebir aynı. */
-  padding: 4px 16px;
+  /* PADDING %50 AZALTILDI (01.11.2026, Abdullah onayı): dikey 4px -> 2px. */
+  padding: 2px 16px;
 }
 /* TEK TASARIM — KESİN KURAL (19.10.2026): etiket/tarih kalınlığı eskiden
    üstteki .belge-belge-baslik-serit'in taban font-weight'ından (700) miras
@@ -419,6 +421,12 @@
    Belge Önizleme'de yaşanan aynı özgüllük hatası — bkz. aşağıdaki not). */
 .belge-urun-tablo tbody tr:not(.hareket-satir--sari):not(.hareket-satir--yesil) td {
   background: #ffffff !important;
+}
+/* SON SATIR ALT PADDİNG %50 AZALTILDI (01.11.2026, Abdullah onayı): sadece
+   tablodaki EN ALT satırın altındaki boşluk 8px -> 4px — diğer satırlar/üst
+   padding dokunulmadı. */
+.belge-urun-tablo tbody tr:last-child td {
+  padding-bottom: 4px;
 }
 /* TEK İSTİSNA #1 (14.10.2026, Abdullah onayı): EURO/TL birim etiketi 3-boy
    kuralına dahil değil — dar tablo sütununa sığması için küçük kalıyor
@@ -752,7 +760,8 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 12px 16px;
+  /* PADDING %50 AZALTILDI (01.11.2026, Abdullah onayı): dikey 12px -> 6px. */
+  padding: 6px 16px;
   gap: 14px;
   color: #ffffff;
 }
@@ -785,7 +794,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 16px;
+  /* PADDING %50 AZALTILDI (01.11.2026, Abdullah onayı — "Prim paneli"
+     talimatı bu şeride de uygulandı): dikey 6px -> 3px. */
+  padding: 3px 16px;
   border-radius: 14px;
   /* DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): 8px->10px, diğer
      kutular arası standart 10px boşlukla simetrik hale getirildi. */
@@ -802,7 +813,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 9px 14px;
+  /* PADDING %50 AZALTILDI (01.11.2026, Abdullah onayı): dikey 9px -> 4.5px. */
+  padding: 4.5px 14px;
   border-radius: 12px;
   margin-top: 1mm;
   /* 40PX KURAL (18.10.2026, Abdullah onayı): "etiket kutuları" ailesiyle eşit yükseklik. */
@@ -845,24 +857,32 @@
   gap: 8px;
   margin-bottom: 6px;
 }
+/* KIRMIZI GRADYAN + TAM OVAL KÖŞE (01.11.2026, Abdullah onayı — "kapat
+   tuşları canlı kırmızı + ortak boyut/oval köşe" turu): zemin artık
+   Menü tuşuyla (.nav-btn--menu, bkz. menu-cekmece-style.css) BİREBİR aynı
+   canlı kırmızı gradyan + gölge. border-radius tüm programdaki "büyük/
+   birincil" KAPAT tuşlarıyla ortak: 999px (tam oval/pill). */
 .belge-kapat-buton {
   flex: 1;
-  background: #c0392b;
+  background: linear-gradient(180deg, #e0485c 0%, #c1121f 55%, #9c0d17 100%);
   color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 999px;
   padding: 13px 4px;
   min-height: 44px;
   font-size: 13px;
   font-weight: 900;
   cursor: pointer;
+  box-shadow: 0 3px 0 #7a0a12, 0 5px 12px rgba(120,10,15,.35), inset 0 1px 0 rgba(255,255,255,.35);
 }
+/* ORTAK BOYUT + TAM OVAL KÖŞE (01.11.2026, Abdullah onayı): "Ayrıntı"
+   tuşu artık "Kapat" ile birebir aynı ölçü/köşe — sadece rengi farklı. */
 .belge-islemler-buton {
   flex: 1;
   background: #003a70;
   color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 999px;
   padding: 13px 4px;
   min-height: 44px;
   font-size: 13px;
@@ -978,7 +998,8 @@
      (min-height:40px) bundan ETKİLENMEZ — sadece etiket/tarih arası
      YATAY asgari boşluk büyüdü. */
   gap: 3mm;
-  padding: 4px 16px;
+  /* PADDING %50 AZALTILDI (01.11.2026, Abdullah onayı): dikey 4px -> 2px. */
+  padding: 2px 16px;
   font-size: 13.2px;
   font-weight: 700;
   letter-spacing: .5px;

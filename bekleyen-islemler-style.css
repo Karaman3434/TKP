@@ -1,4 +1,4 @@
-/* bekleyen-islemler-style.css — WG.211026.2235.926
+/* bekleyen-islemler-style.css — WG.011126.1022.1259
    ====================================
    15.10.2026 (Abdullah onayı — mockup üzerinden onaylandı; "istisnasız
    tüm sayfalar" talebiyle genişletildi): "Beklet / Bekleyen İşlemler"
@@ -147,12 +147,14 @@
    yukarıdaki ".bi-nav-btn" içindeki sheet'ten yapılır, bu düğmeye gerek
    yoktur. Renk, programdaki "beklemede" durum rengiyle (DURUM_ETIKET.
    beklemede, bkz. belge-render.js) aynı — yeni bir renk icat edilmedi. */
+/* ORTAK BOYUT + TAM OVAL KÖŞE (01.11.2026, Abdullah onayı): "Beklet" tuşu
+   artık "Kapat"/"Ayrıntı" ile birebir aynı köşe yuvarlaklığı. */
 .bi-beklet-buton {
   flex: 1;
   background: #e9d9c3;
   color: #5b3c1e;
   border: 1.5px solid #a9743b;
-  border-radius: 10px;
+  border-radius: 999px;
   padding: 13px 4px;
   min-height: 44px;
   font-size: 13px;

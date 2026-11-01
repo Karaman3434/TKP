@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.011126.0905.1253
+  belge-onizleme-style-v2.css — WG.011126.1022.1260
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -377,16 +377,32 @@
    kaldırıldı — üçü de artık VADE/FATURA/KARGO ailesiyle aynı gri zemin
    (#E7E9EE) + lacivert çerçeve/yazı, aynı yazı boyu (12px, bkz. aşağıdaki
    "ORTAK ETİKET BOYU" bloğu). Metin kendisi belge-onizleme.html'de büyük
-   harfe çevrildi (KAPAT/BEKLET/AYRINTI). */
+   harfe çevrildi (KAPAT/BEKLET/AYRINTI).
+   KISMİ GERİ ALMA (01.11.2026, Abdullah onayı — "kapat tuşları canlı
+   kırmızı" turu, mockup onaylı): SADECE "Kapat" tekrar renkli oldu — artık
+   Menü tuşuyla birebir aynı canlı kırmızı gradyan. "Ayrıntı"/"Beklet"
+   18.10.2026'daki gri/lacivert tasarımını AYNEN koruyor (o karar hâlâ
+   geçerli, sadece Kapat için kısmen geri alındı). Üçü de ortak yazı boyu/
+   ağırlığı/köşe yuvarlaklığını (12px / 600 / 999px tam oval) PAYLAŞMAYA
+   devam ediyor — "ortak ve aynı boyda" kuralı bozulmadı. */
 .belge-onizleme-sayfa .belge-kapat-buton,
+.belge-onizleme-sayfa .belge-islemler-buton,
+.belge-onizleme-sayfa .bi-beklet-buton {
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
 .belge-onizleme-sayfa .belge-islemler-buton,
 .belge-onizleme-sayfa .bi-beklet-buton {
   background: #E7E9EE;
   color: #073B70;
   border: 1.5px solid #073B70;
-  border-radius: 9px;
-  font-size: 12px;
-  font-weight: 600;
+}
+.belge-onizleme-sayfa .belge-kapat-buton {
+  background: linear-gradient(180deg, #e0485c 0%, #c1121f 55%, #9c0d17 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 3px 0 #7a0a12, 0 5px 12px rgba(120,10,15,.35), inset 0 1px 0 rgba(255,255,255,.35);
 }
 
 /* ---- Bakiye ürün bloğu (mevcut işlev korunuyor, sadece renk) ---- */

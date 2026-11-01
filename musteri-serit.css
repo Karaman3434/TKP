@@ -1,4 +1,4 @@
-/* musteri-serit.css — WG.191026.0112.842
+/* musteri-serit.css — WG.011126.1022.1257
    ============================================================
    TEK KURAL (22.09.2026): Müşteri adının (ticari unvan) göründüğü HER
    yerde — Sepet, Ürün Bul, Müşteri Hub, Cari Bilgi, İşlemler, Gönder
@@ -22,7 +22,9 @@
   background: #c3dcf4;
   border: 1.5px solid #073B70;
   border-radius: 10px;
-  padding: 6px 12px;
+  /* PADDING %50 AZALTILDI (01.11.2026, Abdullah onayı — "etiket panelleri
+     sıkılaştırma" turu): dikey padding 6px -> 3px. Yatay değişmedi. */
+  padding: 3px 12px;
   display: flex;
   align-items: center;
   gap: 8px;

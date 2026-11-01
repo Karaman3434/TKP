@@ -1,4 +1,4 @@
-/* calc-style.css — WG.141026.2143.814
+/* calc-style.css — WG.011126.1022.1262
    tek tip kutu sistemi: tüm alanlar aynı boy/font
    (turuncu iskonto kutuları hariç — onlar kasıtlı olarak biraz daha
    büyük, sayı boyu %20 daha büyük).
@@ -106,11 +106,13 @@
 .hc-alt-buton-satir {
   display: flex; gap: 7px; margin-top: 4px;
 }
+/* KIRMIZI GRADYAN + ORTAK BOYUT/TAM OVAL KÖŞE (01.11.2026, Abdullah onayı). */
 .hc-kapat-buton {
   flex: 1; display: flex; align-items: center; justify-content: center;
-  background: #c0392b; color: #fff; border: none;
-  padding: 10.8px; min-height: 40px; font-size: 12px; font-weight: 900; border-radius: 11px;
+  background: linear-gradient(180deg, #e0485c 0%, #c1121f 55%, #9c0d17 100%); color: #fff; border: none;
+  padding: 13px 4px; min-height: 44px; font-size: 13px; font-weight: 900; border-radius: 999px;
   text-decoration: none; cursor: pointer;
+  box-shadow: 0 3px 0 #7a0a12, 0 5px 12px rgba(120,10,15,.35), inset 0 1px 0 rgba(255,255,255,.35);
 }
 .hc-listeye-ekle-buton {
   flex: 2; background: #0e6b34; color: #fff; border: none;

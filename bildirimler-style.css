@@ -123,9 +123,12 @@
 }
 .surec-detay-etiket { color: #6b7280; }
 .surec-detay-deger { font-weight: 700; color: #1c2333; }
+/* KIRMIZI GRADYAN + ORTAK BOYUT/TAM OVAL KÖŞE (01.11.2026, Abdullah onayı). */
 .surec-detay-kapat {
-  width: 100%; margin-top: 10px; background: #f4f6f9; color: #556170;
-  border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer;
+  width: 100%; margin-top: 10px;
+  background: linear-gradient(180deg, #e0485c 0%, #c1121f 55%, #9c0d17 100%); color: #fff;
+  border: none; padding: 13px 4px; min-height: 44px; border-radius: 999px; font-weight: 700; font-size: 13px; cursor: pointer;
+  box-shadow: 0 3px 0 #7a0a12, 0 5px 12px rgba(120,10,15,.35), inset 0 1px 0 rgba(255,255,255,.35);
 }
 
 .ziyaret-hatirlat-karti {
