@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — WG.281026.2130.1196
+  hareket-tablo.js — WG.011126.0821.1248
   =================
   Programdaki TÜM ürün listesi tabloları (Sepet'in Hesaplanacak/Hesaplandı
   grupları, Gönder ekranının hareket tablosu, Formu Görüntüle önizlemesi)
@@ -296,7 +296,13 @@ var HareketTablo = (function(){
   function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi, koduGizle, teslimatBossaGizle){
     // Cari'deki tek "ŞEHİR" alanı SADECE fatura adresine eklenir — teslimat
     // çoğu zaman bambaşka bir ilçe/ildedir, ona hiç eklenmez (29.09.2026).
-    var sehirEk = musteri.sehir ? ", " + htmlEsc(musteri.sehir) : "";
+    // İL EKLENDİ (01.11.2026, Abdullah onayı — mockup üzerinden): ŞEHİR
+    // (ilçe) alanının yanına, ayrı musteri.il alanı doluysa "/" ile
+    // ayrılarak ekleniyor — "...No:12, Kahramankazan / Ankara". İl boşsa
+    // (eski kayıtlarda henüz girilmemişse) eskisi gibi sadece şehir basılır.
+    var sehirEk = "";
+    if(musteri.sehir) sehirEk += ", " + htmlEsc(musteri.sehir);
+    if(musteri.il) sehirEk += (musteri.sehir ? " / " : ", ") + htmlEsc(musteri.il);
     // TEK MÜŞTERİ İSMİ TASARIMI (15.10.2026, Abdullah'ın bildirdiği hata):
     // burada eskiden kendi başına çıplak "• İsim" satırı (.ck-isim-satir)
     // üretiliyordu — Cari Bilgi/Sepet'te kullanılan kutulu (kod+isim+ilçe/il)

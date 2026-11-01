@@ -1,4 +1,4 @@
-/* customer-style.css — WG.151026.1430.829 — aynı kural: gradyan/gölge yığılması yok. */
+/* customer-style.css — WG.011126.0821.1246 — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
 
@@ -217,7 +217,7 @@
   flex-direction: column;
   gap: 8px;
 }
-.yeni-musteri-form input, .yeni-musteri-form textarea {
+.yeni-musteri-form input, .yeni-musteri-form textarea, .yeni-musteri-form select {
   width: 100%;
   border: 1px solid #cbd5e1;
   border-radius: 6px;
@@ -226,6 +226,9 @@
   font-family: inherit;
   box-sizing: border-box;
 }
+/* İL SEÇİM KUTUSU (01.11.2026, Abdullah onayı): diğer input'larla aynı
+   dolgu/çerçeve, SADECE yazı rengi — boş seçenek gri görünsün diye. */
+.yeni-musteri-form select { color: #111; background: #fff; }
 .form-satir-3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

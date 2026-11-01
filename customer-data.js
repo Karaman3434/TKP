@@ -1,5 +1,5 @@
 /*
-  customer-data.js — WG.271026.2238.1134
+  customer-data.js — WG.011126.0821.1243
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -266,6 +266,28 @@ var CustomerData = (function(){
     "karabük":"78","kilis":"79","osmaniye":"80","düzce":"81"
   };
 
+  // İL LİSTESİ — Müşteri formlarındaki "İL" seçim kutusu için (01.11.2026,
+  // Abdullah onayı — mockup üzerinden). IL_KODLARI'ndan FARKLI: o tablo
+  // plaka kodu eşleştirmesi için yazım varyasyonlarını da içeriyor
+  // ("afyon"/"afyonkarahisar", "i̇zmir"/"izmir" gibi) — seçim kutusunda
+  // bunlar YİNELENEN seçenek olarak görünür, bu yüzden burada TC'nin
+  // resmi 81 ilinin TEK, düzgün yazılmış (baş harfi büyük) hali AYRI bir
+  // sabit liste olarak tutuluyor. Plaka kodu eşleştirmesi (ilKoduBul)
+  // DEĞİŞMEDİ, bu liste SADECE görüntüleme/seçim için.
+  var IL_LISTESI = [
+    "Adana","Adıyaman","Afyonkarahisar","Ağrı","Amasya","Ankara","Antalya","Artvin",
+    "Aydın","Balıkesir","Bilecik","Bingöl","Bitlis","Bolu","Burdur","Bursa",
+    "Çanakkale","Çankırı","Çorum","Denizli","Diyarbakır","Edirne","Elazığ","Erzincan",
+    "Erzurum","Eskişehir","Gaziantep","Giresun","Gümüşhane","Hakkari","Hatay","Isparta",
+    "Mersin","İstanbul","İzmir","Kars","Kastamonu","Kayseri","Kırklareli","Kırşehir",
+    "Kocaeli","Konya","Kütahya","Malatya","Manisa","Kahramanmaraş","Mardin","Muğla",
+    "Muş","Nevşehir","Niğde","Ordu","Rize","Sakarya","Samsun","Siirt",
+    "Sinop","Sivas","Tekirdağ","Tokat","Trabzon","Tunceli","Şanlıurfa","Uşak",
+    "Van","Yozgat","Zonguldak","Aksaray","Bayburt","Karaman","Kırıkkale","Batman",
+    "Şırnak","Bartın","Ardahan","Iğdır","Yalova","Karabük","Kilis","Osmaniye","Düzce"
+  ];
+  function ilListesiGetir(){ return IL_LISTESI.slice(); }
+
   var IL_KODLARI_ANAHTARI = "weicon_il_kodlari";
   function ilKodlariYukle(){
     try{
@@ -342,6 +364,11 @@ var CustomerData = (function(){
     return kelime.charAt(0).toLocaleUpperCase("tr-TR") + kelime.slice(1).toLocaleLowerCase("tr-TR");
   }
 
+  // ARTIK ÇAĞRILMIYOR (30.10.2026, Abdullah onayı — "ismime dokunulmasın"
+  // turu): ticari isim artık hiçbir yerde bu kuralla EZİLMİYOR (bkz.
+  // yeniMusteriKaydet/musteriGuncelle/yaziminiDuzelt'teki aynı tarihli
+  // notlar). Fonksiyon silinmedi (zararsız, başka hiçbir yerden
+  // çağrılmıyor) — sadece artık kullanılmıyor.
   // Sadece ilk kelimenin ilk harfi büyük, devamı küçük (ticari isim kuralı).
   function unvanDurumuYap(metin){
     var t = (metin||"").trim();
@@ -413,7 +440,10 @@ var CustomerData = (function(){
           return tazeListe.map(function(m){
             var kopya = {};
             for(var k in m){ if(m.hasOwnProperty(k)) kopya[k] = m[k]; }
-            if(kopya.ad){ var yeniAd = unvanDurumuYap(kopya.ad); if(yeniAd !== kopya.ad){ kopya.ad = yeniAd; sayac++; } }
+            // DÜZELTME (30.10.2026, Abdullah onayı): "Ayarlar > Bakım" tek
+            // seferlik göç aracı artık ticari İSME dokunmuyor (bkz.
+            // yeniMusteriKaydet/musteriGuncelle'deki aynı tarihli not) —
+            // SADECE adres/yetkili düzeltmesi aynı kaldı.
             if(kopya.acikAdres){ var yeniAcik = adresDurumuYap(kopya.acikAdres); if(yeniAcik !== kopya.acikAdres){ kopya.acikAdres = yeniAcik; sayac++; } }
             ["faturaAdresleri","teslimatAdresleri"].forEach(function(alan){
               if(Array.isArray(kopya[alan])){
@@ -588,8 +618,18 @@ var CustomerData = (function(){
     guvenliYaz(function(tazeListe){
       yeniKayit = {
         id: musteriIdUret(tazeListe, bilgi.sehir),
-        ad: unvanDurumuYap(bilgi.ad),
+        // DÜZELTME (30.10.2026, Abdullah onayı — "ismime dokunulmasın" turu):
+        // ticari isim artık unvanDurumuYap() ile EZİLMİYOR — Abdullah bazı
+        // kelimelerin baş harfini kasıtlı büyük yazıyor (ör. "Nuh'un Ankara
+        // Makarna"), bu kural ilk kelime dışındaki HER kelimeyi küçük harfe
+        // çeviriyordu ("Ankara" → "ankara"). Artık tam olarak yazıldığı gibi
+        // (sadece baştaki/sondaki boşluk kırpılarak) kaydediliyor — adres
+        // alanlarına 29.09.2026'da uygulanan AYNI kural, isme de genişletildi.
+        ad: (bilgi.ad||"").trim(),
         sehir: (bilgi.sehir||"").trim(),
+        // İL (01.11.2026, Abdullah onayı): ayrı, seçim kutusundan gelen il
+        // bilgisi — ŞEHİR (ilçe) alanından BAĞIMSIZ, otomatik türetilmiyor.
+        il: (bilgi.il||"").trim(),
         acikAdres: (bilgi.acikAdres||"").trim(),
         vade: (bilgi.vade||"").trim(),
         fatura: (bilgi.fatura||"").trim(),
@@ -636,11 +676,17 @@ var CustomerData = (function(){
       // kayıtlarının da eşzamanlı taşınması gerekir (bkz.
       // ReportsData.kayitlariBirlestir); cari-kart-render.js bu ikisini
       // birlikte, doğru sırayla çağırır.
-      if(guncelBilgi.ad !== undefined) tazeListe[idx].ad = unvanDurumuYap(guncelBilgi.ad);
+      // DÜZELTME (30.10.2026, Abdullah onayı): bkz. yeniMusteriKaydet'teki
+      // aynı tarihli not — unvanDurumuYap() artık burada da UYGULANMIYOR,
+      // isim (örn. cari isim düzenle formundan) tam yazıldığı gibi kaydedilir.
+      if(guncelBilgi.ad !== undefined) tazeListe[idx].ad = (guncelBilgi.ad||"").trim();
       if(guncelBilgi.vade !== undefined) tazeListe[idx].vade = guncelBilgi.vade;
       if(guncelBilgi.fatura !== undefined) tazeListe[idx].fatura = guncelBilgi.fatura;
       if(guncelBilgi.kargo !== undefined) tazeListe[idx].kargo = guncelBilgi.kargo;
       if(guncelBilgi.sehir !== undefined) tazeListe[idx].sehir = guncelBilgi.sehir;
+      // İL (01.11.2026, Abdullah onayı): bkz. yeniMusteriKaydet'teki aynı
+      // tarihli not.
+      if(guncelBilgi.il !== undefined) tazeListe[idx].il = (guncelBilgi.il||"").trim();
       // ŞİRKET TELEFONU/E-POSTASI (19.10.2026, Abdullah onayı — "7 fotoğraf"
       // turu): artık "Fatura Adresi Düzenle" formundan da güncellenebiliyor
       // (bkz. cari-kart-render.js formKaydet, tip==="fatura").
@@ -869,6 +915,7 @@ var CustomerData = (function(){
     seciliyiOku: seciliyiOku,
     uzunluk: function(){ return liste.length; },
     ilKodlariListele: ilKodlariListele,
+    ilListesiGetir: ilListesiGetir,
     ilKoduEkleGuncelle: ilKoduEkleGuncelle,
     ilKoduSil: ilKoduSil,
     musteriIdIleBul: musteriIdIleBul,

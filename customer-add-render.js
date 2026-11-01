@@ -1,5 +1,5 @@
 /*
-  customer-add-render.js — WG.201026.0610.857
+  customer-add-render.js — WG.011126.0821.1245
   =======================
   Sadece yeni müşteri ekleme formunun mantığı. customer-render.js'ten
   ayrı — o dosya artık sadece LİSTE ile ilgileniyor.
@@ -42,6 +42,18 @@ document.addEventListener("DOMContentLoaded", function(){
   tarihiGuncelle();
   var btnMenuEl = document.getElementById("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
+
+  // İL SEÇİM KUTUSU (01.11.2026, Abdullah onayı — mockup üzerinden):
+  // CustomerData.ilListesiGetir()'den (customer-data.js) 81 il, alfabetik
+  // sırayla dolduruluyor — elle yazım yok, yazım hatası riski kalmıyor.
+  var ilSecEl = document.getElementById("yeniMusteriIl");
+  if(ilSecEl && typeof CustomerData !== "undefined"){
+    var ilSecenekleriHtml = "<option value=''>İl seçiniz</option>";
+    CustomerData.ilListesiGetir().forEach(function(il){
+      ilSecenekleriHtml += "<option value=\"" + il + "\">" + il + "</option>";
+    });
+    ilSecEl.innerHTML = ilSecenekleriHtml;
+  }
 
   // YENİ (15.10.2026, Abdullah'ın isteğiyle): "📷 Fotoğraf/Ekran
   // Görüntüsünden Doldur" — kartvizit/tabela fotoğrafı veya ekran
@@ -92,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var bilgi = {
       ad: document.getElementById("yeniMusteriAdi").value,
       sehir: document.getElementById("yeniMusteriSehir").value,
+      il: document.getElementById("yeniMusteriIl") ? document.getElementById("yeniMusteriIl").value : "",
       acikAdres: document.getElementById("yeniMusteriAcikAdres").value,
       vade: document.getElementById("yeniMusteriVade").value,
       fatura: document.getElementById("yeniMusteriFatura").value,

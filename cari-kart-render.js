@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.291026.1832.1232
+  cari-kart-render.js — WG.011126.0821.1247
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -444,13 +444,28 @@ function vadePlaceholder(v){
   var metin = (eski && !sayisalMi) ? ("örn. 45 (önceki: " + eski + ")") : "örn. 45";
   return escapeText(metin).replace(/'/g, "&#39;");
 }
+// İL SEÇİM KUTUSU (01.11.2026, Abdullah onayı — mockup üzerinden):
+// CustomerData.ilListesiGetir()'den (customer-data.js) 81 il seçeneği —
+// elle yazım yok, yazım hatası riski kalmıyor. seciliIl mevcut kayıttaki
+// değeri işaretler (boşsa "İl seçiniz" seçili kalır).
+function ilSecenekleriHtml(seciliIl){
+  var html = "<option value=''" + (!seciliIl ? " selected" : "") + ">İl seçiniz</option>";
+  var liste = (typeof CustomerData !== "undefined") ? CustomerData.ilListesiGetir() : [];
+  liste.forEach(function(il){
+    html += "<option value=\"" + il + "\"" + (il === seciliIl ? " selected" : "") + ">" + il + "</option>";
+  });
+  return html;
+}
 function formAlanlariHtml(tip){
   if(tip === "cari-tam"){
     var m = musteriVerisi;
     var ilkFatura = (kayitlariGetir(m,"fatura")[0]) || {};
     return "<div class='form-etiket'>MÜŞTERİ (TİCARİ) İSMİ</div><input class='form-input' id='fAd' placeholder='Müşteri ismi' value=\"" + escapeText(m.ad||"") + "\">"
       + "<p class='ck-not-aciklama' style='margin:-6px 0 10px'>Bu ismi değiştirirsen, geçmiş sipariş/teklif/görev kayıtları da otomatik olarak yeni isme taşınır.</p>"
-      + "<div class='form-etiket'>ŞEHİR</div><input class='form-input' id='fSehir' placeholder='Şehir' value=\"" + escapeText(m.sehir||"") + "\">"
+      + "<div class='form-satir-2'>"
+      + "<div><div class='form-etiket'>ŞEHİR (İLÇE)</div><input class='form-input' id='fSehir' placeholder='Şehir' value=\"" + escapeText(m.sehir||"") + "\"></div>"
+      + "<div><div class='form-etiket'>İL</div><select class='form-input' id='fIl'>" + ilSecenekleriHtml(m.il) + "</select></div>"
+      + "</div>"
       + "<div class='form-satir-2'>"
       + "<div><div class='form-etiket'>VADE (gün)</div><input class='form-input' type='number' min='0' step='1' inputmode='numeric' id='fVade' placeholder='" + vadePlaceholder(m.vade) + "' value=\"" + escapeText(vadeSayisalDeger(m.vade)) + "\"></div>"
       + "<div><div class='form-etiket'>FATURA</div><input class='form-input' id='fFatura' placeholder='örn. EURO fatura' value=\"" + escapeText(m.fatura||"") + "\"></div>"
@@ -460,7 +475,10 @@ function formAlanlariHtml(tip){
   }
   if(tip === "temel"){
     var m2 = musteriVerisi;
-    return "<div class='form-etiket'>ŞEHİR</div><input class='form-input' id='fSehir' placeholder='Şehir' value=\"" + escapeText(m2.sehir||"") + "\">"
+    return "<div class='form-satir-2'>"
+      + "<div><div class='form-etiket'>ŞEHİR (İLÇE)</div><input class='form-input' id='fSehir' placeholder='Şehir' value=\"" + escapeText(m2.sehir||"") + "\"></div>"
+      + "<div><div class='form-etiket'>İL</div><select class='form-input' id='fIl'>" + ilSecenekleriHtml(m2.il) + "</select></div>"
+      + "</div>"
       + "<div class='form-etiket'>VADE (gün)</div><input class='form-input' type='number' min='0' step='1' inputmode='numeric' id='fVade' placeholder='" + vadePlaceholder(m2.vade) + "' value=\"" + escapeText(vadeSayisalDeger(m2.vade)) + "\">"
       + "<div class='form-etiket'>FATURA</div><input class='form-input' id='fFatura' placeholder='örn. EURO fatura' value=\"" + escapeText(m2.fatura||"") + "\">"
       + "<div class='form-etiket'>KARGO</div><input class='form-input' id='fKargo' placeholder='örn. Ücretsiz' value=\"" + escapeText(m2.kargo||"") + "\">";
@@ -591,6 +609,7 @@ function formKaydet(){
     var guncelBilgi2 = {
       ad: yeniAd,
       sehir: document.getElementById("fSehir").value.trim(),
+      il: document.getElementById("fIl").value,
       vade: document.getElementById("fVade").value.trim(),
       fatura: document.getElementById("fFatura").value.trim(),
       kargo: document.getElementById("fKargo").value.trim()
@@ -631,6 +650,7 @@ function formKaydet(){
   if(tip === "temel"){
     var guncelBilgi = {
       sehir: document.getElementById("fSehir").value.trim(),
+      il: document.getElementById("fIl").value,
       vade: document.getElementById("fVade").value.trim(),
       fatura: document.getElementById("fFatura").value.trim(),
       kargo: document.getElementById("fKargo").value.trim()
