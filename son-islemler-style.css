@@ -1,4 +1,4 @@
-/* son-islemler-style.css — WG.011126.1153.1267 */
+/* son-islemler-style.css — WG.011126.1502.1268 */
 
 /* Bu sayfaya özgü "Siyah" tema (Ana Sayfa'daki Son İşlemler kutucuğunun
    rengiyle devam ediyor) — sadece #islemAra'yı hedefler, diğer tl- sayfalarını
@@ -39,7 +39,9 @@
    ".tl-grup-baslik" ve kendi ".sr-grup-baslik" kopyalarına DOKUNULMADI. */
 #islemlerListesi .sr-grup-baslik {
   background: #0d3d8c; color: #ffffff; display: flex; justify-content: space-between;
-  align-items: center; padding: 7px 3mm; border-radius: 9px; font-size: 13.5px;
+  /* YAZI BOYU %15 KÜÇÜLTÜLDÜ (01.11.2026, Abdullah onayı): 13.5px -> 11.475px
+     — hem tarih hem gün toplamı aynı font-size'ı paylaşıyor. */
+  align-items: center; padding: 7px 3mm; border-radius: 9px; font-size: 11.475px;
   font-weight: 800; line-height: 1.2; margin: 8px 0 4px; letter-spacing: .1px;
 }
 #islemlerListesi .sr-grup-baslik:first-child { margin-top: 0; }
@@ -55,9 +57,12 @@
   align-items: center;
   gap: 6px;
   min-height: 40px;
-  /* PADDING DARALTILDI (01.11.2026, Abdullah onayı — %50 + ek %19): dikey
-     7px -> 2.835px (orijinalin ~%40.5'i). Yatay/sol padding değişmedi. */
-  padding: 2.835px 2mm 2.835px calc(2mm + 6px);
+  /* PADDING DARALTILDI (01.11.2026, Abdullah onayı — %50 + ek %19 + ek %70):
+     dikey 7px -> 2.835px -> 0.8505px (orijinalin ~%12.15'i). Yatay/sol
+     padding değişmedi. NOT: min-height:40px hâlâ geçerli — satır yüksekliği
+     artık fiilen bununla sabitleniyor, padding'in görsel etkisi bu noktadan
+     sonra sınırlı (Abdullah'a bildirildi, min-height'a dokunulmaması onaylandı). */
+  padding: 0.8505px 2mm 0.8505px calc(2mm + 6px);
   border-bottom: 1px solid #eef0f3;
   border-left: 3px solid #c3cad4;
   background: #fff;
