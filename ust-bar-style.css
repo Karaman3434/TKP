@@ -1,5 +1,18 @@
-/* İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:32.1318 — ust-bar-style.css
+/* İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-17:54.1333 — ust-bar-style.css
    ===========================================================================
+   GÜNCELLEME (01.11.2026, 17:54, Abdullah onayı — mockup "Seçenek B" onaylandı):
+   1) 4 tuş da yatayda %10 büyüdü (44px -> 48.4px, yükseklik aynı kaldı).
+   2) Menü tuşu diğer 3'ünden (48.4px) %20 daha geniş: 58.08px.
+   3) RENK KURALI YENİLENDİ: Geri=mavi, Bekle=yeşil, Kapat=kırmızı (hepsi
+      AKTİFKEN) — hepsi PASİFKEN (disabled) tek tip GRİ (eski "grayscale
+      filtre + opacity ile soluklaştırma" yerine net gri zemin). Menü, hiçbir
+      sayfada disabled olmadığı için bu aktif/pasif kuralına dahil değil —
+      Claude'un önerisiyle (Kapat da kırmızı olunca sıranın iki ucu aynı
+      renk oluyordu) kendi sabit lacivert tonunda bırakıldı.
+   4) .ub-sayfa-etiket (sayfa adı) artık çerçeveli + turuncu zeminli bir
+      "rozet" (pill), tam tuş yüksekliğinde (44px) — bugün onaylanan Gönder
+      ikonu turuncusuyla (#e0730f) aynı renk ailesi.
+
    GÜNCELLEME (01.11.2026, 16:32): .ub-grup içi 4 ikon (Menü/Geri/Bekle/Kapat)
    arası boşluk 4px→8px (iki katına çıkarıldı) — dokunma alanları birbirine
    çok yakındı, zor tuşlanıyordu.
@@ -44,7 +57,7 @@
   flex-shrink: 0;
 }
 .ub-btn {
-  width: 44px;
+  width: 48.4px;
   height: 44px;
   border: none;
   border-radius: 9px;
@@ -60,14 +73,29 @@
   box-shadow: 0 2px 0 rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.3);
   -webkit-tap-highlight-color: transparent;
 }
-.ub-btn--menu  { background: linear-gradient(180deg,#1b3a66 0%, #0d3d8c 60%, #072b66 100%); }
+.ub-btn--menu  { width: 58.08px; background: linear-gradient(180deg,#1b3a66 0%, #0d3d8c 60%, #072b66 100%); }
 .ub-btn--geri  { background: linear-gradient(180deg,#4f8bf0 0%, #2a6bea 55%, #1452d6 100%); }
-.ub-btn--bekle { background: linear-gradient(180deg,#5dc7e8 0%, #2fa8d6 55%, #1c86b0 100%); }
+.ub-btn--bekle { background: linear-gradient(180deg,#3ecf8e 0%, #1fa968 55%, #0e7a49 100%); }
 .ub-btn--kapat { background: linear-gradient(180deg,#e0485c 0%, #c1121f 55%, #9c0d17 100%); }
 .ub-btn[disabled] {
   filter: grayscale(75%);
   opacity: .38;
   box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+/* PASİF RENK YENİLENDİ (01.11.2026): üstteki generic ".ub-btn[disabled]"
+   kuralından SONRA tanımlandığı için (aynı seçici özgüllüğü, CSS'te sırada
+   sonra gelen kazanır) onu geçersiz kılıp net bir GRİ zemin veriyor —
+   filtreyle soluklaştırma yerine. Menü hiçbir sayfada disabled olmadığı
+   için bu kural onu hiç etkilemiyor. */
+.ub-btn--geri[disabled],
+.ub-btn--bekle[disabled],
+.ub-btn--kapat[disabled] {
+  background: linear-gradient(180deg,#c9ced6 0%, #aab2bf 55%, #8d96a6 100%);
+  filter: none;
+  opacity: 1;
+  box-shadow: 0 2px 0 rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.3);
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -104,9 +132,23 @@
 }
 .ub-sayfa-etiket span,
 .ub-sayfa-etiket b {
+  /* ÇERÇEVE + TURUNCU ZEMİN (01.11.2026, Abdullah onayı): metnin etrafını
+     saran bir "rozet" (pill), tam tuş yüksekliğinde (44px) — "flex:1" ile
+     sağa yaslanan ".ub-sayfa-etiket" kutusunun TAMAMI değil, sadece yazı
+     kadar (aksi hâlde örn. iPad'de 810px geniş boş alanı da turuncuya
+     boyardı). Renk, Gönder ikonuyla aynı aile (#e0730f/#b7601f). */
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  box-sizing: border-box;
+  max-width: 100%;
+  background: #e0730f;
+  border: 1.5px solid #b7601f;
+  border-radius: 9px;
+  padding: 0 10px;
   font-size: 15px;
   font-weight: 800;
-  color: #073B70;
+  color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
