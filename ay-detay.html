@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.271026.2238.1156 — ay-detay.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1272 — ay-detay.html -->
 <!--
   İŞ TAKİP — AY DETAYI (ayrı sayfa)
   ===========================================================
@@ -29,14 +29,21 @@
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=WG.271026.1320.1076">
+<link rel="stylesheet" href="ust-bar-style.css?v=TKP.01.11.26-16:07.1269">
 </head>
 <body>
 
+<!-- GUNCELLENDI (01.11.2026, Abdullah onayi - mockup onaylandi) - birlesik ust bar: Menu/Geri/Bekle/Kapat ikon grubu + sayfa etiketi/logo tek satirda. Eski ayri turuncu "sayfa-rota-serit" seridi kaldirildi, etiketi bu satira tasindi. -->
 <div class="app-ust-sabit">
-<nav class="app-nav">
-  <button class="nav-btn nav-btn--geri" id="btnGeriAkilli"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></button>
-  <button type="button" class="nav-btn nav-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="nav-menu-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span><span class="nav-etiket">Menü</span></button>
-</nav>
+<div class="ub-bar">
+  <div class="ub-grup">
+    <button type="button" class="ub-btn ub-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="ub-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span></button>
+    <button type="button" class="ub-btn ub-btn--geri" id="btnGeriAkilli" aria-label="Geri">‹</button>
+    <button type="button" class="ub-btn ub-btn--bekle" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
+    <button type="button" class="ub-btn ub-btn--kapat" disabled aria-label="Kapat">✕</button>
+  </div>
+  <div class="ub-sayfa-etiket"><span id="ayDetayBaslik"></span></div>
+</div>
 </div>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
      onaylandı: "Okey tamam kodlayalım") — çekmece menü artık SADECE Ana
@@ -82,10 +89,6 @@
     <div class="as-drawer-altmenu-baslik" id="asDrawerAltMenuBaslik"></div>
     <div class="as-drawer-altmenu-liste" id="asDrawerAltMenuListe"></div>
   </div>
-</div>
-<div class="sayfa-rota-serit">
-  <span class="sayfa-rota-serit-isim" id="ayDetayBaslik"></span>
-  <span class="sayfa-rota-serit-rota">Raporlar › İstatistikler<b id="rotaAyEtiketi" style="display:none;"></b></span>
 </div>
 
 <main class="sayfa">

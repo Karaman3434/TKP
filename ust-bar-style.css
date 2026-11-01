@@ -1,0 +1,109 @@
+/* İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1269 — ust-bar-style.css
+   ===========================================================================
+   YENİ (01.11.2026, Abdullah onayı — mockup: ust-bar/mockup-v3.html):
+   Programdaki TÜM sayfalarda ortak, birleşik üst bar. Eskiden ayrı iki
+   parça olan ".app-nav" (Geri/Menü tuşları) ve ayrı turuncu zeminli
+   ".sayfa-rota-serit" (sayfa adı şeridi) artık TEK satırda birleşti:
+
+     [ Menü | Geri | Bekle | Kapat ]   ................   <sayfa adı / logo>
+
+   - Sol taraf (.ub-grup): her sayfada 4 ikon aynı sırada, aynı boyutta
+     (44x44px), tam dolu renkli kare köşeli kutular. Bekle/Kapat bu
+     sayfada işlevsizse "disabled" + soluk/gri (positional tutarlılık
+     için — her sayfada aynı yerde dururlar, sadece pasif görünürler).
+   - Sağ taraf: Ana Sayfa'da İş Takip logosu (.ub-logo), diğer TÜM
+     sayfalarda o anki sayfanın adı (.ub-sayfa-etiket) — ikisi de buton
+     yüksekliğinde (44px), gruptan 3mm ve ekran kenarından 3mm boşlukla.
+     Dar telefon ekranında (S22, 360px) yer açmak için sayfa adı
+     etiketinde küçük logo işareti YOK, sadece metin var (Ana Sayfa
+     hariç — orada tam logo kalıyor).
+
+   Bekle/Kapat işlevlerinin gerçek sayfalara (belge önizleme, cari kart,
+   hesap makinesi/sepet, müşteri detay, temas, bildirimler, ziyaret vb.)
+   bağlanması ayrı bir sonraki teslimat turunda yapılacak — bu turda
+   hepsi "disabled" placeholder, eski alt Kapat/Beklet tuşları HENÜZ
+   kaldırılmadı (bir sonraki turda kaldırılacak). */
+
+.ub-bar {
+  display: flex;
+  align-items: center;
+  gap: 3mm;
+  padding: 10px 3mm 10px 6px;
+  background: #fff;
+}
+.ub-grup {
+  display: flex;
+  gap: 4px;
+  background: #eef2f8;
+  border-radius: 12px;
+  padding: 4px;
+  flex-shrink: 0;
+}
+.ub-btn {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: 900;
+  color: #fff;
+  position: relative;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 2px 0 rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.3);
+  -webkit-tap-highlight-color: transparent;
+}
+.ub-btn--menu  { background: linear-gradient(180deg,#1b3a66 0%, #0d3d8c 60%, #072b66 100%); }
+.ub-btn--geri  { background: linear-gradient(180deg,#4f8bf0 0%, #2a6bea 55%, #1452d6 100%); }
+.ub-btn--bekle { background: linear-gradient(180deg,#5dc7e8 0%, #2fa8d6 55%, #1c86b0 100%); }
+.ub-btn--kapat { background: linear-gradient(180deg,#e0485c 0%, #c1121f 55%, #9c0d17 100%); }
+.ub-btn[disabled] {
+  filter: grayscale(75%);
+  opacity: .38;
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Menü ikonu (hamburger çizgileri) — eski .nav-menu-cizgiler ile aynı çizim mantığı */
+.ub-cizgiler { display:flex; flex-direction:column; gap:3.5px; width:20px; }
+.ub-cizgiler span { display:block; height:2.5px; background:#fff; border-radius:2px; }
+
+/* Bekle ikonu (duraklat çubukları) — emoji yerine CSS ile çizildi (cihazlar arası tutarlı render) */
+.ub-bekle-cizgiler { display:flex; gap:4px; }
+.ub-bekle-cizgiler span { display:block; width:4px; height:16px; background:#fff; border-radius:1.5px; }
+
+/* Ana Sayfa'da: İş Takip logosu — buton boyunda (44px), gruptan 3mm, kenardan 3mm boşluk */
+.ub-logo {
+  height: 44px;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.ub-logo img { height: 100%; width: auto; object-fit: contain; }
+
+/* Diğer sayfalarda: sayfa adı etiketi — aynı kutu ölçüsü/boşlukları */
+.ub-sayfa-etiket {
+  height: 44px;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.ub-sayfa-etiket span,
+.ub-sayfa-etiket b {
+  font-size: 15px;
+  font-weight: 800;
+  color: #073B70;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

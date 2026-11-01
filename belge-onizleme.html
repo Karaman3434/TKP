@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.011126.0905.1254 — belge-onizleme.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1316 — belge-onizleme.html -->
 <!--
   İŞ TAKİP — BELGE ÖNİZLEME v2 — VERSİYON: WG.211026.1700.870
   ====================================
@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="cari-kart-style.css?v=WG.011126.1022.1261">
 <link rel="stylesheet" href="belge-style.css?v=WG.011126.1022.1258">
 <link rel="stylesheet" href="reports-style.css?v=WG.211026.2100.908">
-<link rel="stylesheet" href="belge-onizleme-style-v2.css?v=WG.011126.1022.1260">
+<link rel="stylesheet" href="belge-onizleme-style-v2.css?v=TKP.01.11.26-16:07.1314">
 <!-- EKLENDİ (15.10.2026, Abdullah'ın isteğiyle) — müşteri ismi artık burada
      da TEK KURAL'a (musteri-serit.js) uyuyor; HareketTablo.cariKutulariHtml()
      bu dosyayı çağırıyor (bkz. hareket-tablo.js). -->
@@ -47,14 +47,25 @@
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=WG.271026.1320.1076">
+<link rel="stylesheet" href="ust-bar-style.css?v=TKP.01.11.26-16:07.1269">
 </head>
 <body class="belge-onizleme-sayfa">
 
+<!-- GUNCELLENDI (01.11.2026, Abdullah onayi - mockup onaylandi) - birlesik
+     ust bar: Menu/Geri/Bekle/Kapat ikon grubu + sayfa etiketi tek satirda.
+     Bekle VE Kapat burada AKTIF (id'ler alt buton satirindan TASINDI,
+     bkz. kaldirilan .belge-alt-buton-satir) - tiklama islevleri
+     belge-render.js'de DEGISMEDI, sadece butonlarin DOM konumu degisti. -->
 <div class="app-ust-sabit">
-<nav class="app-nav">
-  <button class="nav-btn nav-btn--geri" id="btnGeriAkilli"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></button>
-  <button type="button" class="nav-btn nav-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="nav-menu-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span><span class="nav-etiket">Menü</span></button>
-</nav>
+<div class="ub-bar">
+  <div class="ub-grup">
+    <button type="button" class="ub-btn ub-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="ub-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span></button>
+    <button type="button" class="ub-btn ub-btn--geri" id="btnGeriAkilli" aria-label="Geri">‹</button>
+    <button type="button" class="ub-btn ub-btn--bekle" id="btnBelgeBeklet" aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
+    <button type="button" class="ub-btn ub-btn--kapat" id="btnBelgeKapat" aria-label="Kapat">✕</button>
+  </div>
+  <div class="ub-sayfa-etiket"><span>Belge Önizleme</span></div>
+</div>
 </div>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
      onaylandı: "Okey tamam kodlayalım") — çekmece menü artık SADECE Ana
@@ -101,24 +112,15 @@
     <div class="as-drawer-altmenu-liste" id="asDrawerAltMenuListe"></div>
   </div>
 </div>
-<div class="sayfa-rota-serit">
-  <span class="sayfa-rota-serit-isim">📄 Belge Önizleme</span>
-  <span class="sayfa-rota-serit-rota">Kayıtlar</span>
-</div>
-
 <main class="sayfa">
   <div id="belgeIcerik"></div>
   <div class="belge-gecmis-kutu" id="belgeGecmisiKutu" hidden></div>
-  <div class="belge-alt-buton-satir">
-    <button class="belge-kapat-buton" id="btnBelgeKapat">✕ KAPAT</button>
-    <!-- EKLENDİ (15.10.2026, Abdullah onayı — mockup üzerinden onaylandı):
-         "Beklet" — bu belgeyi kenara bırakıp başka bir işe geçebilme. -->
-    <button class="bi-beklet-buton" id="btnBelgeBeklet">⏸ BEKLET</button>
-    <!-- "İşlemler" -> "Ayrıntı" (18.10.2026, Abdullah onayı — mockup
-         üzerinden onaylandı): aynı buton/sheet, sadece etiket/ikon
-         değişti. -->
-    <button class="belge-islemler-buton" id="btnIslemlerAc"><span class="ab-ikon">ℹ️</span>AYRINTI</button>
-  </div>
+  <!-- KALDIRILDI (01.11.2026, Abdullah onayı — mockup onaylandı):
+       ".belge-alt-buton-satir" (KAPAT/BEKLET/AYRINTI alt tuş satırı)
+       tamamen kaldırıldı — Kapat ve Beklet artık üst bar'da (yukarıda),
+       Ayrıntı artık İşlem Hareket Paneli satırının içinde (bkz.
+       belge-render.js siparisPaneliHtml). Üç butonun id'leri de
+       işlevleriyle birlikte yeni yerlerine TAŞINDI, silinmedi. -->
 
   <div class="overlay" id="islemlerOverlay" hidden>
     <div class="sheet">
@@ -257,7 +259,7 @@
      çalışıyor. -->
 <script>window.BEKLEYEN_ISLEM_GENERIK_KAPALI = true;</script>
 <script src="bekleyen-islemler.js?v=WG.271026.2238.1149"></script>
-<script src="belge-render.js?v=WG.011126.0905.1252"></script>
+<script src="belge-render.js?v=TKP.01.11.26-16:07.1315"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <script src="menu-cekmece.js?v=WG.271026.2238.1144"></script>
 </body>

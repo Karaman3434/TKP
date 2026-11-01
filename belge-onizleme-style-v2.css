@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.011126.1022.1260
+  belge-onizleme-style-v2.css — TKP.01.11.26-16:07.1314
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -43,19 +43,20 @@
    DEĞİŞİKLİK (18.10.2026, Abdullah onayı): zemin artık gri (#E7E9EE)
    değil, beyaz — çerçeve (lacivert) AYNEN korundu. ---- */
 .belge-onizleme-sayfa .belge-musteri-baslik {
-  /* İÇ DOLGU (28.10.2026, Abdullah onayı — "işlem etiketi taşıma" turu,
-     mockup üzerinden onaylandı): eskiden 4px 16px — artık her yönde
-     sadece 1mm (müşteri cari ismi paneliyle BİREBİR aynı kural). */
-  padding: 1mm;
+  /* İÇ DOLGU (01.11.2026, Abdullah onayı — "Ayrıntı+Gönder ikonu büyüt"
+     turu, mockup-panel.html Varyant A onaylandı): eskiden her yönde 1mm —
+     artık 2px 10px. Panelin TOPLAM YÜKSEKLİĞİ (min-height:40px, aşağıda)
+     KESİNLİKLE DEĞİŞMEDİ — sadece iç dolgu azaltıldı ki sağdaki büyütülmüş
+     ikon grubu (32px) aynı sabit kutuya sığsın. Ölçümle doğrulandı. */
+  padding: 2px 10px;
   letter-spacing: .4px;
   align-items: center;
-  /* ORTALAMA (28.10.2026, Abdullah onayı — "ortala" turu): WEICON rozeti
-     kaldırıldığından (19.10.2026) bu kutunun TEK çocuğu .bmb-sol —
-     paylaşılan taban kuralı (belge-style.css) justify-content:space-
-     between bırakıyordu, tek çocukla bu SOLA yaslanmış gibi duruyordu.
-     Artık içerik (etiket+tarih+kod) panelin YATAY ortasına alınıyor;
-     dikey zaten align-items:center (üstte) ile ortalı. */
-  justify-content: center;
+  /* YENİDEN SAĞA/SOLA YASLAMA (01.11.2026, Abdullah onayı): panel artık
+     İKİ çocuklu — solda .bmb-sol (etiket+tarih+kod), sağda yeni
+     .ikon-grup (Gönder + Ayrıntı ikonları, bkz. belge-render.js). Bu
+     yüzden taban kuralın justify-content:space-between'i burada GERİ
+     getirildi (28.10.2026'da tek çocuk için "ortala"ya çevrilmişti). */
+  justify-content: space-between;
   /* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "simetrik hale
      getir" turu): "background: #FFFFFF" burada duruyordu — Gönder (#E7E9EE)
      ve Sepet (#E7E9EE) ile FARKLI zemindi, ölçüm tablosunda ortaya çıktı.
@@ -69,6 +70,28 @@
   min-height: 40px;
   box-sizing: border-box;
 }
+/* YENİ (01.11.2026, Abdullah onayı — mockup-panel.html Varyant A) —
+   .bmb-sol'un sağındaki ikon grubu: Gönder (paylaş) + Ayrıntı ("i").
+   32px çap, aralarında 14px boşluk, rahatça dokunulabilir. Panelin TOPLAM
+   yüksekliği (40px, yukarıda) değişmeden bu ikonların sığması için
+   panelin iç dolgusu azaltıldı (1mm -> 2px 10px, yukarıda). */
+.belge-onizleme-sayfa .ikon-grup { display: flex; gap: 14px; flex-shrink: 0; align-items: center; }
+.belge-onizleme-sayfa .ub-ayrinti-ikon {
+  width: 32px; height: 32px; flex-shrink: 0; cursor: pointer; border: none; padding: 0;
+  border-radius: 50%; background: #073B70; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px; font-weight: 900; font-style: italic; font-family: Georgia, serif;
+}
+/* Gönder (paylaş) ikonu — İŞLEVİ HENÜZ TANIMLANMADI, bu yüzden şimdilik
+   PASİF/soluk (diğer henüz bağlanmamış tuşlarla aynı kural): işlevi
+   netleşince aktif renge (yeşil) ve gerçek bir onclick'e kavuşacak. */
+.belge-onizleme-sayfa .ub-gonder-ikon {
+  width: 32px; height: 32px; flex-shrink: 0; border: none; padding: 0;
+  border-radius: 50%; background: #0e6b34; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  filter: grayscale(75%); opacity: .38; cursor: not-allowed; pointer-events: none;
+}
+.belge-onizleme-sayfa .ub-gonder-ikon svg { width: 55%; height: 55%; }
 /* KOD/TARİH ŞERİDİ KALDIRILDI (18.10.2026, Abdullah onayı — "tek kutu"
    tasarımı): kaldırılan ".belge-belge-baslik-serit--mavi" şeridinin
    içeriği (tarih + kısaltılmış işlem kodu) artık bu başlığın İÇİNDE.

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.271026.2238.1163 — customer-temas.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1282 — customer-temas.html -->
 <!--
   İŞ TAKİP — TEMAS (Temas Geçmişi) — ayrı sayfa (WG.100926.196)
   ===================================================================
@@ -32,14 +32,21 @@
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=WG.271026.1320.1076">
+<link rel="stylesheet" href="ust-bar-style.css?v=TKP.01.11.26-16:07.1269">
 </head>
 <body>
 
+<!-- GUNCELLENDI (01.11.2026, Abdullah onayi - mockup onaylandi) - birlesik ust bar: Menu/Geri/Bekle/Kapat ikon grubu + sayfa etiketi/logo tek satirda. Eski ayri turuncu "sayfa-rota-serit" seridi kaldirildi, etiketi bu satira tasindi. -->
 <div class="app-ust-sabit">
-<nav class="app-nav">
-  <a class="nav-btn nav-btn--geri" href="customer-detail.html"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></a>
-  <button type="button" class="nav-btn nav-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="nav-menu-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span><span class="nav-etiket">Menü</span></button>
-</nav>
+<div class="ub-bar">
+  <div class="ub-grup">
+    <button type="button" class="ub-btn ub-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="ub-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span></button>
+    <a class="ub-btn ub-btn--geri" href="customer-detail.html" aria-label="Geri">‹</a>
+    <button type="button" class="ub-btn ub-btn--bekle" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
+    <button type="button" class="ub-btn ub-btn--kapat" disabled aria-label="Kapat">✕</button>
+  </div>
+  <div class="ub-sayfa-etiket" id="rotaSeridi"></div>
+</div>
 </div>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
      onaylandı: "Okey tamam kodlayalım") — çekmece menü artık SADECE Ana
@@ -87,7 +94,6 @@
   </div>
 </div>
 
-<div class="sayfa-rota-serit" id="rotaSeridi"></div>
 
 <div class="islemler-musteri-serit">
   <div class="islemler-musteri-ad" id="temasMusteriAd">—</div>
@@ -142,7 +148,7 @@
 <script src="ust-sabit-olcum.js?v=WG.271026.2238.1146"></script>
 <script src="customer-data.js?v=WG.011126.0821.1243"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
-<script src="rota-takip.js?v=WG.150926.1300.573"></script>
+<script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("customer-temas.html", "📍 Temas"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="customer-temas-render.js?v=WG.061026.0935.732"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->

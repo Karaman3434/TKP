@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.271026.2238.1155 — ajanda.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1311 — ajanda.html -->
 <!--
   İŞ TAKİP — AJANDA (günlük not defteri fotoğraf arşivi)
   ================================================================
@@ -31,6 +31,7 @@
 <script>document.documentElement.style.visibility='hidden';</script>
 <link rel="stylesheet" href="home-style.css?v=WG.071026.1205.742">
 <link rel="stylesheet" href="ajanda-style.css?v=WG.091026.1540.755">
+<link rel="stylesheet" href="ust-bar-style.css?v=TKP.01.11.26-16:07.1269">
 </head>
 <body>
 
@@ -40,13 +41,16 @@
   <div class="tarih" id="gunTarihi"></div>
 </header>
 
-<nav class="app-nav">
-  <a class="nav-btn nav-btn--geri" href="home.html"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></a>
-  <a class="nav-btn nav-btn--ana" href="home.html"><span class='nav-ikon'>🏠</span><span class='nav-etiket'>Ana Sayfa</span></a>
-</nav>
+<!-- GUNCELLENDI (01.11.2026, Abdullah onayi - mockup onaylandi) - birlesik ust bar: Menu/Geri/Bekle/Kapat ikon grubu + sayfa etiketi/logo tek satirda. Eski ayri turuncu "sayfa-rota-serit" seridi kaldirildi, etiketi bu satira tasindi. Bu sayfada cekmece menu olmadigi icin Menu yuvasi mevcut "Ana Sayfa" kisayoluyla dolduruldu. -->
+<div class="ub-bar">
+  <div class="ub-grup">
+    <a class="ub-btn ub-btn--menu" href="home.html" aria-label="Ana Sayfa"><span style="font-size:20px;line-height:1;">🏠</span></a>
+    <a class="ub-btn ub-btn--geri" href="home.html" aria-label="Geri">‹</a>
+    <button type="button" class="ub-btn ub-btn--bekle" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
+    <button type="button" class="ub-btn ub-btn--kapat" disabled aria-label="Kapat">✕</button>
+  </div>
+  <div class="ub-sayfa-etiket"><span>Ajanda</span></div>
 </div>
-<div class="sayfa-rota-serit">
-  <span class="sayfa-rota-serit-isim">📓 Ajanda</span>
 </div>
 
 <main class="sayfa" style="padding-bottom:76px;">

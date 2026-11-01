@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.011126.0905.1252
+  belge-render.js — TKP.01.11.26-16:07.1315
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -269,11 +269,23 @@ function belgeyiCiz(kayit, musteri){
     // tablosunun hemen üstünde, kendi ayrı kartında. "musteriBlokHtml"
     // artık SADECE cari kutusunu taşıyor; işlem/kod paneli ayrı bir
     // değişkende (siparisPaneliHtml, aşağıda html birleştirmesinde kullanılır).
+    // EKLENDİ (01.11.2026, Abdullah onayı — mockup-panel.html Varyant A,
+    // mockup.html birleşik üst bar turu): panelin sağına Ayrıntı ("i") +
+    // Gönder (paylaş, şimdilik pasif — işlevi henüz tanımlanmadı) ikon
+    // grubu eklendi; eski alt buton satırındaki "AYRINTI" tuşu kaldırıldı,
+    // id="btnIslemlerAc" buraya taşındı (bağlama artık denemeCiz() içinde,
+    // yukarıda — bu element her çizimde burada yeniden oluşuyor).
+    var ikonGrupHtml = "<span class='ikon-grup'>"
+      + "<button type='button' class='ub-gonder-ikon' title='Gönder' aria-label='Gönder' disabled>"
+      +   "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 16V4'/><path d='M7 9l5-5 5 5'/><path d='M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3'/></svg>"
+      + "</button>"
+      + "<button type='button' class='ub-ayrinti-ikon' id='btnIslemlerAc' title='Ayrıntı' aria-label='Ayrıntı'>i</button>"
+      + "</span>";
     var siparisPaneliHtml = "<div class='belge-musteri-baslik tip-" + (kayit.tip||"siparis") + "'>"
       + "<div class='bmb-sol'><span class='bmb-tip'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + "</span>"
       + (bmbAltMetin ? "<span class='bmb-alt'>" + bmbAltMetin + "</span>" : "")
       + (bmbKodMetin ? "<span class='bmb-kod'>" + bmbKodMetin + "</span>" : "")
-      + "</div></div>";
+      + "</div>" + ikonGrupHtml + "</div>";
     var musteriBlokHtml = "<div class='belge-musteri-govde'>"
       // Geçmiş gösterimi artık SADECE #belgeGecmisiKutu'da (alttaki
       // "📜 Belge Geçmişi" kutusu) — buradaki süreç şeridi kaldırıldı,
@@ -1028,7 +1040,15 @@ document.addEventListener("DOMContentLoaded", function(){
     if(window.history.length > 1) window.history.back();
     else window.location.href = "reports.html";
   };
-  document.getElementById("btnIslemlerAc").onclick = function(){ document.getElementById("islemlerOverlay").hidden = false; };
+  // TAŞINDI (01.11.2026, Abdullah onayı — mockup-panel.html Varyant A):
+  // "btnIslemlerAc" artık STATİK HTML'de değil, İşlem Hareket Paneli
+  // satırının İÇİNDE (siparisPaneliHtml, bkz. belgeyiCiz() ve denemeCiz()
+  // aşağıda) — o satır Firebase verisi gelince DİNAMİK olarak çiziliyor.
+  // Bu yüzden onclick bağlama işlemi de artık BURADA değil, denemeCiz()
+  // içinde belgeyiCiz()'den HEMEN SONRA yapılıyor (element o an DOM'da var
+  // oluyor); burada bırakılsaydı element henüz yokken getElementById null
+  // dönüp hata fırlatır, aşağıdaki TÜM diğer bağlamalar (Beklet, msVazgec,
+  // msSil, vb.) hiç çalışmazdı.
   // EKLENDİ (15.10.2026, Abdullah onayı — mockup üzerinden onaylandı):
   // "Beklet" — bu belgeyi BekleyenIslemler kuyruğuna ekler (en fazla 2),
   // mevcut "weiconv2_goruntulenen_belge" anahtarının O ANKİ değerini
@@ -1114,6 +1134,14 @@ document.addEventListener("DOMContentLoaded", function(){
     sonCizilenMusteri = musteri;
     belgeyiCiz(kayit, musteri);
     belgeGecmisiniCiz(kayit);
+
+    // EKLENDİ (01.11.2026, Abdullah onayı — mockup-panel.html Varyant A):
+    // "Ayrıntı" ikonu artık İşlem Hareket Paneli satırının içinde —
+    // belgeyiCiz() her çağrıldığında (yeniden çizimde de) yeniden
+    // oluşuyor, bu yüzden bağlama da HER denemeCiz() çağrısında burada
+    // tazeleniyor (.onclick = idempotent, üst üste binmez).
+    var btnIslemlerAcEl = document.getElementById("btnIslemlerAc");
+    if(btnIslemlerAcEl) btnIslemlerAcEl.onclick = function(){ document.getElementById("islemlerOverlay").hidden = false; };
 
     document.getElementById("msIlerlet").hidden = false;
     document.getElementById("btnMenuBeklemede").hidden = !!kayit.durum;

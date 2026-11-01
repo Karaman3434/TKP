@@ -1,6 +1,6 @@
 // Tek merkezi sürüm bilgisi — home.html içindeki #versiyonEtiketi ile
-// senkron tutulmalıdır. Format: WG.(GGAAYY).(SSDD).(sıra no)
-var APP_VERSION = "WG.181026.0530.838";
+// senkron tutulmalıdır. Format (01.11.2026'dan itibaren): TKP.GG.AA.YY-SS:DD.(sıra no)
+var APP_VERSION = "TKP.01.11.26-16:07.1317";
 
 var AY_ADLARI_AYARLAR = ["","Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
 

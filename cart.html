@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.281026.2134.1200 — cart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1277 — cart.html -->
 <!--
   27.10.2026 PERFORMANS KAZANIMI: html2canvas'ın bu sayfada en baştan
   yüklenen statik <script> etiketi kaldırıldı — artık cart-render.js'teki
@@ -49,14 +49,21 @@
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=WG.271026.1320.1076">
+<link rel="stylesheet" href="ust-bar-style.css?v=TKP.01.11.26-16:07.1269">
 </head>
 <body class="cart-sayfa">
 
+<!-- GUNCELLENDI (01.11.2026, Abdullah onayi - mockup onaylandi) - birlesik ust bar: Menu/Geri/Bekle/Kapat ikon grubu + sayfa etiketi/logo tek satirda. Eski ayri turuncu "sayfa-rota-serit" seridi kaldirildi, etiketi bu satira tasindi. -->
 <div class="app-ust-sabit">
-<nav class="app-nav">
-  <a class="nav-btn nav-btn--geri" href="home.html"><span class='nav-ikon nav-ikon--geri-kucuk'>‹</span><span class='nav-ikon nav-ikon--geri-buyuk'>‹</span><span class='nav-etiket'>Geri</span></a>
-  <button type="button" class="nav-btn nav-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="nav-menu-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span><span class="nav-etiket">Menü</span></button>
-</nav>
+<div class="ub-bar">
+  <div class="ub-grup">
+    <button type="button" class="ub-btn ub-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="ub-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span></button>
+    <a class="ub-btn ub-btn--geri" href="home.html" aria-label="Geri">‹</a>
+    <button type="button" class="ub-btn ub-btn--bekle" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
+    <button type="button" class="ub-btn ub-btn--kapat" disabled aria-label="Kapat">✕</button>
+  </div>
+  <div class="ub-sayfa-etiket" id="rotaSeridi"></div>
+</div>
 </div>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
      onaylandı: "Okey tamam kodlayalım") — çekmece menü artık SADECE Ana
@@ -103,7 +110,6 @@
     <div class="as-drawer-altmenu-liste" id="asDrawerAltMenuListe"></div>
   </div>
 </div>
-<div class="sayfa-rota-serit" id="rotaSeridi"></div>
 
 <main class="sayfa">
 
@@ -425,7 +431,7 @@
 <script src="reports-safety-fix.js?v=WG.020926.1338.87"></script>
 <script src="send-data.js?v=WG.271026.2238.1123"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
-<script src="rota-takip.js?v=WG.150926.1300.573"></script>
+<script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="cart-render.js?v=WG.271026.2238.1148"></script>
 <script src="urun-arama.js?v=WG.271026.2238.1150"></script>

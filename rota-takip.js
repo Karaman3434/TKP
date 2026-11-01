@@ -45,10 +45,18 @@ var RotaTakip = (function(){
     var el = document.getElementById(konteynerId);
     if(!el || yigin.length === 0) return;
     var mevcut = yigin[yigin.length-1];
-    var rota = yigin.slice(0, -1).map(function(durak){ return durak.etiket; }).join(" › ");
-    var html = "<span class='sayfa-rota-serit-isim'>" + mevcut.etiket + "</span>";
-    if(rota){ html += "<span class='sayfa-rota-serit-rota'>" + rota + "</span>"; }
-    el.innerHTML = html;
+    // GUNCELLENDI (01.11.2026, Abdullah onayi — birlesik ust bar mockup'i):
+    // eskiden burada "<isim> › <ebeveyn rotasi>" breadcrumb zinciri yazılırdı
+    // (ayrı turuncu .sayfa-rota-serit şeridi içinde, bolca yer vardı). Artık
+    // bu etiket üst bardaki dar .ub-sayfa-etiket kutusuna taşındı — sadece
+    // o anki sayfa adı gösteriliyor, zincir metni (rota) artık YAZILMIYOR.
+    // Başındaki emoji de (tüm üst bar etiketleriyle tutarlı olsun diye)
+    // ekrana basılırken ayıklanıyor — yığında (sessionStorage) tam etiket
+    // hâlâ saklanıyor, sadece görünen metin sadeleşti.
+    var temizEtiket = mevcut.etiket.replace(/^\S+\s+/, function(ilkKelime){
+      return /[A-Za-zÇĞİIÖŞÜçğıiöşü]/.test(ilkKelime) ? ilkKelime : "";
+    });
+    el.innerHTML = "<span>" + temizEtiket + "</span>";
   }
 
   return { kaydet: kaydet, ciz: ciz, sifirla: sifirla };

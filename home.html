@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.271026.2238.1168 — home.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1313 — home.html -->
 <!--
   İŞ TAKİP — ANA SAYFA v5 (sade "flat" tasarım + gerçek hedef ilerlemesi)
   =============================================================================
@@ -55,31 +55,26 @@
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) —
      .as-drawer-oge--kilitli (kilitli satır görünümü), tüm sayfalarla ortak. -->
 <link rel="stylesheet" href="menu-cekmece-style.css?v=WG.271026.1320.1076">
+<link rel="stylesheet" href="ust-bar-style.css?v=TKP.01.11.26-16:07.1269">
 </head>
 <body>
 
 <div class="app-ust-sabit">
-  <!-- ÜST BAR (06.10.2026, Abdullah'ın isteğiyle güncellendi): ayrı tarih
-       satırı kaldırıldı, tarih artık aşağıdaki panel satırında İş Günü
-       Kaldı/EUR Kur ile aynı satırda üçüncü bir kutu (bkz. #asTarihGun/
-       #asTarihTarih, home-render.js tarihiGuncelle). Menü (satırın 1/3'ü)
-       + İş Takip logosu (satırın 2/3'ü, zemin/kutu YOK) yan yana, ikisi de
-       60px yükseklikte, logo is-takip-logo.png (sıkı kırpılmış, boşluksuz)
-       kullanıyor. AYNI GÜN, ikinci güncelleme: Abdullah ekran kenarlarına
-       olan boşlukların simetrik olmadığını belirtti (Menü'nün dolgun kırmızı
-       kutusu kenara bitişikken, logonun object-fit:contain nedeniyle içindeki
-       harfler kutusunu tam doldurmuyordu). Çözüm: Menü + logo artık TEK bir
-       .as-ust-cerceve çerçevesi içinde — bu çerçeve ikisine de eşit (6px) iç
-       boşluk veriyor, böylece ekran kenarlarına olan mesafe eşitleniyor.
-       Üst bar ile tarayıcının üst kenarı arasına da 14px boşluk eklendi. -->
-  <div class="as-ust-birlesik-satir">
-    <div class="as-ust-cerceve">
-      <button class="as-menu-btn" id="btnAsMenuAc" aria-label="Menüyü aç">
-        <span class="as-menu-btn-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span>
-        <span class="as-menu-btn-etiket">Menü</span>
-      </button>
-      <img class="as-logo-gorsel-ustte" src="is-takip-logo.png?v=WG.211026.1700.897" alt="İş Takip">
+  <!-- GUNCELLENDI (01.11.2026, Abdullah onayi - mockup onaylandi) - birlesik
+       ust bar: Menu/Geri/Bekle/Kapat ikon grubu + logo tek satirda, tum
+       diger sayfalarla AYNI .ub-bar yapisi (bkz. ust-bar-style.css). Eski
+       .as-ust-birlesik-satir/.as-ust-cerceve/.as-menu-btn ozel Ana Sayfa
+       tasarimi kaldirildi. Ana Sayfa'nin "geri" gidecegi bir ust sayfa
+       olmadigindan Geri burada devre disi (Bekle/Kapat gibi, pozisyon
+       tutarliligi icin). -->
+  <div class="ub-bar">
+    <div class="ub-grup">
+      <button type="button" class="ub-btn ub-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="ub-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span></button>
+      <button type="button" class="ub-btn ub-btn--geri" disabled aria-label="Geri">‹</button>
+      <button type="button" class="ub-btn ub-btn--bekle" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
+      <button type="button" class="ub-btn ub-btn--kapat" disabled aria-label="Kapat">✕</button>
     </div>
+    <div class="ub-logo"><img src="is-takip-logo.png?v=WG.211026.1700.897" alt="İş Takip"></div>
   </div>
 </div>
 
@@ -217,7 +212,7 @@
          (tek kaynak — diğer tüm sayfalarla birebir aynı mantık). -->
     <nav class="as-drawer-liste" id="asDrawerListe"></nav>
 
-    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP WG.231026.1200.968 ***</div>
+    <div class="as-drawer-versiyon" id="versiyonEtiketi">*** İŞ TAKİP TKP.01.11.26-16:07.1317 ***</div>
 
     <div class="as-drawer-ayarlar-blok">
       <a class="as-drawer-oge" href="menu.html"><span class="as-drawer-ikon" style="color:#5dade2;" aria-hidden="true">⚙️</span><span class="as-drawer-etiket">Ayarlar</span><span class="as-drawer-hata-rozet" id="asAyarlarHataRozeti" hidden>0</span></a>
@@ -270,7 +265,7 @@
 <script src="home-data.js?v=WG.271026.2238.1129"></script>
 <script src="customer-data.js?v=WG.011126.0821.1243"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
-<script src="rota-takip.js?v=WG.150926.1300.573"></script>
+<script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
 <script>RotaTakip.kaydet("home.html", "🏠 Ana Sayfa", true);</script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) — çekmece
      aç/kapat + izin filtreleme artık burada, tüm sayfalarla paylaşılan. -->
