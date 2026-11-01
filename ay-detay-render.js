@@ -1,5 +1,5 @@
 /*
-  ay-detay-render.js — WG.271026.1843.1100
+  ay-detay-render.js — TKP.01.11.26-19:13.1343
   ===================
   Aylık Özet tablosunda bir aya dokununca açılan, o ayın sipariş
   kayıtlarını gün gün listeleyen AYRI sayfa. Hangi ay gösterilecek,
@@ -153,7 +153,13 @@ function ayDetayiniCiz(){
     });
 
     document.getElementById("ayDetayBaslik").textContent = "📅 " + ayVerisi.ayAd + " " + ayVerisi.yil + " Kayıtları";
-    document.getElementById("rotaAyEtiketi").textContent = ayVerisi.ayAd + " " + ayVerisi.yil;
+    // KALDIRILDI (01.11.2026, Abdullah'ın bildirdiği hata — "Ay detayı
+    // çizilemedi: Cannot set properties of null"): "rotaAyEtiketi", bugün
+    // erken bir turda üst bar birleştirilirken kaldırılan eski ayrı turuncu
+    // rota şeridinin (.sayfa-rota-serit) bir parçasıydı — o öğe artık HİÇ
+    // yok, bu satır hep null'a yazmaya çalışıp SAYFAYI ÇÖKERTİYORDU (ay
+    // detayı hiç çizilmiyordu). Zaten aynı bilgi (ay+yıl) bir üst satırda
+    // "ayDetayBaslik"a yazılıyor — ayrı bir kopyaya gerek yok, silindi.
 
     if(kayitlarBuAy.length === 0){
       document.getElementById("ayDetayToplamEtiket").textContent = "🧮 SİPARİŞ TOPLAMI (0 kayıt)";
