@@ -1,5 +1,9 @@
-/* İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1269 — ust-bar-style.css
+/* İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:32.1318 — ust-bar-style.css
    ===========================================================================
+   GÜNCELLEME (01.11.2026, 16:32): .ub-grup içi 4 ikon (Menü/Geri/Bekle/Kapat)
+   arası boşluk 4px→8px (iki katına çıkarıldı) — dokunma alanları birbirine
+   çok yakındı, zor tuşlanıyordu.
+
    YENİ (01.11.2026, Abdullah onayı — mockup: ust-bar/mockup-v3.html):
    Programdaki TÜM sayfalarda ortak, birleşik üst bar. Eskiden ayrı iki
    parça olan ".app-nav" (Geri/Menü tuşları) ve ayrı turuncu zeminli
@@ -33,7 +37,7 @@
 }
 .ub-grup {
   display: flex;
-  gap: 4px;
+  gap: 8px;
   background: #eef2f8;
   border-radius: 12px;
   padding: 4px;
