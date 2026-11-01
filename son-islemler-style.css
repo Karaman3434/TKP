@@ -1,4 +1,4 @@
-/* son-islemler-style.css — WG.011126.1502.1268 */
+/* son-islemler-style.css — TKP.01.11.26-17:23.1332 */
 
 /* Bu sayfaya özgü "Siyah" tema (Ana Sayfa'daki Son İşlemler kutucuğunun
    rengiyle devam ediyor) — sadece #islemAra'yı hedefler, diğer tl- sayfalarını
@@ -56,12 +56,18 @@
   grid-template-columns: minmax(0,1fr) minmax(50px,19%) 36px 16px 76px 18px;
   align-items: center;
   gap: 6px;
-  min-height: 40px;
+  /* MIN-HEIGHT YARIYA İNDİRİLDİ (01.11.2026, Abdullah onayı — "satırlar
+     arası çok boşluk var, S22'de daha fazla kayıt görmek istiyorum" turu):
+     40px -> 20px. Padding zaten önceki turda ~0'a indirilmişti (aşağıdaki
+     eski not), bu yüzden satır yüksekliğini fiilen BELİRLEYEN tek değer
+     min-height idi — tek satırlık içerik (firma/rozet/tutar) ~18-19px
+     doğal yükseklikte olduğu için 20px'te kırpılmadan sığıyor, 2 satıra
+     saran uzun firma/konum metinleri min-height'ı zaten aşıp kendi doğal
+     yüksekliğine büyüyor (min-height bir TABAN, tavan değil). */
+  min-height: 20px;
   /* PADDING DARALTILDI (01.11.2026, Abdullah onayı — %50 + ek %19 + ek %70):
      dikey 7px -> 2.835px -> 0.8505px (orijinalin ~%12.15'i). Yatay/sol
-     padding değişmedi. NOT: min-height:40px hâlâ geçerli — satır yüksekliği
-     artık fiilen bununla sabitleniyor, padding'in görsel etkisi bu noktadan
-     sonra sınırlı (Abdullah'a bildirildi, min-height'a dokunulmaması onaylandı). */
+     padding değişmedi. */
   padding: 0.8505px 2mm 0.8505px calc(2mm + 6px);
   border-bottom: 1px solid #eef0f3;
   border-left: 3px solid #c3cad4;
