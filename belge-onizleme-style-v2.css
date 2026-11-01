@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.011126.0843.1250
+  belge-onizleme-style-v2.css — WG.011126.0905.1253
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -531,7 +531,12 @@
    ve customer-style.css'e DOKUNULMADI. */
 .belge-onizleme-sayfa .belge-hizli-pencere {
   position: fixed;
-  z-index: 500;
+  /* Z-INDEX YÜKSELTİLDİ (01.11.2026, ikinci düzeltme): üstteki sabit menü
+     şeridi (.app-ust-sabit) z-index:1000 — pencere eskiden (z-index:500)
+     ondan ALTTA kalıyordu; bir ölçüm hatası pencereyi üste doğru itince
+     (JS'teki düzeltmeye bkz.) kendi başlığı bu menünün ARKASINDA kalıp
+     görünmez oluyordu. Artık her durumda menünün ÜSTÜNDE. */
+  z-index: 1050;
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,.3);
@@ -594,7 +599,7 @@
 }
 .belge-onizleme-sayfa .belge-hizli-pencere-tipmenu {
   position: fixed;
-  z-index: 510;
+  z-index: 1060;
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,.3);

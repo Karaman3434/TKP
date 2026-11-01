@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.011126.0843.1249
+  belge-render.js — WG.011126.0905.1252
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -526,15 +526,65 @@ function bhpPencereOlustur(){
 //    kaydırılabilir oluyor (bkz. CSS: max-height burada JS'ten verilir,
 //    overflow-y:auto .belge-hizli-pencere kuralında, belge-onizleme-
 //    style-v2.css).
+//
+// İKİNCİ DÜZELTME (01.11.2026, Abdullah'ın canlı siteden bildirdiği hata —
+// ekran görüntüsü: pencere hâlâ müşteri şeridinin üstüne biniyor VE kendi
+// başlığındaki müşteri ismi okunmuyordu): KÖK NEDEN farklıydı — yukarıdaki
+// yatay/dikey mantığı DOĞRU çalışıyordu, ama tetikleyici eleman (müşteri
+// şeridi) pencere AÇIKKEN başka bir nedenle (örn. CustomerData/ReportsData
+// canlı veri dinleyicisi `denemeCiz`'i tekrar çağırıp #belgeIcerik'i
+// yeniden çizdiğinde) DOM'dan kopup yerini TAZE bir şeride bırakabiliyor.
+// Pencere açıkken mobilde SIK görülen bir "resize" olayı (adres çubuğu/
+// araç çubuğu ayarlanması gibi) geldiğinde, aşağıdaki `window resize`
+// dinleyicisi `bhpKonumla`'yı bu KOPUK (artık ekranda yeri olmayan)
+// eleman ile tekrar çağırıyordu — kopuk bir elemanın ölçümü (rect) HER
+// ZAMAN sıfır döner, bu da pencereyi "ust=8" sınırına, yani ekranın en
+// üstüne zıplatıyordu. Bu hem müşteri şeridinin üstüne binmesine (şerit
+// kendi gerçek konumunda kalırken pencere en üste atlıyor) HEM DE
+// pencerenin KENDİ başlığının (.cm-altmenu-musteri-baslik — kod+ad+şehir)
+// üstteki sabit menü şeridinin (.app-ust-sabit, z-index:1000) ALTINDA
+// kalıp görünmez olmasına yol açıyordu (bu pencere z-index:500'dü — bkz.
+// belge-onizleme-style-v2.css, orada da düzeltildi). Artık:
+// 3) Her konumlandırmada ankor eleman GEÇERLİ Mİ (hâlâ belgede/DOM'da bağlı
+//    mı, ölçümü sıfır değil mi) kontrol ediliyor; kopuksa GÜNCEL müşteri
+//    şeridi DOM'dan yeniden aranıp onunla devam ediliyor; o da yoksa
+//    (örn. belge artık ekranda değilse) pencere konumsuz bırakılmıyor,
+//    doğrudan KAPATILIYOR.
+// 4) Üst sınır artık sabit "8px" değil — üstteki sabit menü şeridi
+//    (.app-ust-sabit) varsa onun ALT kenarı + 6px: pencere hiçbir zaman o
+//    şeridin altında/arkasında kalmıyor.
 var bhpSonAnkorEl = null;
+
+function bhpAnkorGecerliMi(el){
+  if(!el || !el.isConnected) return false;
+  var r = el.getBoundingClientRect();
+  return !(r.top === 0 && r.bottom === 0 && r.left === 0 && r.right === 0);
+}
+
 function bhpKonumla(ankorEl, panel){
+  if(!bhpAnkorGecerliMi(ankorEl)){
+    var guncelSerit = document.querySelector("#belgeIcerik .musteri-serit");
+    if(bhpAnkorGecerliMi(guncelSerit)){
+      ankorEl = guncelSerit;
+      bhpSonAnkorEl = guncelSerit;
+    } else {
+      bhpKapat();
+      return;
+    }
+  }
   var rect = ankorEl.getBoundingClientRect();
   var panelGenislik = panel.offsetWidth;
   var sol = (window.innerWidth - panelGenislik) / 2;
   if(sol < 8) sol = 8;
   if(sol + panelGenislik > window.innerWidth - 8){ sol = window.innerWidth - panelGenislik - 8; }
+  var minUst = 8;
+  var ustSabit = document.querySelector(".app-ust-sabit");
+  if(ustSabit){
+    var usRect = ustSabit.getBoundingClientRect();
+    if(usRect.bottom + 6 > minUst) minUst = usRect.bottom + 6;
+  }
   var ust = rect.bottom + 6;
-  if(ust < 8) ust = 8;
+  if(ust < minUst) ust = minUst;
   var kalanYukseklik = window.innerHeight - ust - 8;
   panel.style.maxHeight = Math.max(kalanYukseklik, 120) + "px";
   panel.style.left = sol + "px";
