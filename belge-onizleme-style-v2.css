@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — WG.301026.0030.1235
+  belge-onizleme-style-v2.css — WG.011126.0843.1250
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -538,6 +538,11 @@
   min-width: 230px;
   max-width: 280px;
   padding: 8px 0;
+  /* KAYDIRMA (01.11.2026, Abdullah onayı): pencere artık ekrana sığmazsa
+     yukarı çevrilmiyor (bkz. belge-render.js bhpKonumla) — bunun yerine
+     JS'ten gelen max-height'e göre kendi içinde kaydırılıyor. */
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 .belge-onizleme-sayfa .belge-hizli-pencere[hidden] { display: none; }
 .belge-onizleme-sayfa .cm-altmenu-musteri-baslik {

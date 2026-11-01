@@ -1,5 +1,5 @@
 /*
-  belge-render.js — WG.281026.2232.1210
+  belge-render.js — WG.011126.0843.1249
   ===============
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
@@ -290,7 +290,13 @@ function belgeyiCiz(kayit, musteri){
       // teslimat adresi girilmemişse bu bloğu HİÇ göstermez — cari kodu
       // (koduGizle=false) ESKİSİ GİBİ görünmeye devam eder, SADECE bu
       // değişti.
-      + HareketTablo.cariKutulariHtml({ad: kayit.musteri, sehir: sehir, telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true)
+      // HATA DÜZELTME (28.10.2026, Abdullah bildirdi — "müşteri kodlarını
+      // neden göremiyorum"): bu sentetik {ad, sehir, ...} nesnesinde "id"
+      // alanı hiç yoktu — MusteriSeridi.html() müşteri kodunu SADECE
+      // musteri.id doluysa basıyor (musteri-serit.js), koduGizle=false
+      // olmasına rağmen kod bu yüzden hiç görünmüyordu. Artık gerçek
+      // müşteri kaydındaki id (musteri.id) buraya da geçiriliyor.
+      + HareketTablo.cariKutulariHtml({id: (musteri&&musteri.id)||"", ad: kayit.musteri, sehir: sehir, telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true)
       + "</div>";
 
     var kurIcHtml = kayit.kur
@@ -330,7 +336,11 @@ function belgeyiCiz(kayit, musteri){
       + durumRozetHtml
       + musteriBlokHtml
       + "</div>"
-      + "<div class='belge-kart tip-" + (kayit.tip||"siparis") + "'>"
+      // "belge-kart--siparis-paneli" sınıfı (28.10.2026, Abdullah onayı —
+      // "daralt" turu) SADECE bu kartı, diğer tüm .belge-kart çiftlerine
+      // (paylaşılan margin-bottom:1mm kuralına) dokunmadan, scoped olarak
+      // hedefleyebilmek için eklendi — bkz. belge-onizleme-style-v2.css.
+      + "<div class='belge-kart belge-kart--siparis-paneli tip-" + (kayit.tip||"siparis") + "'>"
       + siparisPaneliHtml
       + "</div>"
       + "<div class='belge-kart belge-kart--urun-cerceveli'>"
@@ -501,18 +511,32 @@ function bhpPencereOlustur(){
   });
 }
 
-// menu-cekmece.js mcMiniSonucKonumla ile AYNI ekran-kenarı taşma formülü.
+// KONUMLANDIRMA DEĞİŞİKLİĞİ (01.11.2026, Abdullah onayı — mockup üzerinden,
+// ekran görüntüsüyle bildirilen hata): eskiden tetikleyici elemanın
+// (müşteri şeridi) SOL kenarına hizalıydı ve ekranın altına taşarsa YUKARI
+// ÇEVRİLİYORDU — 8 satırlı bu menüde bu, kısa ekranlarda pencerenin
+// müşteri şeridinin ÜSTÜNE binmesine yol açıyordu (kök neden: panel
+// yüksekliği + şeridin altındaki boşluk ekrana sığmayınca eski kod
+// pencereyi yukarı itiyordu). Artık:
+// 1) Yatayda her zaman EKRANA ortalanıyor (tetikleyicinin konumundan
+//    bağımsız) — menu-cekmece.js mcMiniSonucKonumla'daki taşma-kenar
+//    formülünden FARKLI, kasıtlı yeni davranış, SADECE bu pencere için.
+// 2) Dikeyde ASLA yukarı çevrilmiyor — her zaman müşteri şeridinin hemen
+//    altından başlıyor; ekrana sığmazsa pencerenin kendisi kısalıp
+//    kaydırılabilir oluyor (bkz. CSS: max-height burada JS'ten verilir,
+//    overflow-y:auto .belge-hizli-pencere kuralında, belge-onizleme-
+//    style-v2.css).
 var bhpSonAnkorEl = null;
 function bhpKonumla(ankorEl, panel){
   var rect = ankorEl.getBoundingClientRect();
   var panelGenislik = panel.offsetWidth;
-  var sol = rect.left;
-  if(sol + panelGenislik > window.innerWidth - 8){ sol = window.innerWidth - panelGenislik - 8; }
+  var sol = (window.innerWidth - panelGenislik) / 2;
   if(sol < 8) sol = 8;
+  if(sol + panelGenislik > window.innerWidth - 8){ sol = window.innerWidth - panelGenislik - 8; }
   var ust = rect.bottom + 6;
-  var panelYukseklik = panel.offsetHeight;
-  if(ust + panelYukseklik > window.innerHeight - 8){ ust = window.innerHeight - panelYukseklik - 8; }
   if(ust < 8) ust = 8;
+  var kalanYukseklik = window.innerHeight - ust - 8;
+  panel.style.maxHeight = Math.max(kalanYukseklik, 120) + "px";
   panel.style.left = sol + "px";
   panel.style.top = ust + "px";
 }
