@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.02.11.26-01:59.1355 — pwa-tani.html -->
+<!--
+  UYGULAMA OLARAK YÜKLEME — TANI SAYFASI (02.11.2026, Abdullah'ın isteğiyle)
+  =========================================================================
+  Telefonda Chrome'un menüsünde "Yükle" satırı "Bu uygulama yüklenemez"
+  diyorsa NEDENİNİ buradan görürsün. Uygulamanın hiçbir yerinden
+  bağlanmaz — adresi elle yazarak açılır:
+      https://karaman3434.github.io/TKP/pwa-tani.html
+  auth.js YÜKLEMEZ (giriş/PIN/cihaz kontrolü olmadan çalışsın diye) ve
+  hiçbir veri okumaz/yazmaz. Sadece manifest.json'u, simgeleri, service
+  worker durumunu ve Chrome'un "kurulabilir" olayını (beforeinstallprompt)
+  denetler; sonucu "Raporu Kopyala" ile bana yapıştırabilirsin.
+-->
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json?v=TKP.02.11.26-01:59.1353">
+<meta name="theme-color" content="#0d3d8c">
+<title>İş Takip — Kurulum Tanısı</title>
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f3f6fb;color:#1a2b3c;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:14px;line-height:1.45;}
+  .ust{background:#0d3d8c;color:#fff;padding:14px 16px;font-weight:900;font-size:16px;}
+  .ust small{display:block;font-weight:600;font-size:12px;color:#c7d8f5;margin-top:2px;}
+  main{padding:12px 16px 32px;max-width:720px;margin:0 auto;}
+  .sonuc-kutu{background:#fff;border:1.5px solid #d7deea;border-radius:10px;padding:12px 14px;margin-bottom:12px;font-weight:700;}
+  .sonuc-kutu.ok{border-color:#2e9e5b;background:#eef8f2;}
+  .sonuc-kutu.hata{border-color:#c0392b;background:#fdeeee;}
+  .sonuc-kutu.uyari{border-color:#d19a1c;background:#fff8e6;}
+  .satir{background:#fff;border:1px solid #e1e7f0;border-left-width:5px;border-radius:8px;padding:9px 12px;margin-bottom:8px;overflow-wrap:anywhere;}
+  .satir.ok{border-left-color:#2e9e5b;}
+  .satir.hata{border-left-color:#c0392b;}
+  .satir.uyari{border-left-color:#d19a1c;}
+  .satir.bilgi{border-left-color:#8a98ad;}
+  .satir b{display:block;}
+  .satir span{display:block;color:#4a5a6e;font-size:12.5px;white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace;}
+  .butonlar{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap;}
+  button{flex:1 1 140px;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:800;cursor:pointer;background:#0d3d8c;color:#fff;}
+  button.ikinci{background:#e8eef8;color:#0d3d8c;}
+  h2{font-size:14px;margin:18px 0 8px;color:#0d3d8c;}
+  ol{margin:0;padding-left:20px;}
+  li{margin-bottom:6px;}
+  code{background:#e8eef8;padding:1px 5px;border-radius:4px;font-size:12.5px;}
+</style>
+</head>
+<body>
+<div class="ust">Kurulum Tanısı<small>"Uygulama olarak yükle" neden çalışmıyor?</small></div>
+<main>
+  <div class="sonuc-kutu" id="genelSonuc">Kontroller çalışıyor… (yaklaşık 8 saniye)</div>
+
+  <div class="butonlar">
+    <button type="button" id="btnDene">Yüklemeyi dene</button>
+    <button type="button" class="ikinci" id="btnKopyala">Raporu kopyala</button>
+  </div>
+
+  <div id="satirlar"></div>
+
+  <h2>Sonuç "Chrome kurulabilir buluyor" ise — telefonda kontrol et</h2>
+  <ol>
+    <li>Chrome adres çubuğuna <code>chrome://webapks</code> yaz: listede "İş Takip" varsa uygulama zaten (yarım) kurulu demektir.</li>
+    <li>Play Store'u aç: Google hesabınla giriş yapılı mı? Play Store ve "Google Play Hizmetleri" güncel mi? (Chrome, uygulamayı Google'ın paketleme servisi üzerinden kuruyor; oraya ulaşamazsa "kurulamaz" der.)</li>
+    <li>Samsung: Ayarlar → Güvenlik ve gizlilik → <b>Auto Blocker</b> açıksa kapatıp tekrar dene.</li>
+    <li>Telefonu yeniden başlat, Chrome'u güncelle, sonra bu sayfayı yenile.</li>
+  </ol>
+</main>
+
+<script>
+(function(){
+  var kutu = document.getElementById("satirlar");
+  var genel = document.getElementById("genelSonuc");
+  var rozet = {ok:"✅", hata:"❌", uyari:"⚠️", bilgi:"ℹ️"};
+  var kayit = [];          // rapor için sıralı kayıt
+  var satirElem = {};      // id -> element
+  var bip = null;          // beforeinstallprompt olayı
+  var manifestHatasi = false;
+
+  function satir(id, durum, baslik, detay){
+    var el = satirElem[id];
+    if(!el){
+      el = document.createElement("div");
+      el.innerHTML = "<b></b><span></span>";
+      kutu.appendChild(el);
+      satirElem[id] = el;
+      kayit.push(id);
+    }
+    el.className = "satir " + durum;
+    el.firstChild.textContent = rozet[durum] + " " + baslik;
+    el.lastChild.textContent = detay || "";
+    el.lastChild.style.display = detay ? "block" : "none";
+    el._rapor = rozet[durum] + " " + baslik + (detay ? "\n   " + String(detay).split("\n").join("\n   ") : "");
+  }
+
+  function genelYaz(durum, metin){
+    genel.className = "sonuc-kutu " + durum;
+    genel.textContent = metin;
+  }
+
+  // --- 1) Ortam ---
+  satir("https", window.isSecureContext ? "ok" : "hata", "Güvenli bağlantı (HTTPS)", location.href);
+  satir("tarayici", "bilgi", "Tarayıcı", navigator.userAgent);
+  try{
+    if(navigator.userAgentData && navigator.userAgentData.getHighEntropyValues){
+      navigator.userAgentData.getHighEntropyValues(["platformVersion","model","uaFullVersion"]).then(function(d){
+        satir("tarayici2", "bilgi", "Cihaz / sürüm",
+          "Model: " + (d.model || "?") + "\nAndroid sürümü: " + (d.platformVersion || "?") + "\nChrome sürümü: " + (d.uaFullVersion || "?"));
+      }).catch(function(){});
+    }
+  }catch(e){}
+  var standalone = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true;
+  satir("mod", standalone ? "uyari" : "bilgi", "Görüntü modu",
+    standalone ? "Şu an UYGULAMA olarak açık (standalone) — yani zaten kurulu." : "Normal tarayıcı sekmesi (kurulum için doğru).");
+
+  // --- 2) beforeinstallprompt (Chrome'un "kurulabilir" sinyali) ---
+  satir("bip", "bilgi", "Chrome 'kurulabilir' sinyali (beforeinstallprompt)", "Bekleniyor…");
+  window.addEventListener("beforeinstallprompt", function(ev){
+    try{ ev.preventDefault(); }catch(e){}
+    bip = ev;
+    satir("bip", "ok", "Chrome 'kurulabilir' sinyali (beforeinstallprompt)", "GELDİ — Chrome bu sayfayı kurulabilir buluyor.");
+    sonucuYaz();
+  });
+  window.addEventListener("appinstalled", function(){
+    satir("kuruldu", "ok", "Uygulama kuruldu", "Chrome 'appinstalled' olayını gönderdi.");
+  });
+
+  // --- 3) Manifest ---
+  function manifestKontrol(){
+    var link = document.querySelector('link[rel="manifest"]');
+    if(!link){ satir("mlink", "hata", "Manifest bağlantısı", "Sayfada <link rel=manifest> yok."); manifestHatasi = true; return Promise.resolve(); }
+    var url = link.href;
+    satir("mlink", "ok", "Manifest bağlantısı", url);
+    return fetch(url, {cache:"no-store"}).then(function(r){
+      var tip = r.headers.get("content-type") || "?";
+      satir("mfetch", r.ok ? "ok" : "hata", "Manifest dosyası indirildi", "HTTP " + r.status + "\nTür: " + tip);
+      if(!r.ok){ manifestHatasi = true; throw new Error("HTTP " + r.status); }
+      return r.text();
+    }).then(function(txt){
+      var m;
+      try{ m = JSON.parse(txt); }catch(e){ satir("mjson", "hata", "Manifest JSON'u", "Geçersiz JSON: " + e.message); manifestHatasi = true; return; }
+      satir("mjson", "ok", "Manifest JSON'u geçerli", "id: " + m.id + "\nname: " + m.name + "\nshort_name: " + m.short_name + "\nstart_url: " + m.start_url + "\nscope: " + m.scope + "\ndisplay: " + m.display);
+      if(!m.name && !m.short_name){ satir("mad", "hata", "name / short_name", "İkisi de yok."); manifestHatasi = true; }
+      if(["standalone","fullscreen","minimal-ui"].indexOf(m.display) < 0){ satir("mdisp", "hata", "display", "Uygulama görünümü değil: " + m.display); manifestHatasi = true; }
+      var bas, kap;
+      try{
+        bas = new URL(m.start_url, url); kap = new URL(m.scope || ".", url);
+        var icinde = bas.origin === kap.origin && bas.pathname.indexOf(kap.pathname) === 0;
+        satir("mscope", icinde ? "ok" : "hata", "start_url, scope içinde mi", bas.href + "\n→ " + kap.href);
+        if(!icinde) manifestHatasi = true;
+      }catch(e){ satir("mscope", "hata", "start_url / scope çözülemedi", e.message); manifestHatasi = true; }
+      var ikonlar = Array.isArray(m.icons) ? m.icons : [];
+      var var192 = false, var512 = false;
+      var yuklemeler = ikonlar.map(function(ic, i){
+        return new Promise(function(coz){
+          var boyut = String(ic.sizes || "");
+          if(boyut.indexOf("192x192") >= 0) var192 = true;
+          if(boyut.indexOf("512x512") >= 0) var512 = true;
+          var img = new Image();
+          img.onload = function(){
+            var ok = (img.naturalWidth + "x" + img.naturalHeight) === boyut;
+            satir("ikon" + i, ok ? "ok" : "uyari", "Simge " + boyut, ic.src + "\nGerçek boyut: " + img.naturalWidth + "x" + img.naturalHeight + (ic.purpose ? "\npurpose: " + ic.purpose : ""));
+            coz();
+          };
+          img.onerror = function(){ satir("ikon" + i, "hata", "Simge " + boyut + " YÜKLENEMEDİ", ic.src); manifestHatasi = true; coz(); };
+          img.src = new URL(ic.src, url).href;
+        });
+      });
+      if(!var192 || !var512){ satir("ikonvar", "hata", "192 ve 512 simge tanımı", "192: " + (var192 ? "var" : "YOK") + ", 512: " + (var512 ? "var" : "YOK")); manifestHatasi = true; }
+      return Promise.all(yuklemeler);
+    }).catch(function(e){
+      manifestHatasi = true;
+      satir("mhata", "hata", "Manifest kontrolü durdu", String(e && e.message || e));
+    });
+  }
+
+  // --- 4) Service worker ---
+  function swKontrol(){
+    if(!("serviceWorker" in navigator)){ satir("sw", "uyari", "Service worker", "Bu tarayıcıda desteklenmiyor."); return Promise.resolve(); }
+    return navigator.serviceWorker.getRegistrations().then(function(liste){
+      if(!liste.length){
+        satir("sw", "bilgi", "Service worker", "Kayıtlı yok. (Chrome mobilde 108'den beri kurulum için gerekmiyor; uygulama sayfaları açılınca auth.js kaydeder.)");
+        return;
+      }
+      satir("sw", "bilgi", "Service worker", liste.map(function(r){
+        var w = r.active || r.waiting || r.installing;
+        return "kapsam: " + r.scope + "\ndurum: " + (w ? w.state : "?") + "\nbetik: " + (w ? w.scriptURL : "?");
+      }).join("\n\n"));
+    }).catch(function(e){ satir("sw", "uyari", "Service worker", String(e)); });
+  }
+
+  // --- Sonuç özeti ---
+  function sonucuYaz(){
+    if(manifestHatasi){
+      genelYaz("hata", "Manifest tarafında bir sorun var — kırmızı satırlara bak (raporu bana gönder).");
+    }else if(bip){
+      genelYaz("ok", "Chrome bu sayfayı KURULABİLİR buluyor. Yani kod/manifest tarafı tamam; \"Bu uygulama yüklenemez\" mesajı telefonun kurulum servisinden (Google Play Hizmetleri / paketleme) geliyor. Aşağıdaki \"telefonda kontrol et\" adımlarına bak; ayrıca \"Yüklemeyi dene\" düğmesi hata mesajını gösterebilir.");
+    }else if(standalone){
+      genelYaz("uyari", "Bu sayfa zaten uygulama olarak açık — kurulum denemek için normal Chrome sekmesinde aç.");
+    }else{
+      genelYaz("uyari", "Manifest düzgün ama Chrome 'kurulabilir' sinyalini GÖNDERMEDİ. En olası neden: uygulama bu telefonda zaten (yarım) kurulu — chrome://webapks'ı kontrol et. Raporu kopyalayıp bana gönder.");
+    }
+  }
+
+  Promise.all([manifestKontrol(), swKontrol()]).then(function(){
+    setTimeout(function(){
+      if(!bip) satir("bip", standalone ? "bilgi" : "uyari", "Chrome 'kurulabilir' sinyali (beforeinstallprompt)", "8 saniyede GELMEDİ.");
+      sonucuYaz();
+    }, 8000);
+  });
+
+  // --- Düğmeler ---
+  document.getElementById("btnDene").onclick = function(){
+    if(!bip){ satir("dene", "uyari", "Yükleme denemesi", "Chrome henüz 'kurulabilir' sinyalini göndermedi; denenemez."); return; }
+    var olay = bip; bip = null;
+    try{
+      olay.prompt();
+      olay.userChoice.then(function(c){
+        satir("dene", c.outcome === "accepted" ? "ok" : "uyari", "Yükleme sonucu", c.outcome === "accepted" ? "Kullanıcı kabul etti — kurulum başladı." : "Kullanıcı vazgeçti ya da kurulum yapılamadı: " + c.outcome);
+      }).catch(function(e){ satir("dene", "hata", "Yükleme hatası", String(e && e.message || e)); });
+    }catch(e){
+      satir("dene", "hata", "Yükleme hatası", String(e && e.message || e));
+    }
+  };
+
+  document.getElementById("btnKopyala").onclick = function(){
+    var rapor = "İş Takip kurulum tanısı — " + new Date().toISOString() + "\n" +
+      kayit.map(function(id){ return satirElem[id]._rapor; }).join("\n") +
+      "\n\nSONUÇ: " + genel.textContent;
+    function yedek(){
+      var ta = document.createElement("textarea");
+      ta.value = rapor; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); satir("kopya", "ok", "Rapor kopyalandı", "Şimdi sohbete yapıştırabilirsin."); }catch(e){ satir("kopya", "hata", "Kopyalanamadı", "Ekran görüntüsü al."); }
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(rapor).then(function(){ satir("kopya", "ok", "Rapor kopyalandı", "Şimdi sohbete yapıştırabilirsin."); }).catch(yedek);
+    }else{ yedek(); }
+  };
+})();
+</script>
+</body>
+</html>

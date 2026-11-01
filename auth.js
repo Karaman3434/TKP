@@ -1,5 +1,5 @@
 /*
-  auth.js — WG.291026.1026.1227
+  auth.js — TKP.02.11.26-01:59.1356
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -14,17 +14,17 @@
 
 (function(){
 
-  // KALICI SERVICE WORKER KAYDI (29.10.2026, Abdullah bildirdi — "Yükle"
-  // Chrome'da "Bu uygulama yüklenemez" diyordu). sw.js artık HİÇBİR ŞEYİ
-  // önbelleklemeyen, kalıcı bir service worker (bkz. sw.js'teki açıklama)
-  // — bazı Chrome sürüm/cihazlarında gerçek PWA kurulumu (WebAPK) için bu
-  // kaydın var olması gerekiyor. TÜM sayfalarda çalışsın diye auth.js'e
-  // eklendi (zaten her sayfada yükleniyor). Hata durumunda sessizce yutulur
-  // — kayıt başarısız olsa bile uygulamanın geri kalanı normal çalışmaya
-  // devam eder.
+  // SERVICE WORKER KAYDI (29.10.2026 eklendi; açıklama 02.11.2026'da
+  // DÜZELTİLDİ). sw.js hiçbir şeyi önbelleklemeyen bir geçiş katmanıdır
+  // (bkz. sw.js). ESKİ AÇIKLAMA YANLIŞTI: "Yükle" (WebAPK) için kalıcı
+  // service worker gerekmiyor — Chrome bunu mobilde 108'den beri aramıyor.
+  // "Bu uygulama yüklenemez" uyarısının nedenini görmek için pwa-tani.html.
+  // Kayıt duruyor çünkü zararsız ve .github/workflows/health-check.yml
+  // sw.js'i bekliyor. Hata durumunda sessizce yutulur — kayıt başarısız
+  // olsa bile uygulamanın geri kalanı normal çalışmaya devam eder.
   if("serviceWorker" in navigator){
     try{
-      navigator.serviceWorker.register("/TKP/sw.js?v=WG.291026.1025.1226").catch(function(){});
+      navigator.serviceWorker.register("/TKP/sw.js?v=TKP.02.11.26-01:59.1354").catch(function(){});
     }catch(e){}
   }
 

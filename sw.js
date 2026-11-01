@@ -1,24 +1,27 @@
 /*
-  sw.js — WG.291026.1025.1226
+  sw.js — TKP.02.11.26-01:59.1354
   =========================================
-  KALICI, HİÇBİR ŞEY ÖNBELLEKLEMEYEN SERVICE WORKER (29.10.2026, Abdullah
-  bildirdi — "Yükle" (gerçek uygulama kurulumu) Chrome'da "Bu uygulama
-  yüklenemez" diyerek devre dışı çıkıyordu, sadece "Kısayol oluştur"
-  kalıyordu).
+  HİÇBİR ŞEY ÖNBELLEKLEMEYEN, SADECE SAYFA GEÇİŞLERİNİ AĞA ASLINDA OLDUĞU
+  GİBİ ileten kalıcı service worker.
 
-  ÖNCEKİ SÜRÜM (22.10.2026) kendini kaydeder kaydetmez ANINDA kendini
-  siliyordu (self.registration.unregister()) — eski v1 uygulamadan kalma,
-  bazı cihazlarda hâlâ bayat dosya sunan service worker'ları temizlemek
-  içindi. Ama bunun yan etkisi: proje artık HİÇBİR ZAMAN kalıcı, aktif bir
-  service worker'a sahip olmuyordu — Chrome'un bazı cihaz/sürümlerde
-  "Yükle" (WebAPK) seçeneği için aradığı şart da tam olarak bu.
+  DÜZELTME (02.11.2026): önceki sürümün (29.10.2026) açıklaması YANLIŞTI.
+  "Chrome'un 'Yükle' (WebAPK) seçeneği kalıcı bir service worker arıyor"
+  denmişti — oysa Chrome, menüden "Yükle" için service worker/fetch
+  dinleyicisi şartını MOBİLDE 108. sürümden beri aramıyor (bkz.
+  developer.chrome.com/blog/update-install-criteria). Yani "Bu uygulama
+  yüklenemez" uyarısının nedeni bu dosya değildi ve bu dosya onu çözmez.
+  Kurulum şartları manifest.json'da; kurulumun gerçek nedenini telefonda
+  görmek için pwa-tani.html sayfası var.
 
-  BU SÜRÜM kayıtlı KALIR ama hiçbir isteği önbelleğe almaz — her istek
-  olduğu gibi ağa gider (pass-through). "fetch" dinleyicisi SADECE
-  "service worker var ve istekleri yönetiyor" şartını karşılamak için
-  burada; davranışı normal bir ağ isteğinden farksızdır, yani eski
-  "cihazlar arası bayat içerik" hatası bir daha YAŞANAMAZ. Eski
-  cihazlardan kalma TÜM eski önbellekleri (varsa) bir kerelik temizler.
+  Bu dosya YİNE DE duruyor çünkü (1) .github/workflows/health-check.yml
+  her push'ta sw.js'in erişilebilir olmasını ve bir "fetch" dinleyicisi
+  içermesini bekliyor, (2) auth.js her sayfada bunu kaydediyor — kaldırmak
+  gereksiz risk. Davranışı: istekler olduğu gibi ağa gider, hiçbir şey
+  önbelleğe ALINMAZ — eski "cihazlar arası bayat içerik" hatası bir daha
+  yaşanamaz. Sadece sayfa geçişleri (navigate) buradan geçer; görsel, CSS,
+  JS, Firebase gibi diğer tüm istekleri tarayıcı kendisi yönetir (eski
+  sürümde hepsi buradan geçiyordu; gereksizdi). Eski cihazlardan kalma TÜM
+  eski önbellekler (varsa) bir kerelik temizlenir.
 */
 self.addEventListener("install", function(event){
   self.skipWaiting();
@@ -31,6 +34,7 @@ self.addEventListener("activate", function(event){
   );
 });
 self.addEventListener("fetch", function(event){
-  // Hiçbir şey önbelleklenmiyor — her istek doğrudan ağa gidiyor.
+  // Sadece sayfa geçişleri; diğer istekler tarayıcının kendi akışında kalır.
+  if(event.request.mode !== "navigate") return;
   event.respondWith(fetch(event.request));
 });
