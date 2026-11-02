@@ -61,7 +61,7 @@
 <!-- EKLENDİ (26.10.2026, "Yıllık Avans Tablosu" — mockup onaylandı) —
      yillik-km-odeme.html ile AYNI tablo/kutu bileşenleri. -->
 <link rel="stylesheet" href="km-style.css?v=TKP.02.11.26-10:48.1377">
-<link rel="stylesheet" href="avans-takibi-style.css?v=TKP.02.11.26-16:52.1419">
+<link rel="stylesheet" href="avans-takibi-style.css?v=TKP.02.11.26-17:31.1423">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.02.11.26-10:48.1383">
@@ -155,23 +155,25 @@
       </div>
     </section>
 
-    <!-- MAAŞA EKLE (02.11.2026, Abdullah onayı — mockup üzerinden): satır
-         başındaki kutuyla avans seçilir, alttaki "Maaşa Ekle" ile maaş
-         hesabına düşülür; "Not ekle" ile maaştan düşüldüğü yazılınca avans
-         PASİF olur (bir daha seçilemez). Durumlar: kırmızı çerçeve = aktif,
-         yeşil = maaşa eklendi, gri + 🔒 = pasif. -->
+    <!-- MAAŞ HESAPLAMASINA EKLE (02.11.2026, Abdullah onayı — mockup üzerinden):
+         KALAN AVANS = maaş hesabına henüz eklenmemiş (AÇIK) avansların toplamı.
+         Bu düğme hepsini ekler; eklenen aylar KAPANIR ve kalıcı kilitlenir.
+         Tek ayı eklemek için tablodaki "● Açık" yazısına dokun. -->
+    <button type="button" class="av-ekle-serit" id="btnAvMaasaEkle">
+      <span id="avMaasaEkleEtiket">➕ Maaş hesaplamasına ekle</span>
+      <small id="avMaasaEkleAlt"></small>
+    </button>
+
     <div class="av-lejant">
-      <span class="av-lej av-lej--k">Açık · seçilebilir</span>
-      <span class="av-lej av-lej--y">✓ Maaşa eklendi</span>
-      <span class="av-lej av-lej--g">🔒 Kapalı · kilitli</span>
-      <button type="button" class="av-sec-hepsi" id="btnAvHepsiniSec" hidden>☑ Tümünü seç</button>
+      <span class="av-lej av-lej--k">● Açık · maaşa eklenmedi</span>
+      <span class="av-lej av-lej--y">✓ Kapalı · maaşa eklendi</span>
     </div>
-    <p class="av-aciklama">İstediğin ayların satır başındaki kutusuna dokun, sonra <b>Maaşa Ekle</b>'ye bas ya da <b>Kapat</b> ile hesaptan çıkar. Maaştan düşüldükten sonra <b>Not ekle</b> ile tarih/açıklama yazarsan avans kapanır. Kapalı avans bir daha açılamaz.</p>
+    <p class="av-aciklama">Maaş hesaplamasına eklemek için yukarıdaki düğmeye bas; ya da bir ayın <b>● Açık</b> yazısına dokunup tek ay ekle. Eklenen avans <b>kapanır ve kilitlenir</b>, bir daha açılamaz.</p>
 
     <div class="data-table-container" id="avYilTabloKutu">
       <table class="data-table km-veri-tablo av-yil-tablo">
         <thead><tr>
-          <th class="av-th-sec">✓</th><th>Ay</th><th>Çekilen<br>Avans</th><th>Faturalandırılan</th><th>Kalan<br>Avans</th><th>Durum</th>
+          <th>Durum</th><th>Ay</th><th>Çekilen<br>Avans</th><th>Faturalandırılan</th><th>Kalan<br>Avans</th>
         </tr></thead>
         <tbody id="avYilTabloGovde"></tbody>
       </table>
@@ -286,41 +288,17 @@
 </main>
 
 <!-- MAAŞA EKLE alt çubuğu + not penceresi + bildirim (02.11.2026) -->
-<div class="av-alt-bar" id="avAltBar" hidden>
-  <div class="av-alt-bar-sol">
-    <div class="av-alt-bar-et" id="avAltBarEtiket"></div>
-    <div class="av-alt-bar-tutar" id="avAltBarTutar">0,00 TL</div>
-  </div>
-  <div class="av-alt-bar-btnler">
-    <button type="button" class="av-alt-bar-btn" id="btnAvMaasaEkle">➕ Maaşa Ekle</button>
-    <button type="button" class="av-alt-bar-btn av-alt-bar-btn--kapat" id="btnAvKapat">🔒 Kapat</button>
-  </div>
-</div>
 <div class="av-toast" id="avToast" hidden></div>
-<!-- KAPAT onay penceresi (02.11.2026, Abdullah onayı — mockup üzerinden) -->
-<div class="av-not-overlay" id="avKapatOverlay" hidden>
-  <div class="av-dim" id="avKapatDim"></div>
+<!-- MAAŞ HESAPLAMASINA EKLE onay penceresi (02.11.2026, Abdullah onayı — mockup üzerinden) -->
+<div class="av-not-overlay" id="avOnayOverlay" hidden>
+  <div class="av-dim" id="avOnayDim"></div>
   <div class="av-sheet">
-    <h4>🔒 Seçilen avansları kapat</h4>
-    <div class="alt" id="avKapatAlt"></div>
-    <div class="av-kapat-liste" id="avKapatListe"></div>
-    <div class="av-sh-uyari">⚠️ Kapatılan avans hesaptan çıkar ve KİLİTLENİR: bir daha açılamaz, maaşa eklenemez, üzerinde hiçbir işlem yapılamaz.</div>
-    <button type="button" class="av-sh-btn av-sh-btn--kapat" id="btnAvKapatOnayla">🔒 Evet, kapat</button>
-    <button type="button" class="av-sh-iptal" id="btnAvKapatVazgec">Vazgeç</button>
-  </div>
-</div>
-<div class="av-not-overlay" id="avNotOverlay" hidden>
-  <div class="av-dim" id="avNotDim"></div>
-  <div class="av-sheet">
-    <h4>📝 Maaştan düşüldü notu</h4>
-    <div class="alt" id="avNotBaslikAlt"></div>
-    <div class="av-sh-et">Maaşın düşüldüğü tarih</div>
-    <input type="date" class="av-sh-in" id="avNotTarih">
-    <div class="av-sh-et">Açıklama</div>
-    <input type="text" class="av-sh-in" id="avNotAciklama" maxlength="160">
-    <div class="av-sh-uyari">⚠️ Kaydedersen bu avans KAPANIR: bir daha seçilemez, hiçbir maaş hesabına eklenemez.</div>
-    <button type="button" class="av-sh-btn" id="btnAvNotKaydet">🔒 Kaydet ve kapat</button>
-    <button type="button" class="av-sh-iptal" id="btnAvNotVazgec">Vazgeç</button>
+    <h4>➕ Maaş hesaplamasına ekle</h4>
+    <div class="alt" id="avOnayAlt"></div>
+    <div class="av-kapat-liste" id="avOnayListe"></div>
+    <div class="av-sh-uyari">⚠️ Eklenen aylar KAPANIR ve KİLİTLENİR: bir daha açılamaz, geri alınamaz, üzerinde işlem yapılamaz.</div>
+    <button type="button" class="av-sh-btn" id="btnAvOnayla">✓ Evet, ekle ve kapat</button>
+    <button type="button" class="av-sh-iptal" id="btnAvOnayVazgec">Vazgeç</button>
   </div>
 </div>
 
@@ -337,8 +315,8 @@
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="ust-bar-davranis.js?v=TKP.01.11.26-18:36.1334"></script>
 <script src="maas-kayit-data.js?v=WG.271026.2238.1125"></script>
-<script src="avans-kayit-data.js?v=TKP.02.11.26-16:52.1417"></script>
-<script src="avans-takibi-render.js?v=TKP.02.11.26-16:52.1418"></script>
+<script src="avans-kayit-data.js?v=TKP.02.11.26-17:31.1421"></script>
+<script src="avans-takibi-render.js?v=TKP.02.11.26-17:31.1422"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
