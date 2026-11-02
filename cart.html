@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-17:06.1329 — cart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.02.11.26-08:55.1359 — cart.html -->
 <!--
   27.10.2026 PERFORMANS KAZANIMI: html2canvas'ın bu sayfada en baştan
   yüklenen statik <script> etiketi kaldırıldı — artık cart-render.js'teki
@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="calc-style.css?v=WG.011126.1022.1262">
 <link rel="stylesheet" href="belge-style.css?v=WG.011126.1022.1258">
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.01.11.26-19:09.1341">
-<link rel="stylesheet" href="cart-style.css?v=TKP.01.11.26-19:09.1342">
+<link rel="stylesheet" href="cart-style.css?v=TKP.02.11.26-08:55.1357">
 <link rel="stylesheet" href="detail-style.css?v=WG.011126.1022.1263">
 <!-- YENİ (12.10.2026, Abdullah onayı) — Belge Önizleme'de onaylanan açık
      gri zemin + türe-özel rozet renk tasarımı Sepet tablosuna taşındı.
@@ -218,10 +218,23 @@
        calc-style.css sınıfları) — sadece müşteri şeridi ve kendi arama
        kutusu yok (zaten bu sayfada var). Dış çerçeve cart-style.css'teki
        hazır .hesapla-overlay/.hesapla-kutu kullanılıyor. -->
-  <div class="hesapla-overlay" id="hpOverlay" hidden>
+  <!-- GÜNCELLENDİ (02.11.2026, Abdullah onayı — mockup onaylandı: "Ok tmm
+       kodlayalım"): alttaki "✕ Kapat" ve "SEPETE EKLE" butonları KALDIRILDI.
+       SEPETE EKLE artık ürün adı satırının sonunda (boş duran yerde) ve
+       sepetteki ürün sayısını gösteren kırmızı sayaçla (#hpSepetSayac).
+       Popup'ı kapatmak için koyu alana (popup dışına) dokunmak yeterli —
+       data-disari-dokun-kapat bu davranışı SADECE bu sayfada açar
+       (hesapla-popup.js ortak olduğu için calc.html etkilenmesin diye
+       opt-in; calc.html'de eski Kapat butonu duruyor). -->
+  <div class="hesapla-overlay" id="hpOverlay" data-disari-dokun-kapat hidden>
     <div class="hesapla-kutu">
-      <div class="hesapla-baslik" id="hpUrunAd">Ürün</div>
-      <div class="hesapla-kod" id="hpUrunKod"></div>
+      <div class="hp-baslik-satir">
+        <div class="hp-baslik-sol">
+          <div class="hesapla-baslik" id="hpUrunAd">Ürün</div>
+          <div class="hesapla-kod" id="hpUrunKod"></div>
+        </div>
+        <button class="hc-listeye-ekle-buton hc-listeye-ekle-buton--bekliyor" id="hpBtnListeyeEkle"><span class="hp-btn-etiket">➕ SEPETE EKLE</span><span class="hp-sepet-sayac" id="hpSepetSayac" hidden></span></button>
+      </div>
 
       <div id="hpGecmisAlimIpucu" class="gecmis-alim-ipucu" hidden></div>
 
@@ -271,14 +284,9 @@
         </div>
       </div>
 
-      <div class="hc-kutu hc-kutu--prim" style="margin-bottom:10px;">
+      <div class="hc-kutu hc-kutu--prim">
         <div class="hc-kutu-etiket">PRİM</div>
         <div class="hc-kutu-deger" id="hpPrimTL">-</div>
-      </div>
-
-      <div class="hc-alt-buton-satir">
-        <button class="hc-kapat-buton" id="hpBtnKapat">✕ Kapat</button>
-        <button class="hc-listeye-ekle-buton hc-listeye-ekle-buton--bekliyor" id="hpBtnListeyeEkle">➕ SEPETE EKLE</button>
       </div>
     </div>
   </div>
@@ -440,7 +448,7 @@
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="cart-render.js?v=TKP.01.11.26-19:09.1339"></script>
 <script src="urun-arama.js?v=WG.271026.2238.1150"></script>
-<script src="hesapla-popup.js?v=WG.261026.0049.1039"></script>
+<script src="hesapla-popup.js?v=TKP.02.11.26-08:55.1358"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026): bugünkü üst-bar birleştirmesiyle
      (#btnMenu -> #btnAsMenuAc) bu dosyanın menü tıklamasını yakalayan kısmı zaten
      kırılmıştı (element bulunamıyordu, confirm() hiç tetiklenmiyordu). Abdullah'ın

@@ -1,5 +1,5 @@
 /*
-  cart-style.css — TKP.01.11.26-19:09.1342
+  cart-style.css — TKP.02.11.26-08:55.1357
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -726,6 +726,47 @@
       geçerli bir hesaplama sonucu varken yeşil + "HESAPLANDI" etiketi. */
 .hesapla-kutu .hc-listeye-ekle-buton--bekliyor { background: #FC8D33; }
 .hesapla-kutu .hc-listeye-ekle-buton--hazir { background: #0e6b34; }
+
+/* 5) ÜRÜN ADI SATIRI + SAYAÇLI "SEPETE EKLE" (02.11.2026, Abdullah onayı —
+      mockup onaylandı: "Ok tmm kodlayalım"). Alttaki Kapat/SEPETE EKLE
+      butonları kaldırıldı; SEPETE EKLE ürün adı satırının sonuna taşındı.
+      Sadece cart.html bu markup'ı kullanıyor (calc.html'in popup'ı eski
+      alt buton satırıyla duruyor) — bu sınıflar orada hiç geçmediği için
+      etkilenmez. Sayaç = sepetteki ürün satırı sayısı (0 iken gizli). */
+.hesapla-kutu .hp-baslik-satir {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.hesapla-kutu .hp-baslik-sol { flex: 1; min-width: 0; }
+.hesapla-kutu .hp-baslik-sol .hesapla-kod { margin-bottom: 0; }
+.hesapla-kutu .hp-baslik-satir .hc-listeye-ekle-buton {
+  position: relative;
+  flex: none;
+  white-space: nowrap;
+  padding: 10.8px 14px;
+}
+.hesapla-kutu .hp-sepet-sayac {
+  position: absolute;
+  top: -9px;
+  right: -7px;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #e24b4a;
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border: 2px solid #ffffff;
+  box-sizing: border-box;
+}
+.hesapla-kutu .hp-sepet-sayac[hidden] { display: none; }
 
 /* ---------- Müşterisiz Gönder — gerçek Gönder ekranıyla aynı görünüm
    (WG.290926.1651.670, Abdullah'ın isteğiyle) ---------- */

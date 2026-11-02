@@ -1,6 +1,16 @@
 /*
-  hesapla-popup.js — WG.261026.0049.1039
+  hesapla-popup.js — TKP.02.11.26-08:55.1358
   =======================================
+  GÜNCELLENDİ (02.11.2026, Abdullah onayı — mockup onaylandı: "Ok tmm
+  kodlayalım"): cart.html'de alttaki "Kapat" ve "SEPETE EKLE" butonları
+  kalktı; SEPETE EKLE ürün adı satırına, sepetteki ürün sayısını gösteren
+  kırmızı sayaçla (#hpSepetSayac) taşındı. Bu dosya calc.html ile ORTAK
+  olduğu için hepsi opt-in/korumalı: (1) #hpBtnKapat yoksa (cart.html)
+  bağlanmaz — calc.html'de eskisi gibi çalışır; (2) buton etiketi
+  .hp-btn-etiket span'ı varsa SADECE onu yazar (sayaç silinmesin), yoksa
+  eskisi gibi tüm metni; (3) #hpSepetSayac yoksa sayaç hiç çalışmaz;
+  (4) popup dışına dokununca kapanma SADECE #hpOverlay'de
+  data-disari-dokun-kapat varsa (cart.html) açık.
   Birleşik Sayfa (cart.html) için Hızlı Hesapla'nın POPUP hâli — 02.10.2026,
   Abdullah'ın isteğiyle: "ürünün üzerine tıkladığımda popup gibi hesaplama
   sayfası açılır... birebir herşeyiyle hesapla sayfası olacak". Hesaplama
@@ -141,13 +151,35 @@ var HesaplaPopup = (function(){
       var sonucHazirMi = listeFiyat > 0 && urun.adet > 0;
       if(sonucHazirMi){
         listeyeEkleBtn.className = "hc-listeye-ekle-buton hc-listeye-ekle-buton--hazir";
-        listeyeEkleBtn.textContent = "✓ SEPETE EKLE";
+        butonEtiketiYaz(listeyeEkleBtn, "✓ SEPETE EKLE");
       } else {
         listeyeEkleBtn.className = "hc-listeye-ekle-buton hc-listeye-ekle-buton--bekliyor";
-        listeyeEkleBtn.textContent = "➕ SEPETE EKLE";
+        butonEtiketiYaz(listeyeEkleBtn, "➕ SEPETE EKLE");
       }
       kurDegeriniGoster();
     }catch(e){ hataGoster("Hesaplama yapılamadı: " + e.message); }
+  }
+
+  // Buton etiketini yazar. cart.html'deki butonda etiket ayrı bir
+  // .hp-btn-etiket span'ında (yanında sayaç span'ı var — textContent ile
+  // tüm butonu yazmak sayacı SİLERDİ); calc.html'deki butonda span yok,
+  // eskisi gibi düz metin.
+  function butonEtiketiYaz(btn, metin){
+    var etiket = btn.querySelector(".hp-btn-etiket");
+    if(etiket) etiket.textContent = metin;
+    else btn.textContent = metin;
+  }
+
+  // Sepetteki ürün SATIRI sayısını sayaca yazar (0 iken gizli). Sayaç
+  // elemanı yoksa (calc.html) hiçbir şey yapmaz.
+  function sepetSayaciniGuncelle(){
+    try{
+      var sayac = document.getElementById("hpSepetSayac");
+      if(!sayac) return;
+      var n = (typeof CartData !== "undefined" && CartData.liste) ? CartData.liste().length : 0;
+      sayac.textContent = n;
+      sayac.hidden = !(n > 0);
+    }catch(e){}
   }
 
   // urun: {ad, berta, abas, fiyat}  (yeni) veya sepetteki tam ürün nesnesi (düzenleme)
@@ -176,6 +208,7 @@ var HesaplaPopup = (function(){
 
       gecmisAlimIpucunuGuncelle(seciliUrunBilgi);
       hesaplaVeGoster();
+      sepetSayaciniGuncelle();
       document.getElementById("hpOverlay").hidden = false;
     }catch(e){ hataGoster("Hesaplama penceresi açılamadı: " + e.message); }
   }
@@ -235,6 +268,7 @@ var HesaplaPopup = (function(){
         CartData.ekle(yeniUrun);
       }
       var yeniEklemeMiydi = (duzenlenenIdx === null);
+      sepetSayaciniGuncelle();
       kapat();
       if(typeof sayfayiCiz === "function") sayfayiCiz();
       // EKLENDİ (26.10.2026): kancaya artık bunun YENİ bir ekleme mi yoksa
@@ -247,8 +281,25 @@ var HesaplaPopup = (function(){
   }
 
   document.addEventListener("DOMContentLoaded", function(){
-    document.getElementById("hpBtnKapat").onclick = kapat;
+    // cart.html'de alttaki Kapat butonu yok (02.11.2026) — var olduğunda bağla.
+    var kapatBtn = document.getElementById("hpBtnKapat");
+    if(kapatBtn) kapatBtn.onclick = kapat;
     document.getElementById("hpBtnListeyeEkle").onclick = listeyeEkleTiklandi;
+
+    // Popup DIŞINA (koyu alana) dokununca kapan — SADECE
+    // data-disari-dokun-kapat olan overlay'de (cart.html). Basma ve bırakma
+    // ikisi de overlay'in kendisinde olmalı: kutunun içinde başlayıp (ör.
+    // sayı alanında yazı seçerken) dışarıda biten sürükleme yanlışlıkla
+    // kapatmasın.
+    var hpOverlayEl = document.getElementById("hpOverlay");
+    if(hpOverlayEl && hpOverlayEl.hasAttribute("data-disari-dokun-kapat")){
+      var basmaOverlaydeydi = false;
+      hpOverlayEl.addEventListener("pointerdown", function(ev){ basmaOverlaydeydi = (ev.target === hpOverlayEl); });
+      hpOverlayEl.addEventListener("click", function(ev){
+        if(ev.target === hpOverlayEl && basmaOverlaydeydi) kapat();
+        basmaOverlaydeydi = false;
+      });
+    }
     ["hpListeFiyat","hpDipFiyat","hpIskonto","hpAdet"].forEach(function(id){
       document.getElementById(id).addEventListener("input", function(){
         if(id==="hpListeFiyat") dipFiyatiOner();
