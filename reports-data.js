@@ -1,5 +1,5 @@
 /*
-  reports-data.js — TKP.02.11.26-12:19.1391
+  reports-data.js — TKP.02.11.26-13:55.1402
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -735,6 +735,76 @@ var ReportsData = (function(){
     return kacanlar;
   }
 
+  // ORTAK İŞLEM SORGUSU (02.11.2026, Abdullah onayı — "tek tablo, filtre ile
+  // süz" turu): Son İşlemler, Satış Listesi, Ay Detay, Kaçan Satışlar ... her
+  // listenin "hangi kayıtlar?" sorusu BURADA, tek yerde cevaplanır (ekranlar
+  // artık kendi süzme/toplama kodunu taşımaz — bkz. islem-liste.js).
+  // spec (hepsi isteğe bağlı):
+  //   tip       : "numune"|"teklif"|"proforma"|"siparis"  ("" = hepsi)
+  //   durum     : "kacan" (kaçırılan) | "bekleyen" (stok bekliyor VEYA bakiye var)
+  //   tarihBas / tarihBit : ts sınırları (ms, ikisi de dahil)
+  //   ayAd / yil : kaydın "tarih" metnindeki ay (kısa ad, örn. "Eki") ve yıl —
+  //                İstatistikler'deki aylık toplamla (ayToplami) AYNI eşleme
+  //   musteriId / musteriAd : bir müşterinin kayıtları
+  //   arama     : müşteri adında geçen metin (büyük/küçük harf duyarsız)
+  //   kanal     : "whatsapp" | "mail" | "yok" (kanal kaydı olmayanlar)
+  //   beklemedeHaric : true ise "Stok Bekliyor" kayıtları listeden çıkar
+  //   beklemedeToplamaDahil : true ise "Stok Bekliyor" kayıtları toplama da girer
+  //   siralama  : "yeni" (varsayılan) | "eski"
+  //   limit     : en çok kaç kayıt döndürülsün (özet yine TÜM eşleşmeler üzerinden)
+  // DÖNÜŞ: {kayitlar:[...], ozet:{eslesen, gosterilen, toplamEuro, toplamTl}}
+  // Her kayıt, arşiv kaydının kopyasıdır + _tutar (EUR), _kur, _tl, _beklemede,
+  // _bakiye. TOPLAM KURALI (kalıcı): durum==="beklemede" (stok bekleyen)
+  // siparişler gerçek satış değildir — beklemedeToplamaDahil verilmedikçe
+  // HİÇBİR toplama girmez. Kaynak hâlâ sonIslemler() — şehir/kanal düzeltmeleri
+  // (canliSehirUygula, eskiKanalAdlariniDuzelt) otomatik uygulanmış olur.
+  function kayitTutariEuro(k){
+    return (k.urunler||[]).reduce(function(s,u){
+      return s + (u.toplamEuro !== undefined ? u.toplamEuro : ((u.iskBirim||0)*(u.adet||0)));
+    }, 0);
+  }
+  function islemSorgula(spec){
+    spec = spec || {};
+    var yedekKur = guncelKurYedek();
+    var q = (spec.arama||"").trim().toLocaleLowerCase("tr-TR");
+    var adAnahtar = (spec.musteriAd||"").toLocaleLowerCase("tr-TR");
+    var eslesen = [];
+    sonIslemler().forEach(function(k){
+      var beklemede = k.durum === "beklemede";
+      var bakiye = (k.urunler||[]).some(function(u){ return (u.bakiyeAdet||0) > 0; });
+      if(spec.tip && k.tip !== spec.tip) return;
+      if(spec.durum === "kacan" && k.durum !== "kacan") return;
+      if(spec.durum === "bekleyen" && !(beklemede || bakiye)) return;
+      if(spec.beklemedeHaric && beklemede) return;
+      var ts = k.ts || 0;
+      if(spec.ayAd){
+        var tp = (k.tarih||"").split(" ");
+        if(!k.tarih || (tp[1]||"") !== spec.ayAd || (tp[2]||"") !== String(spec.yil)) return;
+      }
+      if(spec.tarihBas != null && ts < spec.tarihBas) return;
+      if(spec.tarihBit != null && ts > spec.tarihBit) return;
+      if(spec.musteriId || adAnahtar){
+        var benim = (spec.musteriId && k.musteriId) ? (k.musteriId === spec.musteriId)
+                  : (adAnahtar ? (k.musteri||"").toLocaleLowerCase("tr-TR") === adAnahtar : false);
+        if(!benim) return;
+      }
+      if(q && (k.musteri||"").toLocaleLowerCase("tr-TR").indexOf(q) < 0) return;
+      if(spec.kanal === "yok"){ if(k.kanal) return; }
+      else if(spec.kanal && k.kanal !== spec.kanal) return;
+      var tutar = kayitTutariEuro(k);
+      var kur = k.kur || yedekKur;
+      eslesen.push(Object.assign({}, k, {_tutar:tutar, _kur:kur, _tl:tutar*kur, _beklemede:beklemede, _bakiye:bakiye}));
+    });
+    if(spec.siralama === "eski") eslesen.reverse();
+    var toplamEuro = 0, toplamTl = 0;
+    eslesen.forEach(function(k){
+      if(k._beklemede && !spec.beklemedeToplamaDahil) return;
+      toplamEuro += k._tutar; toplamTl += k._tl;
+    });
+    var kayitlar = spec.limit ? eslesen.slice(0, spec.limit) : eslesen;
+    return {kayitlar:kayitlar, ozet:{eslesen:eslesen.length, gosterilen:kayitlar.length, toplamEuro:toplamEuro, toplamTl:toplamTl}};
+  }
+
   return {
     baslat: baslat,
     arsivDegistiginde: arsivDegistiginde,
@@ -758,6 +828,7 @@ var ReportsData = (function(){
     kacanOzetBuAy: kacanOzetBuAy,
     satislarListele: satislarListele,
     tumKacanlar: tumKacanlar,
+    islemSorgula: islemSorgula,
     kaydiSil: kaydiSil,
     kayitlariBirlestir: kayitlariBirlestir,
     musteriUrunGecmisi: musteriUrunGecmisi,

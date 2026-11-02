@@ -26,7 +26,7 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
 <link rel="stylesheet" href="reports-style.css?v=TKP.02.11.26-10:48.1374">
-<link rel="stylesheet" href="son-islemler-style.css?v=TKP.02.11.26-12:19.1394">
+<link rel="stylesheet" href="islem-liste-style.css?v=TKP.02.11.26-13:55.1397">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.02.11.26-10:48.1383">
@@ -94,36 +94,9 @@
 </div>
 
 <main class="sayfa">
-
-  <div class="islem-filtre-satiri">
-    <input type="text" id="islemAra" placeholder="Müşteri adıyla ara..." autocomplete="off">
-    <!-- 21.10.2026 (Abdullah onayı — mockup "B" tasarımı üzerinden): native
-         <select> mobilde option arka planını yok saydığı için, "Tüm Türler"
-         seçici kendi çizdiğimiz düğme+panel ile değiştirildi (bkz.
-         son-islemler-style.css ".sif-tip-*" ve son-islemler-render.js
-         tipFiltreKur()). Yapı, avans-takibi.html'deki "av-tip-btn/av-tip-
-         popup/av-tip-secenek" kalıbıyla aynı mimari. -->
-    <div class="sif-tip-wrap">
-      <button type="button" id="islemTipBtn" class="sif-tip-btn">Tüm Türler<span class="sif-tip-ok">▾</span></button>
-      <div class="sif-tip-popup" id="islemTipPopup" hidden>
-        <button type="button" class="sif-tip-secenek sif-tip-secenek--tum" data-tip="">Tüm Türler<span class="sif-tip-check">✓</span></button>
-        <button type="button" class="sif-tip-secenek sif-tip-secenek--numune" data-tip="numune">Numune</button>
-        <button type="button" class="sif-tip-secenek sif-tip-secenek--teklif" data-tip="teklif">Teklif</button>
-        <button type="button" class="sif-tip-secenek sif-tip-secenek--proforma" data-tip="proforma">Proforma</button>
-        <button type="button" class="sif-tip-secenek sif-tip-secenek--siparis" data-tip="siparis">Sipariş</button>
-        <button type="button" class="sif-tip-secenek sif-tip-secenek--beklemede" data-tip="beklemede">⏳ Stok ve Bakiye Bekleyen</button>
-      </div>
-    </div>
-    <div id="tarihFiltreYeri"></div>
-  </div>
-  <div class="si-liste-kutu">
-    <div id="islemlerListesi"></div>
-    <p class="bos-mesaj" id="islemlerBosMesaj" hidden>Henüz kayıt yok.</p>
-  </div>
-
+  <div id="islemListesiYeri"></div>
 </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -134,11 +107,12 @@
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="ust-bar-davranis.js?v=TKP.01.11.26-18:36.1334"></script>
 <script src="customer-data.js?v=TKP.02.11.26-11:48.1388"></script>
-<script src="reports-data.js?v=TKP.02.11.26-12:19.1391"></script>
+<script src="reports-data.js?v=TKP.02.11.26-13:55.1402"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1523.89"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
-<script src="tarih-filtre.js?v=WG.211026.2100.906"></script>
-<script src="son-islemler-render.js?v=WG.011126.0932.1255"></script>
+<script src="tarih-filtre.js?v=TKP.02.11.26-13:55.1395"></script>
+<script src="islem-liste.js?v=TKP.02.11.26-13:55.1396"></script>
+<script src="son-islemler-render.js?v=TKP.02.11.26-13:55.1398"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->

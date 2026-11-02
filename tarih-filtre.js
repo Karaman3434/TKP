@@ -1,5 +1,5 @@
 /*
-  tarih-filtre.js — WG.211026.2100.906
+  tarih-filtre.js — TKP.02.11.26-13:55.1395
   =====================================
   TEK, PAYLAŞILAN tarih filtresi bileşeni (21.10.2026, Abdullah onayı —
   mockup üzerinden onaylandı). Son İşlemler, Müşteri Geçmişi, Satışlarım,
@@ -45,7 +45,7 @@ var TarihFiltre = (function(){
   function ekle(mountId, opts){
     opts = opts || {};
     var mount = document.getElementById(mountId);
-    if(!mount) return { icindeMi: function(){ return true; } }; // bileşen eklenemedi — filtre uygulanmamış gibi davran
+    if(!mount) return { icindeMi: function(){ return true; }, sec: function(){}, aralik: function(){ return null; }, secim: function(){ return "tumu"; } }; // bileşen eklenemedi — filtre uygulanmamış gibi davran
 
     sayac++;
     var btnId = "tarihFiltreBtn" + sayac;
@@ -163,7 +163,18 @@ var TarihFiltre = (function(){
       icindeMi: function(ts){
         if(!aktifAralik) return true;
         return (ts||0) >= aktifAralik.bas && (ts||0) <= aktifAralik.bit;
-      }
+      },
+      // EKLENDİ (02.11.2026 — ortak İşlem Listesi, islem-liste.js): dışarıdan
+      // seçim yapma ("Bu Ay" hazır tuşu gibi) ve mevcut aralığı/seçimi okuma.
+      // sec() filtre değiştiğinde `degisti` geri çağrısını ÇAĞIRMAZ — çağıran
+      // kendi listesini zaten kendisi yeniden çizer. Mevcut kullanıcılar
+      // (gecmis, bakiye-urunler...) bu yöntemleri kullanmadığı için etkilenmez.
+      sec: function(secim){
+        state.secim = secim || "tumu"; state.ozelBas = null; state.ozelBit = null;
+        butonuGuncelle();
+      },
+      aralik: function(){ return aktifAralik ? { bas: aktifAralik.bas, bit: aktifAralik.bit } : null; },
+      secim: function(){ return state.secim; }
     };
   }
 

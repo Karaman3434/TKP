@@ -1,0 +1,173 @@
+/* islem-liste-style.css — TKP.02.11.26-13:55.1397
+   ORTAK İŞLEM LİSTESİ STİLİ (02.11.2026, Abdullah onayı): Son İşlemler,
+   Satış Listesi, Ay Detay ve Kaçan Satışlar artık bu TEK dosyadan stillenir
+   (islem-liste.js). Satır / gün bandı / rozet kuralları, onaylı "Son
+   İşlemler" tasarımından (son-islemler-style.css) BİREBİR taşındı — görünüm
+   değişmedi. Eski ".sif-tip-*" (tür açılır menüsü) kaldırıldı; yerine
+   filtre ikonu + pencere (".il-*") geldi.
+   Aşağıdaki eski notlar, kuralların tarihçesidir.
+*/
+
+/* Bu sayfaya özgü "Siyah" tema (Ana Sayfa'daki Son İşlemler kutucuğunun
+   rengiyle devam ediyor) — sadece #islemAra'yı hedefler, diğer tl- sayfalarını
+   (Satış Listesi, Kaçan Satışlar) etkilemez. */
+#islemAra { border-color: #444444 !important; min-width: 0; }
+
+/* TABLO TASARIMI (13.10.2026, Abdullah'ın paylaştığı referans görsel +
+   gerçek ChatGPT kodu + yazılı talimat metnine göre): eski 2 satırlı
+   tl-kart/tl-serit/tl-govde yapısının YERİNE geçti. Her işlem GERÇEK TEK
+   SATIR, CSS Grid ile sütunlar dikey hizalı (Tarih/Rozet/Belge/Tutar sabit
+   piksel — içerikleri zaten sınırlı uzunlukta; Firma VE Konum esnek/minmax
+   sütun, uzun metin "..." ile KESİLMEZ, overflow-wrap:anywhere ile alt
+   satıra SARAR — talimatın kesin isteği: "Firma adını sessizce kesme").
+   Satır min-height ile açılır, sarıp uzayan içerikte otomatik büyür (sabit
+   height YOK). Sol kenarda işlem türüne göre renkli ince şerit. Dış
+   kutu/çerçeve YOK (program kuralı). Ok kırmızı (#E12626, referansın kesin
+   isteği). Günlük gruplama/toplam KALDIRILDI — düz liste. SADECE
+   #islemlerListesi ile scope'landı — reports-style.css'teki paylaşılan
+   .tl-* sınıfları (Satış Listesi, Kaçan Satışlar, Ay Detayı, İşlem Geçmişi)
+   KESİNLİKLE etkilenmedi; burada hepsi yeni "sr-" ön ekiyle, bu dosyaya
+   özgü tanımlandı. */
+/* TABLO TASARIMI v4 (14.10.2026, Abdullah'ın isteğiyle — onaylandı): tarih
+   sütunu satırdan kaldırıldı, yerine diğer sayfalardaki (Satışlarım/Kaçan
+   Satışlar/Ay Detayı) gibi kutusuz "sr-grup-baslik" gün başlığı +
+   "sr-liste-kutu" geldi. Firma sütunu, tarihin boşalttığı genişliği aldı.
+   Grup başlığının zemin rengi programın diğer yerlerinde kullanılan GRİ
+   tona çevrildi (eski açık mavi #e9f3fc yerine) — bu değişiklik TÜM liste
+   sayfalarına (Satışlarım, Kaçan Satışlar, Ay Detayı, İşlem Geçmişi) aynı
+   anda uygulandı. Gruplar arası boşluk da sıkılaştırıldı (14px → 3px). */
+/* GÜN BAŞLIĞI YENİDEN TASARLANDI (01.11.2026, Abdullah onayı — "günleri
+   müşteri kayıtlarından ayırt edemiyorum" turu, 3 mockup seçeneğinden
+   "A — Lacivert" onaylandı): eski açık gri zemin (#f7f9fb) altındaki beyaz
+   satırlardan neredeyse hiç ayırt edilemiyordu — artık markanın kendi
+   lacivertinde DOLU bir şerit, beyaz kalın yazı; satır aralığı/köşe
+   yuvarlaklığı büyütüldü ki göz bir çırpıda günü satırlardan ayırabilsin.
+   SADECE #islemlerListesi (bu sayfa) ile scope'lu — diğer liste
+   sayfalarındaki (Satışlarım/Kaçan Satışlar/Ay Detayı/İşlem Geçmişi)
+   ".tl-grup-baslik" ve kendi ".sr-grup-baslik" kopyalarına DOKUNULMADI. */
+#islemlerListesi .sr-grup-baslik {
+  background: #0d3d8c; color: #ffffff; display: flex; justify-content: space-between;
+  /* YAZI BOYU %15 KÜÇÜLTÜLDÜ (01.11.2026, Abdullah onayı): 13.5px -> 11.475px
+     — hem tarih hem gün toplamı aynı font-size'ı paylaşıyor. */
+  align-items: center; padding: 7px 3mm; border-radius: 9px; font-size: 11.475px;
+  font-weight: 800; line-height: 1.2; margin: 8px 0 4px; letter-spacing: .1px;
+}
+#islemlerListesi .sr-grup-baslik:first-child { margin-top: 0; }
+#islemlerListesi .sr-liste-kutu { margin-bottom: 0; }
+/* İŞLEM KODU SÜTUNU DARALTILDI (01.11.2026, Abdullah onayı — "listeyi
+   rahatlatmak" turu): "Belge" sütunu artık işlem kodu basmıyor (bkz.
+   son-islemler-render.js), sadece nadiren görünen mail/whatsapp kanal
+   harfini taşıyor — boşalan genişlik Tutar'a verildi. */
+#islemlerListesi .sr-satir {
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(50px,19%) 43.2px 16px 76px 18px;
+  align-items: center;
+  gap: 4.56px;
+  /* MIN-HEIGHT YARIYA İNDİRİLDİ (01.11.2026, Abdullah onayı — "satırlar
+     arası çok boşluk var, S22'de daha fazla kayıt görmek istiyorum" turu):
+     40px -> 20px. Padding zaten önceki turda ~0'a indirilmişti (aşağıdaki
+     eski not), bu yüzden satır yüksekliğini fiilen BELİRLEYEN tek değer
+     min-height idi — tek satırlık içerik (firma/rozet/tutar) ~18-19px
+     doğal yükseklikte olduğu için 20px'te kırpılmadan sığıyor, 2 satıra
+     saran uzun firma/konum metinleri min-height'ı zaten aşıp kendi doğal
+     yüksekliğine büyüyor (min-height bir TABAN, tavan değil). */
+  min-height: 20px;
+  /* PADDING DARALTILDI (01.11.2026, Abdullah onayı — %50 + ek %19 + ek %70):
+     dikey 7px -> 2.835px -> 0.8505px (orijinalin ~%12.15'i). Yatay/sol
+     padding değişmedi. */
+  padding: 0.8505px 2mm 0.8505px calc(2mm + 6px);
+  border-bottom: 1px solid #eef0f3;
+  border-left: 3px solid #c3cad4;
+  background: #fff;
+}
+#islemlerListesi .sr-satir:last-child { border-bottom: none; }
+/* LİSTE TASARIMLARI GENELİ (14.10.2026) + %10 EK BÜYÜTME (01.11.2026,
+   Abdullah onayı — "harf ve sayıların boyutu" turu, SADECE bu sayfa
+   #islemlerListesi kapsamında — diğer liste sayfalarındaki eşdeğer
+   sınıflara dokunulmadı, onlar kendi ayrı tarihli büyütmesini korur). */
+#islemlerListesi .sr-firma-h { font-size: 14.8px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
+#islemlerListesi .sr-konum-h { font-size: 12.1px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
+#islemlerListesi .sr-rozet-h {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11.5px; font-weight: 800; padding: 4px 2px; border-radius: 5px;
+  text-align: center; line-height: 1;
+}
+#islemlerListesi .sr-belge-h { font-size: 11.5px; font-weight: 700; color: #5f6b7a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#islemlerListesi .sr-kanal-harf { font-weight: 900; margin-right: 2px; }
+/* TUTAR RENGİ SİYAH (01.11.2026, Abdullah onayı — "ayırt edici değil"
+   turu): eskiden mavi (#0755C9) idi, ayırt ediciliği yetersizdi — artık
+   firma adıyla aynı koyu/siyah tonda, kalın. */
+#islemlerListesi .sr-tutar-h { font-size: 12.6px; font-weight: 800; color: #1c2430; text-align: right; overflow-wrap: anywhere; line-height: 1.15; }
+#islemlerListesi .sr-tutar-yok { color: #c3cad4; font-weight: 600; }
+#islemlerListesi .sr-durum-ek { font-size: 11px; font-weight: 800; color: #b7601f; background: #FFF0D9; padding: 2px 4px; border-radius: 5px; white-space: nowrap; display:inline-block; }
+/* BEKLEMEDE RENK GÜNCELLEMESİ (21.10.2026, Abdullah onayı — "açık kahve"
+   turu): "⏳ Beklemede" etiketi artık ayrı bir modifier sınıfla kendi
+   renginde — ".sr-durum-ek" taban sınıfı (örn. "📦 Bekleyen" bakiye
+   etiketi) DOKUNULMADI. Satırın TAMAMININ zemini de aynı aileden, daha
+   açık bir tonla ayırt ediliyor. */
+/* YAZI KÜÇÜLTÜLDÜ (27.10.2026) + %10 EK BÜYÜTME (01.11.2026, Abdullah
+   onayı): Tutar sütunu kod kaldırılınca 60px'ten 76px'e genişlediği için
+   büyüyen yazı artık ok ikonuna binmiyor (bkz. aşağıdaki test). */
+#islemlerListesi .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; font-size: 9.3px; padding: 2px 3px; letter-spacing: -0.1px; }
+#islemlerListesi .sr-satir--beklemede { background: #f5ede1; }
+#islemlerListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }
+
+/* =====================================================================
+   FİLTRE İKONU + AÇILIR PENCERE (02.11.2026, Abdullah onayı — mockup
+   "Tarih yanda kalsın" seçeneği). Satır: [arama] [Tarih] [filtre ikonu].
+   Rozet, tür/durum/müşteri/kanal/sıralama filtrelerinden kaç tanesinin
+   açık olduğunu gösterir (Tarih zaten kendi düğmesinde görünür).
+   ===================================================================== */
+.il-filtre-satiri { align-items: stretch; }
+.il-f-btn {
+  width: 46px; flex-shrink: 0; padding: 0; cursor: pointer;
+  border: 2px solid #cbd5e1; border-radius: 12px; background: #fff; color: #2d3540;
+  display: flex; align-items: center; justify-content: center; position: relative;
+}
+.il-f-btn--aktif { border-color: #0d3d8c; background: #eaf1fc; color: #0d3d8c; }
+.il-f-rozet {
+  position: absolute; top: -7px; right: -6px; min-width: 19px; height: 19px; box-sizing: content-box;
+  border-radius: 10px; background: #c0392b; color: #fff; font-size: 11px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center; padding: 0 4px; border: 2px solid #fff;
+}
+.il-f-rozet[hidden] { display: none; }
+.il-dim { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(10,22,40,.45); z-index: 790; }
+.il-dim[hidden] { display: none; }
+.il-panel {
+  position: fixed; left: 6px; right: 6px; z-index: 800; overflow-y: auto;
+  background: #fff; border-radius: 16px; box-shadow: 0 12px 34px rgba(0,0,0,.3); padding: 14px;
+}
+.il-panel[hidden] { display: none; }
+.il-oz { display: flex; align-items: center; gap: 8px; background: #f1f4f9; border-radius: 10px; padding: 9px 10px 9px 12px; margin-bottom: 4px; }
+.il-oz-t { flex: 1; min-width: 0; font-size: 13px; font-weight: 800; color: #1f2d46; line-height: 1.35; }
+.il-oz-t small { display: block; font-size: 11.5px; color: #5b6b85; font-weight: 700; }
+.il-oz-s { font-size: 14px; font-weight: 900; color: #0e6b58; white-space: nowrap; text-align: right; line-height: 1.25; }
+.il-oz-s small { display: block; font-size: 10.5px; font-weight: 700; color: #5b6b85; }
+.il-temizle { border: none; background: none; color: #c0392b; font-size: 12px; font-weight: 800; white-space: nowrap; padding: 6px 2px; cursor: pointer; }
+.il-panel h5 { margin: 12px 0 6px; font-size: 11px; font-weight: 800; color: #667085; letter-spacing: .2px; }
+.il-r { display: flex; flex-wrap: wrap; gap: 6px; }
+.il-c {
+  border: 1.5px solid transparent; background: #eef2f8; color: #475467; border-radius: 18px;
+  padding: 7px 12px; font-size: 12.5px; font-weight: 800; cursor: pointer; min-height: 32px;
+}
+.il-c--on { background: #00305e; color: #fff; }
+.il-c--numune   { background: #fbd7e6; color: #2d3540; }
+.il-c--teklif   { background: #cdeee0; color: #2d3540; }
+.il-c--proforma { background: #ffddb8; color: #2d3540; }
+.il-c--siparis  { background: #cfe2fa; color: #2d3540; }
+.il-c--tip-on { border-color: #00305e; box-shadow: inset 0 0 0 1.5px #00305e; color: #00305e; }
+.il-pill {
+  display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1.5px solid #00305e;
+  color: #00305e; border-radius: 16px; padding: 4px 6px 4px 11px; font-size: 12.5px; font-weight: 800;
+}
+.il-pill button { border: none; background: #e6ecf5; color: #51627f; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; cursor: pointer; padding: 0; }
+.il-secenek {
+  display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 10px; cursor: pointer;
+  font-size: 12px; font-weight: 800; color: #b7601f; background: #faeeda; border: 1.5px solid #b7601f; border-radius: 8px;
+}
+.il-secenek input { width: 16px; height: 16px; flex-shrink: 0; }
+.il-goster {
+  display: block; width: 100%; margin-top: 14px; border: none; cursor: pointer;
+  background: #00305e; color: #fff; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 800;
+}
