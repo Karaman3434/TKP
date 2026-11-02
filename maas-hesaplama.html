@@ -35,7 +35,7 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
 <link rel="stylesheet" href="odenebilir-komisyon-style.css?v=TKP.02.11.26-10:48.1379">
-<link rel="stylesheet" href="maas-hesaplama-style.css?v=TKP.02.11.26-10:48.1378">
+<link rel="stylesheet" href="maas-hesaplama-style.css?v=TKP.02.11.26-15:02.1407">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.02.11.26-10:48.1383">
@@ -143,9 +143,9 @@
       <span class="mh-ozet-satir-ok">›</span>
     </div>
   </a>
-  <a class="mh-ozet-satir" href="avans-takibi.html">
+  <a class="mh-ozet-satir" id="mhAvansSatiri" href="avans-takibi.html">
     <div class="mh-ozet-satir-sol">
-      <span class="mh-ozet-satir-etiket">🧾 AVANS / KESİNTİ</span>
+      <span class="mh-ozet-satir-etiket">🧾 AVANS / KESİNTİ<span class="mh-avans-rozet" id="mhAvansRozet" hidden>0 avans</span></span>
       <span class="mh-ozet-satir-alt" id="mhOzetAvansDurum">Kayıt yok.</span>
     </div>
     <div class="mh-ozet-satir-sag">
@@ -154,22 +154,10 @@
     </div>
   </a>
 
-  <!-- "AVANS SEÇİMİ" (02.10.2026, Abdullah'ın isteğiyle) — masraf formu
-       gecikmesi yüzünden bir avansın aynı ay değil, seçtiği bir SONRAKİ
-       ayın maaşından kesilmesini sağlar. Bu ayın kendi avansını (yukarıdaki
-       satır, değişmedi) otomatik dahil etmeyi kapatabilir VE/VEYA geçmişte
-       bekleyen (henüz hiçbir maaştan düşülmemiş) avansları bu aya
-       ekleyebilir. Sadece açık/canlı dönemde anlamlı. -->
-  <button type="button" class="mh-ozet-satir mh-ozet-satir--bekleyen" id="mhBekleyenAvansSatiri">
-    <div class="mh-ozet-satir-sol">
-      <span class="mh-ozet-satir-etiket">⏳ AVANS SEÇİMİ<span class="mh-bekleyen-rozet" id="mhBekleyenRozet" hidden>0 ay</span></span>
-      <span class="mh-ozet-satir-alt" id="mhBekleyenAlt">—</span>
-    </div>
-    <div class="mh-ozet-satir-sag">
-      <span class="mh-ozet-satir-deger" style="color:#b7601f;" id="mhBekleyenDeger">0,00 TL</span>
-      <span class="mh-ozet-satir-ok">›</span>
-    </div>
-  </button>
+  <!-- (02.11.2026, Abdullah onayı) Eski "⏳ AVANS SEÇİMİ" satırı/penceresi
+       KALDIRILDI: hangi avansların bu ayın maaşından düşüleceği artık
+       Avans Takibi tablosundan ("Maaşa Ekle") seçilir; yukarıdaki AVANS /
+       KESİNTİ kartı eklenenleri yeşil olarak özetler ve oraya götürür. -->
 
   <!-- HESABA YATACAK — avans düşülmüş net toplam, ayrı vurgulu kutu -->
   <div class="mh-yatacak-kutu-standalone">
@@ -182,28 +170,6 @@
 
 </main>
 
-<!-- SHEET: Avans Seçimi (02.10.2026) -->
-<div class="overlay" id="mhBekleyenSheetOverlay" hidden>
-  <div class="sheet">
-    <div class="sheet-baslik">⏳ Avans Seçimi</div>
-    <div class="sheet-alt">Bu ayın maaş kesintisine hangi avansların dahil edileceğini seç.</div>
-
-    <div id="mhBekleyenKendiAlan"></div>
-    <div id="mhBekleyenListeAlan"></div>
-
-    <div class="ba-secim-ozet">
-      <span class="ba-secim-ozet-etiket">Bu aya eklenecek toplam</span>
-      <span class="ba-secim-ozet-tutar" id="mhBekleyenSecimToplam">0,00 TL</span>
-    </div>
-    <button type="button" class="ba-ekle-btn" id="btnMhBekleyenUygula">✓ Bu Aya Uygula</button>
-
-    <div class="ba-bolum-baslik" id="mhGecmisBaslik" hidden>Daha Önce Dahil Edilenler</div>
-    <div id="mhGecmisListeAlan"></div>
-
-    <button type="button" class="ba-kapat-btn" id="btnMhBekleyenKapat">Kapat</button>
-  </div>
-</div>
-
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -215,11 +181,11 @@
 <script src="ust-bar-davranis.js?v=TKP.01.11.26-18:36.1334"></script>
 <script src="ayarlar-sync.js?v=WG.271026.2238.1132"></script>
 <script src="komisyon-donem-data.js?v=WG.271026.2238.1126"></script>
-<script src="avans-kayit-data.js?v=WG.271026.2238.1138"></script>
+<script src="avans-kayit-data.js?v=TKP.02.11.26-15:02.1403"></script>
 <script src="maas-kayit-data.js?v=WG.271026.2238.1125"></script>
 <script src="maas-hesaplama-data.js?v=WG.020926.2258.94"></script>
 <script src="maas-ortak-hesap.js?v=WG.270926.2245.651"></script>
-<script src="maas-hesaplama-render.js?v=WG.021026.1835.712"></script>
+<script src="maas-hesaplama-render.js?v=TKP.02.11.26-15:02.1406"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->

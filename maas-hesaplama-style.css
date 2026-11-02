@@ -1,4 +1,4 @@
-/* maas-hesaplama-style.css — TKP.02.11.26-10:48.1378 */
+/* maas-hesaplama-style.css — TKP.02.11.26-15:02.1407 */
 .mh-etiket {
   display: block;
   font-size: 11px;
@@ -438,3 +438,24 @@
 .ba-gecmis-ay { font-size: 12.5px; font-weight: 800; color: #556170; }
 .ba-gecmis-not { font-size: 10px; color: #9aa5b1; margin-top: 1px; }
 .ba-gecmis-tutar { font-size: 13px; font-weight: 800; color: #8a94a6; }
+
+
+/* AVANS / KESİNTİ kartı — bu aya avans eklendiğinde YEŞİL (02.11.2026,
+   Abdullah onayı; eski sarı "Avans Seçimi" satırının yerini aldı). */
+.mh-ozet-satir--yesil { border: 1.5px solid #0e6b34; background: #eafaf0; }
+.mh-ozet-satir--yesil .mh-ozet-satir-alt { color: #0e6b34; font-weight: 700; }
+.mh-avans-rozet {
+  display: inline-block;
+  background: #0e6b34;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  border-radius: 99px;
+  padding: 1px 7px;
+  margin-left: 6px;
+  vertical-align: 1px;
+}
+.mh-avans-rozet[hidden] { display: none; }
+#mhAvansSatiri .mh-ozet-satir-sag { flex-shrink: 0; }
+#mhAvansSatiri .mh-ozet-satir-deger { white-space: nowrap; }
+#mhOzetAvansDurum { white-space: pre-line; }

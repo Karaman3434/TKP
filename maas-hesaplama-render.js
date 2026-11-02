@@ -1,5 +1,5 @@
 /*
-  maas-hesaplama-render.js — VERSİYON: WG.270926.2245.651
+  maas-hesaplama-render.js — TKP.02.11.26-15:02.1406
   ==========================================================
   MAAŞ HESAPLAMA (ÖZET) sayfası — 27.09.2026 mimari bölünmesi. Bu sayfa
   artık kendi Brüt Sabit Maaş / Brüt Prim hesaplamasını yapmıyor; Net
@@ -15,14 +15,12 @@
 var AY_ADLARI_MH = ["","Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
 var mhGuncelHesap = null; // en son mhHesaplaVeCiz() çıktısı — Kayıt Et bunu kullanır
 
-// "Avans Seçimi" (02.10.2026, Abdullah'ın isteğiyle) — bkz. dosya başındaki
-// genel açıklama ve avans-kayit-data.js'teki bekleyenKayitlar()/
-// dahilEdildiginiIsaretle(). Bu üç değişken SADECE açık/canlı dönem için
-// geçerlidir; dönem değişince (kapatma sonrası veya sayfa yeniden
-// açıldığında) otomatik sıfırlanır — bkz. mhHesaplaVeCiz.
-var mhSonAcikAnahtar = null;
-var mhKendiAvansDahilMi = true;      // bu ayın kendi (canlı) avansı otomatik dahil mi?
-var mhSeciliBekleyenAnahtarlar = []; // bu kapanışa EK olarak seçilen geçmiş avans kayıtları
+// AVANS KESİNTİSİ (02.11.2026, Abdullah onayı): eski "Avans Seçimi" penceresi
+// KALDIRILDI. Hangi avansların bu ayın maaşından düşüleceği artık Avans
+// Takibi tablosundaki "Maaşa Ekle" ile seçilir ve Firebase'de kalıcı tutulur
+// (avansKayitlari/*/maasaEklenenDonem + avansTaslak/*/maasaErtelendi). Bu
+// sayfa sadece AvansKayitData.maasKesintisi()'ni okur — Ana Sayfa özeti de
+// AYNI fonksiyonu kullanır (tek kaynak).
 
 function fmtTL_MH(n){
   return (n||0).toLocaleString("tr-TR", {minimumFractionDigits:2, maximumFractionDigits:2}) + " TL";
@@ -91,6 +89,11 @@ function mhKapaliKaydiGoster(k){
   // hiç bakılmaz, çünkü o taslak zaten kapatılırken sıfırlandı/silindi.
   document.getElementById("mhOzetAvansToplam").textContent = fmtTL_MH(k.toplamKesinti);
   document.getElementById("mhOzetAvansDurum").textContent = "✓ Kapatıldı.";
+  // Kapanmış dönemde yeşil "eklendi" görünümü açık dönemden kalmasın.
+  var avSatir = document.getElementById("mhAvansSatiri");
+  if(avSatir) avSatir.classList.remove("mh-ozet-satir--yesil");
+  var avRozet = document.getElementById("mhAvansRozet");
+  if(avRozet) avRozet.hidden = true;
   document.getElementById("btnMhKapaliKaydiSil").setAttribute("data-anahtar", k.anahtar);
 }
 
@@ -115,15 +118,6 @@ function mhGorunumCiz(){
 function mhHesaplaVeCiz(){
   var acik = mhAcikDonemEtiketiGuncelle();
   var acikAnahtar = acik.yil + "-" + ("0"+acik.ay).slice(-2);
-  // Dönem değiştiyse (kapatma sonrası ilerledik, veya sayfa yeniden açıldı)
-  // "Avans Seçimi" tercihlerini varsayılana döndür — eski ayın seçimleri
-  // yeni açık aya sızmasın.
-  if(mhSonAcikAnahtar !== acikAnahtar){
-    mhSonAcikAnahtar = acikAnahtar;
-    mhKendiAvansDahilMi = true;
-    mhSeciliBekleyenAnahtarlar = [];
-  }
-
   var h = MaasOrtakHesap.hesapla(acik.ay, acik.yil);
   var sonuc = h.sonuc;
 
@@ -134,174 +128,58 @@ function mhHesaplaVeCiz(){
   document.getElementById("mhKartNetToplam").textContent = fmtTL_MH(sonuc.netToplam);
 
   // Açık dönem her zaman CANLI taslaktan okunur — bkz. mhAvansCanliOku
-  // yorumu. Bu değer "kapatıldı" diyemez, çünkü dönem henüz açık. Bu
-  // satır/değer HER ZAMAN bu ayın kendi avansını gösterir (Avans Takibi'ne
-  // gider) — "Avans Seçimi" aşağıdaki AYRI satırda yönetilir.
+  // yorumu. Bu ayın maaşından düşülecek TOPLAM = bu ayın kendi avansı
+  // (ertelenmediyse) + "Maaşa Ekle" ile bu aya eklenen geçmiş avanslar.
   var av = mhAvansCanliOku(acik.ay, acik.yil);
-  document.getElementById("mhOzetAvansToplam").textContent = fmtTL_MH(av.toplamKesinti);
-  document.getElementById("mhOzetAvansDurum").textContent = (av.ozelToplam || av.isKesilecek)
-    ? "⏳ Taslak var, henüz kapatılmadı."
-    : "Kayıt yok.";
+  var kesinti = AvansKayitData.maasKesintisi(acik.ay, acik.yil);
+  var toplamKesintiYeni = kesinti.toplam;
 
-  // "Avans Seçimi" (02.10.2026) — bu ayın maaşından GERÇEKTE düşülecek
-  // toplam artık otomatik olarak av.toplamKesinti DEĞİL; kullanıcının
-  // seçimine göre hesaplanır: kendi ayının avansı (açık/kapalı seçilebilir)
-  // + geçmişten seçilen bekleyen kayıtlar.
-  var bekleyen = [];
-  try{ bekleyen = AvansKayitData.bekleyenKayitlar(); }catch(e){}
-  var seciliToplam = bekleyen
-    .filter(function(k){ return mhSeciliBekleyenAnahtarlar.indexOf(k.anahtar) !== -1; })
-    .reduce(function(s,k){ return s + (k.toplamKesinti||0); }, 0);
-  var kendiAvansKatkisi = mhKendiAvansDahilMi ? av.toplamKesinti : 0;
-  var toplamKesintiYeni = kendiAvansKatkisi + seciliToplam;
-
-  mhBekleyenSatiriGuncelle(bekleyen, seciliToplam, kendiAvansKatkisi);
+  mhAvansSatiriGuncelle(kesinti, av);
 
   var hesabaYatacak = sonuc.netToplam - toplamKesintiYeni;
   document.getElementById("mhKartHesabaYatacak").textContent = fmtTL_MH(hesabaYatacak);
 
   mhGuncelHesap = {
     acik: acik, acikAnahtar: acikAnahtar, brutSabit: h.brutSabit, birinciToplam: h.birinciToplam, brutPrim: h.brutPrim,
-    sonuc: sonuc, avans: av, bekleyenListesi: bekleyen,
-    kendiAvansDahilMi: mhKendiAvansDahilMi, seciliBekleyenAnahtarlar: mhSeciliBekleyenAnahtarlar.slice(),
+    sonuc: sonuc, avans: av, kesinti: kesinti,
+    kendiAvansDahilMi: !kesinti.ertelendi, seciliBekleyenAnahtarlar: kesinti.eklenenler.map(function(k){ return k.anahtar; }),
     toplamKesintiYeni: toplamKesintiYeni, hesabaYatacak: hesabaYatacak
   };
 }
 
-// "⏳ AVANS SEÇİMİ" satırını günceller — sadece bekleyen avans varsa veya
-// kullanıcı bu ayın kendi avansını dahil etmekten vazgeçtiyse dikkat
-// çekecek şekilde doldurur.
-function mhBekleyenSatiriGuncelle(bekleyen, seciliToplam, kendiAvansKatkisi){
-  var rozet = document.getElementById("mhBekleyenRozet");
-  var alt = document.getElementById("mhBekleyenAlt");
-  var deger = document.getElementById("mhBekleyenDeger");
-  if(!rozet || !alt || !deger) return;
+// "🧾 AVANS / KESİNTİ" satırını günceller (02.11.2026): bu aya eklenen
+// avans varsa YEŞİL kart + rozet + "…avansı eklendi"; yoksa eski sade görünüm.
+// Avans Takibi'nde seçilmemiş (aktif) avans varsa kartın alt satırı bunu hatırlatır.
+function mhAvansSatiriGuncelle(kesinti, av){
+  var satir = document.getElementById("mhAvansSatiri");
+  var rozet = document.getElementById("mhAvansRozet");
+  var alt = document.getElementById("mhOzetAvansDurum");
+  var deger = document.getElementById("mhOzetAvansToplam");
+  if(!satir || !alt || !deger) return;
 
-  if(bekleyen.length){
-    rozet.hidden = false;
-    rozet.textContent = bekleyen.length + " ay";
+  var parcalar = [];
+  if(kesinti.kendi > 0) parcalar.push(AY_ADLARI_MH[MaasKayitData.acikDonem().ay] + " (bu ay)");
+  kesinti.eklenenler.forEach(function(k){ parcalar.push(AY_ADLARI_MH[k.ay]); });
+  var adet = parcalar.length;
+
+  satir.classList.toggle("mh-ozet-satir--yesil", adet > 0);
+  if(rozet){ rozet.hidden = adet === 0; rozet.textContent = adet + " avans"; }
+  deger.textContent = kesinti.toplam > 0 ? "- " + fmtTL_MH(kesinti.toplam) : fmtTL_MH(0);
+
+  var metin;
+  if(adet > 0){
+    metin = parcalar.join(" + ") + " eklendi";
+  } else if(kesinti.ertelendi && kesinti.kendiToplam > 0){
+    metin = "Bu ayın avansı ertelendi";
+  } else if(av.ozelToplam || av.isKesilecek){
+    metin = "⏳ Taslak var, henüz kapatılmadı.";
   } else {
-    rozet.hidden = true;
+    metin = "Kayıt yok.";
   }
-
-  if(seciliToplam > 0){
-    alt.textContent = "Bu aya " + fmtTL_MH(seciliToplam) + " ekleniyor";
-  } else if(bekleyen.length){
-    alt.textContent = "Henüz hiçbir maaştan düşülmedi";
-  } else if(!mhKendiAvansDahilMi){
-    alt.textContent = "Bu ayın kendi avansı ERTELENDİ";
-  } else {
-    alt.textContent = "Bekleyen avans yok";
+  if(kesinti.bekleyenSayisi > 0){
+    metin += "\n⏳ " + kesinti.bekleyenSayisi + " bekleyen avans (" + fmtTL_MH(kesinti.bekleyenToplam) + ") — dokun ve seç";
   }
-
-  deger.textContent = fmtTL_MH(bekleyen.reduce(function(s,k){ return s+(k.toplamKesinti||0); }, 0));
-}
-
-/* ---------- Avans Seçimi sheet'i (02.10.2026) ---------- */
-function mhBekleyenSheetiAc(){
-  if(!mhGuncelHesap || mhGezinmeOfset !== 0) return; // sadece açık dönemde anlamlı
-  mhBekleyenSheetiCiz();
-  document.getElementById("mhBekleyenSheetOverlay").hidden = false;
-}
-
-function mhBekleyenSheetiCiz(){
-  var h = mhGuncelHesap;
-
-  // Bu ayın kendi (canlı) avansı — varsa, dahil et/etme seçeneği.
-  var kendiAlan = document.getElementById("mhBekleyenKendiAlan");
-  if(h.avans.toplamKesinti > 0){
-    kendiAlan.innerHTML =
-      '<label class="ba-donem-kart" style="cursor:pointer;">' +
-        '<div class="ba-donem-sol">' +
-          '<input type="checkbox" class="ba-checkbox" id="mhKendiAvansToggle"' + (mhKendiAvansDahilMi?" checked":"") + '>' +
-          '<div class="ba-donem-metin-grup">' +
-            '<span class="ba-donem-ay">' + AY_ADLARI_MH[h.acik.ay] + ' ' + h.acik.yil + ' (bu ayın kendi avansı)</span>' +
-            '<span class="ba-donem-tur">Avans Takibi’ndeki güncel taslak</span>' +
-          '</div>' +
-        '</div>' +
-        '<span class="ba-donem-tutar">' + fmtTL_MH(h.avans.toplamKesinti) + '</span>' +
-      '</label>';
-    document.getElementById("mhKendiAvansToggle").onchange = function(){
-      mhKendiAvansDahilMi = this.checked;
-      mhBekleyenOzetGuncelle();
-    };
-  } else {
-    kendiAlan.innerHTML = "";
-  }
-
-  // Geçmişten kalan, hiçbir maaşa henüz dahil edilmemiş kayıtlar.
-  var listeAlan = document.getElementById("mhBekleyenListeAlan");
-  var bekleyen = h.bekleyenListesi;
-  if(!bekleyen.length){
-    listeAlan.innerHTML = '<p class="mh-not-kucuk">Başka bekleyen avans kaydı yok.</p>';
-  } else {
-    listeAlan.innerHTML = bekleyen.map(function(k){
-      var secili = mhSeciliBekleyenAnahtarlar.indexOf(k.anahtar) !== -1;
-      var tur = [];
-      if(k.ozelAvansToplam) tur.push("Özel: " + fmtTL_MH(k.ozelAvansToplam));
-      if(k.isAvansiBelgesizKalan) tur.push("İş (belgesiz): " + fmtTL_MH(k.isAvansiBelgesizKalan));
-      return '<label class="ba-donem-kart" style="cursor:pointer;">' +
-        '<div class="ba-donem-sol">' +
-          '<input type="checkbox" class="ba-checkbox mh-bekleyen-checkbox" data-anahtar="' + k.anahtar + '"' + (secili?" checked":"") + '>' +
-          '<div class="ba-donem-metin-grup">' +
-            '<span class="ba-donem-ay">' + AY_ADLARI_MH[k.ay] + ' ' + k.yil + '</span>' +
-            '<span class="ba-donem-tur">' + (tur.join(" + ") || "Avans") + '</span>' +
-          '</div>' +
-        '</div>' +
-        '<span class="ba-donem-tutar">' + fmtTL_MH(k.toplamKesinti) + '</span>' +
-      '</label>';
-    }).join("");
-    listeAlan.querySelectorAll(".mh-bekleyen-checkbox").forEach(function(cb){
-      cb.onchange = function(){
-        var a = this.getAttribute("data-anahtar");
-        var idx = mhSeciliBekleyenAnahtarlar.indexOf(a);
-        if(this.checked && idx===-1) mhSeciliBekleyenAnahtarlar.push(a);
-        if(!this.checked && idx!==-1) mhSeciliBekleyenAnahtarlar.splice(idx,1);
-        mhBekleyenOzetGuncelle();
-      };
-    });
-  }
-
-  mhBekleyenOzetGuncelle();
-
-  // Daha önce dahil edilmiş kayıtlar — hangi avansın hangi maaşa katıldığı.
-  var gecmisBaslik = document.getElementById("mhGecmisBaslik");
-  var gecmisAlan = document.getElementById("mhGecmisListeAlan");
-  var gecmis = [];
-  try{
-    gecmis = AvansKayitData.tumKayitlar().filter(function(k){ return !!k.maasaDahilEdildigiDonem; }).slice(0, 12);
-  }catch(e){}
-  if(gecmis.length){
-    gecmisBaslik.hidden = false;
-    gecmisAlan.innerHTML = gecmis.map(function(k){
-      var p = String(k.maasaDahilEdildigiDonem||"").split("-");
-      var hedefMetin = (p.length===2 && AY_ADLARI_MH[parseInt(p[1],10)])
-        ? (AY_ADLARI_MH[parseInt(p[1],10)] + " " + p[0])
-        : k.maasaDahilEdildigiDonem;
-      return '<div class="ba-gecmis-kart">' +
-        '<div><div class="ba-gecmis-ay">' + AY_ADLARI_MH[k.ay] + ' ' + k.yil + '</div>' +
-        '<div class="ba-gecmis-not">✓ ' + hedefMetin + ' maaşına dahil edildi</div></div>' +
-        '<span class="ba-gecmis-tutar">' + fmtTL_MH(k.toplamKesinti) + '</span>' +
-      '</div>';
-    }).join("");
-  } else {
-    gecmisBaslik.hidden = true;
-    gecmisAlan.innerHTML = "";
-  }
-}
-
-function mhBekleyenOzetGuncelle(){
-  var h = mhGuncelHesap;
-  var seciliToplam = h.bekleyenListesi
-    .filter(function(k){ return mhSeciliBekleyenAnahtarlar.indexOf(k.anahtar) !== -1; })
-    .reduce(function(s,k){ return s + (k.toplamKesinti||0); }, 0);
-  var kendiKatki = mhKendiAvansDahilMi ? h.avans.toplamKesinti : 0;
-  document.getElementById("mhBekleyenSecimToplam").textContent = fmtTL_MH(kendiKatki + seciliToplam);
-}
-
-function mhBekleyenUygula(){
-  document.getElementById("mhBekleyenSheetOverlay").hidden = true;
-  mhGorunumCiz(); // mhKendiAvansDahilMi / mhSeciliBekleyenAnahtarlar artık güncel, yeniden hesapla
+  alt.textContent = metin;
 }
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -330,9 +208,6 @@ document.addEventListener("DOMContentLoaded", function(){
     }, {passive:true});
   })();
 
-  document.getElementById("mhBekleyenAvansSatiri").onclick = function(){ mhBekleyenSheetiAc(); };
-  document.getElementById("btnMhBekleyenKapat").onclick = function(){ document.getElementById("mhBekleyenSheetOverlay").hidden = true; };
-  document.getElementById("btnMhBekleyenUygula").onclick = mhBekleyenUygula;
 
   document.getElementById("btnMhKapaliKaydiSil").onclick = function(){
     var anahtar = this.getAttribute("data-anahtar");
@@ -412,10 +287,6 @@ document.addEventListener("DOMContentLoaded", function(){
         var yeniBaz = {matrah: h.sonuc.kumulatifMatrahSimdi, ay: h.acik.ay, yil: h.acik.yil};
         try{ AyarlarSync.matrahBazKaydet(yeniBaz); }catch(e){}
         localStorage.setItem("weicon_matrah_baz", JSON.stringify(yeniBaz));
-        // "Avans Seçimi" tercihlerini bir sonraki (yeni açılacak) ay için
-        // varsayılana döndür.
-        mhKendiAvansDahilMi = true;
-        mhSeciliBekleyenAnahtarlar = [];
         mhGezinmeOfset = 0;
         // MaasKayitData.degistiginde dinleyicisi mhGorunumCiz'i tetikleyecek.
       });

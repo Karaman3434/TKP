@@ -57,11 +57,11 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
 <link rel="stylesheet" href="odenebilir-komisyon-style.css?v=TKP.02.11.26-10:48.1379">
-<link rel="stylesheet" href="maas-hesaplama-style.css?v=TKP.02.11.26-10:48.1378">
+<link rel="stylesheet" href="maas-hesaplama-style.css?v=TKP.02.11.26-15:02.1407">
 <!-- EKLENDİ (26.10.2026, "Yıllık Avans Tablosu" — mockup onaylandı) —
      yillik-km-odeme.html ile AYNI tablo/kutu bileşenleri. -->
 <link rel="stylesheet" href="km-style.css?v=TKP.02.11.26-10:48.1377">
-<link rel="stylesheet" href="avans-takibi-style.css?v=WG.261026.1645.1063">
+<link rel="stylesheet" href="avans-takibi-style.css?v=TKP.02.11.26-15:02.1405">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.02.11.26-10:48.1383">
@@ -155,10 +155,22 @@
       </div>
     </section>
 
+    <!-- MAAŞA EKLE (02.11.2026, Abdullah onayı — mockup üzerinden): satır
+         başındaki kutuyla avans seçilir, alttaki "Maaşa Ekle" ile maaş
+         hesabına düşülür; "Not ekle" ile maaştan düşüldüğü yazılınca avans
+         PASİF olur (bir daha seçilemez). Durumlar: kırmızı çerçeve = aktif,
+         yeşil = maaşa eklendi, gri + 🔒 = pasif. -->
+    <div class="av-lejant">
+      <span class="av-lej av-lej--k">Aktif · seçilebilir</span>
+      <span class="av-lej av-lej--y">✓ Maaşa eklendi</span>
+      <span class="av-lej av-lej--g">🔒 Pasif · kilitli</span>
+    </div>
+    <p class="av-aciklama">Maaştan düşülecek avansın satır başındaki kutusuna dokun, sonra <b>Maaşa Ekle</b>'ye bas. Maaştan düşüldükten sonra <b>Not ekle</b> ile tarih/açıklama yazarsan avans pasif olur.</p>
+
     <div class="data-table-container" id="avYilTabloKutu">
       <table class="data-table km-veri-tablo av-yil-tablo">
         <thead><tr>
-          <th>Ay</th><th>Çekilen<br>Avans</th><th>Faturalandırılan</th><th>Kalan<br>Avans</th><th>Durum</th>
+          <th class="av-th-sec">✓</th><th>Ay</th><th>Çekilen<br>Avans</th><th>Faturalandırılan</th><th>Kalan<br>Avans</th><th>Durum</th>
         </tr></thead>
         <tbody id="avYilTabloGovde"></tbody>
       </table>
@@ -270,6 +282,30 @@
 
 </main>
 
+<!-- MAAŞA EKLE alt çubuğu + not penceresi + bildirim (02.11.2026) -->
+<div class="av-alt-bar" id="avAltBar" hidden>
+  <div class="av-alt-bar-sol">
+    <div class="av-alt-bar-et" id="avAltBarEtiket"></div>
+    <div class="av-alt-bar-tutar" id="avAltBarTutar">0,00 TL</div>
+  </div>
+  <button type="button" class="av-alt-bar-btn" id="btnAvMaasaEkle">➕ Maaşa Ekle</button>
+</div>
+<div class="av-toast" id="avToast" hidden></div>
+<div class="av-not-overlay" id="avNotOverlay" hidden>
+  <div class="av-dim" id="avNotDim"></div>
+  <div class="av-sheet">
+    <h4>📝 Maaştan düşüldü notu</h4>
+    <div class="alt" id="avNotBaslikAlt"></div>
+    <div class="av-sh-et">Maaşın düşüldüğü tarih</div>
+    <input type="date" class="av-sh-in" id="avNotTarih">
+    <div class="av-sh-et">Açıklama</div>
+    <input type="text" class="av-sh-in" id="avNotAciklama" maxlength="160">
+    <div class="av-sh-uyari">⚠️ Kaydedersen bu avans PASİF olur: bir daha seçilemez, hiçbir maaş hesabına eklenemez.</div>
+    <button type="button" class="av-sh-btn" id="btnAvNotKaydet">🔒 Kaydet ve pasif yap</button>
+    <button type="button" class="av-sh-iptal" id="btnAvNotVazgec">Vazgeç</button>
+  </div>
+</div>
+
 <!-- EKLENDİ (26.10.2026, "Yıllık Avans Tablosu" — Yıllık KM Ödeme'yle AYNI
      kütüphane) — sadece "📊 Excel'e Aktar" için. -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
@@ -283,8 +319,8 @@
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="ust-bar-davranis.js?v=TKP.01.11.26-18:36.1334"></script>
 <script src="maas-kayit-data.js?v=WG.271026.2238.1125"></script>
-<script src="avans-kayit-data.js?v=WG.271026.2238.1138"></script>
-<script src="avans-takibi-render.js?v=WG.261026.1645.1064"></script>
+<script src="avans-kayit-data.js?v=TKP.02.11.26-15:02.1403"></script>
+<script src="avans-takibi-render.js?v=TKP.02.11.26-15:02.1404"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->

@@ -1,5 +1,5 @@
 /*
-  avans-kayit-data.js
+  avans-kayit-data.js — TKP.02.11.26-15:02.1403
   =====================
   "Avans Takibi" sayfasının verisini tutar — Maaş Hesaplama sayfasından
   AYRI, kendi açık dönem/kapatma döngüsüne sahiptir.
@@ -132,6 +132,14 @@ var AvansKayitData = (function(){
     try{
       var anahtar = anahtarOlustur(ay, yil);
       var yazilacak = Object.assign({ay: ay, yil: yil}, veriObj);
+      // "Bu ayın kendi avansı ertelendi" işareti (maasaErtelendi) taslakla
+      // AYNI düğümde durur; Avans Takibi satır ekleme/silmede taslağı set()
+      // ile baştan yazdığı için işareti burada KORUYORUZ, yoksa her avans
+      // girişinde sessizce silinirdi.
+      var mevcutTaslak = taslaklar[anahtar];
+      if(veriObj.maasaErtelendi === undefined && mevcutTaslak && mevcutTaslak.maasaErtelendi){
+        yazilacak.maasaErtelendi = true;
+      }
       firebase.database().ref("avansTaslak/" + anahtar).set(yazilacak)
         .then(function(){ cb(true); }).catch(function(err){ cb(false, err); });
     }catch(e){ cb(false, e); }
@@ -169,11 +177,119 @@ var AvansKayitData = (function(){
 
   // Henüz hiçbir maaş dönemine dahil edilmemiş (bekleyen) kapalı avans
   // kayıtları — tutarı sıfır olanlar (hiç avans girilmemiş boş kapanışlar)
-  // listeye hiç girmez.
+  // listeye hiç girmez. (02.11.2026: maaşa eklenmiş veya "maaştan düşüldü"
+  // notuyla pasifleşmiş kayıtlar da artık bekleyen sayılmaz.)
   function bekleyenKayitlar(){
     return tumKayitlar().filter(function(k){
-      return (k.toplamKesinti||0) > 0 && !k.maasaDahilEdildigiDonem;
+      return kayitDurumu(k) === "aktif";
     });
+  }
+
+  /* ---------- "Maaşa Ekle" / "Maaştan düşüldü notu" (02.11.2026) ----------
+     Avans Tablosu'ndaki her kapalı ay kaydı 4 durumdan birindedir:
+       "yok"     — kalan avans 0, yapılacak bir şey yok
+       "aktif"   — kalan avans var, hiçbir maaşa eklenmemiş (SEÇİLEBİLİR)
+       "eklendi" — bir maaş dönemine eklendi (maasaEklenenDonem, henüz
+                   dönem kapanmadıysa geri alınabilir; dönem kapanınca
+                   maasaDahilEdildigiDonem de yazılır ve kilitlenir)
+       "pasif"   — kullanıcı "maaştan düşüldü" notu yazdı (dusulmeNotu):
+                   artık hiçbir şekilde seçilemez / eklenemez.
+     Eski sistemle uyum: maasaDahilEdildigiDonem (dönem kapanırken yazılan
+     eski alan) "eklendi" sayılır. Bu fonksiyon durumun TEK çözüm noktasıdır. */
+  function kayitDurumu(k){
+    if(!k) return "yok";
+    if((k.toplamKesinti||0) <= 0) return "yok";
+    if(k.dusulmeNotu) return "pasif";
+    if(k.maasaEklenenDonem || k.maasaDahilEdildigiDonem) return "eklendi";
+    return "aktif";
+  }
+  // Bu avansın hangi maaş dönemine (YYYY-MM) eklendiği — yoksa "".
+  function eklenenDonem(k){
+    return (k && (k.maasaDahilEdildigiDonem || k.maasaEklenenDonem)) || "";
+  }
+  // Dönem kapandıysa (maasaDahilEdildigiDonem yazıldıysa) artık geri alınamaz.
+  function kilitliMi(k){ return !!(k && k.maasaDahilEdildigiDonem); }
+
+  function guncelle(yol, deger, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      var ref = firebase.database().ref(yol);
+      var p = (deger === null) ? ref.remove() : ref.set(deger);
+      p.then(function(){ cb(true); }).catch(function(err){ cb(false, err); });
+    }catch(e){ cb(false, e); }
+  }
+
+  // Seçilen AKTİF kayıtları hedef maaş dönemine ekler (çoklu, tek seferde).
+  // Sadece gerçekten "aktif" olanlar yazılır — pasif/eklenmiş bir kayıt
+  // yanlışlıkla ikinci kez eklenemez.
+  function donemeEkle(anahtarlar, hedefAnahtar, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      var guncellemeler = {}, sayi = 0;
+      (anahtarlar||[]).forEach(function(a){
+        if(kayitlar[a] && kayitDurumu(kayitlar[a]) === "aktif"){
+          guncellemeler["avansKayitlari/" + a + "/maasaEklenenDonem"] = hedefAnahtar;
+          sayi++;
+        }
+      });
+      if(!sayi){ cb(true, null, 0); return; }
+      firebase.database().ref().update(guncellemeler)
+        .then(function(){ cb(true, null, sayi); }).catch(function(err){ cb(false, err); });
+    }catch(e){ cb(false, e); }
+  }
+
+  // Maaşa eklenmiş ama dönemi HENÜZ kapanmamış ve notu olmayan kaydı geri alır.
+  function donemdenCikar(anahtar, geriBildir){
+    var k = kayitlar[anahtar];
+    if(!k || kilitliMi(k) || k.dusulmeNotu || !k.maasaEklenenDonem){ if(typeof geriBildir==="function") geriBildir(false, new Error("Bu kayıt geri alınamaz.")); return; }
+    guncelle("avansKayitlari/" + anahtar + "/maasaEklenenDonem", null, geriBildir);
+  }
+
+  // "Maaştan düşüldü" notu — kaydı PASİF yapar. Sadece maaşa eklenmiş
+  // (eklendi) ve henüz notu olmayan kayda yazılır.
+  function notEkle(anahtar, not, geriBildir){
+    var k = kayitlar[anahtar];
+    if(!k || kayitDurumu(k) !== "eklendi"){ if(typeof geriBildir==="function") geriBildir(false, new Error("Not sadece maaşa eklenmiş avansa yazılır.")); return; }
+    var aciklama = String((not && not.aciklama) || "").trim();
+    if(!aciklama){ if(typeof geriBildir==="function") geriBildir(false, new Error("Açıklama boş olamaz.")); return; }
+    guncelle("avansKayitlari/" + anahtar + "/dusulmeNotu", {tarih: (not.tarih||""), aciklama: aciklama, zaman: Date.now()}, geriBildir);
+  }
+
+  // Açık dönemin KENDİ avansını maaştan düşme / erteleme (varsayılan: düşülür).
+  // Eski "Avans Seçimi" penceresindeki "bu ayın kendi avansı" anahtarının
+  // kalıcı karşılığı (artık sayfa yenilenince sıfırlanmaz).
+  function kendiAvansiErtele(ay, yil, ertele, geriBildir){
+    guncelle("avansTaslak/" + anahtarOlustur(ay, yil) + "/maasaErtelendi", ertele ? true : null, geriBildir);
+  }
+
+  // Bir maaş dönemine yansıyacak TOPLAM avans kesintisi — Maaş Hesaplama ve
+  // Ana Sayfa özeti AYNI fonksiyonu kullanır (tek kaynak).
+  //  kendi       : bu ayın kendi avansı (ertelenmediyse)
+  //  eklenenler  : bu döneme "Maaşa Ekle" ile eklenen geçmiş kayıtlar
+  //  bekleyen*   : hiçbir maaşa eklenmemiş kayıtlar (bilgi amaçlı)
+  function maasKesintisi(ay, yil){
+    var anahtar = anahtarOlustur(ay, yil);
+    var t = taslakOku(ay, yil);
+    var ozel = (t.ozelAvansGirisleri||[]).reduce(function(s,x){ return s+(x.tutar||0); }, 0);
+    var is = (t.isAvansiGirisleri||[]).reduce(function(s,x){ return s+(x.tutar||0); }, 0);
+    var belge = (t.isAvansiHarcamalar||[]).reduce(function(s,x){ return s+(x.tutar||0); }, 0);
+    var kendiToplam = ozel + Math.max(0, is - belge);
+    var ertelendi = !!t.maasaErtelendi;
+    var kendi = ertelendi ? 0 : kendiToplam;
+    var eklenenler = tumKayitlar().filter(function(k){
+      return k.anahtar !== anahtar && k.maasaEklenenDonem === anahtar && (k.toplamKesinti||0) > 0;
+    });
+    var eklenenToplam = eklenenler.reduce(function(s,k){ return s+(k.toplamKesinti||0); }, 0);
+    var bekleyen = bekleyenKayitlar();
+    return {
+      anahtar: anahtar,
+      kendiToplam: kendiToplam, ertelendi: ertelendi, kendi: kendi,
+      ozelToplam: ozel, isKesilecek: Math.max(0, is - belge),
+      eklenenler: eklenenler, eklenenToplam: eklenenToplam,
+      toplam: kendi + eklenenToplam,
+      bekleyenSayisi: bekleyen.length,
+      bekleyenToplam: bekleyen.reduce(function(s,k){ return s+(k.toplamKesinti||0); }, 0)
+    };
   }
 
   // Verilen avans kayıt anahtarlarını (bir ya da daha fazla), belirtilen
@@ -206,7 +322,15 @@ var AvansKayitData = (function(){
     kaydet: kaydet,
     kaydiSil: kaydiSil,
     bekleyenKayitlar: bekleyenKayitlar,
-    dahilEdildiginiIsaretle: dahilEdildiginiIsaretle
+    dahilEdildiginiIsaretle: dahilEdildiginiIsaretle,
+    kayitDurumu: kayitDurumu,
+    eklenenDonem: eklenenDonem,
+    kilitliMi: kilitliMi,
+    donemeEkle: donemeEkle,
+    donemdenCikar: donemdenCikar,
+    notEkle: notEkle,
+    kendiAvansiErtele: kendiAvansiErtele,
+    maasKesintisi: maasKesintisi
   };
 
 })();

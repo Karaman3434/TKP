@@ -1,5 +1,5 @@
 /*
-  maas-ozet-veri.js — VERSİYON: WG.270926.2245.651
+  maas-ozet-veri.js — TKP.02.11.26-15:02.1408
   ===================================================
   DOM'a HİÇ dokunmayan, sadece "açık dönem"in HESABA YATACAK tutarını
   hesaplayan paylaşılan modül. Ana Sayfa'daki (Kişisel) özet kutucuk bunu
@@ -38,7 +38,12 @@ var MaasOzetVeri = (function(){
   function acikDonemHesapla(){
     var acik = MaasKayitData.acikDonem();
     var h = MaasOrtakHesap.hesapla(acik.ay, acik.yil);
-    var avansToplam = avansToplamiOku(acik.ay, acik.yil);
+    // Ana Sayfa kutucuğu Maaş Hesaplama ile AYNI avans kesintisini gösterir
+    // (02.11.2026: "Maaşa Ekle" ile eklenen avanslar dahil — tek kaynak:
+    // AvansKayitData.maasKesintisi). Eski hesap yalnızca yedek.
+    var avansToplam;
+    try{ avansToplam = AvansKayitData.maasKesintisi(acik.ay, acik.yil).toplam; }
+    catch(e){ avansToplam = avansToplamiOku(acik.ay, acik.yil); }
     var hesabaYatacak = h.sonuc.netToplam - avansToplam;
     return {ay: acik.ay, yil: acik.yil, hesabaYatacak: hesabaYatacak};
   }
