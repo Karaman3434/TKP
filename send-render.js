@@ -1,5 +1,5 @@
 /*
-  send-render.js — WG.301026.1159.1240
+  send-render.js — TKP.02.11.26-12:19.1393
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
   görsel oluşturma/kopyalama özelliklerinden biri GERÇEKTEN kullanıldığında
   ilk kez indiriliyor (bkz. html2canvasYukle()). Davranış/çıktı değişmedi.
@@ -474,6 +474,9 @@ function tabloyuPanoyaKopyala(kanal, btnEl){
       if(!blob){ eskiHaleDon(); alert("Görsel oluşturulamadı."); return; }
       navigator.clipboard.write([new ClipboardItem({"image/png": blob})]).then(function(){
         btnEl.textContent = "✓ Kopyalandı! Mail/Sohbete yapıştırabilirsin";
+        // 02.11.2026: görsel panoya kopyalanıp mail/WhatsApp sohbetine elle
+        // yapıştırılıyor — bu da bir gönderim, kanal (W/M) kayda yazılmalı.
+        gonderimKanaliniKaydet(kanal);
         // KÖK NEDEN DÜZELTMESİ (16.09.2026): buton "Kopyala VE Kaydet" diyordu
         // ama sadece kopyalıyordu — sepet/müşteri seçimi hiç temizlenmiyordu,
         // bu yüzden az sonra Ana Sayfa/Menü'ye basınca "Yarım Kalan İşlem"
@@ -664,7 +667,7 @@ function zinciriCevaplaKopyala(){
               // yazacak. Sadece görsel (tablo + mesaj) kopyalanıyor.
               var panoOgesi = new ClipboardItem({"image/png": blob});
               navigator.clipboard.write([panoOgesi]).then(function(){
-                gonderimKanaliniKaydet("mail_zincir");
+                gonderimKanaliniKaydet("mail");
                 basariBildirimGoster("Kopyalandı! Mail uygulamasına geçip zincire yapıştırabilirsin.");
                 setTimeout(function(){ mailUygulamasiniAcmayiDene(); }, 350);
                 setTimeout(function(){ basariEkraninaGit("panoya"); }, 1800);
@@ -682,7 +685,10 @@ function zinciriCevaplaKopyala(){
 function gonderimKanaliniKaydet(kanal){
   try{
     if(!sonKaydedilenBelge || !sonKaydedilenBelge.kayit || !gonderBaglam) return;
-    ReportsData.kaydiAlanGuncelle(gonderBaglam.tip, sonKaydedilenBelge.kayit.ts, {kanal: kanal}, function(basarili, err){
+    // 02.11.2026 DÜZELTME: eskiden ReportsData.kaydiAlanGuncelle çağrılıyordu
+    // ama ReportsData bu sayfada yüklü DEĞİL — hata sessizce yutuluyor, kanal
+    // (W/M harfi) kayda hiç yazılmıyordu. Bkz. send-data.js kanalKaydet().
+    SendData.kanalKaydet(gonderBaglam.tip, sonKaydedilenBelge.kayit.ts, kanal, function(basarili, err){
       if(!basarili) console.error("Gönderim kanalı kaydedilemedi:", err);
     });
   }catch(e){ console.error("Gönderim kanalı kaydedilemedi:", e); }

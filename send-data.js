@@ -1,5 +1,5 @@
 /*
-  send-data.js — WG.271026.2238.1123
+  send-data.js — TKP.02.11.26-12:19.1392
   ============
   TEK görevi: sepeti + seçili müşteriyi + belge türünü alıp Firebase
   arşivine ESKİ UYGULAMAYLA UYUMLU bir kayıt yazmak. Uyumluluk önemli:
@@ -315,7 +315,39 @@ var SendData = (function(){
     }catch(e){ cb(false, e); }
   }
 
-  return { baslat: baslat, kaydet: kaydet, kaynakSil: kaynakSil, fiyatGecmisiKontrolEt: fiyatGecmisiKontrolEt };
+  // GÖNDERİM KANALI KAYDI (02.11.2026, Abdullah'ın bildirdiği hata): kayıt
+  // listelerindeki "W / M" harfleri arşiv kaydındaki `kanal` alanından
+  // geliyor. Bu alanı eskiden send-render.js, send.html'de HİÇ YÜKLÜ OLMAYAN
+  // ReportsData.kaydiAlanGuncelle() ile yazmaya çalışıyordu — ReferenceError
+  // sessizce yutuluyor, kanal kayda hiç yazılmıyordu. Artık bu sayfanın zaten
+  // yüklediği SendData üzerinden, bağımsız bir transaction ile yazılıyor.
+  // Firebase transaction'ı ilk çağrıda yerel önbellek boşsa `null` ile gelir;
+  // `undefined` dönmek işlemi iptal ederdi (kanal yine yazılmazdı) — bu
+  // yüzden null'da `null` dönülüp Firebase'in gerçek veriyle yeniden
+  // çağırması sağlanıyor.
+  function kanalKaydet(tip, ts, kanal, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      if(!tip || !ts || !kanal){ cb(false, new Error("Eksik bilgi")); return; }
+      var db = firebase.database();
+      var yazildi = false;
+      db.ref("arsiv/" + tip).transaction(function(mevcut){
+        yazildi = false;
+        if(mevcut === null) return mevcut;
+        var liste = Array.isArray(mevcut) ? mevcut.filter(Boolean) : Object.values(mevcut);
+        var idx = liste.findIndex(function(k){ return k.ts === ts; });
+        if(idx === -1) return;
+        liste[idx].kanal = kanal;
+        yazildi = true;
+        return liste;
+      }).then(function(result){
+        if(result && result.committed && yazildi){ cb(true); return; }
+        cb(false, new Error(yazildi ? "Kanal kaydı çakıştı" : "Kayıt bulunamadı"));
+      }).catch(function(err){ cb(false, err); });
+    }catch(e){ cb(false, e); }
+  }
+
+  return { baslat: baslat, kaydet: kaydet, kaynakSil: kaynakSil, fiyatGecmisiKontrolEt: fiyatGecmisiKontrolEt, kanalKaydet: kanalKaydet };
 
 })();
 

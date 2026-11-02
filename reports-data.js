@@ -1,5 +1,5 @@
 /*
-  reports-data.js — TKP.02.11.26-11:48.1389
+  reports-data.js — TKP.02.11.26-12:19.1391
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -52,6 +52,7 @@ var ReportsData = (function(){
             else if(!Array.isArray(arsiv[t])) arsiv[t] = Object.values(arsiv[t]);
           });
         }
+        eskiKanalAdlariniDuzelt();
         canliSehirUygula();
         sonIslemlerOnbellek = null;
         arsivDinleyicileri.forEach(function(fn){ fn(); });
@@ -75,6 +76,16 @@ var ReportsData = (function(){
   // ile, yoksa isimle bulunur; bulunamazsa kayıttaki kopya KALIR). Böylece
   // k.sehir okuyan TÜM ekranlar tek noktadan güncel değeri görür. Dönen
   // değer: en az bir kayıt değiştiyse true.
+  // ESKİ KANAL ADI (02.11.2026): "Zinciri Cevapla" yolu kanalı "mail_zincir"
+  // olarak kaydediyordu; listeler sadece "mail"/"whatsapp" tanıdığı için bu
+  // kayıtlarda M harfi çıkmıyordu. Arşiv okunurken (bellekte, veritabanına
+  // dokunmadan) "mail"e çevrilir — k.kanal okuyan TÜM ekranlar tek noktadan
+  // düzelir. Yeni kayıtlar zaten "mail" yazılıyor.
+  function eskiKanalAdlariniDuzelt(){
+    ["numune","teklif","proforma","siparis"].forEach(function(t){
+      (arsiv[t]||[]).forEach(function(k){ if(k && k.kanal === "mail_zincir") k.kanal = "mail"; });
+    });
+  }
   function canliSehirUygula(){
     if(typeof CustomerData === "undefined" || !CustomerData.sehirBul) return false;
     var degisti = false;

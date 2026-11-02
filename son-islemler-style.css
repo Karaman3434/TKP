@@ -1,4 +1,10 @@
-/* son-islemler-style.css — TKP.01.11.26-17:23.1332 */
+/* son-islemler-style.css — TKP.02.11.26-12:19.1394
+   GÜNCELLEME (02.11.2026, Abdullah isteği): işlem kısa kodu kutusu (FT/RVZ/KAÇTI...)
+   YATAYDA %20 büyütüldü: 36px -> 43.2px (grid'in 3. sütunu, aşağıdaki
+   .sr-satir). Yükseklik/padding/yazı boyutu aynı. Satırın genişliği ve metin
+   sütunları (firma/konum) DEĞİŞMESİN diye fazlalık (7.2px) sütun aralarından
+   karşılandı: gap 6px -> 4.56px (5 aralık x 1.44px). Böylece hiçbir isim
+   fazladan satıra sarmaz, satır yüksekliği aynı kalır. */
 
 /* Bu sayfaya özgü "Siyah" tema (Ana Sayfa'daki Son İşlemler kutucuğunun
    rengiyle devam ediyor) — sadece #islemAra'yı hedefler, diğer tl- sayfalarını
@@ -53,9 +59,9 @@
 #islemlerListesi .sr-satir {
   cursor: pointer;
   display: grid;
-  grid-template-columns: minmax(0,1fr) minmax(50px,19%) 36px 16px 76px 18px;
+  grid-template-columns: minmax(0,1fr) minmax(50px,19%) 43.2px 16px 76px 18px;
   align-items: center;
-  gap: 6px;
+  gap: 4.56px;
   /* MIN-HEIGHT YARIYA İNDİRİLDİ (01.11.2026, Abdullah onayı — "satırlar
      arası çok boşluk var, S22'de daha fazla kayıt görmek istiyorum" turu):
      40px -> 20px. Padding zaten önceki turda ~0'a indirilmişti (aşağıdaki
