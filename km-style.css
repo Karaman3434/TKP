@@ -1,3 +1,4 @@
+/* km-style.css — TKP.02.11.26-10:48.1377 */
 /* km-style.css — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
@@ -228,39 +229,39 @@
 .data-table-container {
   overflow-x: auto;
   width: 100%;
-  border: 2px solid #505050;
-  border-top: none;
-  border-radius: 0 0 8px 8px;
+  border: var(--kv-container-border);
+  border-top: var(--kv-container-border-top);
+  border-radius: var(--kv-container-border-radius);
 }
 .km-veri-tablo {
   width: 100%;
   border-collapse: collapse;
-  font-size: 10px;
+  font-size: var(--kv-tablo-font-size);
 }
 .km-veri-tablo th {
-  background: #faeeda;
-  color: #003a70;
-  font-weight: 900;
-  padding: 6px 3px;
+  background: var(--kv-th-background);
+  color: var(--kv-th-color);
+  font-weight: var(--kv-th-font-weight);
+  padding: var(--kv-th-padding);
   text-align: center;
-  border: 1px solid #333;
+  border: var(--kv-th-border);
   white-space: nowrap;
 }
 .km-veri-tablo td {
-  padding: 6px 3px;
-  border: 1px solid #333;
+  padding: var(--kv-td-padding);
+  border: var(--kv-td-border);
   text-align: center;
   white-space: nowrap;
-  font-weight: 500;
-  color: #1a1a1a;
+  font-weight: var(--kv-td-font-weight);
+  color: var(--tbl-hucre-renk);
 }
 .km-veri-tablo td.km-td-metin {
   text-align: center;
   white-space: normal;
   max-width: 70px;
 }
-.km-veri-tablo .km-td-ozel { color: #b7601f; font-weight: 800; }
-.km-veri-tablo .km-td-is { color: #b7601f; font-weight: 800; }
+.km-veri-tablo .km-td-ozel { color: var(--kv-ozel-color); font-weight: var(--kv-ozel-font-weight); }
+.km-veri-tablo .km-td-is { color: var(--kv-is-color); font-weight: var(--kv-is-font-weight); }
 
 .km-toplamlar-serit {
   display: flex;

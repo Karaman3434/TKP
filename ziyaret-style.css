@@ -1,3 +1,4 @@
+/* ziyaret-style.css — TKP.02.11.26-10:48.1382 */
 .sayfa { padding: 4px 6px 16px; }
 
 /* Boşluk daraltıldı (25.09.2026, Abdullah'ın isteği: nav ile Gün Filtrele
@@ -378,9 +379,9 @@
 
 /* Bugünkü işlemler tablosu (15.09.2026) */
 .ziy-islem-baslik { font-size: 13px; font-weight: 800; color: #123b63; margin: 0; }
-.ziy-islem-tablo { width: 100%; border-collapse: collapse; font-size: 11.5px; }
-.ziy-islem-tablo th, .ziy-islem-tablo td { border: 1px solid #e8ecf1; padding: 6px; text-align: left; }
-.ziy-islem-tablo th { background: #f4f6f9; color: #556170; font-weight: 700; }
+.ziy-islem-tablo { width: 100%; border-collapse: collapse; font-size: var(--zi-tablo-font-size); }
+.ziy-islem-tablo th, .ziy-islem-tablo td { border: var(--zi-thtd-border); padding: var(--zi-thtd-padding); text-align: left; }
+.ziy-islem-tablo th { background: var(--zi-th-background); color: var(--zi-th-color); font-weight: var(--zi-th-font-weight); }
 
 /* ——— AJANDA BİRLEŞTİRME (09.10.2026, Abdullah'ın isteğiyle) ———
    Ayrı "Ajanda" sayfası kaldırılıp bu takvime taşındı/birleştirildi.

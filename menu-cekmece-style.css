@@ -1,5 +1,5 @@
 /*
-  menu-cekmece-style.css — WG.271026.1320.1076
+  menu-cekmece-style.css — TKP.02.11.26-10:48.1383
   ============================================================================
   "Menü her sayfada" (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı).
   Bu dosya SADECE net-yeni sınıfları içerir:
@@ -164,11 +164,11 @@
    .kod-blok/.urun-adi/.urun-fiyat-yazi/.btn-hesapla-ac kurallarının
    BİREBİR kopyası (sadece HESAP butonu daha kısa/küçük yazı — Abdullah
    geri bildirimi), SADECE bu panel içinde geçerli. ---- */
-.as-drawer-mini-sonuc-panel .data-table-container { overflow-x: auto; width: 100%; border: 1px solid #3569b8; border-radius: 8px; }
+.as-drawer-mini-sonuc-panel .data-table-container { overflow-x: auto; width: 100%; border: var(--tbl-kutu-cerceve); border-radius: var(--tbl-kutu-radius); }
 .as-drawer-mini-sonuc-panel .data-table { width: 100%; border-collapse: collapse; }
-.as-drawer-mini-sonuc-panel .data-table td { padding: 8px 6px; border-bottom: 1px solid #e2e6ec; vertical-align: middle; font-weight: 500; font-size: 11px; color: #1a1a1a; font-variant-numeric: tabular-nums; }
-.as-drawer-mini-sonuc-panel .data-table td:first-child { border-right: 1px solid #e2e6ec; }
-.as-drawer-mini-sonuc-panel .data-table tbody tr:nth-child(even) td { background: #f7f9fc; }
+.as-drawer-mini-sonuc-panel .data-table td { padding: var(--mc-td-padding); border-bottom: var(--tbl-hucre-alt-cizgi); vertical-align: middle; font-weight: var(--mc-td-font-weight); font-size: var(--mc-td-font-size); color: var(--tbl-hucre-renk); font-variant-numeric: tabular-nums; }
+.as-drawer-mini-sonuc-panel .data-table td:first-child { border-right: var(--mc-ilk-border-right); }
+.as-drawer-mini-sonuc-panel .data-table tbody tr:nth-child(even) td { background: var(--tbl-zebra); }
 .as-drawer-mini-sonuc-panel .tablo-kod { font-size: 9px; font-weight: 500; line-height: 1.3; margin-bottom: 2px; color: #2d3540; }
 .as-drawer-mini-sonuc-panel .kod-harf { font-weight: 900; font-size: 1.25em; padding: 0 1px; }
 .as-drawer-mini-sonuc-panel .kod-blok--b, .as-drawer-mini-sonuc-panel .kod-blok--a { color: #c0392b; }

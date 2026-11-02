@@ -1,3 +1,4 @@
+/* odenebilir-komisyon-style.css — TKP.02.11.26-10:48.1379 */
 .ok-baslik-serit {
   background: #0e6b58;
   color: #fff;
@@ -77,15 +78,15 @@
 
 /* GRİ ZEMİN (12.10.2026, Abdullah onayı — "programdaki tüm tablolar" kuralı):
    eski mavi başlık zemini diğer tüm tablolarla aynı açık griye döndü. */
-.ok-giris-tablo { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 12px; }
+.ok-giris-tablo { width: 100%; border-collapse: collapse; font-size: var(--okg-tablo-font-size); margin-bottom: 12px; }
 .ok-giris-tablo th {
-  background: #EEF0F3;
-  color: #0c447c;
-  padding: 6px 4px;
-  font-size: 9px;
-  font-weight: 900;
-  text-align: center; border: 1.5px solid #79b1e6;}
-.ok-giris-tablo td { border-bottom: 1px solid #eef1f5; padding: 5px 4px; text-align: center; }
+  background: var(--tbl-baslik-bg);
+  color: var(--tbl-baslik-renk);
+  padding: var(--ok-th-padding);
+  font-size: var(--ok-th-font-size);
+  font-weight: var(--ok-th-font-weight);
+  text-align: center; border: var(--ok-th-border);}
+.ok-giris-tablo td { border-bottom: var(--okg-td-border-bottom); padding: var(--okg-td-padding); text-align: center; }
 .ok-giris-ay-hucre { font-weight: 900; color: #003a70; width: 15%; }
 .ok-giris-tablo input {
   width: 90%;
@@ -129,15 +130,15 @@
 }
 .ok-karsilastir-ok { font-size: 14px; color: #556170; flex-shrink: 0; }
 
-.ok-fark-tablo { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 10px; }
+.ok-fark-tablo { width: 100%; border-collapse: collapse; font-size: var(--okf-tablo-font-size); margin-bottom: 10px; }
 .ok-fark-tablo th {
-  background: #EEF0F3;
-  color: #0c447c;
-  padding: 6px 4px;
-  font-size: 9px;
-  font-weight: 900;
-  text-align: center; border: 1.5px solid #79b1e6;}
-.ok-fark-tablo td { border-bottom: 1px solid #eef1f5; padding: 6px 4px; text-align: center; font-weight: 800; }
+  background: var(--tbl-baslik-bg);
+  color: var(--tbl-baslik-renk);
+  padding: var(--ok-th-padding);
+  font-size: var(--ok-th-font-size);
+  font-weight: var(--ok-th-font-weight);
+  text-align: center; border: var(--ok-th-border);}
+.ok-fark-tablo td { border-bottom: var(--okf-td-border-bottom); padding: var(--okf-td-padding); text-align: center; font-weight: var(--okf-td-font-weight); }
 .ok-fark-pozitif { color: #0e6b34; }
 .ok-fark-negatif { color: #c0392b; }
 .ok-fark-toplam-serit {

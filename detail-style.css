@@ -1,3 +1,4 @@
+/* detail-style.css — TKP.02.11.26-10:48.1375 */
 /* detail-style.css — eski uygulamanın "musteriKartModal" (İŞLEMLER)
    ekranıyla BİREBİR aynı: ortalı başlık şeridi, navy müşteri adı şeridi,
    tek satır özet, 4 büyük eylem kutucuğu, alt Sil/Kapat. */
@@ -523,7 +524,7 @@
   gap: 6px;
 }
 
-.data-table-container { overflow-x: auto; width: 100%; border: 1px solid #3569b8; border-radius: 8px; }
+.data-table-container { overflow-x: auto; width: 100%; border: var(--tbl-kutu-cerceve); border-radius: var(--tbl-kutu-radius); }
 
 /* ---------- Müşteri Kartı İşlem Geçmişi — gruplu, standart tasarım ---------- */
 .gecmis-grup {

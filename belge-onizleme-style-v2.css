@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — TKP.02.11.26-10:22.1366
+  belge-onizleme-style-v2.css — TKP.02.11.26-10:48.1381
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -678,4 +678,4 @@
    belge-style.css'teki asıl kurala DOKUNULMADI, sadece bu sayfaya özel,
    scoped bir override eklendi: üst/alt iç dolgu 8px'ten 4px'e (yarı
    yarıya) küçültüldü. Mockup onaylandı. */
-.belge-onizleme-sayfa .belge-urun-tablo th { padding: 4px 3px; }
+.belge-onizleme-sayfa .belge-urun-tablo th { padding: var(--buo-th-padding); }

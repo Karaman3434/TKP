@@ -1,3 +1,4 @@
+/* product-style.css — TKP.02.11.26-10:48.1373 */
 /*
   product-style.css
   =================
@@ -354,8 +355,8 @@ body {
 .data-table-container {
   overflow-x: auto;
   width: 100%;
-  border: 1px solid #3569b8;
-  border-radius: 8px;
+  border: var(--tbl-kutu-cerceve);
+  border-radius: var(--tbl-kutu-radius);
 }
 .data-table {
   width: 100%;
@@ -363,28 +364,28 @@ body {
 }
 /* GRİ ZEMİN (12.10.2026, Abdullah onayı — "programdaki tüm tablolar" kuralı) */
 .data-table th {
-  background: #EEF0F3;
-  color: #0c447c;
-  font-size: 11.7px;
-  font-weight: 900;
-  padding: 10px 6px;
+  background: var(--tbl-baslik-bg);
+  color: var(--tbl-baslik-renk);
+  font-size: var(--vt-th-font-size);
+  font-weight: var(--vt-th-font-weight);
+  padding: var(--vt-th-padding);
   text-align: left;
-  border-bottom: 2px solid #3569b8;
+  border-bottom: var(--tbl-baslik-alt-cizgi);
 }
 .data-table td {
-  padding: 10px 6px;
-  border-bottom: 1px solid #e2e6ec;
+  padding: var(--vt-td-padding);
+  border-bottom: var(--tbl-hucre-alt-cizgi);
   vertical-align: middle;
-  font-weight: 500;
-  font-size: 12.15px;
-  color: #1a1a1a;
+  font-weight: var(--vt-td-font-weight);
+  font-size: var(--vt-td-font-size);
+  color: var(--tbl-hucre-renk);
 }
 /* KURAL (23.09.2026) — bkz. belge-style.css .belge-urun-tablo: aynı üç
    standart burada da — dikey çizgi, zebra, sabit genişlikli rakam. */
-.data-table th, .data-table td { border-right: 1px solid #e2e6ec; }
+.data-table th, .data-table td { border-right: var(--tbl-dikey-cizgi); }
 .data-table th:last-child, .data-table td:last-child { border-right: none; }
 .data-table td { font-variant-numeric: tabular-nums; }
-.data-table tbody tr:nth-child(even) td { background: #f7f9fc; }
+.data-table tbody tr:nth-child(even) td { background: var(--tbl-zebra); }
 .col-urun { width: auto; }
 .col-islem { width: 1%; }
 

@@ -1,3 +1,4 @@
+/* reports-style.css — TKP.02.11.26-10:48.1374 */
 /* reports-style.css — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
@@ -604,26 +605,26 @@
 .istatistik-satir-deger { font-weight: 900; color: #003a70; }
 
 /* Aylık Sipariş & Prim Özeti — eski uygulamanın renkleriyle BİREBİR aynı */
-.data-table-container { overflow-x: auto; width: 100%; border: 1px solid #3569b8; border-radius: 8px; margin-bottom: 6px; }
-.aylik-ozet-tablo { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: fixed; }
+.data-table-container { overflow-x: auto; width: 100%; border: var(--tbl-kutu-cerceve); border-radius: var(--tbl-kutu-radius); margin-bottom: 6px; }
+.aylik-ozet-tablo { width: 100%; border-collapse: collapse; font-size: var(--ao-tablo-font-size); table-layout: fixed; }
 /* GRİ ZEMİN (12.10.2026, Abdullah onayı — "programdaki tüm tablolar" kuralı):
    eski mavi başlık zemini (#c3dcf4) diğer tüm tablolarla aynı açık griye
    döndü, yazı rengi (zaten koyu lacivert) değişmedi. */
 .aylik-ozet-tablo th {
-  background: #EEF0F3;
-  color: #0c447c;
-  border: 1px solid #3569b8;
-  padding: 7px 2px;
+  background: var(--tbl-baslik-bg);
+  color: var(--tbl-baslik-renk);
+  border: var(--ao-th-border);
+  padding: var(--ao-th-padding);
   text-align: center;
-  font-size: 9px;
+  font-size: var(--ao-th-font-size);
 }
 .aylik-ozet-tablo td {
-  border: 1px solid #3569b8;
-  padding: 6px 2px;
+  border: var(--ao-td-border);
+  padding: var(--ao-td-padding);
   text-align: center;
-  font-weight: 700;
-  color: #1a1a1a;
-  font-size: 10px;
+  font-weight: var(--ao-td-font-weight);
+  color: var(--tbl-hucre-renk);
+  font-size: var(--ao-td-font-size);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

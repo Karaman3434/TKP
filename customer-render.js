@@ -1,5 +1,5 @@
 /*
-  customer-render.js — TKP.02.11.26-10:22.1370
+  customer-render.js — TKP.02.11.26-10:48.1386
   GÜNCELLEME (27.10.2026, Abdullah onayı — ana sayfa mini arama özelliği):
   "?musteriAc=<id-veya-ad>" parametresiyle buraya gelinirse, ilgili müşteri
   bulunup GERÇEK hızlı pencere (hizliPencereyiAc) otomatik açılır — bkz.
@@ -26,7 +26,7 @@ function cmAcikBelgeKontrolIleDevamEt(musteri, tip){
   if(cmAbkModulYukleniyor) return;
   cmAbkModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "acik-belge-kontrol.js?v=TKP.02.11.26-10:22.1369";
+  s.src = "acik-belge-kontrol.js?v=TKP.02.11.26-10:48.1384";
   s.onload = function(){
     cmAbkModulYukleniyor = false;
     cmAbkModulBekleyenler.forEach(function(fn){ fn(); });

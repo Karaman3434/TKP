@@ -1,4 +1,4 @@
-/* belge-style.css — TKP.02.11.26-10:22.1364
+/* belge-style.css — TKP.02.11.26-10:48.1380
    GÜNCELLEME (02.11.2026): PRİM, GENEL TOPLAM kutusunun içine alındı (ortak
    .belge-gt-prim-* kuralları); eski .belge-prim-toplam-serit/.belge-prim-serit/
    .belge-pt-etiket/-deger ve .belge-prim-etiket/-deger kuralları kaldırıldı.
@@ -371,7 +371,7 @@
 
 
 .data-table-container { overflow-x: auto; width: 100%; }
-.belge-urun-tablo { width: 100%; border-collapse: collapse; font-size: 11.25px; table-layout: fixed; }
+.belge-urun-tablo { width: 100%; border-collapse: collapse; font-size: var(--bu-tablo-font-size); table-layout: fixed; }
 /* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı): ürün tablosu
    başlık zemini artık TEK YERDEN, SADECE burada kontrol ediliyor — önceki
    #c3dcf4 (açık mavi) değeri, Gönder/Mail'in zaten kullandığı #EEF0F3
@@ -386,25 +386,25 @@
    DEĞİŞMEDİ — Abdullah'ın isteğiyle bilerek korundu (işlem durumunu
    göstermek için). */
 .belge-urun-tablo th {
-  background: #EEF0F3;
-  color: #0c447c;
-  border: none;
-  border-bottom: 1px solid #f0f2f5;
-  padding: 8px 3px;
+  background: var(--tbl-baslik-bg);
+  color: var(--tbl-baslik-renk);
+  border: var(--bu-th-border);
+  border-bottom: var(--bu-th-border-bottom);
+  padding: var(--bu-th-padding);
   text-align: center;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: var(--bu-th-font-size);
+  font-weight: var(--bu-th-font-weight);
   white-space: nowrap;
 }
 .belge-urun-tablo td {
-  border: none;
-  border-top: 1px solid #f0f2f5;
-  padding: 8px 4px;
+  border: var(--bu-td-border);
+  border-top: var(--bu-td-border-top);
+  padding: var(--bu-td-padding);
   text-align: center;
   vertical-align: middle;
-  font-weight: 600;
-  color: #1a2a3a;
-  font-size: 13px;
+  font-weight: var(--bu-td-font-weight);
+  color: var(--bu-td-color);
+  font-size: var(--bu-td-font-size);
   white-space: normal;
   word-break: break-word;
 }
@@ -414,7 +414,7 @@
    1) ince dikey sütun çizgileri, 2) TEK düz beyaz zemin (zebra YOK —
    14.10.2026, Abdullah'ın isteğiyle kaldırıldı), 3) sabit genişlikli rakam
    (tabular-nums) — sayılar yan yana geldiğinde kaymaz. */
-.belge-urun-tablo th, .belge-urun-tablo td { border-right: 1px solid #e2e6ec; }
+.belge-urun-tablo th, .belge-urun-tablo td { border-right: var(--tbl-dikey-cizgi); }
 .belge-urun-tablo th:last-child, .belge-urun-tablo td:last-child { border-right: none; }
 .belge-urun-tablo td { font-variant-numeric: tabular-nums; }
 /* !important — belge-style.css'in bu kuralı tüm sayfalarda (SADECE bu

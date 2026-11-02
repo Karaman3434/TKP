@@ -1,0 +1,127 @@
+/* tasarim-sistemi.css — TKP.02.11.26-10:48.1372
+   =====================================================================
+   TABLO TASARIMI — TEK KONTROL NOKTASI (02.11.2026, Abdullah onayı)
+   Programdaki tüm tabloların renk / çizgi / yazı boyu / iç boşluk değerleri
+   BURADA tanımlıdır; ilgili CSS dosyaları (product-style, belge-style,
+   km-style, reports-style, ...) bu değişkenleri (var(--...)) kullanır.
+   Bir tablo özelliğini değiştirmek için sadece buradaki değeri değiştirmek
+   yeterlidir — onlarca sayfayı/dosyayı aramaya gerek yok.
+
+   NASIL KULLANILIR
+   - "ORTAK" bölümündeki bir değeri değiştirmek, o değeri paylaşan TÜM tabloları
+     birlikte değiştirir (örn. --tbl-baslik-bg: tüm gri başlıklar).
+   - Bir tabloyu ortak görünüme çekmek için kendi değişkenini ortak olanın
+     değerine eşitle (örn. --kv-th-background: var(--tbl-baslik-bg);).
+   - Değerler 02.11.2026 itibarıyla BİREBİR eski görünümü korur; bu dosyanın
+     eklenmesi hiçbir sayfanın görünümünü DEĞİŞTİRMEDİ.
+
+   KURAL: Bu dosya HER sayfada, diğer CSS dosyalarından ÖNCE yüklenmelidir.
+   Sayfa/kullanıcı yetkileriyle (auth.js) hiçbir ilgisi yoktur.
+   ===================================================================== */
+:root {
+  /* ---- ORTAK (birden çok tablo türünün AYNI değeri paylaştığı — burayı değiştirince hepsi birden değişir) ---- */
+  --tbl-kutu-cerceve: 1px solid #3569b8;
+  --tbl-kutu-radius: 8px;
+  --tbl-baslik-bg: #EEF0F3;
+  --tbl-baslik-renk: #0c447c;
+  --tbl-baslik-alt-cizgi: 2px solid #3569b8;
+  --tbl-hucre-alt-cizgi: 1px solid #e2e6ec;
+  --tbl-hucre-renk: #1a1a1a;
+  --tbl-dikey-cizgi: 1px solid #e2e6ec;
+  --tbl-zebra: #f7f9fc;
+
+  /* ---- VERİ TABLOSU (.data-table — Ürün Bul, arama sonuçları, detay, çekmece) ---- */
+  --vt-th-font-size: 11.7px;
+  --vt-th-font-weight: 900;
+  --vt-th-padding: 10px 6px;
+  --vt-td-padding: 10px 6px;
+  --vt-td-font-weight: 500;
+  --vt-td-font-size: 12.15px;
+
+  /* ---- BELGE/ÜRÜN TABLOSU (.belge-urun-tablo — Sepet, Belge Önizleme, Gönder, Cari Kart) ---- */
+  --bu-tablo-font-size: 11.25px;
+  --bu-th-border: none;
+  --bu-th-border-bottom: 1px solid #f0f2f5;
+  --bu-th-padding: 8px 3px;
+  --bu-th-font-size: 11px;
+  --bu-th-font-weight: 800;
+  --bu-td-border: none;
+  --bu-td-border-top: 1px solid #f0f2f5;
+  --bu-td-padding: 8px 4px;
+  --bu-td-font-weight: 600;
+  --bu-td-color: #1a2a3a;
+  --bu-td-font-size: 13px;
+
+  /* ---- Belge Önizleme'ye özel ezme ---- */
+  --buo-th-padding: 4px 3px;
+
+  /* ---- KM VERİ TABLOSU (.km-veri-tablo — KM, Avans, Yıllık KM) ---- */
+  --kv-container-border: 2px solid #505050;
+  --kv-container-border-top: none;
+  --kv-container-border-radius: 0 0 8px 8px;
+  --kv-tablo-font-size: 10px;
+  --kv-th-background: #faeeda;
+  --kv-th-color: #003a70;
+  --kv-th-font-weight: 900;
+  --kv-th-padding: 6px 3px;
+  --kv-th-border: 1px solid #333;
+  --kv-td-padding: 6px 3px;
+  --kv-td-border: 1px solid #333;
+  --kv-td-font-weight: 500;
+  --kv-ozel-color: #b7601f;
+  --kv-ozel-font-weight: 800;
+  --kv-is-color: #b7601f;
+  --kv-is-font-weight: 800;
+
+  /* ---- AYLIK ÖZET TABLOSU (.aylik-ozet-tablo — Raporlar) ---- */
+  --ao-tablo-font-size: 11px;
+  --ao-th-border: 1px solid #3569b8;
+  --ao-th-padding: 7px 2px;
+  --ao-th-font-size: 9px;
+  --ao-td-border: 1px solid #3569b8;
+  --ao-td-padding: 6px 2px;
+  --ao-td-font-weight: 700;
+  --ao-td-font-size: 10px;
+
+  /* ---- MAAŞ HARCAMA TABLOSU (.mh-harcama-tablo) ---- */
+  --mh-tablo-font-size: 11px;
+  --mh-th-background: #faeeda;
+  --mh-th-color: #b7601f;
+  --mh-th-padding: 5px 4px;
+  --mh-th-font-size: 9px;
+  --mh-th-font-weight: 900;
+  --mh-th-border: 1.5px solid #b7601f;
+  --mh-td-border-bottom: 1px solid #f0ede0;
+  --mh-td-padding: 6px 4px;
+
+  /* ---- ÖDENEBİLİR KOMİSYON — ortak başlık ---- */
+  --ok-th-padding: 6px 4px;
+  --ok-th-font-size: 9px;
+  --ok-th-font-weight: 900;
+  --ok-th-border: 1.5px solid #79b1e6;
+
+  /* ---- ÖDENEBİLİR KOMİSYON — giriş tablosu ---- */
+  --okg-tablo-font-size: 11px;
+  --okg-td-border-bottom: 1px solid #eef1f5;
+  --okg-td-padding: 5px 4px;
+
+  /* ---- ÖDENEBİLİR KOMİSYON — fark tablosu ---- */
+  --okf-tablo-font-size: 11px;
+  --okf-td-border-bottom: 1px solid #eef1f5;
+  --okf-td-padding: 6px 4px;
+  --okf-td-font-weight: 800;
+
+  /* ---- ZİYARET İŞLEM TABLOSU (.ziy-islem-tablo) ---- */
+  --zi-tablo-font-size: 11.5px;
+  --zi-thtd-border: 1px solid #e8ecf1;
+  --zi-thtd-padding: 6px;
+  --zi-th-background: #f4f6f9;
+  --zi-th-color: #556170;
+  --zi-th-font-weight: 700;
+
+  /* ---- MENÜ ÇEKMECESİ mini arama sonucu tablosu ---- */
+  --mc-td-padding: 8px 6px;
+  --mc-td-font-weight: 500;
+  --mc-td-font-size: 11px;
+  --mc-ilk-border-right: 1px solid #e2e6ec;
+}

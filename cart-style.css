@@ -1,5 +1,5 @@
 /*
-  cart-style.css — TKP.02.11.26-08:55.1357
+  cart-style.css — TKP.02.11.26-10:48.1376
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -197,8 +197,8 @@
 .data-table-container {
   overflow-x: auto;
   width: 100%;
-  border: 1px solid #3569b8;
-  border-radius: 8px;
+  border: var(--tbl-kutu-cerceve);
+  border-radius: var(--tbl-kutu-radius);
   margin-bottom: 8px;
 }
 .sepet-tablo { width: 100%; border-collapse: collapse; }

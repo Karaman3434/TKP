@@ -1,3 +1,4 @@
+/* maas-hesaplama-style.css — TKP.02.11.26-10:48.1378 */
 .mh-etiket {
   display: block;
   font-size: 11px;
@@ -247,17 +248,17 @@
   white-space: nowrap;
   cursor: pointer;
 }
-.mh-harcama-tablo { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 6px; }
+.mh-harcama-tablo { width: 100%; border-collapse: collapse; font-size: var(--mh-tablo-font-size); margin-bottom: 6px; }
 .mh-harcama-tablo th {
-  background: #faeeda;
-  color: #b7601f;
-  padding: 5px 4px;
-  font-size: 9px;
-  font-weight: 900;
-  text-align: left; border: 1.5px solid #b7601f;}
+  background: var(--mh-th-background);
+  color: var(--mh-th-color);
+  padding: var(--mh-th-padding);
+  font-size: var(--mh-th-font-size);
+  font-weight: var(--mh-th-font-weight);
+  text-align: left; border: var(--mh-th-border);}
 .mh-harcama-tablo th:last-child, .mh-harcama-tablo td:last-child { text-align: right; width: 24px; }
 .mh-harcama-tablo th:nth-child(3), .mh-harcama-tablo td:nth-child(3) { text-align: right; }
-.mh-harcama-tablo td { border-bottom: 1px solid #f0ede0; padding: 6px 4px; }
+.mh-harcama-tablo td { border-bottom: var(--mh-td-border-bottom); padding: var(--mh-td-padding); }
 .mh-harcama-etiket-rozet {
   display: inline-block;
   background: #eaf2fc;
