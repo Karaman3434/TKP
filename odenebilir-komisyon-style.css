@@ -1,4 +1,4 @@
-/* odenebilir-komisyon-style.css — TKP.02.11.26-10:48.1379 */
+/* odenebilir-komisyon-style.css — TKP.02.11.26-16:36.1416 */
 .ok-baslik-serit {
   background: #0e6b58;
   color: #fff;
@@ -257,3 +257,19 @@
   cursor: pointer;
   margin-top: 8px;
 }
+
+/* EKSTRA PRİM (02.11.2026, Abdullah onayı — mockup üzerinden): Brüt Prim
+   kutusunda elle girilen ekstra satırlar (mavi, "EKSTRA" rozetli). */
+.ok-fark-tablo tr.ok-ekstra td { background: #eaf3fb; color: #003a70; font-weight: 800; }
+.ok-fark-tablo tr.ok-ekstra td.ok-ekstra-ac-td { text-align: left; }
+.ok-ekstra-rozet { display: inline-block; background: #003a70; color: #fff; font-size: 9px; font-weight: 900; border-radius: 99px; padding: 1px 7px; margin-right: 6px; vertical-align: middle; }
+.ok-ekstra-sil { background: none; border: none; color: #c0392b; font-size: 14px; margin-left: 6px; padding: 0 2px; cursor: pointer; }
+.ok-ekstra-etiket { font-size: 11px; font-weight: 800; color: #003a70; margin: 2px 0 5px; }
+.ok-ekstra-form { display: flex; gap: 6px; margin: 0 0 10px; }
+.ok-ekstra-form input { min-width: 0; border: 2px solid #b7c4d6; border-radius: 8px; padding: 8px; font-size: 13px; font-weight: 700; color: #003a70; background: #fff; }
+.ok-ekstra-form .ok-ekstra-ac { flex: 1.6; }
+.ok-ekstra-form .ok-ekstra-tutar { flex: 1; }
+.ok-ekstra-btn { background: #003a70; color: #fff; border: none; border-radius: 8px; padding: 0 12px; font-size: 12px; font-weight: 900; white-space: nowrap; cursor: pointer; }
+.ok-ekstra-btn:disabled { opacity: .6; }
+.ok-ekstra-ozet { font-size: 11px; color: #556170; font-weight: 700; margin: -4px 2px 8px; text-align: right; }
+#bnEkstraForm[hidden], .ok-ekstra-ozet[hidden] { display: none; }

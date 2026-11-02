@@ -1,5 +1,5 @@
 /*
-  maas-ortak-hesap.js — VERSİYON: WG.270926.2245.651
+  maas-ortak-hesap.js — VERSİYON: TKP.02.11.26-16:36.1414
   ======================================================
   27.09.2026 mimari bölünmesi: Maaş Hesaplama tek sayfaydı, artık üç
   bağımsız sayfaya bölündü (Brüt Maaş→Net Maaş / Ödenebilir Komisyon'daki
@@ -86,7 +86,12 @@ var MaasOrtakHesap = (function(){
     var brutSabit = brutSabitOku();
     var k = komisyonDonemToplamlariOku();
     var brutPrimHam = k.ikinciToplam - k.birinciToplam;
-    var brutPrim = k.tamMi ? Math.max(0, brutPrimHam) : 0;
+    // Ekstra prim (02.11.2026): elle girilen satırlar fotoğraf farkına EKLENİR;
+    // fotoğraflar eksik olsa bile ekstra prim hesaba girer.
+    var ekstraPrim = 0;
+    try{ ekstraPrim = KomisyonDonemData.ekstraToplam(); }catch(e){ ekstraPrim = 0; }
+    var fotoBrutPrim = k.tamMi ? Math.max(0, brutPrimHam) : 0;
+    var brutPrim = fotoBrutPrim + ekstraPrim;
     var primDizisi = brutPrimDizisiOlustur(acikAy, acikYil, brutPrim);
     var matrahOverride = matrahOnceOverride(acikAy, acikYil);
     var sonuc = MaasHesaplamaData.ayHesapla(acikAy, brutSabit, primDizisi, matrahOverride);
@@ -97,6 +102,8 @@ var MaasOrtakHesap = (function(){
       ikinciToplam: k.ikinciToplam,
       komisyonTamMi: k.tamMi,
       brutPrimHam: brutPrimHam,
+      fotoBrutPrim: fotoBrutPrim,
+      ekstraPrim: ekstraPrim,
       brutPrim: brutPrim,
       matrahOverride: matrahOverride,
       sonuc: sonuc

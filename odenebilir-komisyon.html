@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
-<link rel="stylesheet" href="odenebilir-komisyon-style.css?v=TKP.02.11.26-10:48.1379">
+<link rel="stylesheet" href="odenebilir-komisyon-style.css?v=TKP.02.11.26-16:36.1416">
 <link rel="stylesheet" href="maas-hesaplama-style.css?v=TKP.02.11.26-15:02.1407">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
@@ -158,7 +158,18 @@
       <thead><tr><th>AY</th><th>1. FOT.</th><th>2. FOT.</th><th>FARK</th></tr></thead>
       <tbody id="bnFarkTabloGovde"></tbody>
     </table>
-    <div class="ok-fark-toplam-serit" id="bnToplamFarkSerit" hidden><span>TOPLAM FARK (BRÜT PRİM)</span><span id="bnToplamFarkDeger">+0,00 TL</span></div>
+    <!-- EKSTRA PRİM (02.11.2026, Abdullah onayı): elle girilen satırlar tablonun
+         altına "EKSTRA" rozetiyle eklenir, Brüt Prim'e dahil olur. -->
+    <div id="bnEkstraForm" hidden>
+      <div class="ok-ekstra-etiket">✎ Ekstra prim ekle (elle)</div>
+      <div class="ok-ekstra-form">
+        <input type="text" class="ok-ekstra-ac" id="bnEkstraAciklama" placeholder="Açıklama (örn. bayi primi)" maxlength="60" autocomplete="off">
+        <input type="text" class="ok-ekstra-tutar" id="bnEkstraTutar" placeholder="Tutar" inputmode="decimal" autocomplete="off">
+        <button type="button" class="ok-ekstra-btn" id="btnBnEkstraEkle">➕ Ekle</button>
+      </div>
+    </div>
+    <div class="ok-ekstra-ozet" id="bnEkstraOzet" hidden></div>
+    <div class="ok-fark-toplam-serit" id="bnToplamFarkSerit" hidden><span id="bnToplamFarkEtiket">TOPLAM BRÜT PRİM</span><span id="bnToplamFarkDeger">+0,00 TL</span></div>
     <div class="mh-tutar-kart-alt" id="bnNetAlt" hidden>
       <span class="mh-kesinti-oran" id="bnPrimKesintiOran">%0,00 kesinti</span>
       <span class="mh-net-deger">Net Prim: <b id="bnNetPrimDeger">0,00 TL</b></span>
@@ -178,11 +189,11 @@
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="ust-bar-davranis.js?v=TKP.01.11.26-18:36.1334"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
-<script src="komisyon-donem-data.js?v=WG.271026.2238.1126"></script>
+<script src="komisyon-donem-data.js?v=TKP.02.11.26-16:36.1413"></script>
 <script src="maas-kayit-data.js?v=WG.271026.2238.1125"></script>
 <script src="maas-hesaplama-data.js?v=WG.020926.2258.94"></script>
-<script src="maas-ortak-hesap.js?v=WG.270926.2245.651"></script>
-<script src="odenebilir-komisyon-render.js?v=WG.300926.1400.677"></script>
+<script src="maas-ortak-hesap.js?v=TKP.02.11.26-16:36.1414"></script>
+<script src="odenebilir-komisyon-render.js?v=TKP.02.11.26-16:36.1415"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->

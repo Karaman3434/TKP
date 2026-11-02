@@ -1,5 +1,5 @@
 /*
-  odenebilir-komisyon-render.js — VERSİYON: WG.270926.2245.651
+  odenebilir-komisyon-render.js — VERSİYON: TKP.02.11.26-16:36.1415
   ================================================================
   27.09.2026 yeniden tasarım:
   1) "1. Fotoğraf" ve "2. Fotoğraf" — açık maaş dönemi için sabit iki
@@ -244,6 +244,36 @@ function kutulariCiz(){
 }
 
 // BRÜT PRİM → NET PRİM (27.09.2026, revize) — 1./2. Fotoğraf farkından.
+function htmlEsc_BN(t){
+  return String(t == null ? "" : t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+
+// "2.500,00" / "2500,5" / "2500.50" / "2500" → sayı (geçersizse NaN).
+function ekstraTutarParse_BN(metin){
+  var t = String(metin||"").trim().replace(/\s/g,"").replace(/TL$/i,"");
+  if(!t) return NaN;
+  if(t.indexOf(",") !== -1) t = t.replace(/\./g,"").replace(",",".");
+  else if(/^\d{1,3}(\.\d{3})+$/.test(t)) t = t.replace(/\./g,"");
+  return /^\d+(\.\d+)?$/.test(t) ? parseFloat(t) : NaN;
+}
+
+function ekstraEkleTiklandi(){
+  try{
+    var acik = MaasKayitData.acikDonem();
+    var aciklamaEl = document.getElementById("bnEkstraAciklama");
+    var tutarEl = document.getElementById("bnEkstraTutar");
+    var tutar = ekstraTutarParse_BN(tutarEl.value);
+    if(!(tutar > 0)){ alert("Geçerli bir tutar yaz (örn. 2.500,00)."); tutarEl.focus(); return; }
+    var btn = document.getElementById("btnBnEkstraEkle");
+    btn.disabled = true;
+    KomisyonDonemData.ekstraEkle(KomisyonDonemData.donemAnahtariUret(acik.ay, acik.yil), aciklamaEl.value, tutar, function(ok, err){
+      btn.disabled = false;
+      if(!ok){ hataGoster("Ekstra prim eklenemedi: " + (err && err.message)); return; }
+      aciklamaEl.value = ""; tutarEl.value = "";
+    });
+  }catch(e){ hataGoster("Ekstra prim eklenemedi: " + e.message); }
+}
+
 function fmtTL_BN(n){
   return (n||0).toLocaleString("tr-TR", {minimumFractionDigits:2, maximumFractionDigits:2}) + " TL";
 }
@@ -266,29 +296,59 @@ function farkGoster(){
     var tablo = document.getElementById("bnFarkTablo");
     var toplamSerit = document.getElementById("bnToplamFarkSerit");
     var netAlt = document.getElementById("bnNetAlt");
+    var ekstraListe = KomisyonDonemData.ekstraListe();
+    document.getElementById("bnEkstraForm").hidden = false;
 
-    if(!h.komisyonTamMi){
-      bekle.hidden = false; tablo.hidden = true; toplamSerit.hidden = true; netAlt.hidden = true;
+    // Fotoğraf farkı satırları (iki fotoğraf da yüklüyse).
+    var satirlar = "";
+    if(h.komisyonTamMi){
+      var d = KomisyonDonemData.gecerliDonem();
+      for(var ay=1; ay<=12; ay++){
+        var b = (d.birinci.aylar && d.birinci.aylar[ay]) || 0;
+        var i = (d.ikinci.aylar && d.ikinci.aylar[ay]) || 0;
+        var fark = i - b;
+        if(Math.abs(fark) < 0.01) continue;
+        var sinif = fark >= 0 ? "ok-fark-pozitif" : "ok-fark-negatif";
+        var isaret = fark >= 0 ? "+" : "";
+        satirlar += "<tr><td>" + ay + " · " + AY_ADLARI[ay] + "</td><td>" + fmtTL(b) + "</td><td>" + fmtTL(i) + "</td><td class='" + sinif + "'>" + isaret + fmtTL(fark) + "</td></tr>";
+      }
+      if(!satirlar) satirlar = "<tr><td colspan='4' style='text-align:center;color:#8a8f98;'>Değişiklik yok.</td></tr>";
+    }
+    // Ekstra prim satırları (elle girilen) — mavi, "EKSTRA" rozetli.
+    ekstraListe.forEach(function(x){
+      satirlar += "<tr class='ok-ekstra'><td colspan='3' class='ok-ekstra-ac-td'><span class='ok-ekstra-rozet'>EKSTRA</span>" + htmlEsc_BN(x.aciklama || "Ekstra prim") + "</td><td>+" + fmtTL(x.tutar) + "<button type='button' class='ok-ekstra-sil' data-id='" + htmlEsc_BN(x.id) + "' aria-label='Sil'>🗑</button></td></tr>";
+    });
+
+    bekle.hidden = !!h.komisyonTamMi;
+    if(!h.komisyonTamMi && !ekstraListe.length){
+      tablo.hidden = true; toplamSerit.hidden = true; netAlt.hidden = true;
+      document.getElementById("bnEkstraOzet").hidden = true;
       return;
     }
-    bekle.hidden = true;
-
-    var d = KomisyonDonemData.gecerliDonem();
-    var satirlar = "";
-    for(var ay=1; ay<=12; ay++){
-      var b = (d.birinci.aylar && d.birinci.aylar[ay]) || 0;
-      var i = (d.ikinci.aylar && d.ikinci.aylar[ay]) || 0;
-      var fark = i - b;
-      if(Math.abs(fark) < 0.01) continue;
-      var sinif = fark >= 0 ? "ok-fark-pozitif" : "ok-fark-negatif";
-      var isaret = fark >= 0 ? "+" : "";
-      satirlar += "<tr><td>" + ay + " · " + AY_ADLARI[ay] + "</td><td>" + fmtTL(b) + "</td><td>" + fmtTL(i) + "</td><td class='" + sinif + "'>" + isaret + fmtTL(fark) + "</td></tr>";
-    }
-    document.getElementById("bnFarkTabloGovde").innerHTML = satirlar || "<tr><td colspan='4' style='text-align:center;color:#8a8f98;'>Değişiklik yok.</td></tr>";
+    document.getElementById("bnFarkTabloGovde").innerHTML = satirlar;
     tablo.hidden = false;
+    // Fotoğraflar yokken (sadece ekstra satırlar) "1. FOT./2. FOT." başlığı anlamsız — gizle.
+    var tabloBaslik = tablo.querySelector("thead");
+    if(tabloBaslik) tabloBaslik.hidden = !h.komisyonTamMi;
+    document.getElementById("bnFarkTabloGovde").querySelectorAll(".ok-ekstra-sil").forEach(function(btn){
+      btn.onclick = function(){
+        var id = this.getAttribute("data-id");
+        if(!confirm("Bu ekstra prim satırı silinsin mi?")) return;
+        KomisyonDonemData.ekstraSil(id, function(ok, err){
+          if(!ok) hataGoster("Ekstra prim silinemedi: " + (err && err.message));
+        });
+      };
+    });
 
-    var toplamFark = h.brutPrimHam;
-    document.getElementById("bnToplamFarkDeger").textContent = (toplamFark>=0?"+":"") + fmtTL(toplamFark) + " TL";
+    // Toplam: fotoğraf farkı + ekstra (negatif fark 0'a kırpılır — bkz. maas-ortak-hesap.js).
+    var toplamBrut = h.brutPrim;
+    var ozet = document.getElementById("bnEkstraOzet");
+    if(ekstraListe.length && h.komisyonTamMi){
+      ozet.textContent = "Fotoğraf farkı " + (h.fotoBrutPrim>=0?"+":"") + fmtTL(h.fotoBrutPrim) + " · Ekstra +" + fmtTL(h.ekstraPrim);
+      ozet.hidden = false;
+    } else { ozet.hidden = true; }
+    document.getElementById("bnToplamFarkEtiket").textContent = "TOPLAM BRÜT PRİM";
+    document.getElementById("bnToplamFarkDeger").textContent = (toplamBrut>=0?"+":"") + fmtTL(toplamBrut) + " TL";
     toplamSerit.hidden = false;
 
     document.getElementById("bnPrimKesintiOran").textContent = fmtOranSadece_BN(h.sonuc.brutPrim, h.sonuc.netPrim);
@@ -337,6 +397,9 @@ function okKapaliKaydiGoster(k){
 
   document.getElementById("bnBekleBanner").hidden = true;
   document.getElementById("bnFarkTablo").hidden = true;
+  // Ekstra prim girişi sadece açık (canlı) dönemde; kapalı dönemde yalnızca sonuç görünür.
+  document.getElementById("bnEkstraForm").hidden = true;
+  document.getElementById("bnEkstraOzet").hidden = true;
 
   var brutPrim = k.brutPrim || 0;
   document.getElementById("bnToplamFarkDeger").textContent = (brutPrim>=0?"+":"") + fmtTL(brutPrim) + " TL";
@@ -382,6 +445,7 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("okFotoSeciciIkinci").addEventListener("change", function(){
     if(this.files && this.files[0]) fotoSecildi("ikinci", this.files[0]);
   });
+  document.getElementById("btnBnEkstraEkle").onclick = ekstraEkleTiklandi;
   document.getElementById("btnOkOnayla").onclick = onaylaTiklandi;
   document.getElementById("btnOkIptal").onclick = iptalTiklandi;
 

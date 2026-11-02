@@ -1,5 +1,5 @@
 /*
-  komisyon-donem-data.js — VERSİYON: WG.271026.2238.1126
+  komisyon-donem-data.js — VERSİYON: TKP.02.11.26-16:36.1413
   ==========================================================
   27.09.2026 yeniden tasarım: Ödenebilir Komisyon artık serbest tarihli
   kayıt listesi (eski KomisyonData / odenebilir-komisyon-data.js) yerine,
@@ -73,9 +73,48 @@ var KomisyonDonemData = (function(){
     }catch(e){ cb(false, e); }
   }
 
+  /* ---------- EKSTRA PRİM (02.11.2026, Abdullah onayı — mockup üzerinden) ----------
+     Fotoğraf farkından bağımsız, ELLE girilen ekstra prim satırları
+     (açıklama + tutar). Brüt Prim'e eklenir (bkz. maas-ortak-hesap.js).
+     1./2. Fotoğraf ile AYNI düğümde (odenebilirKomisyonDonem/ekstraPrimler)
+     durur; ay kapanıp dönem sıfırlanınca (acikDonemleSenkronizeEt, düğümü
+     baştan yazar) onlarla birlikte otomatik sıfırlanır. */
+  function ekstraListe(){
+    var o = (veri && veri.ekstraPrimler) || {};
+    return Object.keys(o).map(function(id){
+      return {id: id, aciklama: o[id].aciklama || "", tutar: parseFloat(o[id].tutar) || 0, zaman: o[id].zaman || 0};
+    }).sort(function(a,b){ return a.zaman - b.zaman; });
+  }
+  function ekstraToplam(){
+    return ekstraListe().reduce(function(t, x){ return t + x.tutar; }, 0);
+  }
+  function ekstraEkle(donemAnahtari, aciklama, tutar, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      var t = parseFloat(tutar);
+      if(!(t > 0)) throw new Error("Tutar 0'dan büyük olmalı.");
+      var ref = firebase.database().ref("odenebilirKomisyonDonem");
+      var id = ref.child("ekstraPrimler").push().key;
+      var patch = {donemAnahtari: donemAnahtari};
+      patch["ekstraPrimler/" + id] = {aciklama: String(aciklama||"").trim(), tutar: t, zaman: Date.now()};
+      ref.update(patch).then(function(){ cb(true); }).catch(function(err){ cb(false, err); });
+    }catch(e){ cb(false, e); }
+  }
+  function ekstraSil(id, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      firebase.database().ref("odenebilirKomisyonDonem/ekstraPrimler/" + id).remove()
+        .then(function(){ cb(true); }).catch(function(err){ cb(false, err); });
+    }catch(e){ cb(false, e); }
+  }
+
   baslat();
 
   return {
+    ekstraListe: ekstraListe,
+    ekstraToplam: ekstraToplam,
+    ekstraEkle: ekstraEkle,
+    ekstraSil: ekstraSil,
     degistiginde: degistiginde,
     yuklendiMi: yuklendiMi,
     gecerliDonem: gecerliDonem,
