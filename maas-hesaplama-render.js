@@ -1,5 +1,5 @@
 /*
-  maas-hesaplama-render.js — TKP.02.11.26-19:04.1432
+  maas-hesaplama-render.js — TKP.02.11.26-20:16.1446
   ==========================================================
   MAAŞ HESAPLAMA (ÖZET) sayfası — 27.09.2026 mimari bölünmesi. Bu sayfa
   artık kendi Brüt Sabit Maaş / Brüt Prim hesaplamasını yapmıyor; Net
@@ -224,11 +224,22 @@ document.addEventListener("DOMContentLoaded", function(){
   // Abdullah'ın 01.10.2026 bildirimi). Şimdi kapatmadan ÖNCE diğer
   // aylarda dolu bir taslak var mı kontrol ediyoruz; varsa işlemi
   // DURDURUP açıkça uyarıyoruz, sessizce yanlış veriyle kapatmıyoruz.
+  //
+  // GÜNCELLEME (02.11.2026, Abdullah'ın isteğiyle Avans Toplam sayfası): başka
+  // aydaki taslağın AVANS satırları artık Avans Toplam'da görünür/hesaplı
+  // (AvansKayitData.satirlar: açık, eklendi, maaştan düşüldü) — veri gözden
+  // kaybolmaz ve açık (eklenmemiş) avans varsa aşağıdaki uyarı zaten çıkar.
+  // Bu yüzden SADECE avans satırı HİÇ üretmeyen (örn. sadece harcama girilmiş)
+  // dolu taslaklar kapatmayı durdurur; aksi hâlde eski ayın taslağı (örn. maaşa
+  // eklenip düşülmüş Eylül) kapatmayı sonsuza kadar kilitlerdi.
   function mhBaskaDonemdeDoluTaslakVarMi(buAy, buYil){
     try{
       var buAnahtar = buYil + "-" + ("0"+buAy).slice(-2);
+      var satirAylari = {};
+      AvansKayitData.satirlar().forEach(function(r){ satirAylari[r.anahtar] = true; });
       return AvansKayitData.tumTaslaklar().filter(function(t){
         if(t.anahtar === buAnahtar) return false;
+        if(satirAylari[t.anahtar]) return false; // avans satırları hesapta görünüyor
         return (t.ozelAvansGirisleri||[]).length>0 || (t.isAvansiGirisleri||[]).length>0 || (t.isAvansiHarcamalar||[]).length>0;
       });
     }catch(e){ return []; }
