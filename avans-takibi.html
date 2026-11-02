@@ -61,7 +61,7 @@
 <!-- EKLENDİ (26.10.2026, "Yıllık Avans Tablosu" — mockup onaylandı) —
      yillik-km-odeme.html ile AYNI tablo/kutu bileşenleri. -->
 <link rel="stylesheet" href="km-style.css?v=TKP.02.11.26-10:48.1377">
-<link rel="stylesheet" href="avans-takibi-style.css?v=TKP.02.11.26-15:02.1405">
+<link rel="stylesheet" href="avans-takibi-style.css?v=TKP.02.11.26-15:27.1411">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.02.11.26-10:48.1383">
@@ -164,6 +164,7 @@
       <span class="av-lej av-lej--k">Aktif · seçilebilir</span>
       <span class="av-lej av-lej--y">✓ Maaşa eklendi</span>
       <span class="av-lej av-lej--g">🔒 Pasif · kilitli</span>
+      <button type="button" class="av-sec-hepsi" id="btnAvHepsiniSec" hidden>☑ Tümünü seç</button>
     </div>
     <p class="av-aciklama">Maaştan düşülecek avansın satır başındaki kutusuna dokun, sonra <b>Maaşa Ekle</b>'ye bas. Maaştan düşüldükten sonra <b>Not ekle</b> ile tarih/açıklama yazarsan avans pasif olur.</p>
 
@@ -220,6 +221,8 @@
   <div class="mh-avans-toplam-kutu">
     <div class="mh-sonuc-satir"><span>Özel Avans</span><b id="avToplamOzel">0,00 TL</b></div>
     <div class="mh-sonuc-satir"><span>Kalan İş Avansı</span><b id="avToplamIs">0,00 TL</b></div>
+    <div class="mh-sonuc-satir av-devir-satir" id="avDevirGelenSatir" hidden><span id="avDevirGelenEtiket">↩ Devir (fazla fatura)</span><b id="avDevirGelenDeger">0,00 TL</b></div>
+    <div class="mh-sonuc-satir av-devir-satir av-devir-satir--bilgi" id="avDevirGidenSatir" hidden><span id="avDevirGidenEtiket">↪ Sonraki aya devir</span><b id="avDevirGidenDeger">0,00 TL</b></div>
     <div class="mh-sonuc-satir mh-sonuc-satir--toplam"><span>MAAŞTAN KESİLECEK</span><b id="avToplamGenel">0,00 TL</b></div>
   </div>
 
@@ -319,8 +322,8 @@
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="ust-bar-davranis.js?v=TKP.01.11.26-18:36.1334"></script>
 <script src="maas-kayit-data.js?v=WG.271026.2238.1125"></script>
-<script src="avans-kayit-data.js?v=TKP.02.11.26-15:02.1403"></script>
-<script src="avans-takibi-render.js?v=TKP.02.11.26-15:02.1404"></script>
+<script src="avans-kayit-data.js?v=TKP.02.11.26-15:27.1409"></script>
+<script src="avans-takibi-render.js?v=TKP.02.11.26-15:27.1410"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->

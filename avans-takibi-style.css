@@ -1,4 +1,4 @@
-/* avans-takibi-style.css — TKP.02.11.26-15:02.1405
+/* avans-takibi-style.css — TKP.02.11.26-15:27.1411
    (ilk tasarım) 27.09.2026 yeniden tasarım:
    tek AVANS EKLE satırı (tip düğmesi + Ekle), birleşik liste, kırmızı
    toplam kutusu, ‹›/kaydırmalı dönem barı, kaydedildi rozeti. Sadece
@@ -239,7 +239,10 @@
 .av-kilit { font-size: 13px; opacity: .75; }
 
 .av-yil-tablo tr.av-bosluk td { height: 6px; padding: 0; border: none; background: #fff; }
-.av-yil-tablo tr.av-r--aktif td { background: #fff; border-top: 2.5px solid #c0392b; border-bottom: 2.5px solid #c0392b; }
+.av-yil-tablo tr.av-r--aktif td { background: #fff; }
+.av-yil-tablo tr.av-r--aktif.ilk td { border-top: 2.5px solid #c0392b; }
+.av-yil-tablo tr.av-r--aktif.ilk:not(.son) td { border-bottom: none; }
+.av-yil-tablo tr.av-r--aktif.son td { border-bottom: 2.5px solid #c0392b; }
 .av-yil-tablo tr.av-r--aktif td:first-child { border-left: 2.5px solid #c0392b; }
 .av-yil-tablo tr.av-r--aktif td:last-child { border-right: 2.5px solid #c0392b; }
 .av-yil-tablo tr.av-r--secili td { background: #fdecea; }
@@ -261,6 +264,12 @@
 .av-yil-tablo tr.av-alt td { border-top: none; padding: 5px 8px; text-align: left; white-space: normal; font-size: 11px; cursor: default; }
 .av-yil-tablo tr.av-alt.av-r--yesil td { color: #0e6b34; font-weight: 800; }
 .av-yil-tablo tr.av-alt.av-r--pasif td { color: #6b7684; font-weight: 600; }
+/* DEVİR (fazla faturalandırma) alt satırları — mavi; çerçeve rengini kaydın durumundan alır. */
+.av-yil-tablo tr.av-alt.av-devir td { background: #eaf3fb; color: #003a70; font-weight: 700; }
+.av-yil-tablo tr.av-alt.av-devir.av-plain td { border-left: none; border-right: none; }
+.av-yil-tablo tr.av-alt.av-devir.av-plain.son td { border-bottom: 1px solid #c7dcef; }
+.av-yil-tablo tr.av-alt.av-devir.av-r--pasif td { color: #5f7ea0; }
+.av-devir-rozet { display: inline-block; background: #003a70; color: #fff; font-size: 9px; font-weight: 900; border-radius: 99px; padding: 1px 7px; margin-right: 6px; vertical-align: middle; letter-spacing: .3px; }
 .av-alt-ic { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .av-not-btn { background: #0e6b58; color: #fff; border: none; border-radius: 99px; padding: 5px 11px; font-size: 11px; font-weight: 900; white-space: nowrap; cursor: pointer; }
 .av-durum-aktif { color: #c0392b; font-weight: 800; }
@@ -272,6 +281,15 @@
 .av-lej--k { color: #c0392b; border-color: #c0392b; background: #fff; }
 .av-lej--y { color: #0e6b34; border-color: #0e6b34; background: #eafaf0; }
 .av-lej--g { color: #8a8f98; border-color: #b9c2cf; background: #f1f3f6; }
+.av-sec-hepsi { margin-left: auto; background: #fff; color: #003a70; border: 2px solid #003a70; border-radius: 99px; padding: 3px 10px; font-size: 10.5px; font-weight: 900; cursor: pointer; white-space: nowrap; }
+.av-sec-hepsi[hidden] { display: none; }
+.mh-sonuc-satir.av-devir-satir { background: #eaf3fb; color: #003a70; }
+.mh-sonuc-satir.av-devir-satir b { color: #003a70; }
+.mh-sonuc-satir.av-devir-satir[hidden] { display: none; }
+.av-devir-satir--bilgi { font-weight: 600; opacity: .85; }
+/* Sayfaya özel: .banner--kompakt{display:flex} "hidden" özniteliğini eziyordu
+   (kapalı dönem şeridi hep görünüyordu). */
+.banner[hidden] { display: none; }
 .av-aciklama { font-size: 11px; color: #6b7684; margin: 0 0 8px; line-height: 1.45; }
 
 .av-alt-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 600; background: #fff; border-top: 1px solid #e2e6ec; box-shadow: 0 -6px 18px rgba(0,30,70,.12); padding: 10px 12px calc(12px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; gap: 10px; }

@@ -1,5 +1,5 @@
 /*
-  maas-hesaplama-render.js — TKP.02.11.26-15:02.1406
+  maas-hesaplama-render.js — TKP.02.11.26-15:27.1412
   ==========================================================
   MAAŞ HESAPLAMA (ÖZET) sayfası — 27.09.2026 mimari bölünmesi. Bu sayfa
   artık kendi Brüt Sabit Maaş / Brüt Prim hesaplamasını yapmıyor; Net
@@ -63,14 +63,13 @@ function mhDuzenlemeGorunurlugunuAyarla(gorunurMu){
 // gösteriliyor ve iki sayfa birbirini tutmuyordu. Açık dönem için TEK
 // doğru kaynak her zaman canlı taslaktır.
 function mhAvansCanliOku(ay, yil){
-  var taslak;
-  try{ taslak = AvansKayitData.taslakOku(ay, yil); }catch(e){ taslak = {ozelAvansGirisleri:[], isAvansiGirisleri:[], isAvansiHarcamalar:[]}; }
-  var ozelToplam = (taslak.ozelAvansGirisleri||[]).reduce(function(s,x){ return s+(x.tutar||0); }, 0);
-  var isToplam = (taslak.isAvansiGirisleri||[]).reduce(function(s,x){ return s+(x.tutar||0); }, 0);
-  var belgelenenToplam = (taslak.isAvansiHarcamalar||[]).reduce(function(s,x){ return s+(x.tutar||0); }, 0);
-  var isKesilecek = Math.max(0, isToplam - belgelenenToplam);
-  var toplamKesinti = ozelToplam + isKesilecek;
-  return {ozelToplam:ozelToplam, isKesilecek:isKesilecek, toplamKesinti:toplamKesinti};
+  // Tek hesap noktası: AvansKayitData.taslakDevirli — önceki aydan gelen
+  // "fazla faturalandırma" devri (02.11.2026) dahil, etkin değerleri verir.
+  var d = AvansKayitData.taslakDevirli(ay, yil);
+  return {
+    ozelToplam: d.ozelToplam, isKesilecek: d.isKesilecek, toplamKesinti: d.toplamKesinti,
+    devirGelen: d.devirGelen, devirDusen: d.devirDusen, devirGiden: d.devirGiden, devirKaynak: d.devirKaynak
+  };
 }
 
 function mhKapaliKaydiGoster(k){
@@ -306,8 +305,14 @@ document.addEventListener("DOMContentLoaded", function(){
       ozelAvansToplam: h.avans.ozelToplam,
       isAvansiBelgesizKalan: h.avans.isKesilecek,
       toplamKesinti: h.avans.toplamKesinti,
+      // Devir (fazla faturalandırma) değerleri kayda yazılır: maaşa dahil edilen
+      // kayıt "yerleşik" olur, sonradan zincir değişse bile bu değerler sabit kalır.
+      devirGelen: h.avans.devirGelen || 0,
+      devirDusen: h.avans.devirDusen || 0,
+      devirGiden: h.avans.devirGiden || 0,
       kayitZamani: Date.now()
     };
+    if(h.avans.devirKaynak) avansKayitObj.devirKaynak = h.avans.devirKaynak;
     // "Avans Seçimi" (02.10.2026): bu ayın kendi avansı, kullanıcı AÇIKÇA
     // dahil ettiyse kendi ayına dahil edilmiş sayılır (varsayılan/normal
     // durum). Dahil etmediyse hiç işaretlenmez — "Bekleyen Avans" listesinde
