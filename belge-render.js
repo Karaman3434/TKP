@@ -1,6 +1,10 @@
 /*
-  belge-render.js — TKP.02.11.26-09:58.1362
+  belge-render.js — TKP.02.11.26-10:22.1367
   ===============
+  GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
+  GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
+  HareketTablo.genelToplamHtml() çağrılıyor; PRİM ayrı yeşil şerit yerine
+  bu kutunun İÇİNDE.
   GÜNCELLENDİ (02.11.2026, Abdullah onayı — mockup onaylandı: "Ok
   kodlayalım onaylıyorum"): işlem/kod panelinin sağındaki pasif "Gönder"
   ikonu KALDIRILDI (hiçbir işlevi yoktu, disabled duruyordu) — panelde
@@ -314,10 +318,6 @@ function belgeyiCiz(kayit, musteri){
       + HareketTablo.cariKutulariHtml({id: (musteri&&musteri.id)||"", ad: kayit.musteri, sehir: sehir, telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true)
       + "</div>";
 
-    var kurIcHtml = kayit.kur
-      ? "<span class='belge-gt-kur-ic" + (kayit.kurManuel ? " belge-gt-kur-ic--manuel" : "") + "'><span class='belge-gt-kur-etiket'>" + (kayit.kurManuel ? "✏️ " : "") + "Bu işlem kuru</span><br><span class='belge-gt-kur-deger'>" + fmt(kayit.kur) + " EURO</span></span>"
-      : "";
-
     // BAKİYE ÜRÜN BLOĞU — sadece bakiyede kalan ürün varsa gösterilir. Ana
     // tabloyla AYNI sütun genişlikleri colgroup ile sabitleniyor (kendi thead'i
     // YOK — görsel olarak ana tablonun başlığını "paylaşıyor" gibi duruyor).
@@ -362,13 +362,17 @@ function belgeyiCiz(kayit, musteri){
       + satirlarHtml
       + bakiyeBlokHtml
       + "</div>"
-      + "<div class='belge-gt-kutu'><div class='belge-gt-satir'>"
-      + kurIcHtml
-      + "<span class='belge-gt-etiket-deger-grup'><span class='belge-gt-etiket'>GENEL TOPLAM</span><span class='belge-gt-deger'>" + fmt(netEuro) + " EURO<span class='belge-gt-deger-alt'>≈ " + Math.round(netEuro*(kayit.kur||0)).toLocaleString("tr-TR") + " TL</span></span></span>"
-      + "</div></div>"
-      + "<div class='belge-prim-serit'>"
-      + "<span class='belge-prim-etiket'>PRİM</span><span class='belge-prim-deger'>" + (toplamPrim<0?"Prim yok":Math.round(toplamPrimTl).toLocaleString("tr-TR")+" TL") + "</span>"
-      + "</div>";
+      // GENEL TOPLAM + PRİM (02.11.2026, Abdullah onayı — mockup üzerinden):
+      // artık TEK ortak fonksiyon (HareketTablo.genelToplamHtml, hareket-
+      // tablo.js) — Sepet/Cari Kart ile aynı kutu; PRİM ayrı yeşil şerit
+      // değil, kutunun içinde. Prim tutarı/"Prim yok" mantığı DEĞİŞMEDİ.
+      + HareketTablo.genelToplamHtml({
+          genelToplam: netEuro,
+          kur: kayit.kur,
+          kurManuelMi: !!kayit.kurManuel,
+          primTl: toplamPrim<0 ? null : toplamPrimTl,
+          primMetni: toplamPrim<0 ? "Prim yok" : ""
+        });
 
     document.getElementById("belgeIcerik").innerHTML = html;
     var beklemedeRozetBtn = document.getElementById("beklemedeRozetBtn");
@@ -467,7 +471,7 @@ function bhpAcikBelgeKontrolIleDevamEt(musteri, tip){
   if(bhpAbkModulYukleniyor) return;
   bhpAbkModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "acik-belge-kontrol.js?v=WG.271026.2024.1107";
+  s.src = "acik-belge-kontrol.js?v=TKP.02.11.26-10:22.1369";
   s.onload = function(){
     bhpAbkModulYukleniyor = false;
     bhpAbkModulBekleyenler.forEach(function(fn){ fn(); });

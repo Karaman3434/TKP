@@ -1,4 +1,7 @@
-/* belge-style.css — WG.011126.1022.1258
+/* belge-style.css — TKP.02.11.26-10:22.1364
+   GÜNCELLEME (02.11.2026): PRİM, GENEL TOPLAM kutusunun içine alındı (ortak
+   .belge-gt-prim-* kuralları); eski .belge-prim-toplam-serit/.belge-prim-serit/
+   .belge-pt-etiket/-deger ve .belge-prim-etiket/-deger kuralları kaldırıldı.
    "7. Belge" TASARIMI (14.10.2026, Abdullah onayı — v5
    mockup üzerinden, program genelinde TEK standart): çerçevesiz/kutusuz
    kartlar (sadece boşlukla ayrılır), kutu-içinde-kutu YOK, 2mm kenar
@@ -779,50 +782,25 @@
   display: block;
   margin-top: 1px;
 }
-/* TOPLAM PRİM satırı (27.09.2026) — GENEL TOPLAM'ın hemen altında, sadece
-   primGizli olmayan (yani Abdullah'ın kendi ekranları — Sepet, Tablo
-   önizleme) tablolarda görünür; mail/WhatsApp'a giden görsele KARIŞMAZ.
-   AYRI KUTU — GENEL TOPLAM'a yapışık değil, hafif bir boşlukla ayrık, dört
-   köşesi yuvarlak (14.10.2026'da eklendi; 15.10.2026'da bir ara turda
-   yanlışlıkla GENEL TOPLAM'a yapıştırılıp üst köşeleri düzleştirilmişti —
-   referans görselin piksel ölçümüyle doğrulanıp GERİ ALINDI). RENK/YAZI
-   (15.10.2026, Abdullah onayı): soluk nane yeşili yerine koyu/doygun yeşil
-   zemin + beyaz yazı, etiket "TOPLAM PRİM" yerine sade "PRİM" (bkz.
-   hareket-tablo.js grupHtml). Dikey yükseklik daraltıldı (8px->6px). */
-.belge-prim-toplam-serit {
+/* PRİM, GENEL TOPLAM KUTUSUNUN İÇİNDE (02.11.2026, Abdullah onayı — mockup
+   üzerinden): eskiden Sepet'te (body.cart-sayfa altında, 01.11.2026)
+   "Bu işlem kuru" ile aynı kalıpta çerçeveli yeşil kutuydu; diğer sayfalarda
+   ise ayrı yeşil şerit (.belge-prim-toplam-serit / .belge-prim-serit) vardı.
+   Artık TEK ortak tasarım — hareket-tablo.js genelToplamHtml() her sayfada
+   aynı HTML'i üretir, bu kurallar sayfaya bağlı DEĞİL (eski ayrı şeritlerin
+   kuralları kaldırıldı). 3 öğeyi (PRİM / kur / toplam) ".belge-gt-satir--uclu"
+   eşit aralıklı dağıtır. PRİM yeşili tek kaynak: #16A085. */
+.belge-gt-satir--uclu { justify-content: space-between; }
+.belge-gt-prim-ic {
   background: #16A085;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* PADDING %50 AZALTILDI (01.11.2026, Abdullah onayı — "Prim paneli"
-     talimatı bu şeride de uygulandı): dikey 6px -> 3px. */
-  padding: 3px 16px;
-  border-radius: 14px;
-  /* DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): 8px->10px, diğer
-     kutular arası standart 10px boşlukla simetrik hale getirildi. */
-  margin-top: 10px;
-}
-.belge-pt-etiket { font-size: 11px; font-weight: 800; color: #ffffff; letter-spacing: .3px; }
-.belge-pt-deger { font-size: 13px; font-weight: 900; color: #ffffff; }
-
-/* AYRI KUTU (14.10.2026, Abdullah'ın isteğiyle) — GENEL TOPLAM'a yapışık
-   değil, hafif bir boşlukla ayrık, dört köşesi yuvarlak. */
-.belge-prim-serit {
-  background: #16a085;
   color: #ffffff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* PADDING %50 AZALTILDI (01.11.2026, Abdullah onayı): dikey 9px -> 4.5px. */
-  padding: 4.5px 14px;
-  border-radius: 12px;
-  margin-top: 1mm;
-  /* 40PX KURAL (18.10.2026, Abdullah onayı): "etiket kutuları" ailesiyle eşit yükseklik. */
-  min-height: 40px;
-  box-sizing: border-box;
+  white-space: nowrap;
+  border: 1.5px solid rgba(255,255,255,.6);
+  border-radius: 8px;
+  padding: 4px 10px;
 }
-.belge-prim-etiket { font-size: 11px; font-weight: 900; white-space: nowrap; }
-.belge-prim-deger { font-size: 13px; font-weight: 900; white-space: nowrap; }
+.belge-gt-prim-etiket { font-size: 11px; font-weight: 600; color: #d3fff0; }
+.belge-gt-prim-deger { font-size: 13px; font-weight: 800; color: #ffffff; }
 
 /* BAKİYE ÜRÜN BLOĞU (08.10.2026, Abdullah'ın isteğiyle) — PRİM şeridinin
    altında, kendi içinde bütün: küçük etiket + ana tabloyla birebir aynı

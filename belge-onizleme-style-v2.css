@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — TKP.02.11.26-09:58.1361
+  belge-onizleme-style-v2.css — TKP.02.11.26-10:22.1366
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -435,8 +435,8 @@
 .belge-onizleme-sayfa .ck-blok-etiket--fatura,
 .belge-onizleme-sayfa .ck-blok-etiket--teslimat,
 .belge-onizleme-sayfa .ck-blok-etiket--yetkili { font-size: 12px; }
-.belge-onizleme-sayfa .belge-gt-etiket { font-size: 12px; }
-.belge-onizleme-sayfa .belge-prim-etiket { font-size: 12px; }
+/* (02.11.2026: .belge-gt-etiket / .belge-prim-etiket 12px EZMELERİ kaldırıldı —
+   GENEL TOPLAM kutusu artık tüm sayfalarda aynı ortak kurallarla çiziliyor.) */
 
 /* ---- Fatura Adresi/Teslimat Adresi/Yetkili çerçevesi (18.10.2026,
    Abdullah onayı): önce VADE/FATURA/KARGO ile aynı gri (#E7E9EE) zemine

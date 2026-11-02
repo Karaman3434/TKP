@@ -1,6 +1,12 @@
 /*
-  hareket-tablo.js — TKP.01.11.26-19:09.1338
+  hareket-tablo.js — TKP.02.11.26-10:22.1363
   =================
+  GÜNCELLEME (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
+  GENEL TOPLAM kutusu tek ortak fonksiyona (genelToplamHtml) toplandı ve
+  PRİM artık HER YERDE (primGizli olmayan tüm çağıranlar: Sepet, Cari Kart,
+  Açık Belge Kontrolü, Belge Önizleme) kutunun İÇİNDE. "primSatirIci" bayrağı
+  artık gerekmiyor (verilse de etkisi yok); ayrı yeşil PRİM şeridi kalktı.
+  primGizli:true çağıranlarda (Gönder önizlemesi/giden görsel) PRİM yine hiç yok.
   GÜNCELLEME (01.11.2026, Abdullah onayı — mockup üzerinden): yeni opsiyonel
   "opts.primSatirIci" bayrağı — SADECE cart-render.js'in Sepet ekranı
   (HESAPLANDI grubu) geçiyor. true ise PRİM, "Bu işlem kuru" ile AYNI
@@ -142,6 +148,39 @@ var HareketTablo = (function(){
       + "<tbody>" + satirlarHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur) + "</tbody></table></div>";
   }
 
+  // ORTAK GENEL TOPLAM KUTUSU (02.11.2026, Abdullah onayı — mockup üzerinden):
+  // Programdaki TÜM "GENEL TOPLAM" kutuları (Sepet, Belge Önizleme, Cari Kart,
+  // Açık Belge Kontrolü, Gönder önizlemesi) bu TEK fonksiyondan çıkar —
+  // tasarımı değiştirmek için sadece burası (HTML) ve belge-style.css
+  // (.belge-gt-* sınıfları, sayfaya özel EZME YOK) değişir, her yerde aynı
+  // anda değişir. (Eskiden aynı kutu hareket-tablo.js, belge-render.js ve
+  // send-render.js'te ayrı ayrı elle yazılıydı, prim stili de sadece Sepet'e
+  // kilitliydi.)
+  // o: { genelToplam (EURO), kur (varsa "Bu işlem kuru" + ≈TL gösterilir),
+  //      kurManuelMi, kurTiklanabilir,
+  //      primTl: sayı → PRİM kutunun İÇİNDE, en solda gösterilir;
+  //              null/undefined → PRİM hiç gösterilmez (müşteriye giden görseller),
+  //      primMetni: (opsiyonel) PRİM değeri yerine yazılacak metin (örn. "Prim yok") }
+  // NOT: Bu fonksiyon SADECE görünüm üretir — kullanıcı/sayfa yetkileri
+  // (auth.js) ile ilgisi YOK. Müşteriye giden görsellerde PRİM'in
+  // çıkmaması, çağıranın primTl'yi vermemesiyle (primGizli) sağlanır.
+  function genelToplamHtml(o){
+    var primVar = (o.primTl != null) || !!o.primMetni;
+    var kurIcSinifi = "belge-gt-kur-ic" + (o.kurManuelMi ? " belge-gt-kur-ic--manuel" : "") + (o.kurTiklanabilir ? " belge-gt-kur-ic--tiklanabilir" : "");
+    var kurEtiketMetni = "<span class='belge-gt-kur-etiket'>" + (o.kurManuelMi ? "✏️ Bu işlem kuru" : "Bu işlem kuru") + "</span><br><span class='belge-gt-kur-deger'>" + fmt(o.kur) + " EURO</span>";
+    var primDeger = o.primMetni ? o.primMetni : (Math.round(o.primTl||0).toLocaleString("tr-TR") + " TL");
+    return "<div class='belge-gt-kutu'>"
+      + "<div class='belge-gt-satir" + (primVar ? " belge-gt-satir--uclu" : "") + "'>"
+      + (primVar ? "<span class='belge-gt-prim-ic'><span class='belge-gt-prim-etiket'>PRİM</span><br><span class='belge-gt-prim-deger'>" + primDeger + "</span></span>" : "")
+      + (o.kur ? "<span class='" + kurIcSinifi + "'>" + kurEtiketMetni + "</span>" : "")
+      + "<span class='belge-gt-etiket-deger-grup'>"
+      + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
+      + "<span class='belge-gt-deger'>" + fmt(o.genelToplam) + " EURO" + (o.kur ? "<span class='belge-gt-deger-alt'>≈ " + Math.round(o.genelToplam*o.kur).toLocaleString("tr-TR") + " TL</span>" : "") + "</span>"
+      + "</span>"
+      + "</div>"
+      + "</div>";
+  }
+
   // Tek bir grup (örn. sadece HESAPLANDI) için etiket + tablo + (istenirse) genel toplam.
   // opts.kanal === "whatsapp" ise sade tablo (SIRA/ÜRÜN BİLGİSİ/ADET/NET/TOPLAM) üretir.
   // opts.primGizli === true ise PRİM sütunu HİÇ gösterilmez — bu, mail/WhatsApp
@@ -202,25 +241,13 @@ var HareketTablo = (function(){
     html += urunTablosuHtml(opts.urunler, opts.hesapla, opts.zeminSinifi, basit, primGizli, opts.kur)
       + bakiyeNotuHtml(opts.urunler);
     if(opts.genelToplam != null){
-      // Manuel kur girilmişse (opts.kurManuelMi) etiket "Hesaplanan Kur" yerine
-      // kısa "✏️ Manuel Kur" olur — böylece bu işlemde günlük kur DEĞİL, elle
-      // girilmiş özel bir kur kullanıldığı tek bakışta anlaşılır (13.09.2026).
-      // opts.kurTiklanabilir sadece Sepet'te true geçilir; oraya dokununca
-      // manuel kur girme popup'ı açılır (bkz. cart-render.js).
-      // DÜZENLEME (27.09.2026, Abdullah'ın isteğiyle): kur bilgisi artık ayrı
-      // bir şerit değil — GENEL TOPLAM ile AYNI satırda, solda, beyaz yazı
-      // (mavi zeminin üzerinde). Altına (primGizli değilse) bir TOPLAM PRİM
-      // satırı ekleniyor.
-      var primSatiriVarMi = !primGizli;
-      var kurIcSinifi = "belge-gt-kur-ic" + (opts.kurManuelMi ? " belge-gt-kur-ic--manuel" : "") + (opts.kurTiklanabilir ? " belge-gt-kur-ic--tiklanabilir" : "");
-      // KISALTMA (12.10.2026, Abdullah'ın isteğiyle): "Bu işlemde X kuru
-      // kullanıldı" tek satırda çok uzun oluyor, kutudan taşıyordu — artık
-      // İKİ SATIR: üstte kısa etiket, altta kalın rakam + EURO birimi
-      // (bkz. belge-style.css .belge-gt-kur-etiket / .belge-gt-kur-deger).
-      var kurEtiketMetni = "<span class='belge-gt-kur-etiket'>" + (opts.kurManuelMi ? "✏️ Bu işlem kuru" : "Bu işlem kuru") + "</span><br><span class='belge-gt-kur-deger'>" + fmt(opts.kur) + " EURO</span>";
-
-      var primToplamTL = 0;
-      if(primSatiriVarMi){
+      // GENEL TOPLAM kutusu artık TEK ortak fonksiyondan (genelToplamHtml)
+      // geliyor — bkz. aşağıdaki açıklama. primGizli değilse (Abdullah'ın
+      // kendi ekranları) PRİM kutunun İÇİNDE; primGizli ise (Gönder
+      // önizlemesi/giden görsel) PRİM hiç yok.
+      var primToplamTL = null;
+      if(!primGizli){
+        primToplamTL = 0;
         (opts.urunler||[]).forEach(function(u){
           var h = opts.hesapla ? opts.hesapla(u) : null;
           var toplamVarMi = h && h.toplamEuro != null;
@@ -229,45 +256,13 @@ var HareketTablo = (function(){
           }
         });
       }
-
-      // GÜNCELLEME (01.11.2026, Abdullah onayı — mockup üzerinden, SADECE
-      // Sepet/cart-render.js "opts.primSatirIci:true" geçtiğinde): PRİM artık
-      // ayrı bir yeşil şerit DEĞİL — "Bu işlem kuru" ile AYNI kalıpta
-      // (çerçeveli, iki satır) ama yeşil zeminli bir kutu olarak GENEL
-      // TOPLAM'la AYNI satırda, en SOLDA. Bu bayrak geçilmezse (Belge
-      // Önizleme/Gönder/Cari Kart/Müşteri Ekle — hareket-tablo.js'in diğer
-      // TÜM çağıranları) eski davranış BİREBİR aynı kalır: ayrı
-      // ".belge-prim-toplam-serit" şeridi, GENEL TOPLAM kutusunun ALTINDA.
-      if(opts.primSatirIci && primSatiriVarMi){
-        var primIcHtml = "<span class='belge-gt-prim-ic'><span class='belge-gt-prim-etiket'>PRİM</span><br><span class='belge-gt-prim-deger'>" + Math.round(primToplamTL).toLocaleString("tr-TR") + " TL</span></span>";
-        html += "<div class='belge-gt-kutu'>"
-          + "<div class='belge-gt-satir belge-gt-satir--uclu'>"
-          + primIcHtml
-          + (opts.kur ? "<span class='" + kurIcSinifi + "'>" + kurEtiketMetni + "</span>" : "")
-          + "<span class='belge-gt-etiket-deger-grup'>"
-          + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
-          + "<span class='belge-gt-deger'>" + fmt(opts.genelToplam) + " EURO" + (opts.kur ? "<span class='belge-gt-deger-alt'>≈ " + Math.round(opts.genelToplam*opts.kur).toLocaleString("tr-TR") + " TL</span>" : "") + "</span>"
-          + "</span>"
-          + "</div>"
-          + "</div>";
-      } else {
-        html += "<div class='belge-gt-kutu" + (primSatiriVarMi ? " belge-gt-kutu--altduz" : "") + "'>"
-          + "<div class='belge-gt-satir'>"
-          + (opts.kur ? "<span class='" + kurIcSinifi + "'>" + kurEtiketMetni + "</span>" : "")
-          + "<span class='belge-gt-etiket-deger-grup'>"
-          + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
-          + "<span class='belge-gt-deger'>" + fmt(opts.genelToplam) + " EURO" + (opts.kur ? "<span class='belge-gt-deger-alt'>≈ " + Math.round(opts.genelToplam*opts.kur).toLocaleString("tr-TR") + " TL</span>" : "") + "</span>"
-          + "</span>"
-          + "</div>"
-          + "</div>";
-
-        if(primSatiriVarMi){
-          html += "<div class='belge-prim-toplam-serit'>"
-            + "<span class='belge-pt-etiket'>PRİM</span>"
-            + "<span class='belge-pt-deger'>" + Math.round(primToplamTL).toLocaleString("tr-TR") + " TL</span>"
-            + "</div>";
-        }
-      }
+      html += genelToplamHtml({
+        genelToplam: opts.genelToplam,
+        kur: opts.kur,
+        kurManuelMi: opts.kurManuelMi,
+        kurTiklanabilir: opts.kurTiklanabilir,
+        primTl: primToplamTL
+      });
     }
     return html;
   }
@@ -425,6 +420,7 @@ var HareketTablo = (function(){
     satirlarHtml: satirlarHtml,
     urunTablosuHtml: urunTablosuHtml,
     grupHtml: grupHtml,
+    genelToplamHtml: genelToplamHtml,
     kosulKutusuHtml: kosulKutusuHtml,
     yetkiliSatiriHtml: yetkiliSatiriHtml,
     cariKutulariHtml: cariKutulariHtml,

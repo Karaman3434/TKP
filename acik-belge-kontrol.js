@@ -1,5 +1,5 @@
 /*
-  acik-belge-kontrol.js — WG.271026.2024.1107 (YENİ DOSYA, 27.10.2026)
+  acik-belge-kontrol.js — TKP.02.11.26-10:22.1369 (YENİ DOSYA, 27.10.2026)
   ============================================================
   ROTA DEĞİŞİKLİĞİ (Abdullah onayı): "İşlem Yap" → tip seç akışı artık
   Cari Kart'a UĞRAMADAN direkt cart.html'e (Ürün Bul/Sepet) gidiyor. Bu
@@ -55,7 +55,7 @@ var AcikBelgeKontrol = (function(){
     kaynaklarYukleniyor = true;
     cssEkle("detail-style.css?v=WG.011126.1022.1263", ".tip-secim-overlay");
     cssEkle("cari-kart-style.css?v=WG.011126.1022.1261", ".ck-sil-uyari-notu");
-    cssEkle("belge-style.css?v=WG.011126.1022.1258", ".belge-urun-tablo");
+    cssEkle("belge-style.css?v=TKP.02.11.26-10:22.1364", ".belge-urun-tablo");
     if(typeof HareketTablo !== "undefined"){
       kaynaklarHazir = true;
       kaynaklarYukleniyor = false;
@@ -64,7 +64,7 @@ var AcikBelgeKontrol = (function(){
       return;
     }
     var s = document.createElement("script");
-    s.src = "hareket-tablo.js?v=WG.211026.1500.903";
+    s.src = "hareket-tablo.js?v=TKP.02.11.26-10:22.1363";
     s.onload = function(){
       kaynaklarHazir = true;
       kaynaklarYukleniyor = false;
