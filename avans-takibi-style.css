@@ -301,3 +301,11 @@
 .av-toplam-tus[hidden] { display: none; }
 .av-toplam-tus-alt { font-weight: 500; font-size: 12px; color: #5a6b82; margin-left: 4px; }
 .av-toplam-tus-ok { font-size: 22px; color: #5a8fd0; }
+
+/* KAPALI (geçmiş) dönem: satırlar görünür, giriş formları/kaydet düğmeleri gizli
+   (02.11.2026 — "geçmiş ayın kağıdını göremiyorum"). */
+.av-salt-okunur .av-giris-satir,
+.av-salt-okunur .av-tip-popup,
+.av-salt-okunur .mh-harcama-giris-satir,
+.av-salt-okunur .av-manuel-kaydet-btn,
+.av-salt-okunur .av-kaydedildi-rozet { display: none !important; }

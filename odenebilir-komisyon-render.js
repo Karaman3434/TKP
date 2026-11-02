@@ -1,5 +1,5 @@
 /*
-  odenebilir-komisyon-render.js — VERSİYON: TKP.02.11.26-16:36.1415
+  odenebilir-komisyon-render.js — VERSİYON: TKP.02.11.26-21:19.1450
   ================================================================
   27.09.2026 yeniden tasarım:
   1) "1. Fotoğraf" ve "2. Fotoğraf" — açık maaş dönemi için sabit iki
@@ -162,6 +162,7 @@ function slotEtiketiUret(slot){ return slot === "birinci" ? "1. Fotoğraf" : "2.
 function slotInputId(slot){ return slot === "birinci" ? "okFotoSeciciBirinci" : "okFotoSeciciIkinci"; }
 
 function fotoKutusunaTiklandi(slot){
+  if(okGezinmeOfset > 0){ okArsivFotoBuyut(slot); return; } // kapalı dönem: sadece görüntüle
   var d = typeof KomisyonDonemData !== "undefined" ? KomisyonDonemData.gecerliDonem() : null;
   var mevcut = d && d[slot];
   if(mevcut){
@@ -213,10 +214,12 @@ function iptalTiklandi(){
 }
 
 // 1./2. FOTOĞRAF KUTULARINI ÇİZ
-function kutulariCiz(){
+function kutulariCiz(arsivVeri){
   try{
     if(typeof KomisyonDonemData === "undefined") return;
-    var d = KomisyonDonemData.gecerliDonem();
+    // arsivVeri verilmişse (kapanmış dönem — komisyonArsiv) onu çizer;
+    // verilmezse canlı dönemi.
+    var d = arsivVeri !== undefined ? arsivVeri : KomisyonDonemData.gecerliDonem();
     ["birinci","ikinci"].forEach(function(slot){
       var kayit = d && d[slot];
       var idOnEk = slot === "birinci" ? "Birinci" : "Ikinci";
@@ -388,6 +391,65 @@ function okDuzenlemeGorunurlugunuAyarla(gorunurMu){
   }
 }
 
+// KAPALI DÖNEM FOTOĞRAFLARI (02.11.2026, Abdullah: "geçmiş ayın kağıdını
+// göremiyorum"): dönem kapanırken 1./2. Fotoğraf + ekstra prim
+// komisyonArsiv'e yazılır (bkz. komisyon-donem-data.js); burada salt okunur
+// gösterilir, dokununca büyür.
+var okArsivVeri = null;
+var okArsivAnahtar = null;
+
+function okKapaliFotolariCiz(k){
+  var anahtar = k.yil + "-" + ("0"+k.ay).slice(-2);
+  okArsivAnahtar = anahtar;
+  okArsivVeri = null;
+  var satir = document.getElementById("okFotoSatir");
+  var not = document.getElementById("okKapaliNot");
+  if(satir) satir.hidden = false;
+  kutulariCiz(null);
+  not.hidden = false;
+  not.style.whiteSpace = "pre-line";
+  not.textContent = "🔒 Bu dönem kapatılmış (salt okunur). Fotoğraflar yükleniyor…";
+  KomisyonDonemData.arsivOku(anahtar, function(a){
+    if(okArsivAnahtar !== anahtar || okGezinmeOfset === 0) return; // kullanıcı başka döneme geçti
+    okArsivVeri = a;
+    if(!a){
+      kutulariCiz(null);
+      not.textContent = "🔒 Bu dönem kapatılmış (salt okunur). Bu dönemin fotoğrafı arşivlenmemiş — fotoğraflar kapanışta arşivlenmeye 02.11.2026'dan itibaren başladı.";
+      return;
+    }
+    kutulariCiz(a);
+    var metin = "🔒 Bu dönem kapatılmış (salt okunur). Fotoğrafı büyütmek için dokun.";
+    var ekstra = a.ekstraPrimler ? Object.keys(a.ekstraPrimler).map(function(id){ return a.ekstraPrimler[id]; }) : [];
+    if(ekstra.length){
+      metin += "\nEkstra prim: " + ekstra.map(function(x){ return (x.aciklama||"—") + " " + fmtTL(parseFloat(x.tutar)||0) + " TL"; }).join(" · ");
+    }
+    not.textContent = metin;
+  });
+}
+
+function okArsivFotoBuyut(slot){
+  var kayit = okArsivVeri && okArsivVeri[slot];
+  if(!kayit || !kayit.resim) return;
+  var kap = document.createElement("div");
+  kap.style.cssText = "position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,.94);display:flex;flex-direction:column;";
+  var ust = document.createElement("div");
+  ust.style.cssText = "display:flex;justify-content:space-between;align-items:center;padding:12px 16px;color:#fff;font-weight:800;font-size:14px;";
+  ust.textContent = slotEtiketiUret(slot) + (kayit.tarih ? " — " + tarihAnahtariniOku(kayit.tarih) : "");
+  var kapat = document.createElement("button");
+  kapat.type = "button"; kapat.textContent = "✕";
+  kapat.style.cssText = "background:none;border:none;color:#fff;font-size:26px;cursor:pointer;";
+  ust.appendChild(kapat);
+  var alan = document.createElement("div");
+  alan.style.cssText = "flex:1;overflow:auto;touch-action:pinch-zoom pan-x pan-y;-webkit-overflow-scrolling:touch;";
+  var img = document.createElement("img");
+  img.src = kayit.resim; img.alt = slotEtiketiUret(slot);
+  img.style.cssText = "width:100%;display:block;";
+  alan.appendChild(img);
+  kap.appendChild(ust); kap.appendChild(alan);
+  document.body.appendChild(kap);
+  kapat.onclick = function(){ kap.remove(); };
+}
+
 function okKapaliKaydiGoster(k){
   okDuzenlemeGorunurlugunuAyarla(false);
   var etiketMetni = AY_ADLARI[k.ay] + " " + k.yil;
@@ -408,6 +470,7 @@ function okKapaliKaydiGoster(k){
   document.getElementById("bnPrimKesintiOran").textContent = fmtOranSadece_BN(brutPrim, k.netPrim);
   document.getElementById("bnNetPrimDeger").textContent = fmtTL_BN(k.netPrim);
   document.getElementById("bnNetAlt").hidden = false;
+  okKapaliFotolariCiz(k);
 }
 
 function okGorunumCiz(){
@@ -422,7 +485,14 @@ function okGorunumCiz(){
   if(btnSonraki) btnSonraki.hidden = (okGezinmeOfset === 0);
 
   if(okGezinmeOfset === 0){
+    okArsivAnahtar = null; okArsivVeri = null;
     okDuzenlemeGorunurlugunuAyarla(true);
+    // Dönem şeridi: açık dönemin adı (eskiden bu görünümde hiç yazılmıyor,
+    // "Yükleniyor…" olarak kalıyordu).
+    try{
+      var acikD = MaasKayitData.acikDonem();
+      document.getElementById("okDonemBtnMetin").textContent = AY_ADLARI[acikD.ay] + " " + acikD.yil;
+    }catch(e){}
     donemKontrolVeCiz();
   } else {
     okKapaliKaydiGoster(kayitlar[okGezinmeOfset - 1]);

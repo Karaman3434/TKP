@@ -1,5 +1,5 @@
 /*
-  komisyon-donem-data.js — VERSİYON: TKP.02.11.26-16:36.1413
+  komisyon-donem-data.js — VERSİYON: TKP.02.11.26-21:19.1450
   ==========================================================
   27.09.2026 yeniden tasarım: Ödenebilir Komisyon artık serbest tarihli
   kayıt listesi (eski KomisyonData / odenebilir-komisyon-data.js) yerine,
@@ -9,7 +9,7 @@
   arasındaki farktan (aynı ay için, ay karışıklığı OLMADAN) otomatik
   hesaplanır. Ay kapanınca (Maaş Hesaplama'dan) yeni açık döneme
   geçildiğinde bu iki slot otomatik sıfırlanır — eski fotoğraflar
-  saklanmaz, sadece o anki iki fotoğrafın kendisi (JPEG, sıkıştırılmış)
+  saklanmaz (02.11.2026'dan itibaren kapanan dönem komisyonArsiv'e arşivlenir), sadece o anki iki fotoğrafın kendisi (JPEG, sıkıştırılmış)
   ve OCR'dan çıkan 12 sayı Firebase'de tutulur.
 */
 
@@ -50,8 +50,40 @@ var KomisyonDonemData = (function(){
     if(!yuklendi){ cb(false); return; }
     var beklenen = donemAnahtariUret(acikAy, acikYil);
     if(veri && veri.donemAnahtari === beklenen){ cb(false); return; }
-    firebase.database().ref("odenebilirKomisyonDonem").set({donemAnahtari: beklenen, birinci: null, ikinci: null})
-      .then(function(){ cb(true); }).catch(function(err){ console.error("Komisyon dönemi sıfırlanamadı:", err); cb(false, err); });
+    var eski = veri;
+    // 02.11.2026 (Abdullah: "geçmiş ayın kağıdını göremiyorum"): sıfırlamadan
+    // ÖNCE kapanan dönemin 1./2. Fotoğraf + ekstra primi arşive yazılır
+    // (komisyonArsiv/{YYYY-AA}); Ödenebilir Komisyon'da ‹ ile geçmiş aya
+    // gidince görülür. Arşiv yazılamazsa (kural/ağ) sıfırlama YİNE DE yapılır —
+    // yeni ay hiçbir zaman eski ayın verisiyle takılı kalmaz.
+    arsivle(eski, function(){
+      firebase.database().ref("odenebilirKomisyonDonem").set({donemAnahtari: beklenen, birinci: null, ikinci: null})
+        .then(function(){ cb(true); }).catch(function(err){ console.error("Komisyon dönemi sıfırlanamadı:", err); cb(false, err); });
+    });
+  }
+
+  // Kapanan dönemin içeriğini arşive yazar (içerik yoksa yazmaz).
+  function arsivle(eski, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      if(!eski || !eski.donemAnahtari || !(eski.birinci || eski.ikinci || eski.ekstraPrimler)){ cb(false); return; }
+      var kopya = JSON.parse(JSON.stringify(eski));
+      kopya.arsivZamani = Date.now();
+      firebase.database().ref("komisyonArsiv/" + eski.donemAnahtari).set(kopya)
+        .then(function(){ cb(true); })
+        .catch(function(err){ console.error("Komisyon arşivi yazılamadı:", err); cb(false, err); });
+    }catch(e){ console.error("Komisyon arşivi hatası:", e); cb(false, e); }
+  }
+
+  // Geçmiş bir dönemin arşivini okur (sadece o dönem görüntülenirken —
+  // fotoğraflar büyük olduğundan canlı dinleyiciye dahil edilmez).
+  function arsivOku(donemAnahtari, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      firebase.database().ref("komisyonArsiv/" + donemAnahtari).once("value")
+        .then(function(snap){ cb(snap.val() || null); })
+        .catch(function(err){ console.error("Komisyon arşivi okunamadı:", err); cb(null, err); });
+    }catch(e){ cb(null, e); }
   }
 
   // slot: "birinci" | "ikinci". kayit: {tarih, aylar, resim(dataURL|null), kayitZamani}
@@ -120,6 +152,7 @@ var KomisyonDonemData = (function(){
     gecerliDonem: gecerliDonem,
     donemAnahtariUret: donemAnahtariUret,
     acikDonemleSenkronizeEt: acikDonemleSenkronizeEt,
+    arsivOku: arsivOku,
     slotKaydet: slotKaydet,
     slotSil: slotSil
   };

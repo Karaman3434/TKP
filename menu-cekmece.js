@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.02.11.26-21:05.1449
+// menu-cekmece.js — TKP.02.11.26-21:19.1450
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -176,7 +176,10 @@ var DRAWER_ALT_MENULERI = {
     baslik: "Kişisel",
     ogeler: [
       {ikon:"💵", etiket:"Maaş Hesapla", href:"maas-hesaplama.html", izin:"maasHesaplama"},
-      {ikon:"🧾", etiket:"Avans Giriş", href:"avans-takibi.html", izin:"avansTakibi"}
+      {ikon:"🧾", etiket:"Avans Giriş", href:"avans-takibi.html", izin:"avansTakibi"},
+      // EKLENDİ (02.11.2026, Abdullah: "ÖDE.KOM kısaltma etiketi ile") —
+      // Ödenebilir Komisyon / prim hesaplama sayfası.
+      {ikon:"🎯", etiket:"ÖDE.KOM", href:"odenebilir-komisyon.html", izin:"odenebilirKomisyon"}
     ]
   },
   arackm: {

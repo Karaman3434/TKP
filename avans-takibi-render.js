@@ -1,5 +1,5 @@
 /*
-  avans-takibi-render.js — TKP.02.11.26-21:05.1449
+  avans-takibi-render.js — TKP.02.11.26-21:19.1450
   ========================
   (26.10.2026'da eklenen yıllık/satır bazlı tablo ve 3 kutu 02.11.2026'da
   Avans Toplam sayfasına taşındı; eski "GEÇMİŞ AVANSLAR" tablosu daha önce
@@ -79,13 +79,19 @@ function avToplamlariHesapla(veri){
   return {ozelToplam:ozelToplam, isToplam:isToplam, belgelenenToplam:belgelenenToplam, isKesilecek:isKesilecek, toplamKesinti:toplamKesinti};
 }
 
+// KAPALI (geçmiş) DÖNEM GÖRÜNÜMÜ (02.11.2026): kapanmış ayın avans/harcama
+// satırları da salt okunur gösterilir (eskiden sadece 3 satırlık özet
+// görünüyordu — "geçmiş ayın kağıdını göremiyorum"). true iken silme
+// düğmeleri çizilmez, giriş formları CSS ile gizlenir (.av-salt-okunur).
+var avSaltOkunur = false;
+
 function avTabloCiz(govdeId, bosId, liste, kolonEtiket){
   var govde = document.getElementById(govdeId);
   govde.innerHTML = liste.map(function(h, idx){
     return "<tr><td>" + fmtTarihKisa_AV(h.tarih) + "</td>"
       + "<td>" + (kolonEtiket==="etiket" ? "<span class='mh-harcama-etiket-rozet'>"+htmlEsc_AV(h.cesit||h.aciklama)+"</span>" : htmlEsc_AV(h.aciklama||h.cesit)) + "</td>"
       + "<td>" + fmtTL_AV(h.tutar) + "</td>"
-      + "<td><button type='button' class='mh-harcama-sil-btn' data-idx='" + idx + "'>🗑</button></td></tr>";
+      + "<td>" + (avSaltOkunur ? "" : "<button type='button' class='mh-harcama-sil-btn' data-idx='" + idx + "'>🗑</button>") + "</td></tr>";
   }).join("");
   document.getElementById(bosId).hidden = liste.length > 0;
   return govde;
@@ -110,7 +116,7 @@ function avListeCiz(){
       + "<td>" + htmlEsc_AV(h.aciklama) + "</td><td>" + fmtTL_AV(h.tutar) + "</td>"
       + "<td>" + (h.maasa
         ? "<span title='Maaş hesabına eklendi — kalıcı kilitli, silinemez'>🔒</span>"
-        : "<button type='button' class='mh-harcama-sil-btn' data-tip='" + h.tip + "' data-idx='" + h.idx + "'>🗑</button>") + "</td></tr>";
+        : (avSaltOkunur ? "" : "<button type='button' class='mh-harcama-sil-btn' data-tip='" + h.tip + "' data-idx='" + h.idx + "'>🗑</button>")) + "</td></tr>";
   }).join("");
   document.getElementById("avListeBos").hidden = birlesik.length > 0;
   govde.querySelectorAll(".mh-harcama-sil-btn").forEach(function(btn){
@@ -173,8 +179,11 @@ function avDonemBariCiz(){
 // gelindiğinde giriş bölümleri (AVANS EKLE / HARCAMALAR) ve alt not
 // gizlenir, yerine kapalı-dönem şeridi (silme düğmesiyle) gösterilir.
 function avDuzenlemeGorunurlugunuAyarla(gorunurMu){
-  document.getElementById("avEkleSection").hidden = !gorunurMu;
-  document.getElementById("avHarcamaSection").hidden = !gorunurMu;
+  avSaltOkunur = !gorunurMu;
+  var avBolumler = [document.getElementById("avEkleSection"), document.getElementById("avHarcamaSection")];
+  avBolumler.forEach(function(b){ b.hidden = false; b.classList.toggle("av-salt-okunur", !gorunurMu); });
+  var avBaslik = avBolumler[0].querySelector(".mh-kutu-baslik-satir");
+  if(avBaslik) avBaslik.textContent = gorunurMu ? "AVANS EKLE" : "AVANSLAR";
   document.getElementById("avKapaliSerit").hidden = gorunurMu;
   document.getElementById("btnAvKapaliKaydiSil").hidden = gorunurMu;
 }
@@ -194,6 +203,11 @@ function avKapaliGoster(k){
   document.getElementById("avToplamIs").textContent = fmtTL_AV(isHam);
   document.getElementById("avToplamGenel").textContent = fmtTL_AV(Math.max(0, kalanK));
   document.getElementById("btnAvKapaliKaydiSil").setAttribute("data-anahtar", k.anahtar);
+  // Kapanmış ayın satırlarını (avans + harcama) salt okunur göster.
+  avOzelListe = k.ozelAvansGirisleri || [];
+  avIsListe = k.isAvansiGirisleri || [];
+  avHarcamaListe = k.isAvansiHarcamalar || [];
+  avAltBolumleriCiz();
 }
 
 function avDonemeGec(ay, yil){
@@ -218,18 +232,24 @@ function avDonemeGec(ay, yil){
 // (02.11.2026) "Başka dönemde kayıtlı taslak bulundu" uyarı bandı kaldırıldı:
 // kapatılmamış tüm aylar artık Avans Toplam sayfasında görünüyor.
 
-function avCiz(){
+// Avans listesi + harcama tablosu + iki kırmızı alt toplam kutusu (hem canlı
+// hem kapalı/salt okunur görünüm kullanır). Üstteki özet kutusunu DEĞİŞTİRMEZ.
+function avAltBolumleriCiz(){
   avListeCiz();
   var govdeHarcama = avTabloCiz("avHarcamaTabloGovde", "avHarcamaBos", avHarcamaListe, "etiket");
   govdeHarcama.querySelectorAll(".mh-harcama-sil-btn").forEach(function(btn){
     btn.onclick = function(){ avHarcamaListe.splice(parseInt(this.getAttribute("data-idx"),10),1); avTaslagiKaydet(); avCiz(); avKaydedildiGoster(); };
   });
-
   var t = avToplamlariHesapla({ozelAvansGirisleri:avOzelListe, isAvansiGirisleri:avIsListe, isAvansiHarcamalar:avHarcamaListe});
   document.getElementById("avBelgelenenToplam").textContent = fmtTL_AV(t.belgelenenToplam);
   document.getElementById("avIsKesilecek2").textContent = fmtTL_AV(t.isKesilecek);
   document.getElementById("avIsToplam2").textContent = fmtTL_AV(t.isToplam);
   document.getElementById("avOzelToplam2").textContent = fmtTL_AV(t.ozelToplam);
+  return t;
+}
+
+function avCiz(){
+  var t = avAltBolumleriCiz();
   document.getElementById("avToplamOzel").textContent = fmtTL_AV(t.ozelToplam);
   document.getElementById("avToplamIs").textContent = fmtTL_AV(t.isKesilecek);
   document.getElementById("avToplamGenel").textContent = fmtTL_AV(t.toplamKesinti);

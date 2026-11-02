@@ -73,6 +73,10 @@
       ".read": "auth != null && (!root.child('kisitliKullanicilar').child(auth.uid).exists() || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('odenebilirKomisyon').val() === true)",
       ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()"
     },
+    "komisyonArsiv": {
+      ".read": "auth != null && (!root.child('kisitliKullanicilar').child(auth.uid).exists() || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('odenebilirKomisyon').val() === true)",
+      ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()"
+    },
     "urunler": {
       ".read": "auth != null",
       ".write": "auth != null && (!root.child('kisitliKullanicilar').child(auth.uid).exists() || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('sepet').val() === true || root.child('kisitliKullanicilar').child(auth.uid).child('izinler').child('urunBul').val() === true)"
@@ -81,11 +85,15 @@
       ".read": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()",
       ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()",
       "$cihazId": {
-        ".read": "auth != null && (!root.child('kisitliKullanicilar').child(auth.uid).exists() || data.child('sonKullaniciUid').val() === auth.uid)",
-        ".write": "auth != null && (!root.child('kisitliKullanicilar').child(auth.uid).exists() || data.child('sonKullaniciUid').val() === auth.uid || (!data.exists() && newData.child('sonKullaniciUid').val() === auth.uid))"
+        ".read": "auth != null",
+        ".write": "auth != null"
       }
     },
     "cihazPin": {
+      ".read": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()",
+      ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()"
+    },
+    "cihazManuelGruplari": {
       ".read": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()",
       ".write": "auth != null && !root.child('kisitliKullanicilar').child(auth.uid).exists()"
     },
