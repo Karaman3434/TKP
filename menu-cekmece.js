@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.02.11.26-11:48.1390
+// menu-cekmece.js — TKP.02.11.26-21:05.1449
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -127,7 +127,7 @@ var MC_OGELER = [
   { anahtarlar: ["kmTakip"], ikon: "🚗", renk: "#ec7063", etiket: "Araç KM", altMenu: "arackm", aracKmDurum: true },
   { anahtarlar: ["raporlar", "satisListesi", "hareketler", "ziyaret", "takipGerekenler", "gorevler"], ikon: "📊", renk: "#f5b041", etiket: "Raporlar", altMenu: "raporlar" },
   { anahtarlar: ["vadeTakip"], ikon: "📄", etiket: "Fatura · Vade · Ödeme Takip", href: "vade-takip.html" },
-  { anahtarlar: ["maasHesaplama", "netMaasHesaplama", "avansTakibi", "odenebilirKomisyon"], ikon: "🔒", renk: "#f5c451", etiket: "Kişisel", href: "kisisel.html" }
+  { anahtarlar: ["maasHesaplama", "netMaasHesaplama", "avansTakibi", "odenebilirKomisyon"], ikon: "🔒", renk: "#f5c451", etiket: "Kişisel", altMenu: "kisisel" }
 ];
 var MC_ANASAYFA_ANAHTAR = "anaSayfa";
 
@@ -165,6 +165,18 @@ var DRAWER_ALT_MENULERI = {
       {ikon:"🔍", etiket:"Ürün Bul", href:"cart.html"},
       {ikon:"🔥", etiket:"Hit Ürünler", href:"cart.html?ac=hit"},
       {ikon:"➕", etiket:"Yeni Ürün Ekle", href:"cart.html?ac=yeniurun", sinif:"as-drawer-altmenu-oge--yesil"}
+    ]
+  },
+  // DEĞİŞİKLİK (02.11.2026, Abdullah onayı — mockup üzerinden): "Kişisel"
+  // artık ayrı bir sayfaya (kisisel.html → maas-menu.html) gitmiyor; Raporlar
+  // gibi küçük açılır pencere. izin: öğenin görünmesi için gereken izin
+  // anahtarı (kısıtlı çalışan izni olmayan öğeyi görmez; sayfa erişimi
+  // auth.js'te ayrıca korunmaya devam eder).
+  kisisel: {
+    baslik: "Kişisel",
+    ogeler: [
+      {ikon:"💵", etiket:"Maaş Hesapla", href:"maas-hesaplama.html", izin:"maasHesaplama"},
+      {ikon:"🧾", etiket:"Avans Giriş", href:"avans-takibi.html", izin:"avansTakibi"}
     ]
   },
   arackm: {
@@ -747,7 +759,9 @@ function altMenuAc(anahtar, tetikleyiciEl){
 
     var panel = document.getElementById("asDrawerAltMenu");
     document.getElementById("asDrawerAltMenuBaslik").textContent = tanim.baslik;
-    document.getElementById("asDrawerAltMenuListe").innerHTML = tanim.ogeler.map(function(o){
+    document.getElementById("asDrawerAltMenuListe").innerHTML = tanim.ogeler.filter(function(o){
+      return !o.izin || mcIzinliMi([o.izin]);
+    }).map(function(o){
       return "<a class='as-drawer-altmenu-oge" + (o.sinif ? " " + o.sinif : "") + "' href='" + o.href + "'>"
         + "<span class='as-drawer-altmenu-oge-ikon' aria-hidden='true'>" + o.ikon + "</span>"
         + "<span>" + o.etiket + "</span></a>";

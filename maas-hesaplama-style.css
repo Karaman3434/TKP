@@ -459,3 +459,35 @@
 #mhAvansSatiri .mh-ozet-satir-sag { flex-shrink: 0; }
 #mhAvansSatiri .mh-ozet-satir-deger { white-space: nowrap; }
 #mhOzetAvansDurum { white-space: pre-line; }
+
+/* NET MAAŞ AÇILIR SATIRI (02.11.2026, Abdullah onayı — mockup üzerinden):
+   satıra dokununca altında sayfa içinde açılan panel (pencere değil). */
+.mh-ozet-satir--acilir { cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
+.mh-ozet-satir--acilir[aria-expanded="true"] {
+  border-color: #b9cdea;
+  border-bottom-color: transparent;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 0;
+  background: #f6f9ff;
+}
+.mh-ozet-satir--acilir[aria-expanded="true"] .mh-ozet-satir-ok { transform: rotate(180deg); }
+.mh-ozet-satir--acilir.mh-ozet-satir--kilitli { cursor: default; }
+.mh-net-panel {
+  background: #f6f9ff;
+  border: 1px solid #b9cdea;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 4px 12px 12px;
+  margin-bottom: 8px;
+}
+.mh-net-panel[hidden] { display: none; }
+.mh-net-panel .mh-tutar-kart-alt { border-top-color: #dbe5f3; }
+.mh-net-panel .mh-ust-bilgi-ayrac { border-top-color: #dbe5f3; }
+.mh-net-panel .mh-guncelle-btn {
+  background: #eaf1fb;
+  border: 1px solid #b9cdea;
+  border-radius: 8px;
+  padding: 7px 11px;
+  font-size: 12px;
+}
+.mh-net-panel .mh-guncelle-btn[hidden] { display: none; }

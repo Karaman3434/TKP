@@ -289,3 +289,15 @@
 .av-yil-tablo tr.av-r--notr.son td { border-bottom: 1.5px solid #cfd6df; }
 .av-yil-tablo tr.av-r--notr td:first-child { border-left: 1.5px solid #cfd6df; }
 .av-yil-tablo tr.av-r--notr td:last-child { border-right: 1.5px solid #cfd6df; }
+
+/* AVANS TOPLAM TUŞU (02.11.2026, Abdullah onayı — mockup üzerinden) */
+.av-toplam-tus {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 0 0 12px; padding: 13px 16px; border-radius: 14px;
+  background: #eaf1fb; border: 1.5px solid #9fbbe3;
+  color: #003a70; font-weight: 800; font-size: 15px; text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.av-toplam-tus[hidden] { display: none; }
+.av-toplam-tus-alt { font-weight: 500; font-size: 12px; color: #5a6b82; margin-left: 4px; }
+.av-toplam-tus-ok { font-size: 22px; color: #5a8fd0; }

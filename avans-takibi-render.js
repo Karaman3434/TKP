@@ -1,5 +1,5 @@
 /*
-  avans-takibi-render.js — TKP.02.11.26-19:21.1436
+  avans-takibi-render.js — TKP.02.11.26-21:05.1449
   ========================
   (26.10.2026'da eklenen yıllık/satır bazlı tablo ve 3 kutu 02.11.2026'da
   Avans Toplam sayfasına taşındı; eski "GEÇMİŞ AVANSLAR" tablosu daha önce
@@ -213,32 +213,10 @@ function avDonemeGec(ay, yil){
     avHarcamaListe = taslak.isAvansiHarcamalar || [];
     avCiz();
   }
-  avBaskaDonemdeTaslakGoster();
 }
 
-// GÜVENLİK BANDI (27.09.2026) — dönem senkron düzeltmesinden sonra
-// eklendi: hangi ay "resmi açık dönem" sayılırsa sayılsın, kullanıcının
-// daha önce (eski/şaşan mantıkla) başka bir ay'a girdiği ve HÂLÂ Firebase'de
-// duran ama şu an ekranda görünmeyen bir taslak varsa, bunu asla sessizce
-// kaybettirmeyip açıkça bildiriyoruz.
-function avTaslakDoluMu(t){
-  if(!t) return false;
-  return (t.ozelAvansGirisleri||[]).length>0 || (t.isAvansiGirisleri||[]).length>0 || (t.isAvansiHarcamalar||[]).length>0;
-}
-function avBaskaDonemdeTaslakGoster(){
-  var banner = document.getElementById("avBaskaTaslakBanner");
-  var alt = document.getElementById("avBaskaTaslakBannerAlt");
-  if(!banner || !alt) return;
-  if(!AvansKayitData.taslakYuklendiMi() || !avSeciliAy || !avSeciliYil){ banner.hidden = true; return; }
-  var buraya = avSeciliYil + "-" + ("0"+avSeciliAy).slice(-2);
-  var bulunanlar = AvansKayitData.tumTaslaklar().filter(function(t){
-    return t.anahtar !== buraya && avTaslakDoluMu(t);
-  });
-  if(!bulunanlar.length){ banner.hidden = true; return; }
-  banner.hidden = false;
-  alt.textContent = bulunanlar.map(function(t){ return AY_ADLARI_AV[t.ay] + " " + t.yil; }).join(", ") + " — dokun ve gör";
-  banner.onclick = function(){ avDonemeGec(bulunanlar[0].ay, bulunanlar[0].yil); };
-}
+// (02.11.2026) "Başka dönemde kayıtlı taslak bulundu" uyarı bandı kaldırıldı:
+// kapatılmamış tüm aylar artık Avans Toplam sayfasında görünüyor.
 
 function avCiz(){
   avListeCiz();
@@ -259,6 +237,15 @@ function avCiz(){
 
 document.addEventListener("DOMContentLoaded", function(){
   tarihiGuncelle_AV();
+  // Avans Toplam sayfası kısıtlı (Çalışan Erişimi) hesaplarda varsayılan
+  // olarak kapalı (auth.js — eşleşmeyen sayfa reddedilir); bu hesaplarda tuşu
+  // hiç göstermeyip ölü bir bağlantı bırakmıyoruz. Kısıtsız hesapta görünür.
+  function avToplamTusuIzinUygula(){
+    var tus = document.getElementById("avToplamTus");
+    if(tus) tus.hidden = !!window.ISTAKIP_IZINLER;
+  }
+  window.addEventListener("istakipAuthHazir", avToplamTusuIzinUygula);
+  avToplamTusuIzinUygula();
   var btnMenuEl = document.getElementById("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
   // KRİTİK HATA DÜZELTMESİ (24.09.2026): Firebase'den ilk veri paketi

@@ -12,7 +12,7 @@
   ayrı ayrı hesaplarsa rakamlar TUTARSIZ çıkar.
 
   Bu modül, o paylaşılan girdi hazırlama + hesaplama mantığını TEK yerde
-  toplar. Hem net-maas-hesaplama-render.js (Net Maaş sayfası) hem
+  toplar. Hem net-maas-panel.js (Net Maaş açılır satırı) hem
   odenebilir-komisyon-render.js (Brüt/Net Prim bölümü) hem de
   maas-hesaplama-render.js (özet sayfası) AYNI MaasOrtakHesap.hesapla()
   çağrısını kullanır — sonuç nesnesi aynıdır, her sayfa sadece kendi

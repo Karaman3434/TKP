@@ -1,5 +1,5 @@
 /*
-  auth.js — TKP.02.11.26-01:59.1356
+  auth.js — TKP.02.11.26-21:05.1449
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -229,7 +229,7 @@
   // taranan sıra (anahtar -> o izne ait varsayılan sayfa).
   var SAYFA_IZIN_SIRASI = ["hesapla","urunBul","sepet","gonder","musteriBul","islemGecmisi",
     "raporlar","satisListesi","hareketler","ziyaret","takipGerekenler","gorevler","vadeTakip",
-    "maasHesaplama","netMaasHesaplama","avansTakibi","odenebilirKomisyon","anaSayfa","kmTakip","bildirimler",
+    "maasHesaplama","avansTakibi","odenebilirKomisyon","anaSayfa","kmTakip","bildirimler",
     "markaKarsilastirma"];
   var SAYFA_IZIN_DOSYA = {
     hesapla:"calc.html", urunBul:"product.html", sepet:"cart.html", gonder:"send.html",

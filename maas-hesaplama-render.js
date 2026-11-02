@@ -1,5 +1,5 @@
 /*
-  maas-hesaplama-render.js — TKP.02.11.26-20:16.1446
+  maas-hesaplama-render.js — TKP.02.11.26-21:05.1449
   ==========================================================
   MAAŞ HESAPLAMA (ÖZET) sayfası — 27.09.2026 mimari bölünmesi. Bu sayfa
   artık kendi Brüt Sabit Maaş / Brüt Prim hesaplamasını yapmıyor; Net
@@ -92,6 +92,7 @@ function mhKapaliKaydiGoster(k){
   var avRozet = document.getElementById("mhAvansRozet");
   if(avRozet) avRozet.hidden = true;
   document.getElementById("btnMhKapaliKaydiSil").setAttribute("data-anahtar", k.anahtar);
+  try{ NetMaasPanel.ciz(k); }catch(e){}
 }
 
 function mhGorunumCiz(){
@@ -135,6 +136,8 @@ function mhHesaplaVeCiz(){
 
   var hesabaYatacak = sonuc.netToplam - toplamKesintiYeni;
   document.getElementById("mhKartHesabaYatacak").textContent = fmtTL_MH(hesabaYatacak);
+
+  try{ NetMaasPanel.ciz(null); }catch(e){}
 
   mhGuncelHesap = {
     acik: acik, acikAnahtar: acikAnahtar, brutSabit: h.brutSabit, birinciToplam: h.birinciToplam, brutPrim: h.brutPrim,
