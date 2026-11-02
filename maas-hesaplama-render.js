@@ -1,5 +1,5 @@
 /*
-  maas-hesaplama-render.js — TKP.02.11.26-17:31.1424
+  maas-hesaplama-render.js — TKP.02.11.26-18:34.1428
   ==========================================================
   MAAŞ HESAPLAMA (ÖZET) sayfası — 27.09.2026 mimari bölünmesi. Bu sayfa
   artık kendi Brüt Sabit Maaş / Brüt Prim hesaplamasını yapmıyor; Net
@@ -17,9 +17,9 @@ var mhGuncelHesap = null; // en son mhHesaplaVeCiz() çıktısı — Kayıt Et b
 
 // AVANS KESİNTİSİ (02.11.2026, Abdullah onayı): eski "Avans Seçimi" penceresi
 // KALDIRILDI. Hangi avansların bu ayın maaşından düşüleceği artık Avans
-// Takibi'ndeki "➕ Maaş hesaplamasına ekle" ile belirlenir: eklenen aylar
-// KAPANIR ve kalıcı kilitlenir (avansKayitlari/*/maasaEklenenDonem + kilit,
-// avansTaslak/*/kilit). Bu sayfa sadece AvansKayitData.maasKesintisi()'ni
+// Takibi'ndeki "➕ Maaşa ekle" ile belirlenir: eklenen avans satırları
+// (avans girişinin üstündeki "maasa" işareti) bu maaşa girer; maaş kapanınca
+// "Maaştan düşüldü" olur. Bu sayfa sadece AvansKayitData.maasKesintisi()'ni
 // okur — Ana Sayfa özeti de AYNI fonksiyonu kullanır (tek kaynak).
 
 function fmtTL_MH(n){
@@ -127,8 +127,8 @@ function mhHesaplaVeCiz(){
   document.getElementById("mhKartNetToplam").textContent = fmtTL_MH(sonuc.netToplam);
 
   // Açık dönem her zaman CANLI taslaktan okunur — bkz. mhAvansCanliOku
-  // yorumu. Bu ayın maaşından düşülecek TOPLAM = bu ayın kendi avansı
-  // (Avans Takibi'nden eklendiyse) + o ekranda bu aya eklenen geçmiş avanslar.
+  // yorumu. Bu ayın maaşından düşülecek TOPLAM = Avans Takibi'nde bu maaş
+  // dönemine "Maaşa ekle" ile eklenmiş avans satırlarının kalanı.
   var av = mhAvansCanliOku(acik.ay, acik.yil);
   var kesinti = AvansKayitData.maasKesintisi(acik.ay, acik.yil);
   var toplamKesintiYeni = kesinti.toplam;
@@ -141,7 +141,6 @@ function mhHesaplaVeCiz(){
   mhGuncelHesap = {
     acik: acik, acikAnahtar: acikAnahtar, brutSabit: h.brutSabit, birinciToplam: h.birinciToplam, brutPrim: h.brutPrim,
     sonuc: sonuc, avans: av, kesinti: kesinti,
-    kendiAvansDahilMi: !!kesinti.kendiEklendi, seciliBekleyenAnahtarlar: kesinti.eklenenler.map(function(k){ return k.anahtar; }),
     toplamKesintiYeni: toplamKesintiYeni, hesabaYatacak: hesabaYatacak
   };
 }
@@ -157,9 +156,8 @@ function mhAvansSatiriGuncelle(kesinti, av){
   var deger = document.getElementById("mhOzetAvansToplam");
   if(!satir || !alt || !deger) return;
 
-  var parcalar = [];
-  if(kesinti.kendi > 0) parcalar.push(AY_ADLARI_MH[MaasKayitData.acikDonem().ay]);
-  kesinti.eklenenler.forEach(function(k){ parcalar.push(AY_ADLARI_MH[k.ay]); });
+  // Maaşa eklenen avansların AYLARI (yeniden eskiye): "Ekim, Eylül avansı eklendi".
+  var parcalar = kesinti.aylar.map(function(a){ return AY_ADLARI_MH[a.ay]; });
   var adet = parcalar.length;
 
   satir.classList.toggle("mh-ozet-satir--yesil", adet > 0);
@@ -169,8 +167,6 @@ function mhAvansSatiriGuncelle(kesinti, av){
   var metin;
   if(adet > 0){
     metin = parcalar.join(", ") + " avansı eklendi";
-  } else if(kesinti.kapatildi && kesinti.kendiToplam > 0){
-    metin = "🔒 Bu ayın avansı kapatıldı (hesap dışı)";
   } else {
     metin = "Maaşa avans eklenmedi.";
   }
@@ -315,23 +311,11 @@ document.addEventListener("DOMContentLoaded", function(){
       kayitZamani: Date.now()
     };
     if(h.avans.devirKaynak) avansKayitObj.devirKaynak = h.avans.devirKaynak;
-    // Avans Takibi'nde maaşa eklenip kilitlenmiş (kilit) / eski elle kapatılmış (kapatma) ay: kayda da işlenir.
-    if(taslak.kapatma) avansKayitObj.kapatma = taslak.kapatma;
-    if(taslak.kilit) avansKayitObj.kilit = taslak.kilit;
-    // Bu ayın kendi avansı, Avans Takibi'nde maaşa EKLENDİYSE (kilit) kendi
-    // ayına dahil edilmiş sayılır. Eklenmediyse hiç işaretlenmez — Avans
-    // Takibi'nde "Açık" kalır, istenen bir sonraki aya sonradan eklenebilir.
-    if(h.kendiAvansDahilMi) avansKayitObj.maasaDahilEdildigiDonem = h.acikAnahtar;
-
     AvansKayitData.kaydet(avansKayitObj, function(basariliAv, errAv){
       if(!basariliAv){ document.getElementById("btnAyiKayitEt").disabled=false; alert("Avans Takibi kapatılamadı: " + (errAv && errAv.message)); return; }
-      // Geçmişten bu kapanışa seçilen bekleyen avans kayıtlarını da
-      // "bu aya dahil edildi" olarak işaretle (best-effort — bu adım
-      // başarısız olsa bile maaş kaydı yine de tamamlanır, avans zaten
-      // kapandı; kullanıcı gerekirse Avans Seçimi'nden tekrar işaretleyebilir).
-      AvansKayitData.dahilEdildiginiIsaretle(h.seciliBekleyenAnahtarlar, h.acikAnahtar, function(){
-        maasiKaydet();
-      });
+      // Maaşa eklenmiş avans satırları (maasa işareti) kayıtla birlikte
+      // taşınır; maaş dönemi kapanınca kendiliğinden "Maaştan düşüldü" olur.
+      maasiKaydet();
     });
   };
 

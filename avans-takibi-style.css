@@ -1,4 +1,4 @@
-/* avans-takibi-style.css — TKP.02.11.26-17:31.1423
+/* avans-takibi-style.css — TKP.02.11.26-18:34.1427
    (ilk tasarım) 27.09.2026 yeniden tasarım:
    tek AVANS EKLE satırı (tip düğmesi + Ekle), birleşik liste, kırmızı
    toplam kutusu, ‹›/kaydırmalı dönem barı, kaydedildi rozeti. Sadece
@@ -205,9 +205,6 @@
 
 .av-yil-tablo tbody tr { cursor: pointer; }
 .av-yil-tablo tbody tr:active { background: #faeeda; }
-.av-durum-acik { color: #003a70; font-weight: 800; }
-.av-durum-tamam { color: #0e6b34; font-weight: 800; }
-.av-durum-bekliyor { color: #b7601f; font-weight: 800; }
 
 .av-aylara-don-btn {
   background: none;
@@ -222,9 +219,9 @@
 
 /* ==============================================================
    MAAŞA EKLE (02.11.2026, Abdullah onayı — mockup üzerinden).
-   Avans Tablosu'na satır başı kutu, 4 satır durumu (aktif=kırmızı çerçeve,
-   maaşa eklendi=yeşil, pasif=gri+kilit), alt "Maaşa Ekle" çubuğu ve
-   "maaştan düşüldü" not penceresi. Çerçeveler border-collapse tabloda
+   (02.11.2026 satır bazlı yeniden kurulum) Avans Tablosu: her satır bir avans
+   çekimi; durum çerçeveleri (açık=kırmızı, hesaba eklendi=yeşil, maaştan
+   düşüldü=gri, faturası tam=ince gri) ve KESİLECEK AVANS kutusundaki düğme. Çerçeveler border-collapse tabloda
    hücre kenarlarıyla çizilir; kayıtlar arasındaki .av-bosluk satırı
    komşu çerçevelerin birbirine karışmasını önler.
    ============================================================== */
@@ -236,7 +233,6 @@
 .av-yil-tablo tr.av-r--aktif.son td { border-bottom: 2.5px solid #c0392b; }
 .av-yil-tablo tr.av-r--aktif td:first-child { border-left: 2.5px solid #c0392b; }
 .av-yil-tablo tr.av-r--aktif td:last-child { border-right: 2.5px solid #c0392b; }
-.av-yil-tablo tr.av-r--secili td { background: #fdecea; }
 
 .av-yil-tablo tr.av-r--yesil td { background: #eafaf0; }
 .av-yil-tablo tr.av-r--yesil.ilk td { border-top: 2.5px solid #0e6b34; }
@@ -245,32 +241,16 @@
 .av-yil-tablo tr.av-r--yesil td:first-child { border-left: 2.5px solid #0e6b34; }
 .av-yil-tablo tr.av-r--yesil td:last-child { border-right: 2.5px solid #0e6b34; }
 
-.av-yil-tablo tr.av-r--pasif td { background: #f1f3f6; color: #8a8f98; }
-.av-yil-tablo tr.av-r--pasif.ilk td { border-top: 2px solid #b9c2cf; }
-.av-yil-tablo tr.av-r--pasif.ilk:not(.son) td { border-bottom: none; }
-.av-yil-tablo tr.av-r--pasif.son td { border-bottom: 2px solid #b9c2cf; }
-.av-yil-tablo tr.av-r--pasif td:first-child { border-left: 2px solid #b9c2cf; }
-.av-yil-tablo tr.av-r--pasif td:last-child { border-right: 2px solid #b9c2cf; }
 
 .av-yil-tablo tr.av-alt td { border-top: none; padding: 5px 8px; text-align: left; white-space: normal; font-size: 11px; cursor: default; }
 .av-yil-tablo tr.av-alt.av-r--yesil td { color: #0e6b34; font-weight: 800; }
-.av-yil-tablo tr.av-alt.av-r--pasif td { color: #6b7684; font-weight: 600; }
 /* DEVİR (fazla faturalandırma) alt satırları — mavi; çerçeve rengini kaydın durumundan alır. */
 .av-yil-tablo tr.av-alt.av-devir td { background: #eaf3fb; color: #003a70; font-weight: 700; }
 .av-yil-tablo tr.av-alt.av-devir.av-plain td { border-left: none; border-right: none; }
 .av-yil-tablo tr.av-alt.av-devir.av-plain.son td { border-bottom: 1px solid #c7dcef; }
-.av-yil-tablo tr.av-alt.av-devir.av-r--pasif td { color: #5f7ea0; }
 .av-devir-rozet { display: inline-block; background: #003a70; color: #fff; font-size: 9px; font-weight: 900; border-radius: 99px; padding: 1px 7px; margin-right: 6px; vertical-align: middle; letter-spacing: .3px; }
 .av-alt-ic { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.av-durum-aktif { color: #c0392b; font-weight: 800; }
-.av-durum-pasif { color: #8a8f98; font-weight: 800; }
-.av-durum-yok { color: #8a8f98; font-weight: 800; }
 
-.av-lejant { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 8px; }
-.av-lej { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 800; border-radius: 99px; padding: 3px 9px; border: 2px solid; }
-.av-lej--k { color: #c0392b; border-color: #c0392b; background: #fff; }
-.av-lej--y { color: #0e6b34; border-color: #0e6b34; background: #eafaf0; }
-.av-lej--g { color: #8a8f98; border-color: #b9c2cf; background: #f1f3f6; }
 .mh-sonuc-satir.av-devir-satir { background: #eaf3fb; color: #003a70; }
 .mh-sonuc-satir.av-devir-satir b { color: #003a70; }
 .mh-sonuc-satir.av-devir-satir[hidden] { display: none; }
@@ -278,7 +258,6 @@
 /* Sayfaya özel: .banner--kompakt{display:flex} "hidden" özniteliğini eziyordu
    (kapalı dönem şeridi hep görünüyordu). */
 .banner[hidden] { display: none; }
-.av-aciklama { font-size: 11px; color: #6b7684; margin: 0 0 8px; line-height: 1.45; }
 
 
 .av-toast { position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%); z-index: 700; background: #0e6b34; color: #fff; font-size: 13px; font-weight: 900; padding: 10px 16px; border-radius: 99px; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
@@ -305,9 +284,27 @@
 
 /* MAAŞ HESAPLAMASINA EKLE (02.11.2026, Abdullah onayı — mockup üzerinden):
    özet kutularının altındaki yeşil düğme şeridi + "Durum" ilk sütunu. */
-.av-ekle-serit { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; box-sizing: border-box; background: #0e6b58; color: #fff; border: none; border-radius: 11px; padding: 11px 14px; font-size: 13px; font-weight: 900; margin: 0 0 10px; cursor: pointer; }
-.av-ekle-serit small { font-size: 11px; font-weight: 700; opacity: .9; }
-.av-ekle-serit:disabled { background: #c9d0da; cursor: default; }
-.av-ekle-serit[hidden] { display: none; }
-.av-yil-tablo td.av-td-durum { white-space: nowrap; }
-.av-yil-tablo td.av-td-durum--tikla { cursor: pointer; }
+
+/* SATIR BAZLI TABLO (02.11.2026, Abdullah onayı — mockup üzerinden) */
+.av-toplam-satir-3 .km-toplam-kutu { display: flex; flex-direction: column; justify-content: center; }
+.av-kutu-btn { display: block; width: 100%; box-sizing: border-box; margin-top: 6px; background: #fff; color: #0e6b58; border: none; border-radius: 7px; padding: 6px 4px; font-size: 10.5px; font-weight: 900; font-family: inherit; cursor: pointer; }
+.av-kutu-btn:disabled { background: rgba(255,255,255,.55); color: #c0392b; cursor: default; }
+.av-kutu-btn[hidden] { display: none; }
+.av-ozel-etiket { display: block; font-size: 9px; font-weight: 900; color: #8e44ad; line-height: 1; }
+.av-yil-tablo td.av-td-tarih { white-space: nowrap; }
+.av-geri { color: #0e6b34; font-weight: 900; text-decoration: underline; margin-left: auto; white-space: nowrap; cursor: pointer; }
+/* maaştan düşüldü = gri çerçeve; faturası tam kapanmış (kalan 0) = ince gri çerçeve */
+.av-yil-tablo tr.av-r--biti td { background: #f1f3f6; color: #4a5563; }
+.av-yil-tablo tr.av-r--biti.ilk td { border-top: 2px solid #9aa6b5; }
+.av-yil-tablo tr.av-r--biti.ilk:not(.son) td { border-bottom: none; }
+.av-yil-tablo tr.av-r--biti.son td { border-bottom: 2px solid #9aa6b5; }
+.av-yil-tablo tr.av-r--biti td:first-child { border-left: 2px solid #9aa6b5; }
+.av-yil-tablo tr.av-r--biti td:last-child { border-right: 2px solid #9aa6b5; }
+.av-yil-tablo tr.av-alt.av-r--biti td { color: #0e6b34; font-weight: 800; }
+.av-yil-tablo tr.av-r--notr td { background: #fff; }
+.av-yil-tablo tr.av-r--notr.ilk td { border-top: 1.5px solid #cfd6df; }
+.av-yil-tablo tr.av-r--notr.ilk:not(.son) td { border-bottom: none; }
+.av-yil-tablo tr.av-r--notr.son td { border-bottom: 1.5px solid #cfd6df; }
+.av-yil-tablo tr.av-r--notr td:first-child { border-left: 1.5px solid #cfd6df; }
+.av-yil-tablo tr.av-r--notr td:last-child { border-right: 1.5px solid #cfd6df; }
+.av-yil-tablo tr.av-alt.av-devir.av-r--biti td { color: #5f7ea0; }
