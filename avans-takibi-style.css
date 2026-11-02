@@ -1,4 +1,4 @@
-/* avans-takibi-style.css — TKP.02.11.26-19:04.1431
+/* avans-takibi-style.css — TKP.02.11.26-19:21.1437
    (ilk tasarım) 27.09.2026 yeniden tasarım:
    tek AVANS EKLE satırı (tip düğmesi + Ekle), birleşik liste, kırmızı
    toplam kutusu, ‹›/kaydırmalı dönem barı, kaydedildi rozeti. Sadece
@@ -206,9 +206,7 @@
 .av-yil-tablo tbody tr { cursor: pointer; }
 .av-yil-tablo tbody tr:active { background: #faeeda; }
 
-/* TEK SAYFA (02.11.2026): tablonun altında, ince çizgiyle ayrılmış ay giriş bölümü.
-   Satıra dokununca buraya kaydırılır; sabit üst çubuğa takılmasın diye scroll-margin. */
-#avAyrintiGorunumu { margin-top: 16px; padding-top: 14px; border-top: 1px solid #d3d9e2; scroll-margin-top: 64px; }
+/* (02.11.2026) Kutular/tablo/onay penceresi kuralları artık Avans Toplam sayfasında (avans-toplam.html) kullanılır; bu dosyayı iki sayfa da yükler. */
 
 
 /* ==============================================================

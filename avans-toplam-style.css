@@ -1,0 +1,15 @@
+/* avans-toplam-style.css — TKP.02.11.26-19:21.1435
+   AVANS TOPLAM sayfası (02.11.2026, Abdullah onayı — mockup üzerinden):
+   "Tarih tarih / Ay ay" görünüm seçici + ay ay tablosu. Kutular, satır
+   tablosu ve onay penceresi kuralları avans-takibi-style.css'ten gelir
+   (bu sayfa onu önce yükler). Sadece avans-toplam.html kullanır. */
+
+.at-segment { display: flex; background: #e9eef5; border-radius: 10px; padding: 3px; margin: 0 0 10px; }
+.at-seg-btn { flex: 1; border: none; background: none; font-family: inherit; font-size: 12px; font-weight: 800; color: #51627f; padding: 8px 4px; border-radius: 8px; cursor: pointer; }
+.at-seg-btn.on { background: #003a70; color: #fff; }
+
+.at-ay-tablo th, .at-ay-tablo td { text-align: center; }
+.at-ay-tablo tbody tr td:first-child { text-align: left; font-weight: 800; color: #003a70; white-space: nowrap; }
+.at-ay-tablo tbody tr.at-toplam { cursor: default; }
+.at-ay-tablo tbody tr.at-toplam td { background: #003a70; color: #fff; font-weight: 900; }
+.data-table-container[hidden] { display: none; }
