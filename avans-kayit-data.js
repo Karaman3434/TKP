@@ -1,5 +1,5 @@
 /*
-  avans-kayit-data.js — TKP.02.11.26-18:34.1425
+  avans-kayit-data.js — TKP.02.11.26-19:04.1429
   =====================
   "Avans Takibi" sayfasının verisini tutar — Maaş Hesaplama sayfasından
   AYRI, kendi açık dönem/kapatma döngüsüne sahiptir.
@@ -78,7 +78,7 @@ var AvansKayitData = (function(){
   function kayitlarYuklendiMi(){ return kayitlarYuklendi; }
 
   function bildir(){
-    zincirOnbellek = null; // kayıtlar/taslak değişti — devir zinciri yeniden hesaplanır
+    zincirOnbellek = null; // kayıtlar/taslak değişti — satır hesabı yeniden yapılır
     dinleyiciler.forEach(function(fn){
       try{ fn(); }catch(e){ console.error("Avans kayıt dinleyici hatası:", e); }
     });
@@ -186,14 +186,20 @@ var AvansKayitData = (function(){
 
      Faturalandırılan tutar: bir ayın harcama belgeleri o ayın İŞ avanslarına
      eskiden yeniye doldurulur (ilk avans dolunca sonrakine geçer). Özel avans
-     faturalandırılmaz, kalanı tam tutardır. Bir ayda fazla belge çıkarsa artan
-     kısım bir sonraki ayın avanslarından düşer (devir) — sadece İŞ avansı.
+     faturalandırılmaz, kalanı tam tutardır. Bir ayda avanstan FAZLA belge
+     çıkarsa artan kısım hesap dışıdır — sonraki aya DEVRETMEZ (devir özelliği
+     02.11.2026'da Abdullah'ın isteğiyle kaldırıldı).
+
+     SIFIRLAMA: "GEÇERLİ AYIN HESABI KAPANDI" ile maaş dönemi kapanınca tablo
+     sıfırdan başlar — sadece açık (ve sonraki) dönemin satırları gösterilir
+     (satirlarAcikDonem). Eski dönemlerin satırları Firebase'de durur, silinmez,
+     ama hiçbir yeni hesaba girmez / ekranda görünmez.
 
      SATIR DURUMLARI (r.durum):
        "acik"     kalan > 0, maaşa eklenmemiş (kırmızı çerçeve)
        "tam"      kalan 0 (faturası tam kapanmış) — eklenecek bir şey yok
-       "eklendi"  maaş hesabına eklendi, o maaş dönemi henüz kapanmadı;
-                  "Geri al" ile tekrar açılabilir
+       "eklendi"  maaş hesabına eklendi — KALICI KİLİTLİ (geri alınamaz,
+                  silinemez/değiştirilemez); o maaş dönemi henüz kapanmadı
        "dusuldu"  eklendiği maaş dönemi kapandı: "Maaştan düşüldü", kalıcı.
                   (Eski sistemden: maasaDahilEdildigiDonem'i olan kayıtlar)
      ESKİ kilit / kapatma / dusulmeNotu / maasaEklenenDonem alanları YOK
@@ -201,7 +207,6 @@ var AvansKayitData = (function(){
      Firebase'deki hiçbir veri silinmez.
      ==================================================================== */
   function topla(liste){ return (liste||[]).reduce(function(s,x){ return s+((x && x.tutar)||0); }, 0); }
-  function donemSirasi(ay, yil){ return (yil||0)*100 + (ay||0); }
   function anahtarCoz(a){ var p = String(a).split("-"); return {yil: parseInt(p[0],10)||0, ay: parseInt(p[1],10)||0}; }
 
   // Tüm dönemler (kapanmış kayıtlar + açık taslaklar), eskiden yeniye.
@@ -212,17 +217,16 @@ var AvansKayitData = (function(){
     return Object.keys(m).sort().map(function(k){ return m[k]; });
   }
 
-  // TEK DÖNEMİN HESABI: satırlar + özet + sonraki aya devir.
-  function donemHesapla(m, carryIn, kaynakIn){
+  // TEK DÖNEMİN HESABI: satırlar + özet. (Devir yok: avanstan fazla belge sonraki aya taşınmaz.)
+  function donemHesapla(m){
     var v = m.veri || {};
     var c = anahtarCoz(m.anahtar);
     var ozel = v.ozelAvansGirisleri || [], is = v.isAvansiGirisleri || [];
     var harcama = topla(v.isAvansiHarcamalar);
     var isToplam = topla(is), ozelToplam = topla(ozel);
-    // Eski sistemde maaşa dahil edilmiş kayıt: tamamı "maaştan düşüldü", gelen devir saklı değer.
+    // Eski sistemde maaşa dahil edilmiş kayıt: tamamı "maaştan düşüldü".
     var eski = (m.kaynak === "kayit") && !!v.maasaDahilEdildigiDonem;
-    var gelen = eski ? (v.devirDusen || 0) : (carryIn || 0);
-    var havuz = harcama + gelen;
+    var havuz = harcama;
     if(!eski){
       is.forEach(function(e){ if(e && e.maasa) havuz -= (e.maasa.f || 0); });
       if(havuz < 0) havuz = 0;
@@ -263,39 +267,24 @@ var AvansKayitData = (function(){
     });
     var kalanToplam = 0, isKesilecek = 0;
     satirlar.forEach(function(r){ kalanToplam += r.kalan; if(r.tip === "is") isKesilecek += r.kalan; });
-    var ownExcess = Math.max(0, harcama - isToplam);
-    var giden = eski ? ((v.devirGiden !== undefined) ? v.devirGiden : havuz) : havuz;
-    var kaynakGiden = null;
-    if(giden > 0) kaynakGiden = ownExcess > 0 ? {ay: c.ay, yil: c.yil} : (eski ? (v.devirKaynak || kaynakIn || null) : (kaynakIn || null));
-    var dusen = eski ? (v.devirDusen || 0) : Math.min(gelen, Math.max(0, isToplam - harcama));
     return {
       anahtar: m.anahtar, ay: c.ay, yil: c.yil, kaynak: m.kaynak, yerlesik: eski,
       satirlar: satirlar,
       ozelToplam: ozelToplam, isToplam: isToplam, harcamaToplam: harcama,
-      isKalanHam: Math.max(0, isToplam - harcama), isKesilecek: isKesilecek, kalan: kalanToplam,
-      devirGelen: gelen, devirDusen: dusen, devirGiden: giden,
-      kaynakGelen: gelen > 0 ? (eski ? (v.devirKaynak || null) : (kaynakIn || null)) : null,
-      kaynakGiden: kaynakGiden
+      isKalanHam: Math.max(0, isToplam - harcama), isKesilecek: isKesilecek, kalan: kalanToplam
     };
   }
 
   var zincirOnbellek = null;
-  // Tüm dönemler tarih sırasıyla; devir bir aydan diğerine taşınır.
-  // sinirSirasi verilirse sadece ondan ÖNCEKİ dönemler (o döneme giren devir için).
-  function zincirHesapla(sinirSirasi){
-    var onbellek = (sinirSirasi === undefined);
-    if(onbellek && zincirOnbellek) return zincirOnbellek;
-    var harita = {}, liste = [], carry = 0, kaynak = null;
+  function zincirHesapla(){
+    if(zincirOnbellek) return zincirOnbellek;
+    var harita = {}, liste = [];
     aylariTopla().forEach(function(m){
-      var c = anahtarCoz(m.anahtar);
-      if(!onbellek && donemSirasi(c.ay, c.yil) >= sinirSirasi) return;
-      var r = donemHesapla(m, carry, kaynak);
+      var r = donemHesapla(m);
       harita[m.anahtar] = r; liste.push(r);
-      carry = r.devirGiden; kaynak = r.kaynakGiden;
     });
-    var sonuc = {harita: harita, liste: liste, son: {carry: carry, kaynak: kaynak}};
-    if(onbellek) zincirOnbellek = sonuc;
-    return sonuc;
+    zincirOnbellek = {harita: harita, liste: liste};
+    return zincirOnbellek;
   }
 
   // Tablo satırları: TÜM avans çekimleri, yeniden eskiye (tarih, sonra giriş sırası).
@@ -312,17 +301,10 @@ var AvansKayitData = (function(){
     return hepsi;
   }
 
-  // Bir dönemin özeti: {kalan, devirGelen, devirDusen, devirGiden, kaynak, yerlesik} — yoksa null.
-  function devirBilgisi(anahtar){
+  // Bir dönemin özeti (kalan toplamı) — yoksa null.
+  function donemOzeti(anahtar){
     var h = zincirHesapla().harita[anahtar];
-    if(!h) return null;
-    return {kalan: h.kalan, devirGelen: h.devirGelen, devirDusen: h.devirDusen, devirGiden: h.devirGiden, kaynak: h.kaynakGelen, yerlesik: h.yerlesik};
-  }
-
-  // (ay, yil) dönemine GİREN devir: o dönemden önceki dönemlerin zinciri.
-  function devirGelenAcik(ay, yil){
-    var z = zincirHesapla(donemSirasi(ay, yil)).son;
-    return {carry: z.carry, kaynak: z.kaynak};
+    return h ? {kalan: h.kalan} : null;
   }
 
   // Bir dönemin TASLAĞI için canlı hesap (ayrıntı ekranı yazarken liste verir).
@@ -333,13 +315,18 @@ var AvansKayitData = (function(){
       isAvansiGirisleri: isListe || t.isAvansiGirisleri || [],
       isAvansiHarcamalar: harcamaListe || t.isAvansiHarcamalar || []
     };
-    var g = devirGelenAcik(ay, yil);
-    var h = donemHesapla({anahtar: anahtarOlustur(ay, yil), kaynak: "taslak", veri: veri}, g.carry, g.kaynak);
+    var h = donemHesapla({anahtar: anahtarOlustur(ay, yil), kaynak: "taslak", veri: veri});
     return {
       ozelToplam: h.ozelToplam, isToplam: h.isToplam, belgelenenToplam: h.harcamaToplam,
-      isKalanHam: h.isKalanHam, isKesilecek: h.isKesilecek, toplamKesinti: h.kalan,
-      devirGelen: g.carry, devirDusen: h.devirDusen, devirGiden: h.devirGiden, devirKaynak: h.kaynakGelen
+      isKalanHam: h.isKalanHam, isKesilecek: h.isKesilecek, toplamKesinti: h.kalan
     };
+  }
+
+  // Maaş dönemi her kapanınca tablo SIFIRLANIR: sadece açık dönemin (ve sonraki
+  // dönemlerin) satırları görünür/hesaba girer; eski dönemler Firebase'de durur.
+  function satirlarAcikDonem(ay, yil){
+    var esik = anahtarOlustur(ay, yil);
+    return satirlar().filter(function(r){ return r.anahtar >= esik; });
   }
 
   // "MAAŞ HESAPLAMASINA EKLE": açık satırlar (idler=null → hepsi) hedef maaş
@@ -347,7 +334,8 @@ var AvansKayitData = (function(){
   function maasaEkle(idler, hedefAnahtar, geriBildir){
     var cb = typeof geriBildir === "function" ? geriBildir : function(){};
     try{
-      var secilen = satirlar().filter(function(r){
+      var h = anahtarCoz(hedefAnahtar);
+      var secilen = satirlarAcikDonem(h.ay, h.yil).filter(function(r){
         return r.durum === "acik" && (!idler || idler.indexOf(r.id) !== -1);
       });
       if(!secilen.length){ cb(true, null, 0); return; }
@@ -360,17 +348,6 @@ var AvansKayitData = (function(){
     }catch(e){ cb(false, e); }
   }
 
-  // GERİ AL: maaş dönemi henüz kapanmamış ("eklendi") satır tekrar açılır.
-  function maastanGeriAl(id, geriBildir){
-    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
-    try{
-      var r = satirlar().filter(function(x){ return x.id === id; })[0];
-      if(!r || r.durum !== "eklendi"){ cb(false, new Error("Bu satır geri alınamaz.")); return; }
-      var g = {}; g[satirYolu(r) + "/maasa"] = null;
-      firebase.database().ref().update(g)
-        .then(function(){ cb(true); }).catch(function(err){ cb(false, err); });
-    }catch(e){ cb(false, e); }
-  }
   function satirYolu(r){
     return (r.kaynak === "kayit" ? "avansKayitlari/" : "avansTaslak/") + r.anahtar + "/"
       + (r.tip === "is" ? "isAvansiGirisleri" : "ozelAvansGirisleri") + "/" + r.idx;
@@ -380,10 +357,10 @@ var AvansKayitData = (function(){
   // Ana Sayfa özeti AYNI fonksiyonu kullanır (tek kaynak).
   //  eklenenler : bu maaş dönemine eklenmiş avans satırları
   //  aylar      : bu satırların avans aylarının listesi (yeniden eskiye)
-  //  bekleyen*  : hiçbir maaşa eklenmemiş (açık) avanslar — bilgi amaçlı
+  //  bekleyen*  : hiçbir maaşa eklenmemiş (açık) avanslar — bilgi amaçlı (sadece açık dönem ve sonrası)
   function maasKesintisi(ay, yil){
     var anahtar = anahtarOlustur(ay, yil);
-    var tum = satirlar();
+    var tum = satirlarAcikDonem(ay, yil);
     var ek = tum.filter(function(r){
       return r.hedef === anahtar && (r.durum === "eklendi" || r.durum === "dusuldu") && r.kalan > 0;
     });
@@ -416,11 +393,10 @@ var AvansKayitData = (function(){
     kaydet: kaydet,
     kaydiSil: kaydiSil,
     satirlar: satirlar,
+    satirlarAcikDonem: satirlarAcikDonem,
     maasaEkle: maasaEkle,
-    maastanGeriAl: maastanGeriAl,
     maasKesintisi: maasKesintisi,
-    devirBilgisi: devirBilgisi,
-    devirGelenAcik: devirGelenAcik,
+    donemOzeti: donemOzeti,
     taslakDevirli: taslakDevirli
   };
 

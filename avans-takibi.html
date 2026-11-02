@@ -61,7 +61,7 @@
 <!-- EKLENDİ (26.10.2026, "Yıllık Avans Tablosu" — mockup onaylandı) —
      yillik-km-odeme.html ile AYNI tablo/kutu bileşenleri. -->
 <link rel="stylesheet" href="km-style.css?v=TKP.02.11.26-10:48.1377">
-<link rel="stylesheet" href="avans-takibi-style.css?v=TKP.02.11.26-18:34.1427">
+<link rel="stylesheet" href="avans-takibi-style.css?v=TKP.02.11.26-19:04.1431">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.02.11.26-10:48.1383">
@@ -129,12 +129,12 @@
 
 <main class="sayfa kmk-sayfa">
 
-  <!-- YENİ İNİŞ EKRANI (26.10.2026, Abdullah onayı) — sayfaya girince
-       ÖNCE bu görünür: üstte 3 özet kutusu + altta yıllık, Excel tarzı
-       ay ay tablo. Bir aya dokununca #avAyrintiGorunumu açılır. -->
+  <!-- TEK SAYFA (02.11.2026, Abdullah onayı): üstte 3 özet kutusu + satır
+       tablosu, ALTINDA #avAyrintiGorunumu (ayın giriş bölümü) — ayrı ekran yok.
+       Satıra dokununca alt bölüm o satırın ayına geçer. -->
   <div id="avTabloGorunumu">
     <div class="km-tablo-baslik-satir">
-      <div class="km-tablo-baslik" id="avYilBaslik">— Avans Tablosu</div>
+      <div class="km-tablo-baslik" id="avYilBaslik">Avans Tablosu</div>
       <div class="km-tablo-baslik-butonlar">
         <button type="button" class="excel-buton" id="btnAvExcel">📊 Excel'e Aktar</button>
       </div>
@@ -150,16 +150,15 @@
         <div class="km-toplam-kutu-deger" id="avYilFatura">0,00 TL</div>
       </div>
       <div class="km-toplam-kutu km-toplam-kutu--kalan">
-        <div class="km-toplam-kutu-etiket">KESİLECEK AVANS</div>
+        <div class="km-toplam-kutu-etiket">KALAN AVANS</div>
         <div class="km-toplam-kutu-deger" id="avYilKalan">0,00 TL</div>
-        <button type="button" class="av-kutu-btn" id="btnAvMaasaEkle">➕ Maaşa ekle</button>
+        <button type="button" class="av-kutu-btn" id="btnAvMaasaEkle">Maaş hesabına ekle</button>
       </div>
     </section>
 
     <!-- SATIR BAZLI TABLO (02.11.2026, Abdullah onayı — mockup üzerinden, sistem
-         baştan kuruldu): her satır bir avans çekimi. KESİLECEK AVANS = maaş
-         hesabına henüz eklenmemiş (açık) avansların kalanı; kutudaki düğme
-         hepsini maaş hesaplamasına ekler. Veri girişi ayrıntı ekranında. -->
+         baştan kuruldu): her satır bir avans çekimi. KALAN AVANS = TOPLAM −
+         FATURALANAN; kutudaki düğme henüz eklenmemiş avansları maaş hesabına ekler. Veri girişi ayrıntı ekranında. -->
     <div class="data-table-container" id="avYilTabloKutu">
       <table class="data-table km-veri-tablo av-yil-tablo">
         <thead><tr>
@@ -168,15 +167,13 @@
         <tbody id="avYilTabloGovde"></tbody>
       </table>
     </div>
-    <p class="bos-mesaj" id="avYilBos" hidden>Bu yıl için henüz avans kaydı yok.</p>
-    <p style="font-size:11px; color:#8a8f98; margin-top:8px;">↕ Bir satıra dokununca o ayın ayrıntı ekranı (avans ekleme / harcama belgeleme) açılır.</p>
+    <p class="bos-mesaj" id="avYilBos" hidden>Bu dönem için henüz avans kaydı yok.</p>
+    <p style="font-size:11px; color:#8a8f98; margin-top:8px;">↕ Bir satıra dokununca o ayın giriş bölümü aşağıda açılır.</p>
   </div>
 
-  <!-- AYRINTI EKRANI (26.10.2026) — bir aya dokununca açılır; tüm içeriği
-       27.09.2026/02.10.2026 tasarımından AYNEN (değişmeden) taşındı,
-       sadece bu sarmalayıcı ve üstteki "‹ Aylara Dön" düğmesi yeni. -->
-  <div id="avAyrintiGorunumu" hidden>
-  <button type="button" class="av-aylara-don-btn" id="btnAvAylaraDon">‹ Aylara Dön</button>
+  <!-- ALT BÖLÜM (02.11.2026): tablonun altında her zaman görünür; içeriği
+       27.09.2026/02.10.2026 tasarımından aynen taşındı (devir satırları kaldırıldı). -->
+  <div id="avAyrintiGorunumu">
 
   <!-- DÖNEM BARI (27.09.2026 tasarım, 02.10.2026 revize): ‹ › okları
        (veya kaydırarak) ile aya geçilir. "+ Yeni Ay" düğmesi kaldırıldı —
@@ -213,8 +210,6 @@
   <div class="mh-avans-toplam-kutu">
     <div class="mh-sonuc-satir"><span>Özel Avans</span><b id="avToplamOzel">0,00 TL</b></div>
     <div class="mh-sonuc-satir"><span>Kalan İş Avansı</span><b id="avToplamIs">0,00 TL</b></div>
-    <div class="mh-sonuc-satir av-devir-satir" id="avDevirGelenSatir" hidden><span id="avDevirGelenEtiket">↩ Devir (fazla fatura)</span><b id="avDevirGelenDeger">0,00 TL</b></div>
-    <div class="mh-sonuc-satir av-devir-satir av-devir-satir--bilgi" id="avDevirGidenSatir" hidden><span id="avDevirGidenEtiket">↪ Sonraki aya devir</span><b id="avDevirGidenDeger">0,00 TL</b></div>
     <div class="mh-sonuc-satir mh-sonuc-satir--toplam"><span>MAAŞTAN KESİLECEK</span><b id="avToplamGenel">0,00 TL</b></div>
   </div>
 
@@ -283,10 +278,10 @@
 <div class="av-not-overlay" id="avOnayOverlay" hidden>
   <div class="av-dim" id="avOnayDim"></div>
   <div class="av-sheet">
-    <h4>➕ Maaş hesaplamasına ekle</h4>
+    <h4>Maaş hesabına ekle</h4>
     <div class="alt" id="avOnayAlt"></div>
     <div class="av-kapat-liste" id="avOnayListe"></div>
-    <div class="av-sh-uyari">⚠️ Eklenen avanslar maaştan düşülür. Maaş kapanana kadar "↩ Geri al" ile çıkarabilirsin; maaş kapanınca "Maaştan düşüldü" olur ve değiştirilemez.</div>
+    <div class="av-sh-uyari">⚠️ Eklenen avanslar maaştan düşülür ve KİLİTLENİR; geri alınamaz, silinemez. Maaş kapanınca "Maaştan düşüldü" olur.</div>
     <button type="button" class="av-sh-btn" id="btnAvOnayla">✓ Evet, maaşa ekle</button>
     <button type="button" class="av-sh-iptal" id="btnAvOnayVazgec">Vazgeç</button>
   </div>
@@ -305,8 +300,8 @@
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="ust-bar-davranis.js?v=TKP.01.11.26-18:36.1334"></script>
 <script src="maas-kayit-data.js?v=WG.271026.2238.1125"></script>
-<script src="avans-kayit-data.js?v=TKP.02.11.26-18:34.1425"></script>
-<script src="avans-takibi-render.js?v=TKP.02.11.26-18:34.1426"></script>
+<script src="avans-kayit-data.js?v=TKP.02.11.26-19:04.1429"></script>
+<script src="avans-takibi-render.js?v=TKP.02.11.26-19:04.1430"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->

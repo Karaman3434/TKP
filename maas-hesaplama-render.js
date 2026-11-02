@@ -1,5 +1,5 @@
 /*
-  maas-hesaplama-render.js — TKP.02.11.26-18:34.1428
+  maas-hesaplama-render.js — TKP.02.11.26-19:04.1432
   ==========================================================
   MAAŞ HESAPLAMA (ÖZET) sayfası — 27.09.2026 mimari bölünmesi. Bu sayfa
   artık kendi Brüt Sabit Maaş / Brüt Prim hesaplamasını yapmıyor; Net
@@ -63,12 +63,10 @@ function mhDuzenlemeGorunurlugunuAyarla(gorunurMu){
 // gösteriliyor ve iki sayfa birbirini tutmuyordu. Açık dönem için TEK
 // doğru kaynak her zaman canlı taslaktır.
 function mhAvansCanliOku(ay, yil){
-  // Tek hesap noktası: AvansKayitData.taslakDevirli — önceki aydan gelen
-  // "fazla faturalandırma" devri (02.11.2026) dahil, etkin değerleri verir.
+  // Tek hesap noktası: AvansKayitData.taslakDevirli (devir YOK — 02.11.2026'da kaldırıldı).
   var d = AvansKayitData.taslakDevirli(ay, yil);
   return {
-    ozelToplam: d.ozelToplam, isKesilecek: d.isKesilecek, toplamKesinti: d.toplamKesinti,
-    devirGelen: d.devirGelen, devirDusen: d.devirDusen, devirGiden: d.devirGiden, devirKaynak: d.devirKaynak
+    ozelToplam: d.ozelToplam, isKesilecek: d.isKesilecek, toplamKesinti: d.toplamKesinti
   };
 }
 
@@ -303,14 +301,8 @@ document.addEventListener("DOMContentLoaded", function(){
       ozelAvansToplam: h.avans.ozelToplam,
       isAvansiBelgesizKalan: h.avans.isKesilecek,
       toplamKesinti: h.avans.toplamKesinti,
-      // Devir (fazla faturalandırma) değerleri kayda yazılır: maaşa dahil edilen
-      // kayıt "yerleşik" olur, sonradan zincir değişse bile bu değerler sabit kalır.
-      devirGelen: h.avans.devirGelen || 0,
-      devirDusen: h.avans.devirDusen || 0,
-      devirGiden: h.avans.devirGiden || 0,
       kayitZamani: Date.now()
     };
-    if(h.avans.devirKaynak) avansKayitObj.devirKaynak = h.avans.devirKaynak;
     AvansKayitData.kaydet(avansKayitObj, function(basariliAv, errAv){
       if(!basariliAv){ document.getElementById("btnAyiKayitEt").disabled=false; alert("Avans Takibi kapatılamadı: " + (errAv && errAv.message)); return; }
       // Maaşa eklenmiş avans satırları (maasa işareti) kayıtla birlikte

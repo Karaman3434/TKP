@@ -1,5 +1,5 @@
 /*
-  avans-takibi-render.js — TKP.02.11.26-18:34.1426
+  avans-takibi-render.js — TKP.02.11.26-19:04.1430
   ========================
   26.10.2026 (Abdullah onayı, mockup üzerinden: "Okey kesinlikle bu
   tasarımı istiyorum kodlayalım") — sayfaya girince ÖNCE "{yıl} — Avans
@@ -14,9 +14,20 @@
   de ekliyor) — yeni bir veri alanı eklemeye gerek kalmadı. Bir aya
   dokununca ESKİ/mevcut ayrıntı ekranı (AVANS EKLE/HARCAMALAR formları
   ya da kapalı dönem özeti — hiçbiri değişmedi) açılır (bkz.
-  avGorunumAylara/avGorunumAyrinti). Eski "GEÇMİŞ AVANSLAR" tablosu
+  avDonemeGec). Eski "GEÇMİŞ AVANSLAR" tablosu
   (avGecmisAvanlarCiz) kaldırıldı — yeni yıllık tablo onun yerini daha
   zengin bilgiyle aldı.
+  ========================
+  02.11.2026 (Abdullah onayı: "Tmm kodlayalım onaylıyorum") — TEK SAYFA:
+  üstte kutular + satır tablosu, ALTINDA (ince çizgiyle ayrılmış) ayın giriş
+  bölümü (ay çubuğu, özet, AVANS EKLE, HARCAMALAR) — ayrı görünüm ve
+  "‹ Aylara Dön" yok. Tabloda bir satıra dokununca alt bölüm o satırın ayına
+  geçer ve oraya kaydırılır. 3. kutu "KALAN AVANS" = TOPLAM − FATURALANAN.
+  "Maaş hesabına ekle" ile eklenen satırlar KALICI KİLİTLİ ("↩ Geri al" yok).
+  Maaş "GEÇERLİ AYIN HESABI KAPANDI" ile kapanınca tablo SIFIRDAN başlar:
+  sadece yeni açık dönemin satırları görünür (AvansKayitData.satirlarAcikDonem),
+  eski veriler Firebase'de durur. DEVİR (fazla faturalandırmanın sonraki aya
+  taşınması) tamamen kaldırıldı.
   ========================
   Özel Avans / İş Avansı / İş Avansı Harcamaları listelerini yönetir.
   Dönem artık ‹ › okları (veya kaydırarak) tek tek ay adımıyla değişir
@@ -131,7 +142,7 @@ function avListeCiz(){
     return "<tr><td>" + etiket + "</td><td>" + fmtTarihKisa_AV(h.tarih) + "</td>"
       + "<td>" + htmlEsc_AV(h.aciklama) + "</td><td>" + fmtTL_AV(h.tutar) + "</td>"
       + "<td>" + (h.maasa
-        ? "<span title='Maaş hesabına eklendi — Avans Tablosu'dan geri alınınca silinebilir'>🔒</span>"
+        ? "<span title='Maaş hesabına eklendi — kalıcı kilitli, silinemez'>🔒</span>"
         : "<button type='button' class='mh-harcama-sil-btn' data-tip='" + h.tip + "' data-idx='" + h.idx + "'>🗑</button>") + "</td></tr>";
   }).join("");
   document.getElementById("avListeBos").hidden = birlesik.length > 0;
@@ -201,26 +212,6 @@ function avDuzenlemeGorunurlugunuAyarla(gorunurMu){
   document.getElementById("btnAvKapaliKaydiSil").hidden = gorunurMu;
 }
 
-// Ayrıntı ekranındaki "MAAŞTAN KESİLECEK" kutusunun devir satırları.
-// dv: {devirDusen, devirGiden, kaynak:{ay,yil}|null}; ay: görüntülenen ay.
-function avDevirKutusuGuncelle(dv, ay){
-  var gelen = document.getElementById("avDevirGelenSatir");
-  var giden = document.getElementById("avDevirGidenSatir");
-  if(!gelen || !giden) return;
-  var dusen = (dv && dv.devirDusen) || 0, gid = (dv && dv.devirGiden) || 0;
-  gelen.hidden = !(dusen > 0);
-  giden.hidden = !(gid > 0);
-  if(dusen > 0){
-    var kay = dv.kaynak ? AY_AYRILMA_AV[dv.kaynak.ay] : "Önceki aylardan";
-    document.getElementById("avDevirGelenEtiket").textContent = "↩ " + kay + " devir (fazla fatura)";
-    document.getElementById("avDevirGelenDeger").textContent = "− " + fmtTL_AV(dusen);
-  }
-  if(gid > 0){
-    document.getElementById("avDevirGidenEtiket").textContent = "↪ " + avSonrakiAyAdi(ay) + " avansından düşülür (fazla fatura)";
-    document.getElementById("avDevirGidenDeger").textContent = fmtTL_AV(gid);
-  }
-}
-
 function avKapaliGoster(k){
   avDuzenlemeGorunurlugunuAyarla(false);
   // Maaş hesabına eklenmiş avansı olan (ya da eski sistemde maaşa dahil edilmiş)
@@ -230,13 +221,11 @@ function avKapaliGoster(k){
   document.getElementById("avKapaliSeritBaslik").textContent = "🔒 Bu dönem kapatılmış (salt okunur) —";
   document.getElementById("avKapaliSeritAlt").textContent = kilitli ? "maaşa eklenmiş avans var, silinemez" : "silmek için dokun";
   document.getElementById("avToplamOzel").textContent = fmtTL_AV(k.ozelAvansToplam||0);
-  var dvK = AvansKayitData.devirBilgisi(k.anahtar);
+  var dvK = AvansKayitData.donemOzeti(k.anahtar);
   var kalanK = dvK ? dvK.kalan : (k.toplamKesinti||0);
-  // Kalan İş Avansı: devir düşülmeden önceki (ham) değer; devir satırı ayrıca gösterilir.
   var isHam = (k.isAvansiGirisleri || k.isAvansiHarcamalar) ? avToplamlariHesapla(k).isKesilecek : (k.isAvansiBelgesizKalan||0);
   document.getElementById("avToplamIs").textContent = fmtTL_AV(isHam);
   document.getElementById("avToplamGenel").textContent = fmtTL_AV(Math.max(0, kalanK));
-  avDevirKutusuGuncelle(dvK, k.ay);
   document.getElementById("btnAvKapaliKaydiSil").setAttribute("data-anahtar", k.anahtar);
 }
 
@@ -297,10 +286,8 @@ function avCiz(){
   document.getElementById("avIsToplam2").textContent = fmtTL_AV(t.isToplam);
   document.getElementById("avOzelToplam2").textContent = fmtTL_AV(t.ozelToplam);
   document.getElementById("avToplamOzel").textContent = fmtTL_AV(t.ozelToplam);
-  var dvC = AvansKayitData.taslakDevirli(avSeciliAy, avSeciliYil, avOzelListe, avIsListe, avHarcamaListe);
   document.getElementById("avToplamIs").textContent = fmtTL_AV(t.isKesilecek);
-  document.getElementById("avToplamGenel").textContent = fmtTL_AV(dvC.toplamKesinti);
-  avDevirKutusuGuncelle({devirDusen: dvC.devirDusen, devirGiden: dvC.devirGiden, kaynak: dvC.devirKaynak}, avSeciliAy);
+  document.getElementById("avToplamGenel").textContent = fmtTL_AV(t.toplamKesinti);
 }
 
 // ============================================================
@@ -311,15 +298,14 @@ function avCiz(){
 // AvansKayitData.satirlar). Satır durumları için bkz. avans-kayit-data.js.
 // ============================================================
 
-// Tabloda gösterilecek satırlar: açık dönemin yılı + önceki yıllardan kalan AÇIK avanslar.
+// Tabloda gösterilecek satırlar: SADECE açık maaş dönemi (ve sonrası). Maaş
+// kapanınca eski dönemlerin satırları burada görünmez, hesaba girmez
+// (Firebase'de durur) — tablo yeni dönemle sıfırdan başlar.
 function avYilVerisiHesapla(){
   var acik = MaasKayitData.acikDonem();
-  var yil = acik.yil;
   var acikAnahtar = acik.yil + "-" + ("0"+acik.ay).slice(-2);
-  var satirlar = AvansKayitData.satirlar().filter(function(r){
-    return r.yil === yil || r.durum === "acik";
-  });
-  return {yil: yil, acikAnahtar: acikAnahtar, satirlar: satirlar};
+  var satirlar = AvansKayitData.satirlarAcikDonem(acik.ay, acik.yil);
+  return {ay: acik.ay, yil: acik.yil, acikAnahtar: acikAnahtar, satirlar: satirlar};
 }
 
 // "2026-10" -> {kisa:"Eki", uzun:"Ekim 2026", ay:"Ekim"}
@@ -329,13 +315,6 @@ function avHedefMetni(hedef){
   if(!AY_ADLARI_AV[a]) return {kisa:"?", uzun:"?", ay:"?"};
   return {kisa: AY_ADLARI_AV[a].slice(0,3), uzun: AY_ADLARI_AV[a] + " " + p[0], ay: AY_ADLARI_AV[a]};
 }
-
-// Türkçe "-de/-da" hâli (Eylül'de, Ağustos'ta …) — devir satırı metinleri için.
-var AY_BULUNMA_AV = ["","Ocak'ta","Şubat'ta","Mart'ta","Nisan'da","Mayıs'ta","Haziran'da","Temmuz'da","Ağustos'ta","Eylül'de","Ekim'de","Kasım'da","Aralık'ta"];
-// "-den/-dan" hâli (Eylül'den, Ağustos'tan …) — ayrıntı kutusu etiketi için.
-var AY_AYRILMA_AV = ["","Ocak'tan","Şubat'tan","Mart'tan","Nisan'dan","Mayıs'tan","Haziran'dan","Temmuz'dan","Ağustos'tan","Eylül'den","Ekim'den","Kasım'dan","Aralık'tan"];
-// Sonraki takvim ayının adı (Ekim → Kasım, Aralık → Ocak).
-function avSonrakiAyAdi(ay){ return AY_ADLARI_AV[ay >= 12 ? 1 : ay + 1]; }
 
 function fmtSayi_AV(n){
   return (n||0).toLocaleString("tr-TR", {minimumFractionDigits:2, maximumFractionDigits:2});
@@ -348,25 +327,10 @@ function avSatirSinifi(r){
   return "av-r--notr";
 }
 
-// Bir ayın devir (fazla faturalandırma) satırları — ayın en yeni satırının altında, mavi.
-function avDevirSatirlari(d, sinif){
-  var satirlar = [];
-  var cls = "av-alt av-r av-devir " + sinif;
-  var rozet = "<span class='av-devir-rozet'>DEVİR</span>";
-  if(d.devirDusen > 0){
-    var kaynak = d.kaynakGelen ? AY_BULUNMA_AV[d.kaynakGelen.ay] : "Önceki aylarda";
-    satirlar.push({cls: cls, html: rozet + "↩ " + kaynak + " <b>" + fmtTL_AV(d.devirDusen) + "</b> fazla faturalandırdın — bu ayın kalanından düşüldü"});
-  }
-  if(d.devirGiden > 0){
-    satirlar.push({cls: cls, html: rozet + "↪ <b>" + fmtTL_AV(d.devirGiden) + "</b> fazla faturalandırdın — " + avSonrakiAyAdi(d.ay) + " avansından düşülür"});
-  }
-  return satirlar;
-}
-
 function avAltSatirHtml(r){
   if(r.durum === "eklendi"){
     return {cls: "av-alt av-r av-r--yesil",
-      html: "<span>✓ Hesaba eklendi · " + avHedefMetni(r.hedef).ay + " maaşı</span><span class='av-geri' data-geri='" + htmlEsc_AV(r.id) + "'>↩ Geri al</span>"};
+      html: "<span>✓ Hesaba eklendi · " + avHedefMetni(r.hedef).ay + " maaşı</span>"};
   }
   if(r.durum === "dusuldu"){
     return {cls: "av-alt av-r av-r--biti", html: "<span>✓ Maaştan düşüldü · " + avHedefMetni(r.hedef).ay + " maaşı</span>"};
@@ -374,11 +338,10 @@ function avAltSatirHtml(r){
   return null;
 }
 
-// Bir satırın tüm <tr>'leri (ana + devir + durum). ilk/son sınıfları çerçeve içindir.
-function avSatirHtml(r, devirKutusu){
+// Bir satırın tüm <tr>'leri (ana + durum). ilk/son sınıfları çerçeve içindir.
+function avSatirHtml(r){
   var sinif = avSatirSinifi(r);
   var alt = [];
-  if(devirKutusu) alt = alt.concat(avDevirSatirlari(devirKutusu, sinif));
   var durumSatiri = avAltSatirHtml(r);
   if(durumSatiri) alt.push(durumSatiri);
   var veri = " data-ay='" + r.ay + "' data-yil='" + r.yil + "' data-id='" + htmlEsc_AV(r.id) + "'";
@@ -398,61 +361,43 @@ function avYilTabloCiz(){
   if(!govde) return;
   var kutu = document.getElementById("avYilTabloKutu");
   var bos = document.getElementById("avYilBos");
-  var ozetKutular = document.getElementById("avYilOzetKutular");
 
   var veri = avYilVerisiHesapla();
-  document.getElementById("avYilBaslik").textContent = veri.yil + " — Avans Tablosu";
+  document.getElementById("avYilBaslik").textContent = AY_ADLARI_AV[veri.ay] + " " + veri.yil + " — Avans Tablosu";
 
-  if(!veri.satirlar.length){
-    kutu.hidden = true;
-    ozetKutular.hidden = true;
-    bos.hidden = false;
-    return;
-  }
-  kutu.hidden = false;
-  ozetKutular.hidden = false;
-  bos.hidden = true;
+  var bosMu = !veri.satirlar.length;
+  kutu.hidden = bosMu;
+  bos.hidden = !bosMu;
 
-  // Devir satırları her ayın EN YENİ satırının altında bir kez gösterilir.
-  var devirGosterildi = {};
-  var html = veri.satirlar.map(function(r, i){
-    var d = null;
-    if(!devirGosterildi[r.anahtar]){
-      devirGosterildi[r.anahtar] = true;
-      var dv = AvansKayitData.devirBilgisi(r.anahtar);
-      if(dv && (dv.devirDusen > 0 || dv.devirGiden > 0)){
-        d = {ay: r.ay, devirDusen: dv.devirDusen, devirGiden: dv.devirGiden, kaynakGelen: dv.kaynak};
-      }
-    }
-    return avSatirHtml(r, d) + (i < veri.satirlar.length - 1 ? "<tr class='av-bosluk'><td colspan='4'></td></tr>" : "");
-  });
-  govde.innerHTML = html.join("");
+  govde.innerHTML = veri.satirlar.map(function(r, i){
+    return avSatirHtml(r) + (i < veri.satirlar.length - 1 ? "<tr class='av-bosluk'><td colspan='4'></td></tr>" : "");
+  }).join("");
 
-  // TOPLAM AVANS / FATURALANAN sadece o yılın satırlarından; KESİLECEK AVANS
-  // maaş hesabına henüz eklenmemiş (açık) tüm avansların kalanıdır (önceki
-  // yıldan kalan açıklar dahil) — kutudaki düğme tam bunu ekler.
-  var toplam = 0, fatura = 0, acikKalan = 0, acikSayi = 0;
+  // KUTULAR: TOPLAM AVANS ve FATURALANAN görünen satırların toplamı;
+  // KALAN AVANS = TOPLAM − FATURALANAN. Kutudaki düğme henüz eklenmemiş
+  // (açık) satırları maaş hesabına ekler.
+  var toplam = 0, fatura = 0, acikSayi = 0, eklenmisSayi = 0;
   veri.satirlar.forEach(function(r){
-    if(r.yil === veri.yil){ toplam += r.tutar; fatura += r.faturalanan; }
-    if(r.durum === "acik"){ acikKalan += r.kalan; acikSayi++; }
+    toplam += r.tutar; fatura += r.faturalanan;
+    if(r.durum === "acik") acikSayi++;
+    if(r.durum === "eklendi" || r.durum === "dusuldu") eklenmisSayi++;
   });
   document.getElementById("avYilCekilen").textContent = fmtTL_AV(toplam);
   document.getElementById("avYilFatura").textContent = fmtTL_AV(fatura);
-  document.getElementById("avYilKalan").textContent = fmtTL_AV(acikKalan);
+  document.getElementById("avYilKalan").textContent = fmtTL_AV(Math.max(0, toplam - fatura));
 
   var btn = document.getElementById("btnAvMaasaEkle");
   if(btn){
     btn.disabled = !acikSayi;
-    btn.textContent = acikSayi ? "➕ Maaşa ekle" : "✓ Hepsi eklendi";
+    btn.textContent = (!acikSayi && eklenmisSayi) ? "✓ Eklendi" : "Maaş hesabına ekle";
   }
 
+  // Satıra dokununca alt bölüm o satırın ayına geçer ve oraya kaydırılır.
   govde.querySelectorAll("tr[data-id]").forEach(function(tr){
-    tr.onclick = function(ev){
-      // "↩ Geri al" ayrıntıyı AÇMAZ; avansı maaş hesabından çıkarır (maaş kapanmadıysa).
-      var geri = ev.target.closest("[data-geri]");
-      if(geri){ ev.stopPropagation(); avGeriAl(geri.getAttribute("data-geri")); return; }
+    tr.onclick = function(){
       avDonemeGec(parseInt(this.getAttribute("data-ay"), 10), parseInt(this.getAttribute("data-yil"), 10));
-      avGorunumAyrinti();
+      var hedef = document.getElementById("avAyrintiGorunumu");
+      if(hedef && hedef.scrollIntoView) hedef.scrollIntoView({behavior: "smooth", block: "start"});
     };
   });
 }
@@ -464,7 +409,7 @@ function avToastGoster(metin){
   setTimeout(function(){ el.hidden = true; }, 2200);
 }
 
-// "➕ MAAŞA EKLE": tüm AÇIK avanslar için önce onay penceresi (satır listesi +
+// "MAAŞ HESABINA EKLE": tüm AÇIK avanslar için önce onay penceresi (satır listesi +
 // toplam) açılır; onaylanınca hepsi açık maaş dönemine eklenir.
 function avOnayPenceresiAc(){
   var veri = avYilVerisiHesapla();
@@ -495,27 +440,6 @@ function avOnayla(){
     avToastGoster("✓ " + (sayi || 0) + " avans maaş hesabına eklendi");
   });
 }
-function avGeriAl(id){
-  if(!confirm("Bu avansı maaş hesabından çıkarayım mı?")) return;
-  AvansKayitData.maastanGeriAl(id, function(ok, err){
-    if(!ok){ alert("Geri alınamadı: " + (err && err.message)); return; }
-    avYilTabloCiz();
-    avToastGoster("↩ Avans maaş hesabından çıkarıldı");
-  });
-}
-
-// GÖRÜNÜM GEÇİŞİ (26.10.2026) — iniş ekranı (yıllık tablo) ↔ ayrıntı
-// ekranı (AVANS EKLE/HARCAMALAR formları ya da kapalı dönem özeti).
-function avGorunumAylara(){
-  document.getElementById("avTabloGorunumu").hidden = false;
-  document.getElementById("avAyrintiGorunumu").hidden = true;
-  avYilTabloCiz();
-}
-function avGorunumAyrinti(){
-  document.getElementById("avTabloGorunumu").hidden = true;
-  document.getElementById("avAyrintiGorunumu").hidden = false;
-}
-
 // EXCEL'E AKTAR (26.10.2026) — yillik-km-odeme-render.js'teki
 // excelAktar() ile AYNI biçimlendirme kuralları (başlık FAEEDA/003A70,
 // kenarlıklar, TOPLAM satırı kırmızı/kalın).
@@ -529,9 +453,8 @@ function avYilExcelAktar(){
     if(!veri.satirlar.length){ hataGoster("Aktarılacak avans kaydı yok."); return; }
 
     var basliklar = ["Tarih","Açıklama","Avans","Faturalandırılan","Kalan","Durum"];
-    // Sadece bu yılın satırları (önceki yıldan kalan açıklar tabloda görünür
-    // ama yıllık Excel/toplam dışında tutulur); eskiden yeniye.
-    var siraliSatirlar = veri.satirlar.filter(function(r){ return r.yil === veri.yil; }).reverse();
+    // Tabloda görünen satırlar (açık dönem); eskiden yeniye.
+    var siraliSatirlar = veri.satirlar.slice().reverse();
     function durumMetni(r){
       if(r.durum === "acik") return "Açık";
       if(r.durum === "eklendi") return "Hesaba eklendi — " + avHedefMetni(r.hedef).ay + " maaşı";
@@ -577,8 +500,8 @@ function avYilExcelAktar(){
     }
 
     var wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Avans " + veri.yil);
-    XLSX.writeFile(wb, "Avans_Tablosu_" + veri.yil + ".xlsx");
+    XLSX.utils.book_append_sheet(wb, ws, "Avans " + AY_ADLARI_AV[veri.ay] + " " + veri.yil);
+    XLSX.writeFile(wb, "Avans_Tablosu_" + veri.yil + "_" + ("0"+veri.ay).slice(-2) + ".xlsx");
   }catch(e){ hataGoster("Excel oluşturulamadı: " + e.message); }
 }
 
@@ -605,10 +528,8 @@ document.addEventListener("DOMContentLoaded", function(){
   // yanlış ay hesaplayabiliyordu (bkz. avans-kayit-data.js). Hem kayıtlar
   // hem taslak gelene kadar bekleriz; gelince aşağıdaki degistiginde
   // dinleyicisi ilk (ve sadece ilk) geçişi yapar.
-  // DEĞİŞTİ (26.10.2026): artık sayfa açılır açılmaz açık döneme
-  // OTOMATİK GEÇİLMİYOR — önce yıllık tablo (iniş ekranı) gösteriliyor,
-  // bir aya dokununca avDonemeGec() çağrılıyor (bkz. avYilTabloCiz).
-  // Burada sadece veri geldiğinde giriş kilidini kaldırıp tabloyu çiziyoruz.
+  // DEĞİŞTİ (02.11.2026, tek sayfa): veri gelince tablo çizilir ve alt bölüm
+  // açık döneme geçer; bir satıra dokununca alt bölüm o satırın ayına geçer.
   var avIlkGecisYapildiMi = false;
   function avIlkGecisiDeneVeYap(){
     if(avIlkGecisYapildiMi) return;
@@ -618,11 +539,13 @@ document.addEventListener("DOMContentLoaded", function(){
     avIlkGecisYapildiMi = true;
     avYuklemeKilidiniAc();
     avYilTabloCiz();
+    // TEK SAYFA: alt bölüm açılışta açık dönemi gösterir.
+    var acikD = MaasKayitData.acikDonem();
+    avDonemeGec(acikD.ay, acikD.yil);
   }
   avIlkGecisiDeneVeYap();
 
   document.getElementById("btnAvExcel").onclick = avYilExcelAktar;
-  document.getElementById("btnAvAylaraDon").onclick = avGorunumAylara;
   document.getElementById("btnAvMaasaEkle").onclick = avOnayPenceresiAc;
   document.getElementById("btnAvOnayla").onclick = avOnayla;
   document.getElementById("btnAvOnayVazgec").onclick = avOnayPenceresiKapat;
