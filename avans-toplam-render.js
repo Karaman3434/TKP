@@ -1,5 +1,5 @@
 /*
-  avans-toplam-render.js — TKP.02.11.26-19:35.1440
+  avans-toplam-render.js — TKP.02.11.26-19:45.1442
   ========================
   AVANS TOPLAM (02.11.2026, Abdullah onayı — mockup üzerinden). Avans Takibi
   sayfasının üstündeki kutular + satır tablosu buraya taşındı:
@@ -173,7 +173,7 @@ function avOnayPenceresiAc(){
   var html = secilenler.map(function(r){
     toplam += r.kalan;
     return "<div><span>" + htmlEsc_AV(fmtTarihKisa_AV(r.tarih) + (r.tip === "ozel" ? " · Özel" : "")) + "</span><span>" + fmtTL_AV(r.kalan) + "</span></div>";
-  }).join("") + "<div><span>Maaştan düşülecek</span><span>" + fmtTL_AV(toplam) + "</span></div>";
+  }).join("") + "<div><span>Maaştan düşülecek</span><span>" + fmtTL_AV(Math.max(0, toplam)) + "</span></div>";
   document.getElementById("avOnayAlt").textContent = AY_ADLARI_AV[acik.ay] + " " + acik.yil + " maaş hesabına eklenecek";
   document.getElementById("avOnayListe").innerHTML = html;
   document.getElementById("avOnayOverlay").hidden = false;

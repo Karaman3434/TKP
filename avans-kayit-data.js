@@ -1,5 +1,5 @@
 /*
-  avans-kayit-data.js — TKP.02.11.26-19:35.1439
+  avans-kayit-data.js — TKP.02.11.26-19:45.1441
   =====================
   "Avans Takibi" sayfasının verisini tutar — Maaş Hesaplama sayfasından
   AYRI, kendi açık dönem/kapatma döngüsüne sahiptir.
@@ -245,12 +245,27 @@ var AvansKayitData = (function(){
       havuz -= f;
       fHaritasi[x.i] = {f: f, kalan: tutar - f};
     });
+    // AVANSTAN FAZLA BELGE (02.11.2026, Abdullah onayı: "fazlayı diğer ayların
+    // kalanından düş"): artan harcama o ayın EN YENİ (dondurulmamış) iş avansı
+    // satırına eklenir — Faturalandırılan gerçek belge toplamını gösterir, Kalan
+    // NEGATİF olur; toplamlar (Toplam − Faturalanan) böylece diğer ayların
+    // kalanından otomatik düşer. Sonraki aya devir/taşıma YOK.
+    if(!eski && havuz > 0.005){
+      for(var si = sira.length - 1; si >= 0; si--){
+        var xi = sira[si];
+        if(xi.e && xi.e.maasa) continue;
+        fHaritasi[xi.i].f += havuz;
+        fHaritasi[xi.i].kalan -= havuz;
+        havuz = 0;
+        break;
+      }
+    }
     var satirlar = [];
     function ekle(tip, e, i, f, kalan){
       var durum = "acik", hedef = "";
       if(eski){ durum = "dusuldu"; hedef = v.maasaDahilEdildigiDonem; }
       else if(e && e.maasa){ hedef = e.maasa.donem || ""; durum = maasKapali[hedef] ? "dusuldu" : "eklendi"; }
-      else if(kalan <= 0.005){ durum = "tam"; }
+      else if(Math.abs(kalan) <= 0.005){ durum = "tam"; }
       satirlar.push({
         id: m.anahtar + "|" + tip + "|" + i,
         anahtar: m.anahtar, kaynak: m.kaynak, ay: c.ay, yil: c.yil,
@@ -267,7 +282,9 @@ var AvansKayitData = (function(){
       ekle("ozel", e, i, 0, (!eski && e && e.maasa) ? (e.maasa.kalan || 0) : t);
     });
     var kalanToplam = 0, isKesilecek = 0;
-    satirlar.forEach(function(r){ kalanToplam += r.kalan; if(r.tip === "is") isKesilecek += r.kalan; });
+    // Dönem özeti (kapanış kaydı / Maaş Hesaplama için) negatif satırı SAYMAZ (0'a sabitlenir);
+    // fazla belge mahsubu sadece Avans Toplam'daki satır/toplamlarda ve maaşa eklemede görünür.
+    satirlar.forEach(function(r){ var k = Math.max(0, r.kalan); kalanToplam += k; if(r.tip === "is") isKesilecek += k; });
     return {
       anahtar: m.anahtar, ay: c.ay, yil: c.yil, kaynak: m.kaynak, yerlesik: eski,
       satirlar: satirlar,
@@ -371,7 +388,7 @@ var AvansKayitData = (function(){
     var anahtar = anahtarOlustur(ay, yil);
     var tum = satirlarAcikDonem(ay, yil);
     var ek = tum.filter(function(r){
-      return r.hedef === anahtar && (r.durum === "eklendi" || r.durum === "dusuldu") && r.kalan > 0;
+      return r.hedef === anahtar && (r.durum === "eklendi" || r.durum === "dusuldu") && Math.abs(r.kalan) > 0.005;
     });
     var toplam = 0, gorulen = {}, aylar = [];
     ek.forEach(function(r){
@@ -379,8 +396,9 @@ var AvansKayitData = (function(){
       if(!gorulen[r.anahtar]){ gorulen[r.anahtar] = true; aylar.push({ay: r.ay, yil: r.yil, anahtar: r.anahtar}); }
     });
     aylar.sort(function(a, b){ return b.anahtar.localeCompare(a.anahtar); });
+    if(toplam < 0) toplam = 0; // fazla belge mahsubu kesintiyi en fazla 0'a indirir
     var acik = tum.filter(function(r){ return r.durum === "acik"; });
-    var bekleyenToplam = acik.reduce(function(s, r){ return s + r.kalan; }, 0);
+    var bekleyenToplam = Math.max(0, acik.reduce(function(s, r){ return s + r.kalan; }, 0));
     return {
       anahtar: anahtar, toplam: toplam, adet: ek.length, eklenenler: ek, aylar: aylar,
       bekleyenSayisi: acik.length, bekleyenToplam: bekleyenToplam
