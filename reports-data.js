@@ -1,5 +1,5 @@
 /*
-  reports-data.js — WG.301026.0831.1237
+  reports-data.js — TKP.02.11.26-11:48.1389
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -52,6 +52,7 @@ var ReportsData = (function(){
             else if(!Array.isArray(arsiv[t])) arsiv[t] = Object.values(arsiv[t]);
           });
         }
+        canliSehirUygula();
         sonIslemlerOnbellek = null;
         arsivDinleyicileri.forEach(function(fn){ fn(); });
       });
@@ -63,6 +64,35 @@ var ReportsData = (function(){
       });
     }catch(e){
       console.error("Firebase başlatma hatası:", e);
+    }
+  }
+
+  // CANLI ŞEHİR/İLÇE (02.11.2026, Abdullah onayı): arşiv kayıtları şehri
+  // oluşturulma anında KOPYA olarak saklar (k.sehir). Müşteri kartında şehir
+  // düzeltilince bu kopya eski kalıyor, Son İşlemler/Kaçan Satışlar/Satış
+  // Listesi/Bildirimler gibi listeler eski metni gösteriyordu. Burada her
+  // kayıttaki k.sehir, müşterinin GÜNCEL şehriyle değiştirilir (müşteri ID
+  // ile, yoksa isimle bulunur; bulunamazsa kayıttaki kopya KALIR). Böylece
+  // k.sehir okuyan TÜM ekranlar tek noktadan güncel değeri görür. Dönen
+  // değer: en az bir kayıt değiştiyse true.
+  function canliSehirUygula(){
+    if(typeof CustomerData === "undefined" || !CustomerData.sehirBul) return false;
+    var degisti = false;
+    ["numune","teklif","proforma","siparis"].forEach(function(t){
+      (arsiv[t]||[]).forEach(function(k){
+        if(!k) return;
+        var s = CustomerData.sehirBul(k.musteriId, k.musteri, null);
+        if(s !== null && s !== k.sehir){ k.sehir = s; degisti = true; }
+      });
+    });
+    return degisti;
+  }
+  // Müşteri listesi her güncellendiğinde customer-data.js çağırır; şehir
+  // gerçekten değiştiyse önbellek temizlenir ve listeler yeniden çizilir.
+  function musteriBilgisiDegisti(){
+    if(canliSehirUygula()){
+      sonIslemlerOnbellek = null;
+      arsivDinleyicileri.forEach(function(fn){ fn(); });
     }
   }
 
@@ -697,6 +727,7 @@ var ReportsData = (function(){
   return {
     baslat: baslat,
     arsivDegistiginde: arsivDegistiginde,
+    musteriBilgisiDegisti: musteriBilgisiDegisti,
     gorevDegistiginde: gorevDegistiginde,
     sonIslemler: sonIslemler,
     musterininAcikBelgesi: musterininAcikBelgesi,

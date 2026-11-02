@@ -1,5 +1,5 @@
 /*
-  customer-data.js — WG.011126.0821.1243
+  customer-data.js — TKP.02.11.26-11:48.1388
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -28,6 +28,11 @@ var CustomerData = (function(){
       db.ref("musteriler").on("value", function(snap){
         var data = snap.val();
         liste = data ? (Array.isArray(data) ? data.filter(Boolean) : Object.values(data)) : [];
+        // CANLI MÜŞTERİ BİLGİSİ (02.11.2026, Abdullah onayı): müşteri kartında
+        // şehir/ilçe değişince, işlem kayıtlarının eski kopyası yerine GÜNCEL
+        // değer tüm listelerde görünsün diye ReportsData bilgilendirilir
+        // (sadece şehir gerçekten değiştiyse listeleri yeniden çizdirir).
+        try{ if(typeof ReportsData !== "undefined" && ReportsData.musteriBilgisiDegisti) ReportsData.musteriBilgisiDegisti(); }catch(e){}
         dinleyiciler.forEach(function(fn){ fn(); });
       }, function(err){
         console.error("Müşteri okuma hatası:", err);
@@ -74,6 +79,17 @@ var CustomerData = (function(){
   // Kalıcı ID ile arama — isim değişse/yazım farklı olsa bile doğru
   // müşteriyi bulur. musteriId kayıtlı olan her yerde isim aramasından
   // ÖNCELİKLİ kullanılmalı (06.09.2026, ID standardizasyonu).
+  // CANLI ŞEHİR/İLÇE (02.11.2026, Abdullah onayı): işlem kayıtları (sipariş,
+  // teklif...) oluşturuldukları andaki şehir metnini KOPYA olarak saklar;
+  // müşteri kartında şehir düzeltilince o kopya eski kalıyordu. Artık
+  // listeler/ekranlar şehri BURADAN, müşterinin GÜNCEL kaydından alır:
+  // önce kalıcı ID ile, yoksa isimle bulur. Müşteri bulunamazsa (veya liste
+  // henüz yüklenmediyse) yedek değeri (kayıttaki kopya) döner.
+  function sehirBul(musteriId, musteriAd, yedek){
+    var m = musteriId ? liste.find(function(x){ return x.id === musteriId; }) : null;
+    if(!m && musteriAd) m = musteriBul(musteriAd);
+    return m ? (m.sehir || "") : (yedek === undefined ? null : yedek);
+  }
   function musteriIdIleBul(id){
     if(!id) return null;
     return liste.find(function(m){ return m.id === id; }) || null;
@@ -919,6 +935,7 @@ var CustomerData = (function(){
     ilKoduEkleGuncelle: ilKoduEkleGuncelle,
     ilKoduSil: ilKoduSil,
     musteriIdIleBul: musteriIdIleBul,
+    sehirBul: sehirBul,
     idleriStandartlastir: idleriStandartlastir,
     yaziminiDuzelt: yaziminiDuzelt,
     arsivMusteriIdGuncelle: arsivMusteriIdGuncelle,
