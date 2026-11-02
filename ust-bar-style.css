@@ -1,5 +1,10 @@
-/* İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-17:54.1333 — ust-bar-style.css
+/* İŞ TAKİP V2 — VERSİYON: TKP.02.11.26-09:58.1360 — ust-bar-style.css
    ===========================================================================
+   GÜNCELLEME (02.11.2026, 09:58, Abdullah onayı — mockup "Seçenek A"):
+   .ub-sayfa-etiket (turuncu sayfa adı rozeti) Kapat tuşunun yanından ekran
+   kenarına kadar boşluksuz dolar (dosya sonundaki "BOŞLUKSUZ DOLDURMA").
+   Ana Sayfa .ub-logo düzeni değişmedi.
+
    GÜNCELLEME (01.11.2026, 17:54, Abdullah onayı — mockup "Seçenek B" onaylandı):
    1) 4 tuş da yatayda %10 büyüdü (44px -> 48.4px, yükseklik aynı kaldı).
    2) Menü tuşu diğer 3'ünden (48.4px) %20 daha geniş: 58.08px.
@@ -152,4 +157,25 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* BOŞLUKSUZ DOLDURMA (02.11.2026, Abdullah onayı — mockup "Seçenek A"):
+   Turuncu sayfa etiketi, Kapat tuşunun hemen yanından ekran kenarına kadar
+   TÜM boşluğu doldurur (soldaki 3mm bar boşluğu ve sağdaki 3mm bar iç boşluğu
+   negatif marjla iptal edilir). Yazı rozetin ORTASINDA, taşarsa "…" ile kesilir.
+   .ub-bar'ın kendisi DEĞİŞMEDİ → Ana Sayfa'daki .ub-logo düzeni aynen kalır.
+   (Daha az sıkı istenirse: iki margin değerini -3mm → -1.5mm gibi küçültmek yeter.) */
+.ub-sayfa-etiket {
+  margin-left: -3mm;
+  margin-right: -3mm;
+  justify-content: stretch;
+}
+.ub-sayfa-etiket span,
+.ub-sayfa-etiket b {
+  flex: 1;
+  min-width: 0;
+  justify-content: center;
+  display: block;
+  line-height: 41px;   /* 44px − 2×1.5px çerçeve: dikey ortalama (block + ellipsis için) */
+  text-align: center;
 }

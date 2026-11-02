@@ -1,6 +1,10 @@
 /*
-  belge-render.js — TKP.01.11.26-17:06.1323
+  belge-render.js — TKP.02.11.26-09:58.1362
   ===============
+  GÜNCELLENDİ (02.11.2026, Abdullah onayı — mockup onaylandı: "Ok
+  kodlayalım onaylıyorum"): işlem/kod panelinin sağındaki pasif "Gönder"
+  ikonu KALDIRILDI (hiçbir işlevi yoktu, disabled duruyordu) — panelde
+  artık sadece Ayrıntı ("i") ikonu var.
   18.10.2026: "Ayrıntı" sheet'inden "Yazdır" ve "Kaçtı olarak işaretle"
   kaldırıldı (Abdullah'ın isteğiyle); İlerlet popup'ından "Tekrarla"
   kaldırıldı ve seçenekler kronolojik sıraya alındı; cari bilginin üstüne
@@ -275,13 +279,9 @@ function belgeyiCiz(kayit, musteri){
     // grubu eklendi; eski alt buton satırındaki "AYRINTI" tuşu kaldırıldı,
     // id="btnIslemlerAc" buraya taşındı (bağlama artık denemeCiz() içinde,
     // yukarıda — bu element her çizimde burada yeniden oluşuyor).
-    // TEK KAYNAK (01.11.2026): SVG artık ikon-svg.js'teki paylaşılan
-    // "gonder" tanımından geliyor (bkz. ikon-svg.js IkonSvg.PATH.gonder) —
-    // Sepet'teki yeni Gönder ikonuyla BİREBİR AYNI şekil.
+    // KALDIRILDI (02.11.2026, Abdullah onayı): buradaki pasif Gönder ikonu
+    // (class='ub-gonder-ikon') silindi — işlevi hiç tanımlanmamıştı.
     var ikonGrupHtml = "<span class='ikon-grup'>"
-      + "<button type='button' class='ub-gonder-ikon' title='Gönder' aria-label='Gönder' disabled>"
-      +   (typeof IkonSvg !== "undefined" ? IkonSvg.svg("gonder") : "")
-      + "</button>"
       + "<button type='button' class='ub-ayrinti-ikon' id='btnIslemlerAc' title='Ayrıntı' aria-label='Ayrıntı'>i</button>"
       + "</span>";
     var siparisPaneliHtml = "<div class='belge-musteri-baslik tip-" + (kayit.tip||"siparis") + "'>"
