@@ -1,5 +1,5 @@
 /*
-  avans-toplam-render.js — TKP.02.11.26-19:21.1434
+  avans-toplam-render.js — TKP.02.11.26-19:35.1440
   ========================
   AVANS TOPLAM (02.11.2026, Abdullah onayı — mockup üzerinden). Avans Takibi
   sayfasının üstündeki kutular + satır tablosu buraya taşındı:
@@ -10,8 +10,9 @@
   Kutular: TOPLAM AVANS, FATURALANAN, KALAN AVANS (= TOPLAM − FATURALANAN);
   kutudaki "Maaş hesabına ekle" henüz eklenmemiş avansları açık maaş dönemine
   ekler (AvansKayitData.maasaEkle) ve satırları KALICI KİLİTLER.
-  Sadece maaşı kapanmamış dönemler (açık dönem ve sonrası) gösterilir —
-  AvansKayitData.satirlarAcikDonem; maaş kapanınca tablo sıfırlanır.
+  Sadece açık dönem + avansı henüz kapatılmamış aylar gösterilir —
+  AvansKayitData.satirlarAcikDonem; maaşa düşülüp maaş kapanan / avansı
+  kapatılan eski aylar sıfırlanır.
   Bir satıra/aya dokununca avans-takibi.html?ay=&yil= o ayı açar.
   Veri tek kaynaktan gelir: avans-kayit-data.js. Ortak yardımcılar:
   avans-ortak.js. Bu sayfa avans verisi YAZMAZ, sadece maasaEkle çağırır.
@@ -110,7 +111,7 @@ function atCiz(){
   bos.hidden = !bosMu;
   ipucu.textContent = atGorunum === "tarih"
     ? "↕ Bir satıra dokununca o ayın avans girişi (Avans Takibi) açılır."
-    : "↕ Bir aya dokununca o ayın avans girişi (Avans Takibi) açılır. Sadece maaşı kapanmamış aylar.";
+    : "↕ Bir aya dokununca o ayın avans girişi (Avans Takibi) açılır. Sadece avansı kapatılmamış aylar.";
 
   // KUTULAR: TOPLAM AVANS ve FATURALANAN görünen satırların toplamı;
   // KALAN AVANS = TOPLAM − FATURALANAN.

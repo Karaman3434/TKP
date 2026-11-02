@@ -1,5 +1,5 @@
 /*
-  avans-kayit-data.js — TKP.02.11.26-19:04.1429
+  avans-kayit-data.js — TKP.02.11.26-19:35.1439
   =====================
   "Avans Takibi" sayfasının verisini tutar — Maaş Hesaplama sayfasından
   AYRI, kendi açık dönem/kapatma döngüsüne sahiptir.
@@ -191,9 +191,10 @@ var AvansKayitData = (function(){
      02.11.2026'da Abdullah'ın isteğiyle kaldırıldı).
 
      SIFIRLAMA: "GEÇERLİ AYIN HESABI KAPANDI" ile maaş dönemi kapanınca tablo
-     sıfırdan başlar — sadece açık (ve sonraki) dönemin satırları gösterilir
-     (satirlarAcikDonem). Eski dönemlerin satırları Firebase'de durur, silinmez,
-     ama hiçbir yeni hesaba girmez / ekranda görünmez.
+     sıfırdan başlar — açık (ve sonraki) dönemin satırları + avansı hâlâ
+     KAPATILMAMIŞ (taslak) eski ayların maaşa düşülmemiş satırları gösterilir
+     (satirlarAcikDonem). Avansı kapatılmış eski dönemlerin satırları Firebase'de
+     durur, silinmez, ama hiçbir yeni hesaba girmez / ekranda görünmez.
 
      SATIR DURUMLARI (r.durum):
        "acik"     kalan > 0, maaşa eklenmemiş (kırmızı çerçeve)
@@ -322,11 +323,19 @@ var AvansKayitData = (function(){
     };
   }
 
-  // Maaş dönemi her kapanınca tablo SIFIRLANIR: sadece açık dönemin (ve sonraki
-  // dönemlerin) satırları görünür/hesaba girer; eski dönemler Firebase'de durur.
+  // GÖRÜNEN / HESABA GİREN SATIRLAR (Avans Toplam, maaşa ekle, maaş kesintisi):
+  //  • açık maaş dönemi ve sonrası, VEYA
+  //  • avansı henüz KAPATILMAMIŞ (hâlâ taslak olan) eski aylar — maaşı kapanmış
+  //    olsa bile (örn. Eylül'de maaşa eklenmemiş avans kalmışsa o satır görünür
+  //    ve açık maaş dönemine eklenebilir), ama eklenip maaşı da kapanınca
+  //    ("dusuldu") kaybolur. Avansı kapatılmış (kayıt) eski aylar sıfırlanır:
+  //    Firebase'de durur, ekranda/hesapta yoktur.
   function satirlarAcikDonem(ay, yil){
     var esik = anahtarOlustur(ay, yil);
-    return satirlar().filter(function(r){ return r.anahtar >= esik; });
+    return satirlar().filter(function(r){
+      if(r.anahtar >= esik) return true;
+      return r.kaynak === "taslak" && r.durum !== "dusuldu";
+    });
   }
 
   // "MAAŞ HESAPLAMASINA EKLE": açık satırlar (idler=null → hepsi) hedef maaş
