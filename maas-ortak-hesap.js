@@ -1,5 +1,5 @@
 /*
-  maas-ortak-hesap.js — VERSİYON: TKP.02.11.26-20:12.1444
+  maas-ortak-hesap.js — VERSİYON: TKP.02.11.26-20:28.1447
   ======================================================
   27.09.2026 mimari bölünmesi: Maaş Hesaplama tek sayfaydı, artık üç
   bağımsız sayfaya bölündü (Brüt Maaş→Net Maaş / Ödenebilir Komisyon'daki
@@ -68,11 +68,23 @@ var MaasOrtakHesap = (function(){
     return parseFloat(localStorage.getItem("weicon_brut_sabit_maas")) || 0;
   }
 
-  // 1. Fotoğraf ve 2. Fotoğraf'ın (KomisyonDonemData) toplamlarını okur.
-  // İkisi de yüklenmemişse tamMi=false döner (Brüt Prim henüz hesaplanamaz).
-  function komisyonDonemToplamlariOku(){
+  // Saklanan komisyon dönemi (1./2. Fotoğraf + ekstra prim) SADECE kendi
+  // dönem anahtarı açık dönemle aynıysa geçerlidir. Ay kapandığı anda
+  // (sıfırlama Firebase'e yazılana kadar geçen kısa sürede bile) eski ayın
+  // fotoğrafları/ekstra primi yeni aya ASLA taşınmaz.
+  function komisyonDonemiAcikaAitMi(acikAy, acikYil){
     try{
       var d = KomisyonDonemData.gecerliDonem();
+      if(!d) return false;
+      return d.donemAnahtari === KomisyonDonemData.donemAnahtariUret(acikAy, acikYil);
+    }catch(e){ return false; }
+  }
+
+  // 1. Fotoğraf ve 2. Fotoğraf'ın (KomisyonDonemData) toplamlarını okur.
+  // İkisi de yüklenmemişse tamMi=false döner (Brüt Prim henüz hesaplanamaz).
+  function komisyonDonemToplamlariOku(acikAy, acikYil){
+    try{
+      var d = komisyonDonemiAcikaAitMi(acikAy, acikYil) ? KomisyonDonemData.gecerliDonem() : null;
       if(!d || !d.birinci || !d.ikinci) return {birinciToplam:0, ikinciToplam:0, tamMi:false};
       return {
         birinciToplam: aylarToplamiHesapla(d.birinci.aylar),
@@ -87,12 +99,12 @@ var MaasOrtakHesap = (function(){
   // çağırır, hepsi AYNI sonuç nesnesinden kendi ilgili alanını okur.
   function hesapla(acikAy, acikYil){
     var brutSabit = brutSabitOku();
-    var k = komisyonDonemToplamlariOku();
+    var k = komisyonDonemToplamlariOku(acikAy, acikYil);
     var brutPrimHam = k.ikinciToplam - k.birinciToplam;
     // Ekstra prim (02.11.2026): elle girilen satırlar fotoğraf farkına EKLENİR;
     // fotoğraflar eksik olsa bile ekstra prim hesaba girer.
     var ekstraPrim = 0;
-    try{ ekstraPrim = KomisyonDonemData.ekstraToplam(); }catch(e){ ekstraPrim = 0; }
+    try{ ekstraPrim = komisyonDonemiAcikaAitMi(acikAy, acikYil) ? KomisyonDonemData.ekstraToplam() : 0; }catch(e){ ekstraPrim = 0; }
     var fotoBrutPrim = k.tamMi ? Math.max(0, brutPrimHam) : 0;
     var brutPrim = fotoBrutPrim + ekstraPrim;
     var primDizisi = brutPrimDizisiOlustur(acikAy, acikYil, brutPrim);
@@ -112,6 +124,30 @@ var MaasOrtakHesap = (function(){
       sonuc: sonuc
     };
   }
+
+  // OTOMATİK YENİ AY (02.11.2026): Bir ay kapatılıp açık dönem ilerleyince
+  // Ödenebilir Komisyon dönemi (1./2. Fotoğraf + ekstra prim) bu sayfada
+  // hangisi açık olursa olsun KENDİLİĞİNDEN yeni aya sıfırlanır — artık
+  // "Ödenebilir Komisyon" sayfasını ziyaret etmek gerekmez.
+  var senkronDevam = false;
+  function yeniAyiOtomatikKur(){
+    try{
+      if(senkronDevam) return;
+      if(typeof MaasKayitData === "undefined" || typeof KomisyonDonemData === "undefined") return;
+      if(!MaasKayitData.kayitlarYuklendiMi() || !KomisyonDonemData.yuklendiMi()) return;
+      var acik = MaasKayitData.acikDonem();
+      if(komisyonDonemiAcikaAitMi(acik.ay, acik.yil)) return;
+      var d = KomisyonDonemData.gecerliDonem();
+      if(!d) return; // hiç düğüm yok: sıfırlanacak bir şey yok
+      senkronDevam = true;
+      KomisyonDonemData.acikDonemleSenkronizeEt(acik.ay, acik.yil, function(){ senkronDevam = false; });
+    }catch(e){ senkronDevam = false; console.error("Yeni ay kurulumu başarısız:", e); }
+  }
+  try{
+    MaasKayitData.degistiginde(yeniAyiOtomatikKur);
+    KomisyonDonemData.degistiginde(yeniAyiOtomatikKur);
+    yeniAyiOtomatikKur();
+  }catch(e){}
 
   return {
     hesapla: hesapla,
