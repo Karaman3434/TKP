@@ -1,5 +1,5 @@
 /*
-  net-maas-hesaplama-render.js — VERSİYON: WG.270926.2245.651
+  net-maas-hesaplama-render.js — VERSİYON: TKP.02.11.26-20:12.1445
   ==============================================================
   BRÜT MAAŞ → NET MAAŞ sayfası. Ay kapatma YOK — tek kapat butonu Maaş
   Hesaplama (özet) sayfasında. Net Maaş, MaasOrtakHesap.hesapla() üzerinden
@@ -98,9 +98,15 @@ function nmHesaplaVeCiz(){
   document.getElementById("nmToplamDeger").textContent = fmtTL_NM(h.sonuc.netSabitMaas);
 
   var oncekiAy = MaasOrtakHesap.oncekiAyHesapla(acik.ay, acik.yil);
-  document.getElementById("nmMatrahDurum").textContent = h.matrahOverride!=null
+  var matrahMetni = h.matrahOverride!=null
     ? "✓ Kalibre edildi (" + AY_ADLARI_NM[oncekiAy.ay] + " " + oncekiAy.yil + " sonu itibariyle: " + fmtTL_NM(h.matrahOverride) + ")"
-    : "Kalibrasyon yok — Ocak'tan tahmini hesaplanıyor. Bordrondaki \"Önceki Ay Matrah\" rakamını girerek doğruluğu artırabilirsin.";
+    : (acik.ay === 1
+      ? "Yeni vergi yılı — birikmiş matrah Ocak'ta sıfırdan başlar, kalibrasyon gerekmez."
+      : "Kalibrasyon yok — Ocak'tan tahmini hesaplanıyor. Bordrondaki \"Önceki Ay Matrah\" rakamını girerek doğruluğu artırabilirsin.");
+  if(h.sonuc && h.sonuc.parametreTanimliMi === false){
+    matrahMetni += " ⚠️ " + acik.yil + " vergi dilimleri / asgari ücret henüz tanımlı değil — " + h.sonuc.parametreYili + " değerleri kullanılıyor.";
+  }
+  document.getElementById("nmMatrahDurum").textContent = matrahMetni;
 }
 
 window.addEventListener("error", function(ev){
@@ -146,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   document.getElementById("btnNmMatrahKalibreEt").onclick = function(){
     var acik = MaasKayitData.acikDonem();
+    if(acik.ay === 1){ alert("Ocak'ta yeni vergi yılı başlar: birikmiş matrah sıfırdan başlar, kalibrasyon gerekmez."); return; }
     var onceki = MaasOrtakHesap.oncekiAyHesapla(acik.ay, acik.yil);
     var mevcut = MaasOrtakHesap.matrahBazOku();
     var girilen = prompt(

@@ -1,5 +1,5 @@
 /*
-  maas-ortak-hesap.js — VERSİYON: TKP.02.11.26-16:36.1414
+  maas-ortak-hesap.js — VERSİYON: TKP.02.11.26-20:12.1444
   ======================================================
   27.09.2026 mimari bölünmesi: Maaş Hesaplama tek sayfaydı, artık üç
   bağımsız sayfaya bölündü (Brüt Maaş→Net Maaş / Ödenebilir Komisyon'daki
@@ -54,6 +54,9 @@ var MaasOrtakHesap = (function(){
     return {ay:oncekiAy, yil:oncekiYil};
   }
   function matrahOnceOverride(acikAy, acikYil){
+    // YIL GEÇİŞİ (02.11.2026): Ocak'ta yeni vergi yılı başlar — birikmiş matrah
+    // SIFIRDAN başlar; geçen yılın (Aralık) kalibrasyonu asla taşınmaz.
+    if(acikAy === 1) return null;
     var baz = matrahBazOku();
     if(!baz) return null;
     var onceki = oncekiAyHesapla(acikAy, acikYil);
@@ -94,7 +97,7 @@ var MaasOrtakHesap = (function(){
     var brutPrim = fotoBrutPrim + ekstraPrim;
     var primDizisi = brutPrimDizisiOlustur(acikAy, acikYil, brutPrim);
     var matrahOverride = matrahOnceOverride(acikAy, acikYil);
-    var sonuc = MaasHesaplamaData.ayHesapla(acikAy, brutSabit, primDizisi, matrahOverride);
+    var sonuc = MaasHesaplamaData.ayHesapla(acikAy, brutSabit, primDizisi, matrahOverride, acikYil);
     return {
       ay: acikAy, yil: acikYil,
       brutSabit: brutSabit,

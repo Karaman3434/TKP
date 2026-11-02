@@ -18,6 +18,10 @@
    - Asgari ücrete isabet eden DAMGA VERGİSİ istisnası: aylık SABİT 250,70 TL.
    - SGK işçi payı %14, İşsizlik işçi payı %1, Damga vergisi oranı %0,759.
 
+  YIL GEÇİŞİ (02.11.2026): Ocak'ta birikmiş matrah sıfırdan başlar; dilimler ve
+  asgari ücret YIL_PARAMETRELERI tablosundan yıla göre alınır (yeni yıl açıklanınca
+  tabloya eklenir).
+
   ÖNEMLİ — bu bir TAHMİN aracıdır: resmi bordro yazılımları (özellikle bir
   dilim geçiş ayında) küçük farklı sonuçlar üretebilir. Kesin rakam için her
   zaman gerçek bordroyla karşılaştırılmalı; bu değerler mali müşavir görüşü
@@ -29,21 +33,37 @@ var MaasHesaplamaData = (function(){
   var SGK_ORANI = 0.14;
   var ISSIZLIK_ORANI = 0.01;
   var DAMGA_ORANI = 0.00759;
-  var ASGARI_UCRET_BRUT_2026 = 33030.00; // 2026 brüt asgari ücret
-
-  // Ücretliler için 2026 kümülatif yıllık matrah dilimleri.
-  var DILIMLER = [
-    {ust: 190000,        oran: 0.15},
-    {ust: 400000,        oran: 0.20},
-    {ust: 1500000,       oran: 0.27},
-    {ust: 5300000,       oran: 0.35},
-    {ust: Infinity,      oran: 0.40}
-  ];
+  // YIL BAZLI PARAMETRELER (02.11.2026 — yıl geçişi düzenlemesi): gelir vergisi
+  // dilimleri ve brüt asgari ücret HER YIL değişir. Yeni yılın değerleri
+  // açıklanınca (genelde Aralık) aşağıdaki tabloya o yılı EKLE — başka bir
+  // yeri değiştirmen gerekmez. Tabloda olmayan bir yıl hesaplanırsa en son
+  // tanımlı yılın değerleri kullanılır ve sonuçta parametreTanimliMi=false
+  // döner (Net Maaş sayfası bunu uyarı olarak gösterir).
+  var YIL_PARAMETRELERI = {
+    2026: {
+      asgariUcretBrut: 33030.00, // 2026 brüt asgari ücret
+      // Ücretliler için 2026 kümülatif yıllık matrah dilimleri.
+      dilimler: [
+        {ust: 190000,        oran: 0.15},
+        {ust: 400000,        oran: 0.20},
+        {ust: 1500000,       oran: 0.27},
+        {ust: 5300000,       oran: 0.35},
+        {ust: Infinity,      oran: 0.40}
+      ]
+    }
+  };
+  function parametreAl(yil){
+    if(yil != null && YIL_PARAMETRELERI[yil]) return {p: YIL_PARAMETRELERI[yil], tanimliMi: true, yil: yil};
+    var yillar = Object.keys(YIL_PARAMETRELERI).map(Number).sort();
+    var son = yillar[yillar.length - 1];
+    return {p: YIL_PARAMETRELERI[son], tanimliMi: yil == null, yil: son};
+  }
 
   // Verilen kümülatif matrah üzerinden TOPLAM kademeli vergiyi (yılbaşından
   // bu matraha kadar biriken vergi) hesaplar.
-  function kademeliVergi(matrah){
+  function kademeliVergi(matrah, yil){
     if(!matrah || matrah <= 0) return 0;
+    var DILIMLER = parametreAl(yil).p.dilimler;
     var vergi = 0, altSinir = 0;
     for(var i=0; i<DILIMLER.length; i++){
       var ustSinir = DILIMLER[i].ust;
@@ -64,14 +84,15 @@ var MaasHesaplamaData = (function(){
   // Aralık (%20 dilimi) — hepsi otomatik, doğru ve hiç elle müdahale
   // gerektirmeden hesaplanır; gelecek yıllarda asgari ücret değişse bile
   // (ASGARI_UCRET_BRUT_2026 güncellenince) aynı mantık geçerli kalır.
-  function asgariUcretIstisnasiHesapla(ayNo){
-    var auAylikMatrah = ASGARI_UCRET_BRUT_2026 * (1 - SGK_ORANI - ISSIZLIK_ORANI);
+  function asgariUcretIstisnasiHesapla(ayNo, yil){
+    var ASGARI_UCRET_BRUT = parametreAl(yil).p.asgariUcretBrut;
+    var auAylikMatrah = ASGARI_UCRET_BRUT * (1 - SGK_ORANI - ISSIZLIK_ORANI);
     var auKumOnce = (ayNo - 1) * auAylikMatrah;
     var auKumSonra = ayNo * auAylikMatrah;
-    var gelirVergisiIstisnasi = Math.max(0, kademeliVergi(auKumSonra) - kademeliVergi(auKumOnce));
+    var gelirVergisiIstisnasi = Math.max(0, kademeliVergi(auKumSonra, yil) - kademeliVergi(auKumOnce, yil));
     // Damga vergisi ORANLA (kademeli değil, sabit yüzde) hesaplandığı için
     // istisnası da doğrudan asgari ücretin kendi damga vergisidir.
-    var damgaVergisiIstisnasi = ASGARI_UCRET_BRUT_2026 * DAMGA_ORANI;
+    var damgaVergisiIstisnasi = ASGARI_UCRET_BRUT * DAMGA_ORANI;
     return {gelir: gelirVergisiIstisnasi, damga: damgaVergisiIstisnasi};
   }
 
@@ -93,7 +114,11 @@ var MaasHesaplamaData = (function(){
   // ve asgari ücret istisnasını (hem gelir hem damga vergisinde) O alır. Bu
   // sıralama ters çevrilirse (sabit önce/prim sonra) toplam rakam aynı çıkar
   // ama Net Maaş/Net Prim ayrımı gerçek bordrodan sapar.
-  function ayHesapla(ayNo, brutSabitAylik, brutPrimDizisi, kumulatifMatrahOnceOverride){
+  // yil (opsiyonel, 5. parametre): hangi yılın dilim/asgari ücret tablosu
+  // kullanılacak (bkz. YIL_PARAMETRELERI). ayNo=1 (Ocak) ise birikmiş matrah
+  // SIFIRDAN başlar (override verilmemeli).
+  function ayHesapla(ayNo, brutSabitAylik, brutPrimDizisi, kumulatifMatrahOnceOverride, yil){
+    var prm = parametreAl(yil);
     brutSabitAylik = parseFloat(brutSabitAylik) || 0;
     brutPrimDizisi = brutPrimDizisi || {};
 
@@ -115,9 +140,9 @@ var MaasHesaplamaData = (function(){
     // "ŞİMDİ": SABİT MAAŞ de eklenince ulaşılan bu ayın toplam kümülatif matrahı.
     var kumMatrahSimdi = kumMatrahPrimSonrasi + sgkIssizlikSonrasi(brutSabitAylik);
 
-    var vOnce = kademeliVergi(kumMatrahOnce);
-    var vPrimSonrasi = kademeliVergi(kumMatrahPrimSonrasi);
-    var vSimdi = kademeliVergi(kumMatrahSimdi);
+    var vOnce = kademeliVergi(kumMatrahOnce, yil);
+    var vPrimSonrasi = kademeliVergi(kumMatrahPrimSonrasi, yil);
+    var vSimdi = kademeliVergi(kumMatrahSimdi, yil);
 
     // ---- PRİM'in gelir vergisi — İSTİSNASIZ (marjinal, en üst dilim) ----
     var gvPrim = Math.max(0, vPrimSonrasi - vOnce);
@@ -127,7 +152,7 @@ var MaasHesaplamaData = (function(){
     // ---- SABİT MAAŞ'ın gelir vergisi — asgari ücret istisnası BURADA ----
     // İstisna artık DİNAMİK: bu ayın (ayNo) asgari ücret kümülatif dilimine
     // göre otomatik hesaplanır (bkz. asgariUcretIstisnasiHesapla yukarıda).
-    var auIstisna = asgariUcretIstisnasiHesapla(ayNo);
+    var auIstisna = asgariUcretIstisnasiHesapla(ayNo, yil);
     var gvSabitIstisnasiz = Math.max(0, vSimdi - vPrimSonrasi);
     var gvSabitIstisna = Math.min(auIstisna.gelir, gvSabitIstisnasiz);
     var gvSabit = Math.max(0, gvSabitIstisnasiz - gvSabitIstisna);
@@ -147,14 +172,19 @@ var MaasHesaplamaData = (function(){
       // Bu ay dahil, SGK/işsizlik SONRASI kümülatif vergi matrahı — bir
       // sonraki ayın kalibrasyon referansı olarak kullanılır (bkz.
       // maas-hesaplama-render.js: kapatınca kalibrasyon otomatik ilerler).
-      kumulatifMatrahSimdi: kumMatrahSimdi
+      kumulatifMatrahSimdi: kumMatrahSimdi,
+      // Hangi yılın parametre tablosu kullanıldı; istenen yıl tabloda yoksa
+      // parametreTanimliMi=false (o zaman en son tanımlı yılın değerleri kullanıldı).
+      parametreYili: prm.yil,
+      parametreTanimliMi: prm.tanimliMi
     };
   }
 
   return {
     ayHesapla: ayHesapla,
     kademeliVergi: kademeliVergi,
-    asgariUcretIstisnasiHesapla: asgariUcretIstisnasiHesapla
+    asgariUcretIstisnasiHesapla: asgariUcretIstisnasiHesapla,
+    parametreAl: parametreAl
   };
 
 })();
