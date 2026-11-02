@@ -1,5 +1,5 @@
 /*
-  maas-hesaplama-render.js — TKP.02.11.26-15:27.1412
+  maas-hesaplama-render.js — TKP.02.11.26-16:52.1420
   ==========================================================
   MAAŞ HESAPLAMA (ÖZET) sayfası — 27.09.2026 mimari bölünmesi. Bu sayfa
   artık kendi Brüt Sabit Maaş / Brüt Prim hesaplamasını yapmıyor; Net
@@ -141,7 +141,7 @@ function mhHesaplaVeCiz(){
   mhGuncelHesap = {
     acik: acik, acikAnahtar: acikAnahtar, brutSabit: h.brutSabit, birinciToplam: h.birinciToplam, brutPrim: h.brutPrim,
     sonuc: sonuc, avans: av, kesinti: kesinti,
-    kendiAvansDahilMi: !kesinti.ertelendi, seciliBekleyenAnahtarlar: kesinti.eklenenler.map(function(k){ return k.anahtar; }),
+    kendiAvansDahilMi: !kesinti.ertelendi && !kesinti.kapatildi, seciliBekleyenAnahtarlar: kesinti.eklenenler.map(function(k){ return k.anahtar; }),
     toplamKesintiYeni: toplamKesintiYeni, hesabaYatacak: hesabaYatacak
   };
 }
@@ -168,6 +168,8 @@ function mhAvansSatiriGuncelle(kesinti, av){
   var metin;
   if(adet > 0){
     metin = parcalar.join(" + ") + " eklendi";
+  } else if(kesinti.kapatildi && kesinti.kendiToplam > 0){
+    metin = "🔒 Bu ayın avansı kapatıldı (hesap dışı)";
   } else if(kesinti.ertelendi && kesinti.kendiToplam > 0){
     metin = "Bu ayın avansı ertelendi";
   } else if(av.ozelToplam || av.isKesilecek){
@@ -313,6 +315,8 @@ document.addEventListener("DOMContentLoaded", function(){
       kayitZamani: Date.now()
     };
     if(h.avans.devirKaynak) avansKayitObj.devirKaynak = h.avans.devirKaynak;
+    // Avans Takibi'nde "Kapat" ile elle kapatılmış ay: kayda da işlenir (kalıcı kilit, hesap dışı).
+    if(taslak.kapatma) avansKayitObj.kapatma = taslak.kapatma;
     // "Avans Seçimi" (02.10.2026): bu ayın kendi avansı, kullanıcı AÇIKÇA
     // dahil ettiyse kendi ayına dahil edilmiş sayılır (varsayılan/normal
     // durum). Dahil etmediyse hiç işaretlenmez — "Bekleyen Avans" listesinde

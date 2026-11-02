@@ -1,4 +1,4 @@
-/* avans-takibi-style.css — TKP.02.11.26-15:27.1411
+/* avans-takibi-style.css — TKP.02.11.26-16:52.1419
    (ilk tasarım) 27.09.2026 yeniden tasarım:
    tek AVANS EKLE satırı (tip düğmesi + Ekle), birleşik liste, kırmızı
    toplam kutusu, ‹›/kaydırmalı dönem barı, kaydedildi rozeti. Sadece
@@ -316,3 +316,12 @@ body.av-altbar-acik main { padding-bottom: 96px; }
 .av-sh-btn { width: 100%; background: #0e6b58; color: #fff; border: none; border-radius: 10px; padding: 13px; font-size: 13.5px; font-weight: 900; cursor: pointer; }
 .av-sh-btn:disabled { opacity: .6; }
 .av-sh-iptal { width: 100%; background: none; border: none; color: #6b7684; padding: 10px; font-size: 12.5px; font-weight: 800; cursor: pointer; }
+
+/* KAPAT (02.11.2026, Abdullah onayı — mockup üzerinden): alt çubukta iki düğme
+   (Maaşa Ekle / Kapat) ve kapatma onay penceresindeki ay listesi. */
+.av-alt-bar-btnler { display: flex; gap: 6px; flex-shrink: 0; }
+.av-alt-bar-btn--kapat { background: #8b1a1a; }
+.av-sh-btn--kapat { background: #8b1a1a; }
+.av-kapat-liste { border: 1.5px solid #e2e6ec; border-radius: 9px; margin: 8px 0; overflow: hidden; }
+.av-kapat-liste div { display: flex; justify-content: space-between; padding: 8px 10px; font-size: 13px; font-weight: 800; color: #003a70; border-bottom: 1px solid #eef1f5; }
+.av-kapat-liste div:last-child { border-bottom: none; background: #f6f8fb; }

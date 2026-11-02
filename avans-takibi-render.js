@@ -1,5 +1,5 @@
 /*
-  avans-takibi-render.js — TKP.02.11.26-15:27.1410
+  avans-takibi-render.js — TKP.02.11.26-16:52.1418
   ========================
   26.10.2026 (Abdullah onayı, mockup üzerinden: "Okey kesinlikle bu
   tasarımı istiyorum kodlayalım") — sayfaya girince ÖNCE "{yıl} — Avans
@@ -221,6 +221,11 @@ function avDevirKutusuGuncelle(dv, ay){
 
 function avKapaliGoster(k){
   avDuzenlemeGorunurlugunuAyarla(false);
+  // Elle KAPATILMIŞ ay (kapatma): kalıcı kilit — kaydı silme (yeniden açma) düğmesi de yok.
+  var elleKapali = !!k.kapatma;
+  document.getElementById("btnAvKapaliKaydiSil").hidden = elleKapali;
+  document.getElementById("avKapaliSeritBaslik").textContent = elleKapali ? "🔒 Bu ay elle kapatıldı (kilitli) —" : "🔒 Bu dönem kapatılmış (salt okunur) —";
+  document.getElementById("avKapaliSeritAlt").textContent = elleKapali ? "hesaptan çıkarıldı, değiştirilemez" : "silmek için dokun";
   document.getElementById("avToplamOzel").textContent = fmtTL_AV(k.ozelAvansToplam||0);
   var dvK = AvansKayitData.devirBilgisi(k.anahtar);
   var kalanK = dvK ? dvK.kalan : (k.toplamKesinti||0);
@@ -238,11 +243,22 @@ function avDonemeGec(ay, yil){
   avCanliMi = (ay === acik.ay && yil === acik.yil);
   avDonemBariCiz();
   var kapali = AvansKayitData.kapaliKaydiBul(ay, yil);
+  var taslakKapali = AvansKayitData.taslakOku(ay, yil);
   if(kapali){
     avKapaliGoster(kapali);
+  } else if(taslakKapali && taslakKapali.kapatma){
+    // Açık dönemin taslağı elle kapatıldı: düzenleme kilitli, sadece özet görünür.
+    var dvK = AvansKayitData.taslakDevirli(ay, yil);
+    avKapaliGoster({
+      ay: ay, yil: yil, anahtar: ay ? (yil + "-" + ("0"+ay).slice(-2)) : "",
+      ozelAvansToplam: dvK.ozelToplam, isAvansiBelgesizKalan: dvK.isKalanHam, toplamKesinti: 0,
+      kapatma: taslakKapali.kapatma
+    });
+    document.getElementById("avToplamGenel").textContent = fmtTL_AV(0);
+    avDevirKutusuGuncelle({devirDusen: dvK.devirDusen, devirGiden: dvK.devirGiden, kaynak: dvK.devirKaynak}, ay);
   } else {
     avDuzenlemeGorunurlugunuAyarla(true);
-    var taslak = AvansKayitData.taslakOku(ay, yil);
+    var taslak = taslakKapali;
     avOzelListe = taslak.ozelAvansGirisleri || [];
     avIsListe = taslak.isAvansiGirisleri || [];
     avHarcamaListe = taslak.isAvansiHarcamalar || [];
@@ -333,7 +349,9 @@ function avYilVerisiHesapla(){
       durum: durum,
       hedef: AvansKayitData.eklenenDonem(k),
       kilitli: AvansKayitData.kilitliMi(k),
-      not: k.dusulmeNotu || null
+      not: k.dusulmeNotu || null,
+      kapatma: k.kapatma || null,
+      secilebilir: (durum === "aktif")
     });
   });
 
@@ -344,7 +362,8 @@ function avYilVerisiHesapla(){
     t = {ozelToplam: t.ozelToplam, isToplam: t.isToplam, belgelenenToplam: t.belgelenenToplam, toplamKesinti: dvA.toplamKesinti};
     // Açık dönemin KENDİ avansı: kalan varsa varsayılan olarak bu ayın
     // maaşından düşülür (eskisiyle aynı); "ertelendi" ise kırmızı/aktif olur.
-    var acikDurum = t.toplamKesinti > 0 ? (taslak.maasaErtelendi ? "aktif" : "eklendi") : "yok";
+    var acikDurum = taslak.kapatma ? "kapali" : (t.toplamKesinti > 0 ? (taslak.maasaErtelendi ? "aktif" : "eklendi") : "yok");
+    if(taslak.kapatma) t = {ozelToplam: t.ozelToplam, isToplam: t.isToplam, belgelenenToplam: t.belgelenenToplam, toplamKesinti: 0};
     satirlar.push({
       ay: acik.ay, yil: acik.yil, acik: true,
       anahtar: "__acik",
@@ -355,7 +374,11 @@ function avYilVerisiHesapla(){
       durum: acikDurum,
       hedef: acikAnahtar,
       kilitli: false,
-      not: null
+      not: null,
+      kapatma: taslak.kapatma || null,
+      // Açık dönem satırı kalan 0 olsa da (veya ertelenmişse) kapatılmak üzere seçilebilir;
+      // maaşa kendiliğinden eklenmiş (yeşil) hâlindeyken önce kutuya dokunup çıkarılır.
+      secilebilir: (acikDurum === "aktif" || acikDurum === "yok")
     });
   }
 
@@ -376,10 +399,10 @@ function avHedefMetni(hedef){
 }
 
 function avYilDurumHtml(s){
-  if(s.durum === "pasif") return "<span class='av-durum-pasif'>🔒 Pasif</span>";
+  if(s.durum === "pasif" || s.durum === "kapali") return "<span class='av-durum-pasif'>🔒 Kapalı</span>";
   if(s.durum === "eklendi") return "<span class='av-durum-tamam'>✓ " + avHedefMetni(s.hedef).kisa + "</span>";
-  if(s.durum === "aktif") return "<span class='av-durum-aktif'>● Aktif</span>";
-  return s.acik ? "<span class='av-durum-acik'>📝 Açık</span>" : "<span class='av-durum-yok'>—</span>";
+  if(s.secilebilir) return "<span class='av-durum-aktif'>● Açık</span>";
+  return "<span class='av-durum-yok'>—</span>";
 }
 
 // MAAŞA EKLE (02.11.2026, Abdullah onayı — mockup üzerinden): satır başındaki
@@ -389,9 +412,9 @@ function avYilDurumHtml(s){
 var avSecimAnahtarlari = [];
 
 function avKutuHtml(s, secili){
-  if(s.durum === "pasif") return "<span class='av-kilit' aria-label='Pasif'>🔒</span>";
+  if(s.durum === "pasif" || s.durum === "kapali") return "<span class='av-kilit' aria-label='Kapalı'>🔒</span>";
   if(s.durum === "eklendi") return "<span class='av-kutu av-kutu--yesil" + (s.kilitli ? " av-kutu--kilitli" : "") + "'>✓</span>";
-  if(s.durum === "aktif") return "<span class='av-kutu" + (secili ? " av-kutu--secili'>✓" : "'>") + "</span>";
+  if(s.secilebilir) return "<span class='av-kutu" + (secili ? " av-kutu--secili'>✓" : "'>") + "</span>";
   return "<span class='av-kutu av-kutu--yok'></span>";
 }
 
@@ -404,7 +427,7 @@ function avSonrakiAyAdi(ay){ return AY_ADLARI_AV[ay >= 12 ? 1 : ay + 1]; }
 
 function avDevirSatirlari(s){
   var satirlar = [];
-  var cls = "av-alt av-r av-devir" + (s.durum === "aktif" ? " av-r--aktif" : (s.durum === "eklendi" ? " av-r--yesil" : (s.durum === "pasif" ? " av-r--pasif" : " av-plain")));
+  var cls = "av-alt av-r av-devir" + (s.secilebilir ? " av-r--aktif" : (s.durum === "eklendi" ? " av-r--yesil" : ((s.durum === "pasif" || s.durum === "kapali") ? " av-r--pasif" : " av-plain")));
   var rozet = "<span class='av-devir-rozet'>DEVİR</span>";
   if(s.devirDusen > 0){
     var kaynak = s.devirKaynak ? AY_BULUNMA_AV[s.devirKaynak.ay] : "Önceki aylarda";
@@ -421,6 +444,9 @@ function avAltSatirHtml(s){
   var h = avHedefMetni(s.hedef);
   if(s.durum === "pasif"){
     return {cls: "av-alt av-r av-r--pasif", html: "🔒 " + htmlEsc_AV((s.not && s.not.aciklama) || "Maaştan düşüldü")};
+  }
+  if(s.durum === "kapali"){
+    return {cls: "av-alt av-r av-r--pasif", html: "🔒 Elle kapatıldı" + (s.kapatma && s.kapatma.tarih ? " · " + fmtTarihKisa_AV(s.kapatma.tarih) : "") + " — hesaptan çıkarıldı"};
   }
   if(s.durum === "eklendi"){
     var metin = s.acik
@@ -475,16 +501,16 @@ function avYilTabloCiz(){
 
   // Artık "aktif" olmayan (başka cihazdan eklenmiş/pasifleşmiş) seçimleri temizle.
   avSecimAnahtarlari = avSecimAnahtarlari.filter(function(a){
-    return veri.satirlar.some(function(s){ return s.anahtar === a && s.durum === "aktif"; });
+    return veri.satirlar.some(function(s){ return s.anahtar === a && s.secilebilir; });
   });
 
   govde.innerHTML = veri.satirlar.map(function(s, i){
     var secili = avSecimAnahtarlari.indexOf(s.anahtar) !== -1;
     var cls = "";
-    if(s.durum === "aktif") cls = "av-r--aktif" + (secili ? " av-r--secili" : "");
+    if(s.secilebilir) cls = "av-r--aktif" + (secili ? " av-r--secili" : "");
     else if(s.durum === "eklendi") cls = "av-r--yesil";
-    else if(s.durum === "pasif") cls = "av-r--pasif";
-    var tiklanir = (s.durum === "aktif") || (s.durum === "eklendi" && !s.kilitli && !(s.not));
+    else if(s.durum === "pasif" || s.durum === "kapali") cls = "av-r--pasif";
+    var tiklanir = s.secilebilir || (s.durum === "eklendi" && !s.kilitli && !(s.not));
     return avKayitSatirlariHtml(s, veri, secili, cls, tiklanir)
       + (i < veri.satirlar.length - 1 ? "<tr class='av-bosluk'><td colspan='6'></td></tr>" : "");
   }).join("");
@@ -539,7 +565,7 @@ function avToastGoster(metin){
 function avHepsiniSecGuncelle(veri){
   var btn = document.getElementById("btnAvHepsiniSec");
   if(!btn) return;
-  var aktifler = veri.satirlar.filter(function(s){ return s.durum === "aktif"; });
+  var aktifler = veri.satirlar.filter(function(s){ return s.secilebilir; });
   btn.hidden = aktifler.length < 2;
   if(btn.hidden) return;
   var hepsi = aktifler.every(function(s){ return avSecimAnahtarlari.indexOf(s.anahtar) !== -1; });
@@ -555,7 +581,7 @@ function avHepsiniSecGuncelle(veri){
 function avKutuTiklandi(anahtar, veri){
   var s = avSatirBul(veri, anahtar);
   if(!s) return;
-  if(s.durum === "aktif"){
+  if(s.secilebilir){
     var i = avSecimAnahtarlari.indexOf(anahtar);
     if(i === -1) avSecimAnahtarlari.push(anahtar); else avSecimAnahtarlari.splice(i, 1);
     avYilTabloCiz();
@@ -573,22 +599,25 @@ function avKutuTiklandi(anahtar, veri){
   }
 }
 
-// ALT ÇUBUK — seçili avansların toplamı + "Maaşa Ekle". Sadece tablo
-// görünümündeyken ve en az bir seçim varken görünür.
+// ALT ÇUBUK — seçili ayların toplamı + "Maaşa Ekle" / "Kapat". Sadece tablo
+// görünümündeyken ve en az bir seçim varken görünür. "Maaşa Ekle" yalnızca
+// seçilenlerin içindeki AKTİF (kapalı kayıt) avanslara uygulanır; "Kapat"
+// seçilen her ayı (açık dönem satırı dahil) hesaptan çıkarıp kilitler.
 function avAltBarGuncelle(){
   var bar = document.getElementById("avAltBar");
   if(!bar) return;
   var tabloGorunur = !document.getElementById("avTabloGorunumu").hidden;
   if(!tabloGorunur || !avSecimAnahtarlari.length){ bar.hidden = true; document.body.classList.remove("av-altbar-acik"); return; }
   var veri = avYilVerisiHesapla();
-  var toplam = 0, sayi = 0;
+  var toplam = 0, sayi = 0, eklenebilir = 0;
   avSecimAnahtarlari.forEach(function(a){
     var s = avSatirBul(veri, a);
-    if(s && s.durum === "aktif"){ toplam += s.kalan; sayi++; }
+    if(s && s.secilebilir){ toplam += s.kalan; sayi++; if(s.durum === "aktif") eklenebilir++; }
   });
-  var acik = MaasKayitData.acikDonem();
-  document.getElementById("avAltBarEtiket").textContent = sayi + " avans seçili · " + AY_ADLARI_AV[acik.ay] + " " + acik.yil + " maaşına";
+  document.getElementById("avAltBarEtiket").textContent = sayi + " ay seçili";
   document.getElementById("avAltBarTutar").textContent = fmtTL_AV(toplam);
+  var btnEkle = document.getElementById("btnAvMaasaEkle");
+  if(btnEkle) btnEkle.disabled = !eklenebilir;
   bar.hidden = !sayi;
   document.body.classList.toggle("av-altbar-acik", !!sayi);
 }
@@ -602,7 +631,7 @@ function avMaasaEkle(){
     if(!s || s.durum !== "aktif") return;
     if(a === "__acik") acikSecili = true; else kapaliAnahtarlar.push(a);
   });
-  if(!kapaliAnahtarlar.length && !acikSecili){ avSecimAnahtarlari = []; avYilTabloCiz(); return; }
+  if(!kapaliAnahtarlar.length && !acikSecili){ avToastGoster("Seçilenlerde maaşa eklenecek avans yok"); return; }
   var btn = document.getElementById("btnAvMaasaEkle");
   btn.disabled = true;
   function bitti(ok, err){
@@ -618,6 +647,46 @@ function avMaasaEkle(){
   }
   if(kapaliAnahtarlar.length) AvansKayitData.donemeEkle(kapaliAnahtarlar, veri.acikAnahtar, acikAdimi);
   else acikAdimi(true);
+}
+
+// KAPAT (02.11.2026, Abdullah onayı — mockup üzerinden): seçilen aylar hesaptan
+// çıkar ve KALICI kilitlenir. Önce onay penceresi (ay listesi + uyarı) açılır.
+function avKapatPenceresiAc(){
+  var veri = avYilVerisiHesapla();
+  var secilenler = avSecimAnahtarlari.map(function(a){ return avSatirBul(veri, a); })
+    .filter(function(s){ return s && s.secilebilir; });
+  if(!secilenler.length) return;
+  var toplam = 0;
+  var html = secilenler.map(function(s){
+    toplam += s.kalan;
+    return "<div><span>" + htmlEsc_AV(AY_ADLARI_AV[s.ay] + " " + s.yil) + "</span><span>" + fmtTL_AV(s.kalan) + "</span></div>";
+  }).join("") + "<div><span>Hesaptan çıkacak</span><span>" + fmtTL_AV(toplam) + "</span></div>";
+  document.getElementById("avKapatAlt").textContent = secilenler.length + " ay kapatılacak";
+  document.getElementById("avKapatListe").innerHTML = html;
+  document.getElementById("avKapatOverlay").hidden = false;
+}
+function avKapatPenceresiKapat(){
+  document.getElementById("avKapatOverlay").hidden = true;
+}
+function avKapatOnayla(){
+  var veri = avYilVerisiHesapla();
+  var acik = MaasKayitData.acikDonem();
+  var kapaliAnahtarlar = [], acikSecili = false;
+  avSecimAnahtarlari.forEach(function(a){
+    var s = avSatirBul(veri, a);
+    if(!s || !s.secilebilir) return;
+    if(a === "__acik") acikSecili = true; else kapaliAnahtarlar.push(a);
+  });
+  var btn = document.getElementById("btnAvKapatOnayla");
+  btn.disabled = true;
+  AvansKayitData.kapat(kapaliAnahtarlar, acikSecili ? {ay: acik.ay, yil: acik.yil} : null, function(ok, err, sayi){
+    btn.disabled = false;
+    if(!ok){ alert("Kapatılamadı: " + (err && err.message)); return; }
+    avKapatPenceresiKapat();
+    avSecimAnahtarlari = [];
+    avYilTabloCiz();
+    avToastGoster("🔒 " + (sayi || 0) + " ay kapatıldı");
+  });
 }
 
 // "MAAŞTAN DÜŞÜLDÜ" NOTU penceresi — kaydedince avans PASİF olur.
@@ -657,7 +726,7 @@ function avNotKaydet(){
     btn.disabled = false;
     if(!ok){ alert("Kaydedilemedi: " + (err && err.message)); return; }
     avNotPenceresiKapat();
-    avToastGoster("🔒 Avans pasif yapıldı");
+    avToastGoster("🔒 Avans kapatıldı");
   });
 }
 
@@ -691,10 +760,11 @@ function avYilExcelAktar(){
     // ama yıllık Excel/toplam dışında tutulur).
     var siraliSatirlar = veri.satirlar.filter(function(s){ return s.yil === veri.yil; }).sort(function(a,b){ return a.ay - b.ay; });
     function durumMetni(s){
-      if(s.durum === "pasif") return "Pasif — " + ((s.not && s.not.aciklama) || "maaştan düşüldü");
+      if(s.durum === "pasif") return "Kapalı — " + ((s.not && s.not.aciklama) || "maaştan düşüldü");
+      if(s.durum === "kapali") return "Kapalı — elle kapatıldı" + (s.kapatma && s.kapatma.tarih ? " (" + fmtTarihKisa_AV(s.kapatma.tarih) + ")" : "");
       if(s.durum === "eklendi") return avHedefMetni(s.hedef).uzun + " maaşına eklendi";
-      if(s.durum === "aktif") return "Aktif (bekliyor)";
-      return s.acik ? "Açık" : "—";
+      if(s.secilebilir) return "Açık";
+      return "—";
     }
     var veriSatirlari = siraliSatirlar.map(function(s){
       return [AY_ADLARI_AV[s.ay], s.cekilen, s.faturalandirilan, s.kalan, durumMetni(s)];
@@ -782,6 +852,10 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("btnAvExcel").onclick = avYilExcelAktar;
   document.getElementById("btnAvAylaraDon").onclick = avGorunumAylara;
   document.getElementById("btnAvMaasaEkle").onclick = avMaasaEkle;
+  document.getElementById("btnAvKapat").onclick = avKapatPenceresiAc;
+  document.getElementById("btnAvKapatOnayla").onclick = avKapatOnayla;
+  document.getElementById("btnAvKapatVazgec").onclick = avKapatPenceresiKapat;
+  document.getElementById("avKapatDim").onclick = avKapatPenceresiKapat;
   document.getElementById("btnAvNotKaydet").onclick = avNotKaydet;
   document.getElementById("btnAvNotVazgec").onclick = avNotPenceresiKapat;
   document.getElementById("avNotDim").onclick = avNotPenceresiKapat;

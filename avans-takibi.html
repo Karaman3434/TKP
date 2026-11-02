@@ -61,7 +61,7 @@
 <!-- EKLENDİ (26.10.2026, "Yıllık Avans Tablosu" — mockup onaylandı) —
      yillik-km-odeme.html ile AYNI tablo/kutu bileşenleri. -->
 <link rel="stylesheet" href="km-style.css?v=TKP.02.11.26-10:48.1377">
-<link rel="stylesheet" href="avans-takibi-style.css?v=TKP.02.11.26-15:27.1411">
+<link rel="stylesheet" href="avans-takibi-style.css?v=TKP.02.11.26-16:52.1419">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.02.11.26-10:48.1383">
@@ -161,12 +161,12 @@
          PASİF olur (bir daha seçilemez). Durumlar: kırmızı çerçeve = aktif,
          yeşil = maaşa eklendi, gri + 🔒 = pasif. -->
     <div class="av-lejant">
-      <span class="av-lej av-lej--k">Aktif · seçilebilir</span>
+      <span class="av-lej av-lej--k">Açık · seçilebilir</span>
       <span class="av-lej av-lej--y">✓ Maaşa eklendi</span>
-      <span class="av-lej av-lej--g">🔒 Pasif · kilitli</span>
+      <span class="av-lej av-lej--g">🔒 Kapalı · kilitli</span>
       <button type="button" class="av-sec-hepsi" id="btnAvHepsiniSec" hidden>☑ Tümünü seç</button>
     </div>
-    <p class="av-aciklama">Maaştan düşülecek avansın satır başındaki kutusuna dokun, sonra <b>Maaşa Ekle</b>'ye bas. Maaştan düşüldükten sonra <b>Not ekle</b> ile tarih/açıklama yazarsan avans pasif olur.</p>
+    <p class="av-aciklama">İstediğin ayların satır başındaki kutusuna dokun, sonra <b>Maaşa Ekle</b>'ye bas ya da <b>Kapat</b> ile hesaptan çıkar. Maaştan düşüldükten sonra <b>Not ekle</b> ile tarih/açıklama yazarsan avans kapanır. Kapalı avans bir daha açılamaz.</p>
 
     <div class="data-table-container" id="avYilTabloKutu">
       <table class="data-table km-veri-tablo av-yil-tablo">
@@ -211,8 +211,8 @@
        gelindiğinde görünür (salt okunur); ayrı bir "Kayıt Geçmişi" listesine
        artık gerek yok, aynı dönem barından geriye gidilerek görülüyor. -->
   <div class="banner banner--kirmizi banner--kompakt" id="avKapaliSerit" hidden style="margin-bottom:12px;">
-    <span class="banner-baslik">🔒 Bu dönem kapatılmış (salt okunur) —</span>
-    <span class="banner-alt">silmek için dokun</span>
+    <span class="banner-baslik" id="avKapaliSeritBaslik">🔒 Bu dönem kapatılmış (salt okunur) —</span>
+    <span class="banner-alt" id="avKapaliSeritAlt">silmek için dokun</span>
     <button type="button" id="btnAvKapaliKaydiSil" style="margin-left:auto; background:none; border:none; font-size:18px; cursor:pointer; flex-shrink:0;">🗑</button>
   </div>
 
@@ -291,9 +291,24 @@
     <div class="av-alt-bar-et" id="avAltBarEtiket"></div>
     <div class="av-alt-bar-tutar" id="avAltBarTutar">0,00 TL</div>
   </div>
-  <button type="button" class="av-alt-bar-btn" id="btnAvMaasaEkle">➕ Maaşa Ekle</button>
+  <div class="av-alt-bar-btnler">
+    <button type="button" class="av-alt-bar-btn" id="btnAvMaasaEkle">➕ Maaşa Ekle</button>
+    <button type="button" class="av-alt-bar-btn av-alt-bar-btn--kapat" id="btnAvKapat">🔒 Kapat</button>
+  </div>
 </div>
 <div class="av-toast" id="avToast" hidden></div>
+<!-- KAPAT onay penceresi (02.11.2026, Abdullah onayı — mockup üzerinden) -->
+<div class="av-not-overlay" id="avKapatOverlay" hidden>
+  <div class="av-dim" id="avKapatDim"></div>
+  <div class="av-sheet">
+    <h4>🔒 Seçilen avansları kapat</h4>
+    <div class="alt" id="avKapatAlt"></div>
+    <div class="av-kapat-liste" id="avKapatListe"></div>
+    <div class="av-sh-uyari">⚠️ Kapatılan avans hesaptan çıkar ve KİLİTLENİR: bir daha açılamaz, maaşa eklenemez, üzerinde hiçbir işlem yapılamaz.</div>
+    <button type="button" class="av-sh-btn av-sh-btn--kapat" id="btnAvKapatOnayla">🔒 Evet, kapat</button>
+    <button type="button" class="av-sh-iptal" id="btnAvKapatVazgec">Vazgeç</button>
+  </div>
+</div>
 <div class="av-not-overlay" id="avNotOverlay" hidden>
   <div class="av-dim" id="avNotDim"></div>
   <div class="av-sheet">
@@ -303,8 +318,8 @@
     <input type="date" class="av-sh-in" id="avNotTarih">
     <div class="av-sh-et">Açıklama</div>
     <input type="text" class="av-sh-in" id="avNotAciklama" maxlength="160">
-    <div class="av-sh-uyari">⚠️ Kaydedersen bu avans PASİF olur: bir daha seçilemez, hiçbir maaş hesabına eklenemez.</div>
-    <button type="button" class="av-sh-btn" id="btnAvNotKaydet">🔒 Kaydet ve pasif yap</button>
+    <div class="av-sh-uyari">⚠️ Kaydedersen bu avans KAPANIR: bir daha seçilemez, hiçbir maaş hesabına eklenemez.</div>
+    <button type="button" class="av-sh-btn" id="btnAvNotKaydet">🔒 Kaydet ve kapat</button>
     <button type="button" class="av-sh-iptal" id="btnAvNotVazgec">Vazgeç</button>
   </div>
 </div>
@@ -322,8 +337,8 @@
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="ust-bar-davranis.js?v=TKP.01.11.26-18:36.1334"></script>
 <script src="maas-kayit-data.js?v=WG.271026.2238.1125"></script>
-<script src="avans-kayit-data.js?v=TKP.02.11.26-15:27.1409"></script>
-<script src="avans-takibi-render.js?v=TKP.02.11.26-15:27.1410"></script>
+<script src="avans-kayit-data.js?v=TKP.02.11.26-16:52.1417"></script>
+<script src="avans-takibi-render.js?v=TKP.02.11.26-16:52.1418"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
