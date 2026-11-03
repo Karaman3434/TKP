@@ -1,5 +1,5 @@
 /*
-  islem-liste.js — TKP.02.11.26-13:55.1396
+  islem-liste.js — TKP.03.11.26-19:50.1458
   ==========================================================================
   ORTAK İŞLEM LİSTESİ (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır
   filtre" turu; mockup: Son İşlemler satır tasarımı + arama kutusu yanında
@@ -108,14 +108,54 @@ var IslemListesi = (function(){
     // "İşlem tutarı bulunmayan satırlara tutar uydurma." (referans talimatı)
     return k._tutar > 0 ? fmt(k._tutar) + " €" : "<span class='sr-tutar-yok'>—</span>";
   }
+  // ---- SATIR TASARIMI v3 (03.11.2026, Abdullah onayı — mockup "iki satır,
+  // rota toplama bitişik"): 1. satır "MÜŞTERİ - İlçe / İL" (tek satır, alt
+  // satıra inmez), 2. satır sağa yaslı İŞLEM ROTASI + tutar: her aşama
+  // "gg.aa KOD" olarak, en son (şimdiki) aşama en sağda ve vurgulu, hemen
+  // ardından toplam tutar. Revize edilmiş kayıtta şimdiki aşamanın kutusuna
+  // turuncu R / R2 / R3 etiketi eklenir (RVZ rozeti artık YOK — hangi
+  // aşamanın revizesi olduğu kutudan okunur). Rota, kaydın "rota" alanından
+  // (İlerlet ile taşınan aşamalar, bkz. send-data.js / reports-data.js)
+  // okunur; rota yoksa sadece şimdiki aşama görünür.
+  var AY_NO = {Oca:1,"Şub":2,Mar:3,Nis:4,"May":5,Haz:6,Tem:7,"Ağu":8,Eyl:9,Eki:10,Kas:11,Ara:12};
+  function ikiHane(n){ return String(n).padStart(2,"0"); }
+  // "15 Tem 2026 14:30" (tarihStr çıktısı) ya da ts (sayı) -> "15.07"
+  function tarihGunAy(t){
+    if(typeof t === "number" && t > 0){ var d = new Date(t); return ikiHane(d.getDate()) + "." + ikiHane(d.getMonth()+1); }
+    var p = String(t||"").trim().split(/\s+/);
+    if(p.length >= 2 && AY_NO[p[1]]) return ikiHane(parseInt(p[0],10)) + "." + ikiHane(AY_NO[p[1]]);
+    return "";
+  }
+  function asamaKutusuHTML(tip, durumMeta, revizeSayisi){
+    var m = durumMeta || TIP_META[tip] || TIP_META.siparis;
+    var kutuStil = "background:" + m.rozetBg + ";color:" + m.rozetRenk + ";";
+    if(revizeSayisi > 0){
+      return "<span class='sr-kd sr-kd--rvz' style='" + kutuStil + "'><i>" + m.rozet + "</i><i class='sr-kd-r'>R" + (revizeSayisi > 1 ? revizeSayisi : "") + "</i></span>";
+    }
+    return "<span class='sr-kd' style='" + kutuStil + "'>" + m.rozet + "</span>";
+  }
+  function rotaHTML(k){
+    var parcalar = [];
+    (k.rota || []).forEach(function(r){
+      if(!r || !TIP_META[r.tip]) return;
+      parcalar.push("<span class='sr-as'><small>" + tarihGunAy(r.tarih) + "</small>" + asamaKutusuHTML(r.tip, null, 0) + "</span>");
+    });
+    var kacanMi = k.durum === "kacan";
+    var revizeSayisi = (!kacanMi && k.revizeZamani) ? Math.max(1, (k.revizeGecmisi || []).length) : 0;
+    parcalar.push("<span class='sr-as sr-as--son'><small>" + tarihGunAy(k.ts) + "</small>" + asamaKutusuHTML(k.tip, kacanMi ? KACAN_META : null, revizeSayisi) + "</span>");
+    return parcalar.join("<span class='sr-ay'>&#8250;</span>");
+  }
   function satirHTML(k, i){
     var m = rozetMeta(k);
     return "<div class='sr-satir" + (k._beklemede ? " sr-satir--beklemede" : "") + "' data-i='" + i + "' style='border-left-color:" + m.serit + ";'>"
-      + "<div class='sr-firma-h'>" + htmlEsc(k.musteri||"") + "</div>"
-      + "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
-      + "<span class='sr-rozet-h' style='background:" + m.rozetBg + ";color:" + m.rozetRenk + ";'>" + m.rozet + "</span>"
-      + "<div class='sr-belge-h'>" + kanalHarfHTML(k.kanal) + "</div>"
-      + "<div class='sr-tutar-h'>" + tutarHucreHTML(k) + "</div>"
+      + "<div class='sr-ust'>"
+      +   "<div class='sr-firma-h'>" + htmlEsc(k.musteri||"") + "</div>"
+      +   "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
+      + "</div>"
+      + "<div class='sr-alt'>"
+      +   "<div class='sr-rota'>" + rotaHTML(k) + "</div>"
+      +   "<div class='sr-tm'>" + kanalHarfHTML(k.kanal) + "<div class='sr-tutar-h'>" + tutarHucreHTML(k) + "</div></div>"
+      + "</div>"
       + "<div class='sr-ok-h'>&#8250;</div>"
       + "</div>";
   }

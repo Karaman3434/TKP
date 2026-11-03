@@ -1,4 +1,4 @@
-/* islem-liste-style.css — TKP.02.11.26-13:55.1397
+/* islem-liste-style.css — TKP.03.11.26-19:50.1458
    ORTAK İŞLEM LİSTESİ STİLİ (02.11.2026, Abdullah onayı): Son İşlemler,
    Satış Listesi, Ay Detay ve Kaçan Satışlar artık bu TEK dosyadan stillenir
    (islem-liste.js). Satır / gün bandı / rozet kuralları, onaylı "Son
@@ -61,9 +61,11 @@
 #islemlerListesi .sr-satir {
   cursor: pointer;
   display: grid;
-  grid-template-columns: minmax(0,1fr) minmax(50px,19%) 43.2px 16px 76px 18px;
+  /* v3 (03.11.2026): 2 satır — [ust: müşteri - konum] / [alt: rota + tutar] + ok */
+  grid-template-columns: minmax(0,1fr) 18px;
+  grid-template-rows: auto auto;
   align-items: center;
-  gap: 4.56px;
+  row-gap: 2px;
   /* MIN-HEIGHT YARIYA İNDİRİLDİ (01.11.2026, Abdullah onayı — "satırlar
      arası çok boşluk var, S22'de daha fazla kayıt görmek istiyorum" turu):
      40px -> 20px. Padding zaten önceki turda ~0'a indirilmişti (aşağıdaki
@@ -72,11 +74,11 @@
      doğal yükseklikte olduğu için 20px'te kırpılmadan sığıyor, 2 satıra
      saran uzun firma/konum metinleri min-height'ı zaten aşıp kendi doğal
      yüksekliğine büyüyor (min-height bir TABAN, tavan değil). */
-  min-height: 20px;
+  min-height: 0;
   /* PADDING DARALTILDI (01.11.2026, Abdullah onayı — %50 + ek %19 + ek %70):
      dikey 7px -> 2.835px -> 0.8505px (orijinalin ~%12.15'i). Yatay/sol
      padding değişmedi. */
-  padding: 0.8505px 2mm 0.8505px calc(2mm + 6px);
+  padding: 3px 2mm 3px calc(2mm + 6px);
   border-bottom: 1px solid #eef0f3;
   border-left: 3px solid #c3cad4;
   background: #fff;
@@ -112,6 +114,27 @@
 #islemlerListesi .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; font-size: 9.3px; padding: 2px 3px; letter-spacing: -0.1px; }
 #islemlerListesi .sr-satir--beklemede { background: #f5ede1; }
 #islemlerListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }
+
+/* SATIR v3 (03.11.2026, Abdullah onayı — "iki satır, rota toplama bitişik") */
+#islemlerListesi .sr-ust { grid-column: 1; grid-row: 1; display: flex; align-items: baseline; gap: 5px; min-width: 0; }
+#islemlerListesi .sr-ust .sr-firma-h { flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; }
+#islemlerListesi .sr-ust .sr-konum-h { flex: 1 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; font-size: 12px; }
+#islemlerListesi .sr-ust .sr-konum-h:not(:empty):before { content: "- "; color: #b5bcc7; }
+#islemlerListesi .sr-alt { grid-column: 1; grid-row: 2; display: flex; align-items: center; justify-content: flex-end; gap: 5px; min-width: 0; }
+#islemlerListesi .sr-ok-h { grid-column: 2; grid-row: 1 / span 2; }
+#islemlerListesi .sr-rota { display: flex; align-items: center; justify-content: flex-end; gap: 3px; min-width: 0; white-space: nowrap; }
+#islemlerListesi .sr-as { display: inline-flex; align-items: center; gap: 2px; }
+#islemlerListesi .sr-as small { font-size: 9.8px; font-weight: 600; color: #8f98a6; letter-spacing: -.1px; }
+#islemlerListesi .sr-as--son small { font-size: 10.4px; font-weight: 700; color: #4a5565; }
+#islemlerListesi .sr-ay { color: #b5bcc7; font-weight: 900; font-size: 10px; }
+#islemlerListesi .sr-kd { display: inline-flex; align-items: center; font-size: 10px; font-weight: 900; padding: 2px 3px; border-radius: 4px; line-height: 1; }
+#islemlerListesi .sr-as--son .sr-kd { font-size: 11px; padding: 3px 4px; border-radius: 5px; }
+#islemlerListesi .sr-kd--rvz { padding: 0 !important; overflow: hidden; box-shadow: 0 0 0 1.5px #b7601f inset; }
+#islemlerListesi .sr-kd--rvz i { font-style: normal; padding: 3px 4px; }
+#islemlerListesi .sr-kd--rvz i.sr-kd-r { background: #b7601f; color: #fff; font-size: 10px; padding: 3px 3px; }
+#islemlerListesi .sr-tm { display: flex; align-items: center; gap: 4px; margin-left: 3px; flex: 0 0 auto; }
+#islemlerListesi .sr-tm .sr-kanal-harf { margin: 0; font-size: 11.5px; line-height: 1; }
+#islemlerListesi .sr-tutar-h { white-space: nowrap; flex: 0 0 auto; }
 
 /* =====================================================================
    FİLTRE İKONU + AÇILIR PENCERE (02.11.2026, Abdullah onayı — mockup
