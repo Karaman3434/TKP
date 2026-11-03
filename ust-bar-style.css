@@ -1,5 +1,19 @@
-/* İŞ TAKİP V2 — VERSİYON: TKP.02.11.26-09:58.1360 — ust-bar-style.css
+/* İŞ TAKİP V2 — VERSİYON: TKP.03.11.26-14:45.1454 — ust-bar-style.css
    ===========================================================================
+   GÜNCELLEME (03.11.2026, 14:45, Abdullah onayı — mockup v2 onaylandı):
+   1) Sayfa adı etiketi (turuncu) artık Menü/Geri/Beklet/Kapat ile aynı
+      satırda DEĞİL — İKİNCİ satırda, tam genişlikte, tek satır, yazı
+      ortada, ince (24px; yazı boyutu aynı 15px). Boşluklar %50 daraltıldı
+      (üst 6->3px, alt 8->4px). Ana Sayfa'nın logosu (.ub-logo) AYNI
+      satırda kalır, değişmedi.
+   2) Satırın SONUNA sayfa eylemleri: .ub-eylem içinde Kaydet (mor) ve
+      Gönder (turkuaz) — diğer tuşlarla aynı ölçü (48.4x44). İkisi birlikte
+      varsa Gönder en sağ uçta, Kaydet onun solunda. Tuşları ust-bar-eylem.js
+      ekler (sayfa -> eylem tablosu orada, TEK yer).
+   Dar telefonda (360px) iki eylemle birlikte sığması için .ub-bar:has(
+   .ub-sayfa-etiket) boşlukları (gap 3mm -> 0) daraltılır.
+   ===========================================================================
+   (eski notlar)
    GÜNCELLEME (02.11.2026, 09:58, Abdullah onayı — mockup "Seçenek A"):
    .ub-sayfa-etiket (turuncu sayfa adı rozeti) Kapat tuşunun yanından ekran
    kenarına kadar boşluksuz dolar (dosya sonundaki "BOŞLUKSUZ DOLDURMA").
@@ -178,4 +192,66 @@
   display: block;
   line-height: 41px;   /* 44px − 2×1.5px çerçeve: dikey ortalama (block + ellipsis için) */
   text-align: center;
+}
+
+
+/* =========================================================================
+   03.11.2026 — ÜST BAR: 2 SATIR + SAYFA EYLEMLERİ (Abdullah onayı, mockup v2)
+   Bu blok dosyanın EN SONUNDA olmalı: yukarıdaki "BOŞLUKSUZ DOLDURMA" ve
+   eski tek satırlık etiket kurallarını aynı özgüllükle, sonra gelerek ezer.
+   ========================================================================= */
+.ub-bar { flex-wrap: wrap; }
+.ub-bar:has(.ub-sayfa-etiket) {
+  gap: 0;
+  padding: 6px 6px 0 6px;
+}
+.ub-grup { order: 1; margin-right: auto; }
+.ub-logo { order: 2; margin-left: 3mm; }
+
+/* Sayfa adı: ikinci satır, tam genişlik, ince, ortalı */
+.ub-sayfa-etiket {
+  order: 5;
+  flex: 0 0 100%;
+  height: auto;
+  margin: 0;
+  padding: 3px 0 4px;
+  display: block;
+  overflow: visible;
+}
+.ub-sayfa-etiket:empty { display: none; }
+.ub-sayfa-etiket span,
+.ub-sayfa-etiket b {
+  display: block;
+  height: 24px;
+  line-height: 21px;   /* 24px − 2×1.5px çerçeve */
+  padding: 0 10px;
+  text-align: center;
+}
+
+/* Sayfa eylemleri (Kaydet / Gönder) — satırın sonunda */
+.ub-eylem {
+  order: 2;
+  display: flex;
+  gap: 5px;
+  background: #eef2f8;
+  border-radius: 12px;
+  padding: 4px 3px;
+  flex-shrink: 0;
+}
+.ub-eylem[hidden] { display: none; }
+.ub-btn--kaydet { background: linear-gradient(180deg,#9a6df0 0%,#7a45dc 55%,#5b2dba 100%); }
+.ub-btn--gonder { background: linear-gradient(180deg,#27c3d6 0%,#0f9fb5 55%,#0a7487 100%); }
+.ub-btn svg {
+  width: 22px; height: 22px;
+  fill: none; stroke: #fff; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.ub-btn--kaydet[disabled],
+.ub-btn--gonder[disabled] {
+  background: linear-gradient(180deg,#c9ced6 0%, #aab2bf 55%, #8d96a6 100%);
+  filter: none;
+  opacity: 1;
+  box-shadow: 0 2px 0 rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.3);
+  cursor: not-allowed;
+  pointer-events: none;
 }
