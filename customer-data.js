@@ -56,6 +56,13 @@ var CustomerData = (function(){
 
   function sec(musteri){
     try{ localStorage.setItem(SECILI_MUSTERI_KEY, JSON.stringify(musteri)); }catch(e){}
+    // 10 DK OTO-SİL SAYACI (03.11.2026): sepet boşken yeni müşteri seçmek
+    // YENİ bir işlemin başlangıcıdır — süre baştan başlar (bkz. cart-data.js
+    // suresiDoldumu). Sepet doluysa mevcut işlemin damgası korunur.
+    try{
+      var sp = JSON.parse(localStorage.getItem("weiconv2_sepet") || "[]");
+      if(!sp || sp.length === 0) localStorage.setItem("weiconv2_sepet_baslangic_zamani", String(Date.now()));
+    }catch(e){}
   }
 
   function secimiKaldir(){

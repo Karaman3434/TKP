@@ -50,6 +50,9 @@
     try{
       var btn = document.getElementById("btnUstKapat");
       if(!btn) return;
+      // Sayfa kendi Kapat davranışını tanımlıyorsa (örn. cart.html: işlemi
+      // iptal + sepeti boşalt, 03.11.2026) genel davranış bağlanmaz.
+      if(btn.getAttribute("data-ozel-kapat") === "1") return;
       btn.disabled = false;
       btn.onclick = kapatTiklandi;
     }catch(e){}

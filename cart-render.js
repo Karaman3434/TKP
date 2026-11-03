@@ -35,6 +35,16 @@ function kayitBildirimiGoster(mesaj){
   setTimeout(function(){ kutu.remove(); }, 2500);
 }
 
+// İPTAL BİLDİRİMİ (03.11.2026, Abdullah'ın isteğiyle): Sepet sayfasında Kapat (✕)
+// = işlemi iptal et + sepeti boşalt; onay penceresi yok, sadece kısa bilgi.
+function iptalBildirimiGoster(){
+  var kutu = document.createElement("div");
+  kutu.textContent = "İşlem iptal ediliyor…";
+  kutu.style.cssText = "position:fixed;top:8px;left:8px;right:8px;background:#b54708;color:#fff;padding:12px;border-radius:10px;font-size:14px;font-weight:800;text-align:center;z-index:99999;box-shadow:0 4px 14px rgba(0,0,0,.3);";
+  document.body.appendChild(kutu);
+  setTimeout(function(){ kutu.remove(); }, 2500);
+}
+
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -314,7 +324,23 @@ function sayfayiCiz(){
     var tamamMi = CartData.tamamHesaplandiMi();
 
     if(liste.length === 0){
-      document.getElementById("cariBilgiAlani").innerHTML = "";
+      // MÜŞTERİ ŞERİDİ BOŞ SEPETTE DE (03.11.2026, Abdullah'ın isteğiyle):
+      // müşteri daha önce seçildiyse sepet sayfası açılır açılmaz arama
+      // kutusunun altında görünür — ürün eklenmesi beklenmez.
+      if(musteri){
+        document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri, true);
+        var btnGecmisBos = document.getElementById("btnMusteriGecmis");
+        if(btnGecmisBos) btnGecmisBos.onclick = musteriGecmisiniAc;
+        var msAdBos = document.querySelector("#cariBilgiAlani .ms-ad");
+        if(msAdBos){
+          msAdBos.onclick = function(){
+            localStorage.setItem("weiconv2_sepetten_cari_acildi", "1");
+            window.location.href = "customer-cari-kart.html";
+          };
+        }
+      } else {
+        document.getElementById("cariBilgiAlani").innerHTML = "";
+      }
       grupSariAlani.innerHTML = "";
       grupYesilAlani.innerHTML = "";
       bosMesaj.hidden = false;
@@ -588,6 +614,12 @@ function ilerletKaynagiOku(){
 }
 
 function ilerletKaynagiVarsaSekmeAyarla(){
+  // BAYAT BAYRAK TEMİZLİĞİ (03.11.2026): sepet boşsa "revize/ilerlet" kaynağı
+  // artık geçersizdir (reports-data.js bayrağı sepetle BİRLİKTE yazar) —
+  // bırakılırsa ilgisiz bir sonraki kayıtta eski belgeyi silebilir.
+  try{
+    if(CartData.liste().length === 0) localStorage.removeItem("weiconv2_ilerlet_kaynak");
+  }catch(e){}
   var kaynak = ilerletKaynagiOku();
   if(!kaynak || !kaynak.sonrakiAsamaSecenekleri || kaynak.sonrakiAsamaSecenekleri.length===0) return;
   var secenekler = kaynak.sonrakiAsamaSecenekleri;
@@ -599,8 +631,10 @@ function ilerletKaynagiVarsaSekmeAyarla(){
     secilenTip = (oncedenSecilen && secenekler.indexOf(oncedenSecilen) !== -1) ? oncedenSecilen : secenekler[0];
     uyari.textContent = "▶️ İlerletiliyor — kayıt tamamlanınca önceki aşamanın belgesi otomatik silinecek.";
   } else {
+    // "Revize ediliyor" bildirimi KALDIRILDI (03.11.2026, Abdullah'ın isteğiyle);
+    // aşama seçimi Kaydet/Gönder'de popup ile sorulmaya devam eder.
     revizeSecimBekleniyor = secenekler;
-    uyari.textContent = "🔄 Revize ediliyor — Kaydet/Gönder'e basınca hangi aşamaya (" + secenekler.map(function(s){return TIP_ETIKET_ROZET[s];}).join(" / ") + ") dönüşeceğini seçeceksin.";
+    return;
   }
   document.getElementById("ilerletBilgiAlani").appendChild(uyari);
 }
@@ -712,6 +746,9 @@ function yarimKalanIslemKontrolEt(){
   try{
     if(!CartData.suresiDoldumu()) return;
     sepetOturumAnahtarlariniTemizle();
+    revizeSecimBekleniyor = null;
+    var bilgiAlani = document.getElementById("ilerletBilgiAlani");
+    if(bilgiAlani) bilgiAlani.innerHTML = "";
     CartData.sifirla(function(){ sayfayiCiz(); });
   }catch(e){}
 }
@@ -991,7 +1028,8 @@ document.addEventListener("DOMContentLoaded", function(){
   // CustomerData.secimiKaldir() de artık kendi try/catch'i içinde — orada
   // beklenmedik bir hata çıksa bile sepet sıfırlama ve yönlendirme ASLA
   // yarıda kalmasın diye.
-  function herSeyiSifirlaVeGit(hedefUrl){
+  function herSeyiSifirlaVeGit(hedefUrl, enAzBeklemeMs){
+    var baslamaZamani = Date.now();
     localStorage.removeItem("weiconv2_sepet_kur_override");
     try{ CustomerData.secimiKaldir(); }catch(e){}
     try{
@@ -1007,7 +1045,11 @@ document.addEventListener("DOMContentLoaded", function(){
     // 1.2sn sonra) SONRA tetikleniyor — yoksa yeni sayfadaki fbYukle() eski
     // yedeği geri yükleyip iptali sessizce boşa çıkarabiliyordu.
     CartData.sifirla(function(){
-      window.location.href = hedefUrl;
+      // enAzBeklemeMs: "İşlem iptal ediliyor…" bildirimi okunabilsin diye
+      // (Kapat tuşu, 03.11.2026) — temizlik hemen yapılır, sadece geçiş gecikir.
+      var kalan = (enAzBeklemeMs || 0) - (Date.now() - baslamaZamani);
+      if(kalan > 0) setTimeout(function(){ window.location.href = hedefUrl; }, kalan);
+      else window.location.href = hedefUrl;
     });
   }
   var iptalOnayHedefUrl = null;
@@ -1050,6 +1092,20 @@ document.addEventListener("DOMContentLoaded", function(){
         window.history.back();
       }
     });
+  }
+  // KAPAT (✕) = İŞLEMİ İPTAL ET + SEPETİ BOŞALT (03.11.2026, Abdullah'ın
+  // isteğiyle — "kapat tuşu her zaman işlem iptal ve sepet boşalt demek
+  // olacak"). Onay penceresi yok; kısa bildirim gösterilip hemen sıfırlanır.
+  var btnUstKapatEl = document.getElementById("btnUstKapat");
+  if(btnUstKapatEl){
+    btnUstKapatEl.disabled = false;
+    var kapatIsleniyor = false;
+    btnUstKapatEl.onclick = function(){
+      if(kapatIsleniyor) return;
+      kapatIsleniyor = true;
+      iptalBildirimiGoster();
+      herSeyiSifirlaVeGit(cartDonusRotasi === "customer.html" ? "customer.html" : "home.html", 900);
+    };
   }
   document.getElementById("btnSepetIptal").onclick = function(){
     iptalOnayGoster(cartDonusRotasi === "customer.html" ? "customer.html" : "home.html");

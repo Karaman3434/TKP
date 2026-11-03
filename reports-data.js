@@ -626,6 +626,7 @@ var ReportsData = (function(){
       };
     });
     localStorage.setItem("weiconv2_sepet", JSON.stringify(sepet));
+    localStorage.setItem("weiconv2_sepet_baslangic_zamani", String(Date.now()));   // 10 dk oto-sil sayacı (03.11.2026)
     localStorage.setItem("weicon_secili_musteri", JSON.stringify({ad:kayit.musteri, sehir:kayit.sehir||"", id:kayit.musteriId||null}));
     // ROTA ZİNCİRİ (13.10.2026, Abdullah'ın isteğiyle): İlerletme sırasında
     // SADECE bir önceki aşama (oncekiKod/oncekiTarih) değil, kaydın o ana
@@ -672,6 +673,7 @@ var ReportsData = (function(){
       };
     });
     localStorage.setItem("weiconv2_sepet", JSON.stringify(sepet));
+    localStorage.setItem("weiconv2_sepet_baslangic_zamani", String(Date.now()));   // 10 dk oto-sil sayacı (03.11.2026)
     localStorage.setItem("weicon_secili_musteri", JSON.stringify({ad:kayit.musteri, sehir:kayit.sehir||"", id:kayit.musteriId||null}));
     localStorage.removeItem("weiconv2_ilerlet_kaynak");
     localStorage.setItem("weiconv2_onceden_secilen_tip", kayit.tip);

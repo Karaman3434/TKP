@@ -159,11 +159,26 @@ var CartData = (function(){
   }
 
   // 10 DAKİKA DOLDU MU — bkz. BASLANGIC_KEY yorumu yukarıda.
+  // GENİŞLETİLDİ (03.11.2026, Abdullah'ın isteğiyle — "yarım kalmış işlemler
+  // 10 dakika sonra sistem tarafından otomatik silinsin"): "yarım işlem"
+  // artık sadece dolu sepet değil; sepet BOŞ olsa bile seçili müşteri ya da
+  // revize/ilerlet kaynağı varsa da sayılır. Damga yoksa (revize akışı gibi
+  // sepeti doğrudan yazan yerler) o an damgalanır, süre buradan başlar.
+  function bekleyenIslemVarMi(){
+    try{
+      return sepet.length > 0 ||
+        !!localStorage.getItem("weicon_secili_musteri") ||
+        !!localStorage.getItem("weiconv2_ilerlet_kaynak");
+    }catch(e){ return sepet.length > 0; }
+  }
   function suresiDoldumu(){
-    if(sepet.length === 0) return false;
+    if(!bekleyenIslemVarMi()) return false;
     try{
       var baslangic = parseInt(localStorage.getItem(BASLANGIC_KEY), 10);
-      if(!baslangic) return false;
+      if(!baslangic){
+        localStorage.setItem(BASLANGIC_KEY, String(Date.now()));
+        return false;
+      }
       return (Date.now() - baslangic) > ON_DAKIKA_MS;
     }catch(e){ return false; }
   }
