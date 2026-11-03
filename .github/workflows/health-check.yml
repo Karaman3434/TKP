@@ -187,6 +187,13 @@ jobs:
                           data = fetch(path)
                           if not data:
                               failures.append(f"Manifest simgesi erişilemiyor: {src}")
+                          else:
+                              size_match = re.fullmatch(r"(\d+)x(\d+)", str(item.get("sizes", "")))
+                              if size_match:
+                                  expected = tuple(int(value) for value in size_match.groups())
+                                  check_png(data, path, expected)
+                              else:
+                                  warnings.append(f"Manifest simgesi için doğrulanabilir boyut tanımı yok: {src}")
 
           for warning in warnings:
               print("WARN: " + warning)
