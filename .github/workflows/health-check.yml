@@ -3,6 +3,8 @@ name: İş Takip Sağlık Kontrolü
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   schedule:
     - cron: "17 */6 * * *"
   workflow_dispatch:
@@ -27,7 +29,11 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, pathlib, sys
-          files = ["manifest.json", "database.rules.json"]
+          files = sorted(
+              str(path.relative_to("."))
+              for path in pathlib.Path(".").rglob("*.json")
+              if ".git" not in path.parts
+          )
           failed = False
           for name in files:
               try:
@@ -36,6 +42,7 @@ jobs:
               except Exception as exc:
                   print("FAIL JSON:", name, exc)
                   failed = True
+          print(f"JSON dosyası sayısı: {len(files)}")
           if failed:
               sys.exit(1)
           PY
@@ -85,6 +92,7 @@ jobs:
           PY
 
       - name: Site sağlık kontrolü
+        if: always()
         run: |
           python3 - <<'PY'
           import json, re, struct, sys, urllib.request, urllib.error
