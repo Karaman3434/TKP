@@ -665,7 +665,7 @@ function bhpAc(musteri, ankorEl){
     document.getElementById("bhpBaslik").innerHTML =
       "<span><span class='ms-kod'>" + htmlEsc(musteri.id||"—") + "</span></span>"
       + "<span class='ms-ad'>" + htmlEsc(musteri.ad||"") + "</span>"
-      + (musteri.sehir ? "<span class='ms-sehir'>" + htmlEsc(musteri.sehir) + "</span>" : "");
+      + ((typeof CustomerData !== "undefined" && CustomerData.konumMetni ? CustomerData.konumMetni(musteri) : (musteri.sehir||"")) ? "<span class='ms-sehir'>" + htmlEsc(typeof CustomerData !== "undefined" && CustomerData.konumMetni ? CustomerData.konumMetni(musteri) : musteri.sehir) + "</span>" : "");
 
     var ogeler = [
       {ikon:"🏢", etiket:"Cari", aksiyon:"cari"},

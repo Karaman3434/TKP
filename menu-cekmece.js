@@ -282,6 +282,11 @@ function mcMiniAramaYenidenCiz(tur){
   mcMiniSonucKonumla(mcMiniAramaAktifInput);
 }
 
+// "İlçe / İL" konum metni (03.11.2026) — tek kaynak CustomerData.konumMetni.
+function mcKonum(m){
+  if(typeof CustomerData !== "undefined" && CustomerData.konumMetni) return CustomerData.konumMetni(m);
+  return m ? [m.sehir, m.il].filter(Boolean).join(" / ") : "";
+}
 function mcHtmlEsc(s){
   return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
@@ -479,7 +484,7 @@ function mcMusteriSonuclariniCiz(q, panel){
     html += "<div class='musteri-karti' data-i='" + i + "' style='border-left-color:" + serit + ";'>"
       + "<div class='musteri-kod-h'>" + mcHtmlEsc(m.id||"—") + "</div>"
       + "<div class='musteri-firma-h'>" + mcHtmlEsc(m.ad||"") + "</div>"
-      + "<div class='musteri-konum-h'>" + mcHtmlEsc(m.sehir||"") + "</div>"
+      + "<div class='musteri-konum-h'>" + mcHtmlEsc(mcKonum(m)) + "</div>"
       + rozetHtml
       + "<div class='musteri-tarih-h'>" + (islem ? mcMusteriTarihKisaYil(islem.ts) : "—") + "</div>"
       + "<div class='musteri-ok-h'>&#8250;</div>"
@@ -681,7 +686,7 @@ function mcMusteriHizliPencereGoster(musteri, panel){
     var baslikHtml = "<div class='cm-altmenu-musteri-baslik'>"
       + "<span><span class='ms-kod'>" + mcHtmlEsc(musteri.id||"—") + "</span></span>"
       + "<span class='ms-ad'>" + mcHtmlEsc(musteri.ad||"") + "</span>"
-      + (musteri.sehir ? "<span class='ms-sehir'>" + mcHtmlEsc(musteri.sehir) + "</span>" : "")
+      + (mcKonum(musteri) ? "<span class='ms-sehir'>" + mcHtmlEsc(mcKonum(musteri)) + "</span>" : "")
       + "</div>";
 
     var ogeler = [

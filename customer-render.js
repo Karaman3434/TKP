@@ -235,7 +235,7 @@ function listeyiCiz(){
       return "<div class='musteri-karti' data-i='" + i + "' style='border-left-color:" + serit + ";'>"
         + "<div class='musteri-kod-h'>" + htmlEsc(m.id||"—") + "</div>"
         + "<div class='musteri-firma-h'>" + htmlEsc(m.ad||"") + "</div>"
-        + "<div class='musteri-konum-h'>" + htmlEsc(m.sehir||"") + "</div>"
+        + "<div class='musteri-konum-h'>" + htmlEsc(CustomerData.konumMetni(m)) + "</div>"
         + musteriRozetHTML(islem)
         + "<div class='musteri-tarih-h'>" + (islem ? tarihFormatlaKisaYil(islem.ts) : "—") + "</div>"
         + "<div class='musteri-ok-h'>" + MUSTERI_OK_HTML + "</div>"
@@ -337,7 +337,7 @@ function hizliPencereyiAc(musteri){
     document.getElementById("cmAltMenuBaslik").innerHTML =
       "<span><span class='ms-kod'>" + htmlEsc(musteri.id||"—") + "</span></span>"
       + "<span class='ms-ad'>" + htmlEsc(musteri.ad||"") + "</span>"
-      + (musteri.sehir ? "<span class='ms-sehir'>" + htmlEsc(musteri.sehir) + "</span>" : "");
+      + ((CustomerData.konumMetni(musteri)) ? "<span class='ms-sehir'>" + htmlEsc(CustomerData.konumMetni(musteri)) + "</span>" : "");
 
     var ogeler = [
       {ikon:"🏢", etiket:"Cari", aksiyon:"cari"},

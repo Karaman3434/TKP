@@ -95,7 +95,28 @@ var CustomerData = (function(){
   function sehirBul(musteriId, musteriAd, yedek){
     var m = musteriId ? liste.find(function(x){ return x.id === musteriId; }) : null;
     if(!m && musteriAd) m = musteriBul(musteriAd);
-    return m ? (m.sehir || "") : (yedek === undefined ? null : yedek);
+    return m ? konumMetni(m) : (yedek === undefined ? null : yedek);
+  }
+
+  // KONUM METNİ = "İlçe / İL" (03.11.2026, Abdullah'ın isteğiyle): müşteri
+  // adının yanında/altında görünen konum, cari kartta girilen ŞEHİR (İLÇE)
+  // ile seçilen İL'in birleşimi: "Etimesgut / ANKARA". TEK KAYNAK — müşteri
+  // şeridi (musteri-serit.js), müşteri listeleri ve işlem listeleri (canlı
+  // şehir, bkz. sehirBul/reports-data.js) hep bunu kullanır. İl nesnede
+  // yoksa (eski/kısa kayıt) müşteri ID'siyle güncel listeden alınır; ilçe
+  // metni zaten ili içeriyorsa tekrarlanmaz; sadece biri varsa o gösterilir.
+  function konumMetni(m){
+    if(!m) return "";
+    var sehir = String(m.sehir || "").trim();
+    var il = String(m.il || "").trim();
+    if(!il && m.id){
+      var g = liste.find(function(x){ return x.id === m.id; });
+      if(g && g.il) il = String(g.il).trim();
+    }
+    if(!il) return sehir;
+    if(!sehir) return il;
+    if(sehir.toLocaleLowerCase("tr-TR").indexOf(il.toLocaleLowerCase("tr-TR")) !== -1) return sehir;
+    return sehir + " / " + il;
   }
   function musteriIdIleBul(id){
     if(!id) return null;
@@ -943,6 +964,7 @@ var CustomerData = (function(){
     ilKoduSil: ilKoduSil,
     musteriIdIleBul: musteriIdIleBul,
     sehirBul: sehirBul,
+    konumMetni: konumMetni,
     idleriStandartlastir: idleriStandartlastir,
     yaziminiDuzelt: yaziminiDuzelt,
     arsivMusteriIdGuncelle: arsivMusteriIdGuncelle,

@@ -42,7 +42,12 @@ var MusteriSeridi = (function(){
   function html(musteri, opts){
     if(!musteri) return "";
     var kod = (musteri.id && !(opts && opts.koduGizle)) ? "<b class='ms-kod'>" + esc(musteri.id) + "</b> " : "";
-    var sehir = musteri.sehir ? "<span class='ms-ayrac'>-</span><span class='ms-sehir'>" + esc(musteri.sehir) + "</span>" : "";
+    // KONUM = "İlçe / İL" (03.11.2026) — tek kaynak CustomerData.konumMetni;
+    // customer-data.js yüklü olmayan sayfada yedek: ilçe + il kendi nesnesinden.
+    var konum = (typeof CustomerData !== "undefined" && CustomerData.konumMetni)
+      ? CustomerData.konumMetni(musteri)
+      : [musteri.sehir, musteri.il].filter(Boolean).join(" / ");
+    var sehir = konum ? "<span class='ms-ayrac'>-</span><span class='ms-sehir'>" + esc(konum) + "</span>" : "";
     var gecmisBtn = (opts && opts.gecmisButonu) ? "<button type='button' class='ms-gecmis-btn' id='btnMusteriGecmis' title='İşlem Geçmişi' aria-label='İşlem Geçmişi'>🕓<span class='ms-gecmis-etiket'>GEÇMİŞ</span></button>" : "";
     var gonderIkon = (typeof IkonSvg !== "undefined") ? IkonSvg.svg("gonder") : "";
     var gonderBtn = (opts && opts.gonderButonu) ? "<button type='button' class='ms-gonder-btn' id='btnMusteriGonder' title='Gönder' aria-label='Gönder'" + (opts.gonderDisabled ? " disabled" : "") + ">" + gonderIkon + "</button>" : "";
