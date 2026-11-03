@@ -1,5 +1,5 @@
 /*
-  send-render.js — TKP.02.11.26-12:19.1393
+  send-render.js — TKP.03.11.26-15:35.1455
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
   görsel oluşturma/kopyalama özelliklerinden biri GERÇEKTEN kullanıldığında
   ilk kez indiriliyor (bkz. html2canvasYukle()). Davranış/çıktı değişmedi.
@@ -913,6 +913,104 @@ document.addEventListener("DOMContentLoaded", function(){
     var g = gonderBaglam;
     document.getElementById("tamOnizlemeAlani").innerHTML = tamOnizlemeHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, null, g.kod);
     kosulSatirlariniSigdir(document.getElementById("tamOnizlemeAlani"));
+    secimDegistirmeyiKur();
+  }
+
+  // YETKİLİ / TESLİMAT "DEĞİŞTİR" (03.11.2026, Abdullah onayı — mockup
+  // "Seçenek 1"): 27.10.2026'da Cari Kart ara adımı akıştan kalktığı için
+  // Gönder'e gelen işlemde yetkili ve teslimat adresi hep İLK kayıt oluyordu,
+  // değiştirmenin yolu yoktu. Artık canlı önizlemedeki YETKİLİ ve TESLİMAT
+  // ADRESİ başlıklarında (birden fazla kayıt varsa) "Değiştir" tuşu çıkıyor;
+  // dokununca liste AYNI yerde açılır (alttan pencere yok), seçim:
+  //  1) weiconv2_secili_iletisim'e yazılır (mail/WhatsApp görseli, tablo,
+  //     PDF hep bunu okur — tek kaynak),
+  //  2) kayıtlı belgeye işlenir (Belge Önizleme/geçmiş aynı seçimi gösterir),
+  //  3) önizleme ve WhatsApp telefon/e-posta alanları yenilenir.
+  // Müşterinin tek yetkilisi/teslimat adresi varsa tuş hiç görünmez.
+  function secimDegistirmeyiKur(){
+    try{
+      var g = gonderBaglam;
+      if(!g || !g.musteri) return;
+      var alan = document.getElementById("tamOnizlemeAlani");
+      var KEY = "weiconv2_secili_iletisim";
+      var secim = {};
+      try{ secim = JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){}
+
+      var bolumler = [
+        { sinif:"ck-blok-etiket--yetkili", alanAdi:"yetkili", liste:g.musteri.iletisimler || [],
+          satir:function(k){ return {ad:(k.isim||"(isimsiz)"), alt:(k.telefon||k.eposta||"")}; } },
+        { sinif:"ck-blok-etiket--teslimat", alanAdi:"teslimat", liste:g.musteri.teslimatAdresleri || [],
+          satir:function(k){ return {ad:(k.etiket||"Teslimat Adresi"), alt:(k.adres||"")}; } }
+      ];
+
+      bolumler.forEach(function(b){
+        if(b.liste.length < 2) return;
+        var etiket = alan.querySelector("." + b.sinif);
+        if(!etiket) return;
+        var blok = etiket.nextElementSibling;           // .ck-blok (mevcut seçili değer)
+        var secili = (secim[b.alanAdi] != null && b.liste[secim[b.alanAdi]]) ? secim[b.alanAdi] : 0;
+
+        var tus = document.createElement("button");
+        tus.type = "button";
+        tus.className = "gs-degistir-tus";
+        tus.textContent = "Değiştir ▾";
+        tus.setAttribute("aria-expanded", "false");
+        etiket.appendChild(tus);
+
+        var kutu = document.createElement("div");
+        kutu.className = "gs-secim-liste";
+        kutu.hidden = true;
+        kutu.innerHTML = b.liste.map(function(k, i){
+          var s = b.satir(k);
+          return "<button type='button' class='gs-secim-satir" + (i === secili ? " gs-secim-satir--secili" : "") + "' data-i='" + i + "'>"
+            + "<span class='gs-secim-radyo'></span>"
+            + "<span class='gs-secim-ad'>" + htmlEsc(s.ad) + "</span>"
+            + (s.alt ? "<span class='gs-secim-alt'>" + htmlEsc(s.alt) + "</span>" : "")
+            + "</button>";
+        }).join("");
+        if(blok && blok.parentNode) blok.parentNode.insertBefore(kutu, blok.nextSibling);
+
+        tus.onclick = function(){
+          var acik = kutu.hidden;
+          kutu.hidden = !acik;
+          tus.textContent = acik ? "Değiştir ▴" : "Değiştir ▾";
+          tus.setAttribute("aria-expanded", acik ? "true" : "false");
+        };
+        kutu.querySelectorAll(".gs-secim-satir").forEach(function(btn){
+          btn.onclick = function(){
+            var i = parseInt(this.getAttribute("data-i"), 10);
+            secimUygula(b.alanAdi, i);
+          };
+        });
+      });
+    }catch(e){ console.error("Seçim alanı kurulamadı:", e); }
+  }
+
+  function secimUygula(alanAdi, i){
+    try{
+      var g = gonderBaglam;
+      var KEY = "weiconv2_secili_iletisim";
+      var secim = {};
+      try{ secim = JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){}
+      secim[alanAdi] = i;
+      localStorage.setItem(KEY, JSON.stringify(secim));
+      adresleriBelirle(g.musteri);
+
+      var kayitAlanlari = null;
+      if(alanAdi === "yetkili"){
+        var kisi = (g.musteri.iletisimler || [])[i] || {};
+        kisiAlanlariniDoldur(kisi);
+        kayitAlanlari = { gorunecekYetkililer: kisi.isim ? [kisi.isim] : null };
+      } else if(alanAdi === "teslimat"){
+        kayitAlanlari = { teslimatAdresi: (g.musteri.teslimatAdresleri || [])[i] || null };
+      }
+      if(kayitAlanlari && sonKaydedilenBelge && sonKaydedilenBelge.kayit && sonKaydedilenBelge.kayit.ts){
+        SendData.alanlariGuncelle(g.tip, sonKaydedilenBelge.kayit.ts, kayitAlanlari, function(basarili, err){
+          if(!basarili) console.error("Seçim kayda işlenemedi:", err);
+        });
+      }
+      tamOnizlemeyiCiz();
+    }catch(e){ hataGoster("Seçim uygulanamadı: " + e.message); }
   }
   tamOnizlemeyiCiz();
 

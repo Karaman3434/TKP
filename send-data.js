@@ -347,7 +347,34 @@ var SendData = (function(){
     }catch(e){ cb(false, e); }
   }
 
-  return { baslat: baslat, kaydet: kaydet, kaynakSil: kaynakSil, fiyatGecmisiKontrolEt: fiyatGecmisiKontrolEt, kanalKaydet: kanalKaydet };
+  // YETKİLİ / TESLİMAT SEÇİMİ KAYDI (03.11.2026, Abdullah onayı — Gönder
+  // ekranında "Değiştir"): kayıtlı belgenin gorunecekYetkililer/teslimatAdresi
+  // gibi alanlarını günceller; Belge Önizleme ve geçmiş kayıt, mail/WhatsApp'a
+  // giden görselle AYNI seçimi göstersin diye. ReportsData bu sayfada yüklü
+  // olmadığından (bkz. kanalKaydet notu) bağımsız, aynı desenli transaction.
+  function alanlariGuncelle(tip, ts, alanlar, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      if(!tip || !ts || !alanlar){ cb(false, new Error("Eksik bilgi")); return; }
+      var db = firebase.database();
+      var yazildi = false;
+      db.ref("arsiv/" + tip).transaction(function(mevcut){
+        yazildi = false;
+        if(mevcut === null) return mevcut;
+        var liste = Array.isArray(mevcut) ? mevcut.filter(Boolean) : Object.values(mevcut);
+        var idx = liste.findIndex(function(k){ return k.ts === ts; });
+        if(idx === -1) return;
+        for(var a in alanlar){ if(alanlar.hasOwnProperty(a)) liste[idx][a] = alanlar[a]; }
+        yazildi = true;
+        return liste;
+      }).then(function(result){
+        if(result && result.committed && yazildi){ cb(true); return; }
+        cb(false, new Error(yazildi ? "Kayıt çakıştı" : "Kayıt bulunamadı"));
+      }).catch(function(err){ cb(false, err); });
+    }catch(e){ cb(false, e); }
+  }
+
+  return { baslat: baslat, kaydet: kaydet, kaynakSil: kaynakSil, fiyatGecmisiKontrolEt: fiyatGecmisiKontrolEt, kanalKaydet: kanalKaydet, alanlariGuncelle: alanlariGuncelle };
 
 })();
 
