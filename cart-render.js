@@ -25,6 +25,16 @@
   dolu görünüyor" hatasına yol açıyordu (bkz. cart-data.js).
 */
 
+// KAYDET BİLDİRİMİ (03.11.2026, Abdullah onayı): üst bardaki Kaydet tuşuyla
+// işlem kaydedilince, Ana Sayfa'ya geçmeden önce kısa bir onay gösterilir.
+function kayitBildirimiGoster(mesaj){
+  var kutu = document.createElement("div");
+  kutu.textContent = "✓ " + mesaj;
+  kutu.style.cssText = "position:fixed;top:8px;left:8px;right:8px;background:#0e6b34;color:#fff;padding:12px;border-radius:10px;font-size:14px;font-weight:800;text-align:center;z-index:99999;box-shadow:0 4px 14px rgba(0,0,0,.25);";
+  document.body.appendChild(kutu);
+  setTimeout(function(){ kutu.remove(); }, 2500);
+}
+
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -672,9 +682,9 @@ function sepetOturumAnahtarlariniTemizle(){
 // ekranına gitmez. Sepet ve seçili müşteri, "Ana Sayfa'ya Git" ve "İşlemi İptal
 // Et" akışlarıyla AYNI şekilde temizlenir. Form görüntüleme/gönderme için
 // "📋 Formu Görüntüle" butonu (niyet = "gonder") eskisi gibi send.html'e gider.
-// NOT (01.11.2026): "Kaydet" butonu kalktığı için bu fonksiyonun artık
-// çağrıldığı yer yok (dead code, bilerek silinmedi — zararsız ve ileride
-// benzer bir "kaydet ve ana sayfaya dön" ihtiyacı çıkarsa hazır dursun).
+// NOT (03.11.2026): "Kaydet" 01.11.2026'da kalkmıştı; üst bardaki yeni
+// Kaydet tuşu (ust-bar-eylem.js -> kaydetTiklandi("kaydet")) bu fonksiyonu
+// yeniden kullanıyor.
 function kaydetSonrasiAnaSayfayaGit(){
   // KRİTİK HATA DÜZELTMESİ (26.10.2026) — bkz. herSeyiSifirlaVeGit'teki aynı
   // yorum: CartData.sifirla(callback) kullanılıyor — hem bellek içi "sepet"
@@ -735,6 +745,16 @@ function kaydetGercekIslem(niyet){
         if(kaynak){
           SendData.kaynakSil(kaynak.tip, kaynak.ts, function(){});
           localStorage.removeItem("weiconv2_ilerlet_kaynak");
+        }
+        // KAYDET (03.11.2026, Abdullah onayı — "bu sayfada mutlaka işlemi
+        // kaydet tuşu olsun"): üst bardaki Kaydet, işlemi kaydeder ve Gönder
+        // ekranına GİTMEZ — işlem tamamlanmış sayılır, sepet/müşteri
+        // temizlenip Ana Sayfa'ya dönülür (eski "Kaydet" davranışı, bkz.
+        // kaydetSonrasiAnaSayfayaGit). Gönder tuşunun akışı değişmedi.
+        if(niyet === "kaydet"){
+          kayitBildirimiGoster(revizeMi ? "Kayıt güncellendi" : "İşlem kaydedildi");
+          setTimeout(kaydetSonrasiAnaSayfayaGit, 700);
+          return;
         }
         // send.html'e taşınacak bağlam — sepeti/müşteriyi BURADA boşaltmıyoruz,
         // "Geri — Sepete Dön ve Düzelt" hâlâ çalışabilsin diye (aynı gün+

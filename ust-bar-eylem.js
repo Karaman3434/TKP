@@ -1,5 +1,5 @@
 /*
-  ust-bar-eylem.js — TKP.03.11.26-14:45.1454
+  ust-bar-eylem.js — TKP.03.11.26-16:40.1456
   ==========================================
   Üst barın (.ub-bar) SONUNDAKİ sayfa eylem tuşları: Kaydet (mor) ve Gönder
   (turkuaz) — Menü/Geri/Beklet/Kapat ile aynı ölçüde (Abdullah onayı,
@@ -7,6 +7,9 @@
   TEK tablodan (EYLEM_TABLOSU) okunur — sayfaya tuş eklemek/çıkarmak için
   sadece burası değişir.
 
+  EYLEM İKİ ŞEKİLDE TANIMLANIR: (a) hedef — sayfadaki var olan düğmeyi tetikler,
+  (b) tikla + aktifMi — sayfanın global bir fonksiyonunu çağırır (hedef düğmesi
+  olmayan eylem, örn. Sepet'in Kaydet'i).
   NASIL ÇALIŞIR: Üst bar tuşu işi KENDİ yapmaz; sayfanın zaten var olan
   gerçek düğmesini (hedef) tetikler (hedef.click()). Böylece Kaydet/Gönder
   mantığı (yetki kontrolü, doğrulama, kayıt) hâlâ TEK yerde — sayfanın kendi
@@ -29,6 +32,12 @@
 
   var EYLEM_TABLOSU = {
     "cart.html": [
+      // KAYDET (03.11.2026, Abdullah onayı): işlemi kaydeder, Gönder'e gitmez
+      // (cart-render.js kaydetTiklandi("kaydet")). Müşteri seçili ve ürünler
+      // hesaplanmış değilse pasif/gri; sayfada HER ZAMAN görünür.
+      { tur:"kaydet",
+        aktifMi:function(){ var b = document.getElementById("btnMusteriGonder"); return !!b && !b.disabled; },
+        tikla:function(){ if(typeof kaydetTiklandi === "function") kaydetTiklandi("kaydet"); } },
       { tur:"gonder", gizleHedef:true, gerekli:true,
         hedef:function(){ return document.getElementById("btnMusteriGonder") || document.getElementById("btnSepetGonderMusterisiz"); } }
     ],
@@ -68,7 +77,10 @@
       b.innerHTML = a.ikon;
       b.disabled = true;
       b.onclick = function(){
-        try{ var h = e.hedef(); if(h && !h.disabled) h.click(); }catch(x){}
+        try{
+          if(e.tikla){ if(e.aktifMi()) e.tikla(); return; }
+          var h = e.hedef(); if(h && !h.disabled) h.click();
+        }catch(x){}
       };
       kutu.appendChild(b);
       return b;
@@ -79,6 +91,11 @@
       try{
         var herhangiGorunur = false;
         liste.forEach(function(e, i){
+          if(e.tikla){   // hedef düğmesi olmayan, kendi koşuluyla çalışan eylem
+            butonlar[i].disabled = !e.aktifMi();
+            herhangiGorunur = true;
+            return;
+          }
           var h = e.hedef();
           var var_ = !!h;
           if(var_ && e.gizleHedef) h.style.setProperty("display", "none", "important");
