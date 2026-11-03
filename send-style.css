@@ -537,3 +537,12 @@ body.as-drawer-kilit { overflow: hidden; }
   white-space: nowrap;
 }
 .gs-secim-satir--secili .gs-secim-alt { color: #4d7a60; }
+
+/* GÖNDER EKRANI (03.11.2026, Abdullah onayı): Mail/WhatsApp önizlemesinin
+   alttaki Kapat ve Gönder tuşları KALDIRILDI — Gönder artık üst barda
+   (ust-bar-eylem.js), kapatma üst barın ✕/Geri tuşlarıyla. Düğmeler DOM'da
+   duruyor (üst bar Gönder'i bunları tetikler), sadece gizli. */
+#mailOnizlemeOverlay .sheet-buton-satir,
+#whatsappOnizlemeOverlay .sheet-buton-satir { display: none; }
+/* Müşteri adına dokununca Cari Kart açılır — sadece imleç, görsel ipucu yok. */
+#tamOnizlemeAlani .ms-ad, #mailOnizlemeTablo .ms-ad, #whatsappOnizlemeTablo .belge-musteri-ad { cursor: pointer; }

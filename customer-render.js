@@ -251,7 +251,7 @@ function listeyiCiz(){
         // seçim moduna (İşleme Devam Et) açılıyordu. Doğrudan listeden gelen
         // her ziyaret düz görüntüleme modunda başlamalı.
         localStorage.removeItem("weiconv2_islem_yap_akisi");
-        localStorage.removeItem("weiconv2_sepetten_cari_acildi");
+        localStorage.removeItem("weiconv2_sepetten_cari_acildi"); localStorage.removeItem("weiconv2_gonderden_cari_acildi");
         // ROTA DEĞİŞİKLİĞİ (05.10.2026, Abdullah'ın isteğiyle): Müşteri
         // listesinden bir isme dokununca artık Hub/İşlemler sayfalarına
         // GİTMİYOR — tam burada, arama satırının altında küçük bir pencere
@@ -581,7 +581,7 @@ document.addEventListener("DOMContentLoaded", function(){
         CustomerData.sec(m);
         CustomerData.sonGoruntulendi(m.ad);
         localStorage.removeItem("weiconv2_islem_yap_akisi");
-        localStorage.removeItem("weiconv2_sepetten_cari_acildi");
+        localStorage.removeItem("weiconv2_sepetten_cari_acildi"); localStorage.removeItem("weiconv2_gonderden_cari_acildi");
         hizliPencereyiAc(m);
       };
       CustomerData.listeDegistiginde(cmAcDene);

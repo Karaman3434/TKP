@@ -852,6 +852,5 @@
    isme dokununca Cari Kart açılır (bkz. cart-render.js). Abdullah'ın isteğiyle
    görsel bir ipucu/ikon YOK — sadece imleç. musteri-serit.css'e (11 sayfada
    paylaşılan) DOKUNULMADI, bu sınıf SADECE cart.html bağlamında ekleniyor. */
-#cariBilgiAlani .ms-ad {
-  cursor: pointer;
-}
+/* KALDIRILDI (03.11.2026): Sepet'te isme dokununca Cari Kart açılmıyor artık
+   (yetkili/teslimat seçimi Gönder ekranında) — imleç kuralı da kalktı. */

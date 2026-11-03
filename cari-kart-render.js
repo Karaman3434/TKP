@@ -179,7 +179,13 @@ var akistanGeldiMi = localStorage.getItem("weiconv2_islem_yap_akisi") === "1";
 // FARKI: tip zaten seçilmiş VE açık-belge kontrolü zaten yapılmış olarak
 // buraya gelinir — burada sadece fatura/teslimat/yetkili seçimi (+ not
 // ekleme) yapılıp cart.html'e GERİ dönülür, ileri bir tip seçimi olmaz.
-var sepettenAcildiMi = localStorage.getItem("weiconv2_sepetten_cari_acildi") === "1";
+// GÖNDER'DEN AÇILDI (03.11.2026, Abdullah onayı): Gönder (send.html) ekranında
+// müşteri adına dokununca bu sayfa AYNI "seçim modu"nda açılır (fatura/
+// teslimat/yetkili seçimi + not); "Bu Seçimlerle Devam Et" ve Kapat Sepet'e
+// değil Gönder ekranına döner (Sepet'ten açılma kaldırıldı).
+var gonderdenAcildiMi = localStorage.getItem("weiconv2_gonderden_cari_acildi") === "1";
+var sepettenAcildiMi = gonderdenAcildiMi || localStorage.getItem("weiconv2_sepetten_cari_acildi") === "1";
+var cariDonusSayfasi = gonderdenAcildiMi ? "send.html" : "cart.html";
 
 function anaSayfayiRenderEt(){
   var m = musteriVerisi;
@@ -942,7 +948,11 @@ document.addEventListener("DOMContentLoaded", function(){
     islemeDevamBtn.onclick = function(){
       localStorage.setItem("weiconv2_secili_iletisim", JSON.stringify(secimler));
       localStorage.removeItem("weiconv2_sepetten_cari_acildi");
-      window.location.href = "cart.html";
+      if(gonderdenAcildiMi){
+        localStorage.removeItem("weiconv2_gonderden_cari_acildi");
+        localStorage.setItem("weiconv2_gonderden_secim_uygula", "1");   // send-render.js seçimi belgeye işler
+      }
+      window.location.href = cariDonusSayfasi;
     };
   }
 
@@ -963,7 +973,7 @@ document.addEventListener("DOMContentLoaded", function(){
     // açıldı" modunda Kapat her zaman cart.html'e döner — diğer iki özel
     // durumla (akistanGeldiMi/dönüş rotası) AYNI önceliğe sahip.
     var kapatSabitHedefliMi = akistanGeldiMi || sepettenAcildiMi || donusRotasi === "customer.html";
-    if(sepettenAcildiMi) cariKapatBtnEl.setAttribute("href", "cart.html");
+    if(sepettenAcildiMi) cariKapatBtnEl.setAttribute("href", cariDonusSayfasi);
     else if(kapatSabitHedefliMi) cariKapatBtnEl.setAttribute("href", "customer.html");
     // KAPAT "ESKİ/YABANCI SAYFAYA GÖTÜRÜYOR" HATASI DÜZELTMESİ (27.10.2026,
     // Abdullah'ın bildirdiği hata): HTML'deki sabit varsayılan href
@@ -985,6 +995,7 @@ document.addEventListener("DOMContentLoaded", function(){
     cariKapatBtnEl.addEventListener("click", function(ev){
       localStorage.removeItem("weiconv2_islem_yap_akisi");
       localStorage.removeItem("weiconv2_sepetten_cari_acildi");
+      localStorage.removeItem("weiconv2_gonderden_cari_acildi");
       if(!kapatSabitHedefliMi && window.history.length > 1){
         ev.preventDefault();
         window.history.back();

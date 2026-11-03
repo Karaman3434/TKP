@@ -1002,7 +1002,8 @@ document.addEventListener("DOMContentLoaded", function(){
         kisiAlanlariniDoldur(kisi);
         kayitAlanlari = { gorunecekYetkililer: kisi.isim ? [kisi.isim] : null };
       } else if(alanAdi === "teslimat"){
-        kayitAlanlari = { teslimatAdresi: (g.musteri.teslimatAdresleri || [])[i] || null };
+        kayitAlanlari = { teslimatAdresi: (g.musteri.teslimatAdresleri || [])[i] || null };      } else if(alanAdi === "fatura"){
+        kayitAlanlari = { faturaAdresi: (g.musteri.faturaAdresleri || [])[i] || null };
       }
       if(kayitAlanlari && sonKaydedilenBelge && sonKaydedilenBelge.kayit && sonKaydedilenBelge.kayit.ts){
         SendData.alanlariGuncelle(g.tip, sonKaydedilenBelge.kayit.ts, kayitAlanlari, function(basarili, err){
@@ -1013,6 +1014,57 @@ document.addEventListener("DOMContentLoaded", function(){
     }catch(e){ hataGoster("Seçim uygulanamadı: " + e.message); }
   }
   tamOnizlemeyiCiz();
+
+  // CARİ KARTTAN DÖNÜŞ (03.11.2026, Abdullah onayı): Gönder ekranında müşteri
+  // adına dokununca Cari Kart açılır (aşağıdaki tıklama bağlaması); orada
+  // "Bu Seçimlerle Devam Et" denince buraya dönülür. Seçilen yetkili/teslimat/
+  // fatura indeksleri (weiconv2_secili_iletisim) önizlemeye ve kayıtlı belgeye
+  // işlenir, daha önce açık olan Mail/WhatsApp önizlemesi yeniden açılır.
+  try{
+    if(localStorage.getItem("weiconv2_gonderden_secim_uygula") === "1"){
+      localStorage.removeItem("weiconv2_gonderden_secim_uygula");
+      var dSecim = JSON.parse(localStorage.getItem("weiconv2_secili_iletisim")||"{}");
+      ["fatura","yetkili","teslimat"].forEach(function(a){
+        if(dSecim[a] != null) secimUygula(a, dSecim[a]);
+      });
+    }
+    var acikKanal = localStorage.getItem("weiconv2_gonder_kanal_acik");
+    localStorage.removeItem("weiconv2_gonder_kanal_acik");
+    localStorage.removeItem("weiconv2_gonderden_cari_acildi");
+    if(acikKanal === "mail") mailOnizlemeAc();
+    else if(acikKanal === "whatsapp") whatsappOnizlemeAc();
+  }catch(e){ console.error("Cari Kart dönüşü işlenemedi:", e); }
+
+  // MÜŞTERİ ADINA DOKUN → CARİ KART (03.11.2026): canlı önizlemede, Mail ve
+  // WhatsApp önizlemesinde müşteri adı/şeridine dokununca Cari Kart seçim
+  // modunda açılır; yetkili kişi + teslimat adresi (ve fatura adresi) orada
+  // seçilir. Görsel ipucu yok (Sepet'teki eski davranışla aynı).
+  document.addEventListener("click", function(ev){
+    try{
+      var hedef = ev.target.closest && ev.target.closest("#tamOnizlemeAlani .ms-ad, #mailOnizlemeTablo .ms-ad, #whatsappOnizlemeTablo .belge-musteri-ad");
+      if(!hedef) return;
+      var mailAcik = !document.getElementById("mailOnizlemeOverlay").hidden;
+      var waAcik = !document.getElementById("whatsappOnizlemeOverlay").hidden;
+      var m = gonderBaglam && gonderBaglam.musteri;
+      if(m && !localStorage.getItem("weicon_secili_musteri")){
+        localStorage.setItem("weicon_secili_musteri", JSON.stringify({ad:m.ad, sehir:m.sehir||"", id:m.id||null}));
+      }
+      localStorage.setItem("weiconv2_gonderden_cari_acildi", "1");
+      localStorage.setItem("weiconv2_gonder_kanal_acik", mailAcik ? "mail" : (waAcik ? "whatsapp" : ""));
+      window.location.href = "customer-cari-kart.html";
+    }catch(e){ console.error("Cari Kart açılamadı:", e); }
+  });
+
+  // ÜST BAR "GÖNDER" (03.11.2026): alttaki Gönder tuşları kalktı; üst barın
+  // Gönder'i (bkz. ust-bar-eylem.js) açık önizlemenin Gönder'ini tetikler.
+  // Önizleme yoksa İletişim seçimini açar. Başka bir pencere açıksa işlemez.
+  window.ustGonderTiklandi = function(){
+    function acik(id){ var e = document.getElementById(id); return !!e && !e.hidden; }
+    if(acik("mailOnizlemeOverlay")){ document.getElementById("mailOnizlemeGonderBtn").click(); return; }
+    if(acik("whatsappOnizlemeOverlay")){ document.getElementById("whatsappOnizlemeGonderBtn").click(); return; }
+    if(acik("iletisimSheetOverlay") || acik("tabloSadeceOverlay") || acik("pdfSecenekPopover")) return;
+    document.getElementById("btnIletisimAc").click();
+  };
 
   document.getElementById("mailOnizlemeVazgecBtn").onclick = function(){ document.getElementById("mailOnizlemeOverlay").hidden = true; };
   // KONU alanı bazı mail uygulamalarında (Outlook Android vb.) resim ekiyle

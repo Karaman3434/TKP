@@ -1,5 +1,5 @@
 /*
-  ust-bar-eylem.js — TKP.03.11.26-16:40.1456
+  ust-bar-eylem.js — TKP.03.11.26-20:30.1459
   ==========================================
   Üst barın (.ub-bar) SONUNDAKİ sayfa eylem tuşları: Kaydet (mor) ve Gönder
   (turkuaz) — Menü/Geri/Beklet/Kapat ile aynı ölçüde (Abdullah onayı,
@@ -40,6 +40,14 @@
         tikla:function(){ if(typeof kaydetTiklandi === "function") kaydetTiklandi("kaydet"); } },
       { tur:"gonder", gizleHedef:true, gerekli:true,
         hedef:function(){ return document.getElementById("btnMusteriGonder") || document.getElementById("btnSepetGonderMusterisiz"); } }
+    ],
+    // GÖNDER EKRANI (03.11.2026, Abdullah onayı): alttaki Kapat/Gönder tuşları
+    // kalktı — üst bar Gönder'i açık Mail/WhatsApp önizlemesinin Gönder'ini
+    // tetikler (send-render.js ustGonderTiklandi); önizleme yoksa İletişim'i açar.
+    "send.html": [
+      { tur:"gonder",
+        aktifMi:function(){ return typeof ustGonderTiklandi === "function"; },
+        tikla:function(){ ustGonderTiklandi(); } }
     ],
     "customer-add.html":    [ { tur:"kaydet", hedef:id("btnYeniMusteriKaydet") } ],
     "ziyaret.html":         [ { tur:"kaydet", hedef:id("btnZiyKaydet") } ],

@@ -331,13 +331,6 @@ function sayfayiCiz(){
         document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri, true);
         var btnGecmisBos = document.getElementById("btnMusteriGecmis");
         if(btnGecmisBos) btnGecmisBos.onclick = musteriGecmisiniAc;
-        var msAdBos = document.querySelector("#cariBilgiAlani .ms-ad");
-        if(msAdBos){
-          msAdBos.onclick = function(){
-            localStorage.setItem("weiconv2_sepetten_cari_acildi", "1");
-            window.location.href = "customer-cari-kart.html";
-          };
-        }
       } else {
         document.getElementById("cariBilgiAlani").innerHTML = "";
       }
@@ -375,13 +368,9 @@ function sayfayiCiz(){
       // paylaşılan bileşen) DOKUNULMADI, tıklama SADECE burada eklendi.
       // Görsel ipucu/ikon YOK (Abdullah'ın isteğiyle) — bkz. cart-style.css
       // #cariBilgiAlani .ms-ad (sadece imleç).
-      var msAdEl = document.querySelector("#cariBilgiAlani .ms-ad");
-      if(msAdEl){
-        msAdEl.onclick = function(){
-          localStorage.setItem("weiconv2_sepetten_cari_acildi", "1");
-          window.location.href = "customer-cari-kart.html";
-        };
-      }
+      // KALDIRILDI (03.11.2026, Abdullah onayı): müşteri adına dokununca Cari
+      // Kart açılması artık Sepet'te YOK — yetkili/teslimat seçimi Gönder
+      // (send.html) ekranındaki müşteri adına dokunarak yapılır.
       adresleriBelirle(musteri);
     } else {
       // DEĞİŞİKLİK (01.11.2026, Abdullah onayı): müşterisiz modda artık
@@ -707,7 +696,8 @@ function sepetOturumAnahtarlariniTemizle(){
    "weiconv2_ilerlet_kaynak","weiconv2_islem_yap_akisi","weiconv2_secili_iletisim",
    "weiconv2_son_kaydedilen_belge","weiconv2_gonderim_kanali","weicon_secili_musteri",
    "weiconv2_musteri_donus_sayfa","weiconv2_musteri_arama_durumu",
-   "weiconv2_sepet_musteri_baglantisi","weiconv2_sepetten_cari_acildi"].forEach(function(k){
+   "weiconv2_sepet_musteri_baglantisi","weiconv2_sepetten_cari_acildi",
+   "weiconv2_gonderden_cari_acildi","weiconv2_gonder_kanal_acik","weiconv2_gonderden_secim_uygula"].forEach(function(k){
     try{ localStorage.removeItem(k); }catch(e){}
   });
 }
