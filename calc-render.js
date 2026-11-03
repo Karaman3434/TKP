@@ -104,6 +104,7 @@ function sepetDoluMu(){
 }
 function herSeyiSifirlaVeGit(hedefUrl){
   try{ localStorage.setItem("weiconv2_sepet", "[]"); }catch(e){}
+  try{ localStorage.setItem("weiconv2_sepet_temizlendi_zamani", String(Date.now())); }catch(e){}
   try{ localStorage.removeItem("weiconv2_sepet_kur_override"); }catch(e){}
   window.location.href = hedefUrl;
 }
@@ -138,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function(){
   // "hayalet" olarak kalmasın diye.
   function sepetiSessizceTemizle(){
     try{ localStorage.setItem("weiconv2_sepet", "[]"); }catch(e){}
+    try{ localStorage.setItem("weiconv2_sepet_temizlendi_zamani", String(Date.now())); }catch(e){}
     try{ localStorage.removeItem("weiconv2_sepet_kur_override"); }catch(e){}
   }
   var geriLink = document.querySelector(".nav-btn--geri");

@@ -977,6 +977,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   function anaSayfayaDonVeTemizle(){
     try{ localStorage.setItem("weiconv2_sepet", "[]"); }catch(e){}
+    try{ localStorage.setItem("weiconv2_sepet_temizlendi_zamani", String(Date.now())); }catch(e){}
     try{ localStorage.removeItem("weiconv2_sepet_kur_override"); }catch(e){}
     try{ localStorage.removeItem("weicon_secili_musteri"); }catch(e){}
     try{ localStorage.removeItem("weiconv2_secili_iletisim"); }catch(e){}

@@ -41,6 +41,19 @@
    lacivert çerçeveyi taşıyor — SADECE bu sınıf eklenen yerlerde (şimdilik
    send-render.js'in Gönder önizlemesi + giden görseli). */
 .belge-kart--urun-cerceveli { border: 1.5px solid #073B70; }
+/* TEK ÇERÇEVE (03.11.2026, Abdullah'ın bildirdiği "ürün bilgisi tablosunun
+   altındaki ince çizgi" hatası): paylaşılan .data-table-container sınıfı
+   (cart/detail/reports-style.css) kendi 1px mavi çerçevesi + 8px köşe + 8px
+   alt boşluğu taşıyor. Dıştaki lacivert kart çerçevesinin İÇİNE girince çift
+   çerçeve oluşuyor, alttaki 8px boşluk yüzünden dış çizgi tablodan ayrı bir
+   "ince çizgi" gibi görünüyordu (Mail/WhatsApp görseli, Gönder önizlemesi,
+   Belge Önizleme). Çerçeveyi artık SADECE dış kart taşır. Aynı kalıp
+   .belge-bakiye-blok için de kullanılıyor (aşağıda). */
+.belge-kart--urun-cerceveli .data-table-container {
+  border: none;
+  border-radius: 0;
+  margin-bottom: 0;
+}
 
 .belge-gecmis-cip-satir {
   display: flex;

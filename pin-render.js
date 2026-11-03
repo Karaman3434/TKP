@@ -1,5 +1,5 @@
 /*
-  pin-render.js — WG.201026.1615.863
+  pin-render.js — TKP.03.11.26.1451
   =============
   4 haneli tuş takımı + gizli input ile PIN toplar, pinDogrula() ile
   kontrol eder, doğruysa aktivite zamanını güncelleyip home.html'e döner.
@@ -23,6 +23,30 @@ function noktalariGuncelle(){
   noktalar.forEach(function(n, i){
     n.classList.toggle("dolu", i < girilenPin.length);
   });
+  girisTusunuGuncelle();
+}
+
+// GİRİŞ TUŞU (03.11.2026, Abdullah'ın isteğiyle): Geri tuşuna çok basınca
+// tarayıcı PIN sayfasını 4 nokta DOLU halde geri getiriyor; rakamEkle() 4
+// hanede yeni rakam kabul etmediği için eskiden noktaları silip PIN'i baştan
+// yazmak gerekiyordu. Artık 4 nokta doluyken "Giriş" tuşu aktif olur ve
+// mevcut girişi AYNI doğrulama yolundan (pinDogrula) geçirir — PIN yine
+// kontrol edilir, kilit atlanmaz.
+var girisIsleniyor = false;
+
+function girisTusunuGuncelle(){
+  var b = document.getElementById("btnPinGiris");
+  if(!b) return;
+  b.disabled = (girilenPin.length !== 4);
+}
+
+function girisTusunaBasildi(){
+  if(girilenPin.length !== 4 || girisIsleniyor) return;
+  girisIsleniyor = true;
+  setTimeout(function(){ girisIsleniyor = false; }, 1500);   // çift dokunuşa karşı
+  if(pinAsama === "giris") pinKontrolEt();
+  else if(pinAsama === "yeniPin1") yeniPinIlkAdimiIsle();
+  else if(pinAsama === "yeniPin2") yeniPinTekrarIsle();
 }
 
 function rakamEkle(r){
@@ -136,6 +160,18 @@ function tusTakiminiOlustur(){
 document.addEventListener("DOMContentLoaded", function(){
   tusTakiminiOlustur();
 
+  document.getElementById("btnPinGiris").onclick = girisTusunaBasildi;
+  girisTusunuGuncelle();
+
+  // Geri/ileri önbelleğinden (bfcache) dönüşte sayfa JS durumuyla birlikte
+  // aynen geri gelir: noktaları ve tuşu gerçek duruma göre yeniden çiz.
+  window.addEventListener("pageshow", function(ev){
+    if(ev.persisted){
+      girisIsleniyor = false;
+      noktalariGuncelle();
+    }
+  });
+
   document.getElementById("btnTamGiris").onclick = function(){
     if(!confirm("E-posta ve şifre ile giriş yapmak istediğinize emin misiniz?")) return;
     firebase.auth().signOut().then(function(){
@@ -146,6 +182,9 @@ document.addEventListener("DOMContentLoaded", function(){
   // Fiziksel/mobil klavye desteği için gizli input da dinleniyor
   var gizliInput = document.getElementById("pinGizliInput");
   document.querySelector(".giris-kutu").addEventListener("click", function(){ gizliInput.focus(); });
+  gizliInput.addEventListener("keydown", function(ev){
+    if(ev.key === "Enter") girisTusunaBasildi();
+  });
   gizliInput.addEventListener("input", function(){
     var v = gizliInput.value.replace(/[^0-9]/g, "").slice(0,4);
     gizliInput.value = "";

@@ -15,8 +15,17 @@ document.addEventListener("DOMContentLoaded", function(){
   altMetin += " 5 sn içinde Ana Sayfa'ya yönlendiriliyorsun.";
   document.getElementById("gbAltMetin").textContent = altMetin;
 
-  function anaSayfayaDonVeTemizle(){
+  // ERKEN TEMİZLİK (03.11.2026, Abdullah'ın bildirdiği hata — "mail/WhatsApp
+  // gönderdikten sonra yeni işlemde eski ürün sepette/aramada duruyor"):
+  // temizlik eskiden SADECE 5 sn sonra / Ana Sayfa tuşuyla çalışıyordu;
+  // kullanıcı bu ekrandayken Geri'ye basar veya uygulama arka planda
+  // kalırsa hiç çalışmıyor, eski sepet + müşteri yeni işleme taşınıyordu.
+  // Artık belge gönderildiği için temizlik bu ekran AÇILIR AÇILMAZ yapılır
+  // (gönderilen belgenin bağlamı ayrı anahtardadır, aşağıda Ana Sayfa'da
+  // silinir — bu ekranın kendi metni etkilenmez).
+  function sepetiVeMusteriyiTemizle(){
     try{ localStorage.setItem("weiconv2_sepet", "[]"); }catch(e){}
+    try{ localStorage.setItem("weiconv2_sepet_temizlendi_zamani", String(Date.now())); }catch(e){}
     try{ localStorage.removeItem("weiconv2_sepet_kur_override"); }catch(e){}
     try{ localStorage.removeItem("weicon_secili_musteri"); }catch(e){}
     try{ localStorage.removeItem("weiconv2_secili_iletisim"); }catch(e){}
@@ -28,6 +37,12 @@ document.addEventListener("DOMContentLoaded", function(){
     // bırakmayalım.
     try{ localStorage.removeItem("weiconv2_musteri_donus_sayfa"); }catch(e){}
     try{ localStorage.removeItem("weiconv2_musteri_arama_durumu"); }catch(e){}
+  }
+
+  sepetiVeMusteriyiTemizle();
+
+  function anaSayfayaDonVeTemizle(){
+    sepetiVeMusteriyiTemizle();
     window.location.href = "home.html";
   }
 

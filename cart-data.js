@@ -31,6 +31,7 @@ var CartData = (function(){
   // yarimKalanIslemKontrolEt() (sayfa açılışında + periyodik + sekme geri
   // gelince kontrol eder). Sepet boşken bu anahtar hiç yoktur.
   var BASLANGIC_KEY = "weiconv2_sepet_baslangic_zamani";
+  var TEMIZLENDI_KEY = "weiconv2_sepet_temizlendi_zamani"; // bkz. fbYukle() — kasıtlı temizlik damgası
   var ON_DAKIKA_MS = 10 * 60 * 1000;
 
   var sepet = [];
@@ -50,6 +51,20 @@ var CartData = (function(){
     try{
       firebase.database().ref(fbYoluAl()).once("value").then(function(snap){
         var uzak = snap.val();
+        // KÖK NEDEN DÜZELTMESİ (03.11.2026, Abdullah'ın bildirdiği hata —
+        // "mail/WhatsApp gönderdikten sonra yeni işlemde eski ürün sepette
+        // duruyor"): Gönderim sonrası/Geri/Ana Sayfa/İptal gibi temizlikler
+        // sepeti SADECE localStorage'a "[]" yazarak boşaltıyordu; Firebase
+        // yedeği (sepetTaslak) eski ürünle duruyordu. Bir sonraki sayfa
+        // açılışında "bu cihazda sepet boş" kuralı yedeği GERİ YÜKLÜYORDU.
+        // Artık her temizlik "weiconv2_sepet_temizlendi_zamani" damgası
+        // bırakıyor: yedek bu damgadan ESKİYSE geri yüklenmez ve silinir.
+        var temizZaman = 0;
+        try{ temizZaman = parseInt(localStorage.getItem(TEMIZLENDI_KEY), 10) || 0; }catch(e){}
+        if(uzak && temizZaman && (uzak.zaman || 0) <= temizZaman){
+          if(sepet.length === 0) fbKaydet();   // bayat yedeği boş sepetle değiştir
+          return;
+        }
         if(uzak && Array.isArray(uzak.sepet) && sepet.length === 0 && uzak.sepet.length > 0){
           sepet = uzak.sepet;
           try{ localStorage.setItem(SEPET_KEY, JSON.stringify(sepet)); }catch(e){}
@@ -107,6 +122,7 @@ var CartData = (function(){
     sepet = [];
     try{ localStorage.setItem(SEPET_KEY, JSON.stringify(sepet)); }catch(e){}
     try{ localStorage.removeItem(BASLANGIC_KEY); }catch(e){}
+    try{ localStorage.setItem(TEMIZLENDI_KEY, String(Date.now())); }catch(e){}
     var soz = fbKaydet();
     var tamamlandiMi = false;
     function bitir(){

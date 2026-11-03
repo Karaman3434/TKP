@@ -75,3 +75,23 @@
   cursor: pointer;
   margin-top: 10px;
 }
+
+/* Giriş tuşu (03.11.2026): 4 nokta doluyken aktif. */
+.pin-giris-buton {
+  width: 100%;
+  background: #003a70;
+  border: 1.5px solid #004f99;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  padding: 11px 14px;
+  margin-top: 2px;
+  cursor: pointer;
+}
+.pin-giris-buton:disabled {
+  background: #e3e8ee;
+  border-color: #cbd5e1;
+  color: #8a96a5;
+  cursor: default;
+}
