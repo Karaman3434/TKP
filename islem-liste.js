@@ -1,5 +1,5 @@
 /*
-  islem-liste.js — TKP.03.11.26-19:50.1458
+  islem-liste.js — TKP.04.11.26-08:30.1462
   ==========================================================================
   ORTAK İŞLEM LİSTESİ (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır
   filtre" turu; mockup: Son İşlemler satır tasarımı + arama kutusu yanında
@@ -145,12 +145,23 @@ var IslemListesi = (function(){
     parcalar.push("<span class='sr-as sr-as--son'><small>" + tarihGunAy(k.ts) + "</small>" + asamaKutusuHTML(k.tip, kacanMi ? KACAN_META : null, revizeSayisi) + "</span>");
     return parcalar.join("<span class='sr-ay'>&#8250;</span>");
   }
+  // TL KARŞILIĞI (04.11.2026, Abdullah onayı — "Euro toplamın üst satırına
+  // kırmızı TL"): 1. satırın sağında, Euro toplamın hemen üstünde. Kur =
+  // kaydın KENDİ kuru (k._kur; revize edilmişse revize anındaki kur, kuru
+  // olmayan eski kayıtta güncel kur — bkz. ReportsData.islemSorgula).
+  // Euro yerine etiket çıkan (stok bekliyor / bakiye) ve tutarı olmayan
+  // satırlarda TL yazılmaz. Küsuratsız, ₺ ile.
+  function tlHucreHTML(k){
+    if(k._beklemede || k._bakiye || !(k._tutar > 0) || !(k._tl > 0)) return "";
+    return "<div class='sr-tl'>" + Math.round(k._tl).toLocaleString("tr-TR") + " ₺</div>";
+  }
   function satirHTML(k, i){
     var m = rozetMeta(k);
     return "<div class='sr-satir" + (k._beklemede ? " sr-satir--beklemede" : "") + "' data-i='" + i + "' style='border-left-color:" + m.serit + ";'>"
       + "<div class='sr-ust'>"
       +   "<div class='sr-firma-h'>" + htmlEsc(k.musteri||"") + "</div>"
       +   "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
+      +   tlHucreHTML(k)
       + "</div>"
       + "<div class='sr-alt'>"
       +   "<div class='sr-rota'>" + rotaHTML(k) + "</div>"
