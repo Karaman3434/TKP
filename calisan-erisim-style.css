@@ -197,3 +197,39 @@
 .ce-cihaz-sinir-blok { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e4ea; }
 .ce-cihaz-sinir-etiket { font-size: 12px; font-weight: 800; color: #2d3540; display: block; margin-bottom: 6px; }
 .ce-cihaz-sinir-uyari { font-size: 11.5px; font-weight: 700; color: #a66a0a; margin-top: 6px; }
+
+
+/* ========================================================================
+   04.11.2026 (Abdullah onayı — mockup A/B/C/D): kullanıcı kartı yerinde açılır
+   — kullanıcı adı, şifre, giriş linkini kopyala, cihazlar (Onaylı → Onay
+   bekliyor) ve İzinler düğmesi.
+   ======================================================================== */
+.ce-kullanici-baslik-alan { flex: 1; min-width: 0; cursor: pointer; }
+.ce-kullanici-baslik-alan .ce-kullanici-ozet { margin-bottom: 0; }
+.ce-ok { color: #2a62b3; font-size: 14px; padding: 4px 8px; cursor: pointer; }
+.ce-kart--acik { border: 2px solid #003a70; }
+.ce-kart-govde { margin-top: 10px; }
+.ce-bilgi-satir { display: flex; align-items: center; gap: 8px; background: #f4f7fb; border: 1px solid #d5deea; border-radius: 9px; padding: 8px 10px; margin-top: 6px; font-size: 13px; }
+.ce-bilgi-satir em { font-style: normal; font-size: 10px; font-weight: 800; color: #556170; width: 74px; flex-shrink: 0; }
+.ce-bilgi-satir b { flex: 1; min-width: 0; color: #003a70; letter-spacing: .3px; word-break: break-all; }
+.ce-bilgi-satir input.ce-sifre-giris { flex: 1; min-width: 0; background: #fff; border: 1.5px solid #b7c4d6; border-radius: 7px; padding: 6px 8px; font-size: 13px; color: #003a70; }
+.ce-bilgi-satir input.ce-sifre-giris::placeholder { color: #a9b0ba; }
+.ce-kopya-btn { background: none; border: none; font-size: 11.5px; font-weight: 900; color: #2a62b3; cursor: pointer; padding: 4px 2px; white-space: nowrap; }
+.ce-kopya-btn:disabled { opacity: .5; }
+.ce-sifre-not { font-size: 10.5px; font-weight: 700; color: #8a5a00; background: #fff6e0; border-radius: 8px; padding: 6px 9px; margin-top: 6px; line-height: 1.35; }
+.ce-link-kopyala-genis { width: 100%; margin-top: 8px; background: #fff; color: #003a70; border: 1.5px solid #003a70; border-radius: 9px; padding: 9px; font-size: 12.5px; font-weight: 900; cursor: pointer; }
+.ce-alt-baslik { font-size: 10px; font-weight: 900; color: #556170; margin: 12px 0 5px; }
+.ce-cihaz-satir { border: 1px solid #e2e6ec; border-radius: 9px; padding: 8px 10px; margin-bottom: 5px; background: #fff; }
+.ce-cihaz-satir--bekliyor { border-color: #e0a43b; background: #fffaf0; }
+.ce-cihaz-satir-ust { display: flex; align-items: center; gap: 7px; }
+.ce-cihaz-ad { flex: 1; min-width: 0; font-size: 13px; font-weight: 800; color: #003a70; }
+.ce-cihaz-ad small { display: block; font-size: 10px; font-weight: 600; color: #8a8f98; }
+.ce-cihaz-rozet { font-size: 10px; font-weight: 900; border-radius: 99px; padding: 2px 8px; white-space: nowrap; }
+.ce-cihaz-rozet--onayli { background: #eaf7ef; color: #0e6b34; }
+.ce-cihaz-rozet--bekliyor { background: #fff6e0; color: #8a5a00; border: 1px solid #e0a43b; }
+.ce-cihaz-satir-alt { display: flex; gap: 6px; margin-top: 7px; }
+.ce-cihaz-onayla-btn, .ce-cihaz-reddet-btn { flex: 1; border-radius: 8px; padding: 8px; font-size: 12px; font-weight: 900; cursor: pointer; border: 1px solid transparent; }
+.ce-cihaz-onayla-btn { background: #0e6b58; color: #fff; }
+.ce-cihaz-onayla-btn:disabled { background: #e2e6ec; color: #8a8f98; cursor: default; }
+.ce-cihaz-reddet-btn { background: #fdeaea; color: #c0392b; border-color: #c0392b; }
+.ce-cihaz-bos { font-size: 11.5px; color: #8a8f98; font-weight: 700; padding: 4px 2px; }

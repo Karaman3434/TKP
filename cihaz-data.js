@@ -52,6 +52,10 @@ var CihazData = (function(){
   // kaybolmaz.
   function kaydiGuncelle(){
     try{
+      // 04.11.2026: auth.js'in onay kapısından henüz geçmemiş (yepyeni) bir
+      // cihaz burada sonGorulme YAZMAMALI — yoksa onay kontrolü onu "eski cihaz"
+      // sanıp otomatik onaylar. İşareti auth.js cihazKaydiGuncelle koyar.
+      try{ if(localStorage.getItem("weicon_kapi_gecti") !== "1") return; }catch(e){}
       baslat();
       var id = benimIdim();
       var veri = { sonGorulme: Date.now() };

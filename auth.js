@@ -1,5 +1,5 @@
 /*
-  auth.js — TKP.02.11.26-21:05.1449
+  auth.js — TKP.04.11.26-22:21.1475
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -67,6 +67,11 @@
   }
   function cihazKaydiGuncelle(user){
     try{
+      // 04.11.2026: kapıdan (cihaz onayı) geçmiş cihaz işareti. cihaz-data.js'teki
+      // kaydiGuncelle() bu işaret olmadan "sonGorulme" YAZMAZ — aksi halde yepyeni
+      // bir cihaz, ana sayfa onay kontrolünden ÖNCE sonGorulme yazınca "eski
+      // (onaylı) cihaz" sanılıp onaysız içeri girebiliyordu (3 cihaz sınırını delerdi).
+      try{ localStorage.setItem("weicon_kapi_gecti", "1"); }catch(e){}
       var veri = { sonGorulme: Date.now() };
       var yerelAd = localStorage.getItem("weicon_cihaz_adi");
       if(yerelAd) veri.ad = yerelAd;
@@ -165,9 +170,64 @@
         guncelleme.onayDurumu = "bekliyor";
         if(!c.ilkGorulme) guncelleme.ilkGorulme = Date.now();
         ref.update(guncelleme).catch(function(){});
-        geriBildir(false);
+        geriBildir(false, c);
       }).catch(function(){ geriBildir(true); }); // okunamazsa (çevrimdışı vb.) engelleme
     }catch(e){ geriBildir(true); }
+  }
+
+  // ---- CİHAZ ADI (04.11.2026, Abdullah onayı — "şifre girilince cihaza isim
+  // tanımlansın, yöneticinin ekranına isimle onaya düşsün") ----
+  // Kısıtlı/çalışan hesap, onaylanmamış bir cihazdan doğru şifreyle girdiğinde
+  // ve bu cihazın henüz bir adı yoksa: oturum kapatılıp "Onay Bekleniyor"
+  // ekranına gitmeden ÖNCE (oturum hâlâ açıkken, cihazlar/{id} yazılabilir)
+  // cihaza isim sorulur. Yönetici onay isteğini bu isimle görür. İsim aynı
+  // zamanda yerelde (weicon_cihaz_adi / weicon_kullanici_adi) saklanır —
+  // onaydan sonra eski "Kullanıcı Adını Tanımla" ekranı tekrar çıkmaz.
+  var CIHAZ_SINIRI_AUTH = 3; // cihaz-kullanici-render.js CZ_CIHAZ_SINIRI_SABIT ile aynı olmalı
+  function cihazAdiIste(c, devam){
+    var bitti = false;
+    function son(ad){ if(bitti) return; bitti = true; try{ devam(ad); }catch(e){} }
+    try{
+      var mevcut = String((c && c.ad) || "").trim();
+      var yerel = "";
+      try{ yerel = String(localStorage.getItem("weicon_cihaz_adi") || "").trim(); }catch(e){}
+      if(mevcut || yerel){ son(mevcut || yerel); return; }
+
+      var ov = document.createElement("div");
+      ov.id = "cihazAdiOverlay";
+      ov.style.cssText = "position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:#0d2f6b;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;visibility:visible;font-family:-apple-system,Segoe UI,Roboto,sans-serif;";
+      ov.innerHTML =
+        "<div style='font-size:44px'>📱</div>" +
+        "<div style='font-size:19px;font-weight:900;margin:8px 0 6px'>Cihazına İsim Ver</div>" +
+        "<div style='font-size:12px;opacity:.85;line-height:1.45;margin-bottom:16px;max-width:300px'>Bu cihaza bir isim ver. Yönetici onay ekranında bu ismi görecek.</div>" +
+        "<input id='cihazAdiInput' type='text' autocomplete='off' placeholder='örn. iPhone 13' style='width:100%;max-width:320px;box-sizing:border-box;border:none;border-radius:10px;padding:13px;font-size:16px;font-weight:700;text-align:center;color:#111'>" +
+        "<div id='cihazAdiHata' style='display:none;color:#ffb4a8;font-size:12px;font-weight:800;margin-top:8px'>Lütfen bir isim gir.</div>" +
+        "<div style='font-size:11px;opacity:.7;margin:8px 0 16px'>Örnek: iPhone 13, Tablet, Ofis bilgisayarı</div>" +
+        "<button id='cihazAdiBtn' type='button' style='width:100%;max-width:320px;background:#1f9d55;color:#fff;border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:900'>Kaydet ve Onaya Gönder</button>";
+      (document.body || document.documentElement).appendChild(ov);
+      var inp = document.getElementById("cihazAdiInput");
+      var btn = document.getElementById("cihazAdiBtn");
+      var hata = document.getElementById("cihazAdiHata");
+      function kaydet(){
+        var ad = String(inp.value || "").trim();
+        if(!ad){ hata.style.display = "block"; return; }
+        hata.style.display = "none";
+        btn.disabled = true; btn.textContent = "Gönderiliyor...";
+        try{
+          localStorage.setItem("weicon_cihaz_adi", ad);
+          localStorage.setItem("weicon_kullanici_adi", ad);
+        }catch(e){}
+        var zamanAsimi = setTimeout(function(){ son(ad); }, 5000);
+        try{
+          firebase.database().ref("cihazlar/" + cihazIdOku()).update({ ad: ad, kullaniciAdi: ad })
+            .then(function(){ clearTimeout(zamanAsimi); son(ad); })
+            .catch(function(){ clearTimeout(zamanAsimi); son(ad); });
+        }catch(e){ clearTimeout(zamanAsimi); son(ad); }
+      }
+      btn.onclick = kaydet;
+      inp.addEventListener("keydown", function(ev){ if(ev.key === "Enter") kaydet(); });
+      setTimeout(function(){ try{ inp.focus(); }catch(e){} }, 50);
+    }catch(e){ son(""); }
   }
 
   var yol = window.location.pathname;
@@ -278,11 +338,18 @@
         // gelmiş (yani kısıtlı/çalışan) hesaplar için: bu cihaz bu hesap
         // için daha önce onaylanmamışsa, hesaba giriş yaptırmadan onay
         // bekleme ekranına yönlendir. Bkz. yukarıdaki cihazOnayKontrolEt.
-        cihazOnayKontrolEt(user.uid, veri.kullaniciAdi, function(onayli){
+        cihazOnayKontrolEt(user.uid, veri.kullaniciAdi, function(onayli, cihazVeri){
           if(!onayli){
             document.documentElement.style.visibility = "hidden";
-            firebase.auth().signOut().then(function(){
-              window.location.href = "cihaz-onay-bekliyor.html";
+            cihazAdiIste(cihazVeri, function(cihazAdi){
+              // Yönetici paneli, onaylı cihaz sayısını bu hesabın kaydına yazar
+              // (onayliCihazSayisi). 3/3 doluysa bu cihaz "Cihaz Sınırı Doldu"
+              // ekranını görür; yönetici panelindeki "Onayla" zaten kapalıdır,
+              // yani sayaç bayat olsa bile 4. cihaz içeri giremez.
+              var sinirDolu = (parseInt(veri.onayliCihazSayisi, 10) || 0) >= CIHAZ_SINIRI_AUTH;
+              firebase.auth().signOut().then(function(){
+                window.location.href = "cihaz-onay-bekliyor.html?ad=" + encodeURIComponent(cihazAdi || "") + (sinirDolu ? "&sinir=1" : "");
+              });
             });
             cb(false);
             return;

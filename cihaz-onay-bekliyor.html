@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: WG.251026.1030.1029 — cihaz-onay-bekliyor.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.04.11.26-22:21.1475 — cihaz-onay-bekliyor.html -->
 <!--
   CİHAZ ONAYI (25.10.2026, Abdullah'ın isteğiyle — "izin vermeden
   bağlanamasın" talebi)
@@ -40,16 +40,41 @@
 
 <main class="engelli-kutu">
   <div class="logo">İŞ TAKİP</div>
-  <div class="engelli-ikon">⏳</div>
-  <h1 class="onay-bekliyor-baslik">Bu Cihaz Onay Bekliyor</h1>
-  <p>Bu cihaz daha önce bu hesapla hiç giriş yapmamış, bu yüzden önce yöneticinin onaylaması gerekiyor.</p>
-  <p>Yöneticinle iletişime geç — o, "Cihazlar ve Kullanıcılar" ekranından bu cihaza bir isim verip onayladığında, aynı linkle tekrar giriş yapabilirsin.</p>
+  <div class="engelli-ikon" id="onayIkon">⏳</div>
+  <h1 class="onay-bekliyor-baslik" id="onayBaslik">Onay Bekleniyor</h1>
+  <div id="onayCihazAd" hidden style="display:inline-block;background:#eef2f7;color:#003a70;font-weight:900;font-size:14px;border-radius:10px;padding:8px 14px;margin:6px 0 10px"></div>
+  <p id="onayMetin1">İsteğin yöneticiye gönderildi. Yönetici onayladığında aynı linkle tekrar giriş yapabilirsin.</p>
+  <p id="onayMetin2" hidden></p>
 </main>
+<script>
+/* 04.11.2026 (Abdullah onayı): cihaz adı + "Cihaz Sınırı Doldu" varyantı.
+   auth.js yönlendirirken ?ad=...&sinir=1 gönderir; yoksa yerel ada bakılır. */
+(function(){
+  try{
+    var q = new URLSearchParams(window.location.search);
+    var ad = (q.get("ad") || "").trim();
+    if(!ad){ try{ ad = (localStorage.getItem("weicon_cihaz_adi") || "").trim(); }catch(e){} }
+    if(ad){
+      var el = document.getElementById("onayCihazAd");
+      el.textContent = "📱 " + ad;
+      el.hidden = false;
+    }
+    if(q.get("sinir") === "1"){
+      document.getElementById("onayIkon").textContent = "🚫";
+      document.getElementById("onayBaslik").textContent = "Cihaz Sınırı Doldu";
+      document.getElementById("onayMetin1").innerHTML = "Bu link ile en fazla <b>3 cihaz</b> tanımlı. Sınır dolu olduğu için bu cihazda program açılmaz.";
+      var m2 = document.getElementById("onayMetin2");
+      m2.textContent = "Yöneticinle iletişime geç.";
+      m2.hidden = false;
+    }
+  }catch(e){}
+})();
+</script>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="firebase-config.js?v=WG.271026.2238.1121"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script src="auth.js?v=TKP.02.11.26-21:05.1449"></script>
+<script src="auth.js?v=TKP.04.11.26-22:21.1475"></script>
 </body>
 </html>

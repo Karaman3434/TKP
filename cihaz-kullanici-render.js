@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: TKP.04.11.26-12:30.1463
+  cihaz-kullanici-render.js — VERSİYON: TKP.04.11.26-22:21.1475
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -317,20 +317,12 @@ function ckYonetimAlaniniGoster(){
         hataEl.hidden = false;
         return;
       }
-      // EKLENDİ (22.10.2026, Abdullah'ın isteğiyle) — Kullanıcı
-      // oluşturulduğu ANDA "Giriş Linki"ni de burada göster; aynı link
-      // zaten aşağıdaki kullanıcı kartında da kalıcı olarak kalacak.
-      var yeniLinkBlok = document.getElementById("ceYeniLinkBlok");
-      var yeniLinkKutu = document.getElementById("ceYeniLinkKutu");
-      if(yeniLinkBlok && yeniLinkKutu){
-        yeniLinkKutu.value = ceGirisLinkiOlustur(olusanKullaniciAdi);
-        yeniLinkBlok.hidden = false;
-        ceLinkKopyalaBtnBagla(
-          document.getElementById("ceYeniLinkKopyalaBtn"),
-          yeniLinkKutu,
-          document.getElementById("ceYeniLinkKopyalandi")
-        );
-      }
+      // 04.11.2026 (Abdullah onayı): uzun link kutusu kaldırıldı; oluşan
+      // kullanıcının kartı açılır (kullanıcı adı, şifre ve "Giriş linkini
+      // kopyala" tuşu orada).
+      ceYeniOlusanKullaniciAdi = olusanKullaniciAdi;
+      ceAcikKartlariUygula(ckSonKullanicilarVeri);
+      ceListeyiCiz(ckSonKullanicilarVeri);
       document.getElementById("ceKullaniciAdi").value = "";
       document.getElementById("ceSifre").value = "";
     });
@@ -461,7 +453,7 @@ function czBekleyenKartHtml(c){
   var mevcutSayi = ceCihazSayisi(c.sonGirisHesabi);
   var sinirDoluMu = mevcutSayi >= CZ_CIHAZ_SINIRI_SABIT;
 
-  var onaySatiri = sinirDoluMu ? "" : "<div class='cz-onay-satir'><input type='text' class='cz-ad-duzenle-input cz-onay-ad-input' data-id='" + htmlEsc(c.id) + "' placeholder='Bu cihaza bir isim ver (örn. Yasin - Telefon)'></div>";
+  var onaySatiri = sinirDoluMu ? "" : "<div class='cz-onay-satir'><input type='text' class='cz-ad-duzenle-input cz-onay-ad-input' data-id='" + htmlEsc(c.id) + "' placeholder='Bu cihaza bir isim ver (örn. Yasin - Telefon)' value='" + htmlEsc(c.ad || "") + "'></div>";
 
   var sinirNotu = sinirDoluMu
     ? "<div class='cz-bekleyen-sinir-notu'>🚫 \"" + htmlEsc(c.sonGirisHesabi || "?") + "\" hesabının cihaz sınırı doldu (" + mevcutSayi + "/" + CZ_CIHAZ_SINIRI_SABIT + ") — onaylamak için önce mevcut cihazlardan birini engelle/kaldır.</div>"
@@ -706,6 +698,7 @@ function czGrupPopupAc(ikon, baslik, cihazlar, manuelGrupId){
 function cihazListesiniCiz(liste){
   try{
     ckSonCihazListesi = liste; // YENİ — kullanıcı kartlarındaki cihaz sayısı/sınırı için
+    ckCihazListesiYuklendi = true;
     var kapsayici = document.getElementById("czListe");
     var bos = document.getElementById("czBos");
     if(!liste.length){
@@ -1019,6 +1012,10 @@ function ceKullaniciOlustur(kullaniciAdiGirilen, sifre, cb){
     return ikincilApp.auth().signOut().then(function(){
       return firebase.database().ref("kisitliKullanicilar/" + uid).set({
         kullaniciAdi: kullaniciAdi,
+        // 04.11.2026 (Abdullah onayı): şifre, yönetici panelinde kullanıcı
+        // kartında görünebilsin diye (unutulmasın) burada da saklanır.
+        // kisitliKullanicilar/{uid} sadece yönetici (ve o kullanıcının kendisi) okuyabilir.
+        sifre: sifre,
         aktif: true,
         izinler: ceVarsayilanIzinler(),
         olusturulma: Date.now()
@@ -1112,35 +1109,103 @@ function ceLinkKopyalaBtnBagla(kopyalaBtn, linkInput, kopyalandiEl){
   };
 }
 
-// YENİDEN TASARLANDI (25.10.2026, Abdullah'ın isteğiyle — kart çok yer
-// kaplıyordu). Kart artık tek satır: ad + özet + "İzinler, Cihaz Sınırı ve
-// Link" butonu. Giriş linki, izin grupları (.ce-grup) ve YENİ "Cihaz
-// sınırı" alanı ortak #ceIzinOverlay popup'ına taşındı (bkz. ceIzinPopupAc).
-function ceKullaniciKartHtml(uid, veri){
-  var izinler = veri.izinler || {};
-  var aktifMi = veri.aktif !== false;
-  var ozetParcalari = [aktifMi ? (ceAcikSayfaSayisi(izinler) + " sayfa açık") : "devre dışı"];
+// 04.11.2026 (Abdullah onayı — mockup A/B/C/D): kullanıcı kartı yerinde
+// açılır. Kapalıyken tek satır (ad + "2/3 cihaz · 1 onay bekliyor");
+// açılınca: Kullanıcı adı, Şifre (kopyalanabilir), "Giriş linkini kopyala",
+// bu hesapla giriş yapmış cihazlar (önce Onaylı, sonra Onay bekliyor) ve
+// "İzinler" düğmesi (mevcut izin penceresi, değişmedi).
+var ceAcikKartlar = {};            // uid -> true (render'lar arasında açık kalır)
+var ceYeniOlusanKullaniciAdi = ""; // az önce oluşturulan kullanıcının kartı otomatik açılır
+var ckCihazListesiYuklendi = false;
+var ceSayacYazilanlar = {};        // uid -> son yazılmaya çalışılan sayı (tekrar yazmayı önler)
 
-  var cihazSayisi = ceCihazSayisi(veri.kullaniciAdi);
-  if(cihazSayisi > 0){
-    var cihazMetni = cihazSayisi + " cihaz";
-    if(cihazSayisi >= CZ_CIHAZ_SINIRI_SABIT) cihazMetni += ' <span class="ce-ozet-uyari">(sınır ' + CZ_CIHAZ_SINIRI_SABIT + " ⚠️)</span>";
-    ozetParcalari.push(cihazMetni);
+function ceAcikKartlariUygula(tumKullanicilar){
+  if(!ceYeniOlusanKullaniciAdi) return;
+  Object.keys(tumKullanicilar||{}).forEach(function(uid){
+    if((tumKullanicilar[uid]||{}).kullaniciAdi === ceYeniOlusanKullaniciAdi){
+      ceAcikKartlar[uid] = true;
+      ceYeniOlusanKullaniciAdi = "";
+    }
+  });
+}
+
+// Bu hesapla giriş yapmış, engellenmemiş cihazlar: önce onaylılar (son görülmeye
+// göre yeni→eski), sonra onay bekleyenler.
+function ceKullaniciCihazlari(kullaniciAdi){
+  if(!kullaniciAdi) return [];
+  var l = ckSonCihazListesi.filter(function(c){ return !c.engelli && c.sonGirisHesabi === kullaniciAdi; });
+  var onayli = l.filter(function(c){ return c.onayDurumu !== "bekliyor"; }).sort(function(a,b){ return (b.sonGorulme||0) - (a.sonGorulme||0); });
+  var bekleyen = l.filter(function(c){ return c.onayDurumu === "bekliyor"; }).sort(function(a,b){ return (a.ilkGorulme||0) - (b.ilkGorulme||0); });
+  return onayli.concat(bekleyen);
+}
+
+function ceKartCihazSatiriHtml(c, sinirDolu){
+  var bekliyor = c.onayDurumu === "bekliyor";
+  var alt = bekliyor ? ("istek: " + zamanGoster(c.ilkGorulme)) : ("son: " + zamanGoster(c.sonGorulme));
+  var html = '<div class="ce-cihaz-satir' + (bekliyor ? " ce-cihaz-satir--bekliyor" : "") + '">' +
+    '<div class="ce-cihaz-satir-ust">' +
+      '<span class="ce-cihaz-ikon">📱</span>' +
+      '<span class="ce-cihaz-ad">' + htmlEsc(c.ad || "Adsız Cihaz") + '<small>' + alt + '</small></span>' +
+      '<span class="ce-cihaz-rozet ' + (bekliyor ? "ce-cihaz-rozet--bekliyor" : "ce-cihaz-rozet--onayli") + '">' + (bekliyor ? "Onay bekliyor" : "Onaylı") + '</span>' +
+    '</div>';
+  if(bekliyor){
+    html += '<div class="ce-cihaz-satir-alt">' +
+      (sinirDolu
+        ? '<button type="button" class="ce-cihaz-onayla-btn" disabled>🚫 Sınır doldu</button>'
+        : '<button type="button" class="ce-cihaz-onayla-btn" data-aksiyon="cihazOnayla" data-id="' + htmlEsc(c.id) + '">✓ Onayla</button>') +
+      '<button type="button" class="ce-cihaz-reddet-btn" data-aksiyon="cihazReddet" data-id="' + htmlEsc(c.id) + '" data-ad="' + htmlEsc(c.ad || "Adsız Cihaz") + '">Reddet</button>' +
+      '</div>';
+  }
+  return html + '</div>';
+}
+
+function ceKullaniciKartHtml(uid, veri){
+  var aktifMi = veri.aktif !== false;
+  var cihazlar = ceKullaniciCihazlari(veri.kullaniciAdi);
+  var onayliSayi = cihazlar.filter(function(c){ return c.onayDurumu !== "bekliyor"; }).length;
+  var bekleyenSayi = cihazlar.length - onayliSayi;
+  var sinirDolu = onayliSayi >= CZ_CIHAZ_SINIRI_SABIT;
+  var acik = aktifMi && !!ceAcikKartlar[uid];
+
+  var ozet = aktifMi
+    ? (onayliSayi + "/" + CZ_CIHAZ_SINIRI_SABIT + " cihaz" + (sinirDolu ? " · dolu" : "") + (bekleyenSayi ? " · " + bekleyenSayi + " onay bekliyor" : ""))
+    : "devre dışı";
+
+  var govde = "";
+  if(acik){
+    var sifreSatiri = veri.sifre
+      ? '<div class="ce-bilgi-satir"><em>Şifre</em><b>' + htmlEsc(veri.sifre) + '</b><button type="button" class="ce-kopya-btn" data-aksiyon="kopyala" data-metin="' + htmlEsc(veri.sifre) + '">Kopyala</button></div>'
+      : '<div class="ce-bilgi-satir"><em>Şifre</em><input type="text" class="ce-sifre-giris" data-uid="' + uid + '" placeholder="Verdiğin şifreyi yaz" autocomplete="off" autocapitalize="off"><button type="button" class="ce-kopya-btn" data-aksiyon="sifreKaydet">Kaydet</button></div>' +
+        '<div class="ce-sifre-not">ℹ️ Bu şifre sadece görmen için kaydedilir; kullanıcının gerçek şifresini değiştirmez. Eski kullanıcıların şifresini sistem okuyamaz.</div>';
+
+    govde = '<div class="ce-kart-govde">' +
+      '<div class="ce-bilgi-satir"><em>Kullanıcı adı</em><b>' + htmlEsc(veri.kullaniciAdi || "?") + '</b><button type="button" class="ce-kopya-btn" data-aksiyon="kopyala" data-metin="' + htmlEsc(veri.kullaniciAdi || "") + '">Kopyala</button></div>' +
+      sifreSatiri +
+      '<button type="button" class="ce-link-kopyala-genis" data-aksiyon="linkKopyala">🔗 Giriş linkini kopyala</button>' +
+      '<div class="ce-alt-baslik">📱 CİHAZLAR (' + onayliSayi + '/' + CZ_CIHAZ_SINIRI_SABIT + ')</div>' +
+      (cihazlar.length
+        ? cihazlar.map(function(c){ return ceKartCihazSatiriHtml(c, sinirDolu); }).join("")
+        : '<div class="ce-cihaz-bos">Bu hesapla henüz giriş yapılmadı.</div>') +
+      '<button type="button" class="ce-izin-ac-btn" data-aksiyon="izinAc">⚙️ İzinler ›</button>' +
+      '</div>';
   }
 
-  return '<section class="ce-kart ce-kart--kompakt" data-uid="' + uid + '" data-kullanici-adi="' + htmlEsc(veri.kullaniciAdi||"") + '">' +
+  return '<section class="ce-kart ce-kart--kompakt' + (acik ? " ce-kart--acik" : "") + '" data-uid="' + uid + '" data-kullanici-adi="' + htmlEsc(veri.kullaniciAdi||"") + '">' +
     '<div class="ce-kullanici-ust">' +
-      '<div class="ce-kullanici-ad' + (aktifMi ? "" : " ce-kullanici-ad--devredisi") + '">👤 ' + (veri.kullaniciAdi||"?") + '</div>' +
-      (aktifMi ? '<button class="ce-devre-disi-btn" data-aksiyon="devredisi" title="Devre dışı bırak">🗑</button>' : "") +
+      '<div class="ce-kullanici-baslik-alan"' + (aktifMi ? ' data-aksiyon="kartAcKapa"' : '') + '>' +
+        '<div class="ce-kullanici-ad' + (aktifMi ? "" : " ce-kullanici-ad--devredisi") + '">👤 ' + htmlEsc(veri.kullaniciAdi||"?") + '</div>' +
+        '<div class="ce-kullanici-ozet">' + ozet + '</div>' +
+      '</div>' +
+      (aktifMi ? '<span class="ce-ok" data-aksiyon="kartAcKapa">' + (acik ? "▴" : "▾") + '</span><button class="ce-devre-disi-btn" data-aksiyon="devredisi" title="Devre dışı bırak">🗑</button>' : "") +
     '</div>' +
-    '<div class="ce-kullanici-ozet">' + ozetParcalari.join(" · ") + '</div>' +
     (aktifMi ? "" : '<div class="ce-devredisi-rozet">⛔ Bu hesap devre dışı — hiçbir sayfaya girilemez</div>') +
     // EKLENDİ (22.10.2026, "Kalıcı Olarak Sil" özelliği, Abdullah'ın isteğiyle)
     // — bu hesabın cihazı daha önce KALICI OLARAK SİLİNMİŞ başka bir hesaba
     // ait çıktıysa (auth.js -> cihazEngelUyarisiYaz), Abdullah'ı uyar.
     (veri.cihazEngellendiUyarisi ? '<div class="ce-cihaz-uyari-rozet">⚠️ UYARI: Bu hesaba giriş yapan bir cihaz, daha önce kalıcı olarak sildiğin bir hesaba ait. O cihazdan giriş otomatik engellendi.</div>' : "") +
+    govde +
     (aktifMi
-      ? '<button type="button" class="ce-izin-ac-btn" data-aksiyon="izinAc">⚙️ İzinler, Cihaz Sınırı ve Link ›</button>'
+      ? ""
       : '<button class="ce-yeniden-etkinlestir-btn" data-aksiyon="etkinlestir">↺ Yeniden Etkinleştir</button>' +
         // EKLENDİ (22.10.2026, "Kalıcı Olarak Sil" özelliği, Abdullah'ın
         // isteğiyle) — SADECE devre dışı hesaplarda görünür (önce devre
@@ -1148,6 +1213,47 @@ function ceKullaniciKartHtml(uid, veri){
         '<button class="ce-kalici-sil-btn" data-aksiyon="kalicisil">🗑 Kalıcı Olarak Sil</button>'
     ) +
     '</section>';
+}
+
+// Metni panoya kopyalar; düğmenin yazısı kısa süre "✓ Kopyalandı" olur.
+function ceMetniKopyala(metin, btn){
+  var etiket = btn ? btn.textContent : "";
+  var tamam = function(){
+    if(!btn) return;
+    btn.textContent = "✓ Kopyalandı";
+    setTimeout(function(){ btn.textContent = etiket; }, 1600);
+  };
+  var yedek = function(){
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = metin; ta.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+      document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove();
+      tamam();
+    }catch(e){ hataGoster("Kopyalanamadı: " + e.message); }
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(metin).then(tamam).catch(yedek);
+  } else { yedek(); }
+}
+
+// Giriş sayfasının "onaylı cihaz sayısı" bilgisi: auth.js, onaylanmamış bir
+// cihaz geldiğinde bu alana bakıp "Cihaz Sınırı Doldu" ekranını gösterir.
+// Sayı değiştiyse hesabın kaydına yazılır (aynıysa yazılmaz).
+function ceSayaclariSenkronla(tumKullanicilar){
+  if(!ckCihazListesiYuklendi) return;
+  Object.keys(tumKullanicilar||{}).forEach(function(uid){
+    var v = tumKullanicilar[uid] || {};
+    if(v.silindi || !v.kullaniciAdi) return;
+    var sayi = ceCihazSayisi(v.kullaniciAdi);
+    var kayitli = parseInt(v.onayliCihazSayisi, 10);
+    if(kayitli === sayi) { delete ceSayacYazilanlar[uid]; return; }
+    if(ceSayacYazilanlar[uid] === sayi) return;
+    ceSayacYazilanlar[uid] = sayi;
+    firebase.database().ref("kisitliKullanicilar/" + uid + "/onayliCihazSayisi").set(sayi).catch(function(e){
+      delete ceSayacYazilanlar[uid];
+      console.error("Cihaz sayacı yazılamadı:", e);
+    });
+  });
 }
 
 // YENİ — tek paylaşılan izin/cihaz sınırı popup'ını bir kullanıcı için
@@ -1163,7 +1269,6 @@ function ceIzinPopupAc(uid, veri){
   var aktifMi = veri.aktif !== false;
 
   document.getElementById("ceIzinBaslik").textContent = "👤 " + (veri.kullaniciAdi||"?");
-  document.getElementById("ceIzinLinkKutu").value = ceGirisLinkiOlustur(veri.kullaniciAdi);
   document.getElementById("ceIzinGruplar").innerHTML = ceGrupHtml(uid, izinler, aktifMi);
 
   // GÜNCELLENDİ (01.11.2026, "3 cihaz sabit sınırı" özelliği) — ayarlanabilir
@@ -1179,12 +1284,6 @@ function ceIzinPopupAc(uid, veri){
   } else {
     uyariEl.hidden = true;
   }
-
-  ceLinkKopyalaBtnBagla(
-    document.getElementById("ceIzinLinkKopyalaBtn"),
-    document.getElementById("ceIzinLinkKutu"),
-    document.getElementById("ceIzinLinkKopyalandi")
-  );
 
   var kaydetBtn = document.getElementById("ceIzinKaydetBtn");
   kaydetBtn.disabled = false;
@@ -1238,17 +1337,76 @@ function ceListeyiCiz(tumKullanicilar){
   }
   bosMesaj.hidden = true;
 
+  ceAcikKartlariUygula(tumKullanicilar);
+  ceSayaclariSenkronla(tumKullanicilar);
+
+  // Şifre kutusuna yazılmış ama henüz kaydedilmemiş metin (ve odak), liste
+  // yeniden çizilince (ör. bir cihaz güncellenince) kaybolmasın.
+  var yazilanSifreler = {}; var odakUid = null;
+  kapsayici.querySelectorAll(".ce-sifre-giris").forEach(function(g){
+    var u = g.getAttribute("data-uid");
+    if(g.value) yazilanSifreler[u] = g.value;
+    if(document.activeElement === g) odakUid = u;
+  });
+
   kapsayici.innerHTML = uidler.map(function(uid){
     return ceKullaniciKartHtml(uid, tumKullanicilar[uid] || {});
   }).join("");
 
   kapsayici.querySelectorAll(".ce-kart").forEach(function(kart){
     var uid = kart.getAttribute("data-uid");
+    var kartVeri = tumKullanicilar[uid] || {};
 
     var izinAcBtn = kart.querySelector('[data-aksiyon="izinAc"]');
     if(izinAcBtn){
       izinAcBtn.onclick = function(){ ceIzinPopupAc(uid, tumKullanicilar[uid] || {}); };
     }
+
+    kart.querySelectorAll('[data-aksiyon="kartAcKapa"]').forEach(function(el){
+      el.onclick = function(){
+        if(ceAcikKartlar[uid]) delete ceAcikKartlar[uid]; else ceAcikKartlar[uid] = true;
+        ceListeyiCiz(ckSonKullanicilarVeri);
+      };
+    });
+
+    kart.querySelectorAll('[data-aksiyon="kopyala"]').forEach(function(b){
+      b.onclick = function(){ ceMetniKopyala(b.getAttribute("data-metin") || "", b); };
+    });
+    var linkBtn = kart.querySelector('[data-aksiyon="linkKopyala"]');
+    if(linkBtn) linkBtn.onclick = function(){ ceMetniKopyala(ceGirisLinkiOlustur(kartVeri.kullaniciAdi), linkBtn); };
+
+    var sifreKaydetBtn = kart.querySelector('[data-aksiyon="sifreKaydet"]');
+    if(sifreKaydetBtn){
+      sifreKaydetBtn.onclick = function(){
+        var g = kart.querySelector(".ce-sifre-giris");
+        var yeni = g ? g.value.trim() : "";
+        if(!yeni){ hataGoster("Şifreyi yaz, sonra Kaydet'e bas."); return; }
+        sifreKaydetBtn.disabled = true; sifreKaydetBtn.textContent = "⏳";
+        firebase.database().ref("kisitliKullanicilar/" + uid + "/sifre").set(yeni).catch(function(e){
+          sifreKaydetBtn.disabled = false; sifreKaydetBtn.textContent = "Kaydet";
+          hataGoster("Şifre kaydedilemedi: " + e.message);
+        });
+      };
+    }
+
+    kart.querySelectorAll('[data-aksiyon="cihazOnayla"]').forEach(function(b){
+      b.onclick = function(){
+        b.disabled = true; b.textContent = "⏳ Onaylanıyor...";
+        // Onay anında cihazın kendi adı korunur (yeniAd boş = ad değişmez).
+        CihazData.onaylaCihazi(b.getAttribute("data-id"), "", function(basarili, hata){
+          if(!basarili){ b.disabled = false; b.textContent = "✓ Onayla"; hataGoster(hata || "Cihaz onaylanamadı."); }
+        });
+      };
+    });
+    kart.querySelectorAll('[data-aksiyon="cihazReddet"]').forEach(function(b){
+      b.onclick = function(){
+        var ad = b.getAttribute("data-ad");
+        if(!confirm("\"" + ad + "\" cihazının giriş denemesi reddedilsin mi? Bu cihaz \"Engellenen cihazlar\" listesine taşınacak.")) return;
+        CihazData.engelle(b.getAttribute("data-id"), ad, function(basarili, hata){
+          if(!basarili) hataGoster(hata || "Cihaz reddedilemedi.");
+        });
+      };
+    });
 
     var devreDisiBtn = kart.querySelector('[data-aksiyon="devredisi"]');
     if(devreDisiBtn){
@@ -1313,6 +1471,11 @@ function ceListeyiCiz(tumKullanicilar){
       };
     }
 
+  });
+
+  Object.keys(yazilanSifreler).forEach(function(u){
+    var g = kapsayici.querySelector('.ce-sifre-giris[data-uid="' + u + '"]');
+    if(g){ g.value = yazilanSifreler[u]; if(odakUid === u){ try{ g.focus(); }catch(e){} } }
   });
 }
 
