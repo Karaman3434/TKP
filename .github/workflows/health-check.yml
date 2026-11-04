@@ -61,6 +61,11 @@ jobs:
           if rules.get(".read") is not False or rules.get(".write") is not False:
               problems.append("Firebase kök okuma/yazma varsayılanı false olmalı")
           device = rules.get("cihazlar", {}).get("$cihazId", {})
+          pin_rules = rules.get("pin", {})
+          if pin_rules.get(".read") == "auth != null":
+              problems.append("Ortak PIN verisi tüm kimliği doğrulanmış kullanıcılara açık")
+          if pin_rules.get(".write") == "auth != null":
+              problems.append("Ortak PIN verisi tüm kimliği doğrulanmış kullanıcılarca değiştirilebilir")
           if "sonKullaniciUid" not in device.get(".read", ""):
               problems.append("Cihaz okuma kuralında sahiplik kontrolü eksik")
           if "sonKullaniciUid" not in device.get(".write", ""):
