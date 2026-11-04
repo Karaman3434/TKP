@@ -1,5 +1,5 @@
 /*
-  ayarlar-sync.js — WG.271026.2238.1132
+  ayarlar-sync.js — TKP.04.11.26-19:30.1474 (04.11.2026: otomatik kur +0,10 düzeltmesi kaldırıldı)
   ===============
   27.10.2026 PERFORMANS KAZANIMI: otomatik kur çekme zincirindeki her
   denemeye (TCMB/Frankfurter/yedek) 5 saniyelik zaman aşımı eklendi — bkz.
@@ -119,7 +119,10 @@ var AyarlarSync = (function(){
   // ki gösterilen/kullanılan kur TCMB günlük kuruyla eşleşsin. Manuel girilen
   // kur (ayarlar-render.js / cart-render.js'teki kurKaydet çağrıları) buna
   // dahil DEĞİL — sadece otomatik çekilen kur düzeltiliyor.
-  var OTOMATIK_KUR_DUZELTME = 0.10;
+  // 04.11.2026 (Abdullah): +0,10 düzeltmesi İPTAL — otomatik çekilen kur artık
+  // kaynağın kendi değeriyle (TCMB Döviz Satış) aynen kaydedilir. Sabit 0'a
+  // çekildi (mantık/kod yolu değişmedi, istenirse tekrar yazılabilir).
+  var OTOMATIK_KUR_DUZELTME = 0;
 
   function otomatikKurGetir(zorlaMi, geriBildir){
     if(!zorlaMi && !kurBayatMi()){ if(geriBildir) geriBildir(true); return; }
