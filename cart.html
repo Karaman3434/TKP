@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="calc-style.css?v=WG.011126.1022.1262">
 <link rel="stylesheet" href="belge-style.css?v=TKP.04.11.26-14:35.1467">
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.01.11.26-19:09.1341">
-<link rel="stylesheet" href="cart-style.css?v=TKP.03.11.26-20:30.1459">
+<link rel="stylesheet" href="cart-style.css?v=TKP.04.11.26-14:50.1468">
 <link rel="stylesheet" href="detail-style.css?v=TKP.02.11.26-10:48.1375">
 <!-- YENİ (12.10.2026, Abdullah onayı) — Belge Önizleme'de onaylanan açık
      gri zemin + türe-özel rozet renk tasarımı Sepet tablosuna taşındı.
@@ -330,11 +330,14 @@
        tıkla, sonra detay aç") kaldırıldı — artık TEK tablo, ÜRÜN sütunuyla
        birlikte; aynı üründen birden fazla kayıt varsa SADECE en yeni kayıt
        gösterilir (bkz. cart-render.js musteriGecmisiniAc). -->
+  <!-- GENİŞLETİLDİ (04.11.2026, Abdullah onayı — mockup üzerinden): pencere
+       iPad/telefonda kenardan kenara açılır, tablo büyük yazı + tek satır
+       tarih + sayı altında küçük EURO (bkz. cart-style.css #musteriGecmisOverlay). -->
   <div class="tip-secim-overlay" id="musteriGecmisOverlay" hidden>
     <div class="tip-secim-kutu" style="max-height:80vh; overflow-y:auto;">
       <div class="tip-secim-baslik" id="musteriGecmisBaslik">🕓 İşlem Geçmişi</div>
-      <div class="data-table-container"><table class="belge-urun-tablo" style="font-size:10px;">
-        <thead><tr><th style='width:24%;'>ÜRÜN</th><th style='width:22%;'>TARİH</th><th style='width:12%;'>ADET</th><th style='width:14%;'>LİSTE</th><th style='width:14%;'>İSK</th><th style='width:14%;'>NET</th></tr></thead>
+      <div class="data-table-container"><table class="belge-urun-tablo">
+        <thead><tr><th style='width:27%;'>ÜRÜN</th><th style='width:22%;'>TARİH</th><th style='width:8%;'>ADET</th><th style='width:15%;'>LİSTE</th><th style='width:12%;'>İSK</th><th style='width:16%;'>NET</th></tr></thead>
         <tbody id="musteriGecmisTabloGovde"></tbody>
       </table></div>
       <button class="tip-secim-vazgec-btn" id="btnMusteriGecmisKapat" style="margin-top:10px;">Kapat</button>
@@ -453,7 +456,7 @@
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
-<script src="cart-render.js?v=TKP.03.11.26-20:30.1459"></script>
+<script src="cart-render.js?v=TKP.04.11.26-14:50.1468"></script>
 <script src="urun-arama.js?v=TKP.04.11.26-12:40.1466"></script>
 <script src="hesapla-popup.js?v=TKP.02.11.26-08:55.1358"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026): bugünkü üst-bar birleştirmesiyle

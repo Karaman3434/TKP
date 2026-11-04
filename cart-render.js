@@ -1,5 +1,8 @@
 /*
-  cart-render.js — TKP.02.11.26-10:22.1368
+  cart-render.js — TKP.04.11.26-14:50.1468
+  GÜNCELLEME (04.11.2026, Abdullah onayı): İşlem Geçmişi penceresi satırları —
+  tarih tek satır + altında (Tip), sayılar altında küçük EURO/% (cart-style.css).
+  (önceki: TKP.02.11.26-10:22.1368)
   ==============
   02.11.2026: "primSatirIci" bayrağı kaldırıldı (PRİM artık tüm sayfalarda
   ortak GENEL TOPLAM kutusunun içinde — hareket-tablo.js genelToplamHtml);
@@ -242,13 +245,16 @@ function musteriGecmisiniAc(){
         var tipEtiket = TIP_ETIKET_MUSTERI_GECMIS[k.tip] || "";
         var d = new Date(k.ts);
         var tarihFormatli = String(d.getDate()).padStart(2,"0") + "." + String(d.getMonth()+1).padStart(2,"0") + "." + d.getFullYear();
+        function sayiBirim(sayi, birim, stil){
+          return "<span class='belge-para-sayi'" + (stil ? " style='" + stil + "'" : "") + ">" + sayi + "</span><span class='belge-para-birim'" + (stil ? " style='" + stil + "'" : "") + ">" + birim + "</span>";
+        }
         return "<tr>"
-          + "<td style='text-align:left;font-weight:700;'>" + htmlEsc(g.ad) + "</td>"
-          + "<td>" + tarihFormatli + (tipEtiket ? " <span style='color:#8e44ad;font-weight:700;'>(" + tipEtiket + ")</span>" : "") + "</td>"
+          + "<td class='mg-urun'>" + htmlEsc(g.ad) + "</td>"
+          + "<td class='mg-tarih'><b>" + tarihFormatli + "</b>" + (tipEtiket ? "<span class='mg-tip'>(" + tipEtiket + ")</span>" : "") + "</td>"
           + "<td>" + (k.adet||0) + "</td>"
-          + "<td>" + CartData.fmt(k.listeFiyat) + " EURO</td>"
-          + "<td><span class='belge-para-sayi' style='color:#c0392b;'>" + CartData.fmt(k.iskonto) + "</span><span class='belge-para-birim' style='color:#c0392b;'>%</span></td>"
-          + "<td><span class='rozet-net'>" + CartData.fmt(k.netFiyat) + " EURO</span></td>"
+          + "<td>" + sayiBirim(CartData.fmt(k.listeFiyat), "EURO") + "</td>"
+          + "<td>" + sayiBirim(CartData.fmt(k.iskonto), "%", "color:#c0392b;") + "</td>"
+          + "<td><span class='rozet-net'>" + sayiBirim(CartData.fmt(k.netFiyat), "EURO") + "</span></td>"
           + "</tr>";
       }).join("");
     }

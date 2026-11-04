@@ -1,5 +1,8 @@
 /*
-  cart-style.css — TKP.02.11.26-10:48.1376
+  cart-style.css — TKP.04.11.26-14:50.1468
+  GÜNCELLEME (04.11.2026, Abdullah onayı — mockup üzerinden): İşlem Geçmişi
+  penceresi (#musteriGecmisOverlay) kenardan kenara + büyük okunaklı tablo.
+  (önceki: TKP.02.11.26-10:48.1376)
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -854,3 +857,25 @@
    paylaşılan) DOKUNULMADI, bu sınıf SADECE cart.html bağlamında ekleniyor. */
 /* KALDIRILDI (03.11.2026): Sepet'te isme dokununca Cari Kart açılmıyor artık
    (yetkili/teslimat seçimi Gönder ekranında) — imleç kuralı da kalktı. */
+
+/* İŞLEM GEÇMİŞİ PENCERESİ GENİŞLETİLDİ (04.11.2026, Abdullah onayı — mockup
+   üzerinden): iPad'de pencere 480px'lik ortalı kutuydu (home-style.css'teki
+   ortak >=700px kuralı), tablo dar sütunlarda sayıları/tarihi bölüyordu.
+   SADECE bu pencere (#musteriGecmisOverlay) — diğer pencerelere dokunulmadı.
+   ID özgüllüğü + !important: home-style.css'teki ortak !important kuralını ezmek için. */
+#musteriGecmisOverlay .tip-secim-kutu {
+  max-width: none !important;
+  width: 100% !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  padding: 8px 4px 12px !important;
+}
+#musteriGecmisOverlay .belge-urun-tablo { width: 100%; table-layout: fixed; font-size: clamp(11px, 1.9vw, 15px); }
+#musteriGecmisOverlay .belge-urun-tablo th { font-size: clamp(9.5px, 1.6vw, 12.5px); padding: 6px 2px; }
+#musteriGecmisOverlay .belge-urun-tablo td { padding: 7px 3px; vertical-align: middle; }
+#musteriGecmisOverlay .mg-urun { text-align: left; font-weight: 800; font-size: clamp(11.5px, 2vw, 15.5px); line-height: 1.25; padding-left: 6px; }
+#musteriGecmisOverlay .mg-tarih b { display: block; white-space: nowrap; font-weight: 800; font-size: clamp(10px, 1.8vw, 14.5px); letter-spacing: -.2px; }
+#musteriGecmisOverlay .mg-tip { display: block; color: #8e44ad; font-weight: 700; font-size: .85em; }
+#musteriGecmisOverlay .belge-para-sayi { font-size: clamp(11.5px, 2vw, 15px); }
+#musteriGecmisOverlay .belge-para-birim { font-size: clamp(7.5px, 1.3vw, 10px); }
