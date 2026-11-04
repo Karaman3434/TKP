@@ -1,5 +1,5 @@
 /*
-  komisyon-donem-data.js — VERSİYON: TKP.02.11.26-21:19.1450
+  komisyon-donem-data.js — VERSİYON: TKP.04.11.26-16:22.1471
   ==========================================================
   27.09.2026 yeniden tasarım: Ödenebilir Komisyon artık serbest tarihli
   kayıt listesi (eski KomisyonData / odenebilir-komisyon-data.js) yerine,
@@ -11,6 +11,12 @@
   geçildiğinde bu iki slot otomatik sıfırlanır — eski fotoğraflar
   saklanmaz (02.11.2026'dan itibaren kapanan dönem komisyonArsiv'e arşivlenir), sadece o anki iki fotoğrafın kendisi (JPEG, sıkıştırılmış)
   ve OCR'dan çıkan 12 sayı Firebase'de tutulur.
+
+  04.11.2026 (Abdullah onayı — mockup): FOTOĞRAF/OCR KALDIRILDI. "birinci" =
+  AY BAŞI, "ikinci" = AY SONU; her ikisi de {tarih, tutar, aylar:{1:tutar},
+  kayitZamani} — "aylar" alanı eski şekille aynı kaldığı için maas-ortak-hesap.js
+  (ikinci toplamı − birinci toplamı) HİÇ DEĞİŞMEDEN çalışır. Dönem kapanırken
+  eski dönemin AY SONU, yeni dönemin AY BAŞI olarak otomatik devredilir.
 */
 
 var KomisyonDonemData = (function(){
@@ -57,9 +63,27 @@ var KomisyonDonemData = (function(){
     // gidince görülür. Arşiv yazılamazsa (kural/ağ) sıfırlama YİNE DE yapılır —
     // yeni ay hiçbir zaman eski ayın verisiyle takılı kalmaz.
     arsivle(eski, function(){
-      firebase.database().ref("odenebilirKomisyonDonem").set({donemAnahtari: beklenen, birinci: null, ikinci: null})
+      // 04.11.2026: kapanan dönemin AY SONU → yeni dönemin AY BAŞI (devir).
+      var yeni = {donemAnahtari: beklenen, birinci: null, ikinci: null};
+      try{
+        if(eski && eski.ikinci && eski.ikinci.tarih){
+          var devirTutar = kayitTutar(eski.ikinci);
+          yeni.birinci = {tarih: eski.ikinci.tarih, tutar: devirTutar, aylar: {1: devirTutar}, devir: true, kayitZamani: Date.now()};
+        }
+      }catch(e){ console.error("Komisyon devri hazırlanamadı:", e); }
+      firebase.database().ref("odenebilirKomisyonDonem").set(yeni)
         .then(function(){ cb(true); }).catch(function(err){ console.error("Komisyon dönemi sıfırlanamadı:", err); cb(false, err); });
     });
+  }
+
+  // Bir kaydın (ay başı / ay sonu) tutarı: yeni kayıtlarda "tutar", eski
+  // (fotoğraf dönemi) kayıtlarda 12 ayın toplamı.
+  function kayitTutar(kayit){
+    if(!kayit) return 0;
+    if(kayit.tutar !== undefined && kayit.tutar !== null) return parseFloat(kayit.tutar) || 0;
+    var t = 0;
+    for(var ay=1; ay<=12; ay++) t += parseFloat(kayit.aylar && kayit.aylar[ay]) || 0;
+    return t;
   }
 
   // Kapanan dönemin içeriğini arşive yazar (içerik yoksa yazmaz).
@@ -86,7 +110,7 @@ var KomisyonDonemData = (function(){
     }catch(e){ cb(null, e); }
   }
 
-  // slot: "birinci" | "ikinci". kayit: {tarih, aylar, resim(dataURL|null), kayitZamani}
+  // slot: "birinci" (ay başı) | "ikinci" (ay sonu). kayit: {tarih, tutar, aylar:{1:tutar}, kayitZamani}
   function slotKaydet(donemAnahtari, slot, kayit, geriBildir){
     var cb = typeof geriBildir === "function" ? geriBildir : function(){};
     try{
@@ -143,6 +167,7 @@ var KomisyonDonemData = (function(){
   baslat();
 
   return {
+    kayitTutar: kayitTutar,
     ekstraListe: ekstraListe,
     ekstraToplam: ekstraToplam,
     ekstraEkle: ekstraEkle,

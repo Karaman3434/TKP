@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1298 — odenebilir-komisyon.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.04.11.26-16:22.1471 — odenebilir-komisyon.html (04.11.2026: fotoğraf/OCR kaldırıldı; Ay Başı/Ay Sonu manuel giriş) -->
 <!--
   İŞ TAKİP V2 — VERSİYON: WG.211026.1700.889 — odenebilir-komisyon.html
   =================================================================================
@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
-<link rel="stylesheet" href="odenebilir-komisyon-style.css?v=TKP.02.11.26-16:36.1416">
+<link rel="stylesheet" href="odenebilir-komisyon-style.css?v=TKP.04.11.26-16:22.1471">
 <link rel="stylesheet" href="maas-hesaplama-style.css?v=TKP.02.11.26-21:05.1449">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=WG.271026.2238.1153">
@@ -51,7 +51,7 @@
     <button type="button" class="ub-btn ub-btn--bekle" id="btnUstBeklet" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
     <button type="button" class="ub-btn ub-btn--kapat" id="btnUstKapat" disabled aria-label="Kapat">✕</button>
   </div>
-  <div class="ub-sayfa-etiket"><span>Ödenebilir Komisyon</span></div>
+  <div class="ub-sayfa-etiket"><span id="okUstEtiket"><button type="button" id="okDonemOncekiBtn" class="ok-et-ok ok-et-ok--sol" aria-label="Önceki ay">‹</button><span id="okUstEtiketMetin">Ödenebilir Komisyon</span><button type="button" id="okDonemSonrakiBtn" class="ok-et-ok ok-et-ok--sag" aria-label="Sonraki ay" hidden>›</button></span></div>
 </div>
 </div>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
@@ -100,79 +100,60 @@
   </div>
 </div>
 
-<main class="sayfa">
+<main class="sayfa ok-sayfa">
 
-  <!-- DÖNEM BARI (27.09.2026) — diğer sayfalarla (Avans Takibi, Maaş
-       Hesaplama, Net Maaş) AYNI görsel dil: ‹ › ile geçmiş kapalı dönemleri
-       (salt okunur) gezebilirsin; "+ Yeni Ay" burada hep pasif görünür,
-       çünkü bu sayfanın açık dönemi otomatik olarak Maaş Hesaplama'daki
-       açık döneme senkron olur (elle "yeni ay açma" işlemi yoktur). -->
-  <div class="ok-donem-bar" id="okDonemBar">
-    <button type="button" id="okDonemOncekiBtn" class="ok-donem-ok-btn" aria-label="Önceki ay">‹</button>
-    <div class="ok-donem-bar-orta"><span id="okDonemBtnMetin">Yükleniyor…</span></div>
-    <button type="button" id="okDonemSonrakiBtn" class="ok-donem-ok-btn" aria-label="Sonraki ay">›</button>
-  </div>
+  <!-- 04.11.2026 (Abdullah onayı — mockup): Fotoğraf yükleme/OCR KALDIRILDI.
+       Sıra: Ekstra Kayıp Prim → Komisyon Ödemesi (Ay Başı 🔒 / Ay Sonu) →
+       Brüt Prim → Net Prim. Dönem etiketi + ‹ › üst barın sayfa adı satırında.
+       Ay Başı, bir önceki ayın Ay Sonu'ndan otomatik devreder; Ay Sonu elle
+       yazılır ve KAYDET TUŞU OLMADAN (kutudan çıkınca / sayfadan çıkarken)
+       otomatik kaydedilir. -->
 
-  <section class="ok-kutu">
-    <div class="ok-kutu-baslik">📷 1. ve 2. Fotoğraf — <span id="okDonemEtiket">—</span></div>
-    <div class="ok-foto-satir" id="okFotoSatir">
-      <div class="ok-foto-kutu" id="okFotoKutuBirinci" data-slot="birinci">
-        <div class="ok-foto-kutu-baslik">1. FOTOĞRAF</div>
-        <div class="ok-foto-kutu-resim" id="okFotoResimBirinci"><span class="ok-foto-kutu-ikon">📷</span></div>
-        <div class="ok-foto-kutu-tarih" id="okFotoTarihBirinci">Yüklenmedi</div>
-        <input type="file" accept="image/*" id="okFotoSeciciBirinci" hidden>
-      </div>
-      <div class="ok-foto-kutu" id="okFotoKutuIkinci" data-slot="ikinci">
-        <div class="ok-foto-kutu-baslik">2. FOTOĞRAF</div>
-        <div class="ok-foto-kutu-resim" id="okFotoResimIkinci"><span class="ok-foto-kutu-ikon">📷</span></div>
-        <div class="ok-foto-kutu-tarih" id="okFotoTarihIkinci">Yüklenmedi</div>
-        <input type="file" accept="image/*" id="okFotoSeciciIkinci" hidden>
-      </div>
-    </div>
-    <p class="bos-mesaj" id="okKapaliNot" hidden>🔒 Bu dönem kapatılmıştır — fotoğraf ve satır detayları sadece açık (canlı) dönem için tutulur, kapanan dönemlerde sadece Brüt/Net Prim sonucu saklanır.</p>
-
-    <div class="ok-ocr-durum" id="okOcrDurum" hidden></div>
-
-    <div id="okDuzenlemeAlani" hidden>
-      <div class="ok-duzenleme-slot-etiket" id="okDuzenlemeSlotEtiket">—</div>
-      <div class="ok-tarih-satir">
-        <label>TARİH</label>
-        <input type="date" id="okTarihGiris">
-      </div>
-      <table class="ok-giris-tablo">
-        <thead><tr><th>AY</th><th>ÖDENEBİLİR KOMİSYON (TL)</th></tr></thead>
-        <tbody id="okGirisTabloGovde"></tbody>
-      </table>
-      <button class="ok-onayla-btn" id="btnOkOnayla">✓ Bu Kaydı Onayla ve Kaydet</button>
-      <button class="ok-iptal-btn" id="btnOkIptal">İptal</button>
-    </div>
-  </section>
-
-  <!-- BRÜT PRİM → NET PRİM (27.09.2026, revize) — TOPLAM FARK doğrudan
-       1. ve 2. Fotoğraf'ın toplamları arasındaki farktan gelir; ikisi de
-       AYNI açık dönem için tutulduğundan ay karışıklığı imkansız. -->
-  <section class="ok-kutu" id="okBrutNetPrimKutu">
-    <div class="ok-kutu-baslik">🎯 Brüt Prim → Net Prim — <span id="bnDonemEtiket">—</span></div>
-    <p class="bos-mesaj" id="bnBekleBanner" hidden>2. Fotoğraf yüklenince otomatik hesaplanır.</p>
-    <table class="ok-fark-tablo" id="bnFarkTablo" hidden>
-      <thead><tr><th>AY</th><th>1. FOT.</th><th>2. FOT.</th><th>FARK</th></tr></thead>
-      <tbody id="bnFarkTabloGovde"></tbody>
-    </table>
-    <!-- EKSTRA PRİM (02.11.2026, Abdullah onayı): elle girilen satırlar tablonun
-         altına "EKSTRA" rozetiyle eklenir, Brüt Prim'e dahil olur. -->
-    <div id="bnEkstraForm" hidden>
-      <div class="ok-ekstra-etiket">✎ Ekstra prim ekle (elle)</div>
+  <section class="ok-kutu" id="okEkstraKutu">
+    <div class="ok-kutu-baslik">✎ Ekstra Kayıp Prim</div>
+    <div id="bnEkstraForm">
       <div class="ok-ekstra-form">
-        <input type="text" class="ok-ekstra-ac" id="bnEkstraAciklama" placeholder="Açıklama (örn. bayi primi)" maxlength="60" autocomplete="off">
+        <input type="text" class="ok-ekstra-ac" id="bnEkstraAciklama" placeholder="Açıklama" maxlength="60" autocomplete="off">
         <input type="text" class="ok-ekstra-tutar" id="bnEkstraTutar" placeholder="Tutar" inputmode="decimal" autocomplete="off">
         <button type="button" class="ok-ekstra-btn" id="btnBnEkstraEkle">➕ Ekle</button>
       </div>
     </div>
-    <div class="ok-ekstra-ozet" id="bnEkstraOzet" hidden></div>
-    <div class="ok-fark-toplam-serit" id="bnToplamFarkSerit" hidden><span id="bnToplamFarkEtiket">TOPLAM BRÜT PRİM</span><span id="bnToplamFarkDeger">+0,00 TL</span></div>
-    <div class="mh-tutar-kart-alt" id="bnNetAlt" hidden>
-      <span class="mh-kesinti-oran" id="bnPrimKesintiOran">%0,00 kesinti</span>
-      <span class="mh-net-deger">Net Prim: <b id="bnNetPrimDeger">0,00 TL</b></span>
+    <table class="ok-fark-tablo ok-ekstra-liste" id="bnFarkTablo" hidden>
+      <tbody id="bnFarkTabloGovde"></tbody>
+    </table>
+  </section>
+
+  <section class="ok-kutu" id="okKomisyonKutu">
+    <div class="ok-kutu-baslik">💰 Komisyon Ödemesi</div>
+    <div class="ok-iki-kutu">
+      <div class="ok-tutar-kutu" id="okBasiKutu">
+        <div class="ok-tutar-kutu-baslik">AY BAŞI <span id="okBasiKilit" hidden>🔒</span></div>
+        <input type="text" id="okBasiTarih" class="ok-giris" placeholder="gg.aa.yyyy" inputmode="numeric" autocomplete="off" maxlength="10">
+        <input type="text" id="okBasiTutar" class="ok-giris" placeholder="Tutar" inputmode="decimal" autocomplete="off">
+        <div class="ok-tutar-kutu-not" id="okBasiNot" hidden></div>
+      </div>
+      <div class="ok-tutar-kutu" id="okSonuKutu">
+        <div class="ok-tutar-kutu-baslik">AY SONU</div>
+        <input type="text" id="okSonuTarih" class="ok-giris" placeholder="gg.aa.yyyy" inputmode="numeric" autocomplete="off" maxlength="10">
+        <input type="text" id="okSonuTutar" class="ok-giris" placeholder="Tutar" inputmode="decimal" autocomplete="off">
+        <div class="ok-tutar-kutu-not" id="okSonuNot" hidden></div>
+      </div>
+    </div>
+    <div class="ok-fark-kutu" id="okFarkKutu">
+      <div class="ok-fark-kutu-etiket">ÖDENEBİLİR KOMİSYON</div>
+      <div class="ok-fark-kutu-deger" id="okFarkDeger">—</div>
+      <div class="ok-fark-kutu-alt" id="okFarkAlt">Ay sonu tutarını yazınca hesaplanır</div>
+    </div>
+  </section>
+
+  <section class="ok-kutu" id="okBrutNetPrimKutu">
+    <div class="ok-kutu-baslik">🎯 Brüt Prim → Net Prim</div>
+    <div class="ok-bn-satir"><span>Ödenebilir Komisyon</span><span id="bnKomisyonDeger">—</span></div>
+    <div class="ok-bn-satir" id="bnEkstraSatir" hidden><span>Ekstra kayıp prim</span><span id="bnEkstraDeger">—</span></div>
+    <div class="ok-fark-toplam-serit" id="bnToplamFarkSerit"><span id="bnToplamFarkEtiket">TOPLAM BRÜT PRİM</span><span id="bnToplamFarkDeger">—</span></div>
+    <div class="mh-tutar-kart-alt" id="bnNetAlt">
+      <span class="mh-kesinti-oran" id="bnPrimKesintiOran">—</span>
+      <span class="mh-net-deger">Net Prim: <b id="bnNetPrimDeger">—</b></span>
     </div>
   </section>
 
@@ -182,18 +163,17 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="firebase-config.js?v=WG.271026.2238.1121"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
 <script src="auth.js?v=TKP.02.11.26-21:05.1449"></script>
 <script src="ust-sabit-olcum.js?v=WG.271026.2238.1146"></script>
 <script src="cihaz-data.js?v=WG.271026.2238.1122"></script>
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="ust-bar-davranis.js?v=TKP.03.11.26-18:20.1457"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
-<script src="komisyon-donem-data.js?v=TKP.02.11.26-21:19.1450"></script>
+<script src="komisyon-donem-data.js?v=TKP.04.11.26-16:22.1471"></script>
 <script src="maas-kayit-data.js?v=WG.271026.2238.1125"></script>
 <script src="maas-hesaplama-data.js?v=TKP.02.11.26-20:12.1443"></script>
 <script src="maas-ortak-hesap.js?v=TKP.02.11.26-20:28.1447"></script>
-<script src="odenebilir-komisyon-render.js?v=TKP.02.11.26-21:19.1450"></script>
+<script src="odenebilir-komisyon-render.js?v=TKP.04.11.26-16:22.1471"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
