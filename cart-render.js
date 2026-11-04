@@ -1,5 +1,5 @@
 /*
-  cart-render.js — TKP.04.11.26-18:36.1472
+  cart-render.js — TKP.04.11.26-18:54.1473
   GÜNCELLEME (04.11.2026, Abdullah onayı): İşlem Geçmişi penceresi satırları —
   tarih tek satır + altında (Tip), sayılar altında küçük EURO/% (cart-style.css).
   (önceki: TKP.02.11.26-10:22.1368)
