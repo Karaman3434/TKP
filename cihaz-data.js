@@ -61,7 +61,12 @@ var CihazData = (function(){
       var veri = { sonGorulme: Date.now() };
       try{
         var yerelAd = localStorage.getItem("weicon_cihaz_adi");
-        if(yerelAd) veri.ad = yerelAd;
+        // 04.11.2026: sadece yerel ad DEĞİŞTİYSE gönder (yönetici panelinden
+        // verilen isim eski yerel adla ezilmesin). auth.js ile aynı işaret.
+        if(yerelAd && yerelAd !== localStorage.getItem("weicon_cihaz_ad_gonderildi")){
+          veri.ad = yerelAd;
+          localStorage.setItem("weicon_cihaz_ad_gonderildi", yerelAd);
+        }
       }catch(e){}
       firebase.database().ref("cihazlar/" + id).update(veri).catch(function(){});
     }catch(e){}
@@ -74,6 +79,7 @@ var CihazData = (function(){
       ad = String(ad||"").trim();
       if(!ad){ cb(false); return; }
       localStorage.setItem("weicon_cihaz_adi", ad);
+      localStorage.setItem("weicon_cihaz_ad_gonderildi", ad);
       baslat();
       firebase.database().ref("cihazlar/" + benimIdim()).update({ad: ad, sonGorulme: Date.now()})
         .then(function(){ cb(true); }).catch(function(){ cb(true); }); // yerel kayıt zaten oldu

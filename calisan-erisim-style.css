@@ -233,3 +233,24 @@
 .ce-cihaz-onayla-btn:disabled { background: #e2e6ec; color: #8a8f98; cursor: default; }
 .ce-cihaz-reddet-btn { background: #fdeaea; color: #c0392b; border-color: #c0392b; }
 .ce-cihaz-bos { font-size: 11.5px; color: #8a8f98; font-weight: 700; padding: 4px 2px; }
+
+/* ---- 04.11.2026 tek kullanıcı listesi (Abdullah onayı) ---- */
+.ce-bekleyen-serit { background: #fff6e0; border: 1.5px solid #e0a43b; color: #8a5a00; border-radius: 10px; padding: 9px 11px; font-size: 12px; font-weight: 800; margin: 8px 0; cursor: pointer; }
+.ce-kart--bekleyen { border: 2px solid #e0a43b; }
+.ce-kart--bekleyen.ce-kart--acik { border-color: #e0a43b; }
+.ce-bekleyen-yazi { color: #b7601f; }
+.ce-cihaz-satir--dolu { border-color: #c0392b; }
+.ce-cihaz-sinir-notu { font-size: 10.5px; font-weight: 800; color: #c0392b; margin-top: 5px; }
+.ce-cihaz-aksiyonlar { display: flex; align-items: center; gap: 8px; margin-left: 4px; }
+.ce-cihaz-ikon-btn { background: none; border: none; font-size: 14px; padding: 2px; cursor: pointer; }
+.ce-cihaz-engelle-btn { background: none; border: none; color: #c0392b; font-size: 11.5px; font-weight: 900; cursor: pointer; padding: 2px; }
+.ce-cihaz-satir--engelli { background: #f7f8fa; }
+.ce-cihaz-rozet--engelli { background: #fdeaea; color: #c0392b; }
+.ce-engelli-toggle { width: 100%; text-align: left; margin-top: 6px; background: none; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 8px 10px; font-size: 11.5px; font-weight: 800; color: #556170; cursor: pointer; }
+.ce-izin-baslik { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; background: #f4f7fb; border: none; border-radius: 8px; padding: 10px; font-size: 12.5px; font-weight: 900; color: #003a70; cursor: pointer; }
+.ce-izin-alan { margin-top: 6px; }
+.ce-yeni-det { margin: 10px 0 14px; }
+.ce-yeni-det > summary { list-style: none; background: #f3f6fb; border: 1.5px solid #d8e0ea; border-radius: 10px; padding: 11px; text-align: center; font-size: 13px; font-weight: 900; color: #003a70; cursor: pointer; }
+.ce-yeni-det > summary::-webkit-details-marker { display: none; }
+.ce-yeni-det[open] > summary { margin-bottom: 8px; }
+.ce-ipucu-kucuk { font-size: 10px; font-weight: 700; color: #8a8f98; }

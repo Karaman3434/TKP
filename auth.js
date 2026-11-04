@@ -1,5 +1,5 @@
 /*
-  auth.js — TKP.04.11.26-22:21.1475
+  auth.js — TKP.04.11.26-22:52.1476
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -73,8 +73,13 @@
       // (onaylı) cihaz" sanılıp onaysız içeri girebiliyordu (3 cihaz sınırını delerdi).
       try{ localStorage.setItem("weicon_kapi_gecti", "1"); }catch(e){}
       var veri = { sonGorulme: Date.now() };
+      // 04.11.2026: yerel ad sadece DEĞİŞTİYSE gönderilir — yönetici panelinde
+      // verilen yeni isim, cihaz her sayfa açtığında eski yerel adla ezilmesin.
       var yerelAd = localStorage.getItem("weicon_cihaz_adi");
-      if(yerelAd) veri.ad = yerelAd;
+      if(yerelAd && yerelAd !== localStorage.getItem("weicon_cihaz_ad_gonderildi")){
+        veri.ad = yerelAd;
+        localStorage.setItem("weicon_cihaz_ad_gonderildi", yerelAd);
+      }
       // EKLENDİ (22.10.2026, "Kalıcı Olarak Sil" özelliği için, Abdullah'ın
       // isteğiyle) — bu cihazda EN SON hangi kısıtlı/kısıtsız hesabın
       // oturum açtığını da yazıyoruz. "Kalıcı Olarak Sil" bir hesabı
@@ -215,6 +220,7 @@
         btn.disabled = true; btn.textContent = "Gönderiliyor...";
         try{
           localStorage.setItem("weicon_cihaz_adi", ad);
+          localStorage.setItem("weicon_cihaz_ad_gonderildi", ad);
           localStorage.setItem("weicon_kullanici_adi", ad);
         }catch(e){}
         var zamanAsimi = setTimeout(function(){ son(ad); }, 5000);
