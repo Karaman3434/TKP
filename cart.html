@@ -163,6 +163,17 @@
       </section>
     </div>
 
+  </div>
+
+  <!-- MÜŞTERİ PANELİ KONUMU (04.11.2026, Abdullah onayı — mockup üzerinden):
+       müşteri bilgi şeridi arama kutusu ile bulunan ürünler listesi ARASINDA.
+       Eskiden (15.10.2026) listenin altındaydı. Arama bölümü iki parçaya
+       bölündü (#uaAramaBolumu = kutu+EKSTRA formu, #uaSonucBolumu = sonuç/HİT/
+       geçmiş listeleri); sepetAramaGoster izni ikisini birden gizler (bkz.
+       urun-arama.js uaIzinleriUygula) — şerit ise izinden bağımsız hep görünür. -->
+  <div id="cariBilgiAlani"></div>
+
+  <div id="uaSonucBolumu">
     <div class="data-table-container" id="uaAramaSonucAlani" hidden>
       <table class="data-table">
         <thead><tr>
@@ -209,11 +220,6 @@
       <div id="urunGecmisListesi"></div>
     </section>
   </div>
-
-  <!-- DÜZELTME (15.10.2026, Abdullah'ın isteğiyle): müşteri bilgi şeridi
-       artık arama kutusunun/listesinin ALTINDA — eskiden bu bölümden
-       önce geliyordu. -->
-  <div id="cariBilgiAlani"></div>
 
   <div id="grupSariAlani"></div>
   <div id="grupYesilAlani"></div>
@@ -457,7 +463,7 @@
 <script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="cart-render.js?v=TKP.04.11.26-14:50.1468"></script>
-<script src="urun-arama.js?v=TKP.04.11.26-12:40.1466"></script>
+<script src="urun-arama.js?v=TKP.04.11.26-16:00.1470"></script>
 <script src="hesapla-popup.js?v=TKP.02.11.26-08:55.1358"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026): bugünkü üst-bar birleştirmesiyle
      (#btnMenu -> #btnAsMenuAc) bu dosyanın menü tıklamasını yakalayan kısmı zaten

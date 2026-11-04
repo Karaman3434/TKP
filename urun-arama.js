@@ -1,5 +1,7 @@
 /*
-  urun-arama.js — TKP.04.11.26-12:40.1466
+  urun-arama.js — TKP.04.11.26-16:00.1470
+  GÜNCELLEME (04.11.2026, Abdullah onayı): arama bölümü ikiye bölündü; müşteri paneli
+  arama kutusu ile sonuç listesi arasında (uaIzinleriUygula iki bölümü birden gizler).
   GÜNCELLEME (27.10.2026, Abdullah onayı — mini arama özelliği): aşağıdaki
   "?ac=hit"/"?ac=yeniurun" bloğuna, AYNI desenle "?ac=hesapla&kod=..."
   eklendi — ana sayfa çekmecesindeki mini arama panelinden "HESAP"
@@ -59,7 +61,11 @@ var UA_YENI_IZIN_VAR = true;
 function uaIzinleriUygula(){
   try{
     var aramaBolumu = document.getElementById("uaAramaBolumu");
-    if(aramaBolumu) aramaBolumu.hidden = !uaIzinVarMi("sepetAramaGoster");
+    var aramaIzniVar = uaIzinVarMi("sepetAramaGoster");
+    if(aramaBolumu) aramaBolumu.hidden = !aramaIzniVar;
+    // 04.11.2026: arama bölümü iki parçaya bölündü (müşteri paneli araya girdi).
+    var sonucBolumu = document.getElementById("uaSonucBolumu");
+    if(sonucBolumu) sonucBolumu.hidden = !aramaIzniVar;
     UA_HIT_IZIN_VAR = uaIzinVarMi("sepetHitGoster");
     UA_YENI_IZIN_VAR = uaIzinVarMi("sepetYeniUrunGoster");
     uaAramaSatiriDurumunuGuncelle(document.activeElement === document.getElementById("searchInput"));
