@@ -1,4 +1,4 @@
-/* product-style.css — TKP.02.11.26-10:48.1373 */
+/* product-style.css — TKP.04.11.26-12:40.1466 */
 /*
   product-style.css
   =================
@@ -534,3 +534,23 @@ body {
   padding: 30px 0;
   font-style: italic;
 }
+
+/* EKSTRA ÜRÜN LİSTESİ (04.11.2026, Abdullah onayı): ana listeye dokunmadan
+   ayrı kaydedilen ürünler. Arama satırında mor "EKSTRA" etiketi (dokununca düzenle/sil formu açılır), formda bilgi notu ve Sil düğmesi. */
+.ek-not {
+  background: #f0fdfa; border: 1.5px solid #0e6b58; color: #0e6b58;
+  border-radius: 6px; padding: 8px 10px; font-size: 12px; font-weight: 700; line-height: 1.35;
+}
+.ek-rozet {
+  display: inline-block; background: #efe3fa; color: #5b2a86; border: 1.5px solid #8e44ad;
+  border-radius: 4px; font-size: 9.5px; font-weight: 900; padding: 0 4px; margin: 0 4px;
+  line-height: 1.3; vertical-align: 1px; font-family: inherit; letter-spacing: .2px;
+}
+button.ek-rozet { cursor: pointer; }
+.ek-sil-btn {
+  flex: 0 0 auto; background: #fdeaea; color: #c0392b; border: 2px solid #c0392b;
+  border-radius: 8px; padding: 12px 14px; min-height: 44px; font-size: 13px; font-weight: 800; cursor: pointer;
+}
+.ek-sil-btn--onay { background: #c0392b; color: #fff; }
+
+.tablo-kod .ek-rozet:first-child { margin-left: 0; }

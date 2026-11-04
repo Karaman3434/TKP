@@ -1,5 +1,5 @@
 /*
-  product-data.js — WG.271026.2238.1130
+  product-data.js — TKP.04.11.26-12:30.1463
   ===============
   TEK görevi: ürün kataloğunu Firebase'den çekmek ve sepet (basket)
   durumunu yönetmek. DOM'a dokunmaz.
@@ -17,6 +17,12 @@ var ProductData = (function(){
   var katalog = [];
   var firebaseKatalog = [];
   var yedekKatalog = [];
+  // EKSTRA ÜRÜN LİSTESİ (04.11.2026, Abdullah onayı — "ana listeye hiçbir
+  // şekilde dokunmadan ekstra bir liste"): Firebase'de AYRI "ekstraUrunler/"
+  // yolunda tutulur. Ana "urunler/" yoluna bu listeden YAZILMAZ; sadece
+  // okuma tarafında (bellekte) ana katalogun SONUNA eklenir, böylece arama
+  // ikisini birden tarar.
+  var ekstraKatalog = [];
   var sepet = [];
   var katalogDinleyicileri = [];
   var katalogDinleyiciBagli = false;
@@ -46,6 +52,7 @@ var ProductData = (function(){
       }catch(e){}
 
       urunlerYoluHazirla(db);
+      ekstraDinlemeyeBasla(db);
 
       // YEDEK KATALOG: Firebase'de aranan ürün bulunmuyorsa, depodaki
       // fiyat listesi JSON'u da katalog kaynağı olarak kullanılır.
@@ -54,8 +61,7 @@ var ProductData = (function(){
         .then(function(r){ if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
         .then(function(data){
           yedekKatalog = Array.isArray(data) ? data : [];
-          katalog = katalogBirlestir(firebaseKatalog, yedekKatalog);
-          try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(katalog)); }catch(e){}
+          katalogKur();
           katalogDinleyicileri.forEach(function(fn){ fn(); });
         })
         .catch(function(err){ tanilaKaydet("Yedek ürün kataloğu yüklenemedi.", err && err.message); });
@@ -161,8 +167,7 @@ var ProductData = (function(){
       });
     }
     firebaseKatalog = urunler;
-    katalog = katalogBirlestir(firebaseKatalog, yedekKatalog);
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(katalog)); }catch(e){}
+    katalogKur();
     // TANILAMA (15.10.2026) — katalog ilk kez dolduğunda (veya her
     // seferinde boş geldiğinde) kaç ürün yüklendiğini bir kez Hata
     // Kayıtları'na yazıyoruz; sürekli güncellemede (ürün ekleme/silme)
@@ -203,6 +208,42 @@ var ProductData = (function(){
   // urunlerKoktenOku KALDIRILDI (19.10.2026) — sadece yukarıdaki, artık
   // silinen "kökten taşıma" denemesi başarısız olursa çağrılıyordu; db.ref("/")
   // zaten 06.09.2026'dan beri güvenlik için kapalı, hiçbir zaman çalışamazdı.
+
+  // KATALOĞU KUR: ana liste (Firebase + yedek JSON) + EKSTRA liste (sona).
+  // Yerel önbelleğe (localStorage) SADECE ana kısım yazılır — silinmiş bir
+  // ekstra ürün çevrimdışıyken eski önbellekten geri gelmesin.
+  function katalogKur(){
+    var ana = katalogBirlestir(firebaseKatalog, yedekKatalog);
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(ana)); }catch(e){}
+    katalog = ana.concat(ekstraKatalog);
+  }
+
+  // EKSTRA LİSTEYİ CANLI DİNLE (yalnızca OKUMA). Her ürün: {urun, berta,
+  // abas, fiyat}. Arama/sepet tarafında ana ürünlerle aynı biçimde görünür;
+  // "_ekstra" bayrağı arayüzde EKSTRA etiketi çıkarmak için, "_anahtar"
+  // ("ek:" önekli) ana listenin anahtarlarıyla karışmasın diye.
+  function ekstraDinlemeyeBasla(db){
+    db.ref("ekstraUrunler").on("value", function(snap){
+      var v = snap.val();
+      var liste = [];
+      if(v && typeof v === "object"){
+        Object.keys(v).forEach(function(k){
+          var x = v[k];
+          if(!x || typeof x !== "object" || !x.urun) return;
+          liste.push({
+            urun: String(x.urun), berta: String(x.berta||""), abas: String(x.abas||""),
+            fiyat: parseFloat(x.fiyat)||0,
+            _anahtar: "ek:" + k, _ekstra: true, _ekstraAnahtar: k
+          });
+        });
+      }
+      ekstraKatalog = liste;
+      katalogKur();
+      katalogDinleyicileri.forEach(function(fn){ fn(); });
+    }, function(err){
+      tanilaKaydet("Ekstra ürün listesi: canlı dinleme hatası (izin sorunu olabilir).", err && err.message);
+    });
+  }
 
   function katalogDegistiginde(fn){
     katalogDinleyicileri.push(fn);
@@ -258,6 +299,7 @@ var ProductData = (function(){
     // yüklenmedi" olarak gösteriyor.
     return {
       berta:bt, abas:at, ad:nt, fiyat:cp,
+      ekstra: !!item._ekstra, ekstraAnahtar: item._ekstraAnahtar,
       gorselUrl: item.gorselUrl || undefined,
       tdsUrl: item.tdsUrl || undefined,
       tdsMetinOzet: item.tdsMetinOzet || undefined,
@@ -298,62 +340,91 @@ var ProductData = (function(){
     try{ localStorage.removeItem("weiconv2_sepet_kur_override"); }catch(e){}
   }
 
-  function yeniUrunEkle(bilgi, geriBildir){
-    try{
-      var ad = (bilgi.ad||"").trim().slice(0,200);
-      var berta = (bilgi.berta||"").trim().slice(0,60);
-      var abas = (bilgi.abas||"").trim().slice(0,60);
-      var fiyat = parseFloat(bilgi.fiyat);
-      if(!ad){ geriBildir(false, "Ürün adı zorunlu."); return; }
-      if(isNaN(fiyat) || fiyat<=0){ geriBildir(false, "Geçerli bir fiyat girin."); return; }
+  // ============================================================
+  // EKSTRA ÜRÜN LİSTESİ — EKLE / DÜZENLE / SİL (04.11.2026, Abdullah onayı)
+  // ------------------------------------------------------------
+  // ESKİ "yeniUrunEkle" ANA "urunler/" düğümüne transaction ile yazıyordu
+  // (18.10.2026'da tüm kataloğu tek kayda düşüren hata buradan çıkmıştı).
+  // O yol TAMAMEN KALDIRILDI. Aşağıdaki üç işlev SADECE "ekstraUrunler/"
+  // altına yazar ve hepsi tek bir ürüne (tek çocuk düğüme) dokunur:
+  //   ekle     -> .push()   : yeni bir çocuk anahtarı üretir, var olan hiçbir
+  //                           kaydı okumaz/ezmez (okuma-değiştir-yaz YOK)
+  //   düzelt   -> .update() : yalnızca o ürünün alanlarını günceller
+  //   sil      -> .remove() : yalnızca o ürünü siler
+  // Düzelt/sil, anahtarın gerçekten ekstra listede olduğunu doğrular; böylece
+  // boş/yanlış bir yol ana listeye ya da başka bir düğüme asla ulaşamaz.
+  // ============================================================
+  function ekstraBilgiDogrula(bilgi){
+    var ad = (bilgi && bilgi.ad || "").trim().slice(0,200);
+    var berta = (bilgi && bilgi.berta || "").trim().slice(0,60);
+    var abas = (bilgi && bilgi.abas || "").trim().slice(0,60);
+    var fiyat = parseFloat(String(bilgi && bilgi.fiyat).replace(",","."));
+    if(!ad) return {hata:"Ürün adı zorunlu."};
+    if(isNaN(fiyat) || fiyat <= 0) return {hata:"Geçerli bir fiyat girin."};
+    return {ad:ad, berta:berta, abas:abas, fiyat:fiyat};
+  }
+  function kodAyniMi(x, berta, abas){
+    var b = String(x.berta||x.BERTA||"").trim().toLocaleLowerCase("tr-TR");
+    var a = String(x.abas||x.ABAS||"").trim().toLocaleLowerCase("tr-TR");
+    return !!berta && !!abas && b === berta.toLocaleLowerCase("tr-TR") && a === abas.toLocaleLowerCase("tr-TR");
+  }
+  function ekstraAnahtarGecerliMi(anahtar){
+    if(typeof anahtar !== "string" || !/^[-_A-Za-z0-9]+$/.test(anahtar)) return false;
+    for(var i=0;i<ekstraKatalog.length;i++){ if(ekstraKatalog[i]._ekstraAnahtar === anahtar) return true; }
+    return false;
+  }
 
-      var db = firebase.database();
-      db.ref("urunler").transaction(function(tumData){
-        // KÖK NEDEN DÜZELTMESİ (18.10.2026) — "B - A - Garanti Mührü Mavi"
-        // ürünü eklendiğinde TÜM katalog tek kayda düşmüştü. Sebebi: Firebase,
-        // ardışık sayısal anahtarlı "urunler/" düğümünü SDK üzerinden DİZİ
-        // olarak döndürür (bkz. urunlerYoluHazirla üstündeki not). Eskiden bu
-        // durumda "typeof tumData==='object' && !Array.isArray(tumData)" koşulu
-        // dizi için YANLIŞ dönüyor, "veri" boş bir nesneye sıfırlanıyor ve
-        // transaction mevcut TÜM ürünleri silip sadece yeni ürünü yazıyordu.
-        // Artık dizi geldiğinde, index'ler korunarak önce bir nesneye
-        // çevriliyor — hiçbir mevcut kayıt kaybolmaz.
-        var veri = {};
-        if(tumData){
-          if(Array.isArray(tumData)){
-            tumData.forEach(function(x, i){ if(x!==null && x!==undefined) veri[String(i)] = x; });
-          } else if(typeof tumData === "object"){
-            veri = tumData;
-          }
+  function ekstraUrunEkle(bilgi, geriBildir){
+    try{
+      var d = ekstraBilgiDogrula(bilgi);
+      if(d.hata){ geriBildir(false, d.hata); return; }
+      // Aynı Berta+Abas kodlu ürün ana listede ya da ekstra listede varsa ikinci kez ekleme.
+      for(var i=0;i<katalog.length;i++){
+        if(kodAyniMi(katalog[i], d.berta, d.abas)){
+          geriBildir(false, katalog[i]._ekstra ? "Bu kodlu ürün ekstra listede zaten var." : "Bu kodlu ürün ana listede zaten var — aramadan bulabilirsin.");
+          return;
         }
-        var mukerrer = false;
-        var maxIndex = -1;
-        Object.keys(veri).forEach(function(k){
-          var n = parseInt(k, 10);
-          if(!isNaN(n) && String(n)===k && n>maxIndex) maxIndex = n;
-          var it = veri[k];
-          if(it && typeof it === "object"){
-            var b=(it.berta||it.BERTA||"").toString().trim();
-            var a=(it.abas||it.ABAS||"").toString().trim();
-            if(berta && abas && b===berta && a===abas) mukerrer = true;
-          }
-        });
-        if(mukerrer) return;
-        veri[String(maxIndex + 1)] = {urun:ad, berta:berta, abas:abas, fiyat:fiyat};
-        return veri;
-      }).then(function(result){
-        if(!result.committed){ geriBildir(false, "Ürün ekleme işlemi iptal edildi."); return; }
-        if(berta && abas){
-          var yeni = result.snapshot.val() || {};
-          var bulundu = Object.keys(yeni).some(function(k){
-            var it=yeni[k];
-            return it && (it.berta||it.BERTA||"").toString().trim()===berta && (it.abas||it.ABAS||"").toString().trim()===abas;
-          });
-          if(!bulundu){ geriBildir(false, "Ürün kaydı doğrulanamadı."); return; }
-        }
-        geriBildir(true);
-      }).catch(function(err){ geriBildir(false, err); });
+      }
+      firebase.database().ref("ekstraUrunler").push({
+        urun: d.ad, berta: d.berta, abas: d.abas, fiyat: d.fiyat, eklenme: Date.now()
+      }).then(function(){ geriBildir(true, d); }).catch(function(err){ geriBildir(false, err); });
     }catch(e){ geriBildir(false, e); }
+  }
+
+  function ekstraUrunGuncelle(anahtar, bilgi, geriBildir){
+    try{
+      if(!ekstraAnahtarGecerliMi(anahtar)){ geriBildir(false, "Ürün ekstra listede bulunamadı."); return; }
+      var d = ekstraBilgiDogrula(bilgi);
+      if(d.hata){ geriBildir(false, d.hata); return; }
+      for(var i=0;i<katalog.length;i++){
+        if(katalog[i]._ekstraAnahtar !== anahtar && kodAyniMi(katalog[i], d.berta, d.abas)){
+          geriBildir(false, "Bu kodlu başka bir ürün zaten var.");
+          return;
+        }
+      }
+      firebase.database().ref("ekstraUrunler/" + anahtar).update({
+        urun: d.ad, berta: d.berta, abas: d.abas, fiyat: d.fiyat, guncelleme: Date.now()
+      }).then(function(){ geriBildir(true, d); }).catch(function(err){ geriBildir(false, err); });
+    }catch(e){ geriBildir(false, e); }
+  }
+
+  function ekstraUrunSil(anahtar, geriBildir){
+    try{
+      if(!ekstraAnahtarGecerliMi(anahtar)){ geriBildir(false, "Ürün ekstra listede bulunamadı."); return; }
+      firebase.database().ref("ekstraUrunler/" + anahtar).remove()
+        .then(function(){ geriBildir(true); }).catch(function(err){ geriBildir(false, err); });
+    }catch(e){ geriBildir(false, e); }
+  }
+
+  // Tek bir ekstra ürünün güncel bilgisi (düzenleme formunu doldurmak için).
+  function ekstraUrunBul(anahtar){
+    for(var i=0;i<ekstraKatalog.length;i++){
+      if(ekstraKatalog[i]._ekstraAnahtar === anahtar){
+        var x = ekstraKatalog[i];
+        return {anahtar:anahtar, ad:x.urun, berta:x.berta, abas:x.abas, fiyat:x.fiyat};
+      }
+    }
+    return null;
   }
 
   return {
@@ -366,7 +437,12 @@ var ProductData = (function(){
     sepetSayisi: sepetSayisi,
     sepetiBosalt: sepetiBosalt,
     katalogUzunluk: function(){ return katalog.length; },
-    yeniUrunEkle: yeniUrunEkle
+    // Eski adla çağıran kod (product-render.js) ANA listeye değil EKSTRA listeye yazar.
+    yeniUrunEkle: ekstraUrunEkle,
+    ekstraUrunEkle: ekstraUrunEkle,
+    ekstraUrunGuncelle: ekstraUrunGuncelle,
+    ekstraUrunSil: ekstraUrunSil,
+    ekstraUrunBul: ekstraUrunBul
   };
 
 })();

@@ -1,5 +1,5 @@
 /*
-  urun-arama.js — WG.271026.2238.1150
+  urun-arama.js — TKP.04.11.26-12:40.1466
   GÜNCELLEME (27.10.2026, Abdullah onayı — mini arama özelliği): aşağıdaki
   "?ac=hit"/"?ac=yeniurun" bloğuna, AYNI desenle "?ac=hesapla&kod=..."
   eklendi — ana sayfa çekmecesindeki mini arama panelinden "HESAP"
@@ -117,15 +117,24 @@ function uaSonuclariCiz(){
       var idx = sonuclar[i].idx;
       var bilgi = ProductData.urunBilgisi(sonuclar[i].item);
       var aramaKodu = bilgi.abas || bilgi.berta || bilgi.ad;
+      // EKSTRA ürünler weicon.com.tr'de ve AI panelinde karşılığı olmayan, kullanıcının
+      // kendi eklediği kayıtlar — o iki davranış bu satırlarda kapalı. Etiket, izni
+      // olana düzenle/sil formunu açar; izni olmayana sadece bilgi etiketi görünür.
+      var ekMi = !!bilgi.ekstra;
+      var ekRozet = ekMi
+        ? (UA_YENI_IZIN_VAR
+            ? "<button type='button' class='ek-rozet' data-ek='" + htmlEsc(bilgi.ekstraAnahtar) + "' aria-label='Ekstra ürün — düzenle veya sil'>EXT</button>"
+            : "<span class='ek-rozet'>EXT</span>")
+        : "";
       html += "<tr>"
-        + "<td class='product-cell" + (webAcVarMi ? " product-cell--tikla" : "") + "' data-idx='" + idx + "' title='" + (webAcVarMi ? "dokununca WEICON sayfası açılır" : "") + "'>"
-        + "<div class='tablo-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + htmlEsc(bilgi.berta||"-") + "</span> <span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + htmlEsc(bilgi.abas||"-") + "</span>" + "</div>"
+        + "<td class='product-cell" + (webAcVarMi && !ekMi ? " product-cell--tikla" : "") + "' data-idx='" + idx + "'" + (ekMi ? " data-ek-satir='1'" : "") + " title='" + (webAcVarMi && !ekMi ? "dokununca WEICON sayfası açılır" : "") + "'>"
+        + "<div class='tablo-kod'>" + ekRozet + "<span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + htmlEsc(bilgi.berta||"-") + "</span> <span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + htmlEsc(bilgi.abas||"-") + "</span></div>"
         + "<div class='urun-adi'>" + htmlEsc(bilgi.ad) + "</div>"
         + "</td>"
         + "<td class='urun-islem-hucre'><div class='urun-islem-grup'>"
         + "<span class='urun-fiyat-yazi'>" + bilgi.fiyat.toFixed(2) + " €</span>"
         + (hesaplaVarMi ? "<button class='btn-hesapla-ac' data-idx='" + idx + "' title='Hesapla ve Sepete Ekle' aria-label='Hesapla ve Sepete Ekle'>HESAPLA</button>" : "")
-        + (aiVarMi ? "<button class='btn-ai-ac' data-idx='" + idx + "' title='AI Ürün Asistanı' aria-label='AI Ürün Asistanını aç'>🤖</button>" : "")
+        + (aiVarMi && !ekMi ? "<button class='btn-ai-ac' data-idx='" + idx + "' title='AI Ürün Asistanı' aria-label='AI Ürün Asistanını aç'>🤖</button>" : "")
         + "</div></td>"
         + "</tr>";
     }
@@ -155,6 +164,10 @@ function uaSonuclariCiz(){
       });
     }
 
+    liste.querySelectorAll("button.ek-rozet").forEach(function(b){
+      b.onclick = function(e){ e.stopPropagation(); uaEkstraFormuAc(this.getAttribute("data-ek")); };
+    });
+
     // KALDIRILDI (26.10.2026, Abdullah onayı — SEÇ butonu sadeleştirme):
     // burada SEÇ ("btn-add") butonunun hesaplamadan direkt CartData.ekle(...)
     // yapan tıklama işleyicisi vardı — buton kaldırıldığı için bu blok da
@@ -177,7 +190,7 @@ function uaSonuclariCiz(){
           AiUrunPanel.ac(this.closest("tr"), bilgi);
         };
       });
-      liste.querySelectorAll(".product-cell").forEach(function(td){
+      liste.querySelectorAll(".product-cell:not([data-ek-satir])").forEach(function(td){
         var realIdx = parseInt(td.getAttribute("data-idx"), 10);
         var bilgi = ProductData.urunBilgisi(sonuclar.find(function(s){return s.idx===realIdx;}).item);
         AiUrunPanel.uzunBasmaBagla(td, td.closest("tr"), bilgi);
@@ -298,6 +311,91 @@ function uaOzelListeyiAc(baslik, liste){
   });
 }
 
+// ---- EKSTRA ÜRÜN FORMU (ekle / düzenle / sil) -----------------------------
+var UA_EKSTRA_DUZENLENEN = null;   // null = yeni ürün, dolu = düzenlenen ürünün Firebase anahtarı
+var UA_EKSTRA_SIL_ZAMANLAYICI = null;
+
+function uaEkstraHataYaz(sonuc, varsayilan){
+  var el = document.getElementById("yeniUrunHata");
+  el.textContent = "⚠️ " + (typeof sonuc === "string" ? sonuc : (sonuc && sonuc.message ? sonuc.message : varsayilan));
+  el.hidden = false;
+}
+function uaEkstraSilDugmesiniSifirla(){
+  if(UA_EKSTRA_SIL_ZAMANLAYICI){ clearTimeout(UA_EKSTRA_SIL_ZAMANLAYICI); UA_EKSTRA_SIL_ZAMANLAYICI = null; }
+  var b = document.getElementById("btnEkstraSil");
+  b.textContent = "🗑️ Sil";
+  b.classList.remove("ek-sil-btn--onay");
+}
+function uaEkstraFormuKapat(){
+  uaEkstraSilDugmesiniSifirla();
+  UA_EKSTRA_DUZENLENEN = null;
+  document.getElementById("yeniUrunOverlay").hidden = true;
+}
+// anahtar verilirse düzenleme (Sil düğmesi görünür), verilmezse yeni ürün.
+function uaEkstraFormuAc(anahtar){
+  if(!UA_YENI_IZIN_VAR) return;
+  uaEkstraSilDugmesiniSifirla();
+  var urun = anahtar ? ProductData.ekstraUrunBul(anahtar) : null;
+  if(anahtar && !urun) return; // başka cihazda silinmiş olabilir
+  UA_EKSTRA_DUZENLENEN = urun ? anahtar : null;
+  document.getElementById("yeniUrunBaslik").textContent = urun ? "Ekstra Ürünü Düzenle" : "Ekstra Listeye Ürün Ekle";
+  document.getElementById("yeniUrunBerta").value = urun ? urun.berta : "";
+  document.getElementById("yeniUrunAbas").value = urun ? urun.abas : "";
+  document.getElementById("yeniUrunAdi").value = urun ? urun.ad : "";
+  document.getElementById("yeniUrunFiyat").value = urun ? urun.fiyat : "";
+  document.getElementById("yeniUrunHata").hidden = true;
+  document.getElementById("btnEkstraSil").hidden = !urun;
+  document.getElementById("btnYeniUrunKaydet").textContent = urun ? "✓ Güncelle" : "✓ Ekstra Listeye Kaydet";
+  document.getElementById("yeniUrunOverlay").hidden = false;
+  document.getElementById("yeniUrunOverlay").scrollIntoView({behavior:"smooth", block:"start"});
+}
+function uaEkstraKaydetTiklandi(){
+  var bilgi = {
+    berta: document.getElementById("yeniUrunBerta").value,
+    abas: document.getElementById("yeniUrunAbas").value,
+    ad: document.getElementById("yeniUrunAdi").value,
+    fiyat: document.getElementById("yeniUrunFiyat").value
+  };
+  document.getElementById("yeniUrunHata").hidden = true;
+  var duzenleme = UA_EKSTRA_DUZENLENEN;
+  var btn = document.getElementById("btnYeniUrunKaydet");
+  var eskiMetin = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Kaydediliyor...";
+  function bitti(basarili, sonuc){
+    btn.disabled = false;
+    btn.textContent = eskiMetin;
+    if(!basarili){ uaEkstraHataYaz(sonuc, "Kaydedilemedi."); return; }
+    uaEkstraFormuKapat();
+    // Eklenen/güncellenen ürünü hemen göstermek için aramaya adını yaz.
+    var arama = document.getElementById("searchInput");
+    arama.value = sonuc && sonuc.ad ? sonuc.ad : bilgi.ad;
+    uaSonuclariCiz();
+  }
+  if(duzenleme) ProductData.ekstraUrunGuncelle(duzenleme, bilgi, bitti);
+  else ProductData.ekstraUrunEkle(bilgi, bitti);
+}
+// İlk dokunuş "Emin misin?" ister (4 sn içinde tekrar dokunulmazsa vazgeçilir);
+// ikinci dokunuş siler. Tarayıcı confirm() penceresi kullanılmaz.
+function uaEkstraSilTiklandi(){
+  var b = document.getElementById("btnEkstraSil");
+  if(!UA_EKSTRA_DUZENLENEN) return;
+  if(!b.classList.contains("ek-sil-btn--onay")){
+    b.textContent = "Emin misin? Evet, Sil";
+    b.classList.add("ek-sil-btn--onay");
+    UA_EKSTRA_SIL_ZAMANLAYICI = setTimeout(uaEkstraSilDugmesiniSifirla, 4000);
+    return;
+  }
+  var anahtar = UA_EKSTRA_DUZENLENEN;
+  b.disabled = true;
+  ProductData.ekstraUrunSil(anahtar, function(basarili, sonuc){
+    b.disabled = false;
+    if(!basarili){ uaEkstraSilDugmesiniSifirla(); uaEkstraHataYaz(sonuc, "Silinemedi."); return; }
+    uaEkstraFormuKapat();
+    uaSonuclariCiz();
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("searchInput").addEventListener("input", uaSonuclariCiz);
   document.getElementById("searchInput").addEventListener("focus", function(){ uaAramaSatiriDurumunuGuncelle(true); });
@@ -315,42 +413,13 @@ document.addEventListener("DOMContentLoaded", function(){
     if(typeof sayfayiCiz === "function") sayfayiCiz();
   };
 
-  document.getElementById("btnYeniUrunAc").onclick = function(){
-    document.getElementById("yeniUrunBerta").value = "";
-    document.getElementById("yeniUrunAbas").value = "";
-    document.getElementById("yeniUrunAdi").value = "";
-    document.getElementById("yeniUrunFiyat").value = "";
-    document.getElementById("yeniUrunHata").hidden = true;
-    document.getElementById("yeniUrunOverlay").hidden = false;
-    document.getElementById("yeniUrunOverlay").scrollIntoView({behavior:"smooth", block:"start"});
-  };
-  document.getElementById("btnYeniUrunVazgec").onclick = function(){
-    document.getElementById("yeniUrunOverlay").hidden = true;
-  };
-  document.getElementById("btnYeniUrunKaydet").onclick = function(){
-    var bilgi = {
-      berta: document.getElementById("yeniUrunBerta").value,
-      abas: document.getElementById("yeniUrunAbas").value,
-      ad: document.getElementById("yeniUrunAdi").value,
-      fiyat: document.getElementById("yeniUrunFiyat").value
-    };
-    var hataEl = document.getElementById("yeniUrunHata");
-    hataEl.hidden = true;
-    var btn = document.getElementById("btnYeniUrunKaydet");
-    btn.disabled = true;
-    btn.textContent = "Kaydediliyor...";
-    ProductData.yeniUrunEkle(bilgi, function(basarili, sonuc){
-      btn.disabled = false;
-      btn.textContent = "✓ Kaydet";
-      if(basarili){
-        alert("✓ \"" + bilgi.ad + "\" listeye eklendi.");
-        document.getElementById("yeniUrunOverlay").hidden = true;
-      } else {
-        hataEl.textContent = "⚠️ " + (typeof sonuc === "string" ? sonuc : (sonuc && sonuc.message ? sonuc.message : "Eklenemedi."));
-        hataEl.hidden = false;
-      }
-    });
-  };
+  // EKSTRA ÜRÜN LİSTESİ (04.11.2026, Abdullah onayı): ekle / düzenle / sil.
+  // Hepsi ProductData.ekstra* işlevlerine gider — ANA ürün listesine yazan
+  // hiçbir çağrı yok. Düzenleme/silme formu, aramadaki EKSTRA etiketinden açılır.
+  document.getElementById("btnYeniUrunAc").onclick = function(){ uaEkstraFormuAc(null); };
+  document.getElementById("btnYeniUrunVazgec").onclick = function(){ uaEkstraFormuKapat(); };
+  document.getElementById("btnYeniUrunKaydet").onclick = uaEkstraKaydetTiklandi;
+  document.getElementById("btnEkstraSil").onclick = uaEkstraSilTiklandi;
 
   window.addEventListener("istakipAuthHazir", uaIzinleriUygula);
   uaIzinleriUygula();

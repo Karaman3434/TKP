@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: TKP.01.11.26-22:45.1348
+  cihaz-kullanici-render.js — VERSİYON: TKP.04.11.26-12:30.1463
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -936,7 +936,7 @@ var IZIN_TANIMLARI = [
     // EKLENDİ (22.10.2026, Abdullah'ın isteğiyle) — "Hit Ürünler", "Yeni
     // Ürün Ekle" ve bu sayfadaki "Beklet" düğmesi ayrı ayrı kısıtlanabilsin.
     { anahtar: "sepetHitGoster", etiket: "🔥 \"HİT\" — Hit Ürünler listesini açabilsin" },
-    { anahtar: "sepetYeniUrunGoster", etiket: "➕ \"YENİ\" — Yeni Ürün Ekle'yi açabilsin" },
+    { anahtar: "sepetYeniUrunGoster", etiket: "➕ \"EKSTRA\" — Ekstra ürün ekleyebilsin, düzenleyebilsin, silebilsin" },
     { anahtar: "sepetBekletGoster", etiket: "📥 Bu sayfada \"Beklet\" düğmesini görebilsin" }
   ]},
   { grup: "Müşteri", sayfalar: [

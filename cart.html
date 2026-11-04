@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
-<link rel="stylesheet" href="product-style.css?v=TKP.02.11.26-10:48.1373">
+<link rel="stylesheet" href="product-style.css?v=TKP.04.11.26-12:40.1466">
 <link rel="stylesheet" href="calc-style.css?v=WG.011126.1022.1262">
 <link rel="stylesheet" href="belge-style.css?v=TKP.03.11.26-11:46.1452">
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.01.11.26-19:09.1341">
@@ -136,14 +136,18 @@
         <span class="mini-aksiyon-ikon">🔥</span>
       </button>
       <button class="mini-aksiyon-btn mini-aksiyon-btn--ekle" id="btnYeniUrunAc" type="button">
-        <span class="mini-aksiyon-ust-etiket">YENİ</span>
+        <span class="mini-aksiyon-ust-etiket">EKSTRA</span>
         <span class="mini-aksiyon-ikon">➕</span>
       </button>
     </div>
 
     <div class="yeni-urun-overlay" id="yeniUrunOverlay" hidden>
       <section class="yeni-urun-form">
-        <div class="yeni-urun-form-baslik">Yeni Ürün Ekle</div>
+        <div class="yeni-urun-form-baslik" id="yeniUrunBaslik">Ekstra Listeye Ürün Ekle</div>
+        <!-- EKSTRA ÜRÜN LİSTESİ (04.11.2026, Abdullah onayı): bu form ANA ürün
+             listesine (Firebase "urunler") ASLA yazmaz; ürün ayrı "ekstraUrunler"
+             listesine kaydedilir, aramada ana listeyle birlikte çıkar. -->
+        <div class="ek-not">🛡️ Ana ürün listesine <b>dokunulmaz</b>. Ürün ayrı bir ekstra listeye kaydedilir; aramada ana listeyle birlikte çıkar.</div>
         <div class="form-satir-2">
           <input type="text" id="yeniUrunBerta" placeholder="Berta Kodu">
           <input type="text" id="yeniUrunAbas" placeholder="Abas Kodu">
@@ -153,7 +157,8 @@
         <p class="yeni-urun-hata" id="yeniUrunHata" hidden></p>
         <div class="form-buton-satir">
           <button class="birlestir-vazgec-btn" id="btnYeniUrunVazgec">Kapat</button>
-          <button class="yeni-urun-kaydet-btn" id="btnYeniUrunKaydet">✓ Kaydet</button>
+          <button class="ek-sil-btn" id="btnEkstraSil" hidden>🗑️ Sil</button>
+          <button class="yeni-urun-kaydet-btn" id="btnYeniUrunKaydet">✓ Ekstra Listeye Kaydet</button>
         </div>
       </section>
     </div>
@@ -439,7 +444,7 @@
 <script src="ikon-svg.js?v=TKP.01.11.26-17:06.1322"></script>
 <script src="hareket-tablo.js?v=TKP.02.11.26-10:22.1363"></script>
 <script src="cart-data.js?v=TKP.03.11.26-18:20.1457"></script>
-<script src="product-data.js?v=WG.271026.2238.1130"></script>
+<script src="product-data.js?v=TKP.04.11.26-12:30.1463"></script>
 <script src="customer-data.js?v=TKP.03.11.26-20:35.1460"></script>
 <script src="musteri-serit.js?v=TKP.03.11.26-20:35.1460"></script>
 <script src="reports-data.js?v=TKP.03.11.26-18:20.1457"></script>
@@ -449,7 +454,7 @@
 <script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="cart-render.js?v=TKP.03.11.26-20:30.1459"></script>
-<script src="urun-arama.js?v=WG.271026.2238.1150"></script>
+<script src="urun-arama.js?v=TKP.04.11.26-12:40.1466"></script>
 <script src="hesapla-popup.js?v=TKP.02.11.26-08:55.1358"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026): bugünkü üst-bar birleştirmesiyle
      (#btnMenu -> #btnAsMenuAc) bu dosyanın menü tıklamasını yakalayan kısmı zaten
