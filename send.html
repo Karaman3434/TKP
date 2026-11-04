@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
 <link rel="stylesheet" href="cart-style.css?v=TKP.03.11.26-20:30.1459">
 <link rel="stylesheet" href="cari-kart-style.css?v=WG.011126.1022.1261">
-<link rel="stylesheet" href="send-style.css?v=TKP.03.11.26-20:30.1459">
+<link rel="stylesheet" href="send-style.css?v=TKP.04.11.26-15:00.1469">
 <link rel="stylesheet" href="belge-style.css?v=TKP.04.11.26-14:35.1467">
 <link rel="stylesheet" href="detail-style.css?v=TKP.02.11.26-10:48.1375">
 <!-- YENİ (12.10.2026, Abdullah onayı) — ürün tablosuna da Sepet/Belge
@@ -132,10 +132,14 @@
        formun ÜSTÜNDE sabit duruyordu, şimdi "İletişim" tuşuna dokununca
        alttan açılan bu sayfaya taşındı. Butonların kendisi, id'leri ve
        davranışları (send-render.js) BİREBİR AYNI — sadece yerleri değişti. -->
+  <!-- AÇILIR LİSTE (04.11.2026, Abdullah onayı — mockup üzerinden): İletişim
+       artık ortada sayfa/pencere DEĞİL — üst bardaki Gönder tuşunun hemen
+       altında, aşağı doğru açılan tek sıra (Mail/WhatsApp/Tablo/PDF). Başlık,
+       alt yazı ve Kapat tuşu kalktı; dışarı dokununca ya da Gönder'e tekrar
+       basınca kapanır, seçenek seçilince kendiliğinden kapanır. Butonların
+       id'leri/işlevleri DEĞİŞMEDİ; konum send-render.js iletisimPaneliKonumla. -->
   <div class="overlay" id="iletisimSheetOverlay" hidden>
-    <div class="sheet">
-      <div class="sheet-baslik" style="text-align:center;">📨 İletişim</div>
-      <div class="sheet-alt" style="text-align:center;">Göndermek istediğin kanalı seç</div>
+    <div class="iletisim-acilir" id="iletisimAcilir">
       <div class="iletisim-secenek-grid">
         <div class="iletisim-secenek-mail-sarmal">
           <button class="iletisim-secenek-btn iletisim-secenek-btn--mail" id="btnUstMail">
@@ -188,7 +192,6 @@
           </div>
         </div>
       </div>
-      <button class="btn-vazgec" id="btnIletisimKapat" style="width:100%; margin-top:10px;">Kapat</button>
     </div>
   </div>
 
@@ -300,7 +303,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="teklif-pdf.js?v=WG.211026.1700.895"></script>
-<script src="send-render.js?v=TKP.03.11.26-20:30.1459"></script>
+<script src="send-render.js?v=TKP.04.11.26-15:00.1469"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026) — bkz. cart.html'deki aynı
      yorum: bugünkü üst-bar birleştirmesiyle kırıldı, yerine cart.html'deki
      10 dakikalık oto-sıfırlama geldi. -->

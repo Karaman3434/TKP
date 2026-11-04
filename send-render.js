@@ -1,5 +1,7 @@
 /*
-  send-render.js — TKP.03.11.26-15:35.1455
+  send-render.js — TKP.04.11.26-15:00.1469
+  GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim artık Gönder tuşunun altında açılan
+  tek sıra liste (iletisimPaneliKonumla/iletisimAcilirAc/Kapat, altKutuKonumla).
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
   görsel oluşturma/kopyalama özelliklerinden biri GERÇEKTEN kullanıldığında
   ilk kez indiriliyor (bkz. html2canvasYukle()). Davranış/çıktı değişmedi.
@@ -1062,7 +1064,9 @@ document.addEventListener("DOMContentLoaded", function(){
     function acik(id){ var e = document.getElementById(id); return !!e && !e.hidden; }
     if(acik("mailOnizlemeOverlay")){ document.getElementById("mailOnizlemeGonderBtn").click(); return; }
     if(acik("whatsappOnizlemeOverlay")){ document.getElementById("whatsappOnizlemeGonderBtn").click(); return; }
-    if(acik("iletisimSheetOverlay") || acik("tabloSadeceOverlay") || acik("pdfSecenekPopover")) return;
+    // İletişim açılır listesi açıkken Gönder'e tekrar basınca kapanır (04.11.2026).
+    if(acik("iletisimSheetOverlay")){ iletisimAcilirKapat(); return; }
+    if(acik("tabloSadeceOverlay") || acik("pdfSecenekPopover")) return;
     document.getElementById("btnIletisimAc").click();
   };
 
@@ -1144,29 +1148,56 @@ document.addEventListener("DOMContentLoaded", function(){
   // DÜZELTME (04.10.2026, Abdullah'ın isteğiyle): İletişim popup'ı açıkken
   // arkadaki sayfa kaymasın — uygulamanın geri kalanında zaten kullanılan
   // "as-drawer-kilit" tekniğiyle (bkz. home-anasayfa-style.css/home-render.js).
-  document.getElementById("btnIletisimAc").onclick = function(){
+  // AÇILIR LİSTE (04.11.2026, Abdullah onayı — mockup üzerinden): İletişim
+  // artık üst bardaki Gönder tuşunun hemen altında açılan tek sıra liste.
+  // Konum her açılışta Gönder tuşunun gerçek yerinden hesaplanır (iPad/S22/
+  // iPhone'da farklı) — sağ kenarı tuşla hizalı, küçük ok tuşa bakar.
+  function gonderUstTusu(){
+    var bt = document.querySelectorAll(".ub-eylem button");
+    return bt.length ? bt[bt.length - 1] : null;
+  }
+  function iletisimPaneliKonumla(){
+    var p = document.getElementById("iletisimAcilir");
+    if(!p) return;
+    var g = gonderUstTusu();
+    var vw = window.innerWidth;
+    var r = g ? g.getBoundingClientRect() : { top:10, bottom:54, left:vw - 56, right:vw - 8, width:48 };
+    var w = p.offsetWidth;
+    var sol = Math.max(6, Math.min(r.right + 6 - w, vw - w - 6));
+    p.style.top = (r.bottom + 6) + "px";
+    p.style.left = sol + "px";
+    p.style.setProperty("--ok-sol", Math.max(10, Math.min(w - 22, r.left + r.width / 2 - sol - 6)) + "px");
+  }
+  function iletisimAcilirAc(){
     document.getElementById("iletisimSheetOverlay").hidden = false;
     document.body.classList.add("as-drawer-kilit");
-  };
-  document.getElementById("btnIletisimKapat").onclick = function(){
+    iletisimPaneliKonumla();
+    var g = gonderUstTusu();
+    if(g) g.classList.add("ub-eylem-secili");
+  }
+  function iletisimAcilirKapat(){
     document.getElementById("iletisimSheetOverlay").hidden = true;
     document.getElementById("mailSecenekPopover").hidden = true;
     document.getElementById("pdfSecenekPopover").hidden = true;
     document.body.classList.remove("as-drawer-kilit");
-  };
+    var g = gonderUstTusu();
+    if(g) g.classList.remove("ub-eylem-secili");
+  }
+  document.getElementById("btnIletisimAc").onclick = iletisimAcilirAc;
   document.getElementById("iletisimSheetOverlay").addEventListener("click", function(ev){
-    if(ev.target === this){
-      this.hidden = true;
-      document.getElementById("mailSecenekPopover").hidden = true;
-      document.getElementById("pdfSecenekPopover").hidden = true;
-      document.body.classList.remove("as-drawer-kilit");
-    }
+    if(ev.target === this) iletisimAcilirKapat();
+  });
+  window.addEventListener("resize", function(){
+    var ov = document.getElementById("iletisimSheetOverlay");
+    if(ov && !ov.hidden) iletisimPaneliKonumla();
   });
   // Mail/WhatsApp/Tablo'dan biri seçilince kendi önizlemesi açılmadan önce
   // İletişim sheet'i kapanır — iki alttan-açılan sayfa üst üste durmasın diye.
   function iletisimSheetiniKapat(){
     document.getElementById("iletisimSheetOverlay").hidden = true;
     document.body.classList.remove("as-drawer-kilit");
+    var g = gonderUstTusu();
+    if(g) g.classList.remove("ub-eylem-secili");
   }
 
   // MAİL SEÇENEK AÇILIR KUTUSU (01.10.2026, Abdullah'ın isteğiyle) — Mail
@@ -1175,15 +1206,24 @@ document.addEventListener("DOMContentLoaded", function(){
   // DÜZELTME (04.10.2026): kutu artık "position:fixed" (bkz. send-style.css)
   // — konumu burada, butona göre, her açılışta yeniden hesaplanıyor, böylece
   // hiçbir ebeveynin kaydırma alanı tarafından kesilmiyor.
+  // Alt kutular (Mail: Yeni mail/Zinciri cevapla, PDF: Müşteriye giden/Kendi
+  // kopyam) açılır listenin ALTINA değil butonun SOLUNA açılır (04.11.2026) —
+  // aşağı açılsa altındaki WhatsApp/Tablo tuşlarını kapatırdı. Dar ekranda
+  // (S22) sığması için genişlik gerekirse 190px'ten küçülür.
+  function altKutuKonumla(pop, btn){
+    var r = btn.getBoundingClientRect();
+    var w = Math.max(140, Math.min(190, r.left - 12));
+    pop.style.width = w + "px";
+    pop.style.top = r.top + "px";
+    pop.style.left = Math.max(6, r.left - 6 - w) + "px";
+  }
   document.getElementById("btnUstMail").onclick = function(ev){
     ev.stopPropagation();
     var pop = document.getElementById("mailSecenekPopover");
     var aciliyorMu = pop.hidden;
     pop.hidden = !pop.hidden;
     if(aciliyorMu){
-      var r = this.getBoundingClientRect();
-      pop.style.top = (r.bottom + 4) + "px";
-      pop.style.left = r.left + "px";
+      altKutuKonumla(pop, this);
     }
   };
   // GERİ ALINDI (26.10.2026, Abdullah onayı — "seçim yapıldıktan sonra
@@ -1233,9 +1273,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var aciliyorMu = pop.hidden;
     pop.hidden = !pop.hidden;
     if(aciliyorMu){
-      var r = this.getBoundingClientRect();
-      pop.style.top = (r.bottom + 4) + "px";
-      pop.style.left = r.left + "px";
+      altKutuKonumla(pop, this);
     }
   };
   function pdfIndirBaslat(secenekler){

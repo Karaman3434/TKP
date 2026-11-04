@@ -1,4 +1,6 @@
-/* send-style.css — aynı kural: gradyan/gölge yığılması yok. */
+/* send-style.css — TKP.04.11.26-15:00.1469 — aynı kural: gradyan/gölge yığılması yok.
+   GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim açılır listesi + Mail/WhatsApp/Tablo
+   önizleme pencereleri kenardan kenara (dosya sonundaki iki blok). */
 
 /* YENİ (04.10.2026, Abdullah'ın isteğiyle): İletişim popup'ı açıkken arka
    sayfa kaymasın — uygulamanın başka yerinde (açılır menü) zaten kullanılan
@@ -546,3 +548,56 @@ body.as-drawer-kilit { overflow: hidden; }
 #whatsappOnizlemeOverlay .sheet-buton-satir { display: none; }
 /* Müşteri adına dokununca Cari Kart açılır — sadece imleç, görsel ipucu yok. */
 #tamOnizlemeAlani .ms-ad, #mailOnizlemeTablo .ms-ad, #whatsappOnizlemeTablo .belge-musteri-ad { cursor: pointer; }
+
+
+/* İLETİŞİM AÇILIR LİSTESİ (04.11.2026, Abdullah onayı — mockup üzerinden):
+   üst bardaki Gönder tuşunun altında aşağı açılan tek sıra. Konum JS ile
+   (send-render.js iletisimPaneliKonumla). Üst bar (.app-ust-sabit) z-index
+   1000 — liste onun üstünde görünsün diye overlay 1100. Dim sadece üst barın
+   altını kaplar (üst bar, özellikle Gönder tuşu, karartılmaz). Genişlik =
+   eski 2x2 grid'deki tek tuş genişliği (telefon ~177px, iPad ~222px). */
+#iletisimSheetOverlay { z-index: 1100; background: rgba(10,20,35,.28); }
+.iletisim-acilir {
+  position: fixed;
+  box-sizing: border-box;
+  width: calc(min(222px, max(177px, 28vw)) + 12px);
+  background: #ffffff;
+  border: 1px solid #d7dce3;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.28);
+  padding: 6px;
+}
+.iletisim-acilir::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: var(--ok-sol, 20px);
+  width: 12px; height: 12px;
+  background: #ffffff;
+  border-left: 1px solid #d7dce3;
+  border-top: 1px solid #d7dce3;
+  transform: rotate(45deg);
+}
+.iletisim-acilir .iletisim-secenek-grid { grid-template-columns: 1fr; gap: 5px; margin-bottom: 0; }
+.ub-eylem button.ub-eylem-secili { outline: 3px solid #0ea5a4; outline-offset: 1px; }
+
+
+/* ÖNİZLEME PENCERELERİ KENARDAN KENARA (04.11.2026, Abdullah onayı — mockup
+   üzerinden): Mail Önizleme / WhatsApp Önizleme / Sadece Tablo, iPad'de
+   home-style.css'teki ortak >=700px kuralı yüzünden 480px'lik ortalı kutuydu.
+   SADECE bu üç pencere (ID özgüllüğü + !important, o ortak !important kuralını
+   ezmek için) — diğer sayfaların/pencerelerin .sheet'ine dokunulmadı. Yan
+   boşluk 16px -> 8px; Mail Önizleme'nin üstteki turuncu şeridi .sheet'in yan
+   boşluğunu iptal edip kenara oturduğu için onun negatif margin'i de 8px'e çekildi. */
+#mailOnizlemeOverlay .sheet,
+#whatsappOnizlemeOverlay .sheet,
+#tabloSadeceOverlay .sheet {
+  max-width: none !important;
+  width: 100% !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+#mailOnizlemeOverlay .sayfa-rota-serit { margin-left: -8px !important; margin-right: -8px !important; }
