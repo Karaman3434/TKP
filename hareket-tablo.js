@@ -1,6 +1,12 @@
 /*
-  hareket-tablo.js — TKP.02.11.26-10:22.1363
+  hareket-tablo.js — TKP.04.11.26-14:35.1467
   =================
+  GÜNCELLEME (04.11.2026, 14:35, Abdullah onayı — mockup üzerinden): BEDELSİZ
+  satır gösterimi. TOPLAM sütunu "NUMUNE" yerine "BEDELSİZ" (kırmızı); LİSTE,
+  İSK ve NET hücreleri boş + sadece kırmızı çizgi; PRİM hücresi 🎁 simgesiz,
+  "BDLSİZ" yerine tam "BEDELSİZ" (kırmızı, ~%50 büyük). Stiller belge-style.css
+  (.belge-bdl-*). Tablo tek yerden çizildiği için Sepet/Belge Önizleme/Gönder/
+  Cari Kart hepsinde aynı anda geçerli.
   GÜNCELLEME (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu tek ortak fonksiyona (genelToplamHtml) toplandı ve
   PRİM artık HER YERDE (primGizli olmayan tüm çağıranlar: Sepet, Cari Kart,
@@ -85,7 +91,12 @@ var HareketTablo = (function(){
       // (numune) işaretli ürünlerde TOPLAM sütunu "0,00 EURO" yerine "NUMUNE"
       // yazar. İskonto %100 girilmişse İSK sütununda "%100" yerine sadece "-".
       var iskYuz100 = (u.iskonto||0) === 100;
-      var toplamHucreIcerik = !toplamVarMi ? "-" : ((u.ozelEtiket === "bedelsiz") ? "NUMUNE" : paraHtml(fmt(h.toplamEuro),"EURO"));
+      var bedelsizMi = !!toplamVarMi && u.ozelEtiket === "bedelsiz";
+      var bdlYazi = "<span class='belge-bdl-yazi'>BEDELSİZ</span>";
+      // Bedelsizde LİSTE/İSK/NET hücreleri boş; sadece kırmızı çizgi (gerçek
+      // eleman — ::after değil — çünkü Gönder'deki html2canvas görseli de çizsin).
+      var bdlCizgiTd = "<td class='belge-td-bdl-iptal'><span class='belge-bdl-cizgi'></span></td>";
+      var toplamHucreIcerik = !toplamVarMi ? "-" : (bedelsizMi ? bdlYazi : paraHtml(fmt(h.toplamEuro),"EURO"));
       var netTl = toplamVarMi ? netTlHtml(h.iskontoluFiyat, kur) : "";
       // DÜZELTME (15.10.2026, Abdullah onayı): harf (B/A) ile kod arasındaki
       // boşluk kaldırıldı — "B11550400 - A1000912233" gibi bitişik.
@@ -94,7 +105,7 @@ var HareketTablo = (function(){
         return "<tr class='" + (zeminSinifi||"") + "'>"
           + urunHucre
           + "<td>" + (u.adet!=null ? u.adet : "-") + "</td>"
-          + "<td>" + (toplamVarMi ? "<span class='rozet-net'>"+paraHtml(fmt(h.iskontoluFiyat),"EURO")+"</span>"+netTl : "-") + "</td>"
+          + (bedelsizMi ? bdlCizgiTd : "<td>" + (toplamVarMi ? "<span class='rozet-net'>"+paraHtml(fmt(h.iskontoluFiyat),"EURO")+"</span>"+netTl : "-") + "</td>")
           + "<td class='belge-td-toplam'>" + toplamHucreIcerik + "</td>"
           + "</tr>";
       }
@@ -104,16 +115,17 @@ var HareketTablo = (function(){
       // "Bedelsiz" iki satıra bölünüyordu ("Bedelsi"/"z") — kısa koda
       // ("BDLSİZ") çevrildi; bu da tek başına sığmadığı için nowrap +
       // küçük font (.belge-td-prim-bedelsiz) ile sarmalandı.
-      else if(u.ozelEtiket === "bedelsiz"){ primHucre = "<span class='belge-td-prim-bedelsiz'>🎁 BDLSİZ</span>"; }
+      else if(u.ozelEtiket === "bedelsiz"){ primHucre = bdlYazi; }
       else if(u.iskonto>60){ primHucre = "Ö.F"; }
       else { primHucre = "<span class='belge-td-prim-tek'>" + paraHtml(Math.round(h.mudurPrimTL).toLocaleString("tr-TR"),"TL") + "</span>"; }
       return "<tr class='" + (zeminSinifi||"") + "'>"
         + "<td class='belge-td-sira'>" + (i+1) + "</td>"
         + urunHucre
         + "<td>" + (u.adet!=null ? u.adet : "-") + "</td>"
-        + "<td>" + (u.listeFiyat!=null ? paraHtml(fmt(u.listeFiyat),"EURO") : "-") + "</td>"
-        + "<td>" + (iskYuz100 ? "-" : (u.iskonto!=null ? "<span class='belge-isk-metin'>"+paraHtml(u.iskonto,"%")+"</span>" : "-")) + "</td>"
-        + "<td>" + (toplamVarMi ? "<span class='rozet-net'>"+paraHtml(fmt(h.iskontoluFiyat),"EURO")+"</span>"+netTl : "-") + "</td>"
+        + (bedelsizMi ? bdlCizgiTd + bdlCizgiTd + bdlCizgiTd : (
+            "<td>" + (u.listeFiyat!=null ? paraHtml(fmt(u.listeFiyat),"EURO") : "-") + "</td>"
+          + "<td>" + (iskYuz100 ? "-" : (u.iskonto!=null ? "<span class='belge-isk-metin'>"+paraHtml(u.iskonto,"%")+"</span>" : "-")) + "</td>"
+          + "<td>" + (toplamVarMi ? "<span class='rozet-net'>"+paraHtml(fmt(h.iskontoluFiyat),"EURO")+"</span>"+netTl : "-") + "</td>"))
         + "<td class='belge-td-toplam'>" + toplamHucreIcerik + "</td>"
         + (primGizli ? "" : "<td class='belge-td-prim'>" + primHucre + "</td>")
         + "</tr>";

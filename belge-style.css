@@ -1,4 +1,7 @@
-/* belge-style.css — TKP.02.11.26-10:48.1380
+/* belge-style.css — TKP.04.11.26-14:35.1467
+   GÜNCELLEME (04.11.2026, Abdullah onayı): BEDELSİZ satır — .belge-bdl-yazi
+   (kırmızı BEDELSİZ) ve .belge-td-bdl-iptal/.belge-bdl-cizgi (boş hücre + kırmızı çizgi).
+   (önceki: TKP.02.11.26-10:48.1380)
    GÜNCELLEME (02.11.2026): PRİM, GENEL TOPLAM kutusunun içine alındı (ortak
    .belge-gt-prim-* kuralları); eski .belge-prim-toplam-serit/.belge-prim-serit/
    .belge-pt-etiket/-deger ve .belge-prim-etiket/-deger kuralları kaldırıldı.
@@ -503,15 +506,26 @@
   white-space: nowrap;
   font-size: 11px;
 }
-/* "BDLSİZ" rozeti (14.10.2026, Abdullah'ın isteğiyle — "Bedelsiz" kısa koda
-   çevrildi) — dar PRİM sütununda yine de sığmadığı için SADECE bu rozete
-   özel, biraz daha küçük + nowrap. */
-.belge-td-prim-bedelsiz {
+/* BEDELSİZ gösterimi (04.11.2026, Abdullah onayı — mockup üzerinden): eski
+   "🎁 BDLSİZ" rozeti kalktı. PRİM ve TOPLAM hücrelerinde aynı kırmızı
+   "BEDELSİZ" yazısı; harf boyu 11.25px (eski 7.5px'in %150'si) — dar (telefon
+   dik) ekranda sütuna sığsın diye ekran genişliğine göre küçülür. */
+.belge-bdl-yazi {
   display: inline-block;
   white-space: nowrap;
-  font-size: 7.5px;
+  color: #d62828;
   font-weight: 800;
-  letter-spacing: -.2px;
+  letter-spacing: -.3px;
+  font-size: clamp(7px, 2.2vw, 11.25px);
+}
+/* Bedelsizde LİSTE/İSK/NET: hücre boş, ortada tek kırmızı çizgi. Gerçek
+   eleman (::after değil) — html2canvas (Gönder görseli) güvenle çizsin. */
+.belge-td-bdl-iptal { padding-left: 3px; padding-right: 3px; }
+.belge-bdl-cizgi {
+  display: block;
+  height: 2px;
+  background: #d62828;
+  border-radius: 1px;
 }
 .belge-td-isk { color: #c0392b; font-weight: 700; }
 /* SAYI HİZASI VE BOYUTU (22.09.2026) — LİSTE/İSK/NET/TOPLAM/PRİM sütunlarının
