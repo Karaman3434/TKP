@@ -55,12 +55,12 @@
     overlay.className = "ka-overlay";
     overlay.id = "ciZorunluOverlay";
     overlay.innerHTML =
-      "<div class='ka-ikon' aria-hidden='true'>👤</div>" +
-      "<div class='ka-baslik'>Kullanıcı Adını Tanımla</div>" +
-      "<div class='ka-alt'>Devam etmeden önce bu cihazı kimin kullandığını belirtmen gerekiyor. Bu ad, Ayarlar › Cihazlar ve Kullanıcılar panelinde bu cihazın yanında görünecek.</div>" +
-      "<input type='text' class='ka-input' id='ciZorunluInput' placeholder='örn. ANKARA BOLGE 19' autocomplete='off'>" +
+      "<div class='ka-ikon' aria-hidden='true'>📱</div>" +
+      "<div class='ka-baslik'>Cihazına İsim Ver</div>" +
+      "<div class='ka-alt'>Devam etmeden önce bu cihaza bir isim vermen gerekiyor. Bu isim, yönetici panelinde cihazının yanında görünecek.</div>" +
+      "<input type='text' class='ka-input' id='ciZorunluInput' placeholder='örn. iPhone 13' autocomplete='off'>" +
       "<p class='ka-hata' id='ciZorunluHata' hidden>Lütfen bir isim gir.</p>" +
-      "<div class='ka-ornek'>Örnek: ANKARA BOLGE 19</div>" +
+      "<div class='ka-ornek'>Örnek: iPhone 13, Tablet, Samsung S22</div>" +
       "<button type='button' class='ka-kaydet-btn' id='btnCiZorunluKaydet'>✓ Kaydet ve Devam Et</button>";
     document.body.appendChild(overlay);
     return overlay;

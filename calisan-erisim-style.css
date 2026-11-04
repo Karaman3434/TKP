@@ -254,3 +254,12 @@
 .ce-yeni-det > summary::-webkit-details-marker { display: none; }
 .ce-yeni-det[open] > summary { margin-bottom: 8px; }
 .ce-ipucu-kucuk { font-size: 10px; font-weight: 700; color: #8a8f98; }
+
+/* ---- 04.11.2026 cihaz/yönetici kartı (Abdullah onayı) ---- */
+.cz-yonetici-kart { display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 11px 12px; margin: 6px 0 10px; }
+.cz-yonetici-kart[hidden] { display: none; }
+.cz-yonetici-kart--s22 { border: 2px solid #003a70; }
+.cz-yk-ikon { font-size: 22px; }
+.cz-yk-metin b { display: block; font-size: 14px; color: #003a70; }
+.cz-yk-metin small { font-size: 10.5px; font-weight: 700; color: #8a8f98; }
+.cz-yk-rozet { margin-left: auto; background: #003a70; color: #fff; font-size: 10.5px; font-weight: 900; border-radius: 99px; padding: 3px 10px; }

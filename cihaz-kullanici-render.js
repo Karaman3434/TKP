@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: TKP.04.11.26-22:52.1476
+  cihaz-kullanici-render.js — VERSİYON: TKP.04.11.26-23:22.1477
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -76,8 +76,7 @@ function cihazAdiniGercektenKaydet(ad){
   CihazData.adiKaydet(ad, function(basarili){
     if(basarili){
       var ok = document.getElementById("czAdKaydedildi");
-      ok.hidden = false;
-      setTimeout(function(){ ok.hidden = true; }, 2500);
+      if(ok){ ok.hidden = false; setTimeout(function(){ ok.hidden = true; }, 2500); }
     }
     ckErisimKontrolEt();
   });
@@ -111,25 +110,25 @@ function czAyniIsimOverlayAc(ad, bulunan){
   };
 }
 
+// 04.11.2026 (Abdullah onayı): "Bu cihaz" isim kutusu kalktı. Cihaz adı ilk
+// girişte (şifreden sonra) bir kez verilir; burada sadece gösterilir.
+//  - S22: panelin en üstünde "Samsung S22 · Yönetici" kartı (PIN'den sonra görünür).
+//  - Diğer cihazlar: sadece kendi adı + "sadece S22'den açılır" uyarısı.
 function buCihazKartiniHazirla(){
-  var input = document.getElementById("czBuCihazAdi");
-  var yerel = localStorage.getItem("weicon_cihaz_adi");
-  if(yerel) input.value = yerel;
-
-  document.getElementById("btnCzAdKaydet").onclick = function(){
-    var ad = input.value.trim();
-    if(!ad) return;
-    var btn = this;
-    btn.disabled = true;
-    CihazData.aktifAyniIsimdeBaskaCihazBulAsync(ad, function(bulunan){
-      btn.disabled = false;
-      if(bulunan){
-        czAyniIsimOverlayAc(ad, bulunan);
-      } else {
-        cihazAdiniGercektenKaydet(ad);
-      }
-    });
-  };
+  var ad = CihazData.benimAdim();
+  var s22Mi = CihazData.korumaliMi(ad);
+  var yonetici = document.getElementById("czYoneticiKart");
+  var diger = document.getElementById("czCihazKart");
+  if(yonetici){
+    yonetici.innerHTML = '<span class="cz-yk-ikon">📱</span><div class="cz-yk-metin"><b>' + htmlEsc(ad) + '</b><small>🔒 PIN korumalı · isim değiştirilemez</small></div><span class="cz-yk-rozet">Yönetici</span>';
+  }
+  if(diger){
+    if(s22Mi){ diger.hidden = true; }
+    else {
+      diger.hidden = false;
+      diger.innerHTML = '<span class="cz-yk-ikon">📱</span><div class="cz-yk-metin"><b>' + htmlEsc(ad) + '</b><small>bu cihaz</small></div>';
+    }
+  }
 }
 
 /* ========================================================================
