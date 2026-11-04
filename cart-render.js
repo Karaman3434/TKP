@@ -1,5 +1,5 @@
 /*
-  cart-render.js — TKP.04.11.26-14:50.1468
+  cart-render.js — TKP.04.11.26-18:36.1472
   GÜNCELLEME (04.11.2026, Abdullah onayı): İşlem Geçmişi penceresi satırları —
   tarih tek satır + altında (Tip), sayılar altında küçük EURO/% (cart-style.css).
   (önceki: TKP.02.11.26-10:22.1368)
@@ -129,7 +129,9 @@ function kurManuelOverlayBaglantilariKur(){
   // sekmede aç — popup kapanmaz, rep TCMB'de bakıp sonra Manuel Gir'e
   // dönebilir.
   document.getElementById("btnSepetKurTcmb").onclick = function(){
-    window.open("https://www.tcmb.gov.tr/kurlar/kurlar_tr.html", "_blank");
+    // 04.11.2026: uygulama içi kur kartı (kur-panel.js); yoksa eski davranış.
+    if(typeof KurPanel !== "undefined") KurPanel.ac();
+    else window.open("https://www.tcmb.gov.tr/kurlar/kurlar_tr.html", "_blank");
   };
   document.getElementById("btnSepetKurManuelKaydet").onclick = function(){
     var deger = parseFloat(document.getElementById("sepetKurManuelInput").value);
