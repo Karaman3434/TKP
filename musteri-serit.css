@@ -1,4 +1,4 @@
-/* musteri-serit.css — TKP.01.11.26-19:09.1341
+/* musteri-serit.css — TKP.05.11.26-10:45.1479
    ============================================================
    TEK KURAL (22.09.2026): Müşteri adının (ticari unvan) göründüğü HER
    yerde — Sepet, Ürün Bul, Müşteri Hub, Cari Bilgi, İşlemler, Gönder
@@ -19,7 +19,8 @@
    (ozet-alan/belge-form-baslik/belge-adres-yetkili-cerceve) aynı lacivert
    tona getirildi. Kutular arası boşluk kuralı (18.10.2026): 1mm. */
 .musteri-serit {
-  background: #c3dcf4;
+  /* GRİ ZEMİN (05.11.2026, Abdullah onayı): tüm tablolarda VADE/FATURA/KARGO ve işlem etiketiyle aynı gri (#E7E9EE) — eski mavi (#c3dcf4) kaldırıldı. */
+  background: #E7E9EE;
   border: 1.5px solid #073B70;
   border-radius: 10px;
   /* PADDING %50 AZALTILDI (01.11.2026, Abdullah onayı — "etiket panelleri
@@ -39,8 +40,9 @@
 .musteri-serit .ms-ad {
   /* %20 KÜÇÜLTME (01.11.2026, Abdullah onayı): 15px -> 12px — panelde
      Gönder ikonu eklenince isim/şehir için yer kalmıyordu. */
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--etiket-yazi, 12px);
+  font-weight: var(--etiket-agirlik, 700);
+  letter-spacing: var(--etiket-harf-araligi, .2px);
   color: #0a2f5c;
   flex: 1;
   min-width: 0;
@@ -48,15 +50,16 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.musteri-serit .ms-kod { color: #c0392b; font-weight: 800; }
+.musteri-serit .ms-kod { color: #c0392b; font-weight: var(--etiket-agirlik, 700); }
 /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup üzerinden): isim ile
    ilçe/il artık AYRI bir flex eleman değil, ms-ad'ın İÇİNDE tek satırda
    ("İsim - İlçe, İl") — uzunsa hepsi birlikte ellipsis ile kesilir. */
-.musteri-serit .ms-ayrac { color: #0a2f5c; font-weight: 800; margin: 0 3px; }
+.musteri-serit .ms-ayrac { color: #0a2f5c; font-weight: var(--etiket-agirlik, 700); font-size: var(--etiket-yazi, 12px); margin: 0 3px; }
 .musteri-serit .ms-sehir {
   /* %20 KÜÇÜLTME (01.11.2026, Abdullah onayı): 13px -> 10.4px. */
-  font-size: 10.4px;
-  font-weight: 600;
+  font-size: var(--etiket-yazi, 12px);
+  font-weight: var(--etiket-agirlik, 700);
+  letter-spacing: var(--etiket-harf-araligi, .2px);
   color: #556170;
 }
 /* Bazı sayfalarda bu şerit koşullu olarak gizlenir (örn. müşteri seçili

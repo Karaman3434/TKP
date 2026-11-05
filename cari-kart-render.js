@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — WG.011126.0821.1247
+  cari-kart-render.js — TKP.05.11.26-10:45.1479
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -226,12 +226,29 @@ function anaSayfayiRenderEt(){
 
     kapsayici.innerHTML = liste.map(function(k, i){
       var seciliMi = secimler[tip] === i;
+      // BELGE ÖNİZLEME TASARIMI (05.11.2026, Abdullah isteği — "cari kartın
+      // görüntülendiği HER yerde Belge Önizleme baz alınsın"): içerik artık
+      // Belge Önizleme/Gönder ile AYNI görünümde — adres düz metin,
+      // yetkili "İsim (görev) — 📞 · ✉". Tek kayıtta seçim tiki ve varsayılan
+      // başlık ("Fatura Adresi") gösterilmez; birden fazla kayıtta tik + başlık
+      // gösterilir (seçim/düzenleme işlevi AYNEN korundu).
       var gizliMi = !acikMi && i >= VARSAYILAN_GORUNUR;
       var classes = "ck-satir" + (tiklanabilirMi ? " ck-satir--secilebilir" : "") + (seciliMi ? " ck-satir--secili" : "") + (gizliMi ? " ck-satir--gizli" : "");
       var dataAttr = tiklanabilirMi ? " data-tip='" + tip + "' data-i='" + i + "'" : "";
+      var tikHtml = tiklanabilirMi ? "<div class='ck-satir-tik" + (seciliMi ? " ck-satir-tik--secili" : "") + "'>" + (seciliMi ? "✓" : "") + "</div>" : "";
+      var metinHtml;
+      if(tip === "yetkili"){
+        metinHtml = (typeof HareketTablo !== "undefined")
+          ? HareketTablo.yetkiliSatiriHtml(k.isim || "(isimsiz)", k.telefon, k.eposta, k.gorev)
+          : "<span class='ck-satir-detay'>" + escapeText(kayitBaslik(tip,k) + " — " + kayitAltMetin(tip,k)) + "</span>";
+      } else {
+        var ozelBaslikMi = kayitBaslik(tip,k) !== TIP_META[tip].baslik;
+        metinHtml = ((tiklanabilirMi || ozelBaslikMi) ? "<span class='ck-satir-etiket'>" + escapeText(kayitBaslik(tip,k)) + "</span>" : "")
+          + "<span class='ck-satir-detay'>" + escapeText(kayitAltMetin(tip,k)) + "</span>";
+      }
       return "<div class='" + classes + "'" + dataAttr + ">"
-        + "<div class='ck-satir-tik" + (seciliMi ? " ck-satir-tik--secili" : "") + "'>" + (seciliMi ? "✓" : "") + "</div>"
-        + "<div class='ck-satir-metin'><span class='ck-satir-etiket'>" + escapeText(kayitBaslik(tip,k)) + "</span><span class='ck-satir-detay'>" + escapeText(kayitAltMetin(tip,k)) + "</span></div>"
+        + tikHtml
+        + "<div class='ck-satir-metin'>" + metinHtml + "</div>"
         + "</div>";
     }).join("");
 

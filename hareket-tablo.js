@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — TKP.05.11.26-10:12.1478
+  hareket-tablo.js — TKP.05.11.26-10:45.1479
   =================
   GÜNCELLEME (04.11.2026, 14:35, Abdullah onayı — mockup üzerinden): BEDELSİZ
   satır gösterimi. TOPLAM sütunu "NUMUNE" yerine "BEDELSİZ" (kırmızı); LİSTE,
@@ -294,7 +294,10 @@ var HareketTablo = (function(){
   // üzerinden onaylandı): emoji yerine ikon-svg.js'teki düz SVG'ler, isim
   // artık KALIN/KOYU DEĞİL — kutudaki diğer metinle (.ck-kart) aynı stil
   // (bkz. belge-style.css .belge-yetkili-satir).
-  function yetkiliSatiriHtml(isim, tel, eposta){
+  // gorev (05.11.2026, Cari Bilgi için): verilirse isimden sonra küçük gri parantez
+  // içinde gösterilir; bu durumda "—" ayracı konmaz (iletişim satırı alta inerse
+  // satır sonunda yalnız kalmasın).
+  function yetkiliSatiriHtml(isim, tel, eposta, gorev){
     if(!isim && !tel && !eposta) return "";
     var ikonVarMi = (typeof IkonSvg !== "undefined");
     var ikTel = ikonVarMi ? "<span class='ck-kart-iletisim-ikon'>" + IkonSvg.svg("telefon") + "</span>" : "📞 ";
@@ -305,8 +308,9 @@ var HareketTablo = (function(){
     var parcalar = [];
     if(tel) parcalar.push("<span class='ck-iletisim-parca'>" + ikTel + htmlEsc(tel) + "</span>");
     if(eposta) parcalar.push("<span class='ck-iletisim-parca'>" + ikMail + htmlEsc(eposta) + "</span>");
-    return "<div class='belge-yetkili-satir'>" + htmlEsc(isim||"-")
-      + (parcalar.length ? " — <span class='belge-yetkili-detay'>" + parcalar.join("<span class='ck-iletisim-ayrac'>·</span>") + "</span>" : "")
+    var gorevHtml = gorev ? " <span class='belge-yetkili-gorev'>(" + htmlEsc(gorev) + ")</span>" : "";
+    return "<div class='belge-yetkili-satir'>" + htmlEsc(isim||"-") + gorevHtml
+      + (parcalar.length ? (gorev ? " " : " — ") + "<span class='belge-yetkili-detay'>" + parcalar.join("<span class='ck-iletisim-ayrac'>·</span>") + "</span>" : "")
       + "</div>";
   }
 

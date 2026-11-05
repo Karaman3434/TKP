@@ -19,6 +19,14 @@
    Sayfa/kullanıcı yetkileriyle (auth.js) hiçbir ilgisi yoktur.
    ===================================================================== */
 :root {
+  /* ORTAK ETİKET YAZISI (05.11.2026, Abdullah isteği — "bütünlük / simetri"):
+     Müşteri ticari ismi, VADE/FATURA/KARGO, FATURA ADRESİ, TESLİMAT ADRESİ,
+     YETKİLİ ve işlem etiketi (F. TEKLİFİ / SİPARİŞ + tarih) TÜM tablolarda
+     (Cari Bilgi, Belge Önizleme, Gönder/Mail/WhatsApp görseli, Sepet vb.)
+     AYNI boy ve AYNI kalınlıkta. Değiştirmek için SADECE bu üç satır. */
+  --etiket-yazi: 12px;
+  --etiket-agirlik: 700;
+  --etiket-harf-araligi: .2px;
   /* ---- ORTAK (birden çok tablo türünün AYNI değeri paylaştığı — burayı değiştirince hepsi birden değişir) ---- */
   --tbl-kutu-cerceve: 1px solid #3569b8;
   --tbl-kutu-radius: 8px;

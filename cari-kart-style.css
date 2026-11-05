@@ -1,4 +1,4 @@
-/* cari-kart-style.css — TKP.05.11.26-10:12.1478 */
+/* cari-kart-style.css — TKP.05.11.26-10:45.1479 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -86,14 +86,14 @@
 .ozet-ikon svg { width: 100%; height: 100%; display: block; }
 .ozet-metin { min-width: 0; width: 100%; }
 .ozet-baslik {
-  font-size: 11px;
-  font-weight: 700;
+  font-size: var(--etiket-yazi, 12px);
+  font-weight: var(--etiket-agirlik, 700);
   /* RENK (28.10.2026, Abdullah onayı — "renk denemesi" turu, mockup
      üzerinden onaylandı): PRİM şeridiyle (belge-style.css .belge-prim-serit)
      BİREBİR aynı yeşil — önceden #073B70, sonra #0a2f5c (lacivert) idi,
      ikisi de beğenilmedi. */
   color: #16a085;
-  letter-spacing: .2px;
+  letter-spacing: var(--etiket-harf-araligi, .2px);
 }
 .ozet-deger {
   font-size: 13px;
@@ -107,9 +107,9 @@
    DÜZELTME (27.09.2026, Abdullah'ın isteğiyle): yazı boyutları AYNI kaldı,
    sadece bloklar arası dikey boşluk (margin/padding) azaltıldı. */
 .ck-blok-etiket {
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: .2px;
+  font-size: var(--etiket-yazi, 12px);
+  font-weight: var(--etiket-agirlik, 700);
+  letter-spacing: var(--etiket-harf-araligi, .2px);
   display: flex;
   align-items: center;
   gap: 7px;
@@ -493,19 +493,21 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* telefon + mail AYNI satırda (05.11.2026, Abdullah isteği) */
   margin-top: 4px;
   padding-top: 0;
 }
+.ck-kart-iletisim .ck-iletisim-parca { white-space: nowrap; flex-shrink: 0; }
+.ck-kart-iletisim .ck-iletisim-parca:last-child { flex-shrink: 1; min-width: 0; white-space: normal; overflow-wrap: anywhere; }
 .ck-iletisim-parca {
-  font-size: 11.5px;
+  font-size: 11px; /* 11.5 -> 11: telefon + mail dar ekranda da AYNI satıra sığsın (05.11.2026) */
   color: #556170;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
   gap: 5px;
 }
-.ck-iletisim-ayrac { color: #aab2bd; font-weight: 600; margin: 0 6px; }
+.ck-iletisim-ayrac { color: #aab2bd; font-weight: 600; margin: 0 4px; }
 /* Boy diğer tüm ikonlarla (.ozet-ikon, .ck-blok-etiket-ikon) birebir aynı:
    17.5px. Renk komşu metnin rengini (currentColor, gri #556170) devralır. */
 /* RENK (05.11.2026, Abdullah isteği): telefon/mail ikonları artık gri değil,
@@ -602,8 +604,13 @@
 }
 .ck-satir-tik--secili { background: #0e6b34; border-color: #0e6b34; }
 .ck-satir-metin { min-width: 0; flex: 1; display: flex; flex-direction: column; line-height: 1.25; }
-.ck-satir-etiket { font-size: 12px; font-weight: 700; color: #1a2a3a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ck-satir-detay { font-size: 11px; color: #556170; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* BELGE ÖNİZLEME TASARIMI (05.11.2026): adres/başlık metni Belge Önizleme'deki .ck-kart ile aynı boy ve renk, sarar (kırpılmaz). */
+.ck-satir-etiket { font-size: 12.5px; font-weight: 700; color: #1a2a3a; }
+.ck-satir-detay { font-size: 12.5px; color: #1a2733; font-weight: 400; line-height: 1.4; overflow-wrap: anywhere; }
+.ck-satir-metin .belge-yetkili-satir { padding-left: 0; }
+/* Cari Bilgi müşteri şeridi: Belge Önizleme gibi ortalı, uzun isim sarar */
+.ck-isim-sarmal .musteri-serit { align-items: center; justify-content: center; }
+.ck-isim-sarmal .musteri-serit .ms-ad { text-align: center; white-space: normal; overflow: visible; text-overflow: clip; }
 .ck-satir--gizli { display: none; }
 
 /* "Yeni Bilgi Ekle" popup'ı — her kategori satırında Ekle/Sil/Düzenle */

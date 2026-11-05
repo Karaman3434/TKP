@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — TKP.05.11.26-10:12.1478
+  belge-onizleme-style-v2.css — TKP.05.11.26-10:45.1479
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -139,9 +139,10 @@
    ortala" turu): 13.99px->16.09px, 7.63px->8.77px (oran AYNEN korundu,
    "hepsi aynı boyda" kuralı sürüyor — bmb-tip/bmb-alt hâlâ birebir eşit). */
 .belge-onizleme-sayfa .bmb-tip {
-  font-size: 16.09px;
+  font-size: var(--etiket-yazi, 12px);
+  letter-spacing: var(--etiket-harf-araligi, .2px);
   line-height: 1;
-  font-weight: 800;
+  font-weight: var(--etiket-agirlik, 700);
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -149,9 +150,10 @@
   flex: 0 0 auto;
 }
 .belge-onizleme-sayfa .bmb-alt {
-  font-size: 16.09px;
-  font-weight: 600;
-  opacity: .85;
+  font-size: var(--etiket-yazi, 12px);
+  letter-spacing: var(--etiket-harf-araligi, .2px);
+  font-weight: var(--etiket-agirlik, 700);
+  opacity: 1;
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -431,10 +433,7 @@
    TAMAMI artık aynı yazı boyunda (12px) — her birinin KENDİ rengi/zemini
    (Genel Toplam lacivert dolgu+beyaz, Prim yeşil dolgu+beyaz, diğerleri
    lacivert yazı) kullanıcı onayıyla AYNEN korundu, SADECE boy eşitlendi. */
-.belge-onizleme-sayfa .ozet-baslik { font-size: 12px; }
-.belge-onizleme-sayfa .ck-blok-etiket--fatura,
-.belge-onizleme-sayfa .ck-blok-etiket--teslimat,
-.belge-onizleme-sayfa .ck-blok-etiket--yetkili { font-size: 12px; }
+/* (05.11.2026: ozet-baslik / ck-blok-etiket boyu artık ortak --etiket-yazi) */
 /* (02.11.2026: .belge-gt-etiket / .belge-prim-etiket 12px EZMELERİ kaldırıldı —
    GENEL TOPLAM kutusu artık tüm sayfalarda aynı ortak kurallarla çiziliyor.) */
 
@@ -464,8 +463,7 @@
    GÜNCELLEME 3 (28.10.2026, Abdullah onayı — "büyült ve ortala" turu):
    satır sarma eklendiği için artık kırpılma riski yok — %15 büyütüldü
    (13.99px->16.09px), .bmb-tip/.bmb-alt ile hâlâ birebir aynı. */
-.belge-onizleme-sayfa .musteri-serit .ms-ad,
-.belge-onizleme-sayfa .musteri-serit .ms-sehir { font-size: 16.09px; }
+/* (05.11.2026: ms-ad/ms-sehir boyu artık TÜM sayfalarda ortak --etiket-yazi — sayfaya özel 16.09px kaldırıldı) */
 
 /* ---- KIRPILMA YERİNE SARMA (28.10.2026, Abdullah onayı — "kodlayalım"
    turu): S22 (360px) genişliğinde, uzun unvan + uzun şehir kombinasyonlu
@@ -501,7 +499,7 @@
    şeridiyle aynı standart gri (#E7E9EE). Çerçeve (lacivert) AYNEN kaldı.
    İç dolgu: eskiden 6px 12px — artık her yönde sadece 1mm (işlem/kod
    paneliyle, .belge-musteri-baslik yukarıda, BİREBİR aynı kural). ---- */
-.belge-onizleme-sayfa .musteri-serit { background: #E7E9EE; padding: 1mm; }
+.belge-onizleme-sayfa .musteri-serit { padding: 1mm; } /* zemin artık ortak (musteri-serit.css, 05.11.2026) */
 
 /* ---- Cari kutusu ile işlem/kod paneli arası boşluk (28.10.2026, Abdullah
    onayı — "işlem etiketi taşıma" turu, mockup üzerinden onaylandı):

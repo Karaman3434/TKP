@@ -1,5 +1,5 @@
 /*
-  gonder-tablo-style-v2.css — TKP.05.11.26-10:12.1478
+  gonder-tablo-style-v2.css — TKP.05.11.26-10:45.1479
   ================================================================
   Belge Önizleme/Sepet'te onaylanan açık gri zemin dili Gönder
   ekranının ürün tablosuna da taşındı (12.10.2026, Abdullah onayı).
@@ -74,18 +74,5 @@ body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { color: #8e0e45;
 .gonder-sayfa .musteri-serit .ms-ad { text-align: center; }
 .gonder-sayfa .belge-form-baslik { justify-content: center; }
 
-/* ORTAK ETİKET YAZISI (05.11.2026, Abdullah isteği — "tabloda bütünlük"):
-   Gönder/Mail görselinde müşteri ismi, FATURA ADRESİ / TESLİMAT ADRESİ /
-   YETKİLİ ve işlem etiketi (F. TEKLİFİ + tarih) artık VADE / FATURA / KARGO
-   etiketleriyle (.ozet-baslik: 11px, kalın, harf aralığı .2px) AYNI boy,
-   aynı font ağırlığı. Renkler değişmedi (her etiket kendi rengini korur). */
-.gonder-sayfa .musteri-serit .ms-ad,
-.gonder-sayfa .musteri-serit .ms-ayrac,
-.gonder-sayfa .musteri-serit .ms-sehir,
-.gonder-sayfa .ck-blok-etiket--fatura,
-.gonder-sayfa .ck-blok-etiket--teslimat,
-.gonder-sayfa .ck-blok-etiket--yetkili,
-.gonder-sayfa .ck-blok-etiket--not,
-.gonder-sayfa .belge-form-baslik-etiket,
-.gonder-sayfa .belge-form-baslik-tarih { font-size: 11px; font-weight: 700; letter-spacing: .2px; }
-.gonder-sayfa .belge-form-baslik-tarih { opacity: 1; }
+/* (05.11.2026) ORTAK ETİKET YAZISI artık TÜM sayfalarda tek yerden (tasarim-sistemi.css
+   --etiket-yazi) geliyor — Gönder'e özel boy kuralı kaldırıldı. */
