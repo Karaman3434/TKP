@@ -1,4 +1,4 @@
-/* İŞ TAKİP V2 — VERSİYON: TKP.03.11.26-14:45.1454 — ust-bar-style.css
+/* İŞ TAKİP V2 — VERSİYON: TKP.05.11.26-12:35.1485 — ust-bar-style.css
    ===========================================================================
    GÜNCELLEME (03.11.2026, 14:45, Abdullah onayı — mockup v2 onaylandı):
    1) Sayfa adı etiketi (turuncu) artık Menü/Geri/Beklet/Kapat ile aynı
@@ -293,3 +293,19 @@
 .ub-grup { gap: var(--ub-g); }
 .ub-eylem { gap: var(--ub-g2); }
 .ub-btn svg { width: 26.4px; height: 26.4px; }
+
+/* =========================================================================
+   05.11.2026 — ANA SAYFA: LOGO TAM GÖRÜNSÜN (Abdullah — "İŞ TAKİP logosunun
+   kenarı kesiliyor"). Tuşlar +%20 büyüyünce logoya kalan alan daralmış,
+   logo (overflow:hidden) kesiliyordu. Artık logoya en az 105px ayrılır;
+   tuş genişliği buna göre kendiliğinden küçülür (geniş ekranda tam 58.08px),
+   logo kutusuna sığacak şekilde ölçeklenir (asla kırpılmaz).
+   ========================================================================= */
+.ub-bar:has(.ub-logo) {
+  --ub-b: min(58.08px, calc((100vw - 5mm - 6px - 8px - 24px - 6mm - 4px - 105px) / 4.2));
+}
+@media (max-width: 479px) {
+  .ub-bar:has(.ub-logo) { --ub-g: 8px; }
+}
+.ub-logo { min-width: 105px; }
+.ub-logo img { max-width: 100%; height: auto; max-height: 44px; object-fit: contain; }

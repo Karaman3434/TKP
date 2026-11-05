@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.02.11.26-21:19.1450
+// menu-cekmece.js — TKP.05.11.26-12:35.1485
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -974,11 +974,31 @@ function mcUrldenMenuAc(){
     if(!m) return;
     var anahtar = m[1];
     try{ window.history.replaceState(null, "", window.location.pathname); }catch(e){}
-    var tetik = document.querySelector('[data-alt-menu="' + anahtar + '"]');
-    if(!tetik || !DRAWER_ALT_MENULERI[anahtar]) return;
+    if(!DRAWER_ALT_MENULERI[anahtar]) return;
     asDrawerAc();
-    // Çekmece yana kayarak açılıyor (~250ms); alt menü konumu bittikten sonra hesaplanır.
-    setTimeout(function(){ altMenuAc(anahtar, tetik); }, 330);
+    // DÜZELTME (05.11.2026, Abdullah — "açılır pencere menünün en üstünde açılıyor"):
+    // Çekmece yana kayarak açılırken (~250ms) VE izinler çözülünce satır listesi
+    // yeniden oluşturulabildiği için eski tetikleyici düğme DOM'dan kopmuş
+    // olabiliyordu (getBoundingClientRect = 0,0 → panel ekranın en üstüne
+    // yapışıyordu). Artık her denemede düğme TAZE aranır; ölçü geçerli (boyutu
+    // olan, ekranda duran) olana kadar 100ms aralıkla en fazla ~3sn beklenir.
+    var deneme = 0;
+    (function dene(){
+      deneme++;
+      var tetik = document.querySelector('[data-alt-menu="' + anahtar + '"]');
+      var r = tetik ? tetik.getBoundingClientRect() : null;
+      var drawer = document.getElementById("asDrawer");
+      var drawerAcik = drawer && drawer.getBoundingClientRect().left >= -1;
+      if(tetik && r.height > 0 && drawerAcik){
+        // Liste kısa süre sonra yeniden çizilmesin diye bir kare daha bekleyip tekrar ölç.
+        setTimeout(function(){
+          var t2 = document.querySelector('[data-alt-menu="' + anahtar + '"]') || tetik;
+          if(t2.getBoundingClientRect().height > 0) altMenuAc(anahtar, t2);
+        }, 60);
+        return;
+      }
+      if(deneme < 30) setTimeout(dene, 100);
+    })();
   }catch(e){}
 }
 
