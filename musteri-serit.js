@@ -49,12 +49,18 @@ var MusteriSeridi = (function(){
       : [musteri.sehir, musteri.il].filter(Boolean).join(" / ");
     var sehir = konum ? "<span class='ms-ayrac'>-</span><span class='ms-sehir'>" + esc(konum) + "</span>" : "";
     var gecmisBtn = (opts && opts.gecmisButonu) ? "<button type='button' class='ms-gecmis-btn' id='btnMusteriGecmis' title='İşlem Geçmişi' aria-label='İşlem Geçmişi'>🕓<span class='ms-gecmis-etiket'>GEÇMİŞ</span></button>" : "";
+    // opts.gecmisAsili (05.11.2026, Abdullah onayı — "2 numaralı tasarım"): şeridin
+    // ALT KENARINA asılı küçük "🕓 geçmiş alımlar ▾" etiketi — ek satır/tuş yok,
+    // tıklamayı şeridin kendisi alır (bkz. cart-render.js gecmisBagla). Sadece
+    // bunu açıkça isteyen sayfa (cart.html) true geçer.
+    var gecmisAsili = (opts && opts.gecmisAsili) ? "<span class='ms-gecmis-asili' aria-hidden='true'>🕓 geçmiş alımlar ▾</span>" : "";
     var gonderIkon = (typeof IkonSvg !== "undefined") ? IkonSvg.svg("gonder") : "";
     var gonderBtn = (opts && opts.gonderButonu) ? "<button type='button' class='ms-gonder-btn' id='btnMusteriGonder' title='Gönder' aria-label='Gönder'" + (opts.gonderDisabled ? " disabled" : "") + ">" + gonderIkon + "</button>" : "";
-    return "<div class='musteri-serit'>"
+    return "<div class='musteri-serit" + (gecmisAsili ? " musteri-serit--asili" : "") + "'>"
       + "<span class='ms-ad'>" + kod + esc(musteri.ad) + sehir + "</span>"
       + gecmisBtn
       + gonderBtn
+      + gecmisAsili
       + "</div>";
   }
 

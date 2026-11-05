@@ -1,4 +1,4 @@
-/* belge-style.css — TKP.05.11.26-10:45.1479
+/* belge-style.css — TKP.05.11.26-13:08.1486
    GÜNCELLEME (04.11.2026, Abdullah onayı): BEDELSİZ satır — .belge-bdl-yazi
    (kırmızı BEDELSİZ) ve .belge-td-bdl-iptal/.belge-bdl-cizgi (boş hücre + kırmızı çizgi).
    (önceki: TKP.02.11.26-10:48.1380)
@@ -352,7 +352,7 @@
      BİREBİR aynı ölçü. */
   justify-content: flex-start;
   gap: 3mm;
-  font-size: var(--serit-yazi, 15.6px);
+  font-size: var(--serit-yazi, 14.04px);
   /* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "simetrik hale
      getir" turu): iç boşluk eskiden SADECE cart-sayfa'da 6px/14px'e
      eziliyordu (10px/16px taban) — Gönder/Belge Önizleme'nin kutularıyla
@@ -1034,7 +1034,7 @@
    (Belge Önizleme) ve belge-belge-baslik-serit-metin (Sepet) ile BİREBİR
    aynı ölçü. Kutu boyu SABİT (min-height:40px, max-height YOK). */
 .belge-form-baslik-etiket {
-  font-size: var(--serit-yazi, 15.6px);
+  font-size: var(--serit-yazi, 14.04px);
   letter-spacing: var(--etiket-harf-araligi, .2px);
   /* TEK TASARIM — KESİN KURAL (19.10.2026): kalınlık eskiden üstteki
      .belge-form-baslik'in taban font-weight'ından (700) miras alınıyordu —
@@ -1048,7 +1048,7 @@
   flex: 0 0 auto;
 }
 .belge-form-baslik-tarih {
-  font-size: var(--serit-yazi, 15.6px);
+  font-size: var(--serit-yazi, 14.04px);
   letter-spacing: var(--etiket-harf-araligi, .2px);
   line-height: 1.4; /* 05.11.2026: 1 iken overflow:hidden yüzünden iPad'de harflerin alt yarısı kesiliyordu */
   font-weight: var(--etiket-agirlik, 700);
@@ -1148,5 +1148,5 @@
   .belge-belge-baslik-serit--mavi { padding-left: 10px; padding-right: 10px; gap: 2mm; }
   .belge-form-baslik.tip-proforma .belge-form-baslik-etiket,
   .belge-form-baslik.tip-proforma .belge-form-baslik-tarih,
-  .belge-belge-baslik-serit--mavi.tip-proforma { font-size: 14.2px; }
+  .belge-belge-baslik-serit--mavi.tip-proforma { font-size: 12.8px; }
 }

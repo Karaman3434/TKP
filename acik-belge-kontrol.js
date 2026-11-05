@@ -55,7 +55,7 @@ var AcikBelgeKontrol = (function(){
     kaynaklarYukleniyor = true;
     cssEkle("detail-style.css?v=TKP.02.11.26-10:48.1375", ".tip-secim-overlay");
     cssEkle("cari-kart-style.css?v=WG.011126.1022.1261", ".ck-sil-uyari-notu");
-    cssEkle("belge-style.css?v=TKP.05.11.26-12:16.1484", ".belge-urun-tablo");
+    cssEkle("belge-style.css?v=TKP.05.11.26-13:08.1486", ".belge-urun-tablo");
     if(typeof HareketTablo !== "undefined"){
       kaynaklarHazir = true;
       kaynaklarYukleniyor = false;

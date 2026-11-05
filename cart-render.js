@@ -192,7 +192,7 @@ function urunuHesaplamayaGonder(idx){
 // ama sepet tamam değilse buton görünür ama pasif/tıklanamaz kalır.
 function cariBilgiOzetiHtml(musteri, gonderDisabledMi){
   var izinVar = crIzinVarMi("sepetGonder");
-  return MusteriSeridi.html(musteri, {gecmisButonu: true, gonderButonu: izinVar, gonderDisabled: !!gonderDisabledMi});
+  return MusteriSeridi.html(musteri, {gecmisAsili: true, gonderButonu: izinVar, gonderDisabled: !!gonderDisabledMi});
 }
 
 // MÜŞTERİSİZ GÖNDER ŞERİDİ (01.11.2026, Abdullah onayı — mockup üzerinden):
@@ -220,6 +220,17 @@ function musterisizGonderSeridiHtml(tamamMi){
 // reports-data.js'te düzeltildi, bu popup da aynı düzeltilmiş veriyi
 // kullanıyor.
 var TIP_ETIKET_MUSTERI_GECMIS = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
+// Müşteri şeridine dokununca geçmiş alımlar açılır (05.11.2026, Abdullah onayı);
+// şeridin içindeki Gönder ikonu bundan ETKİLENMEZ.
+function musteriSeridiGecmisBagla(){
+  var serit = document.querySelector("#cariBilgiAlani .musteri-serit");
+  if(!serit) return;
+  serit.onclick = function(ev){
+    if(ev.target && ev.target.closest && ev.target.closest(".ms-gonder-btn")) return;
+    musteriGecmisiniAc();
+  };
+}
+
 function musteriGecmisiniAc(){
   try{
     if(typeof ReportsData === "undefined" || typeof ReportsData.musteriUrunGecmisi !== "function"){
@@ -337,8 +348,7 @@ function sayfayiCiz(){
       // kutusunun altında görünür — ürün eklenmesi beklenmez.
       if(musteri){
         document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri, true);
-        var btnGecmisBos = document.getElementById("btnMusteriGecmis");
-        if(btnGecmisBos) btnGecmisBos.onclick = musteriGecmisiniAc;
+        musteriSeridiGecmisBagla();
       } else {
         document.getElementById("cariBilgiAlani").innerHTML = "";
       }
@@ -368,8 +378,7 @@ function sayfayiCiz(){
     // boştu).
     if(musteri){
       document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri, !tamamMi);
-      var btnMusteriGecmisEl2 = document.getElementById("btnMusteriGecmis");
-      if(btnMusteriGecmisEl2) btnMusteriGecmisEl2.onclick = musteriGecmisiniAc;
+      musteriSeridiGecmisBagla();
       // EKLENDİ (27.10.2026, Abdullah onayı — "Yeni Rota" turu): isme
       // dokununca Cari Kart (fatura/teslimat/yetkili seçimi + not ekleme
       // için) AYRI bir sayfa olarak açılır — musteri-serit.js'e (11 sayfada

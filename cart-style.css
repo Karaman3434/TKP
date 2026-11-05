@@ -879,3 +879,12 @@
 #musteriGecmisOverlay .mg-tip { display: block; color: #8e44ad; font-weight: 700; font-size: .85em; }
 #musteriGecmisOverlay .belge-para-sayi { font-size: clamp(11.5px, 2vw, 15px); }
 #musteriGecmisOverlay .belge-para-birim { font-size: clamp(7.5px, 1.3vw, 10px); }
+
+/* =========================================================================
+   05.11.2026 — SEPET: ŞERİTLERDE METİN ORTALI (Abdullah — "cari karttaki gibi
+   tablonun içerisinde ortalayalım"): müşteri cari ismi şeridi ve işlem hareket
+   şeridi (SİPARİŞ + tarih + taslak) bu sayfada yatayda ortalanır.
+   ========================================================================= */
+body.cart-sayfa .musteri-serit { justify-content: center; }
+body.cart-sayfa .musteri-serit .ms-ad { flex: 0 1 auto; text-align: center; }
+body.cart-sayfa .belge-belge-baslik-serit--mavi { justify-content: center; }

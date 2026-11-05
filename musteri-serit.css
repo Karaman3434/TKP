@@ -1,4 +1,4 @@
-/* musteri-serit.css — TKP.05.11.26-10:45.1479
+/* musteri-serit.css — TKP.05.11.26-13:08.1486
    ============================================================
    TEK KURAL (22.09.2026): Müşteri adının (ticari unvan) göründüğü HER
    yerde — Sepet, Ürün Bul, Müşteri Hub, Cari Bilgi, İşlemler, Gönder
@@ -40,7 +40,7 @@
 .musteri-serit .ms-ad {
   /* %20 KÜÇÜLTME (01.11.2026, Abdullah onayı): 15px -> 12px — panelde
      Gönder ikonu eklenince isim/şehir için yer kalmıyordu. */
-  font-size: var(--serit-yazi, 15.6px);
+  font-size: var(--serit-yazi, 14.04px);
   font-weight: var(--etiket-agirlik, 700);
   letter-spacing: var(--etiket-harf-araligi, .2px);
   color: #0a2f5c;
@@ -54,10 +54,10 @@
 /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup üzerinden): isim ile
    ilçe/il artık AYRI bir flex eleman değil, ms-ad'ın İÇİNDE tek satırda
    ("İsim - İlçe, İl") — uzunsa hepsi birlikte ellipsis ile kesilir. */
-.musteri-serit .ms-ayrac { color: #0a2f5c; font-weight: var(--etiket-agirlik, 700); font-size: var(--serit-yazi, 15.6px); margin: 0 3px; }
+.musteri-serit .ms-ayrac { color: #0a2f5c; font-weight: var(--etiket-agirlik, 700); font-size: var(--serit-yazi, 14.04px); margin: 0 3px; }
 .musteri-serit .ms-sehir {
   /* %20 KÜÇÜLTME (01.11.2026, Abdullah onayı): 13px -> 10.4px. */
-  font-size: var(--serit-yazi, 15.6px);
+  font-size: var(--serit-yazi, 14.04px);
   font-weight: var(--etiket-agirlik, 700);
   letter-spacing: var(--etiket-harf-araligi, .2px);
   color: #556170;
@@ -123,4 +123,26 @@
   filter: grayscale(60%);
   opacity: .5;
   cursor: not-allowed;
+}
+
+/* GEÇMİŞ ALIMLAR — ALT KENARA ASILI ETİKET (05.11.2026, Abdullah onayı —
+   "2 numaralı tasarım"): şeridin alt çerçevesine oturan küçük hap; ek yükseklik
+   harcamaz (sadece etiketin taşan yarısı için alt boşluk 12px). Tıklamayı şerit alır. */
+.musteri-serit--asili { position: relative; margin-bottom: 12px; cursor: pointer; }
+.musteri-serit .ms-gecmis-asili {
+  position: absolute;
+  left: 50%;
+  bottom: -9px;
+  transform: translateX(-50%);
+  height: 17px;
+  line-height: 15px;
+  padding: 0 9px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #0a2f5c;
+  background: #fff;
+  border: 1.5px solid #073B70;
+  border-radius: 999px;
+  white-space: nowrap;
+  pointer-events: none;
 }

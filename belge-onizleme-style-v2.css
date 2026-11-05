@@ -139,7 +139,7 @@
    ortala" turu): 13.99px->16.09px, 7.63px->8.77px (oran AYNEN korundu,
    "hepsi aynı boyda" kuralı sürüyor — bmb-tip/bmb-alt hâlâ birebir eşit). */
 .belge-onizleme-sayfa .bmb-tip {
-  font-size: var(--serit-yazi, 15.6px);
+  font-size: var(--serit-yazi, 14.04px);
   letter-spacing: var(--etiket-harf-araligi, .2px);
   line-height: 1.4; /* 05.11.2026: 1 iken overflow:hidden harflerin alt yarısını kesiyordu */
   font-weight: var(--etiket-agirlik, 700);
@@ -150,7 +150,7 @@
   flex: 0 0 auto;
 }
 .belge-onizleme-sayfa .bmb-alt {
-  font-size: var(--serit-yazi, 15.6px);
+  font-size: var(--serit-yazi, 14.04px);
   letter-spacing: var(--etiket-harf-araligi, .2px);
   font-weight: var(--etiket-agirlik, 700);
   opacity: 1;
@@ -687,5 +687,5 @@
   .belge-onizleme-sayfa .belge-musteri-baslik { padding-left: 10px; padding-right: 10px; }
   .belge-onizleme-sayfa .bmb-sol { gap: 2mm; }
   .belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-tip,
-  .belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-alt { font-size: 14.2px; }
+  .belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-alt { font-size: 12.8px; }
 }
