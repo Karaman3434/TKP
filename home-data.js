@@ -130,6 +130,24 @@ var IsTakipData = (function(){
     return {toplam:toplam, dokum:dokum};
   }
 
+  // (05.11.2026) Takvim rozeti için: {"YYYY-AA-GG": işlemSayısı} — numune/teklif/
+  // proforma/sipariş kayıtlarının günlük toplamı (gununIslemOzeti ile aynı kaynak).
+  function gunlukIslemSayilari(){
+    var sonuc = {};
+    ["numune","teklif","proforma","siparis"].forEach(function(tip){
+      (arsivHamData[tip] || []).forEach(function(k){
+        if(!k.tarih) return;
+        var p = k.tarih.split(" ");
+        var ayNo = AYLAR.indexOf(p[1]);
+        var gun = parseInt(p[0], 10), yil = parseInt(p[2], 10);
+        if(ayNo < 0 || !gun || !yil) return;
+        var a = yil + "-" + String(ayNo+1).padStart(2,"0") + "-" + String(gun).padStart(2,"0");
+        sonuc[a] = (sonuc[a] || 0) + 1;
+      });
+    });
+    return sonuc;
+  }
+
   function guncelKurYedek(){
     var v = parseFloat(localStorage.getItem("weicon_kur"));
     return isNaN(v) ? 0 : v;
@@ -206,6 +224,7 @@ var IsTakipData = (function(){
     buAyinVerisi: buAyinVerisi,
     bugununVerisi: bugununVerisi,
     gununIslemOzeti: gununIslemOzeti,
+    gunlukIslemSayilari: gunlukIslemSayilari,
     fmt: fmt,
     hazirMi: function(){ return hazir; },
     bildirimVerisiDinlemeyeBasla: bildirimVerisiDinlemeyeBasla,

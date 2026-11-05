@@ -1,5 +1,5 @@
 /*
-  home-takvim-render.js — TKP.05.11.26-17:38.1487
+  home-takvim-render.js — TKP.05.11.26-17:58.1488
   =================================================
   ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
 
@@ -29,6 +29,7 @@
   var yil, ay;               // görüntülenen ay (0-11)
   var seciliAnahtar = null;  // "YYYY-MM-DD"
   var kapsayici = null, grid = null, panelEl = null;
+  var sonHtml = null;
   var defterAcik = null;     // {tarih, tur} — not defteri açıkken
 
   function pad(n){ return String(n).padStart(2,"0"); }
@@ -51,6 +52,9 @@
       });
     }catch(e){}
     return s;
+  }
+  function islemSayisi(a){
+    try{ return (typeof IsTakipData !== "undefined" && IsTakipData.gunlukIslemSayilari) ? (IsTakipData.gunlukIslemSayilari()[a] || 0) : 0; }catch(e){ return 0; }
   }
   function gunTurSayilari(a){
     var m = musteriTemaslari()[a] || {};
@@ -76,10 +80,18 @@
       + "</div>";
     grid = document.getElementById("htGrid");
     document.getElementById("htAySec").onclick = aySecAc;
+    // Günlere dokunma: hücreler yeniden çizilse de çalışsın diye TEK dinleyici (olay devri) — kapsayıcı grid'de.
+    grid.addEventListener("click", function(ev){
+      try{
+        var h = ev.target && ev.target.closest ? ev.target.closest(".ht-gun:not(.ht-gun--bos)") : null;
+        if(h && grid.contains(h)) gunSecildi(h.getAttribute("data-a"));
+      }catch(e){ if(typeof hataGoster === "function") hataGoster("Gün açılamadı: " + e.message); }
+    });
     document.addEventListener("click", function(ev){
       if(!panelEl) return;
       if(panelEl.contains(ev.target)) return;
       if(ev.target.closest && ev.target.closest(".ht-gun:not(.ht-gun--bos)")) return;
+      if(grid && grid.contains(ev.target)) return;
       panelKapat();
     });
     takvimiCiz();
@@ -91,6 +103,7 @@
       var temas = musteriTemaslari();
       var defter = (typeof GunNotlariData !== "undefined") ? GunNotlariData.gunSayilari() : {};
       var ajanda = (typeof AjandaData !== "undefined") ? AjandaData.gunSayilari() : {};
+      var islemler = (typeof IsTakipData !== "undefined" && IsTakipData.gunlukIslemSayilari) ? IsTakipData.gunlukIslemSayilari() : {};
       var ilk = new Date(yil, ay, 1);
       var bosluk = (ilk.getDay() + 6) % 7;
       var gunSayisi = new Date(yil, ay+1, 0).getDate();
@@ -111,15 +124,19 @@
         var tm = 0, mt = temas[a] || {}, dn = defter[a] || {};
         TURLER.forEach(function(t){ tm += (mt[t] ? mt[t].length : 0) + (dn[t] || 0); });
         var aj = ajanda[a] || 0;
-        html += "<div class='" + sinif + "' data-a='" + a + "'>" + g
-          + (tm > 0 ? "<span class='ht-rozet ht-rozet--temas'>" + tm + "</span>" : "")
-          + (aj > 0 ? "<span class='ht-rozet ht-rozet--ajanda'>" + aj + "</span>" : "")
+        var bildirim = tm + (islemler[a] || 0); // temas + işlem toplamı
+        // Bildirim sayısı günün sayısının ÜSTÜNDE (kendi satırında); kırmızı = ajanda sayfası.
+        html += "<div class='" + sinif + "' data-a='" + a + "'>"
+          + "<span class='ht-bildirim'>"
+          +   (bildirim > 0 ? "<span class='ht-rozet ht-rozet--temas'>" + bildirim + "</span>" : "")
+          +   (aj > 0 ? "<span class='ht-rozet ht-rozet--ajanda'>" + aj + "</span>" : "")
+          + "</span>"
+          + "<span class='ht-gun-no'>" + g + "</span>"
           + "</div>";
       }
-      grid.innerHTML = html;
-      grid.querySelectorAll(".ht-gun:not(.ht-gun--bos)").forEach(function(el){
-        el.onclick = function(){ gunSecildi(this.getAttribute("data-a")); };
-      });
+      // Aynı içerik ise hücreleri YENİDEN YAZMA: veri dinleyicileri sık tetiklenince
+      // dokunma sırasında hücre sökülüp tıklama kaybolmasın (popup açılmama hatası).
+      if(html !== sonHtml){ grid.innerHTML = html; sonHtml = html; }
       if(panelEl && seciliAnahtar) panelCiz(); // sayılar değiştiyse panel tazelensin
     }catch(e){ if(typeof hataGoster === "function") hataGoster("Takvim çizilemedi: " + e.message); }
   }
@@ -137,6 +154,7 @@
       seciliAnahtar = null;
       var el = grid && grid.querySelector(".ht-gun--secili");
       if(el) el.classList.remove("ht-gun--secili");
+      sonHtml = null; // DOM'u elle değiştirdik; sonraki çizim mutlaka yazılsın
     }
   }
 
@@ -150,7 +168,7 @@
       kapsayici.appendChild(panelEl);
     }
     panelEl.innerHTML =
-      "<div class='ht-panel-ust'><b>" + parseInt(seciliAnahtar.split("-")[2],10) + " " + AY_ADLARI[parseInt(seciliAnahtar.split("-")[1],10)-1] + " " + gunAdi(seciliAnahtar) + "</b><span>" + s.toplam + " temas</span></div>"
+      "<div class='ht-panel-ust'><b>" + parseInt(seciliAnahtar.split("-")[2],10) + " " + AY_ADLARI[parseInt(seciliAnahtar.split("-")[1],10)-1] + " " + gunAdi(seciliAnahtar) + "</b><span>" + s.toplam + " temas" + ((islemSayisi(seciliAnahtar) > 0) ? " · " + islemSayisi(seciliAnahtar) + " işlem" : "") + "</span></div>"
       + TURLER.map(function(t){
           return "<div class='ht-satir' data-tur='" + t + "'>" + ikonHtml(t) + "<span class='ht-ad'>" + TUR[t].ad + "</span><span class='ht-say'>" + s.tur[t] + "</span></div>";
         }).join("");
@@ -265,6 +283,7 @@
     if(typeof CustomerData !== "undefined" && CustomerData.listeDegistiginde) CustomerData.listeDegistiginde(function(){ takvimiCiz(); });
     if(typeof AjandaData !== "undefined") AjandaData.degistiginde(function(){ takvimiCiz(); });
     if(typeof GunNotlariData !== "undefined") GunNotlariData.degistiginde(function(){ takvimiCiz(); });
+    if(typeof IsTakipData !== "undefined" && IsTakipData.bildirimDegistiginde) IsTakipData.bildirimDegistiginde(function(){ takvimiCiz(); });
     window.addEventListener("istakipAuthHazir", erisimUygula);
   });
 })();

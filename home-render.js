@@ -55,8 +55,36 @@ function kartlariGuncelle(){
     setText("anaSayfaBugunPrim", IsTakipData.fmt(bugun.toplamPrim) + " TL");
 
     hedefGostergesiniGuncelle(ay.toplamEuro);
+    odenebilirKomisyonuGuncelle(ay);
 
   }catch(e){ hataGoster("Kartlar güncellenemedi: " + e.message); }
+}
+
+// (05.11.2026, Abdullah) "Kas 2026 ödenebilir" = Ödenebilir Komisyon sayfasındaki
+// AY SONU tutarı − AY BAŞI tutarı (aynı hesap, KomisyonDonemData tek kaynak).
+// Çalışan Erişimi: sadece kısıtsız hesaplar ya da "odenebilirKomisyon" izni olanlar görür
+// (veritabanı kuralıyla aynı); izin çözülene kadar gizli kalır.
+function odenebilirKomisyonuGuncelle(ay){
+  try{
+    var sutun = document.getElementById("asOdenebilirSutun");
+    if(!sutun) return;
+    var iz = window.ISTAKIP_IZINLER;
+    var gorebilir = (iz === null) || (iz !== undefined && iz.odenebilirKomisyon === true);
+    sutun.hidden = !gorebilir;
+    if(!gorebilir) return;
+    if(!ay) ay = IsTakipData.buAyinVerisi();
+    setText("anaSayfaOdenebilirEtiketi", ay.ayAd + " " + ay.yil + " ödenebilir");
+    var metin = "—";
+    if(typeof KomisyonDonemData !== "undefined"){
+      var d = KomisyonDonemData.gecerliDonem();
+      var simdi = new Date();
+      var beklenen = KomisyonDonemData.donemAnahtariUret(simdi.getMonth()+1, simdi.getFullYear());
+      if(d && d.donemAnahtari === beklenen && d.birinci && d.ikinci){
+        metin = IsTakipData.fmt(KomisyonDonemData.kayitTutar(d.ikinci) - KomisyonDonemData.kayitTutar(d.birinci));
+      }
+    }
+    setText("anaSayfaOdenebilirToplam", metin);
+  }catch(e){ hataGoster("Ödenebilir komisyon güncellenemedi: " + e.message); }
 }
 
 // Aylık satış hedefi ilerleme göstergesi — hedef Ayarlar sayfasında
@@ -331,6 +359,8 @@ document.addEventListener("DOMContentLoaded", function(){
   IsTakipData.bildirimVerisiDinlemeyeBasla();
   if(typeof CustomerData !== "undefined") CustomerData.listeDegistiginde(gununOzetiniGuncelle);
   if(typeof GunNotlariData !== "undefined") GunNotlariData.degistiginde(gununOzetiniGuncelle);
+  if(typeof KomisyonDonemData !== "undefined") KomisyonDonemData.degistiginde(function(){ odenebilirKomisyonuGuncelle(); });
+  window.addEventListener("istakipAuthHazir", function(){ odenebilirKomisyonuGuncelle(); });
   document.getElementById("bildirimBanner").onclick = function(){ window.location.href = "bildirimler.html"; };
   // Firebase verisi henüz gelmemiş olabilir; ilk anda da bir kez dene.
   kartlariGuncelle();

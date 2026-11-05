@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.05.11.26-17:38.1487
+/* home-takvim-style.css — TKP.05.11.26-17:58.1488
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -26,26 +26,32 @@
 .ht-tatil-baslik { color: #c0392b; }
 .ht-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
 .ht-gun {
-  position: relative; text-align: center; padding: 7px 0;
+  position: relative; text-align: center; padding: 3px 0 6px;
   font-size: 12px; font-weight: 700; color: #333; border-radius: 6px;
   border: 2px solid transparent; cursor: pointer; user-select: none;
 }
 .ht-gun--bos { cursor: default; }
 .ht-gun--tatil { color: #c0392b; }
 /* Kalan iş günleri (bugün dahil) YEŞİL, geçen çalışılmış iş günleri AÇIK KIRMIZI. */
-.ht-gun--kalan { background: #2e9e5b; color: #fff; border-color: #1f7a43; }
+/* (05.11.2026, ikinci tur) kalan iş günleri AÇIK MAVİ, hafta sonları AÇIK YEŞİL zemin. */
+.ht-gun--kalan { background: #d6e8fc; color: #0c2f66; border-color: #a9c9ee; }
+.ht-gun--tatil { background: #dff3e4; }
 .ht-gun--gecmis { background: #fde3e1; color: #7a1f19; }
 .ht-gun--bugun { border-color: #0a2f5c; }
+.ht-gun--secili.ht-gun--kalan { background: #d6e8fc; }
 .ht-gun--secili { border-color: #e8a317; box-shadow: 0 0 0 1.5px #fff inset; }
 .ht-gun--secili.ht-gun--tatil, .ht-gun--secili.ht-gun--gecmis { background: #faeeda; }
 
+.ht-bildirim { display: flex; justify-content: center; align-items: center; gap: 3px; height: 15px; margin-bottom: 1px; }
+.ht-gun--bos .ht-bildirim { display: none; }
+.ht-gun-no { display: block; line-height: 1.2; }
 .ht-rozet {
-  position: absolute; top: -4px; min-width: 15px; height: 15px; padding: 0 3px;
+  min-width: 15px; height: 15px; padding: 0 3px;
   border-radius: 8px; font-size: 9px; font-weight: 900; color: #fff;
   display: flex; align-items: center; justify-content: center; box-sizing: border-box;
 }
-.ht-rozet--temas { left: -4px; background: #2f6fd6; border: 1.5px solid #1d4f9e; }
-.ht-rozet--ajanda { right: -4px; background: #d6392f; border: 1.5px solid #a02920; }
+.ht-rozet--temas { background: #2f6fd6; border: 1.5px solid #1d4f9e; }
+.ht-rozet--ajanda { background: #d6392f; border: 1.5px solid #a02920; }
 
 /* GÜN PANELİ — güne dokununca günün ÜSTÜNDE açılır (yarı genişlik, ok işaretli) */
 .ht-panel {

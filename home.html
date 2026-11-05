@@ -54,11 +54,11 @@
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
-<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.05.11.26-17:38.1487">
+<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.05.11.26-17:58.1488">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) —
      .as-drawer-oge--kilitli (kilitli satır görünümü), tüm sayfalarla ortak. -->
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.02.11.26-10:48.1383">
-<link rel="stylesheet" href="home-takvim-style.css?v=TKP.05.11.26-17:38.1487">
+<link rel="stylesheet" href="home-takvim-style.css?v=TKP.05.11.26-17:58.1488">
 <link rel="stylesheet" href="ust-bar-style.css?v=TKP.05.11.26-12:35.1485">
 </head>
 <body>
@@ -124,19 +124,27 @@
       <!-- 11.10.2026: Hedef metni bara ÜSTTEN bitişik, %hedef rozeti bara
            ALTTAN bitişik (Abdullah'ın isteğiyle, önceki düzende hedef metni
            barın altındaydı ve rozet üst satırdaydı). -->
-      <div class="as-hedef-alt-yazi" id="asHedefAltYazi" hidden></div>
       <div class="as-hedef-bar-track" id="asHedefBarTrack" hidden>
         <div class="as-hedef-bar-dolu" id="asHedefBarDolu"></div>
       </div>
+      <!-- (05.11.2026, Abdullah): "Hedef: … EURO" yazısı artık çizginin altında, %hedef rozetiyle aynı satırın SONUNDA. -->
       <div class="as-hedef-rozet-satir">
         <span class="as-hedef-rozet" id="asHedefRozet" onclick="event.stopPropagation(); window.location.href='ayarlar.html';" hidden>-</span>
+        <span class="as-hedef-alt-yazi" id="asHedefAltYazi" hidden></span>
       </div>
 
       <div class="as-hedef-ayrac"></div>
-      <div class="as-prim-etiket" id="anaSayfaPrimEtiketi">Eylül 2026 primi</div>
-      <div class="as-prim-deger-satir">
-        <span class="as-prim-birim">TL</span>
-        <span class="as-prim-tutar" id="anaSayfaPrimToplam">0,00</span>
+      <!-- (05.11.2026, Abdullah): satır başında "Kas 2026 ödenebilir" (komisyon), karşısında
+           "Kas 2026 primi"; ikisi aynı sayı boyu/renginde, TL rakamın SONUNDA. -->
+      <div class="as-prim-iki" id="asPrimIki">
+        <div class="as-prim-sutun" id="asOdenebilirSutun" hidden>
+          <div class="as-prim-etiket" id="anaSayfaOdenebilirEtiketi">Eylül 2026 ödenebilir</div>
+          <div class="as-prim-tut"><span id="anaSayfaOdenebilirToplam">—</span><small>TL</small></div>
+        </div>
+        <div class="as-prim-sutun as-prim-sutun--sag">
+          <div class="as-prim-etiket" id="anaSayfaPrimEtiketi">Eylül 2026 primi</div>
+          <div class="as-prim-tut"><span id="anaSayfaPrimToplam">0,00</span><small>TL</small></div>
+        </div>
       </div>
     </div>
   </div>
@@ -268,18 +276,19 @@
 <script src="ayarlar-sync.js?v=WG.271026.2238.1132"></script>
 <script src="cihaz-data.js?v=WG.271026.2238.1122"></script>
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
-<script src="home-data.js?v=WG.271026.2238.1129"></script>
+<script src="home-data.js?v=TKP.05.11.26-17:58.1488"></script>
 <script src="customer-data.js?v=TKP.03.11.26-20:35.1460"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
 <script>RotaTakip.kaydet("home.html", "🏠 Ana Sayfa", true);</script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) — çekmece
      aç/kapat + izin filtreleme artık burada, tüm sayfalarla paylaşılan. -->
-<script src="ajanda-data.js?v=TKP.05.11.26-17:38.1487"></script>
-<script src="gun-notlari-data.js?v=TKP.05.11.26-17:38.1487"></script>
+<script src="komisyon-donem-data.js?v=TKP.04.11.26-16:22.1471"></script>
+<script src="ajanda-data.js?v=TKP.05.11.26-17:58.1488"></script>
+<script src="gun-notlari-data.js?v=TKP.05.11.26-17:58.1488"></script>
 <script src="menu-cekmece.js?v=TKP.05.11.26-12:35.1485"></script>
-<script src="home-takvim-render.js?v=TKP.05.11.26-17:38.1487"></script>
-<script src="home-render.js?v=TKP.05.11.26-17:38.1487"></script>
+<script src="home-takvim-render.js?v=TKP.05.11.26-17:58.1488"></script>
+<script src="home-render.js?v=TKP.05.11.26-17:58.1488"></script>
 <!-- EKLENDİ (04.11.2026, Abdullah onayı — mockup): EUR kuruna dokununca TCMB kur kartı. -->
 <script src="kur-panel.js?v=TKP.04.11.26-18:54.1473"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
