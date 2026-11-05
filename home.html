@@ -54,10 +54,11 @@
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
-<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.01.11.26-22:45.1345">
+<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.05.11.26-17:38.1487">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) —
      .as-drawer-oge--kilitli (kilitli satır görünümü), tüm sayfalarla ortak. -->
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.02.11.26-10:48.1383">
+<link rel="stylesheet" href="home-takvim-style.css?v=TKP.05.11.26-17:38.1487">
 <link rel="stylesheet" href="ust-bar-style.css?v=TKP.05.11.26-12:35.1485">
 </head>
 <body>
@@ -110,17 +111,16 @@
 
   <div class="as-hedef-blok">
     <div class="as-hedef-kart" onclick="window.location.href='satis-listesi.html?kapsam=ay'">
-      <div class="as-hedef-ust-satir">
+      <div class="as-hedef-ust-satir as-hedef-ust-satir--orta">
         <span class="as-hedef-ay-etiket" id="anaSayfaAyEtiketi">Eylül 2026 satışı</span>
       </div>
-      <div class="as-hedef-deger-satir">
-        <span class="as-hedef-birim">EURO</span>
-        <span class="as-hedef-tutar" id="anaSayfaSatisToplam">0,00</span>
+      <!-- YENİ DÜZEN (05.11.2026, Abdullah onayı — mockup): solda TL karşılığı
+           (mavi), sağda toplam EURO (yeşil); para birimi rakamın SONUNDA, ikisi
+           aynı sayı boyunda. Eski "EURO" etiketi ve "≈ TL" satırı kaldırıldı. -->
+      <div class="as-hedef-deger-satir as-hedef-satis-satir">
+        <span class="as-satis-tut as-satis-tut--tl"><span id="anaSayfaSatisToplamTl">0,00</span><small>TL</small></span>
+        <span class="as-satis-tut as-satis-tut--eur"><span id="anaSayfaSatisToplam">0,00</span><small>EURO</small></span>
       </div>
-      <!-- TL KARŞILIĞI (07.10.2026, Abdullah'ın isteğiyle) — rapor
-           sayfasındaki "SATIŞ (TL)" ile aynı hesap (bkz. home-data.js
-           buAyinVerisi().toplamEuroTl). -->
-      <div class="as-hedef-tl-karsilik" id="anaSayfaSatisToplamTl">≈ 0,00 TL</div>
       <!-- 11.10.2026: Hedef metni bara ÜSTTEN bitişik, %hedef rozeti bara
            ALTTAN bitişik (Abdullah'ın isteğiyle, önceki düzende hedef metni
            barın altındaydı ve rozet üst satırdaydı). -->
@@ -177,8 +177,10 @@
     </div>
   </div>
 
-  <div class="as-urun-gorsel-blok">
-    <img class="as-urun-gorsel" src="anasayfa-urun-banner.jpg?v=WG.211026.1700.896" alt="Ürünlerimiz">
+  <!-- ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı): ürün görselinin yerine.
+       Kod: home-takvim-render.js. "ziyaret" izni yoksa bölüm gizlenir. -->
+  <div class="ht-blok" id="anaTakvimBlok" hidden>
+    <div class="ht-kapsayici" id="anaTakvimAlan"></div>
   </div>
 
 </main>
@@ -273,8 +275,11 @@
 <script>RotaTakip.kaydet("home.html", "🏠 Ana Sayfa", true);</script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) — çekmece
      aç/kapat + izin filtreleme artık burada, tüm sayfalarla paylaşılan. -->
+<script src="ajanda-data.js?v=TKP.05.11.26-17:38.1487"></script>
+<script src="gun-notlari-data.js?v=TKP.05.11.26-17:38.1487"></script>
 <script src="menu-cekmece.js?v=TKP.05.11.26-12:35.1485"></script>
-<script src="home-render.js?v=TKP.01.11.26-22:45.1347"></script>
+<script src="home-takvim-render.js?v=TKP.05.11.26-17:38.1487"></script>
+<script src="home-render.js?v=TKP.05.11.26-17:38.1487"></script>
 <!-- EKLENDİ (04.11.2026, Abdullah onayı — mockup): EUR kuruna dokununca TCMB kur kartı. -->
 <script src="kur-panel.js?v=TKP.04.11.26-18:54.1473"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->

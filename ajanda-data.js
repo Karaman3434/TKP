@@ -1,5 +1,5 @@
 /*
-  ajanda-data.js — VERSİYON: WG.271026.2238.1140
+  ajanda-data.js — TKP.05.11.26-17:38.1487
   =================================================
   09.10.2026, Abdullah'ın isteğiyle: günlük kağıt ajandasının (not
   defteri) sayfa fotoğraflarını tarihe göre saklayıp hızlıca geri
@@ -44,6 +44,8 @@ var AjandaData = (function(){
   var veri = {}; // { "YYYY-MM-DD": { pushId: {yol, url, zaman} } }
   var dinleyiciler = [];
   var yuklendi = false;
+  // 05.11.2026: ajanda/_temasNotlari (GunNotlariData) aynı ağacın altında durur — tarih saymayız.
+  var TARIH_ANAHTARI = /^\d{4}-\d{2}-\d{2}$/;
 
   function baslat(){
     try{
@@ -70,6 +72,7 @@ var AjandaData = (function(){
   function gunSayilari(){
     var sonuc = {};
     Object.keys(veri).forEach(function(tarih){
+      if(!TARIH_ANAHTARI.test(tarih)) return; // "_temasNotlari" gibi tarih olmayan anahtarlar (05.11.2026)
       sonuc[tarih] = Object.keys(veri[tarih] || {}).length;
     });
     return sonuc;
@@ -90,6 +93,7 @@ var AjandaData = (function(){
   function tumKayitlarKronolojik(){
     var liste = [];
     Object.keys(veri).sort().forEach(function(tarih){
+      if(!TARIH_ANAHTARI.test(tarih)) return;
       gununKayitlari(tarih).forEach(function(k){ liste.push(k); });
     });
     return liste;
