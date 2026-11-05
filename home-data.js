@@ -156,6 +156,24 @@ var IsTakipData = (function(){
     return sonuc;
   }
 
+  // (05.11.2026) Temas penceresindeki "İŞLEMLER" satırları: seçili günün numune/teklif/proforma/sipariş kayıtları.
+  function gunIslemleri(anahtar){
+    var TIP_AD = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
+    var sonuc = [];
+    ["numune","teklif","proforma","siparis"].forEach(function(tip){
+      (arsivHamData[tip] || []).forEach(function(k){
+        var a = null;
+        if(k.ts){
+          var dt = new Date(k.ts);
+          a = dt.getFullYear() + "-" + String(dt.getMonth()+1).padStart(2,"0") + "-" + String(dt.getDate()).padStart(2,"0");
+        }
+        if(a === anahtar) sonuc.push({tip:tip, tipAd:TIP_AD[tip], ts:k.ts, musteri:k.musteri, kod:k.kod});
+      });
+    });
+    sonuc.sort(function(x, y){ return y.ts - x.ts; });
+    return sonuc;
+  }
+
   function guncelKurYedek(){
     var v = parseFloat(localStorage.getItem("weicon_kur"));
     return isNaN(v) ? 0 : v;
@@ -233,6 +251,7 @@ var IsTakipData = (function(){
     bugununVerisi: bugununVerisi,
     gununIslemOzeti: gununIslemOzeti,
     gunlukIslemSayilari: gunlukIslemSayilari,
+    gunIslemleri: gunIslemleri,
     fmt: fmt,
     hazirMi: function(){ return hazir; },
     bildirimVerisiDinlemeyeBasla: bildirimVerisiDinlemeyeBasla,

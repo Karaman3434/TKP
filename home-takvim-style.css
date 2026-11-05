@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.05.11.26-21:30.1490
+/* home-takvim-style.css — TKP.05.11.26-21:45.1491
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -96,34 +96,79 @@
 .ht-ay-secenek { flex-shrink: 0; padding: 9px 14px; border-radius: 10px; background: #eef2f8; color: #003a70; font-weight: 700; font-size: 13px; cursor: pointer; }
 .ht-ay-secenek--secili { background: #003a70; color: #fff; }
 
-/* NOT DEFTERİ */
+/* TEMAS PENCERESİ (21:42 onayı — mockup): not defteri + temas paneli sentezi */
 .ht-defter {
-  width: 100%; max-width: 490px; background: #fffdf3; border-radius: 6px 6px 12px 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.35); position: relative;
-  padding: 26px 0 14px; border-top: 12px solid #1257c7;
-  max-height: 88vh; display: flex; flex-direction: column; box-sizing: border-box;
+  width: 100%; max-width: 490px; background: #fffdf3; border-radius: 6px 6px 14px 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.4); position: relative;
+  padding: 20px 0 10px; border-top: 14px solid #1257c7;
+  max-height: 92vh; display: flex; flex-direction: column; box-sizing: border-box;
 }
-.ht-d-baslik { display: flex; align-items: center; gap: 12px; padding: 0 18px 12px 46px; flex-shrink: 0; }
-.ht-d-baslik .ht-ik { width: 40px; height: 40px; }
-.ht-d-baslik .ht-ik svg { width: 24px; height: 24px; }
+.ht-noktalar { position: absolute; top: -10px; left: 0; right: 0; display: flex; justify-content: space-around; padding: 0 14px; pointer-events: none; }
+.ht-noktalar i { width: 9px; height: 9px; border-radius: 50%; background: #fff; display: block; }
+.ht-d-baslik { display: flex; align-items: center; gap: 12px; padding: 0 16px 8px 44px; flex-shrink: 0; }
+.ht-d-baslik .ht-ik { width: 38px; height: 38px; }
 .ht-d-baslik b { font-size: 18px; color: #0a2f5c; display: block; }
-.ht-d-baslik small { display: block; font-size: 11px; color: #7a8699; font-weight: 600; }
-.ht-d-kagit { border-left: 2px solid #e8a2a2; margin-left: 36px; padding-right: 12px; overflow-y: auto; flex: 1 1 auto; -webkit-overflow-scrolling: touch; }
+.ht-d-baslik small { display: block; font-size: 11.5px; color: #7a8699; font-weight: 600; }
+.ht-turler { display: flex; gap: 8px; padding: 4px 16px 10px 44px; flex-shrink: 0; }
+.ht-tur {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 7px 0 5px;
+  border-radius: 12px; border: 2px solid transparent; background: #f3f1e4; position: relative; cursor: pointer;
+}
+.ht-tur .ht-ik { width: 32px; height: 32px; border-radius: 10px; }
+.ht-tur .ht-ik svg { width: 19px; height: 19px; }
+.ht-tur span { font-size: 10.5px; font-weight: 800; color: #44505f; }
+.ht-tur em {
+  position: absolute; top: -6px; right: 4px; min-width: 17px; height: 17px; border-radius: 9px; background: #fff;
+  border: 1.5px solid #cfd8e6; font-style: normal; font-size: 10px; font-weight: 900; color: #0a2f5c;
+  display: flex; align-items: center; justify-content: center; padding: 0 3px; box-sizing: border-box;
+}
+.ht-tur--sec { border-color: #1257c7; background: #e6f0ff; }
+.ht-tur--sec span { color: #0a2f5c; }
+.ht-d-kagit { border-left: 2px solid #e8a2a2; margin-left: 36px; padding-right: 14px; overflow-y: auto; flex: 1 1 auto; min-height: 90px; -webkit-overflow-scrolling: touch; }
+.ht-yeni { border-left: 2px solid #e8a2a2; margin-left: 36px; padding-right: 14px; flex-shrink: 0; }
 .ht-d-kayit {
-  line-height: 37px; height: 38px; padding-left: 10px; font-size: 16px; color: #1c2430;
-  border-bottom: 1px solid #cfe0f2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  min-height: 36px; padding: 6px 0 5px 10px; font-size: 14.5px; line-height: 1.3; color: #1c2430; box-sizing: border-box;
+  border-bottom: 1px solid #cfe0f2; display: flex; align-items: center; gap: 7px;
 }
-.ht-d-kayit i { font-style: normal; color: #7a8699; font-size: 11.5px; margin-right: 6px; font-weight: 700; }
+.ht-d-kayit i { font-style: normal; color: #7a8699; font-size: 11px; font-weight: 700; flex-shrink: 0; }
 .ht-d-kayit em { font-style: normal; color: #556170; }
-.ht-d-metin {
-  display: block; width: 100%; box-sizing: border-box; border: 0; outline: none; resize: none;
-  background-color: transparent; font-family: inherit; font-size: 16px; color: #1c2430;
-  line-height: 38px; padding: 0 0 0 10px; min-height: 228px; overflow: hidden;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='38'><rect y='37' width='10' height='1' fill='%23cfe0f2'/></svg>");
-  background-repeat: repeat; background-attachment: local;
+.ht-d-ad { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.ht-d-islem { color: #6a7686; font-size: 13px; }
+.ht-d-islem b { color: #44505f; font-weight: 700; }
+.ht-d-bos { color: #a8b3c2; font-style: italic; }
+.ht-mk { width: 17px; height: 17px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ht-mk svg { width: 11px; height: 11px; fill: #fff; }
+.ht-ayrac {
+  height: 30px; display: flex; align-items: center; gap: 8px; padding-left: 10px; box-sizing: border-box;
+  border-bottom: 1px solid #cfe0f2; font-size: 11px; font-weight: 800; color: #7a8699;
 }
-.ht-d-metin::placeholder { color: #a8b3c2; }
-.ht-d-alt { padding: 8px 16px 0 46px; font-size: 11px; color: #7a8699; font-weight: 600; flex-shrink: 0; }
+.ht-ayrac:after { content: ''; flex: 1; height: 1px; background: #e1e8f2; }
+.ht-yaz { height: 38px; padding-left: 10px; box-sizing: border-box; border-bottom: 1px solid #cfe0f2; display: flex; align-items: center; gap: 8px; }
+.ht-yaz input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font-family: inherit; font-size: 15px; color: #1c2430; padding: 0; }
+.ht-yaz input::placeholder, .ht-d-metin::placeholder { color: #a8b3c2; }
+.ht-firma { height: 38px; padding-left: 10px; box-sizing: border-box; border-bottom: 1px solid #cfe0f2; display: flex; align-items: center; gap: 6px; font-size: 14.5px; color: #0a2f5c; }
+.ht-firma b { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ht-firma small { color: #7a8699; font-weight: 600; white-space: nowrap; }
+.ht-firma u { margin-left: auto; text-decoration: none; color: #9aa6b6; font-size: 16px; font-weight: 700; padding: 6px 4px; cursor: pointer; }
+.ht-oner { background: #fff; border: 1.5px solid #cfd8e6; border-radius: 10px; margin: 4px 0 4px 8px; box-shadow: 0 4px 12px rgba(0,0,0,.15); overflow: hidden; }
+.ht-oner div { padding: 9px 12px; font-size: 13.5px; color: #1c2430; border-top: 1px solid #eef2f8; cursor: pointer; }
+.ht-oner div:first-child { border-top: 0; }
+.ht-oner small { color: #7a8699; font-weight: 600; }
+.ht-d-metin {
+  display: block; width: 100%; box-sizing: border-box; border: 0; outline: none; resize: none; overflow: hidden;
+  background: transparent; font-family: inherit; font-size: 15px; color: #1c2430; line-height: 37px; padding: 0 0 0 10px;
+  border-bottom: 1px solid #cfe0f2; min-height: 38px;
+}
+.ht-alt { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 0 4px 10px; }
+.ht-hat { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; color: #44505f; cursor: pointer; }
+.ht-hat s { width: 20px; height: 20px; border: 2px solid #9aa6b6; border-radius: 6px; display: block; box-sizing: border-box; flex-shrink: 0; }
+.ht-hat s.ht-hat-acik { background: #1257c7; border-color: #1257c7; }
+.ht-hat input[type=date] { font-family: inherit; font-size: 13px; font-weight: 700; color: #0a2f5c; border: 1.5px solid #cfd8e6; border-radius: 8px; padding: 4px 6px; background: #fff; }
+.ht-kay { background: #16a085; color: #fff; font-weight: 800; font-size: 14px; border: 0; border-radius: 10px; padding: 9px 20px; cursor: pointer; font-family: inherit; }
+.ht-kay:disabled { background: #c9d3cf; cursor: default; }
+.ht-d-alt { padding: 6px 16px 0 46px; font-size: 10.5px; color: #7a8699; font-weight: 600; flex-shrink: 0; }
 .ht-d-alt--hata { color: #c0392b; }
-
 .ht-panel-ust--geri { cursor: pointer; }
+.ht-kay { white-space: nowrap; flex-shrink: 0; }
+.ht-hat { min-width: 0; }
+.ht-hat input[type=date] { width: 128px; min-width: 0; }

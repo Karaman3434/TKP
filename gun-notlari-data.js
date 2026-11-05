@@ -1,5 +1,5 @@
 /*
-  gun-notlari-data.js — TKP.05.11.26-21:30.1490
+  gun-notlari-data.js — TKP.05.11.26-21:45.1491
   =============================================
   ANA SAYFA TAKVİMİ — GÜNLÜK TEMAS DEFTERİ (05.11.2026, Abdullah onayı —
   "not defteri gibi giriş").
