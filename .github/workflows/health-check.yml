@@ -28,7 +28,7 @@ jobs:
       - name: JSON ve JavaScript kaynak kontrolleri
         run: |
           python3 - <<'PY'
-          import json, pathlib, sys
+          import json, pathlib, re, sys
           files = sorted(
               str(path.relative_to("."))
               for path in pathlib.Path(".").rglob("*.json")
@@ -45,6 +45,18 @@ jobs:
           print(f"JSON dosyası sayısı: {len(files)}")
           if failed:
               sys.exit(1)
+          manifest = json.loads(pathlib.Path("manifest.json").read_text(encoding="utf-8"))
+          version = str(manifest.get("_version") or "")
+          if not version:
+              print("FAIL: manifest.json _version alanı eksik")
+              sys.exit(1)
+          for name in ("home.html", "pin.html", "login.html", "pwa-tani.html"):
+              html = pathlib.Path(name).read_text(encoding="utf-8")
+              match = re.search(r'<link\\s+rel="manifest"\\s+href="manifest\\.json\\?v=([^"]+)"', html)
+              if not match or match.group(1) != version:
+                  print(f"FAIL: {name} manifest cache-buster _version ile eşleşmiyor")
+                  sys.exit(1)
+              print(f"OK manifest sürüm eşleşmesi: {name}")
           PY
           set -euo pipefail
           find . -type f -name '*.js' -not -path './.git/*' -print0 | while IFS= read -r -d '' file; do
