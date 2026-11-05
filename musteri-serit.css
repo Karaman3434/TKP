@@ -40,7 +40,7 @@
 .musteri-serit .ms-ad {
   /* %20 KÜÇÜLTME (01.11.2026, Abdullah onayı): 15px -> 12px — panelde
      Gönder ikonu eklenince isim/şehir için yer kalmıyordu. */
-  font-size: var(--etiket-yazi, 12px);
+  font-size: var(--serit-yazi, 15.6px);
   font-weight: var(--etiket-agirlik, 700);
   letter-spacing: var(--etiket-harf-araligi, .2px);
   color: #0a2f5c;
@@ -54,10 +54,10 @@
 /* DEĞİŞİKLİK (12.10.2026, Abdullah onayı — mockup üzerinden): isim ile
    ilçe/il artık AYRI bir flex eleman değil, ms-ad'ın İÇİNDE tek satırda
    ("İsim - İlçe, İl") — uzunsa hepsi birlikte ellipsis ile kesilir. */
-.musteri-serit .ms-ayrac { color: #0a2f5c; font-weight: var(--etiket-agirlik, 700); font-size: var(--etiket-yazi, 12px); margin: 0 3px; }
+.musteri-serit .ms-ayrac { color: #0a2f5c; font-weight: var(--etiket-agirlik, 700); font-size: var(--serit-yazi, 15.6px); margin: 0 3px; }
 .musteri-serit .ms-sehir {
   /* %20 KÜÇÜLTME (01.11.2026, Abdullah onayı): 13px -> 10.4px. */
-  font-size: var(--etiket-yazi, 12px);
+  font-size: var(--serit-yazi, 15.6px);
   font-weight: var(--etiket-agirlik, 700);
   letter-spacing: var(--etiket-harf-araligi, .2px);
   color: #556170;

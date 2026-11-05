@@ -27,6 +27,9 @@
   --etiket-yazi: 12px;
   --etiket-agirlik: 700;
   --etiket-harf-araligi: .2px;
+  /* MÜŞTERİ ŞERİDİ + İŞLEM HAREKET ŞERİDİ (05.11.2026, Abdullah onayı): bu iki
+     şerit diğer etiketlerden %30 büyük (12px x 1.3). TÜM tablolarda ortak. */
+  --serit-yazi: 15.6px;
   /* ---- ORTAK (birden çok tablo türünün AYNI değeri paylaştığı — burayı değiştirince hepsi birden değişir) ---- */
   --tbl-kutu-cerceve: 1px solid #3569b8;
   --tbl-kutu-radius: 8px;

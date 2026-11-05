@@ -1,5 +1,5 @@
 /*
-  acik-belge-kontrol.js — TKP.02.11.26-10:48.1384 (YENİ DOSYA, 27.10.2026)
+  acik-belge-kontrol.js — TKP.05.11.26-12:12.1483 (YENİ DOSYA, 27.10.2026)
   ============================================================
   ROTA DEĞİŞİKLİĞİ (Abdullah onayı): "İşlem Yap" → tip seç akışı artık
   Cari Kart'a UĞRAMADAN direkt cart.html'e (Ürün Bul/Sepet) gidiyor. Bu
@@ -55,7 +55,7 @@ var AcikBelgeKontrol = (function(){
     kaynaklarYukleniyor = true;
     cssEkle("detail-style.css?v=TKP.02.11.26-10:48.1375", ".tip-secim-overlay");
     cssEkle("cari-kart-style.css?v=WG.011126.1022.1261", ".ck-sil-uyari-notu");
-    cssEkle("belge-style.css?v=TKP.03.11.26-11:46.1452", ".belge-urun-tablo");
+    cssEkle("belge-style.css?v=TKP.05.11.26-12:16.1484", ".belge-urun-tablo");
     if(typeof HareketTablo !== "undefined"){
       kaynaklarHazir = true;
       kaynaklarYukleniyor = false;
@@ -191,7 +191,31 @@ var AcikBelgeKontrol = (function(){
     document.getElementById("abkOverlay").hidden = false;
   }
 
+  // BAYAT İLERLET TASLAĞI TEMİZLİĞİ (05.11.2026, Abdullah'ın bildirdiği hata —
+  // video + "Hayır, bambaşka sipariş diyorum ama sepette eski teklifin W44T
+  // ürünü geliyor"): Bildirimler/İlerlet/"Bu belgeyi kullan" ile eski bir
+  // belge Sepet'e yüklenince sepet + weiconv2_ilerlet_kaynak bayrağı 10 dakika
+  // boyunca (ya da iptal edilene kadar) bu cihazda kalıyor. Sonradan "İşlem
+  // Yap > Sipariş" ile YENİ bir işlem başlatılınca cart.html o taslağı olduğu
+  // gibi açıyor ("İlerletiliyor — önceki belge silinecek" uyarısıyla, üstelik
+  // kaydedince eski belge silinirdi). Yeni işlem başlarken ilerletilen taslak
+  // varsa sepet + bayrak + ilgili oturum anahtarları SIFIRLANIR; Firebase
+  // yedeğinin geri yüklenmemesi için cart-data.js'teki "temizlendi" damgası
+  // da (sifirla() ile AYNI mantık) yazılır. İlerletilen taslak YOKSA (kullanıcı
+  // kendi elle eklediği ürünlerle devam ediyorsa) hiçbir şeye dokunulmaz.
+  function bayatIlerletTaslaginiTemizle(){
+    try{
+      if(!localStorage.getItem("weiconv2_ilerlet_kaynak")) return;
+      ["weiconv2_ilerlet_kaynak","weiconv2_sepet_baslangic_zamani","weiconv2_hesapla_duzenle_idx"].forEach(function(k){
+        try{ localStorage.removeItem(k); }catch(e){}
+      });
+      localStorage.setItem("weiconv2_sepet", "[]");
+      localStorage.setItem("weiconv2_sepet_temizlendi_zamani", String(Date.now()));
+    }catch(e){}
+  }
+
   function sepeteDevamEt(tip){
+    bayatIlerletTaslaginiTemizle();
     localStorage.setItem("weiconv2_onceden_secilen_tip", tip);
     // MÜŞTERİ SIZINTISI DÜZELTMESİ (27.10.2026) ile AYNI bayrak — bkz.
     // cart-render.js sepetMusteriBaglantisiniDogrula.

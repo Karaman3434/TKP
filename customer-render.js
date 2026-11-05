@@ -26,7 +26,7 @@ function cmAcikBelgeKontrolIleDevamEt(musteri, tip){
   if(cmAbkModulYukleniyor) return;
   cmAbkModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "acik-belge-kontrol.js?v=TKP.02.11.26-10:48.1384";
+  s.src = "acik-belge-kontrol.js?v=TKP.05.11.26-12:12.1483";
   s.onload = function(){
     cmAbkModulYukleniyor = false;
     cmAbkModulBekleyenler.forEach(function(fn){ fn(); });

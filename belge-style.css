@@ -352,7 +352,7 @@
      BİREBİR aynı ölçü. */
   justify-content: flex-start;
   gap: 3mm;
-  font-size: var(--etiket-yazi, 12px);
+  font-size: var(--serit-yazi, 15.6px);
   /* TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "simetrik hale
      getir" turu): iç boşluk eskiden SADECE cart-sayfa'da 6px/14px'e
      eziliyordu (10px/16px taban) — Gönder/Belge Önizleme'nin kutularıyla
@@ -1034,13 +1034,13 @@
    (Belge Önizleme) ve belge-belge-baslik-serit-metin (Sepet) ile BİREBİR
    aynı ölçü. Kutu boyu SABİT (min-height:40px, max-height YOK). */
 .belge-form-baslik-etiket {
-  font-size: var(--etiket-yazi, 12px);
+  font-size: var(--serit-yazi, 15.6px);
   letter-spacing: var(--etiket-harf-araligi, .2px);
   /* TEK TASARIM — KESİN KURAL (19.10.2026): kalınlık eskiden üstteki
      .belge-form-baslik'in taban font-weight'ından (700) miras alınıyordu —
      Belge Önizleme/Sepet'in etiketi (800) ile FARKLIYDI. Artık açıkça 800. */
   font-weight: var(--etiket-agirlik, 700);
-  line-height: 1;
+  line-height: 1.4; /* 05.11.2026: 1 iken overflow:hidden yüzünden iPad'de harflerin alt yarısı kesiliyordu */
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -1048,9 +1048,9 @@
   flex: 0 0 auto;
 }
 .belge-form-baslik-tarih {
-  font-size: var(--etiket-yazi, 12px);
+  font-size: var(--serit-yazi, 15.6px);
   letter-spacing: var(--etiket-harf-araligi, .2px);
-  line-height: 1;
+  line-height: 1.4; /* 05.11.2026: 1 iken overflow:hidden yüzünden iPad'de harflerin alt yarısı kesiliyordu */
   font-weight: var(--etiket-agirlik, 700);
   opacity: 1;
   white-space: nowrap;
@@ -1061,7 +1061,7 @@
 }
 .belge-form-baslik-kod {
   font-size: 9.54px;
-  line-height: 1;
+  line-height: 1.4; /* 05.11.2026: 1 iken overflow:hidden yüzünden iPad'de harflerin alt yarısı kesiliyordu */
   font-weight: 700;
   opacity: .75;
   white-space: nowrap;
@@ -1135,3 +1135,18 @@
 .acilir-menu-oge--siparis { background:#e6eef7; border:1.5px solid #003a70; color:#003a70; }
 /* "i" tuşu açıkken vurgulu (İletişim'deki .ub-eylem-secili ile aynı mantık) */
 .ub-ayrinti-ikon.ub-ayrinti-secili { outline: 3px solid #0ea5a4; outline-offset: 1px; }
+
+/* DAR EKRAN GÜVENLİĞİ (05.11.2026): işlem hareket şeridi %30 büyüyünce (15.6px)
+   en uzun ihtimal "PROFORMA FATURA + tarih + kod" S22'de (360px) tek satıra
+   sığmıyordu. 420px ve altında: yan boşluk/aralık biraz daralır, SADECE
+   proforma şeridinin harfi 14.2px olur (diğer tipler tam 15.6px kalır);
+   tarih/kod taşarsa "…" ile kısalır (kutu hiçbir zaman taşmaz). */
+.belge-form-baslik-tarih,
+.belge-form-baslik-kod { flex: 0 1 auto; }
+@media (max-width: 420px) {
+  .belge-form-baslik,
+  .belge-belge-baslik-serit--mavi { padding-left: 10px; padding-right: 10px; gap: 2mm; }
+  .belge-form-baslik.tip-proforma .belge-form-baslik-etiket,
+  .belge-form-baslik.tip-proforma .belge-form-baslik-tarih,
+  .belge-belge-baslik-serit--mavi.tip-proforma { font-size: 14.2px; }
+}

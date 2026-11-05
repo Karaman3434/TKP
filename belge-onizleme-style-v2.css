@@ -139,9 +139,9 @@
    ortala" turu): 13.99px->16.09px, 7.63px->8.77px (oran AYNEN korundu,
    "hepsi aynı boyda" kuralı sürüyor — bmb-tip/bmb-alt hâlâ birebir eşit). */
 .belge-onizleme-sayfa .bmb-tip {
-  font-size: var(--etiket-yazi, 12px);
+  font-size: var(--serit-yazi, 15.6px);
   letter-spacing: var(--etiket-harf-araligi, .2px);
-  line-height: 1;
+  line-height: 1.4; /* 05.11.2026: 1 iken overflow:hidden harflerin alt yarısını kesiyordu */
   font-weight: var(--etiket-agirlik, 700);
   min-width: 0;
   white-space: nowrap;
@@ -150,7 +150,7 @@
   flex: 0 0 auto;
 }
 .belge-onizleme-sayfa .bmb-alt {
-  font-size: var(--etiket-yazi, 12px);
+  font-size: var(--serit-yazi, 15.6px);
   letter-spacing: var(--etiket-harf-araligi, .2px);
   font-weight: var(--etiket-agirlik, 700);
   opacity: 1;
@@ -677,3 +677,15 @@
    scoped bir override eklendi: üst/alt iç dolgu 8px'ten 4px'e (yarı
    yarıya) küçültüldü. Mockup onaylandı. */
 .belge-onizleme-sayfa .belge-urun-tablo th { padding: var(--buo-th-padding); }
+
+/* DAR EKRAN GÜVENLİĞİ (05.11.2026) — bkz. belge-style.css'teki aynı not:
+   Belge Önizleme'de PROFORMA şeridi 420px ve altında 14.2px, yan boşluk/aralık
+   biraz dar; tarih/kod gerekirse "…" ile kısalır. */
+.belge-onizleme-sayfa .bmb-alt,
+.belge-onizleme-sayfa .bmb-kod { flex: 0 1 auto; }
+@media (max-width: 420px) {
+  .belge-onizleme-sayfa .belge-musteri-baslik { padding-left: 10px; padding-right: 10px; }
+  .belge-onizleme-sayfa .bmb-sol { gap: 2mm; }
+  .belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-tip,
+  .belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-alt { font-size: 14.2px; }
+}

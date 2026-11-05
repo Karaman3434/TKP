@@ -255,3 +255,41 @@
   cursor: not-allowed;
   pointer-events: none;
 }
+
+
+/* =========================================================================
+   05.11.2026 — ÜST BAR BÜYÜTME (Abdullah onayı: "tuşlar %20 büyüsün, ara
+   boşluklar %50 genişlesin, sağ köşe 3mm -> 5mm; ama HEPSİ TEK SATIRDA
+   kalacak, ikinci satıra sarkmayacak — gerekirse aralar/boy küçülsün")
+   - Tuş yüksekliği 44 -> 52.8px (+%20), ikon/yazı da +%20.
+   - Tuş genişliği 48.4 -> 58.08px (+%20) — ama telefon ekranında sığmazsa
+     TEK SATIR için otomatik daralır (--ub-b, ekran genişliğinden hesaplanır):
+       * sadece Gönder olan sayfalarda (S22 360px) ≈ 54px,
+       * Kaydet+Gönder olan sayfalarda (Sepet) aralar eski değerine (8/5px)
+         döner ve tuş ≈ 46.5px olur.
+     iPad/geniş ekranda tam büyük ölçü (58.08px) kullanılır.
+   - Aralar: ana grup 8 -> 12px, eylem grubu 5 -> 7.5px (+%50).
+   - Sağ kenar boşluğu 5mm (Gönder/Kaydet köşeye yapışmasın).
+   - Menü tuşu hep diğerinden %20 geniş (--ub-b x 1.2).
+   Rezerv: 5mm sağ + 6px sol + grup dolguları (8px / 6px) + gruplar arası 4px.
+   ========================================================================= */
+.ub-bar {
+  --ub-b: 58.08px;
+  --ub-g: 12px;
+  --ub-g2: 7.5px;
+}
+.ub-bar,
+.ub-bar:has(.ub-sayfa-etiket) { padding-right: 5mm; }
+.ub-bar:has(.ub-eylem) {
+  --ub-b: min(58.08px, calc((100vw - 5mm - 6px - 36px - 8px - 6px - 4px) / 5.2));
+}
+.ub-bar:has(.ub-eylem .ub-btn:nth-child(2)) {
+  --ub-g: 8px;
+  --ub-g2: 5px;
+  --ub-b: min(58.08px, calc((100vw - 5mm - 6px - 24px - 5px - 8px - 6px - 4px) / 6.2));
+}
+.ub-btn { width: var(--ub-b); height: 52.8px; font-size: 22.8px; }
+.ub-btn--menu { width: calc(var(--ub-b) * 1.2); }
+.ub-grup { gap: var(--ub-g); }
+.ub-eylem { gap: var(--ub-g2); }
+.ub-btn svg { width: 26.4px; height: 26.4px; }
