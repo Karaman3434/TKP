@@ -36,7 +36,7 @@
      style.css'te tanımlı; bu yüzden bu sayfaya da eklendi (send.html/
      customer-detail.html'de zaten vardı). -->
 <link rel="stylesheet" href="cari-kart-style.css?v=TKP.05.11.26-10:45.1479">
-<link rel="stylesheet" href="belge-style.css?v=TKP.05.11.26-10:45.1479">
+<link rel="stylesheet" href="belge-style.css?v=TKP.05.11.26-11:20.1481">
 <link rel="stylesheet" href="reports-style.css?v=TKP.02.11.26-10:48.1374">
 <link rel="stylesheet" href="belge-onizleme-style-v2.css?v=TKP.05.11.26-10:45.1479">
 <!-- EKLENDİ (15.10.2026, Abdullah'ın isteğiyle) — müşteri ismi artık burada
@@ -123,13 +123,19 @@
        belge-render.js siparisPaneliHtml). Üç butonun id'leri de
        işlevleriyle birlikte yeni yerlerine TAŞINDI, silinmedi. -->
 
-  <div class="overlay" id="islemlerOverlay" hidden>
-    <div class="sheet">
-      <div class="sheet-baslik">Ayrıntı</div>
-      <button class="sheet-secenek" id="msDuzenle"><span class="ikon">✏️</span>Bilgi Düzenle</button>
-      <button class="sheet-secenek" id="msIlerlet"><span class="ikon">▶</span>İlerlet</button>
-      <button class="sheet-secenek sheet-secenek--sil" id="msSil"><span class="ikon">🗑️</span>Kaydı sil</button>
-      <button class="sheet-secenek sheet-secenek--vazgec" id="msVazgec">Kapat</button>
+  <!-- AYRINTI AÇILIR LİSTESİ (05.11.2026, Abdullah onayı — mockup üzerinden:
+       "ayrıntılar büyük pop-up açılmasın, i harfinin hemen altında küçük
+       pencere, İletişim'deki gibi"): Eski tam genişlik "Ayrıntı" sayfası
+       (Kapat tuşlu) kalktı; "i" tuşunun altında küçük açılır liste. Dışarı
+       dokununca ya da "i"ye tekrar basınca kapanır. Buton id'leri
+       (msDuzenle/msIlerlet/msSil) ve işlevleri DEĞİŞMEDİ; konum belge-render.js
+       acilirKonumla(). Stil: belge-style.css .acilir-menu* (İletişim
+       açılır listesinin .iletisim-acilir görünümüyle aynı). -->
+  <div class="acilir-menu-zemin" id="islemlerOverlay" hidden>
+    <div class="acilir-menu" id="ayrintiAcilir">
+      <button class="acilir-menu-oge acilir-menu-oge--notr" id="msDuzenle"><span class="acilir-menu-ikon">✏️</span>Bilgi Düzenle</button>
+      <button class="acilir-menu-oge acilir-menu-oge--ilerlet" id="msIlerlet"><span class="acilir-menu-ikon">▶</span>İlerlet</button>
+      <button class="acilir-menu-oge acilir-menu-oge--sil" id="msSil"><span class="acilir-menu-ikon">🗑️</span>Kaydı sil</button>
     </div>
   </div>
 
@@ -191,16 +197,12 @@
   </div>
 
   <!-- İlerlet — hangi aşamaya dönüştürüleceği seçimi -->
-  <div class="duzenle-overlay" id="ilerletSecOverlay" hidden>
-    <div class="duzenle-kutu">
-      <div class="duzenle-baslik">Bu kayıt hangi aşamaya dönüştürülecek?</div>
-      <div class="duzenle-menu-liste" id="ilerletSecenekListesi"></div>
-      <div class="duzenle-buton-satir duzenle-buton-satir--dikey" id="ilerletDevamSatiri" hidden>
-        <button class="duzenle-kaydet-btn" id="btnIlerletDevam">Devam Et</button>
-      </div>
-      <div class="duzenle-buton-satir duzenle-buton-satir--dikey" style="margin-top:6px;">
-        <button class="duzenle-kapat-btn" id="btnIlerletVazgec">Kapat</button>
-      </div>
+  <!-- (05.11.2026, Abdullah onayı) Artık "Devam Et"/"Kapat" tuşlu büyük pencere
+       DEĞİL: "i" tuşunun altında küçük açılır liste — bir aşamaya dokunmak
+       doğrudan o aşamaya ilerletir; dışarı dokununca kapanır. -->
+  <div class="acilir-menu-zemin" id="ilerletSecOverlay" hidden>
+    <div class="acilir-menu" id="ilerletAcilir">
+      <div id="ilerletSecenekListesi"></div>
     </div>
   </div>
 
@@ -240,7 +242,7 @@
 <script src="cihaz-data.js?v=WG.271026.2238.1122"></script>
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="customer-data.js?v=TKP.03.11.26-20:35.1460"></script>
-<script src="reports-data.js?v=TKP.03.11.26-18:20.1457"></script>
+<script src="reports-data.js?v=TKP.05.11.26-11:20.1481"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1523.89"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="product-data.js?v=TKP.04.11.26-12:30.1463"></script>
@@ -262,8 +264,8 @@
      çalışıyor. -->
 <script>window.BEKLEYEN_ISLEM_GENERIK_KAPALI = true;</script>
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
-<script src="belge-render.js?v=TKP.03.11.26-20:35.1460"></script>
+<script src="belge-render.js?v=TKP.05.11.26-11:20.1481"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=TKP.03.11.26-20:35.1460"></script>
+<script src="menu-cekmece.js?v=TKP.05.11.26-11:20.1481"></script>
 </body>
 </html>

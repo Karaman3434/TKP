@@ -143,7 +143,7 @@ var DRAWER_ALT_MENULERI = {
       {ikon:"📌", etiket:"Görevlerim", href:"gorevler.html"},
       {ikon:"📆", etiket:"Ziyaret Takvimi", href:"ziyaret.html"},
       {ikon:"❌", etiket:"Kaçan Satışlar", href:"kacan-satislar.html"},
-      {ikon:"📦", etiket:"Bakiye ve Bekleyen Ürünler", href:"bakiye-urunler.html"}
+      {ikon:"📦", etiket:"Stok Bekleyen ve Bakiye Bekleyen", href:"bakiye-urunler.html"}
     ]
   },
   musteri: {
@@ -574,6 +574,12 @@ function mcMusteriRozetSayilariniHesapla(m){
       sonuc.bekleyen = ReportsData.bakiyedekiUrunler().filter(function(s){
         return mcMusteriAyniKaydiMi(s.musteri, s.musteriId, m.ad, m.id);
       }).length;
+      // + bu müşterinin "Stok Bekliyor" siparişleri (05.11.2026) — sayfa ikisini birlikte gösteriyor.
+      if(ReportsData.stokBekleyenSiparisler){
+        sonuc.bekleyen += ReportsData.stokBekleyenSiparisler().filter(function(s){
+          return mcMusteriAyniKaydiMi(s.musteri, s.musteriId, m.ad, m.id);
+        }).length;
+      }
     }
   }catch(e){}
   return sonuc;

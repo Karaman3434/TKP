@@ -1089,3 +1089,49 @@
 .belge-kosul-satir .ks { color: #9ca3af; font-weight: 500; }
 /* Gönder ekranındaki son kartın alt boşluğu kalkar — Geri butonu GENEL TOPLAM'a yaklaşır */
 #tamOnizlemeAlani .belge-kart:last-child { margin-bottom: 0; }
+
+/* AÇILIR MENÜ (05.11.2026, Abdullah onayı — mockup üzerinden): bir tuşun hemen
+   altında açılan küçük beyaz liste — send-style.css'teki .iletisim-acilir ile
+   AYNI görünüm (beyaz kart, ince çerçeve, yukarı bakan ok, renkli hap
+   düğmeler). Belge Önizleme "i" (Ayrıntı) ve İlerlet seçenekleri kullanır.
+   Konumu JS verir (belge-render.js acilirKonumla): top/left + --ok-sol. */
+.acilir-menu-zemin {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(15,25,45,.28);
+}
+.acilir-menu-zemin[hidden] { display: none; }
+.acilir-menu {
+  position: fixed; box-sizing: border-box;
+  width: 190px;
+  background: #ffffff;
+  border: 1px solid #d7dce3;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.28);
+  padding: 6px;
+}
+.acilir-menu::before {
+  content: ""; position: absolute; top: -7px;
+  left: var(--ok-sol, 20px);
+  width: 12px; height: 12px; background: #ffffff;
+  border-left: 1px solid #d7dce3; border-top: 1px solid #d7dce3;
+  transform: rotate(45deg);
+}
+.acilir-menu-oge {
+  width: 100%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  border-radius: 8px; padding: 9px 4px; margin-bottom: 5px;
+  font-size: var(--etiket-yazi, 12px); font-weight: 800; text-align: center;
+}
+.acilir-menu-oge:last-child { margin-bottom: 0; }
+.acilir-menu-oge[hidden] { display: none; }
+.acilir-menu-oge:nth-last-child(1 of :not([hidden])) { margin-bottom: 0; }
+.acilir-menu-ikon { font-size: 15px; line-height: 1; }
+.acilir-menu-oge--notr    { background:#f4f6f9; border:1.5px solid #cbd5e1; color:#2d3540; }
+.acilir-menu-oge--ilerlet { background:#e3f4f2; border:1.5px solid #0ea5a4; color:#0b7f7e; }
+.acilir-menu-oge--sil     { background:#fce8e6; border:1.5px solid #c0392b; color:#c0392b; }
+.acilir-menu-oge--numune  { background:#fce4ec; border:1.5px solid #c2185b; color:#c2185b; }
+.acilir-menu-oge--teklif  { background:#e6f6ea; border:1.5px solid #28a745; color:#1e7a34; }
+.acilir-menu-oge--proforma{ background:#fdeee2; border:1.5px solid #e8690a; color:#c25508; }
+.acilir-menu-oge--siparis { background:#e6eef7; border:1.5px solid #003a70; color:#003a70; }
+/* "i" tuşu açıkken vurgulu (İletişim'deki .ub-eylem-secili ile aynı mantık) */
+.ub-ayrinti-ikon.ub-ayrinti-secili { outline: 3px solid #0ea5a4; outline-offset: 1px; }

@@ -1,5 +1,12 @@
 /*
-  bakiye-urunler-render.js — WG.261026.0845.1059
+  bakiye-urunler-render.js — TKP.05.11.26 (1480)
+  GÜNCELLEME (05.11.2026, Abdullah onayı): Ekran artık "Stok Bekleyen ve Bakiye
+  Bekleyen" — çipler (Tümü / ⏳ Stok Bekleyen / 📦 Bakiye Bekleyen), sipariş
+  seviyesinde "Stok Bekliyor" kayıtları (ReportsData.stokBekleyenSiparisler)
+  + ürün satırı bakiyeleri. Eski "STOKTA HİÇ YOK" bölümü kaldırıldı (adet<=0
+  satırlar Bakiye Bekleyen içinde, kart "Tamamı bekliyor" der).
+  --- eski sürüm başlığı ---
+  WG.261026.0845.1059
   ================================================
   GÜNCELLEME (26.10.2026, Abdullah onayı — mockup üzerinden: "Evet, bu
   tasarımı onaylıyorum, kodlayın" + "önce tamamen bekleyenler" sırası
@@ -117,11 +124,11 @@ var tarihFiltreKontrol = null;
 
 // Bir bölümün başlık şeridini (mevcut .bekleyen-baslik — satis-listesi-
 // render.js'teki "BEKLEYEN ÜRÜNLER" bölümüyle AYNI sınıf) + ya kart
-// listesini ya da "bu bölüm boş" mesajını üretir. Hem "🚫 Stokta Hiç Yok"
-// hem "📦 Bakiyede Kalan" bölümü bu TEK fonksiyonu kullanır.
-function bolumHTML(baslikMetin, liste, bosMetin){
+// listesini ya da "bu bölüm boş" mesajını üretir. Hem "⏳ Stok Bekleyen"
+// hem "📦 Bakiye Bekleyen" bölümü bu TEK fonksiyonu kullanır.
+function bolumHTML(baslikMetin, liste, bosMetin, kartFn){
   var ic = liste.length
-    ? "<div class='tl-liste-kutu'>" + liste.map(bakiyeKartHTML).join("<div class='bu-kart-ayrac'></div>") + "</div>"
+    ? "<div class='tl-liste-kutu'>" + liste.map(kartFn || bakiyeKartHTML).join("<div class='bu-kart-ayrac'></div>") + "</div>"
     : "<p class='bos-mesaj' style='margin:10px 12px;'>" + htmlEsc(bosMetin) + "</p>";
   return "<div class='bekleyen-blok'>"
     + "<div class='bekleyen-baslik'>" + htmlEsc(baslikMetin) + " — " + liste.length + " kayıt</div>"
@@ -129,52 +136,98 @@ function bolumHTML(baslikMetin, liste, bosMetin){
     + "</div>";
 }
 
+// STOK BEKLEYEN kartı (05.11.2026, Abdullah onayı: "Stok bekleyen ve bakiye
+// bekleyen olarak etiketleri güncelleyelim / Bu tasarımı benimsiyorum"):
+// sipariş SEVİYESİNDE "Stok Bekliyor" işaretli kayıt. Bakiye kartıyla AYNI
+// iskelet (.bu-kart*) — 2. satır: "⏳ N gündür stok bekliyor — {not}".
+function stokKartHTML(s){
+  var gunMetni = s.gun > 0 ? (s.gun + " gündür stok bekliyor") : "Bugün stok beklemeye alındı";
+  var satir2 = "⏳ " + gunMetni + (s.beklemedeNot ? " — " + htmlEsc(s.beklemedeNot) : "");
+  return "<div class='bu-kart' data-i='" + s._i + "'>"
+    + "<div class='bu-kart-serit' style='background:#f3e6d3;border-right:1.5px solid #a9743b;'></div>"
+    + "<div class='bu-kart-govde'>"
+    + "<div class='bu-kart-satir1'>"
+    + "<span class='bu-kart-musteri'>" + cariSatirHTML(s.musteriId, s.musteri, s.sehir) + "</span>"
+    + "<span class='bu-kart-sag'>" + kodHTML(s.kod, s.tip) + (s.tarih ? " · " + htmlEsc(s.tarih) : "") + "</span>"
+    + "<button class='bu-kart-ok' aria-label='Siparişin tam tablosunu aç'>" + OK_SVG + "</button>"
+    + "</div>"
+    + "<div class='bu-kart-satir2' style='color:#a9743b;'>" + satir2 + "</div>"
+    + "</div>"
+    + "</div>";
+}
+
+// Aktif filtre çipi: "" (Tümü) | "stok" | "bakiye"
+var aktifTurFiltre = "";
+
 function listeyiCiz(){
   try{
-    var tumSatirlar = ReportsData.bakiyedekiUrunler();
     var govde = document.getElementById("buGovde");
 
     var musteriFiltre = musteriFiltresiniAlVeTemizle();
-    var satirlar = musteriFiltre
-      ? tumSatirlar.filter(function(s){ return ayniMusteriMi(s.musteri, s.musteriId, musteriFiltre.ad, musteriFiltre.id); })
-      : tumSatirlar;
-    if(tarihFiltreKontrol) satirlar = satirlar.filter(function(s){ return tarihFiltreKontrol.icindeMi(s.ts); });
+    // Müşteri filtresi bir kerelik okunur; sonraki yeniden çizimlerde (tarih/çip
+    // değişimi) korunması için ilk okunanı saklarız.
+    if(musteriFiltre) musteriFiltreSaklanan = musteriFiltre;
+    musteriFiltre = musteriFiltreSaklanan;
 
-    if(!satirlar.length){
+    function suz(liste){
+      if(musteriFiltre) liste = liste.filter(function(s){ return ayniMusteriMi(s.musteri, s.musteriId, musteriFiltre.ad, musteriFiltre.id); });
+      if(tarihFiltreKontrol) liste = liste.filter(function(s){ return tarihFiltreKontrol.icindeMi(s.ts); });
+      return liste;
+    }
+    var stokListe   = suz(ReportsData.stokBekleyenSiparisler());
+    var bakiyeListe = suz(ReportsData.bakiyedekiUrunler());
+
+    // Çip sayaçları
+    var cipler = document.querySelectorAll("#buFiltreSatiri .gecmis-filtre-cip");
+    cipler.forEach(function(c){
+      var f = c.getAttribute("data-f");
+      c.classList.toggle("gecmis-filtre-cip--aktif", f === aktifTurFiltre);
+    });
+
+    var gosterStok   = aktifTurFiltre === "" || aktifTurFiltre === "stok";
+    var gosterBakiye = aktifTurFiltre === "" || aktifTurFiltre === "bakiye";
+    var gorunen = (gosterStok ? stokListe : []).concat(gosterBakiye ? bakiyeListe : []);
+
+    if(!gorunen.length){
+      var ne = aktifTurFiltre === "stok" ? "stok bekleyen sipariş" : aktifTurFiltre === "bakiye" ? "bakiye bekleyen ürün" : "stok veya bakiye bekleyen kayıt";
       govde.innerHTML = "<p class='bos-mesaj' style='margin:10px 12px;'>" + (musteriFiltre
-        ? (htmlEsc(musteriFiltre.ad) + " için bakiyede bekleyen ürün yok.")
-        : "Bakiyede bekleyen ürün yok.") + "</p>";
+        ? (htmlEsc(musteriFiltre.ad) + " için " + ne + " yok.")
+        : (ne.charAt(0).toLocaleUpperCase("tr-TR") + ne.slice(1) + " yok.")) + "</p>";
       return;
     }
 
-    satirlar.forEach(function(s, i){ s._i = i; });
-    // AYRIM (26.10.2026, Abdullah'ın isteğiyle — "iki farklı terim"):
-    // "tamamen bekleyen" (adet<=0 — ürünün hiçbir kısmı teslim edilmemiş,
-    // sipariş TAMAMEN stok bekliyor) ile "kısmi bakiye" (adet>0 — bir
-    // kısmı zaten teslim edilmiş, kalanı bakiyede) artık İKİ AYRI bölümde,
-    // önce "tamamen bekleyen" (daha kritik) gösterilir.
-    var tamamenBekleyen = satirlar.filter(function(s){ return !((s.adet||0) > 0); });
-    var kismiBakiye = satirlar.filter(function(s){ return (s.adet||0) > 0; });
+    var sayac = 0;
+    if(gosterStok)   stokListe.forEach(function(s){ s._i = sayac++; });
+    if(gosterBakiye) bakiyeListe.forEach(function(s){ s._i = sayac++; });
     var musteriEk = musteriFiltre ? (musteriFiltre.ad.toLocaleUpperCase("tr-TR") + " — ") : "";
 
+    // Boş bölüm, "Tümü" görünümünde de gösterilir (hangi tür boş, belli olsun);
+    // tek tür seçiliyken sadece o bölüm çizilir.
     govde.innerHTML =
-      bolumHTML("🚫 " + musteriEk + "STOKTA HİÇ YOK — SİPARİŞ BEKLİYOR", tamamenBekleyen, "Stokta hiç olmayıp tamamen bekleyen ürün yok.") +
-      bolumHTML("📦 " + musteriEk + "BAKİYEDE KALAN (KISMEN TESLİM EDİLDİ)", kismiBakiye, "Bakiyede kalan ürün yok.");
+      (gosterStok   ? bolumHTML("⏳ " + musteriEk + "STOK BEKLEYEN", stokListe, "Stok bekleyen sipariş yok.", stokKartHTML) : "") +
+      (gosterBakiye ? bolumHTML("📦 " + musteriEk + "BAKİYE BEKLEYEN", bakiyeListe, "Bakiye bekleyen ürün yok.", bakiyeKartHTML) : "");
 
     govde.querySelectorAll(".bu-kart[data-i]").forEach(function(el){
       el.onclick = function(){
-        var s = satirlar[parseInt(this.getAttribute("data-i"), 10)];
+        var i = parseInt(this.getAttribute("data-i"), 10);
+        var s = gorunen[i];
+        if(!s) return;
         localStorage.setItem("weiconv2_goruntulenen_belge", JSON.stringify({tip:s.tip, ts:s.ts}));
         window.location.href = "belge-onizleme.html";
       };
     });
   }catch(e){ hataGoster("Liste çizilemedi: " + e.message); }
 }
+var musteriFiltreSaklanan = null;
 
 document.addEventListener("DOMContentLoaded", function(){
   tarihiGuncelle();
   var btnMenuEl = document.getElementById("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
+  document.querySelectorAll("#buFiltreSatiri .gecmis-filtre-cip").forEach(function(c){
+    c.onclick = function(){ aktifTurFiltre = this.getAttribute("data-f") || ""; listeyiCiz(); };
+  });
   tarihFiltreKontrol = TarihFiltre.ekle("tarihFiltreYeri", { varsayilan: "tumu", degisti: listeyiCiz });
   ReportsData.arsivDegistiginde(listeyiCiz);
+  listeyiCiz(); // ilk çizim (arşiv dinleyicisi geç kalırsa boş kalmasın)
 });

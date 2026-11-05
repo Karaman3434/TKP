@@ -317,6 +317,12 @@ function cmRozetSayilariniHesapla(m){
       sonuc.bekleyen = ReportsData.bakiyedekiUrunler().filter(function(s){
         return cmAyniMusteriKaydiMi(s.musteri, s.musteriId, m.ad, m.id);
       }).length;
+      // + bu müşterinin "Stok Bekliyor" siparişleri (05.11.2026) — sayfa ikisini birlikte gösteriyor.
+      if(ReportsData.stokBekleyenSiparisler){
+        sonuc.bekleyen += ReportsData.stokBekleyenSiparisler().filter(function(s){
+          return cmAyniMusteriKaydiMi(s.musteri, s.musteriId, m.ad, m.id);
+        }).length;
+      }
     }
   }catch(e){}
   return sonuc;

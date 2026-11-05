@@ -448,6 +448,12 @@ function bhpRozetSayilariniHesapla(m){
       sonuc.bekleyen = ReportsData.bakiyedekiUrunler().filter(function(s){
         return bhpAyniMusteriKaydiMi(s.musteri, s.musteriId, m.ad, m.id);
       }).length;
+      // + bu müşterinin "Stok Bekliyor" siparişleri (05.11.2026) — sayfa ikisini birlikte gösteriyor.
+      if(ReportsData.stokBekleyenSiparisler){
+        sonuc.bekleyen += ReportsData.stokBekleyenSiparisler().filter(function(s){
+          return bhpAyniMusteriKaydiMi(s.musteri, s.musteriId, m.ad, m.id);
+        }).length;
+      }
     }
   }catch(e){}
   return sonuc;
@@ -1080,16 +1086,47 @@ document.addEventListener("DOMContentLoaded", function(){
     if(window.history.length > 1) window.history.back();
     else window.location.href = "reports.html";
   };
-  document.getElementById("msVazgec").onclick = function(){ document.getElementById("islemlerOverlay").hidden = true; };
+  // AÇILIR LİSTE (05.11.2026, Abdullah onayı): "Kapat" tuşu kalktı — dışarı
+  // dokununca kapanır. Konum: "i" tuşunun hemen altı, sağa yaslı.
+  function acilirKonumla(menuId){
+    var p = document.getElementById(menuId);
+    var t = document.getElementById("btnIslemlerAc");
+    if(!p) return;
+    var vw = window.innerWidth;
+    var r = t ? t.getBoundingClientRect() : { top:10, bottom:54, left:vw - 56, right:vw - 8, width:48 };
+    var w = p.offsetWidth || 190;
+    var sol = Math.max(6, Math.min(r.right + 2 - w, vw - w - 6));
+    p.style.top = (r.bottom + 8) + "px";
+    p.style.left = sol + "px";
+    p.style.setProperty("--ok-sol", Math.max(10, Math.min(w - 22, r.left + r.width / 2 - sol - 6)) + "px");
+  }
+  function acilirKapat(zeminId){
+    document.getElementById(zeminId).hidden = true;
+    var t = document.getElementById("btnIslemlerAc");
+    if(t) t.classList.remove("ub-ayrinti-secili");
+  }
+  function ayrintiAcilirAc(){
+    // İlerlet satırı SADECE bu kayıt ilerletilebiliyorsa görünür (boş seçenek
+    // listesi/"sonrası yok" uyarısı olmasın).
+    var sec = ReportsData.ilerletSecenekleri(sonCizilenKayit);
+    document.getElementById("msIlerlet").hidden = !sec.length;
+    document.getElementById("islemlerOverlay").hidden = false;
+    acilirKonumla("ayrintiAcilir");
+    var t = document.getElementById("btnIslemlerAc");
+    if(t) t.classList.add("ub-ayrinti-secili");
+  }
   document.getElementById("islemlerOverlay").addEventListener("click", function(ev){
-    if(ev.target === this) this.hidden = true;
+    if(ev.target === this) acilirKapat("islemlerOverlay");
+  });
+  document.getElementById("ilerletSecOverlay").addEventListener("click", function(ev){
+    if(ev.target === this) acilirKapat("ilerletSecOverlay");
   });
 
   // "Yazdır" düğmesi KALDIRILDI (18.10.2026, Abdullah'ın isteğiyle) —
   // Ayrıntı sheet'inden çıkarıldı. TeklifPdf/teklif-pdf.js modülüne
   // dokunulmadı (başka bir yerde kullanılıyor olabilir).
   document.getElementById("msSil").onclick = function(){
-    document.getElementById("islemlerOverlay").hidden = true;
+    acilirKapat("islemlerOverlay");
     if(!ref) return;
     var belgeAdi = (sonCizilenKayit ? ((TIP_ETIKET_BELGE[sonCizilenKayit.tip]||"belge") + (sonCizilenKayit.kod ? " · " + sonCizilenKayit.kod : "")) : "bu belge");
     if(!confirm("Sadece bu belge silinecek:\n\n" + belgeAdi + "\n\nMüşteri kartına, adreslere veya yetkili bilgilerine dokunulmayacak — sadece bu tek kayıt kalıcı olarak silinecek. Bu geri alınamaz.")) return;
@@ -1148,16 +1185,15 @@ document.addEventListener("DOMContentLoaded", function(){
     // oluşuyor, bu yüzden bağlama da HER denemeCiz() çağrısında burada
     // tazeleniyor (.onclick = idempotent, üst üste binmez).
     var btnIslemlerAcEl = document.getElementById("btnIslemlerAc");
-    if(btnIslemlerAcEl) btnIslemlerAcEl.onclick = function(){ document.getElementById("islemlerOverlay").hidden = false; };
+    if(btnIslemlerAcEl) btnIslemlerAcEl.onclick = ayrintiAcilirAc;
 
-    document.getElementById("msIlerlet").hidden = false;
     document.getElementById("btnMenuBeklemede").hidden = !!kayit.durum;
     return true;
   }
 
   document.getElementById("msDuzenle").onclick = function(){
     if(!sonCizilenKayit) return;
-    document.getElementById("islemlerOverlay").hidden = true;
+    acilirKapat("islemlerOverlay");
     document.getElementById("duzenleMenuOverlay").hidden = false;
   };
   document.getElementById("btnDuzenleMenuKapat").onclick = function(){ document.getElementById("duzenleMenuOverlay").hidden = true; };
@@ -1259,38 +1295,40 @@ document.addEventListener("DOMContentLoaded", function(){
   // sıraya göre, kronolojik (Numune→Teklif→Proforma→Sipariş) listelenir.
   // "Tekrarla" seçeneği KALDIRILDI (18.10.2026, Abdullah'ın isteğiyle) —
   // popup artık SADECE gerçek sonraki-aşama seçeneklerini gösteriyor.
-  var TIP_ETIKET_ILERLET = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma Fatura", siparis:"Sipariş"};
-  var ilerletSeciliTip = null;
+  var TIP_ETIKET_ILERLET = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma", siparis:"Sipariş"};
+  var TIP_IKON_ILERLET = {numune:"🧪", teklif:"📄", proforma:"🧾", siparis:"📦"};
+  // (05.11.2026, Abdullah onayı — mockup üzerinden) İlerlet artık "Devam Et"/
+  // "Kapat" tuşlu pencere DEĞİL: "i" tuşunun altında küçük açılır liste; bir
+  // aşamaya dokunmak doğrudan o aşamaya ilerletir. Seçenekler tek yerden:
+  // ReportsData.ilerletSecenekleri(kayit) — "Stok Bekliyor" siparişte Fiyat
+  // Teklifi / Proforma / Sipariş (fiyatlar geç gelen stok yüzünden değişmiş
+  // olabilir), Numune hiçbir zaman yok.
   document.getElementById("msIlerlet").onclick = function(){
-    document.getElementById("islemlerOverlay").hidden = true;
+    acilirKapat("islemlerOverlay");
     try{
       if(!sonCizilenKayit) return;
-      var secenekler = ReportsData.SONRAKI_ASAMALAR[sonCizilenKayit.tip] || [];
-      ilerletSeciliTip = null;
-      document.getElementById("ilerletDevamSatiri").hidden = true;
+      var secenekler = ReportsData.ilerletSecenekleri(sonCizilenKayit);
+      if(!secenekler.length) return;
       var liste = document.getElementById("ilerletSecenekListesi");
       liste.innerHTML = secenekler.map(function(tip){
-        return "<button type='button' class='duzenle-menu-secenek' data-tip='" + tip + "'>" + (TIP_ETIKET_ILERLET[tip]||tip) + "</button>";
+        return "<button type='button' class='acilir-menu-oge acilir-menu-oge--" + tip + "' data-tip='" + tip + "'>"
+          + "<span class='acilir-menu-ikon'>" + (TIP_IKON_ILERLET[tip]||"▶") + "</span>" + (TIP_ETIKET_ILERLET[tip]||tip) + "</button>";
       }).join("");
       liste.querySelectorAll("[data-tip]").forEach(function(btn){
         btn.onclick = function(){
-          ilerletSeciliTip = this.getAttribute("data-tip");
-          liste.querySelectorAll("[data-tip]").forEach(function(b){ b.classList.remove("duzenle-menu-secenek--secili"); });
-          this.classList.add("duzenle-menu-secenek--secili");
-          document.getElementById("btnIlerletDevam").textContent = (TIP_ETIKET_ILERLET[ilerletSeciliTip]||ilerletSeciliTip) + " seçeneğine devam et";
-          document.getElementById("ilerletDevamSatiri").hidden = false;
+          var tip = this.getAttribute("data-tip");
+          try{
+            acilirKapat("ilerletSecOverlay");
+            if(!sonCizilenKayit) return;
+            ReportsData.revizeBaslat(sonCizilenKayit, tip);
+          }catch(e){ hataGoster("İlerletilemedi: " + e.message); }
         };
       });
       document.getElementById("ilerletSecOverlay").hidden = false;
-    }catch(e){ hataGoster("İlerlet popup'ı açılamadı: " + e.message); }
-  };
-  document.getElementById("btnIlerletVazgec").onclick = function(){ document.getElementById("ilerletSecOverlay").hidden = true; };
-  document.getElementById("btnIlerletDevam").onclick = function(){
-    try{
-      if(!sonCizilenKayit || !ilerletSeciliTip) return;
-      document.getElementById("ilerletSecOverlay").hidden = true;
-      ReportsData.revizeBaslat(sonCizilenKayit, ilerletSeciliTip);
-    }catch(e){ hataGoster("İlerletilemedi: " + e.message); }
+      acilirKonumla("ilerletAcilir");
+      var t = document.getElementById("btnIslemlerAc");
+      if(t) t.classList.add("ub-ayrinti-secili");
+    }catch(e){ hataGoster("İlerlet seçenekleri açılamadı: " + e.message); }
   };
 
   // ---- Beklemede (sipariş verildi ama stokta yok, tedarik/termin

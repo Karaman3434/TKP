@@ -423,6 +423,25 @@ var ReportsData = (function(){
     return satirlar;
   }
 
+  // STOK BEKLEYEN SİPARİŞLER (05.11.2026, Abdullah onayı — "Stok Bekleyen ve
+  // Bakiye Bekleyen" ekranı): sipariş (kayıt) SEVİYESİNDE "Stok Bekliyor"
+  // (durum:"beklemede") işaretli kayıtlar. bakiyedekiUrunler()'den FARKI:
+  // o ürün satırı bazında (bakiyeAdet>0), bu ise Bilgi Düzenle > "Beklemede
+  // olarak işaretle" ile siparişin TAMAMINA konan işaret. Yeni veri alanı
+  // YOK — mevcut k.durum/k.beklemedeNot okunur. En eskiden (en çok bekleyen)
+  // en yeniye sıralı DEĞİL, bakiye listesiyle aynı: en yeni önce.
+  function stokBekleyenSiparisler(){
+    var bugun = Date.now();
+    return sonIslemler().filter(function(k){ return k.durum === "beklemede"; }).map(function(k){
+      return {
+        tip:k.tip, ts:k.ts, kod:k.kod, tarih:k.tarih||"",
+        musteri:k.musteri, musteriId:k.musteriId||null, sehir:k.sehir||"",
+        gun: Math.floor((bugun-(k.ts||0))/86400000),
+        beklemedeNot: k.beklemedeNot||"", urunSayisi:(k.urunler||[]).length
+      };
+    }).sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
+  }
+
   // Bu müşteride, henüz siparişe (veya sonraki aşamaya) dönüşmemiş en son
   // teklif/proforma/numune kaydını döndürür (yoksa null). Ürün eşleştirmesi
   // YAPMAZ — sadece "bu müşteride açık bir şey var mı" sorusuna cevap verir
@@ -601,6 +620,17 @@ var ReportsData = (function(){
     proforma: ["siparis"]
   };
 
+  // İLERLET SEÇENEKLERİ (05.11.2026, Abdullah onayı): bir kaydın ilerleyebileceği
+  // aşamalar TEK yerden. Normal kayıtta SONRAKI_ASAMALAR; "Stok Bekliyor"
+  // (durum:"beklemede") SİPARİŞ ise fiyatlar geç gelen stok yüzünden değişmiş
+  // olabileceğinden Fiyat Teklifi / Proforma / Sipariş seçilebilir (Numune
+  // YOK). Boş dizi = bu kayıt ilerletilemez (İlerlet satırı gösterilmez).
+  function ilerletSecenekleri(kayit){
+    if(!kayit) return [];
+    if(kayit.tip === "siparis" && kayit.durum === "beklemede") return ["teklif","proforma","siparis"];
+    return (SONRAKI_ASAMALAR[kayit.tip] || []).slice();
+  }
+
   // Bir kaydı (numune/teklif/proforma) düzenlenebilir Sepet'e yükler.
   // secenekler.length===1 ise otomatik o aşamaya, >1 ise send.html'de
   // Gönder anında Proforma/Sipariş (veya Proforma/Teklif) seçim popup'ı
@@ -609,8 +639,8 @@ var ReportsData = (function(){
   // hangi aşamaya geçileceğini sorup seçtirdiyse doğrudan o tip verilir,
   // Gönder aşamasında tekrar sorulmaz (07.09.2026).
   function revizeBaslat(kayit, hedefTip){
-    var secenekler = SONRAKI_ASAMALAR[kayit.tip];
-    if(!secenekler){ return false; }
+    var secenekler = ilerletSecenekleri(kayit);
+    if(!secenekler.length){ return false; }
     // Eski kayıtta Dip Fiyat 0/boş kalmışsa (geçmiş bir hata nedeniyle),
     // sessizce 0 olarak taşımak yerine — %36,35 kuralıyla öner AMA
     // "hesaplandı" sayma; kullanıcı Sepet'te bu ürüne dokunup Hesapla
@@ -823,6 +853,7 @@ var ReportsData = (function(){
     acikSurecleriHesapla: acikSurecleriHesapla,
     beklemedeSiparisleriHesapla: beklemedeSiparisleriHesapla,
     bakiyedekiUrunler: bakiyedekiUrunler,
+    stokBekleyenSiparisler: stokBekleyenSiparisler,
     yillikOzet: yillikOzet,
     aylikPrimOzeti12: aylikPrimOzeti12,
     enCokSatisYapilanMusteriler: enCokSatisYapilanMusteriler,
@@ -838,6 +869,7 @@ var ReportsData = (function(){
     kaydiGuncelle: kaydiGuncelle,
     kaydiAlanGuncelle: kaydiAlanGuncelle,
     SONRAKI_ASAMALAR: SONRAKI_ASAMALAR,
+    ilerletSecenekleri: ilerletSecenekleri,
     revizeBaslat: revizeBaslat,
     tekrarBaslat: tekrarBaslat
   };

@@ -778,7 +778,17 @@ function kaydetGercekIslem(niyet){
     SendData.kaydet(secilenTip, musteri, sepet, kur, kdv, seciliAdresler, devralinanKod, devralinanTarih, devralinanRota, function(basarili, sonuc, revizeMi){
       if(basarili){
         if(kaynak){
-          SendData.kaynakSil(kaynak.tip, kaynak.ts, function(){});
+          // KORUMA (05.11.2026): "Stok Bekliyor" siparişten tekrar SİPARİŞ'e
+          // ilerletilirken SendData.kaydet'in "aynı gün + aynı müşteri + aynı
+          // ürün seti = revize" kuralı kaynak kaydın KENDİSİNİ güncelleyebilir.
+          // O durumda kaynak silinirse yeni kayıt da kaybolurdu — silme; sadece
+          // "Stok Bekliyor" işaretini kaldır (artık stok geldi).
+          var kaynakKendisiMi = !!(sonuc && sonuc.ts === kaynak.ts && secilenTip === kaynak.tip);
+          if(kaynakKendisiMi){
+            try{ ReportsData.kaydiAlanGuncelle(kaynak.tip, kaynak.ts, {durum:null, beklemedeNot:null}, function(){}); }catch(e){}
+          } else {
+            SendData.kaynakSil(kaynak.tip, kaynak.ts, function(){});
+          }
           localStorage.removeItem("weiconv2_ilerlet_kaynak");
         }
         // KAYDET (03.11.2026, Abdullah onayı — "bu sayfada mutlaka işlemi
