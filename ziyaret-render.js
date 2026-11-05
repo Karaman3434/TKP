@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: WG.131026.1310.797
+  ziyaret-render.js — VERSİYON: TKP.05.11.26-21:16.1489
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -863,6 +863,9 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("ziyGunFiltre").value = urlTarih;
     takvimiCiz();
     gunSecildi(urlTarih);
+    // Ana Sayfa takviminden gelen "Temas / Ajanda" seçimi: ilgili panel doğrudan açılır (21:12 isteği).
+    var urlGorunum = urlParams.get("gorunum");
+    if(urlGorunum === "temas" || urlGorunum === "ajanda") gorunumSec(urlGorunum);
   } else {
     takvimiCiz();
   }

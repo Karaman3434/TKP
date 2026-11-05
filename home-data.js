@@ -136,12 +136,20 @@ var IsTakipData = (function(){
     var sonuc = {};
     ["numune","teklif","proforma","siparis"].forEach(function(tip){
       (arsivHamData[tip] || []).forEach(function(k){
-        if(!k.tarih) return;
-        var p = k.tarih.split(" ");
-        var ayNo = AYLAR.indexOf(p[1]);
-        var gun = parseInt(p[0], 10), yil = parseInt(p[2], 10);
-        if(ayNo < 0 || !gun || !yil) return;
-        var a = yil + "-" + String(ayNo+1).padStart(2,"0") + "-" + String(gun).padStart(2,"0");
+        // Ziyaret Takvimi sayfası (ReportsData.sonIslemler) gün sayımını k.ts'ten yapar —
+        // aynı sayı çıksın diye önce ts, yoksa "5 Kas 2026" metni kullanılır.
+        var a = null;
+        if(k.ts){
+          var dt = new Date(k.ts);
+          a = dt.getFullYear() + "-" + String(dt.getMonth()+1).padStart(2,"0") + "-" + String(dt.getDate()).padStart(2,"0");
+        } else if(k.tarih){
+          var p = k.tarih.split(" ");
+          var ayNo = AYLAR.indexOf(p[1]);
+          var gun = parseInt(p[0], 10), yil = parseInt(p[2], 10);
+          if(ayNo < 0 || !gun || !yil) return;
+          a = yil + "-" + String(ayNo+1).padStart(2,"0") + "-" + String(gun).padStart(2,"0");
+        }
+        if(!a) return;
         sonuc[a] = (sonuc[a] || 0) + 1;
       });
     });

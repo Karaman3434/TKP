@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.05.11.26-12:35.1485
+// menu-cekmece.js — TKP.05.11.26-21:16.1489
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -141,7 +141,7 @@ var DRAWER_ALT_MENULERI = {
       {ikon:"📊", etiket:"İstatistikler", href:"reports.html"},
       {ikon:"📋", etiket:"Son İşlemler", href:"son-islemler.html"},
       {ikon:"📌", etiket:"Görevlerim", href:"gorevler.html"},
-      {ikon:"📆", etiket:"Ziyaret Takvimi", href:"ziyaret.html"},
+      {ikon:"⚠️", etiket:"Takip Gerekenler", href:"takip-gerekenler.html"},
       {ikon:"❌", etiket:"Kaçan Satışlar", href:"kacan-satislar.html"},
       {ikon:"📦", etiket:"Stok Bekleyen ve Bakiye Bekleyen", href:"bakiye-urunler.html"}
     ]

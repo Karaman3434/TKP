@@ -145,11 +145,6 @@ function gununOzetiniGuncelle(){
       });
       var temasToplam = 0;
       Object.keys(temasDokum).forEach(function(t){ temasToplam += temasDokum[t]; });
-      // (05.11.2026) Ana sayfa takvimindeki temas defterinin dolu satırları da bugünün temasına dahil.
-      if(typeof GunNotlariData !== "undefined"){
-        var bg = new Date();
-        temasToplam += GunNotlariData.gunToplam(bg.getFullYear() + "-" + String(bg.getMonth()+1).padStart(2,"0") + "-" + String(bg.getDate()).padStart(2,"0"));
-      }
       setText("gununOzetiTemasSayi", temasToplam);
     }
 
@@ -358,7 +353,6 @@ document.addEventListener("DOMContentLoaded", function(){
   IsTakipData.bildirimDegistiginde(gununOzetiniGuncelle);
   IsTakipData.bildirimVerisiDinlemeyeBasla();
   if(typeof CustomerData !== "undefined") CustomerData.listeDegistiginde(gununOzetiniGuncelle);
-  if(typeof GunNotlariData !== "undefined") GunNotlariData.degistiginde(gununOzetiniGuncelle);
   if(typeof KomisyonDonemData !== "undefined") KomisyonDonemData.degistiginde(function(){ odenebilirKomisyonuGuncelle(); });
   window.addEventListener("istakipAuthHazir", function(){ odenebilirKomisyonuGuncelle(); });
   document.getElementById("bildirimBanner").onclick = function(){ window.location.href = "bildirimler.html"; };
