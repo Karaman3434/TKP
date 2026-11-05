@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: TKP.05.11.26-21:16.1489
+  ziyaret-render.js — VERSİYON: TKP.05.11.26-21:47.1492
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -420,14 +420,20 @@ function kirpVeSikistir(img, kirpKutusu){
 
 // Film şeridini TÜM sayfalardan (kronolojik) kurar, hedef tarihe en
 // yakın karta kaydırıp "aktif" yapar.
+var ajandaOdakModu = false; // true: sadece seçili günün ajanda fotoğrafları (bkz. aşağıdaki DOMContentLoaded)
 function ajandaFilmSeridiniCiz(hedefTarih){
   try{
     var tumKayitlar = (typeof AjandaData !== "undefined") ? AjandaData.tumKayitlarKronolojik() : [];
     var seridEl = document.getElementById("ajFilmSeridi");
     var bosEl = document.getElementById("ajFilmBos");
 
+    // AJANDA ODAK MODU (05.11.2026, Abdullah): Ana Sayfa takviminden "Ajanda" ile gelindiyse
+    // yalnızca SEÇİLİ GÜNÜN el yazısı ajanda fotoğrafları gösterilir (diğer günlerin sayfaları değil).
+    if(ajandaOdakModu) tumKayitlar = tumKayitlar.filter(function(k){ return k.tarih === hedefTarih; });
+
     if(tumKayitlar.length === 0){
       seridEl.innerHTML = "";
+      bosEl.textContent = ajandaOdakModu ? "Bu güne ait ajanda fotoğrafı yok — \"Ekle\" ile çekebilirsin." : "Henüz hiç sayfa eklenmemiş — \"Ekle\" ile çekebilirsin.";
       bosEl.hidden = false;
       return;
     }
@@ -865,7 +871,17 @@ document.addEventListener("DOMContentLoaded", function(){
     gunSecildi(urlTarih);
     // Ana Sayfa takviminden gelen "Temas / Ajanda" seçimi: ilgili panel doğrudan açılır (21:12 isteği).
     var urlGorunum = urlParams.get("gorunum");
-    if(urlGorunum === "temas" || urlGorunum === "ajanda") gorunumSec(urlGorunum);
+    if(urlGorunum === "ajanda"){
+      // Odak modu: sadece o günün ajanda fotoğrafları (takvim, filtre ve "Türü değiştir" gizli).
+      ajandaOdakModu = true;
+      document.body.classList.add("ziy-ajanda-odak");
+      var etiket = document.querySelector(".ub-sayfa-etiket span");
+      if(etiket) etiket.textContent = "Ajanda";
+      document.title = "Ajanda";
+      gorunumSec("ajanda");
+    } else if(urlGorunum === "temas"){
+      gorunumSec(urlGorunum);
+    }
   } else {
     takvimiCiz();
   }

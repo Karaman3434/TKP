@@ -440,3 +440,13 @@
   margin-bottom: 10px;
   display: inline-block;
 }
+
+
+/* AJANDA ODAK MODU (05.11.2026, Abdullah): Ana Sayfa takviminden "Ajanda" ile gelinince
+   yalnızca günün ajanda fotoğrafları görünür — takvim/filtre/geri-link/Kapat gizli
+   (üstteki ✕ Ana Sayfa'ya döner). */
+body.ziy-ajanda-odak .ziy-takip-btn,
+body.ziy-ajanda-odak .ziy-filtre-satir,
+body.ziy-ajanda-odak .ziy-takvim-kutu,
+body.ziy-ajanda-odak #btnZiyAjandaGeri,
+body.ziy-ajanda-odak #btnZiyGunKapat { display: none !important; }
