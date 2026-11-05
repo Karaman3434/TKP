@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — TKP.02.11.26-10:48.1381
+  belge-onizleme-style-v2.css — TKP.05.11.26-10:12.1478
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -251,7 +251,7 @@
    yetkili-blok" artık DOM'da yok) — girinti/zemin artık diğer sayfalarla
    BİREBİR aynı paylaşılan ".ck-kart" kademesinden geliyor, ayrıca sıfırlamaya
    gerek yok. */
-.belge-onizleme-sayfa .ck-blok .belge-yetkili-satir { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.belge-onizleme-sayfa .ck-blok .belge-yetkili-satir { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
 /* DEĞİŞİKLİK (18.10.2026, Abdullah onayı — "neden kalın harf olmuş"):
    yetkili satırı (isim + telefon/e-posta) artık Fatura/Teslimat Adresi
    metniyle (.ck-kart, 12.5px/normal) BİREBİR aynı boy ve ağırlıkta —

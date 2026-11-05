@@ -1,4 +1,4 @@
-/* belge-style.css — TKP.04.11.26-14:35.1467
+/* belge-style.css — TKP.05.11.26-10:12.1478
    GÜNCELLEME (04.11.2026, Abdullah onayı): BEDELSİZ satır — .belge-bdl-yazi
    (kırmızı BEDELSİZ) ve .belge-td-bdl-iptal/.belge-bdl-cizgi (boş hücre + kırmızı çizgi).
    (önceki: TKP.02.11.26-10:48.1380)
@@ -295,7 +295,10 @@
    (send-render.js) ise .ck-kart zaten 10px girinti veriyor — ikisi üst
    üste binmesin diye indent SADECE .belge-yetkili-blok bağlamında eklenir. */
 .belge-yetkili-blok .belge-yetkili-satir { padding-left: 10px; }
-.belge-yetkili-detay { color: #667085; font-size: 11px; font-weight: 500; }
+.belge-yetkili-detay { color: #667085; font-size: 11px; font-weight: 500; display: inline-flex; flex-wrap: wrap; align-items: center; }
+/* HİZALAMA (05.11.2026, Abdullah isteği): isim + telefon/mail ikonları aynı
+   dikey eksende (ortalı) dursun. */
+.belge-yetkili-satir { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; }
 
 .belge-belge-baslik-serit {
   background: #eafaf0;

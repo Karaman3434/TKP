@@ -1,4 +1,4 @@
-/* cari-kart-style.css — WG.011126.1022.1261 */
+/* cari-kart-style.css — TKP.05.11.26-10:12.1478 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -508,7 +508,9 @@
 .ck-iletisim-ayrac { color: #aab2bd; font-weight: 600; margin: 0 6px; }
 /* Boy diğer tüm ikonlarla (.ozet-ikon, .ck-blok-etiket-ikon) birebir aynı:
    17.5px. Renk komşu metnin rengini (currentColor, gri #556170) devralır. */
-.ck-kart-iletisim-ikon { width: 17.5px; height: 17.5px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+/* RENK (05.11.2026, Abdullah isteği): telefon/mail ikonları artık gri değil,
+   FATURA ADRESİ/YETKİLİ/TESLİMAT ADRESİ etiketleriyle AYNI yeşil (#16a085). */
+.ck-kart-iletisim-ikon { width: 17.5px; height: 17.5px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: #16a085; }
 .ck-kart-iletisim-ikon svg { width: 100%; height: 100%; display: block; }
 
 /* İşlem için seçim (WG.090926.196): birden fazla kayıt varsa hangisinin

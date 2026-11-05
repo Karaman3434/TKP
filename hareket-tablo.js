@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — TKP.04.11.26-14:35.1467
+  hareket-tablo.js — TKP.05.11.26-10:12.1478
   =================
   GÜNCELLEME (04.11.2026, 14:35, Abdullah onayı — mockup üzerinden): BEDELSİZ
   satır gösterimi. TOPLAM sütunu "NUMUNE" yerine "BEDELSİZ" (kırmızı); LİSTE,
@@ -299,11 +299,14 @@ var HareketTablo = (function(){
     var ikonVarMi = (typeof IkonSvg !== "undefined");
     var ikTel = ikonVarMi ? "<span class='ck-kart-iletisim-ikon'>" + IkonSvg.svg("telefon") + "</span>" : "📞 ";
     var ikMail = ikonVarMi ? "<span class='ck-kart-iletisim-ikon'>" + IkonSvg.svg("mail") + "</span>" : "✉️ ";
+    // HİZALAMA (05.11.2026, Abdullah isteği): telefon/mail ikonları rakam/harflerle
+    // aynı hizada dursun diye her parça "ck-iletisim-parca" (inline-flex, dikey
+    // ortalı) içine alındı — Fatura Adresi altındaki iletişim satırıyla AYNI yapı.
     var parcalar = [];
-    if(tel) parcalar.push(ikTel + htmlEsc(tel));
-    if(eposta) parcalar.push(ikMail + htmlEsc(eposta));
+    if(tel) parcalar.push("<span class='ck-iletisim-parca'>" + ikTel + htmlEsc(tel) + "</span>");
+    if(eposta) parcalar.push("<span class='ck-iletisim-parca'>" + ikMail + htmlEsc(eposta) + "</span>");
     return "<div class='belge-yetkili-satir'>" + htmlEsc(isim||"-")
-      + (parcalar.length ? " — <span class='belge-yetkili-detay'>" + parcalar.join(" · ") + "</span>" : "")
+      + (parcalar.length ? " — <span class='belge-yetkili-detay'>" + parcalar.join("<span class='ck-iletisim-ayrac'>·</span>") + "</span>" : "")
       + "</div>";
   }
 

@@ -1,5 +1,5 @@
 /*
-  gonder-tablo-style-v2.css — WG.281026.1156.1186
+  gonder-tablo-style-v2.css — TKP.05.11.26-10:12.1478
   ================================================================
   Belge Önizleme/Sepet'te onaylanan açık gri zemin dili Gönder
   ekranının ürün tablosuna da taşındı (12.10.2026, Abdullah onayı).
@@ -39,12 +39,53 @@ body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-siparis  { color: #38469a;
 body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-proforma { color: #8a4306; }
 body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { color: #8e0e45; }
 
-/* FATURA ADRESİ / İLETİŞİM ÇİZGİSİ KALDIRILDI — SADECE MAİL GÖRSELİNDE
-   (28.10.2026, Abdullah onayı — mockup üzerinden onaylandı): Mail/WhatsApp'a
-   giden gerçek görselde (#belgeGorselAlani, bkz. send-render.js) fatura
-   adresi metni ile altındaki telefon/mail satırları arasındaki ince çizgi
-   kaldırıldı. Bu kural SADECE bu gizli render alanını hedefliyor — Cari
-   Kart, Sepet, Belge Önizleme ve Gönder'in canlı önizlemesi (#tamOnizleme
-   Alani, #mailOnizlemeTablo) .ck-kart-iletisim çizgisini eskisi gibi
-   göstermeye devam eder. */
-#belgeGorselAlani .ck-kart-iletisim { border-top: none; margin-top: 4px; padding-top: 0; }
+/* FATURA ADRESİ / İLETİŞİM ÇİZGİSİ (28.10.2026, Abdullah onayı — "her
+   yerde" turu): burada SADECE Mail görseline (#belgeGorselAlani) özel bir
+   ezme kuralı vardı — artık GEREKSİZ, çizgi program genelinde kalktığı
+   için kural doğrudan cari-kart-style.css'teki TEK taban kuralda (bkz.
+   .ck-kart-iletisim, 28.10.2026 yorumu). */
+
+/* EKLENDİ (01.11.2026, Abdullah onayı — mockup üzerinden "Önce/Sonra"
+   karşılaştırmasıyla onaylandı):
+   1) Mail/WhatsApp'a giden GERÇEK görselde (belgeGorselHtmlOlustur) ve
+      Gönder ekranının canlı önizlemesinde (tamOnizlemeHtmlOlustur) müşteri
+      cari bilgisi kutusu (FATURA ADRESİ/TESLİMAT ADRESİ/YETKİLİ) ile
+      altındaki SİPARİŞ/TEKLİF panelinin arası belirgin biçimde açılsın
+      diye 3mm boşluk eklendi. Belge Önizleme'deki AYNI boşluğun (bkz.
+      belge-onizleme-style-v2.css .belge-onizleme-sayfa .belge-kart--cari-
+      ust) birebir karşılığı — orada ayrı bir .belge-kart sarmalayıcı var,
+      burada (Gönder/Mail) cariKutulariHtml() kendi .belge-kart'ı içinde
+      DEĞİL, bu yüzden boşluk doğrudan cari kutusunun SON bloğuna
+      (.belge-adres-yetkili-cerceve) uygulanıyor — bir sonraki .belge-
+      kart-ayrac (height:0) boşluğu yutmuyor, sonuç AYNI.
+   2) Müşteri cari ismi şeridi (musteri-serit.js) Belge Önizleme'de
+      28.10.2026'da ortalanmıştı (bkz. belge-onizleme-style-v2.css
+      .belge-onizleme-sayfa .musteri-serit) — AYNI kural burada da
+      uygulandı. Paylaşılan musteri-serit.css kuralına DOKUNULMADI
+      (Sepet/Cari Kart/Belge Önizleme etkilenmesin diye SADECE
+      .gonder-sayfa altında).
+   3) .belge-form-baslik (SİPARİŞ/TEKLİF + tarih etiketi) 18.10.2026'da
+      BİLEREK sola yaslanacak şekilde değiştirilmişti (bkz. belge-
+      style.css) — Abdullah bu paneli SADECE Mail/WhatsApp'ta (Belge
+      Önizleme'de DEĞİL) tekrar ortalanmış istedi, paylaşılan kurala
+      dokunmadan burada scoped olarak eziliyor. */
+.gonder-sayfa .belge-adres-yetkili-cerceve { margin-bottom: 3mm; }
+.gonder-sayfa .musteri-serit { align-items: center; justify-content: center; }
+.gonder-sayfa .musteri-serit .ms-ad { text-align: center; }
+.gonder-sayfa .belge-form-baslik { justify-content: center; }
+
+/* ORTAK ETİKET YAZISI (05.11.2026, Abdullah isteği — "tabloda bütünlük"):
+   Gönder/Mail görselinde müşteri ismi, FATURA ADRESİ / TESLİMAT ADRESİ /
+   YETKİLİ ve işlem etiketi (F. TEKLİFİ + tarih) artık VADE / FATURA / KARGO
+   etiketleriyle (.ozet-baslik: 11px, kalın, harf aralığı .2px) AYNI boy,
+   aynı font ağırlığı. Renkler değişmedi (her etiket kendi rengini korur). */
+.gonder-sayfa .musteri-serit .ms-ad,
+.gonder-sayfa .musteri-serit .ms-ayrac,
+.gonder-sayfa .musteri-serit .ms-sehir,
+.gonder-sayfa .ck-blok-etiket--fatura,
+.gonder-sayfa .ck-blok-etiket--teslimat,
+.gonder-sayfa .ck-blok-etiket--yetkili,
+.gonder-sayfa .ck-blok-etiket--not,
+.gonder-sayfa .belge-form-baslik-etiket,
+.gonder-sayfa .belge-form-baslik-tarih { font-size: 11px; font-weight: 700; letter-spacing: .2px; }
+.gonder-sayfa .belge-form-baslik-tarih { opacity: 1; }
