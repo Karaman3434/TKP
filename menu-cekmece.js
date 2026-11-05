@@ -964,9 +964,28 @@ function asDrawerBagla(){
 document.addEventListener("DOMContentLoaded", function(){
   asDrawerBagla();
 });
+// ?menu=<alt menü anahtarı> (05.11.2026, Abdullah onayı): Raporlar alt
+// sayfalarındaki Geri tuşu "home.html?menu=raporlar" ile buraya gelir —
+// çekmece açılır ve Raporlar alt menüsü hazır görünür. Parametre adres
+// çubuğundan silinir (yenilemede tekrar açılmasın).
+function mcUrldenMenuAc(){
+  try{
+    var m = /[?&]menu=([a-z0-9_]+)/i.exec(window.location.search || "");
+    if(!m) return;
+    var anahtar = m[1];
+    try{ window.history.replaceState(null, "", window.location.pathname); }catch(e){}
+    var tetik = document.querySelector('[data-alt-menu="' + anahtar + '"]');
+    if(!tetik || !DRAWER_ALT_MENULERI[anahtar]) return;
+    asDrawerAc();
+    // Çekmece yana kayarak açılıyor (~250ms); alt menü konumu bittikten sonra hesaplanır.
+    setTimeout(function(){ altMenuAc(anahtar, tetik); }, 330);
+  }catch(e){}
+}
+
 window.addEventListener("istakipAuthHazir", function(ev){
   mcDrawerListesiOlustur();
   mcAracKmDurumunuGetir();
+  mcUrldenMenuAc();
   try{
     var el = document.getElementById("asDrawerEposta");
     if(el && ev.detail && ev.detail.user) el.textContent = ev.detail.user.email;

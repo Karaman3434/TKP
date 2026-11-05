@@ -82,10 +82,9 @@ document.addEventListener("DOMContentLoaded", function(){
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
   (function(){
     var btn = document.getElementById("btnGeriAkilli");
-    if(btn) btn.onclick = function(){
-      if(window.history.length > 1) window.history.back();
-      else window.location.href = "raporlar.html";
-    };
+    // (05.11.2026, Abdullah onayı): Geri = menüdeki Raporlar sekmesi
+    // (home.html?menu=raporlar) — eski raporlar.html artık kullanılmıyor.
+    if(btn) btn.onclick = function(){ window.location.href = "home.html?menu=raporlar"; };
   })();
 
   ReportsData.arsivDegistiginde(function(){ istatistikleriCiz(); });

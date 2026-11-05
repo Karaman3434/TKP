@@ -35,6 +35,12 @@
 (function(){
   function kapatTiklandi(){
     try{
+      // data-kapat-hedef (05.11.2026, Abdullah onayı): Raporlar alt sayfaları
+      // (İstatistikler, Son İşlemler, Görevlerim, Ziyaret Takvimi, Kaçan
+      // Satışlar, Stok Bekleyen ve Bakiye Bekleyen) Kapat'ta geçmişe değil
+      // doğrudan Ana Sayfa'ya gider.
+      var hedef = this && this.getAttribute && this.getAttribute("data-kapat-hedef");
+      if(hedef){ window.location.href = hedef; return; }
       var ref = document.referrer || "";
       var ayniSiteden = ref.indexOf(window.location.origin) === 0;
       if(ayniSiteden && window.history.length > 1){
