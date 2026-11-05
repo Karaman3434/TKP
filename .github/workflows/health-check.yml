@@ -52,7 +52,7 @@ jobs:
               sys.exit(1)
           for name in ("home.html", "pin.html", "login.html", "pwa-tani.html"):
               html = pathlib.Path(name).read_text(encoding="utf-8")
-              match = re.search(r'<link\\s+rel="manifest"\\s+href="manifest\\.json\\?v=([^"]+)"', html)
+              match = re.search(r'<link\s+rel="manifest"\s+href="manifest\.json\?v=([^"]+)"', html)
               if not match or match.group(1) != version:
                   print(f"FAIL: {name} manifest cache-buster _version ile eşleşmiyor")
                   sys.exit(1)
