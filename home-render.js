@@ -126,40 +126,6 @@ function hedefGostergesiniGuncelle(satisToplamEuro){
 
 var TEMAS_TUR_ETIKET = {ziyaret:"Ziyaret", telefon:"Telefon", mail:"Mail", whatsapp:"WhatsApp"};
 
-function gununOzetiniGuncelle(){
-  try{
-    var islem = IsTakipData.gununIslemOzeti();
-    setText("gununOzetiIslemSayi", islem.toplam);
-    setText("gununOzetiSiparisSayi", islem.dokum.siparis||0);
-
-    if(typeof CustomerData !== "undefined"){
-      var bugun = new Date();
-      var temasDokum = {ziyaret:0, telefon:0, mail:0, whatsapp:0};
-      CustomerData.tumZiyaretTemaslar().forEach(function(z){
-        var d = new Date(z.ts);
-        if(d.getFullYear()===bugun.getFullYear() && d.getMonth()===bugun.getMonth() && d.getDate()===bugun.getDate()){
-          var t = z.tur || "ziyaret";
-          if(temasDokum[t]===undefined) temasDokum[t] = 0;
-          temasDokum[t]++;
-        }
-      });
-      var temasToplam = 0;
-      Object.keys(temasDokum).forEach(function(t){ temasToplam += temasDokum[t]; });
-      // Ana sayfa takvimindeki temas defterinin dolu satırları da bugünün temasına dahil.
-      if(typeof GunNotlariData !== "undefined"){
-        var bg = new Date();
-        temasToplam += GunNotlariData.gunToplam(bg.getFullYear() + "-" + String(bg.getMonth()+1).padStart(2,"0") + "-" + String(bg.getDate()).padStart(2,"0"));
-      }
-      setText("gununOzetiTemasSayi", temasToplam);
-    }
-
-    var bugunTarih = new Date();
-    var tarihStr = bugunTarih.getFullYear() + "-" + String(bugunTarih.getMonth()+1).padStart(2,"0") + "-" + String(bugunTarih.getDate()).padStart(2,"0");
-    var kutu = document.getElementById("gununOzetiKutu");
-    if(kutu) kutu.href = "ziyaret.html?tarih=" + tarihStr;
-  }catch(e){ hataGoster("Günün özeti güncellenemedi: " + e.message); }
-}
-
 function setText(id, deger){
   var el = document.getElementById(id);
   if(el) el.textContent = deger;
@@ -355,16 +321,12 @@ document.addEventListener("DOMContentLoaded", function(){
   try{ if(typeof CihazData !== "undefined") CihazData.kaydiGuncelle(); }catch(e){}
   IsTakipData.veriDegistiginde(kartlariGuncelle);
   IsTakipData.bildirimDegistiginde(bildirimBanneriGuncelle);
-  IsTakipData.bildirimDegistiginde(gununOzetiniGuncelle);
   IsTakipData.bildirimVerisiDinlemeyeBasla();
-  if(typeof CustomerData !== "undefined") CustomerData.listeDegistiginde(gununOzetiniGuncelle);
-  if(typeof GunNotlariData !== "undefined") GunNotlariData.degistiginde(gununOzetiniGuncelle);
   if(typeof KomisyonDonemData !== "undefined") KomisyonDonemData.degistiginde(function(){ odenebilirKomisyonuGuncelle(); });
   window.addEventListener("istakipAuthHazir", function(){ odenebilirKomisyonuGuncelle(); });
   document.getElementById("bildirimBanner").onclick = function(){ window.location.href = "bildirimler.html"; };
   // Firebase verisi henüz gelmemiş olabilir; ilk anda da bir kez dene.
   kartlariGuncelle();
-  gununOzetiniGuncelle();
 
   asKurGuncelle();
   hataRozetiGuncelle();

@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.05.11.26-21:45.1491
+/* home-takvim-style.css — TKP.06.11.26-09:56.1494
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -15,6 +15,18 @@
   padding: 10px 8px; font-size: 14px; font-weight: 800; cursor: pointer;
   margin-bottom: 6px;
 }
+.ht-ozet {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin: 0 0 6px; padding: 9px 14px;
+  background: #fff; border: 1.5px solid #a9c9ee; border-radius: 12px;
+  font-weight: 700; font-size: 15px;
+}
+.ht-ozet b { color: #0a2f5c; }
+.ht-ozet-oge { white-space: nowrap; }
+.ht-ozet-oge i { font-style: normal; font-size: 17px; margin-right: 4px; vertical-align: -2px; }
+.ht-ozet-oge--islem { color: #1257c7; }
+.ht-ozet-oge--siparis { color: #b5760f; }
+.ht-ozet-oge--temas { color: #0e8a47; }
 .ht-takvim-kutu {
   background: #fff; border: 1px solid #e2e6ec; border-radius: 10px;
   padding: 10px; margin-bottom: 6px;

@@ -1,5 +1,5 @@
 /*
-  home-takvim-render.js — TKP.05.11.26-21:45.1491
+  home-takvim-render.js — TKP.06.11.26-09:56.1494
   =================================================
   ANA SAYFA TAKVİMİ.
 
@@ -12,6 +12,8 @@
     AJANDA → Ziyaret Takvimi sayfasında ajanda paneli (mevcut rota).
     TEMAS (21:42 onayı) → tek pencere: üstte Ziyaret/Telefon/Mail/WhatsApp logoları (yeni kaydın türü),
     çizgili kâğıtta günün temas satırları + işlemler, altta YENİ KAYIT (firma ara, not, hatırlatma, Kaydet).
+  - "Bugün" şeridi (06.11.2026, Seçenek A): ay butonunun altında bugünün işlem/sipariş/temas sayıları
+    (eski ana sayfa "Günün özeti" paneli kaldırıldı).
   - Erişim: "ziyaret" izni yoksa (Çalışan Erişimi) bölüm hiç gösterilmez.
 */
 (function(){
@@ -102,6 +104,12 @@
     yil = bugun.getFullYear(); ay = bugun.getMonth();
     kapsayici.innerHTML =
       "<button type='button' class='ht-ay-btn' id='htAySec'><span aria-hidden='true'>🗓️</span><span id='htAyBaslik'></span></button>"
+      + "<div class='ht-ozet' id='htOzet'>"
+      +   "<b>Bugün</b>"
+      +   "<span class='ht-ozet-oge ht-ozet-oge--islem'><i aria-hidden='true'>📝</i><span id='htOzetIslem'>0</span> işlem</span>"
+      +   "<span class='ht-ozet-oge ht-ozet-oge--siparis'><i aria-hidden='true'>📦</i><span id='htOzetSiparis'>0</span> sipariş</span>"
+      +   "<span class='ht-ozet-oge ht-ozet-oge--temas'><i aria-hidden='true'>👥</i><span id='htOzetTemas'>0</span> temas</span>"
+      + "</div>"
       + "<div class='ht-takvim-kutu'>"
       +   "<div class='ht-gun-basliklari'><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span class='ht-tatil-baslik'>Cmt</span><span class='ht-tatil-baslik'>Paz</span></div>"
       +   "<div class='ht-grid' id='htGrid'></div>"
@@ -126,8 +134,27 @@
     takvimiCiz();
   }
 
+  // "Bugün" şeridi (06.11.2026, Abdullah — Seçenek A): eski "Günün özeti" panelinin yerine.
+  // İşlem/sipariş = IsTakipData.gununIslemOzeti(); temas = müşteri temas kaydı + defterin dolu satırları.
+  function ozetCiz(){
+    try{
+      var b = new Date();
+      var a = anahtar(b.getFullYear(), b.getMonth(), b.getDate());
+      var islem = 0, siparis = 0;
+      try{
+        if(typeof IsTakipData !== "undefined" && IsTakipData.gununIslemOzeti){
+          var o = IsTakipData.gununIslemOzeti();
+          islem = o.toplam || 0; siparis = (o.dokum && o.dokum.siparis) || 0;
+        }
+      }catch(e){}
+      var set = function(id, v){ var el = document.getElementById(id); if(el) el.textContent = v; };
+      set("htOzetIslem", islem); set("htOzetSiparis", siparis); set("htOzetTemas", gunTurSayilari(a).toplam);
+    }catch(e){}
+  }
+
   function takvimiCiz(){
     try{
+      ozetCiz();
       document.getElementById("htAyBaslik").textContent = AY_ADLARI[ay] + " " + yil;
       var temas = temasSayilari();
       var ajanda = ajandaSayilari();
