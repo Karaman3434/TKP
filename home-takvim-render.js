@@ -1,5 +1,5 @@
 /*
-  home-takvim-render.js — TKP.06.11.26-09:56.1494
+  home-takvim-render.js — TKP.06.11.26-10:17.1495
   =================================================
   ANA SAYFA TAKVİMİ.
 
@@ -9,7 +9,8 @@
   - Günün sayısının ÜSTÜNDE: MAVİ rozet = temas + işlem sayısı (Ziyaret Takvimi
     sayfasındaki mavi sayıyla aynı kaynak), KIRMIZI rozet = ajanda sayfası.
   - Güne dokununca günün ÜSTÜNDE yarı genişlikte "Temas / Ajanda" penceresi açılır.
-    AJANDA → Ziyaret Takvimi sayfasında ajanda paneli (mevcut rota).
+    AJANDA (06.11.2026) → açılır pencere: üstte aynı not defteri, altta o günün el yazısı ajanda fotoğrafları
+    (kamera/dosya tuşları resmin üstünde, yana kaydırınca gün gün, köşeden küçült/büyüt). Kod: ajanda-foto.js.
     TEMAS (21:42 onayı) → tek pencere: üstte Ziyaret/Telefon/Mail/WhatsApp logoları (yeni kaydın türü),
     çizgili kâğıtta günün temas satırları + işlemler, altta YENİ KAYIT (firma ara, not, hatırlatma, Kaydet).
   - "Bugün" şeridi (06.11.2026, Seçenek A): ay butonunun altında bugünün işlem/sipariş/temas sayıları
@@ -234,7 +235,7 @@
         el.onclick = function(ev){
           ev.stopPropagation();
           if(this.getAttribute("data-tur") === "temas") temasAc(seciliAnahtar);
-          else window.location.href = "ziyaret.html?tarih=" + encodeURIComponent(seciliAnahtar) + "&gorunum=ajanda";
+          else ajandaAc(seciliAnahtar);
         };
       });
     }
@@ -287,36 +288,70 @@
   function miniIk(t){ return "<span class='ht-mk' style='background:" + TUR_T[t].bg + "'><svg viewBox='0 0 24 24' aria-hidden='true'>" + TUR_T[t].svg + "</svg></span>"; }
   function yarinAnahtar(a){ var p = a.split("-"); var d = new Date(+p[0], +p[1]-1, +p[2]+1); return anahtar(d.getFullYear(), d.getMonth(), d.getDate()); }
 
-  function temasAc(a){
+  function gunKaydir(a, d){
+    var p = a.split("-"); var t = new Date(+p[0], +p[1]-1, +p[2]+d);
+    return anahtar(t.getFullYear(), t.getMonth(), t.getDate());
+  }
+  var AJ_BOYUT_ANAHTAR = "ht_aj_boyut";
+  function ajBoyutOku(){ try{ var v = JSON.parse(localStorage.getItem(AJ_BOYUT_ANAHTAR) || "null"); return (v && v.w && v.h) ? v : null; }catch(e){ return null; } }
+  function ajBoyutYaz(w, h){ try{ localStorage.setItem(AJ_BOYUT_ANAHTAR, JSON.stringify({w: Math.round(w), h: Math.round(h)})); }catch(e){} }
+
+  // mod: "temas" (Temas penceresi) | "ajanda" (06.11.2026 — üstte aynı not defteri, altta o günün el yazısı ajanda
+  // fotoğrafları; yana kaydırınca gün gün ileri/geri; köşeden küçült/büyüt).
+  function temasAc(a){ pencereAc(a, "temas"); }
+  function ajandaAc(a){ pencereAc(a, "ajanda"); }
+  function pencereAc(a, mod){
     if(document.querySelector(".ht-defter")) return;
+    var aj = (mod === "ajanda");
     var secTur = "ziyaret", firma = null, hatirlatma = false;
     var zemin = document.createElement("div");
     zemin.className = "ht-zemin";
     var noktalar = ""; for(var i=0; i<18; i++) noktalar += "<i></i>";
-    zemin.innerHTML =
-      "<div class='ht-defter'>"
-      + "<div class='ht-noktalar'>" + noktalar + "</div>"
-      + "<div class='ht-d-baslik'>" + ikonHtml("temas") + "<div><b>Temas</b><small id='htDSayi'></small></div></div>"
-      + "<div class='ht-turler' id='htTurler'></div>"
-      + "<div class='ht-d-kagit' id='htKagit'></div>"
-      + "<div class='ht-yeni'>"
+    var kagitHtml = "<div class='ht-d-kagit' id='htKagit'></div>";
+    var yeniHtml =
+        "<div class='ht-yeni'>"
       +   "<div class='ht-ayrac'>YENİ KAYIT</div>"
       +   "<div id='htFirmaAlan'></div>"
       +   "<div id='htOner'></div>"
       +   "<textarea class='ht-d-metin' id='htNot' rows='1' placeholder='Not yaz…' spellcheck='false'></textarea>"
       +   "<div class='ht-alt'><label class='ht-hat' id='htHat'><s id='htHatKutu'></s><span id='htHatYazi'>🔔 Hatırlatma ekle</span><input type='date' id='htHatTarih' hidden></label>"
       +   "<button type='button' class='ht-kay' id='htKaydet' disabled>✓ Kaydet</button></div>"
-      + "</div>"
-      + "<div class='ht-d-alt' id='htDAlt'>kapatmak için dışına dokun</div>"
+      + "</div>";
+    var baslikHtml = aj
+      ? "<div class='ht-d-baslik'>" + ikonHtml("ajanda") + "<div class='ht-d-bm'><b id='htDBaslik'></b><small id='htDSayi'></small></div>"
+        + "<button type='button' class='ht-nav' id='htOnceki' aria-label='Önceki gün'>‹</button><button type='button' class='ht-nav' id='htSonraki' aria-label='Sonraki gün'>›</button></div>"
+      : "<div class='ht-d-baslik'>" + ikonHtml("temas") + "<div><b>Temas</b><small id='htDSayi'></small></div></div>";
+    zemin.innerHTML =
+      "<div class='ht-defter" + (aj ? " ht-defter--aj" : "") + "' id='htDefter'>"
+      + "<div class='ht-noktalar'>" + noktalar + "</div>"
+      + baslikHtml
+      + "<div class='ht-turler' id='htTurler'></div>"
+      + (aj ? "<div class='ht-aj-defter' id='htAjDefter'>" + kagitHtml + yeniHtml + "</div>"
+            + "<div class='ht-aj-foto'><div class='ht-aj-foto-ic' id='htAjFotoIc'></div>"
+            + "<div class='ht-aj-ub'><button type='button' class='ht-ub' id='htKamera' aria-label='Fotoğraf çek'><svg viewBox='0 0 24 24'><path d='M9 3 7.2 5H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 3H9zm3 14a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-2a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z'/></svg></button>"
+            + "<button type='button' class='ht-ub' id='htDosya' aria-label='Dosyadan yükle'><svg viewBox='0 0 24 24'><path d='M20 6h-8l-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z'/></svg></button></div></div>"
+            + "<div class='ht-d-alt' id='htDAlt' hidden></div><span class='ht-grip' id='htGrip'></span>"
+          : kagitHtml + yeniHtml + "<div class='ht-d-alt' id='htDAlt'>kapatmak için dışına dokun</div>")
       + "</div>";
     document.body.appendChild(zemin);
+    var defterEl = zemin.querySelector("#htDefter");
+    if(aj){
+      var kb = ajBoyutOku();
+      if(kb){ defterEl.style.width = Math.min(kb.w, window.innerWidth - 12) + "px"; defterEl.style.height = Math.min(kb.h, window.innerHeight - 12) + "px"; }
+    }
     function el(id){ return zemin.querySelector("#" + id); }
     var altEl = el("htDAlt");
-    function ipucu(m, hata){ altEl.textContent = m; altEl.classList.toggle("ht-d-alt--hata", !!hata); }
+    function ipucu(m, hata){ altEl.textContent = m; altEl.hidden = false; altEl.classList.toggle("ht-d-alt--hata", !!hata); }
 
     function listeCiz(){
       var sayilar = gunTurSayilari(a), isl = islemSayisi(a);
-      el("htDSayi").textContent = gosterimTarih(a) + " · " + sayilar.toplam + " temas" + (isl > 0 ? " · " + isl + " işlem" : "");
+      if(aj){
+        var sp = a.split("-"), sayfa = (typeof AjandaData !== "undefined") ? AjandaData.gununKayitlari(a).length : 0;
+        el("htDBaslik").textContent = parseInt(sp[2],10) + " " + AY_ADLARI[parseInt(sp[1],10)-1] + " " + gunAdi(a);
+        el("htDSayi").textContent = sayilar.toplam + " temas" + (isl > 0 ? " · " + isl + " işlem" : "") + " · " + (sayfa > 0 ? sayfa + " sayfa" : "sayfa yok");
+      } else {
+        el("htDSayi").textContent = gosterimTarih(a) + " · " + sayilar.toplam + " temas" + (isl > 0 ? " · " + isl + " işlem" : "");
+      }
       el("htTurler").innerHTML = TURLER.map(function(t){
         return "<div class='ht-tur" + (t === secTur ? " ht-tur--sec" : "") + "' data-tur='" + t + "'>" + ikonHtml(t, TUR_T) + "<span>" + TUR_T[t].ad + "</span><em>" + sayilar.tur[t] + "</em></div>";
       }).join("");
@@ -407,7 +442,7 @@
           firma = null; notEl.value = ""; boyutla(); hatirlatma = false; hatGuncelle();
           firmaCiz(); listeCiz();
           ipucu("Kaydedildi ✓ · kapatmak için dışına dokun");
-          var k = el("htKagit"); k.scrollTop = k.scrollHeight;
+          var k = aj ? el("htAjDefter") : el("htKagit"); k.scrollTop = k.scrollHeight;
         } else {
           kaydetDurum();
           ipucu("Kaydedilemedi: " + (err && err.message ? err.message : "bilinmeyen hata"), true);
@@ -415,9 +450,84 @@
       }, firma.id);
     };
 
-    temasYenile = function(){ if(document.body.contains(zemin)) listeCiz(); };
-    zemin.addEventListener("click", function(ev){ if(ev.target === zemin){ zemin.remove(); temasYenile = null; } });
-    listeCiz(); firmaCiz(); hatGuncelle(); boyutla();
+    // ——— AJANDA: o günün el yazısı sayfa fotoğrafları (saat sırasıyla alt alta) ———
+    var sonFotoAnahtar = null, sonSurukleme = 0;
+    function fotoCiz(){
+      if(!aj) return;
+      var ks = (typeof AjandaData !== "undefined") ? AjandaData.gununKayitlari(a) : [];
+      var anahtarStr = a + "|" + ks.map(function(k){ return k.id; }).join(",");
+      if(anahtarStr === sonFotoAnahtar) return; // aynı içerik: görselleri yeniden yükleme
+      sonFotoAnahtar = anahtarStr;
+      var ic = el("htAjFotoIc"), h = "";
+      ks.forEach(function(k, i){
+        h += "<div class='ht-ft'><img src='" + esc(k.url) + "' alt='Ajanda sayfası'><span class='ht-ft-z'>" + hhmm(k.zaman) + (ks.length > 1 ? " · " + (i+1) + "/" + ks.length : "") + "</span>"
+          + "<span class='ht-ft-sil' data-id='" + esc(k.id) + "' data-yol='" + esc(k.yol || "") + "' role='button' aria-label='Sil'>🗑️</span></div>";
+      });
+      if(!ks.length) h = "<div class='ht-ft-bos'><span aria-hidden='true'>📓</span>Bu güne sayfa yüklenmemiş</div>";
+      ic.innerHTML = h;
+      ic.scrollTop = 0;
+      ic.querySelectorAll(".ht-ft-sil").forEach(function(b){
+        b.onclick = function(ev){
+          ev.stopPropagation();
+          if(!confirm("Bu sayfa fotoğrafı silinsin mi? Bu işlem geri alınamaz.")) return;
+          AjandaData.fotografSil(a, this.getAttribute("data-id"), this.getAttribute("data-yol") || null, function(ok, err){
+            if(!ok) ipucu("Silinemedi: " + (err && err.message ? err.message : "bilinmeyen hata"), true);
+          });
+        };
+      });
+    }
+    function tazele(){ if(document.body.contains(zemin)){ listeCiz(); fotoCiz(); } }
+    function gunDegistir(d){
+      a = gunKaydir(a, d);
+      sonFotoAnahtar = null;
+      listeCiz(); fotoCiz();
+      var ic = el("htAjDefter"); if(ic) ic.scrollTop = 0;
+      defterEl.classList.remove("ht-kay-sag", "ht-kay-sol"); void defterEl.offsetWidth;
+      defterEl.classList.add(d > 0 ? "ht-kay-sag" : "ht-kay-sol");
+    }
+    if(aj){
+      el("htOnceki").onclick = function(){ gunDegistir(-1); };
+      el("htSonraki").onclick = function(){ gunDegistir(1); };
+      el("htKamera").onclick = function(){ AjandaFoto.sec("kamera", a, function(ok){ if(ok) ipucu("Sayfa yüklendi ✓"); }); };
+      el("htDosya").onclick = function(){ AjandaFoto.sec("dosya", a, function(ok){ if(ok) ipucu("Sayfa yüklendi ✓"); }); };
+      // Yana kaydırma: sola = sonraki gün, sağa = önceki gün (yazı alanları ve öneri listesi hariç).
+      var tx = 0, ty = 0, tIzin = false;
+      defterEl.addEventListener("touchstart", function(ev){
+        var t = ev.touches[0]; tx = t.clientX; ty = t.clientY;
+        tIzin = ev.touches.length === 1 && !(ev.target.closest && ev.target.closest("input, textarea, .ht-oner, .ht-grip"));
+      }, {passive: true});
+      defterEl.addEventListener("touchend", function(ev){
+        if(!tIzin) return; tIzin = false;
+        var t = ev.changedTouches[0], dx = t.clientX - tx, dy = t.clientY - ty;
+        if(Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.6){ sonSurukleme = Date.now(); gunDegistir(dx < 0 ? 1 : -1); }
+      }, {passive: true});
+      // Köşeden küçült / büyüt (pencere ortada durduğu için her yöne iki katı büyür).
+      var grip = el("htGrip"), gb = null;
+      grip.addEventListener("pointerdown", function(ev){
+        ev.preventDefault(); ev.stopPropagation();
+        var r = defterEl.getBoundingClientRect();
+        gb = {x: ev.clientX, y: ev.clientY, w: r.width, h: r.height};
+        try{ grip.setPointerCapture(ev.pointerId); }catch(e){}
+      });
+      grip.addEventListener("pointermove", function(ev){
+        if(!gb) return;
+        var w = Math.max(300, Math.min(window.innerWidth - 12, gb.w + (ev.clientX - gb.x) * 2));
+        var h = Math.max(380, Math.min(window.innerHeight - 12, gb.h + (ev.clientY - gb.y) * 2));
+        defterEl.style.width = w + "px"; defterEl.style.height = h + "px";
+      });
+      function gripBitir(){
+        if(!gb) return; gb = null; sonSurukleme = Date.now();
+        var r = defterEl.getBoundingClientRect(); ajBoyutYaz(r.width, r.height);
+      }
+      grip.addEventListener("pointerup", gripBitir);
+      grip.addEventListener("pointercancel", gripBitir);
+    }
+
+    temasYenile = tazele;
+    zemin.addEventListener("click", function(ev){
+      if(ev.target === zemin && Date.now() - sonSurukleme > 400){ zemin.remove(); temasYenile = null; }
+    });
+    listeCiz(); firmaCiz(); hatGuncelle(); boyutla(); fotoCiz();
   }
 
   // ---------- BAŞLAT ----------

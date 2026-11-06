@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.06.11.26-09:56.1494
+/* home-takvim-style.css — TKP.06.11.26-10:17.1495
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -121,20 +121,21 @@
 .ht-d-baslik .ht-ik { width: 38px; height: 38px; }
 .ht-d-baslik b { font-size: 18px; color: #0a2f5c; display: block; }
 .ht-d-baslik small { display: block; font-size: 11.5px; color: #7a8699; font-weight: 600; }
-.ht-turler { display: flex; gap: 8px; padding: 4px 16px 10px 44px; flex-shrink: 0; }
+.ht-turler { display: flex; gap: 5px; padding: 2px 10px 6px 12px; flex-shrink: 0; }
+/* 06.11.2026: tuşlar daha dar + hafif şeffaf, ikon/yazı/sayı yan yana (Temas ve Ajanda penceresi ortak) */
 .ht-tur {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 7px 0 5px;
-  border-radius: 12px; border: 2px solid transparent; background: #f3f1e4; position: relative; cursor: pointer;
+  flex: 1; min-width: 0; height: 30px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 5px; padding: 0 2px;
+  border-radius: 9px; border: 0; background: rgba(10,47,92,.07); position: relative; cursor: pointer; box-sizing: border-box;
 }
-.ht-tur .ht-ik { width: 32px; height: 32px; border-radius: 10px; }
-.ht-tur .ht-ik svg { width: 19px; height: 19px; }
-.ht-tur span { font-size: 10.5px; font-weight: 800; color: #44505f; }
+.ht-tur .ht-ik { width: 20px; height: 20px; border-radius: 6px; flex-shrink: 0; }
+.ht-tur .ht-ik svg { width: 12px; height: 12px; }
+.ht-tur span { font-size: 11px; font-weight: 800; color: #44505f; white-space: nowrap; }
 .ht-tur em {
-  position: absolute; top: -6px; right: 4px; min-width: 17px; height: 17px; border-radius: 9px; background: #fff;
-  border: 1.5px solid #cfd8e6; font-style: normal; font-size: 10px; font-weight: 900; color: #0a2f5c;
+  position: static; min-width: 15px; height: 15px; border-radius: 8px; background: rgba(255,255,255,.85);
+  font-style: normal; font-size: 9.5px; font-weight: 900; color: #0a2f5c; border: 0;
   display: flex; align-items: center; justify-content: center; padding: 0 3px; box-sizing: border-box;
 }
-.ht-tur--sec { border-color: #1257c7; background: #e6f0ff; }
+.ht-tur--sec { background: rgba(18,87,199,.16); box-shadow: inset 0 0 0 1.5px #1257c7; }
 .ht-tur--sec span { color: #0a2f5c; }
 .ht-d-kagit { border-left: 2px solid #e8a2a2; margin-left: 36px; padding-right: 14px; overflow-y: auto; flex: 1 1 auto; min-height: 90px; -webkit-overflow-scrolling: touch; }
 .ht-yeni { border-left: 2px solid #e8a2a2; margin-left: 36px; padding-right: 14px; flex-shrink: 0; }
@@ -184,3 +185,54 @@
 .ht-kay { white-space: nowrap; flex-shrink: 0; }
 .ht-hat { min-width: 0; }
 .ht-hat input[type=date] { width: 128px; min-width: 0; }
+
+/* ---------- AJANDA PENCERESİ (06.11.2026, Abdullah onayı — mockup v2) ----------
+   Üstte not defteri (kompakt), altta o günün el yazısı ajanda fotoğrafları. Sabit ölçüde açılır,
+   sağ alt köşeden küçült/büyüt. Kamera/dosya tuşları resmin ÜSTÜNDE, hafif şeffaf. */
+.ht-defter--aj {
+  padding: 14px 0 0; border-top: 10px solid #d6392f; border-radius: 10px;
+  width: min(100%, 490px); height: min(86vh, 860px); max-height: none; overflow: visible;
+}
+.ht-defter--aj .ht-noktalar { top: -8px; }
+.ht-defter--aj .ht-d-baslik { padding: 0 10px 4px 12px; gap: 8px; }
+.ht-defter--aj .ht-d-baslik .ht-ik { width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0; }
+.ht-defter--aj .ht-d-baslik .ht-ik svg { width: 16px; height: 16px; }
+.ht-d-bm { flex: 1; min-width: 0; display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 6px; }
+.ht-defter--aj .ht-d-bm b { font-size: 15px; display: inline; }
+.ht-defter--aj .ht-d-bm small { font-size: 11px; display: inline; }
+.ht-nav { width: 30px; height: 26px; border: 0; border-radius: 8px; background: rgba(10,47,92,.10); color: #0a2f5c; font-weight: 900; font-size: 16px; line-height: 1; cursor: pointer; padding: 0; flex-shrink: 0; }
+.ht-aj-defter { flex: 0 0 40%; min-height: 120px; overflow-y: auto; -webkit-overflow-scrolling: touch; border-left: 2px solid #e8a2a2; margin: 0 10px 0 22px; }
+.ht-aj-defter .ht-d-kagit, .ht-aj-defter .ht-yeni { border-left: 0; margin-left: 0; padding-right: 0; overflow: visible; flex: none; min-height: 0; }
+.ht-defter--aj .ht-d-kayit { min-height: 29px; padding: 3px 0 3px 7px; font-size: 13px; gap: 6px; }
+.ht-defter--aj .ht-d-kayit i { font-size: 10.5px; }
+.ht-defter--aj .ht-mk { width: 15px; height: 15px; border-radius: 5px; }
+.ht-defter--aj .ht-mk svg { width: 9px; height: 9px; }
+.ht-defter--aj .ht-ayrac { height: 22px; font-size: 10px; padding-left: 7px; }
+.ht-defter--aj .ht-yaz, .ht-defter--aj .ht-firma { height: 30px; padding-left: 7px; }
+.ht-defter--aj .ht-yaz input, .ht-defter--aj .ht-firma { font-size: 13px; }
+.ht-defter--aj .ht-d-metin { font-size: 13px; line-height: 29px; min-height: 30px; padding-left: 7px; }
+.ht-defter--aj .ht-alt { padding: 4px 0 4px 7px; }
+.ht-defter--aj .ht-kay { padding: 6px 14px; font-size: 12.5px; border-radius: 8px; }
+.ht-defter--aj .ht-hat { font-size: 11.5px; }
+.ht-defter--aj .ht-hat s { width: 17px; height: 17px; }
+.ht-aj-foto { position: relative; flex: 1 1 auto; min-height: 0; margin: 4px; border-radius: 8px; overflow: hidden; background: #ece6d6; }
+.ht-aj-foto-ic { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.ht-ft { position: relative; line-height: 0; }
+.ht-ft + .ht-ft { margin-top: 3px; }
+.ht-ft img { width: 100%; display: block; }
+.ht-ft-z { position: absolute; left: 8px; top: 8px; background: rgba(10,20,40,.45); color: #fff; font-size: 11.5px; font-weight: 800; line-height: 1.2; padding: 3px 9px; border-radius: 99px; }
+.ht-ft-sil { position: absolute; right: 8px; top: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(214,57,47,.55); display: flex; align-items: center; justify-content: center; font-size: 13px; line-height: 1; cursor: pointer; }
+.ht-ft-bos { height: 100%; min-height: 120px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; border: 2px dashed #c7bda6; border-radius: 8px; box-sizing: border-box; color: #9a8f78; font-weight: 700; font-size: 13px; }
+.ht-ft-bos span { font-size: 30px; }
+.ht-aj-ub { position: absolute; right: 10px; bottom: 12px; display: flex; flex-direction: column; gap: 9px; z-index: 2; }
+.ht-ub { width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.55); background: rgba(10,20,40,.38); display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
+.ht-ub svg { width: 24px; height: 24px; fill: #fff; }
+.ht-defter--aj .ht-d-alt { position: absolute; left: 10px; bottom: 6px; z-index: 3; padding: 3px 10px; border-radius: 99px; background: rgba(10,47,92,.85); color: #fff; font-size: 11.5px; font-weight: 800; }
+.ht-defter--aj .ht-d-alt--hata { background: rgba(192,57,43,.92); color: #fff; }
+.ht-grip { position: absolute; right: 0; bottom: 0; width: 34px; height: 34px; z-index: 4; touch-action: none; cursor: nwse-resize; }
+.ht-grip:before { content: ''; position: absolute; right: 5px; bottom: 5px; width: 14px; height: 14px;
+  background: linear-gradient(135deg, transparent 0 45%, #fff 45% 52%, transparent 52% 62%, #fff 62% 69%, transparent 69% 79%, #fff 79% 86%, transparent 86%); filter: drop-shadow(0 0 2px rgba(0,0,0,.6)); }
+@keyframes htKaySag { from { opacity: .35; transform: translateX(26px); } to { opacity: 1; transform: none; } }
+@keyframes htKaySol { from { opacity: .35; transform: translateX(-26px); } to { opacity: 1; transform: none; } }
+.ht-defter--aj.ht-kay-sag .ht-aj-defter, .ht-defter--aj.ht-kay-sag .ht-aj-foto { animation: htKaySag .18s ease-out; }
+.ht-defter--aj.ht-kay-sol .ht-aj-defter, .ht-defter--aj.ht-kay-sol .ht-aj-foto { animation: htKaySol .18s ease-out; }

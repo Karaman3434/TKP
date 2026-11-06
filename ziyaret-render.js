@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: TKP.06.11.26-09:50.1493
+  ziyaret-render.js — VERSİYON: TKP.06.11.26-10:17.1495
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -333,90 +333,10 @@ function firmaAramaCiz(){
 // hiçbir şey fark etmeden fotoğraf akışa devam ediyor. Kütüphane bir
 // nedenle yüklenemediyse veya dönüştürme başarısız olursa "format"
 // uyarısı gösteriliyor. Her hata ayrıntısı sessizce HataLog'a yazılıyor.
-function resimSikistir(file, geriBildir){
-  function sessizKaydet(asama, detay){
-    if(typeof HataLog !== "undefined"){
-      HataLog.kaydet("Ajanda fotoğrafı işlenemedi (" + asama + ")", detay);
-    }
-  }
-  function muhtemelenHeic(){
-    var ad = ((file && file.name) || "").toLowerCase();
-    var tur = ((file && file.type) || "").toLowerCase();
-    return ad.indexOf(".heic") !== -1 || ad.indexOf(".heif") !== -1
-      || tur.indexOf("heic") !== -1 || tur.indexOf("heif") !== -1;
-  }
-
-  // Sadece ÇÖZME — hem doğrudan seçilen dosya hem de heic2any'den çıkan
-  // JPEG blob'u için aynı yol kullanılır. Küçültme/sıkıştırma YOK.
-  function coz(islenecekDosya){
-    try{
-      var reader = new FileReader();
-      reader.onload = function(e){
-        var img = new Image();
-        img.onload = function(){
-          geriBildir(e.target.result, img, null);
-        };
-        img.onerror = function(){
-          sessizKaydet("img.onerror", "dosya: " + ((file && file.name) || "?") + ", tür: " + ((file && file.type) || "?"));
-          geriBildir(null, null, muhtemelenHeic() ? "format" : "genel");
-        };
-        img.src = e.target.result;
-      };
-      reader.onerror = function(){
-        sessizKaydet("FileReader", reader.error && reader.error.message);
-        geriBildir(null, null, "genel");
-      };
-      reader.readAsDataURL(islenecekDosya);
-    }catch(e){
-      sessizKaydet("try/catch dış", e && e.message);
-      geriBildir(null, null, muhtemelenHeic() ? "format" : "genel");
-    }
-  }
-
-  if(muhtemelenHeic()){
-    if(typeof heic2any === "undefined"){
-      sessizKaydet("heic2any-yuklenmedi", "kütüphane tanımsız — CDN'den yüklenememiş olabilir (çevrimdışı mı?)");
-      geriBildir(null, null, "format");
-      return;
-    }
-    try{
-      heic2any({ blob: file, toType: "image/jpeg", quality: 0.85 }).then(function(sonuc){
-        var jpegBlob = Array.isArray(sonuc) ? sonuc[0] : sonuc;
-        coz(jpegBlob);
-      }).catch(function(e){
-        sessizKaydet("heic2any", e && e.message);
-        geriBildir(null, null, "format");
-      });
-    }catch(e){
-      sessizKaydet("heic2any try/catch", e && e.message);
-      geriBildir(null, null, "format");
-    }
-    return;
-  }
-
-  coz(file);
-}
-
-// Kırpma kutusuna (yüzde cinsinden sol/ust/sag/alt kenarlar, 0-100) göre
-// img'in SADECE o bölgesini alıp maks. 1100px genişliğe küçültüp %65
-// kaliteli JPEG data URL'i olarak döndürür. Senkron çalışır, hata
-// fırlatabilir (çağıran taraf try/catch ile sarmalı).
-function kirpVeSikistir(img, kirpKutusu){
-  var sol = kirpKutusu.sol / 100, ust = kirpKutusu.ust / 100;
-  var sag = kirpKutusu.sag / 100, alt = kirpKutusu.alt / 100;
-  var kaynakX = Math.round(img.naturalWidth * sol);
-  var kaynakY = Math.round(img.naturalHeight * ust);
-  var kaynakGenislik = Math.max(1, Math.round(img.naturalWidth * (sag - sol)));
-  var kaynakYukseklik = Math.max(1, Math.round(img.naturalHeight * (alt - ust)));
-  var maxGenislik = 1100;
-  var olcek = Math.min(1, maxGenislik / kaynakGenislik);
-  var canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, Math.round(kaynakGenislik * olcek));
-  canvas.height = Math.max(1, Math.round(kaynakYukseklik * olcek));
-  var ctx = canvas.getContext("2d");
-  ctx.drawImage(img, kaynakX, kaynakY, kaynakGenislik, kaynakYukseklik, 0, 0, canvas.width, canvas.height);
-  return canvas.toDataURL("image/jpeg", 0.65);
-}
+// TEK KAYNAK (06.11.2026): çözme (HEIC dahil) ve kırpıp sıkıştırma artık ajanda-foto.js'te (AjandaFoto) —
+// Ana Sayfa takvimindeki Ajanda penceresiyle aynı kod. Aşağıdakiler ince devir fonksiyonlarıdır.
+function resimSikistir(file, geriBildir){ return AjandaFoto.resimSikistir(file, geriBildir); }
+function kirpVeSikistir(img, kirpKutusu){ return AjandaFoto.kirpVeSikistir(img, kirpKutusu); }
 
 // Film şeridini TÜM sayfalardan (kronolojik) kurar, hedef tarihe en
 // yakın karta kaydırıp "aktif" yapar.
