@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: TKP.05.11.26-21:47.1492
+  ziyaret-render.js — VERSİYON: TKP.06.11.26-09:50.1493
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -420,20 +420,14 @@ function kirpVeSikistir(img, kirpKutusu){
 
 // Film şeridini TÜM sayfalardan (kronolojik) kurar, hedef tarihe en
 // yakın karta kaydırıp "aktif" yapar.
-var ajandaOdakModu = false; // true: sadece seçili günün ajanda fotoğrafları (bkz. aşağıdaki DOMContentLoaded)
 function ajandaFilmSeridiniCiz(hedefTarih){
   try{
     var tumKayitlar = (typeof AjandaData !== "undefined") ? AjandaData.tumKayitlarKronolojik() : [];
     var seridEl = document.getElementById("ajFilmSeridi");
     var bosEl = document.getElementById("ajFilmBos");
 
-    // AJANDA ODAK MODU (05.11.2026, Abdullah): Ana Sayfa takviminden "Ajanda" ile gelindiyse
-    // yalnızca SEÇİLİ GÜNÜN el yazısı ajanda fotoğrafları gösterilir (diğer günlerin sayfaları değil).
-    if(ajandaOdakModu) tumKayitlar = tumKayitlar.filter(function(k){ return k.tarih === hedefTarih; });
-
     if(tumKayitlar.length === 0){
       seridEl.innerHTML = "";
-      bosEl.textContent = ajandaOdakModu ? "Bu güne ait ajanda fotoğrafı yok — \"Ekle\" ile çekebilirsin." : "Henüz hiç sayfa eklenmemiş — \"Ekle\" ile çekebilirsin.";
       bosEl.hidden = false;
       return;
     }
@@ -872,8 +866,8 @@ document.addEventListener("DOMContentLoaded", function(){
     // Ana Sayfa takviminden gelen "Temas / Ajanda" seçimi: ilgili panel doğrudan açılır (21:12 isteği).
     var urlGorunum = urlParams.get("gorunum");
     if(urlGorunum === "ajanda"){
-      // Odak modu: sadece o günün ajanda fotoğrafları (takvim, filtre ve "Türü değiştir" gizli).
-      ajandaOdakModu = true;
+      // Odak modu (06.11.2026 düzeltme): ESKİ ajanda ekranı AYNEN (film şeridi tüm sayfalar, seçili güne
+      // en yakın sayfaya kayar) — sadece üstteki takvim/filtre ve "Türü değiştir" gizli.
       document.body.classList.add("ziy-ajanda-odak");
       var etiket = document.querySelector(".ub-sayfa-etiket span");
       if(etiket) etiket.textContent = "Ajanda";

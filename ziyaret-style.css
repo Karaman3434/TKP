@@ -442,7 +442,7 @@
 }
 
 
-/* AJANDA ODAK MODU (05.11.2026, Abdullah): Ana Sayfa takviminden "Ajanda" ile gelinince
+/* AJANDA ODAK MODU (05.11.2026, Abdullah): Ana Sayfa takviminden "Ajanda" ile gelinince eski ekran
    yalnızca günün ajanda fotoğrafları görünür — takvim/filtre/geri-link/Kapat gizli
    (üstteki ✕ Ana Sayfa'ya döner). */
 body.ziy-ajanda-odak .ziy-takip-btn,
