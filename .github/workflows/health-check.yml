@@ -3,6 +3,8 @@ name: İş Takip Sağlık Kontrolü
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   schedule:
     - cron: "17 */6 * * *"
   workflow_dispatch:
@@ -11,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: istakip-health-check
+  group: istakip-health-check-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -26,8 +28,12 @@ jobs:
       - name: JSON ve JavaScript kaynak kontrolleri
         run: |
           python3 - <<'PY'
-          import json, pathlib, sys
-          files = ["manifest.json", "database.rules.json"]
+          import json, pathlib, re, sys
+          files = sorted(
+              str(path.relative_to("."))
+              for path in pathlib.Path(".").rglob("*.json")
+              if ".git" not in path.parts
+          )
           failed = False
           for name in files:
               try:
@@ -36,10 +42,23 @@ jobs:
               except Exception as exc:
                   print("FAIL JSON:", name, exc)
                   failed = True
+          print(f"JSON dosyası sayısı: {len(files)}")
           if failed:
               sys.exit(1)
+          manifest = json.loads(pathlib.Path("manifest.json").read_text(encoding="utf-8"))
+          version = str(manifest.get("_version") or "")
+          if not version:
+              print("FAIL: manifest.json _version alanı eksik")
+              sys.exit(1)
+          for name in ("home.html", "pin.html", "login.html", "pwa-tani.html"):
+              html = pathlib.Path(name).read_text(encoding="utf-8")
+              match = re.search(r'<link\s+rel="manifest"\s+href="manifest\.json\?v=([^"]+)"', html)
+              if not match or match.group(1) != version:
+                  print(f"FAIL: {name} manifest cache-buster _version ile eşleşmiyor")
+                  sys.exit(1)
+              print(f"OK manifest sürüm eşleşmesi: {name}")
           PY
-          set -e
+          set -euo pipefail
           find . -type f -name '*.js' -not -path './.git/*' -print0 | while IFS= read -r -d '' file; do
             node --check "$file" >/dev/null
             echo "OK JS: $file"
@@ -54,10 +73,25 @@ jobs:
           if rules.get(".read") is not False or rules.get(".write") is not False:
               problems.append("Firebase kök okuma/yazma varsayılanı false olmalı")
           device = rules.get("cihazlar", {}).get("$cihazId", {})
+          pin_rules = rules.get("pin", {})
+          if pin_rules.get(".read") == "auth != null":
+              problems.append("Ortak PIN verisi tüm kimliği doğrulanmış kullanıcılara açık")
+          if pin_rules.get(".write") == "auth != null":
+              problems.append("Ortak PIN verisi tüm kimliği doğrulanmış kullanıcılarca değiştirilebilir")
           if "sonKullaniciUid" not in device.get(".read", ""):
               problems.append("Cihaz okuma kuralında sahiplik kontrolü eksik")
           if "sonKullaniciUid" not in device.get(".write", ""):
               problems.append("Cihaz yazma kuralında sahiplik kontrolü eksik")
+          auth_source = pathlib.Path("auth.js").read_text(encoding="utf-8")
+          onay_start = auth_source.find("function cihazOnayKontrolEt")
+          onay_end = auth_source.find("// ---- CİHAZ ADI", onay_start)
+          onay_logic = auth_source[onay_start:onay_end if onay_end >= 0 else None]
+          if re.search(r"if\s*\(\s*String\(c\.ad", onay_logic):
+              problems.append("Cihaz adıyla otomatik onay veriliyor; cihaz adı güvenilir kimlik değildir")
+          if re.search(r"\.catch\(function\(\)\{\s*geriBildir\(true\);\s*\}\)", onay_logic):
+              problems.append("Cihaz onay sorgusu hata verince erişim açılıyor")
+          if re.search(r"catch\s*\(\s*e\s*\)\s*\{\s*geriBildir\(true\);", onay_logic):
+              problems.append("Cihaz onay kontrolünün senkron hatasında erişim açılıyor")
           secret_patterns = [
               re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
               re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}\b"),
@@ -85,6 +119,7 @@ jobs:
           PY
 
       - name: Site sağlık kontrolü
+        if: always()
         run: |
           python3 - <<'PY'
           import json, re, struct, sys, urllib.request, urllib.error
@@ -111,6 +146,7 @@ jobs:
 
           home = fetch("home.html")
           pin = fetch("pin.html")
+          pwa_tani = fetch("pwa-tani.html")
           manifest_bytes = fetch("manifest.json")
           sw = fetch("sw.js")
           icon192 = fetch("icon-192.png")
@@ -163,6 +199,12 @@ jobs:
                   failures.append("pin.html: manifest bağlantısı bulunamadı")
               if "auth.js" not in text:
                   warnings.append("pin.html: auth.js referansı bulunamadı")
+          if pwa_tani:
+              text = pwa_tani.decode("utf-8", "replace")
+              if 'rel="manifest"' not in text:
+                  failures.append("pwa-tani.html: manifest bağlantısı bulunamadı")
+              if "beforeinstallprompt" not in text:
+                  warnings.append("pwa-tani.html: beforeinstallprompt tanı kontrolü bulunamadı")
           if sw:
               text = sw.decode("utf-8", "replace")
               if "addEventListener" not in text or "'fetch'" not in text and '"fetch"' not in text:
@@ -179,6 +221,13 @@ jobs:
                           data = fetch(path)
                           if not data:
                               failures.append(f"Manifest simgesi erişilemiyor: {src}")
+                          else:
+                              size_match = re.fullmatch(r"(\d+)x(\d+)", str(item.get("sizes", "")))
+                              if size_match:
+                                  expected = tuple(int(value) for value in size_match.groups())
+                                  check_png(data, path, expected)
+                              else:
+                                  warnings.append(f"Manifest simgesi için doğrulanabilir boyut tanımı yok: {src}")
 
           for warning in warnings:
               print("WARN: " + warning)
