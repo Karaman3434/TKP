@@ -85,6 +85,7 @@ jobs:
           PY
 
       - name: Site sağlık kontrolü
+        if: always()
         run: |
           python3 - <<'PY'
           import json, re, struct, sys, urllib.request, urllib.error
@@ -111,6 +112,8 @@ jobs:
 
           home = fetch("home.html")
           pin = fetch("pin.html")
+          login = fetch("login.html")
+          pwa_diag = fetch("pwa-tani.html")
           manifest_bytes = fetch("manifest.json")
           sw = fetch("sw.js")
           icon192 = fetch("icon-192.png")
@@ -163,6 +166,11 @@ jobs:
                   failures.append("pin.html: manifest bağlantısı bulunamadı")
               if "auth.js" not in text:
                   warnings.append("pin.html: auth.js referansı bulunamadı")
+          for name, body in (("login.html", login), ("pwa-tani.html", pwa_diag)):
+              if body:
+                  page_text = body.decode("utf-8", "replace")
+                  if 'rel="manifest"' not in page_text:
+                      failures.append(name + ": manifest bağlantısı bulunamadı")
           if sw:
               text = sw.decode("utf-8", "replace")
               if "addEventListener" not in text or "'fetch'" not in text and '"fetch"' not in text:
