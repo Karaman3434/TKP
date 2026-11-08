@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-11:41.1502 — cart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-12:01.1503 — cart.html -->
 <!--
   27.10.2026 PERFORMANS KAZANIMI: html2canvas'ın bu sayfada en baştan
   yüklenen statik <script> etiketi kaldırıldı — artık cart-render.js'teki
@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="calc-style.css?v=WG.011126.1022.1262">
 <link rel="stylesheet" href="belge-style.css?v=TKP.08.11.26-08:49.1498">
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.08.11.26-11:41.1502">
-<link rel="stylesheet" href="cart-style.css?v=TKP.08.11.26-11:41.1502">
+<link rel="stylesheet" href="cart-style.css?v=TKP.08.11.26-12:01.1503">
 <link rel="stylesheet" href="detail-style.css?v=TKP.02.11.26-10:48.1375">
 <!-- YENİ (12.10.2026, Abdullah onayı) — Belge Önizleme'de onaylanan açık
      gri zemin + türe-özel rozet renk tasarımı Sepet tablosuna taşındı.
@@ -245,13 +245,13 @@
        (hesapla-popup.js ortak olduğu için calc.html etkilenmesin diye
        opt-in; calc.html'de eski Kapat butonu duruyor). -->
   <div class="hesapla-overlay" id="hpOverlay" data-disari-dokun-kapat hidden>
-    <div class="hesapla-kutu">
+    <div class="hesapla-kutu hesapla-kutu--sepet">
       <div class="hp-baslik-satir">
         <div class="hp-baslik-sol">
           <div class="hesapla-baslik" id="hpUrunAd">Ürün</div>
           <div class="hesapla-kod" id="hpUrunKod"></div>
         </div>
-        <button class="hc-listeye-ekle-buton hc-listeye-ekle-buton--bekliyor" id="hpBtnListeyeEkle"><svg class="hp-sepet-ikon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h3l2.6 12.2a1.6 1.6 0 0 0 1.6 1.3h8.4a1.6 1.6 0 0 0 1.6-1.2L21 7H6.2"/><circle cx="9.5" cy="20.2" r="1.4" fill="#fff"/><circle cx="17.5" cy="20.2" r="1.4" fill="#fff"/></svg><span class="hp-btn-etiket" data-sabit="1">SEPETE EKLE</span><span class="hp-sepet-sayac" id="hpSepetSayac" hidden></span></button>
+        <button class="hc-listeye-ekle-buton hc-listeye-ekle-buton--bekliyor" id="hpBtnListeyeEkle"><svg class="hp-sepet-ikon" preserveAspectRatio="none" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h3l2.6 12.2a1.6 1.6 0 0 0 1.6 1.3h8.4a1.6 1.6 0 0 0 1.6-1.2L21 7H6.2"/><circle cx="9.5" cy="20.2" r="1.4" fill="#fff"/><circle cx="17.5" cy="20.2" r="1.4" fill="#fff"/></svg><span class="hp-btn-etiket" data-sabit="1">SEPETE EKLE</span><span class="hp-sepet-sayac" id="hpSepetSayac" hidden></span></button>
       </div>
 
       <div id="hpGecmisAlimIpucu" class="gecmis-alim-ipucu" hidden></div>
@@ -472,7 +472,7 @@
 <script src="kur-panel.js?v=TKP.04.11.26-18:54.1473"></script>
 <script src="cart-render.js?v=TKP.08.11.26-09:20.1499"></script>
 <script src="urun-arama.js?v=TKP.04.11.26-16:00.1470"></script>
-<script src="hesapla-popup.js?v=TKP.08.11.26-11:41.1502"></script>
+<script src="hesapla-popup.js?v=TKP.08.11.26-12:01.1503"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026): bugünkü üst-bar birleştirmesiyle
      (#btnMenu -> #btnAsMenuAc) bu dosyanın menü tıklamasını yakalayan kısmı zaten
      kırılmıştı (element bulunamıyordu, confirm() hiç tetiklenmiyordu). Abdullah'ın

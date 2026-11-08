@@ -1,5 +1,5 @@
 /*
-  hesapla-popup.js — TKP.08.11.26-11:41.1502
+  hesapla-popup.js — TKP.08.11.26-12:01.1503
   =======================================
   GÜNCELLENDİ (02.11.2026, Abdullah onayı — mockup onaylandı: "Ok tmm
   kodlayalım"): cart.html'de alttaki "Kapat" ve "SEPETE EKLE" butonları
@@ -74,6 +74,32 @@ var HesaplaPopup = (function(){
     if(ipucu) ipucu.textContent = hpPencereAcikMi() ? "— değiştirmek için dokun" : "— günün kurları için dokun";
   }
 
+  // 08.11.2026 (Abdullah onayı): kutu içi yazılar %25 büyüdü, kutu boyu SABİT.
+  // Çok büyük tutarlar (örn. 1.081.513,44 TL) taşmasın diye: yazı kutuya
+  // sığmıyorsa 0.5px adımlarla küçültülür (taban 12px); sığıyorsa CSS'teki
+  // büyük boyut aynen kalır. Pencere görünür değilken ölçülemez → atlanır.
+  function degerleriSigdir(){
+    try{
+      if(!hpPencereAcikMi()) return;
+      ["hpIskontoluFiyat","hpTlBirimFiyat","hpToplamEuro","hpFaturaToplam","hpPrimTL","hpPrimYuzde"].forEach(function(id){
+        var el = document.getElementById(id);
+        if(!el) return;
+        var birimler = el.querySelectorAll(".hc-turuncu-birim");
+        el.style.fontSize = "";
+        for(var i=0;i<birimler.length;i++) birimler[i].style.fontSize = "";
+        var boyut = parseFloat(getComputedStyle(el).fontSize) || 20;
+        var birimBoyut = birimler.length ? parseFloat(getComputedStyle(birimler[0]).fontSize) : 0;
+        var oran = birimBoyut && boyut ? (birimBoyut / boyut) : 0;
+        var guvenlik = 40;
+        while(el.scrollWidth > el.clientWidth + 0.5 && boyut > 12 && guvenlik-- > 0){
+          boyut -= 0.5;
+          el.style.fontSize = boyut + "px";
+          if(oran) for(var j=0;j<birimler.length;j++) birimler[j].style.fontSize = (boyut*oran) + "px";
+        }
+      });
+    }catch(e){}
+  }
+
   function hpPencereAcikMi(){
     var ov = document.getElementById("hpOverlay");
     return !!(ov && !ov.hidden);
@@ -138,7 +164,7 @@ var HesaplaPopup = (function(){
       var primKutu = document.getElementById("hpPrimTL");
       // 08.11.2026 (Abdullah onayı): cart.html'de prim paneli ORAN / TUTAR diye
       // iki ayrı, ortalı kutu (#hpPrimYuzde + #hpPrimTL). calc.html'de bu
-      // elemanlar yok → eski tek kutu davranışı aynen sürer.
+      // iki sayfada da var.
       var primYuzdeEl = document.getElementById("hpPrimYuzde");
       var primPanel = document.getElementById("hpPrimKutu");
       if(primPanel) primPanel.classList.remove("hp-prim--tek");
@@ -148,16 +174,13 @@ var HesaplaPopup = (function(){
       } else if(h.mudurPrim<0){
         primKutu.innerHTML = "Yok";
         if(primPanel) primPanel.classList.add("hp-prim--tek");
-      } else if(primYuzdeEl){
-        var primYuzdeAyri = h.faturaToplam > 0 ? (primTL / h.faturaToplam * 100) : 0;
-        primYuzdeEl.textContent = "% " + CartData.fmt(primYuzdeAyri);
-        primKutu.textContent = CartData.fmt(primTL) + " TL";
       } else {
-        // 04.10.2026 (Abdullah'ın isteğiyle): Prim TL tutarının BAŞINDA
-        // satış üzerinden kaç yüzde prim hakedildiğini de gösteriyoruz
-        // (Prim TL ÷ Fatura Toplam × 100).
+        // 04.10.2026: prim TL'nin yanında satış üzerinden prim yüzdesi
+        // (Prim TL ÷ Fatura Toplam × 100). 08.11.2026: cart.html ve calc.html'de
+        // ORAN / TUTAR ayrı, ortalı iki kutu (#hpPrimYuzde + #hpPrimTL).
         var primYuzde = h.faturaToplam > 0 ? (primTL / h.faturaToplam * 100) : 0;
-        primKutu.innerHTML = "<span class='hc-prim-yuzde'>% " + CartData.fmt(primYuzde) + "</span>" + CartData.fmt(primTL) + " TL";
+        if(primYuzdeEl) primYuzdeEl.textContent = "% " + CartData.fmt(primYuzde);
+        primKutu.textContent = CartData.fmt(primTL) + " TL";
       }
 
       // 04.10.2026 (Abdullah'ın isteğiyle): bu popup'ta ayrı bir "hesapla"
@@ -178,6 +201,7 @@ var HesaplaPopup = (function(){
         butonEtiketiYaz(listeyeEkleBtn, "➕ SEPETE EKLE");
       }
       kurDegeriniGoster();
+      degerleriSigdir();
     }catch(e){ hataGoster("Hesaplama yapılamadı: " + e.message); }
   }
 
@@ -235,6 +259,7 @@ var HesaplaPopup = (function(){
       sepetSayaciniGuncelle();
       document.getElementById("hpOverlay").hidden = false;
       try{ kurDegeriniGoster(); }catch(e){}
+      degerleriSigdir();
     }catch(e){ hataGoster("Hesaplama penceresi açılamadı: " + e.message); }
   }
 

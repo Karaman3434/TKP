@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1276 — calc.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-12:01.1503 — calc.html -->
 <!--
   İŞ TAKİP — HIZLI HESAPLA v4 (04.10.2026, Abdullah'ın isteğiyle — ORTAK
   HESAPLAMA ARACI)
@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
 <link rel="stylesheet" href="product-style.css?v=TKP.08.11.26-11:41.1502">
 <link rel="stylesheet" href="calc-style.css?v=WG.011126.1022.1262">
-<link rel="stylesheet" href="cart-style.css?v=TKP.08.11.26-11:41.1502">
+<link rel="stylesheet" href="cart-style.css?v=TKP.08.11.26-12:01.1503">
 <link rel="stylesheet" href="detail-style.css?v=TKP.02.11.26-10:48.1375">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.05.11.26-21:16.1489">
@@ -183,9 +183,13 @@
         </div>
       </div>
 
-      <div class="hc-kutu hc-kutu--prim" style="margin-bottom:10px;">
-        <div class="hc-kutu-etiket">PRİM</div>
-        <div class="hc-kutu-deger" id="hpPrimTL">-</div>
+      <!-- 08.11.2026: prim paneli cart.html ile AYNI (ortak .hesapla-kutu bileşeni) -->
+      <div class="hp-prim" id="hpPrimKutu" style="margin-bottom:10px;">
+        <span class="hp-prim-baslik">PRİM</span>
+        <div class="hp-prim-satir">
+          <div><div class="hp-prim-etiket">ORAN</div><div class="hp-prim-deger hp-prim-deger--yesil" id="hpPrimYuzde">-</div></div>
+          <div><div class="hp-prim-etiket">TUTAR</div><div class="hp-prim-deger" id="hpPrimTL">-</div></div>
+        </div>
       </div>
 
       <div class="hc-alt-buton-satir">
@@ -254,7 +258,7 @@
 <script src="product-data.js?v=TKP.04.11.26-12:30.1463"></script>
 <script src="cart-data.js?v=TKP.03.11.26-18:20.1457"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
-<script src="hesapla-popup.js?v=TKP.08.11.26-11:41.1502"></script>
+<script src="hesapla-popup.js?v=TKP.08.11.26-12:01.1503"></script>
 <script src="calc-render.js?v=TKP.03.11.26-12:05.1453"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>

@@ -1,5 +1,5 @@
 /*
-  cart-style.css — TKP.08.11.26-11:41.1502
+  cart-style.css — TKP.08.11.26-12:01.1503
   GÜNCELLEME (04.11.2026, Abdullah onayı — mockup üzerinden): İşlem Geçmişi
   penceresi (#musteriGecmisOverlay) kenardan kenara + büyük okunaklı tablo.
   (önceki: TKP.02.11.26-10:48.1376)
@@ -634,34 +634,45 @@
       diye dikey boşluk (padding) daraltıldı. DOM sırası ne olursa olsun
       (Dip/İsk'te input önce gelse bile) etiket "order:-1" ile hep üstte. */
 .hesapla-kutu .hc-kutu {
+  /* 08.11.2026 (Abdullah onayı — mockup, %25): kutu BOYU SABİT (eski içerik
+     yüksekliği 55.7px), içindeki etiket ve sayı %25 büyüdü; yer, dikey
+     dolgu/satır aralığı/gap sıfırlanarak açıldı. */
   flex-direction: column;
   justify-content: center;
-  padding: 8px 8px;
-  gap: 1px;
+  padding: 0 8px;
+  gap: 0;
+  height: 55.7px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .hesapla-kutu .hc-kutu-etiket {
   order: -1;
   width: 100%;
   text-align: center;
-  font-size: 12.75px;  /* 04.10.2026: 8.5px * 1.5 (Abdullah'ın isteğiyle) */
-  line-height: 1.15;
+  font-size: 15.94px;  /* 08.11.2026: 12.75px * 1.25 (Abdullah onayı); önceki: 8.5px*1.5 */
+  line-height: 1;
 }
 .hesapla-kutu .hc-kutu input,
 .hesapla-kutu .hc-kutu-deger {
   order: 1;
   width: 100%;
   text-align: center;
-  font-size: 20px;
-  line-height: 1.1;
+  font-size: 25px;  /* 08.11.2026: 20px * 1.25 */
+  line-height: 1;
+  height: auto;
+  padding: 0;
 }
+/* Çok büyük tutarlar (örn. 1.081.513,44 TL) kutudan taşmasın diye tek satır;
+   hesapla-popup.js degerleriSigdir() gerekirse yazıyı kademeli küçültür. */
+.hesapla-kutu .hc-kutu-deger { white-space: nowrap; }
 
 /* "Fatura Toplam (KDV Dahil)" tek satırda yan yana (eski <br> kaldırıldı) —
    tek satıra sığması için bu etikete özel biraz daha küçük punto. Kutu
    YÜKSEKLİĞİ yukarıdaki .hc-kutu kuralından geliyor, bu etiket değiştirmiyor. */
 .hesapla-kutu .hc-kutu-etiket--nowrap {
   white-space: nowrap;
-  font-size: 10.95px;  /* 04.10.2026: 7.3px * 1.5 (Abdullah'ın isteğiyle) */
-  letter-spacing: -0.1px;
+  font-size: 13.69px;  /* 08.11.2026: 10.95px * 1.25; önceki: 7.3px*1.5 */
+  letter-spacing: -0.4px;
 }
 
 /* "Fatura Toplam TL (KDV Dahil)" kutusu — kırmızı zemin, etiket VE değer
@@ -720,12 +731,26 @@
    büyüdü (20px -> 26px); dikey dolgu azaltılarak kutu boyu telafi edildi
    (12.10.2026, Abdullah onayı — mockup üzerinden). */
 .hesapla-kutu .hc-kutu--isk {
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 58px;  /* 08.11.2026: kutu boyu sabit (eski içerik yüksekliği) */
 }
 .hesapla-kutu .hc-kutu--isk input {
-  font-size: 31.2px;
+  font-size: 33.7px;  /* 31.2px * 1.08 — kutu boyu sabit olduğu için en fazla %8 */
 }
+
+/* Turuncu iskonto kutuları (08.11.2026, Abdullah onayı): kutu boyu sabit 68px;
+   etiket %25 (9→11.25px), büyük sayı yalnız %8 (29→31.3px — daha büyüğü "31.623,20 TL"yi
+   kutuya sığdırmıyor). */
+.hesapla-kutu .hc-turuncu-kart {
+  padding: 0 4px;
+  height: 68px;
+  justify-content: center;
+  overflow: hidden;
+}
+.hesapla-kutu .hc-turuncu-etiket { font-size: 11.25px; margin-bottom: 1px; }
+.hesapla-kutu .hc-turuncu-deger { font-size: 31.3px; line-height: 1; white-space: nowrap; letter-spacing: -.6px; }
+.hesapla-kutu .hc-turuncu-birim { font-size: 15.66px; }
 
 /* 4) Listeye Ekle — hesaplanmadan ÖNCE (geçerli bir sonuç yokken) turuncu,
       geçerli bir hesaplama sonucu varken yeşil + "HESAPLANDI" etiketi. */
@@ -740,10 +765,15 @@
       etkilenmez. Sayaç = sepetteki ürün satırı sayısı (0 iken gizli). */
 .hesapla-kutu .hp-baslik-satir {
   display: flex;
-  align-items: flex-start;
+  align-items: center;  /* 08.11.2026: ürün adı satırı ile sepet düğmesi dikey ortalı */
   gap: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;   /* 8px → 4px (%50) */
 }
+/* 08.11.2026: pencerenin üst boşluğu 18px → 9px (%50) — yalnız cart.html (ortak
+   .hesapla-kutu'yu kullanan calc.html etkilenmesin diye ayrı sınıf). */
+.hesapla-kutu.hesapla-kutu--sepet { padding-top: 9px; }
+.hesapla-kutu.hesapla-kutu--sepet .hesapla-baslik { line-height: 1.1; }
+.hesapla-kutu.hesapla-kutu--sepet .hesapla-kod { margin-bottom: 0; line-height: 1.15; }
 .hesapla-kutu .hp-baslik-sol { flex: 1; min-width: 0; }
 .hesapla-kutu .hp-baslik-sol .hesapla-kod { margin-bottom: 0; }
 .hesapla-kutu .hp-baslik-satir .hc-listeye-ekle-buton {
@@ -751,15 +781,15 @@
      "SEPETE EKLE" yazısı; sağ üstte sepetteki ürün sayısı rozeti. */
   position: relative;
   flex: none;
-  width: 74px; height: 62px; min-height: 0;
+  width: 74px; height: 48px; min-height: 0;  /* 62px → 48px: üst/alt boşluk %50 */
   padding: 0;
   border-radius: 12px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
   white-space: nowrap;
   box-shadow: 0 2px 0 rgba(0,0,0,.18);
 }
-.hesapla-kutu .hp-sepet-ikon { width: 30px; height: 30px; }
-.hesapla-kutu .hp-btn-etiket { font-size: 9px; line-height: 1; font-weight: 900; white-space: nowrap; }
+.hesapla-kutu .hp-sepet-ikon { width: 39.6px; height: 26.4px; }  /* 08.11.2026: simge eni +%20, boyu −%20 (36×24), sonra yanlamasına/diklemesine +%10 */
+.hesapla-kutu .hp-btn-etiket { font-size: 9.9px; line-height: 1; font-weight: 900; white-space: nowrap; }
 .hesapla-kutu .hp-sepet-sayac {
   position: absolute;
   top: -8px;
