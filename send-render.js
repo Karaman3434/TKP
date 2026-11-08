@@ -1,5 +1,5 @@
 /*
-  send-render.js — TKP.08.11.26-12:34.1504
+  send-render.js — TKP.08.11.26-14:14.1507
   GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim artık Gönder tuşunun altında açılan
   tek sıra liste (iletisimPaneliKonumla/iletisimAcilirAc/Kapat, altKutuKonumla).
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
@@ -647,15 +647,17 @@ function zinciriCevaplaKopyala(){
       try{
         if(typeof html2canvas === "undefined"){ alert("Görsel oluşturulamadı."); return; }
         var g = gonderBaglam;
-        var metin = document.getElementById("gonderMetin").value;
         var kayitliKod = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.kod : "";
         var kayitliTarih = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.tarih : "";
         var alan = document.getElementById("belgeGorselAlani");
         // DÜZELTME (12.10.2026, Abdullah'ın isteğiyle): KONU satırı artık
         // kopyalanan görsele HİÇ eklenmiyor — Konu'yu kendisi elle girecek.
-        // Sadece mesaj metni + cari bilgi + ürün tablosu kopyalanıyor.
-        alan.innerHTML = "<div style='font-size:13px;color:#2d3540;line-height:1.5;margin-bottom:14px;white-space:pre-wrap;'>" + htmlEsc(metin) + "</div>"
-          + belgeGorselHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, kayitliKod, "mail", kayitliTarih);
+        // DÜZELTME (08.11.2026, Abdullah'ın isteğiyle): mesaj METNİ de görsele
+        // artık HİÇ eklenmiyor — Outlook panodaki metni yok sayıp sadece resmi
+        // aldığı için metin zincire resmin içinde (okunaksız/istenmeyen) geliyordu.
+        // Kopyalanan görselde SADECE müşteri cari kartı + işlem (ürün) tablosu var;
+        // zincir mailin metnini kendisi yazıyor.
+        alan.innerHTML = belgeGorselHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, kayitliKod, "mail", kayitliTarih);
         kosulSatirlariniSigdir(alan);
         setTimeout(function(){
           html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
@@ -666,7 +668,7 @@ function zinciriCevaplaKopyala(){
               }
               // DÜZELTME (01.10.2026, Abdullah'ın isteğiyle): artık KONU metni
               // panoya ayrıca düz metin olarak eklenmiyor — konuyu kendisi elle
-              // yazacak. Sadece görsel (tablo + mesaj) kopyalanıyor.
+              // yazacak. Sadece görsel (cari kart + işlem tablosu) kopyalanıyor.
               var panoOgesi = new ClipboardItem({"image/png": blob});
               navigator.clipboard.write([panoOgesi]).then(function(){
                 gonderimKanaliniKaydet("mail");
