@@ -1,4 +1,4 @@
-/* login-style.css */
+/* login-style.css — TKP.08.11.26-10:41.1500 */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
@@ -110,3 +110,12 @@ input:focus {
 .giris-buton:disabled {
   background: #cbd5e1;
   cursor: not-allowed; border: 1.5px solid #95a9c2;}
+
+
+/* KARŞILAMA (08.11.2026, Abdullah'ın isteği) — logonun altında cihaz adı +
+   saate göre söz (karsilama.js). PIN ve Giriş ekranları bu dosyayı paylaşır. */
+.hosg { margin: 2px 0 14px; text-align: left; }
+.hosg-ad { font-size: 26px; font-weight: 900; color: #0d3d8c; letter-spacing: .2px; line-height: 1.1; }
+.hosg-ad[hidden] { display: none; }
+.hosg-soz { margin-top: 6px; font-size: 14px; line-height: 1.45; color: #44566e; font-weight: 600; }
+.hosg-not { font-size: 12.5px; color: #6b7a90; margin: -4px 0 12px; font-weight: 600; }

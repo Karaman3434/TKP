@@ -1,5 +1,5 @@
 /*
-  auth.js — TKP.08.11.26-08:04.1496
+  auth.js — TKP.08.11.26-10:41.1500
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -435,6 +435,56 @@
   // yüklenirken yapıldığı için, sayfa yenilenmeyen cihazda PIN hiç sorulmuyordu.
   // Şimdi sayfa tekrar görünür olduğunda da aynı kontrol yapılır.
   var kilitleniyor = false;
+
+  // ============================================================
+  // GÜNÜN İLK GİRİŞİ HER ZAMAN ŞİFRE İLE (08.11.2026, Abdullah'ın isteği)
+  // Şifreyle (e-posta/kullanıcı adı + şifre) yapılan son başarılı girişin
+  // TAKVİM GÜNÜ weicon_son_sifre_gunu'nda tutulur. Oturum açık olsa bile
+  // bugünün şifreli girişi yoksa (gece 00:00'dan sonraki ilk açılış) çıkış
+  // yaptırılıp Giriş ekranına gönderilir; PIN o gün için yetmez. Şifreyle
+  // girildikten sonra o günün diğer kilit açmaları PIN iledir.
+  // Güncelleme öncesinden açık kalmış oturumda kayıt yoksa bugün sayılır
+  // (ilk kurulumda herkesi bir kerelik şifreye düşürmemek için).
+  // Kontrol sayfa açılışında ve uygulama öne gelince/önbellekten dönünce
+  // yapılır; kullanım sırasında zamanlayıcıyla KESİLMEZ.
+  // ============================================================
+  var SIFRE_GUNU_ANAHTAR = "weicon_son_sifre_gunu";
+  var GUN_ILK_GIRIS_NEDENI = "weicon_gun_ilk_giris_nedeni";
+  function bugunAnahtari(){
+    var d = new Date();
+    return d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + ("0"+d.getDate()).slice(-2);
+  }
+  function sifreGunuKaydet(){
+    try{ localStorage.setItem(SIFRE_GUNU_ANAHTAR, bugunAnahtari()); }catch(e){}
+  }
+  function gunSifreGerekliMi(){
+    try{
+      var k = localStorage.getItem(SIFRE_GUNU_ANAHTAR);
+      if(!k){ sifreGunuKaydet(); return false; }
+      return k !== bugunAnahtari();
+    }catch(e){ return false; }
+  }
+  function gunSifreKontrolu(user){
+    try{
+      if(!user || buSayfaLogin || buSayfaCihazEngelli || buSayfaOnayBekliyor) return false;
+      if(!gunSifreGerekliMi()) return false;
+      try{ localStorage.setItem(GUN_ILK_GIRIS_NEDENI, "1"); }catch(e){}
+      kilitleniyor = true;
+      document.documentElement.style.visibility = "hidden";
+      firebase.auth().signOut();
+      return true;
+    }catch(e){ return false; }
+  }
+  function geriDonusGunKontrolu(){
+    try{ gunSifreKontrolu(firebase.auth().currentUser); }catch(e){}
+  }
+  document.addEventListener("visibilitychange", function(){
+    if(!document.hidden) geriDonusGunKontrolu();
+  });
+  window.addEventListener("pageshow", function(ev){
+    if(ev.persisted) geriDonusGunKontrolu();
+  });
+
   function geriDonusKilitKontrolu(){
     if(kilitleniyor || buSayfaLogin || buSayfaPin || buSayfaCihazEngelli || buSayfaOnayBekliyor) return;
     try{ if(!firebase.auth().currentUser) return; }catch(e){ return; }
@@ -740,10 +790,16 @@
           firebase.auth().signOut();
           return;
         }
+        // Bu formdan az önce şifreyle girildi: günün şifreli girişi tamam.
+        if(window.istakipGirisFormundanDenendi){
+          sifreGunuKaydet();
+          try{ localStorage.removeItem(GUN_ILK_GIRIS_NEDENI); }catch(e){}
+        }
         aktiviteZamaniniGuncelle();
         window.location.href = "home.html";
         return;
       }
+      if(gunSifreKontrolu(user)) return;   // günün ilk girişi şifre ile (signOut → login.html)
       var durum = gecenSureDurumu();
       if(durum === 2){
         firebase.auth().signOut();
