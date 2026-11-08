@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.08.11.26-23:14.1518
+  belge-render.js — TKP.08.11.26-23:35.1519
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -516,10 +516,11 @@ function bhpRozetHTML(sayi){
 // paneli yerine cari kart POPUP'ı açılır (fatura/teslimat/yetkili seçimi + İŞLEM SEÇ) —
 // bkz. islem-popup.js. Modül gerektiğinde yüklenir; yüklenemezse eski yan panel açılır.
 function bhpIslemPopupAc(musteri, devam, yedek){
-  if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam); return; }
+  var kart = document.getElementById("bhpPencere");
+  if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam, {kart: kart}); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.08.11.26-23:14.1518";
-  s.onload = function(){ IslemPopup.ac(musteri, devam); };
+  s.src = "islem-popup.js?v=TKP.08.11.26-23:35.1519";
+  s.onload = function(){ IslemPopup.ac(musteri, devam, {kart: kart}); };
   s.onerror = function(){ if(typeof yedek === "function") yedek(); };
   document.body.appendChild(s);
 }

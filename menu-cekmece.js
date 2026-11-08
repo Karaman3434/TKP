@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.08.11.26-23:14.1518
+// menu-cekmece.js — TKP.08.11.26-23:35.1519
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -626,10 +626,11 @@ function mcMusteriTipMenuOlustur(){
 // paneli yerine cari kart POPUP'ı açılır (fatura/teslimat/yetkili seçimi + İŞLEM SEÇ) —
 // bkz. islem-popup.js. Modül gerektiğinde yüklenir; yüklenemezse eski yan panel açılır.
 function mcIslemPopupAc(musteri, devam, yedek){
-  if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam); return; }
+  var kart = (typeof mcMiniAramaPanel !== "undefined") ? mcMiniAramaPanel : null;
+  if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam, {kart: kart}); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.08.11.26-23:14.1518";
-  s.onload = function(){ IslemPopup.ac(musteri, devam); };
+  s.src = "islem-popup.js?v=TKP.08.11.26-23:35.1519";
+  s.onload = function(){ IslemPopup.ac(musteri, devam, {kart: kart}); };
   s.onerror = function(){ if(typeof yedek === "function") yedek(); };
   document.body.appendChild(s);
 }
