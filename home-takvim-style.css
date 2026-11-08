@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.08.11.26-17:50.1510
+/* home-takvim-style.css — TKP.08.11.26-19:58.1514
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -23,10 +23,17 @@
 }
 .ht-ozet b { color: #0a2f5c; }
 .ht-ozet-oge { white-space: nowrap; }
+/* "Bugün" etiketi dokunulabilir hap (08.11.2026): bugünün Not + Ajanda penceresini açar. */
+.ht-ozet .ht-ozet-bugun { background: #dbe8fa; border: 1.5px solid #003a70; border-radius: 99px; padding: 3px 13px; cursor: pointer; }
 .ht-ozet-oge i { font-style: normal; font-size: 17px; margin-right: 4px; vertical-align: -2px; }
 .ht-ozet-oge--islem { color: #1257c7; }
 .ht-ozet-oge--siparis { color: #b5760f; }
 .ht-ozet-oge--temas { color: #0e8a47; }
+@media (max-width: 400px) {
+  .ht-ozet { padding: 9px 8px; gap: 4px; font-size: 13.5px; }
+  .ht-ozet .ht-ozet-bugun { padding: 3px 9px; }
+  .ht-ozet-oge i { font-size: 15px; margin-right: 2px; }
+}
 .ht-takvim-kutu {
   background: #fff; border: 1px solid #e2e6ec; border-radius: 10px;
   padding: 10px; margin-bottom: 6px;
@@ -53,6 +60,12 @@
 .ht-gun--secili.ht-gun--kalan { background: #d6e8fc; }
 .ht-gun--secili { border-color: #e8a317; box-shadow: 0 0 0 1.5px #fff inset; }
 .ht-gun--secili.ht-gun--tatil, .ht-gun--secili.ht-gun--gecmis { background: #faeeda; }
+/* BUGÜN (08.11.2026, Abdullah onayı — seçenek C): altın sarısı zemin + lacivert çerçeve + kalın lacivert rakam
+   (hedef kartındaki oran dairesiyle aynı renk). Seçiliyken çerçeve yine turuncu (yukarıdaki .ht-gun--secili). */
+.ht-gun--bugun, .ht-gun--bugun.ht-gun--kalan, .ht-gun--bugun.ht-gun--tatil, .ht-gun--bugun.ht-gun--gecmis,
+.ht-gun--bugun.ht-gun--secili, .ht-gun--bugun.ht-gun--secili.ht-gun--kalan,
+.ht-gun--bugun.ht-gun--secili.ht-gun--tatil, .ht-gun--bugun.ht-gun--secili.ht-gun--gecmis { background: #e8c46a; color: #0a2f5c; }
+.ht-gun--bugun .ht-gun-no { color: #0a2f5c; font-size: 13px; line-height: 1.01; font-weight: 900; }
 
 .ht-bildirim { display: flex; justify-content: center; align-items: center; gap: 3px; height: 15px; margin-bottom: 0; }
 .ht-gun--bos .ht-bildirim { display: none; }
@@ -102,8 +115,11 @@
   position: fixed; inset: 0; background: rgba(10,30,60,.45); z-index: 2300;
   display: flex; align-items: center; justify-content: center; padding: 18px;
 }
-.ht-ay-kutu { background: #fff; border-radius: 14px; padding: 14px 10px; width: 100%; max-width: 420px; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
-.ht-ay-baslik { text-align: center; font-weight: 800; color: #0a2f5c; margin-bottom: 10px; font-size: 14px; }
+/* Ay seç açılır penceresi (08.11.2026): "Kasım 2026" çubuğunun hemen altında, okla işaretli; zemin şeffaf (dışına dokun = kapat). */
+.ht-ay-zemin { position: fixed; inset: 0; background: transparent; z-index: 2290; }
+.ht-ay-pop { position: absolute; z-index: 2300; box-sizing: border-box; background: #fff; border: 1.5px solid #003a70; border-radius: 12px; padding: 10px 8px 8px; box-shadow: 0 8px 22px rgba(0,0,0,.28); }
+.ht-ay-pop:before { content: ''; position: absolute; top: -8px; left: 50%; margin-left: -7px; width: 12px; height: 12px; background: #fff; border-left: 1.5px solid #003a70; border-top: 1.5px solid #003a70; transform: rotate(45deg); }
+.ht-ay-baslik { text-align: center; font-weight: 800; color: #0a2f5c; margin-bottom: 6px; font-size: 14px; }
 .ht-ay-satir { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px; }
 .ht-ay-secenek { flex-shrink: 0; padding: 9px 14px; border-radius: 10px; background: #eef2f8; color: #003a70; font-weight: 700; font-size: 13px; cursor: pointer; }
 .ht-ay-secenek--secili { background: #003a70; color: #fff; }
@@ -216,10 +232,10 @@
 .ht-defter--aj .ht-hat { font-size: 11.5px; }
 .ht-defter--aj .ht-hat s { width: 17px; height: 17px; }
 .ht-aj-foto { position: relative; flex: 1 1 auto; min-height: 0; margin: 4px; border-radius: 8px; overflow: hidden; background: #ece6d6; }
-.ht-aj-foto-ic { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-.ht-ft { position: relative; line-height: 0; }
-.ht-ft + .ht-ft { margin-top: 3px; }
-.ht-ft img { width: 100%; display: block; }
+.ht-aj-foto-ic { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; scroll-snap-type: y mandatory; }
+/* 08.11.2026 (Abdullah onayı): ajanda sayfası fotoğrafı kutuya TAM SIĞAR (kaydırma yok); birden fazla sayfa varsa her biri kutuyu doldurur, aralarında kaydırılır. */
+.ht-ft { position: relative; line-height: 0; flex: 0 0 100%; height: 100%; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; }
+.ht-ft img { width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
 .ht-ft-z { position: absolute; left: 8px; top: 8px; background: rgba(10,20,40,.45); color: #fff; font-size: 11.5px; font-weight: 800; line-height: 1.2; padding: 3px 9px; border-radius: 99px; }
 .ht-ft-sil { position: absolute; right: 8px; top: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(214,57,47,.55); display: flex; align-items: center; justify-content: center; font-size: 13px; line-height: 1; cursor: pointer; }
 .ht-ft-bos { height: 100%; min-height: 120px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; border: 2px dashed #c7bda6; border-radius: 8px; box-sizing: border-box; color: #9a8f78; font-weight: 700; font-size: 13px; }

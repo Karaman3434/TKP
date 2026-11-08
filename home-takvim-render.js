@@ -1,5 +1,5 @@
 /*
-  home-takvim-render.js — TKP.08.11.26-11:06.1501
+  home-takvim-render.js — TKP.08.11.26-19:58.1514
   =================================================
   ANA SAYFA TAKVİMİ.
 
@@ -106,7 +106,7 @@
     kapsayici.innerHTML =
       "<button type='button' class='ht-ay-btn' id='htAySec'><span aria-hidden='true'>🗓️</span><span id='htAyBaslik'></span></button>"
       + "<div class='ht-ozet' id='htOzet'>"
-      +   "<b>Bugün</b>"
+      +   "<b class='ht-ozet-bugun' id='htOzetBugun' role='button' tabindex='0'>Bugün</b>"
       +   "<span class='ht-ozet-oge ht-ozet-oge--islem'><i aria-hidden='true'>📝</i><span id='htOzetIslem'>0</span> işlem</span>"
       +   "<span class='ht-ozet-oge ht-ozet-oge--siparis'><i aria-hidden='true'>📦</i><span id='htOzetSiparis'>0</span> sipariş</span>"
       +   "<span class='ht-ozet-oge ht-ozet-oge--temas'><i aria-hidden='true'>👥</i><span id='htOzetTemas'>0</span> temas</span>"
@@ -117,6 +117,12 @@
       + "</div>";
     grid = document.getElementById("htGrid");
     document.getElementById("htAySec").onclick = aySecAc;
+    // 08.11.2026 (Abdullah onayı): "Bugün" etiketine dokununca bugünün Not + Ajanda penceresi açılır.
+    document.getElementById("htOzetBugun").onclick = function(){
+      var b = new Date();
+      panelKapat();
+      ajandaAc(anahtar(b.getFullYear(), b.getMonth(), b.getDate()));
+    };
     // Günlere dokunma: hücreler yeniden çizilse de çalışsın diye TEK dinleyici (olay devri) — kapsayıcı grid'de.
     grid.addEventListener("click", function(ev){
       try{
@@ -258,26 +264,40 @@
   }
 
   // ---------- AY SEÇ ----------
+  // 08.11.2026 (Abdullah onayı — mockup): "Ay seç" artık ekranın ortasında karartan pencere değil;
+  // "Kasım 2026" çubuğunun HEMEN ALTINDA, çubuk genişliğinde, okla işaretli küçük açılır pencere.
+  // Dışına dokunmak kapatır; ay seçilince takvim o aya geçer ve pencere kapanır.
   function aySecAc(){
-    var z = document.createElement("div");
-    z.className = "ht-zemin";
+    if(document.querySelector(".ht-ay-pop")) return;
+    var btn = document.getElementById("htAySec");
+    if(!btn) return;
+    var kap = btn.offsetParent || btn.parentNode;
     var bugun = new Date(), h = "";
     for(var i=-12; i<=12; i++){
       var d = new Date(bugun.getFullYear(), bugun.getMonth()+i, 1);
       var sec = (d.getFullYear()===yil && d.getMonth()===ay);
       h += "<div class='ht-ay-secenek" + (sec ? " ht-ay-secenek--secili" : "") + "' data-y='" + d.getFullYear() + "' data-a='" + d.getMonth() + "'>" + AY_ADLARI[d.getMonth()].slice(0,3) + " " + d.getFullYear() + "</div>";
     }
-    z.innerHTML = "<div class='ht-ay-kutu'><div class='ht-ay-baslik'>Ay seç</div><div class='ht-ay-satir'>" + h + "</div></div>";
-    document.body.appendChild(z);
-    z.addEventListener("click", function(ev){ if(ev.target === z) z.remove(); });
-    z.querySelectorAll(".ht-ay-secenek").forEach(function(el){
+    var zemin = document.createElement("div");
+    zemin.className = "ht-ay-zemin";
+    var pop = document.createElement("div");
+    pop.className = "ht-ay-pop";
+    pop.innerHTML = "<div class='ht-ay-baslik'>Ay seç</div><div class='ht-ay-satir'>" + h + "</div>";
+    pop.style.top = (btn.offsetTop + btn.offsetHeight + 10) + "px";
+    pop.style.left = btn.offsetLeft + "px";
+    pop.style.width = btn.offsetWidth + "px";
+    document.body.appendChild(zemin);
+    kap.appendChild(pop);
+    var kapat = function(){ zemin.remove(); pop.remove(); };
+    zemin.addEventListener("click", kapat);
+    pop.querySelectorAll(".ht-ay-secenek").forEach(function(el){
       el.onclick = function(){
         yil = parseInt(this.getAttribute("data-y"),10); ay = parseInt(this.getAttribute("data-a"),10);
-        panelKapat(); takvimiCiz(); z.remove();
+        kapat(); panelKapat(); takvimiCiz();
       };
     });
-    var s = z.querySelector(".ht-ay-secenek--secili");
-    if(s && s.scrollIntoView) s.scrollIntoView({inline:"center", block:"nearest"});
+    var s = pop.querySelector(".ht-ay-secenek--secili"), satir = pop.querySelector(".ht-ay-satir");
+    if(s && satir) satir.scrollLeft = s.offsetLeft - (satir.clientWidth - s.offsetWidth) / 2;
   }
 
   // ---------- TEMAS PENCERESİ (21:42 onayı — mockup: Not defteri + Ziyaret Takvimi temas paneli) ----------
