@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.08.11.26-13:59.1506
+  belge-render.js — TKP.08.11.26-20:37.1515
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -286,7 +286,10 @@ function belgeyiCiz(kayit, musteri){
     // KALDIRILDI (02.11.2026, Abdullah onayı): buradaki pasif Gönder ikonu
     // (class='ub-gonder-ikon') silindi — işlevi hiç tanımlanmamıştı.
     var ikonGrupHtml = "<span class='ikon-grup'>"
-      + "<button type='button' class='ub-ayrinti-ikon' id='btnIslemlerAc' title='Ayrıntı' aria-label='Ayrıntı'>i</button>"
+      + "<button type='button' class='ub-ayrinti-ikon' id='btnIslemlerAc' title='Ayrıntı' aria-label='Ayrıntı'>"
+      // AYRINTI HAPI (08.11.2026, Abdullah onayı): eski "i" yerine liste ikonu + AYRINTI yazısı.
+      + "<svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' aria-hidden='true'><circle cx='5' cy='6' r='1.2' fill='currentColor'/><circle cx='5' cy='12' r='1.2' fill='currentColor'/><circle cx='5' cy='18' r='1.2' fill='currentColor'/><path d='M10 6h10M10 12h10M10 18h7'/></svg>"
+      + "<span>AYRINTI</span></button>"
       + "</span>";
     var siparisPaneliHtml = "<div class='belge-musteri-baslik tip-" + (kayit.tip||"siparis") + "'>"
       + "<div class='bmb-sol'><span class='bmb-tip'>" + (TIP_ETIKET_BELGE[kayit.tip]||TipEtiket.kisa.siparis) + "</span>"

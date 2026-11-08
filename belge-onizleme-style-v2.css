@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — TKP.05.11.26-10:45.1479
+  belge-onizleme-style-v2.css — TKP.08.11.26-20:37.1515
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -76,12 +76,26 @@
    yüksekliği (40px, yukarıda) değişmeden bu ikonların sığması için
    panelin iç dolgusu azaltıldı (1mm -> 2px 10px, yukarıda). */
 .belge-onizleme-sayfa .ikon-grup { display: flex; gap: 14px; flex-shrink: 0; align-items: center; }
+/* AYRINTI HAPI (08.11.2026, Abdullah onayı — mockup üzerinden: "4D renk, 4F
+   tasarım, etiket sadece büyük harf AYRINTI"): eski yuvarlak "i" düğmesi
+   yerine liste ikonu + "AYRINTI" yazılı hap. Renk, çubuktaki F.TEK/tarih/kod
+   yazısının rengiyle AYNI ve işlem tipine göre otomatik (tip-* sınıfından):
+   açık zemin + aynı renkte kenarlık/yazı. Düğmenin id'si (btnIslemlerAc) ve
+   işlevi DEĞİŞMEDİ. */
 .belge-onizleme-sayfa .ub-ayrinti-ikon {
-  width: 32px; height: 32px; flex-shrink: 0; cursor: pointer; border: none; padding: 0;
-  border-radius: 50%; background: #073B70; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 19px; font-weight: 900; font-style: italic; font-family: Georgia, serif;
+  --ay-renk: #38469a; --ay-zemin: #e8eaf6;
+  height: 32px; flex-shrink: 0; cursor: pointer; padding: 0 12px 0 9px;
+  border: 1.5px solid var(--ay-renk); border-radius: 99px;
+  background: var(--ay-zemin); color: var(--ay-renk);
+  display: flex; align-items: center; gap: 6px;
+  font-family: inherit; font-weight: 800; font-size: 13.5px; line-height: 1; letter-spacing: .5px;
+  font-style: normal; white-space: nowrap;
 }
+.belge-onizleme-sayfa .ub-ayrinti-ikon svg { flex-shrink: 0; display: block; }
+.belge-onizleme-sayfa .tip-teklif   .ub-ayrinti-ikon { --ay-renk: #249147; --ay-zemin: #e6f6ea; }
+.belge-onizleme-sayfa .tip-siparis  .ub-ayrinti-ikon { --ay-renk: #38469a; --ay-zemin: #e8eaf6; }
+.belge-onizleme-sayfa .tip-proforma .ub-ayrinti-ikon { --ay-renk: #8a4306; --ay-zemin: #fbeee2; }
+.belge-onizleme-sayfa .tip-numune   .ub-ayrinti-ikon { --ay-renk: #8e0e45; --ay-zemin: #fce4ec; }
 /* KALDIRILDI (02.11.2026, Abdullah onayı): paneldeki pasif Gönder ikonu
    (.ub-gonder-ikon) ve bu dosyadaki kuralları silindi — işlevi hiç
    tanımlanmamıştı, belge-render.js artık üretmiyor. */
