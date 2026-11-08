@@ -1,5 +1,5 @@
 /*
-  send-render.js — TKP.08.11.26-23:14.1518
+  send-render.js — TKP.09.11.26-00:12.1521
   GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim artık Gönder tuşunun altında açılan
   tek sıra liste (iletisimPaneliKonumla/iletisimAcilirAc/Kapat, altKutuKonumla).
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
@@ -238,7 +238,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     // turu, mockup üzerinden onaylandı): son parametre (true) teslimat
     // adresi girilmemişse bu canlı önizlemede de bloğu hiç göstermez; cari
     // kodu (koduGizle=false) eskisi gibi görünmeye devam eder.
-    musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, false, true);
+    musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, false, true, true);
     html = musteriBlokHtml
       + "<div class='belge-kart-ayrac'></div>"
       + "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStrOnizleme, null) + "</div>"
@@ -410,7 +410,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     // ADRESİ bloğu hiç görünmez. Diğer hiçbir çağrı (Cari Kart, Sepet,
     // Gönder'in canlı önizlemesi, Belge Önizleme) bunu geçmediği için
     // hepsi eskisi gibi boşsa "Girilmemiş" göstermeye devam eder.
-    cariBaslikHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, true, true);
+    cariBaslikHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, true, true, true);
     cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr, null) + "</div>";
   }
 

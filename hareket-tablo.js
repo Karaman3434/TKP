@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — TKP.05.11.26-10:45.1479
+  hareket-tablo.js — TKP.09.11.26-00:12.1521
   =================
   GÜNCELLEME (04.11.2026, 14:35, Abdullah onayı — mockup üzerinden): BEDELSİZ
   satır gösterimi. TOPLAM sütunu "NUMUNE" yerine "BEDELSİZ" (kırmızı); LİSTE,
@@ -340,7 +340,16 @@ var HareketTablo = (function(){
   // Bu parametre hiç geçilmezse (Cari Kart, Sepet, Gönder'in canlı
   // önizlemesi, Belge Önizleme) davranış ESKİSİ GİBİ — boşsa "Girilmemiş"
   // yazar, blok yine gösterilir.
-  function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi, koduGizle, teslimatBossaGizle){
+  // bosBlokGizle (09.11.2026, Abdullah isteği — "seçili/dolu değilse teslimat
+  // adresi ve not mail tablosunda kesinlikle olmasın"): true verilirse
+  // TESLİMAT ADRESİ (boş/sadece boşluk) ve NOT (metni boş olan kayıtlar)
+  // HİÇ basılmaz. SADECE send-render.js'in Mail/WhatsApp önizleme ve giden
+  // görsel çağrıları geçer; Cari Kart/Sepet/Belge Önizleme etkilenmez.
+  function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi, koduGizle, teslimatBossaGizle, bosBlokGizle){
+    if(bosBlokGizle){
+      teslimatBossaGizle = true;
+      if(teslimatAdr && !String(teslimatAdr).trim()) teslimatAdr = "";
+    }
     // Cari'deki tek "ŞEHİR" alanı SADECE fatura adresine eklenir — teslimat
     // çoğu zaman bambaşka bir ilçe/ildedir, ona hiç eklenmez (29.09.2026).
     // İL EKLENDİ (01.11.2026, Abdullah onayı — mockup üzerinden): ŞEHİR
@@ -423,6 +432,9 @@ var HareketTablo = (function(){
     // tekil "not" alanını kullanır (customer-data.js ikisini senkron tutuyor).
     var notListesi = (musteri.notlar && musteri.notlar.length) ? musteri.notlar
       : ((musteri.not && musteri.not.trim()) ? [{baslik:"", metin: musteri.not.trim()}] : []);
+    if(bosBlokGizle){
+      notListesi = notListesi.filter(function(n){ return n && n.metin && String(n.metin).trim(); });
+    }
     if(notListesi.length){
       adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--not'><span>📝 NOT</span></div>"
         + "<div class='ck-blok'><div class='ck-kart-liste'>" + notListesi.map(function(n){
