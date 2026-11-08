@@ -1,5 +1,5 @@
 /*
-  tip-etiketleri.js — TKP.08.11.26-12:34.1504
+  tip-etiketleri.js — TKP.08.11.26-13:14.1505
   ============================================
   BELGE / DURUM TÜRÜ KISALTMALARI — TEK KAYNAK (08.11.2026, Abdullah onayı):
   "Programdaki kısaltmalar: Sipariş SİP, Fiyat teklifi F.TEK, Proforma fatura
@@ -20,6 +20,10 @@
                      Bakiye), stok (Bekleyen Stok).
   - HTML'de sabit metin: öğeye data-tip-kisa="siparis" yaz; sayfa açılınca
     metni buradan doldurulur (TipEtiket.uygula(kok) ile sonradan eklenenler de).
+  - 08.11.2026 (Abdullah): "Ne için ürün arıyorsun?" tür seçicilerinde KISA
+    kod yok, BÜYÜK HARF tam ad var (SİPARİŞ, FİYAT TEKLİFİ…): data-tip-tam="teklif"
+    veya TipEtiket.buyukAl(tip). "Kısa kodlar sadece listelerde."
+  - İSKONTO (08.11.2026): bu dosyada değil, Hesapla penceresi etiketlerinde.
 */
 var TipEtiket = (function(){
   var KISA = {
@@ -41,14 +45,22 @@ var TipEtiket = (function(){
 
   function kisaAl(tip){ return KISA[tip] || ""; }
   function uzunAl(tip){ return UZUN[tip] || ""; }
+  // Tam ad, BÜYÜK HARF (Türkçe İ/I kurallı): "FİYAT TEKLİFİ", "SİPARİŞ".
+  function buyukAl(tip){ return (UZUN[tip] || "").toLocaleUpperCase("tr-TR"); }
 
-  // [data-tip-kisa] öğelerinin metnini kısaltmayla doldurur (kok verilmezse tüm sayfa).
+  // [data-tip-kisa] öğelerinin metnini kısaltmayla, [data-tip-tam] öğelerinin
+  // metnini BÜYÜK HARF tam adla doldurur (kok verilmezse tüm sayfa).
   function uygula(kok){
     try{
       var liste = (kok || document).querySelectorAll("[data-tip-kisa]");
       for(var i=0;i<liste.length;i++){
         var k = KISA[liste[i].getAttribute("data-tip-kisa")];
         if(k) liste[i].textContent = k;
+      }
+      var tam = (kok || document).querySelectorAll("[data-tip-tam]");
+      for(var j=0;j<tam.length;j++){
+        var t = buyukAl(tam[j].getAttribute("data-tip-tam"));
+        if(t) tam[j].textContent = t;
       }
     }catch(e){}
   }
@@ -57,5 +69,5 @@ var TipEtiket = (function(){
     else uygula();
   }catch(e){}
 
-  return { kisa: KISA, uzun: UZUN, kisaAl: kisaAl, uzunAl: uzunAl, uygula: uygula };
+  return { kisa: KISA, uzun: UZUN, kisaAl: kisaAl, uzunAl: uzunAl, buyukAl: buyukAl, uygula: uygula };
 })();

@@ -1,5 +1,5 @@
 /*
-  home-anasayfa-style.css — TKP.05.11.26-21:16.1489
+  home-anasayfa-style.css — TKP.08.11.26-13:14.1505
   ========================
   SADECE home.html'e özel — Abdullah'ın paylaştığı referans fotoğrafa göre
   yeniden tasarlanan Ana Sayfa (canlı mavi/yeşil, kartlı, çekmece menülü).
@@ -464,7 +464,7 @@ body.as-drawer-kilit { overflow: hidden; }
   gap: 10px;
   text-decoration: none;
 }
-.as-drawer-anasayfa span.as-drawer-etiket { color: #ffffff; font-size: 12.5px; font-weight: 800; flex: 1; }
+.as-drawer-anasayfa span.as-drawer-etiket { color: #ffffff; font-size: 15px; font-weight: 800; flex: 1; }  /* 08.11.2026: 12.5px → +%20 (Abdullah) */
 .as-drawer-anasayfa .as-drawer-ok { color: #ffffff; }
 
 .as-drawer-liste {
@@ -481,13 +481,13 @@ body.as-drawer-kilit { overflow: hidden; }
   padding: 9px 4px;
   color: #ffffff;
   text-decoration: none;
-  font-size: 12.5px;
+  font-size: 15px;   /* 08.11.2026 (Abdullah): menü etiketleri +%20 (12.5px idi) */
   font-weight: 700;
 }
 .as-drawer-oge:active { background: rgba(255,255,255,.08); }
 .as-drawer-oge--buton { background: none; border: none; width: 100%; text-align: left; font-family: inherit; cursor: pointer; }
 .as-drawer-oge--buton.as-drawer-oge--acik { background: rgba(255,255,255,.1); border-radius: 6px; }
-.as-drawer-ikon { font-size: 20.5px; width: 24px; text-align: center; flex-shrink: 0; } /* 11.10.2026: +%20 büyütüldü (Abdullah'ın isteğiyle) */
+.as-drawer-ikon { font-size: 24.6px; width: 29px; text-align: center; flex-shrink: 0; }  /* 08.11.2026: menü logoları +%20 (20.5px / 24px idi) */ /* 11.10.2026: +%20 büyütüldü (Abdullah'ın isteğiyle) */
 .as-drawer-oge .as-drawer-etiket { flex: 1; }
 .as-drawer-oge .as-drawer-ok { color: #6b83ab; font-size: 14px; flex-shrink: 0; }
 
@@ -579,7 +579,7 @@ body.as-drawer-kilit { overflow: hidden; }
   border-radius: 10px;
   margin: 6px 12px 14px;
   padding: 12px 14px;
-  font-size: 12.5px;
+  font-size: 15px;   /* 08.11.2026: +%20 (12.5px idi) */
   font-weight: 800;
   cursor: pointer;
 }

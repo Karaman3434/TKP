@@ -1,5 +1,5 @@
 /*
-  menu-cekmece-style.css — TKP.08.11.26-11:06.1501
+  menu-cekmece-style.css — TKP.08.11.26-13:14.1505
   ============================================================================
   "Menü her sayfada" (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı).
   Bu dosya SADECE net-yeni sınıfları içerir:
@@ -88,7 +88,7 @@
 }
 .as-drawer-oge .as-drawer-etiket-blok .as-drawer-etiket { flex: none; }
 .as-drawer-km-durum {
-  font-size: 9.5px;
+  font-size: 11.4px;  /* 08.11.2026: +%20 */
   font-weight: 700;
   color: #7fdba0;
   white-space: nowrap;
@@ -118,9 +118,9 @@
 .as-drawer-oge--miniarama .as-drawer-ikon { flex-shrink:0; }
 .as-drawer-mini-etiket {
   flex-shrink: 0;
-  width: 54px;
+  width: 65px;   /* 08.11.2026: 54px → +%20 */
   background: none; border: none; padding: 0;
-  color: #fff; font-size: 12.5px; font-weight: 700; font-family: inherit;
+  color: #fff; font-size: 15px; font-weight: 700; font-family: inherit;   /* 12.5px idi, +%20 */
   text-align: left;
 }
 .as-drawer-mini-arama-input-sabit {
@@ -131,9 +131,11 @@
   background: rgba(255,92,92,.22);
   border: 1.6px solid #d11d2a;
   border-radius: 999px;
-  padding: 6px 14px;
+  /* 08.11.2026 (Abdullah): menüdeki Ürün/Müşteri arama kutuları +%20 daha büyük
+     (yazı 12→14.4px, iç boşluk 6/14→7.2/16.8px) */
+  padding: 7.2px 16.8px;
   color: #fff;
-  font-size: 12px;
+  font-size: 14.4px;
   font-weight: 600;
   outline: none;
 }
@@ -203,7 +205,7 @@
 }
 .as-drawer-mini-sonuc-panel .musteri-karti:last-child { border-bottom: none; }
 .as-drawer-mini-sonuc-panel .musteri-kod-h { font-size: 10px; font-weight: 600; color: #c0392b; overflow-wrap: anywhere; }
-.as-drawer-mini-sonuc-panel .musteri-firma-h { font-size: 12px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.as-drawer-mini-sonuc-panel .musteri-firma-h { font-size: 13.2px;  /* 08.11.2026: müşteri adı +%10 (12px idi) */  font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .as-drawer-mini-sonuc-panel .musteri-konum-h { font-size: 10px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .as-drawer-mini-sonuc-panel .musteri-rozet-h { display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; padding: 2px 1px; border-radius: 5px; text-align: center; line-height: 1; }
 .as-drawer-mini-sonuc-panel .musteri-rozet-h--yok { color: #c3cad4; font-weight: 600; background: none; }

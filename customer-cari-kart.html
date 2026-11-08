@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-12:34.1504 — customer-cari-kart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-13:14.1505 — customer-cari-kart.html -->
 <!--
   İŞ TAKİP — CARİ KART v7
   ==============================
@@ -30,10 +30,10 @@
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
-<link rel="stylesheet" href="customer-style.css?v=WG.011126.0821.1246">
+<link rel="stylesheet" href="customer-style.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="detail-style.css?v=TKP.02.11.26-10:48.1375">
 <link rel="stylesheet" href="cari-kart-style.css?v=TKP.05.11.26-10:45.1479">
-<link rel="stylesheet" href="musteri-serit.css?v=TKP.08.11.26-11:41.1502">
+<link rel="stylesheet" href="musteri-serit.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="send-style.css?v=TKP.03.11.26-20:30.1459">
 <!-- EKLENDİ (27.10.2026, Abdullah'ın isteğiyle — "açık belge" uyarısında
      belgenin ürün tablosunu görüntüleme): Sepet/Gönder/Belge Önizleme ile
@@ -46,8 +46,8 @@
      kılınıyor. Telefon genişliği HİÇ ETKİLENMİYOR. -->
 <style>@media (min-width:641px){ body{ max-width:none !important; } } </style>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.05.11.26-21:16.1489">
-<link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.08.11.26-11:06.1501">
+<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.08.11.26-13:14.1505">
+<link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="ust-bar-style.css?v=TKP.05.11.26-12:35.1485">
 </head>
 <body>
@@ -205,10 +205,10 @@
     <div class="tip-secim-kutu">
       <div class="tip-secim-baslik">Ne için ürün arıyorsun?</div>
       <div class="tip-secim">
-        <button class="tip-btn tip-btn--numune" data-tip="numune" data-tip-kisa="numune">NUM</button>
-        <button class="tip-btn tip-btn--teklif" data-tip="teklif" data-tip-kisa="teklif">F.TEK</button>
-        <button class="tip-btn tip-btn--proforma" data-tip="proforma" data-tip-kisa="proforma">P.FAT</button>
-        <button class="tip-btn tip-btn--siparis" data-tip="siparis" data-tip-kisa="siparis">SİP</button>
+        <button class="tip-btn tip-btn--numune" data-tip="numune" data-tip-tam="numune">NUMUNE</button>
+        <button class="tip-btn tip-btn--teklif" data-tip="teklif" data-tip-tam="teklif">FİYAT TEKLİFİ</button>
+        <button class="tip-btn tip-btn--proforma" data-tip="proforma" data-tip-tam="proforma">PROFORMA FATURA</button>
+        <button class="tip-btn tip-btn--siparis" data-tip="siparis" data-tip-tam="siparis">SİPARİŞ</button>
       </div>
       <button class="tip-secim-vazgec-btn" id="btnTipSecimVazgec">Kapat</button>
     </div>
@@ -278,7 +278,7 @@
 
 <div class="toast" id="ckToast"></div>
 
-<script src="tip-etiketleri.js?v=TKP.08.11.26-12:34.1504"></script>
+<script src="tip-etiketleri.js?v=TKP.08.11.26-13:14.1505"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -315,6 +315,6 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=TKP.08.11.26-12:34.1504"></script>
+<script src="menu-cekmece.js?v=TKP.08.11.26-13:14.1505"></script>
 </body>
 </html>

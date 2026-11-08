@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.08.11.26-12:34.1504
+  belge-render.js — TKP.08.11.26-13:14.1505
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -542,10 +542,10 @@ function bhpPencereOlustur(){
   tipMenu.id = "bhpTipMenu";
   tipMenu.hidden = true;
   tipMenu.innerHTML = "<div class='cm-tipmenu-baslik'>Ne için ürün arıyorsun?</div>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--numune' data-tip='numune'><span class='cm-tipmenu-oge-ikon'>🧪</span><span data-tip-kisa='numune'>"+TipEtiket.kisa.numune+"</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--teklif' data-tip='teklif'><span class='cm-tipmenu-oge-ikon'>💬</span><span data-tip-kisa='teklif'>"+TipEtiket.kisa.teklif+"</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--proforma' data-tip='proforma'><span class='cm-tipmenu-oge-ikon'>🧾</span><span data-tip-kisa='proforma'>"+TipEtiket.kisa.proforma+"</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--siparis' data-tip='siparis'><span class='cm-tipmenu-oge-ikon'>📦</span><span data-tip-kisa='siparis'>"+TipEtiket.kisa.siparis+"</span></button>";
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--numune' data-tip='numune'><span class='cm-tipmenu-oge-ikon'>🧪</span><span data-tip-tam='numune'>"+TipEtiket.buyukAl('numune')+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--teklif' data-tip='teklif'><span class='cm-tipmenu-oge-ikon'>💬</span><span data-tip-tam='teklif'>"+TipEtiket.buyukAl('teklif')+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--proforma' data-tip='proforma'><span class='cm-tipmenu-oge-ikon'>🧾</span><span data-tip-tam='proforma'>"+TipEtiket.buyukAl('proforma')+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--siparis' data-tip='siparis'><span class='cm-tipmenu-oge-ikon'>📦</span><span data-tip-tam='siparis'>"+TipEtiket.buyukAl('siparis')+"</span></button>";
   document.body.appendChild(tipMenu);
 
   // ROTA DEĞİŞİKLİĞİ (27.10.2026, Abdullah onayı): tip seçilince artık

@@ -1,4 +1,4 @@
-/* customer-style.css — WG.011126.0821.1246 — aynı kural: gradyan/gölge yığılması yok. */
+/* customer-style.css — TKP.08.11.26-13:14.1505 — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
 
@@ -83,7 +83,7 @@
    İşlemler, Satışlarım, Kaçan Satışlar, Ay Detayı, İşlem Geçmişi) AYNI
    tutulmalı. */
 .musteri-kod-h { font-size: 11.5px; font-weight: 600; color: #c0392b; overflow-wrap: anywhere; }
-.musteri-firma-h { font-size: 13.5px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
+.musteri-firma-h { font-size: 14.85px;  /* 08.11.2026: müşteri adı +%10 (13.5px idi) */  font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
 .musteri-konum-h { font-size: 11px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
 .musteri-rozet-h {
   display: inline-flex; align-items: center; justify-content: center;

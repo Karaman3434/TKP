@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-12:34.1504 — customer.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-13:14.1505 — customer.html -->
 <!--
   İŞ TAKİP — MÜŞTERİ LİSTESİ v3
   ====================================
@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
-<link rel="stylesheet" href="customer-style.css?v=WG.011126.0821.1246">
+<link rel="stylesheet" href="customer-style.css?v=TKP.08.11.26-13:14.1505">
 <!-- YENİ (06.10.2026, Abdullah'ın isteğiyle) — SADECE bu sayfada: iPad/tablet
      genişliğinde (>640px) içerik artık home.html'de zaten uygulanan kuralla
      AYNI şekilde kenardan kenara — home-style.css'teki genel
@@ -33,8 +33,8 @@
      — mockup ile doğrulandı, Abdullah onayladı. -->
 <style>@media (min-width:641px){ body{ max-width:none !important; } } </style>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.05.11.26-21:16.1489">
-<link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.08.11.26-11:06.1501">
+<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.08.11.26-13:14.1505">
+<link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="ust-bar-style.css?v=TKP.05.11.26-12:35.1485">
 <link rel="stylesheet" href="arama-stili.css?v=TKP.08.11.26-11:06.1501">
 </head>
@@ -128,10 +128,10 @@
          gidilmiyor — bkz. cari-kart-render.js (weiconv2_tip_oncesecim_hizli). -->
     <div class="cm-tipmenu" id="cmTipMenu" hidden>
       <div class="cm-tipmenu-baslik">Ne için ürün arıyorsun?</div>
-      <button type="button" class="cm-tipmenu-oge cm-tipmenu-oge--numune" data-tip="numune"><span class="cm-tipmenu-oge-ikon">🧪</span><span data-tip-kisa="numune">NUM</span></button>
-      <button type="button" class="cm-tipmenu-oge cm-tipmenu-oge--teklif" data-tip="teklif"><span class="cm-tipmenu-oge-ikon">💬</span><span data-tip-kisa="teklif">F.TEK</span></button>
-      <button type="button" class="cm-tipmenu-oge cm-tipmenu-oge--proforma" data-tip="proforma"><span class="cm-tipmenu-oge-ikon">🧾</span><span data-tip-kisa="proforma">P.FAT</span></button>
-      <button type="button" class="cm-tipmenu-oge cm-tipmenu-oge--siparis" data-tip="siparis"><span class="cm-tipmenu-oge-ikon">📦</span><span data-tip-kisa="siparis">SİP</span></button>
+      <button type="button" class="cm-tipmenu-oge cm-tipmenu-oge--numune" data-tip="numune"><span class="cm-tipmenu-oge-ikon">🧪</span><span data-tip-tam="numune">NUMUNE</span></button>
+      <button type="button" class="cm-tipmenu-oge cm-tipmenu-oge--teklif" data-tip="teklif"><span class="cm-tipmenu-oge-ikon">💬</span><span data-tip-tam="teklif">FİYAT TEKLİFİ</span></button>
+      <button type="button" class="cm-tipmenu-oge cm-tipmenu-oge--proforma" data-tip="proforma"><span class="cm-tipmenu-oge-ikon">🧾</span><span data-tip-tam="proforma">PROFORMA FATURA</span></button>
+      <button type="button" class="cm-tipmenu-oge cm-tipmenu-oge--siparis" data-tip="siparis"><span class="cm-tipmenu-oge-ikon">📦</span><span data-tip-tam="siparis">SİPARİŞ</span></button>
     </div>
   </div>
 
@@ -144,7 +144,7 @@
 
 </main>
 
-<script src="tip-etiketleri.js?v=TKP.08.11.26-12:34.1504"></script>
+<script src="tip-etiketleri.js?v=TKP.08.11.26-13:14.1505"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -166,6 +166,6 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=TKP.08.11.26-12:34.1504"></script>
+<script src="menu-cekmece.js?v=TKP.08.11.26-13:14.1505"></script>
 </body>
 </html>

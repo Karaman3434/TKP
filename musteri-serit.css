@@ -1,4 +1,4 @@
-/* musteri-serit.css — TKP.08.11.26-11:41.1502
+/* musteri-serit.css — TKP.08.11.26-13:14.1505
    ============================================================
    TEK KURAL (22.09.2026): Müşteri adının (ticari unvan) göründüğü HER
    yerde — Sepet, Ürün Bul, Müşteri Hub, Cari Bilgi, İşlemler, Gönder
@@ -128,18 +128,21 @@
 /* GEÇMİŞ ALIMLAR — ALT KENARA ASILI ETİKET (05.11.2026, Abdullah onayı —
    "2 numaralı tasarım"): şeridin alt çerçevesine oturan küçük hap; ek yükseklik
    harcamaz (sadece etiketin taşan yarısı için alt boşluk 12px). Tıklamayı şerit alır. */
+/* 08.11.2026 (Abdullah, ikinci tur): Sepet sayfasındaki etiket bir daha +%15 —
+   yükseklik 20.4→23.5px, yazı 12.6→14.5px, yan boşluk 10.8→12.4px, taşan yarı için
+   alt boşluk 15→17.5px. */
 /* 08.11.2026 (Abdullah onayı): etiket %20 büyütüldü — 17px→20.4px yükseklik, yazı 10.5→12.6px;
    taşan yarı için alt boşluk 12→15px. */
-.musteri-serit--asili { position: relative; margin-bottom: 15px; cursor: pointer; }
+.musteri-serit--asili { position: relative; margin-bottom: 17.5px; cursor: pointer; }
 .musteri-serit .ms-gecmis-asili {
   position: absolute;
   left: 50%;
-  bottom: -10.5px;
+  bottom: -12px;
   transform: translateX(-50%);
-  height: 20.4px;
-  line-height: 18px;
-  padding: 0 10.8px;
-  font-size: 12.6px;
+  height: 23.5px;
+  line-height: 20.7px;
+  padding: 0 12.4px;
+  font-size: 14.5px;
   font-weight: 700;
   color: #0a2f5c;
   background: #fff;

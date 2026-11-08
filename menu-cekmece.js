@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.08.11.26-12:34.1504
+// menu-cekmece.js — TKP.08.11.26-13:14.1505
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -596,10 +596,10 @@ function mcMusteriTipMenuOlustur(){
   tipMenu.id = "mcMusteriTipMenu";
   tipMenu.hidden = true;
   tipMenu.innerHTML = "<div class='cm-tipmenu-baslik'>Ne için ürün arıyorsun?</div>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--numune' data-tip='numune'><span class='cm-tipmenu-oge-ikon'>🧪</span><span>"+TipEtiket.kisa.numune+"</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--teklif' data-tip='teklif'><span class='cm-tipmenu-oge-ikon'>💬</span><span>"+TipEtiket.kisa.teklif+"</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--proforma' data-tip='proforma'><span class='cm-tipmenu-oge-ikon'>🧾</span><span>"+TipEtiket.kisa.proforma+"</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--siparis' data-tip='siparis'><span class='cm-tipmenu-oge-ikon'>📦</span><span>"+TipEtiket.kisa.siparis+"</span></button>";
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--numune' data-tip='numune'><span class='cm-tipmenu-oge-ikon'>🧪</span><span data-tip-tam='numune'>"+TipEtiket.buyukAl('numune')+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--teklif' data-tip='teklif'><span class='cm-tipmenu-oge-ikon'>💬</span><span data-tip-tam='teklif'>"+TipEtiket.buyukAl('teklif')+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--proforma' data-tip='proforma'><span class='cm-tipmenu-oge-ikon'>🧾</span><span data-tip-tam='proforma'>"+TipEtiket.buyukAl('proforma')+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--siparis' data-tip='siparis'><span class='cm-tipmenu-oge-ikon'>📦</span><span data-tip-tam='siparis'>"+TipEtiket.buyukAl('siparis')+"</span></button>";
   var ustKap = document.getElementById("asDrawerOverlay") || document.body;
   ustKap.appendChild(tipMenu);
 

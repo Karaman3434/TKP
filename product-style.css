@@ -1,4 +1,4 @@
-/* product-style.css — TKP.08.11.26-11:41.1502 */
+/* product-style.css — TKP.08.11.26-13:14.1505 */
 /*
   product-style.css
   =================
@@ -579,6 +579,10 @@ button.ek-rozet { cursor: pointer; }
   font-size: 11.5px;
   letter-spacing: -.2px;
 }
-#uaAramaSonucAlani .data-table td { padding: 6px 3px; }
+#uaAramaSonucAlani .data-table td { padding: 4.8px 3px; }  /* 08.11.2026: 6px → −%20 */
 #uaAramaSonucAlani .data-table th { padding: 10px 3px; }
 #uaAramaSonucAlani .tablo-kod { margin-bottom: 0; }
+/* 08.11.2026 (Abdullah, ikinci tur): Berta/Abas harfleri ve kodları +%20 (9.6→11.52px);
+   ürün adı etiketleri arasındaki dikey boşluklar −%20: satır aralığı 1.3→1.04,
+   hücre üst/alt dolgusu 6→4.8px (yukarıdaki td kuralı). */
+#uaAramaSonucAlani .tablo-kod { font-size: 11.52px; line-height: 1.04; }
