@@ -1,4 +1,4 @@
-/* islem-liste-style.css — TKP.08.11.26-11:06.1501
+/* islem-liste-style.css — TKP.08.11.26-13:59.1506
    ORTAK İŞLEM LİSTESİ STİLİ (02.11.2026, Abdullah onayı): Son İşlemler,
    Satış Listesi, Ay Detay ve Kaçan Satışlar artık bu TEK dosyadan stillenir
    (islem-liste.js). Satır / gün bandı / rozet kuralları, onaylı "Son
@@ -116,6 +116,9 @@
 /* YAZI KÜÇÜLTÜLDÜ (27.10.2026) + %10 EK BÜYÜTME (01.11.2026, Abdullah
    onayı): Tutar sütunu kod kaldırılınca 60px'ten 76px'e genişlediği için
    büyüyen yazı artık ok ikonuna binmiyor (bkz. aşağıdaki test). */
+/* BAKİYE İBARESİ (08.11.2026): tutarın ÖNÜNDE küçük "📦 B.BAK" (bkz. islem-liste.js tutarHucreHTML) */
+.sr-durum-ek--bakiye { margin-right: 4px; }
+#islemlerListesi .sr-durum-ek--bakiye { font-size: 9.3px; padding: 2px 3px; letter-spacing: -0.1px; vertical-align: 1px; }
 #islemlerListesi .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; font-size: 9.3px; padding: 2px 3px; letter-spacing: -0.1px; }
 #islemlerListesi .sr-satir--beklemede { background: #f5ede1; }
 #islemlerListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }

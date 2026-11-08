@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.08.11.26-13:14.1505
+  belge-render.js — TKP.08.11.26-13:59.1506
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -1248,7 +1248,10 @@ document.addEventListener("DOMContentLoaded", function(){
     var btnIslemlerAcEl = document.getElementById("btnIslemlerAc");
     if(btnIslemlerAcEl) btnIslemlerAcEl.onclick = ayrintiAcilirAc;
 
-    document.getElementById("btnMenuBeklemede").hidden = !!kayit.durum;
+    // "Stok Bekliyor olarak işaretle" (TÜM sipariş bekliyor) — kayıt zaten bekleyen
+    // (durum dolu) ya da ürün bazında bakiyeli ise gösterilmez: aynı siparişte iki
+    // ayrı "bekleyen ekle" yolu çıkıp birbiriyle çakışmasın (08.11.2026).
+    document.getElementById("btnMenuBeklemede").hidden = !!kayit.durum || (kayit.urunler||[]).some(function(u){ return (u.bakiyeAdet||0) > 0; });
     return true;
   }
 

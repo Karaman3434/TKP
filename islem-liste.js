@@ -1,5 +1,5 @@
 /*
-  islem-liste.js — TKP.08.11.26-12:34.1504
+  islem-liste.js — TKP.08.11.26-13:59.1506
   ==========================================================================
   ORTAK İŞLEM LİSTESİ (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır
   filtre" turu; mockup: Son İşlemler satır tasarımı + arama kutusu yanında
@@ -104,9 +104,14 @@ var IslemListesi = (function(){
   }
   function tutarHucreHTML(k){
     if(k._beklemede) return "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ " + TipEtiket.kisa.stok + "</span>";
-    if(k._bakiye) return "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 " + TipEtiket.kisa.bakiye + "</span>";
+    // BAKİYELİ SİPARİŞ (08.11.2026, Abdullah): sevk edilen/faturalanan kısım SATIŞTIR —
+    // tutar normal görünür; "bu siparişte bekleyen de var" bilgisi tutarın önünde
+    // küçük "📦 B.BAK" ibaresiyle verilir (eskiden tutarın yerine geçiyordu, satış
+    // yokmuş gibi görünüyordu).
+    var bakiyeIbaresi = k._bakiye ? "<span class='sr-durum-ek sr-durum-ek--bakiye' title='Bu siparişte bekleyen bakiye var'>📦 " + TipEtiket.kisa.bakiye + "</span>" : "";
     // "İşlem tutarı bulunmayan satırlara tutar uydurma." (referans talimatı)
-    return k._tutar > 0 ? fmt(k._tutar) + " €" : "<span class='sr-tutar-yok'>—</span>";
+    if(k._tutar > 0) return bakiyeIbaresi + fmt(k._tutar) + " €";
+    return bakiyeIbaresi || "<span class='sr-tutar-yok'>—</span>";
   }
   // ---- SATIR TASARIMI v3 (03.11.2026, Abdullah onayı — mockup "iki satır,
   // rota toplama bitişik"): 1. satır "MÜŞTERİ - İlçe / İL" (tek satır, alt
@@ -149,10 +154,11 @@ var IslemListesi = (function(){
   // kırmızı TL"): 1. satırın sağında, Euro toplamın hemen üstünde. Kur =
   // kaydın KENDİ kuru (k._kur; revize edilmişse revize anındaki kur, kuru
   // olmayan eski kayıtta güncel kur — bkz. ReportsData.islemSorgula).
-  // Euro yerine etiket çıkan (stok bekliyor / bakiye) ve tutarı olmayan
-  // satırlarda TL yazılmaz. Küsuratsız, ₺ ile.
+  // Euro yerine etiket çıkan (stok bekliyor) ve tutarı olmayan satırlarda TL
+  // yazılmaz. Bakiyeli siparişte sevk edilen kısmın TL'si yazılır (08.11.2026).
+  // Küsuratsız, ₺ ile.
   function tlHucreHTML(k){
-    if(k._beklemede || k._bakiye || !(k._tutar > 0) || !(k._tl > 0)) return "";
+    if(k._beklemede || !(k._tutar > 0) || !(k._tl > 0)) return "";
     return "<div class='sr-tl'>" + Math.round(k._tl).toLocaleString("tr-TR") + " ₺</div>";
   }
   function satirHTML(k, i){

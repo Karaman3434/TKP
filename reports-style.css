@@ -1,4 +1,4 @@
-/* reports-style.css — TKP.08.11.26-08:49.1498 */
+/* reports-style.css — TKP.08.11.26-13:59.1506 */
 /* reports-style.css — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
@@ -349,6 +349,10 @@
   padding: 8px 10px; font-size: 11.5px; font-weight: 800;
   margin-top: 8px; cursor: pointer;
 }
+/* HATA DÜZELTMESİ (08.11.2026): yukarıdaki "display:flex" HTML'in hidden özniteliğini
+   eziyordu — panel açıkken "Bakiye/Bekleyen Ekle" bağlantısı da görünür kalıyor, aynı
+   ürün için iki yerde "ekle" çıkıyordu. */
+.duzenle-bakiye-link[hidden] { display: none; }
 .duzenle-bakiye-alan {
   background: #fff; border: 1.5px solid #b7601f; border-radius: 8px;
   padding: 9px; margin-top: 8px;
