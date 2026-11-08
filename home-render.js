@@ -1,5 +1,5 @@
 /*
-  home-render.js
+  home-render.js — TKP.08.11.26-17:33.1509
   ==============
   Bu dosyanın TEK görevi: IsTakipData'dan veriyi okuyup ekrana (DOM'a) yazmak.
   Hiçbir hesaplama yapmaz, hiçbir Firebase çağrısı içermez.
@@ -96,31 +96,34 @@ function odenebilirKomisyonuGuncelle(ay){
 function hedefGostergesiniGuncelle(satisToplamEuro){
   try{
     var rozet = document.getElementById("asHedefRozet");
-    var barTrack = document.getElementById("asHedefBarTrack");
+    var sarmal = document.getElementById("asHedefBarSarmal");
     var barDolu = document.getElementById("asHedefBarDolu");
-    var altYazi = document.getElementById("asHedefAltYazi");
-    if(!rozet || !barTrack || !barDolu || !altYazi) return;
+    var daire = document.getElementById("asHedefDaire");
+    if(!rozet || !sarmal || !barDolu || !daire) return;
 
     var hedef = parseFloat(localStorage.getItem("weicon_hedef"));
 
     if(!isFinite(hedef) || hedef <= 0){
+      sarmal.hidden = true;
       rozet.hidden = false;
       rozet.textContent = "Hedef belirle";
-      barTrack.hidden = true;
-      altYazi.hidden = false;
-      altYazi.textContent = "Aylık hedefini Ayarlar'dan girersen ilerleme burada görünür.";
       return;
     }
 
     var yuzde = Math.round((satisToplamEuro / hedef) * 100);
     if(yuzde < 0) yuzde = 0;
 
+    // 08.11.2026: oran dairenin içinde; daire barın üstünde gerçekleşmeye göre ilerler
+    // (%100'ü aşsa da bar ucunda kalır, yazı gerçek oranı gösterir).
+    var konum = Math.min(yuzde, 100);
+    sarmal.hidden = false;
+    sarmal.style.setProperty("--p", konum + "%");
+    barDolu.style.width = konum + "%";
+    daire.textContent = "%" + yuzde;
+    var hane = String(yuzde).length;
+    daire.className = "as-hedef-daire" + (hane >= 4 ? " as-hedef-daire--dort" : hane === 3 ? " as-hedef-daire--uc" : "");
     rozet.hidden = false;
-    rozet.textContent = "%" + yuzde + " hedef";
-    barTrack.hidden = false;
-    barDolu.style.width = Math.min(yuzde, 100) + "%";
-    altYazi.hidden = false;
-    altYazi.textContent = "Hedef: " + IsTakipData.fmt(hedef) + " EURO";
+    rozet.textContent = "Hedef: " + IsTakipData.fmt(hedef) + " EURO";
   }catch(e){ hataGoster("Hedef göstergesi güncellenemedi: " + e.message); }
 }
 

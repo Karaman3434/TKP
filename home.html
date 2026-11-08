@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-12:34.1504 — home.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-17:33.1509 — home.html -->
 <!--
   İŞ TAKİP — ANA SAYFA v5 (sade "flat" tasarım + gerçek hedef ilerlemesi)
   =============================================================================
@@ -54,7 +54,7 @@
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
-<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.08.11.26-13:14.1505">
+<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.08.11.26-17:33.1509">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) —
      .as-drawer-oge--kilitli (kilitli satır görünümü), tüm sayfalarla ortak. -->
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.08.11.26-13:14.1505">
@@ -110,6 +110,12 @@
     </div>
   </div>
 
+  <!-- ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı): ürün görselinin yerine. 08.11.2026: yeri tarih/kur satırının hemen altına (hedef kartının üstüne) taşındı.
+       Kod: home-takvim-render.js. "ziyaret" izni yoksa bölüm gizlenir. -->
+  <div class="ht-blok" id="anaTakvimBlok" hidden>
+    <div class="ht-kapsayici" id="anaTakvimAlan"></div>
+  </div>
+
   <div class="as-hedef-blok">
     <div class="as-hedef-kart" onclick="window.location.href='satis-listesi.html?kapsam=ay'">
       <div class="as-hedef-ust-satir as-hedef-ust-satir--orta">
@@ -122,19 +128,21 @@
         <span class="as-satis-tut as-satis-tut--tl"><span id="anaSayfaSatisToplamTl">0,00</span><small>TL</small></span>
         <span class="as-satis-tut as-satis-tut--eur"><span id="anaSayfaSatisToplam">0,00</span><small>EURO</small></span>
       </div>
-      <!-- 11.10.2026: Hedef metni bara ÜSTTEN bitişik, %hedef rozeti bara
-           ALTTAN bitişik (Abdullah'ın isteğiyle, önceki düzende hedef metni
-           barın altındaydı ve rozet üst satırdaydı). -->
-      <div class="as-hedef-bar-track" id="asHedefBarTrack" hidden>
-        <div class="as-hedef-bar-dolu" id="asHedefBarDolu"></div>
+      <!-- 08.11.2026 (Abdullah onayı — mockup): %hedef oranı bar üzerindeki DAİRENİN içinde; daire
+           gerçekleşmeye göre bar boyunca ilerler (konum: --p). "Hedef: … EURO" yazısı barın altında
+           ORTADA hap içinde, ayırıcı çizgi hapın iki yanında devam eder. Hedef yoksa bar+daire gizli,
+           hap "Hedef belirle" bağlantısı olur. Kod: home-render.js hedefGostergesiniGuncelle(). -->
+      <div class="as-hedef-bar-sarmal" id="asHedefBarSarmal" hidden>
+        <div class="as-hedef-bar-track" id="asHedefBarTrack">
+          <div class="as-hedef-bar-dolu" id="asHedefBarDolu"></div>
+        </div>
+        <div class="as-hedef-daire" id="asHedefDaire">%0</div>
       </div>
-      <!-- (05.11.2026, Abdullah): "Hedef: … EURO" yazısı artık çizginin altında, %hedef rozetiyle aynı satırın SONUNDA. -->
-      <div class="as-hedef-rozet-satir">
+      <div class="as-hedef-ayrac-satir">
+        <span class="as-hedef-cizgi"></span>
         <span class="as-hedef-rozet" id="asHedefRozet" onclick="event.stopPropagation(); window.location.href='ayarlar.html';" hidden>-</span>
-        <span class="as-hedef-alt-yazi" id="asHedefAltYazi" hidden></span>
+        <span class="as-hedef-cizgi"></span>
       </div>
-
-      <div class="as-hedef-ayrac"></div>
       <!-- (05.11.2026, Abdullah): satır başında "Kas 2026 ödenebilir" (komisyon), karşısında
            "Kas 2026 primi"; ikisi aynı sayı boyu/renginde, TL rakamın SONUNDA. -->
       <div class="as-prim-iki" id="asPrimIki">
@@ -174,11 +182,6 @@
     </div>
   </div>
 
-  <!-- ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı): ürün görselinin yerine.
-       Kod: home-takvim-render.js. "ziyaret" izni yoksa bölüm gizlenir. -->
-  <div class="ht-blok" id="anaTakvimBlok" hidden>
-    <div class="ht-kapsayici" id="anaTakvimAlan"></div>
-  </div>
 
 </main>
 
@@ -279,7 +282,7 @@
 <script src="menu-cekmece.js?v=TKP.08.11.26-13:14.1505"></script>
 <script src="ajanda-foto.js?v=TKP.06.11.26-10:17.1495"></script>
 <script src="home-takvim-render.js?v=TKP.08.11.26-11:06.1501"></script>
-<script src="home-render.js?v=TKP.06.11.26-10:17.1495"></script>
+<script src="home-render.js?v=TKP.08.11.26-17:33.1509"></script>
 <!-- EKLENDİ (04.11.2026, Abdullah onayı — mockup): EUR kuruna dokununca TCMB kur kartı. -->
 <script src="kur-panel.js?v=TKP.04.11.26-18:54.1473"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
