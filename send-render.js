@@ -1,5 +1,5 @@
 /*
-  send-render.js — TKP.08.11.26-22:53.1517
+  send-render.js — TKP.08.11.26-23:14.1518
   GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim artık Gönder tuşunun altında açılan
   tek sıra liste (iletisimPaneliKonumla/iletisimAcilirAc/Kapat, altKutuKonumla).
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
@@ -228,7 +228,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
       + "<div class='belge-musteri-govde'>"
       + musteriBlokHtml
       + "</div>"
-      + formBaslikHtml(tip, tarihStrOnizleme, kod)
+      + formBaslikHtml(tip, tarihStrOnizleme, null)
       + "</div><div class='belge-kart-ayrac'></div>"
       + "<div class='belge-kart'>";
   } else {
@@ -241,7 +241,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, false, true);
     html = musteriBlokHtml
       + "<div class='belge-kart-ayrac'></div>"
-      + "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStrOnizleme, kod) + "</div>"
+      + "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStrOnizleme, null) + "</div>"
       + "<div class='belge-kart-ayrac'></div>"
       + "<div class='belge-kart belge-kart--urun-cerceveli'>";
   }

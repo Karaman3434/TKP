@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.08.11.26-22:53.1517
+  belge-render.js — TKP.08.11.26-23:14.1518
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -518,7 +518,7 @@ function bhpRozetHTML(sayi){
 function bhpIslemPopupAc(musteri, devam, yedek){
   if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.08.11.26-22:53.1517";
+  s.src = "islem-popup.js?v=TKP.08.11.26-23:14.1518";
   s.onload = function(){ IslemPopup.ac(musteri, devam); };
   s.onerror = function(){ if(typeof yedek === "function") yedek(); };
   document.body.appendChild(s);
