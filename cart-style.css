@@ -1,5 +1,5 @@
 /*
-  cart-style.css — TKP.04.11.26-14:50.1468
+  cart-style.css — TKP.08.11.26-11:41.1502
   GÜNCELLEME (04.11.2026, Abdullah onayı — mockup üzerinden): İşlem Geçmişi
   penceresi (#musteriGecmisOverlay) kenardan kenara + büyük okunaklı tablo.
   (önceki: TKP.02.11.26-10:48.1376)
@@ -687,32 +687,34 @@
   font-weight: 900;
 }
 
-/* 3) PRİM kutusu — TL tutarının BAŞINDA "% 11,67" gibi bir prim yüzdesi
-      (Prim TL ÷ Fatura Toplam × 100). */
-.hesapla-kutu .hc-prim-yuzde {
-  font-size: 12px;
-  font-weight: 800;
-  color: #0e6b34;
-  margin-right: 6px;
+/* 3) PRİM paneli (08.11.2026, Abdullah onayı — mockup Seçenek A, alçaltılmış):
+      "PRİM" başlığı panelin üst çizgisinin ORTASINA oturur (ayrı satır yok →
+      panel ~76px yerine ~44px). Altta ORAN (yeşil) ve TUTAR iki ortalı kutu,
+      ortada dikey çizgi. Rakam/etiket boyutları DEĞİŞMEDİ. "ÖZEL FİYAT" / "Yok"
+      durumunda tek ortalı kutu (hp-prim--tek). */
+.hesapla-kutu .hp-prim {
+  position: relative;
+  margin-top: 10px;
+  border: 1.5px solid #1a1a1a;
+  border-radius: 10px;
+  background: #fff;
+  text-align: center;
 }
-
-/* PRİM kutusu — etiket artık değerin ÜSTÜNDE değil, SOLUNDA aynı satırda
-   (12.10.2026, Abdullah onayı — mockup üzerinden). */
-.hesapla-kutu .hc-kutu--prim {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+.hesapla-kutu .hp-prim-baslik {
+  position: absolute; left: 50%; top: -8px; transform: translateX(-50%);
+  background: #fff; padding: 0 7px;
+  font-size: 12px; line-height: 14px; font-weight: 900; color: #003a70; letter-spacing: .6px;
 }
-.hesapla-kutu .hc-kutu--prim .hc-kutu-etiket {
-  order: 0;
-  width: auto;
-  text-align: left;
-}
-.hesapla-kutu .hc-kutu--prim .hc-kutu-deger {
-  order: 1;
-  width: auto;
-  text-align: right;
-}
+.hesapla-kutu .hp-prim-satir { display: flex; }
+.hesapla-kutu .hp-prim-satir > div { flex: 1; padding: 4px 4px 3px; min-width: 0; }
+.hesapla-kutu .hp-prim-satir > div + div { border-left: 1.5px solid #cbd5e1; }
+.hesapla-kutu .hp-prim-etiket { font-size: 11px; line-height: 1.05; font-weight: 800; color: #5b6573; }
+.hesapla-kutu .hp-prim-deger { font-size: 21px; line-height: 1.1; font-weight: 900; color: #1a1a1a; }
+.hesapla-kutu .hp-prim-deger--yesil { color: #0e6b34; }
+.hesapla-kutu .hp-prim--tek .hp-prim-satir > div:first-child { display: none; }
+.hesapla-kutu .hp-prim--tek .hp-prim-satir > div + div { border-left: none; }
+.hesapla-kutu .hp-prim--tek .hp-prim-etiket { display: none; }
+.hesapla-kutu .hp-prim--tek .hp-prim-deger { padding: 5px 0; }
 
 /* İSK (%) kutusu — kutu YÜKSEKLİĞİ aynı kaldı, sadece girilen sayı ~%30
    büyüdü (20px -> 26px); dikey dolgu azaltılarak kutu boyu telafi edildi
@@ -745,28 +747,36 @@
 .hesapla-kutu .hp-baslik-sol { flex: 1; min-width: 0; }
 .hesapla-kutu .hp-baslik-sol .hesapla-kod { margin-bottom: 0; }
 .hesapla-kutu .hp-baslik-satir .hc-listeye-ekle-buton {
+  /* 08.11.2026 (Abdullah onayı — mockup): büyük sepet simgesi + altında küçük
+     "SEPETE EKLE" yazısı; sağ üstte sepetteki ürün sayısı rozeti. */
   position: relative;
   flex: none;
+  width: 74px; height: 62px; min-height: 0;
+  padding: 0;
+  border-radius: 12px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   white-space: nowrap;
-  padding: 10.8px 14px;
+  box-shadow: 0 2px 0 rgba(0,0,0,.18);
 }
+.hesapla-kutu .hp-sepet-ikon { width: 30px; height: 30px; }
+.hesapla-kutu .hp-btn-etiket { font-size: 9px; line-height: 1; font-weight: 900; white-space: nowrap; }
 .hesapla-kutu .hp-sepet-sayac {
   position: absolute;
-  top: -9px;
-  right: -7px;
-  min-width: 21px;
-  height: 21px;
-  padding: 0 6px;
+  top: -8px;
+  right: -8px;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 4px;
   border-radius: 999px;
-  background: #e24b4a;
+  background: #d62828;
   color: #ffffff;
-  font-size: 11.5px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
-  border: 2px solid #ffffff;
+  border: 2.5px solid #ffffff;
   box-sizing: border-box;
 }
 .hesapla-kutu .hp-sepet-sayac[hidden] { display: none; }
@@ -888,3 +898,25 @@
 body.cart-sayfa .musteri-serit { justify-content: center; }
 body.cart-sayfa .musteri-serit .ms-ad { flex: 0 1 auto; text-align: center; }
 body.cart-sayfa .belge-belge-baslik-serit--mavi { justify-content: center; }
+
+/* KUR SATIRI — en üstte (08.11.2026, Abdullah onayı — mockup): önceden Hesapla
+   penceresinin içindeydi; artık sabit üst şeridin içinde, turuncu başlığın altında
+   ve ürün arama kutusunun üstünde. Pencere açıkken de görünür ve dokunulabilir.
+   "Kur: 56,00" kırmızı. */
+.kur-ust-satir {
+  display: block;
+  width: calc(100% - 16px);
+  margin: 6px 8px 0;
+  background: #fff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 7px 10px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: 800;
+  color: #c0392b;
+  cursor: pointer;
+}
+.kur-ust-satir #hpKurDeger { font-size: 19.5px; font-weight: 900; color: #c0392b; }
+.kur-ust-satir .kur-ust-ipucu { font-size: 11.5px; font-weight: 700; color: #5b6573; }

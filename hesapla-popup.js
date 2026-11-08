@@ -1,5 +1,5 @@
 /*
-  hesapla-popup.js — TKP.02.11.26-08:55.1358
+  hesapla-popup.js — TKP.08.11.26-11:41.1502
   =======================================
   GÜNCELLENDİ (02.11.2026, Abdullah onayı — mockup onaylandı: "Ok tmm
   kodlayalım"): cart.html'de alttaki "Kapat" ve "SEPETE EKLE" butonları
@@ -68,6 +68,15 @@ var HesaplaPopup = (function(){
   function kurDegeriniGoster(){
     var kur = (kurOverride!=null) ? kurOverride : (typeof aktifKuruOku==="function" ? aktifKuruOku() : CartData.kurOku());
     document.getElementById("hpKurDeger").textContent = CartData.fmt(kur) + (kurOverride!=null ? " ✏️" : "");
+    // 08.11.2026: cart.html'de kur satırı sayfanın en üstüne taşındı — ipucu
+    // yazısı pencere açıkken "değiştirmek için", kapalıyken "günün kurları için".
+    var ipucu = document.getElementById("hpKurIpucu");
+    if(ipucu) ipucu.textContent = hpPencereAcikMi() ? "— değiştirmek için dokun" : "— günün kurları için dokun";
+  }
+
+  function hpPencereAcikMi(){
+    var ov = document.getElementById("hpOverlay");
+    return !!(ov && !ov.hidden);
   }
 
   function gecmisAlimIpucunuGuncelle(bilgi){
@@ -127,10 +136,22 @@ var HesaplaPopup = (function(){
       var kur2 = kur||0;
       var primTL = h.mudurPrim*kur2;
       var primKutu = document.getElementById("hpPrimTL");
+      // 08.11.2026 (Abdullah onayı): cart.html'de prim paneli ORAN / TUTAR diye
+      // iki ayrı, ortalı kutu (#hpPrimYuzde + #hpPrimTL). calc.html'de bu
+      // elemanlar yok → eski tek kutu davranışı aynen sürer.
+      var primYuzdeEl = document.getElementById("hpPrimYuzde");
+      var primPanel = document.getElementById("hpPrimKutu");
+      if(primPanel) primPanel.classList.remove("hp-prim--tek");
       if(h.mudurPrim===0 && urun.iskonto>60){
         primKutu.innerHTML = "ÖZEL FİYAT";
+        if(primPanel) primPanel.classList.add("hp-prim--tek");
       } else if(h.mudurPrim<0){
         primKutu.innerHTML = "Yok";
+        if(primPanel) primPanel.classList.add("hp-prim--tek");
+      } else if(primYuzdeEl){
+        var primYuzdeAyri = h.faturaToplam > 0 ? (primTL / h.faturaToplam * 100) : 0;
+        primYuzdeEl.textContent = "% " + CartData.fmt(primYuzdeAyri);
+        primKutu.textContent = CartData.fmt(primTL) + " TL";
       } else {
         // 04.10.2026 (Abdullah'ın isteğiyle): Prim TL tutarının BAŞINDA
         // satış üzerinden kaç yüzde prim hakedildiğini de gösteriyoruz
@@ -166,6 +187,9 @@ var HesaplaPopup = (function(){
   // eskisi gibi düz metin.
   function butonEtiketiYaz(btn, metin){
     var etiket = btn.querySelector(".hp-btn-etiket");
+    // data-sabit: cart.html'in sepet düğmesinde yazı hep "SEPETE EKLE" kalır
+    // (renk bekliyor/hazır sınıfıyla değişir) — 08.11.2026.
+    if(etiket && etiket.hasAttribute("data-sabit")) return;
     if(etiket) etiket.textContent = metin;
     else btn.textContent = metin;
   }
@@ -210,11 +234,13 @@ var HesaplaPopup = (function(){
       hesaplaVeGoster();
       sepetSayaciniGuncelle();
       document.getElementById("hpOverlay").hidden = false;
+      try{ kurDegeriniGoster(); }catch(e){}
     }catch(e){ hataGoster("Hesaplama penceresi açılamadı: " + e.message); }
   }
 
   function kapat(){
     document.getElementById("hpOverlay").hidden = true;
+    try{ kurDegeriniGoster(); }catch(e){}
   }
 
   function gecmisAlimTumunuGoster(){
@@ -285,6 +311,11 @@ var HesaplaPopup = (function(){
     var kapatBtn = document.getElementById("hpBtnKapat");
     if(kapatBtn) kapatBtn.onclick = kapat;
     document.getElementById("hpBtnListeyeEkle").onclick = listeyeEkleTiklandi;
+    // 08.11.2026: kur satırı artık sayfada hep görünür — açılışta ve kur
+    // Firebase'den/ayarlardan güncellenince değeri yaz.
+    try{ kurDegeriniGoster(); }catch(e){}
+    window.addEventListener("istakipAuthHazir", function(){ try{ kurDegeriniGoster(); }catch(e){} });
+    window.addEventListener("storage", function(ev){ if(ev.key === "weicon_kur"){ try{ kurDegeriniGoster(); }catch(e){} } });
 
     // Popup DIŞINA (koyu alana) dokununca kapan — SADECE
     // data-disari-dokun-kapat olan overlay'de (cart.html). Basma ve bırakma
@@ -321,6 +352,12 @@ var HesaplaPopup = (function(){
 
     // Bu hesaplamaya özel döviz kuru (kalıcı değil — "Listeye Ekle"ye kadar).
     document.getElementById("hpKurRozetBtn").onclick = function(){
+      // 08.11.2026: cart.html'de satır sayfanın en üstünde. Pencere KAPALIYKEN
+      // (bu işleme özel kur anlamsız) günün kurları kartını açar.
+      if(this.classList.contains("kur-ust-satir") && !hpPencereAcikMi()){
+        if(typeof KurPanel !== "undefined") KurPanel.ac();
+        return;
+      }
       var gunlukKur = CartData.kurOku();
       document.getElementById("hpKurGunlukDeger").textContent = CartData.fmt(gunlukKur);
       var manuelAlan = document.getElementById("hpKurManuelAlan");

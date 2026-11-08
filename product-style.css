@@ -1,4 +1,4 @@
-/* product-style.css — TKP.04.11.26-12:40.1466 */
+/* product-style.css — TKP.08.11.26-11:41.1502 */
 /*
   product-style.css
   =================
@@ -554,3 +554,31 @@ button.ek-rozet { cursor: pointer; }
 .ek-sil-btn--onay { background: #c0392b; color: #fff; }
 
 .tablo-kod .ek-rozet:first-child { margin-left: 0; }
+
+/* ÜRÜN ARAMA LİSTESİ BÜYÜTME (08.11.2026, Abdullah onayı — mockup üzerinden):
+   cart.html "Ürün Bul / Hesapla / Sepet" sonuç listesinde ürün adı %20
+   (11.7→14.04px), fiyat %20 (12.96→15.55px) büyütüldü; tasarım aynı —
+   yer açmak için SADECE harf aralığı daraltıldı, hücre/satır boşlukları ve
+   HESAPLA düğmesi (93→70px) küçültüldü. Yalnız bu liste (#uaAramaSonucAlani)
+   etkilenir; başka sayfa/panel aynı sınıfları eski boyutta kullanmaya devam eder. */
+#uaAramaSonucAlani .urun-adi {
+  font-size: 14.04px;
+  line-height: 1.1;
+  letter-spacing: -.45px;
+  word-spacing: -1px;
+}
+#uaAramaSonucAlani .urun-fiyat-yazi {
+  font-size: 15.55px;
+  width: 76px;
+  margin-right: 0;
+  letter-spacing: -.5px;
+}
+#uaAramaSonucAlani .urun-islem-grup { gap: 2px; }
+#uaAramaSonucAlani .btn-hesapla-ac {
+  width: 70px;
+  font-size: 11.5px;
+  letter-spacing: -.2px;
+}
+#uaAramaSonucAlani .data-table td { padding: 6px 3px; }
+#uaAramaSonucAlani .data-table th { padding: 10px 3px; }
+#uaAramaSonucAlani .tablo-kod { margin-bottom: 0; }

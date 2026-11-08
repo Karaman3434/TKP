@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.02.11.26-08:55.1359 — cart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-11:41.1502 — cart.html -->
 <!--
   27.10.2026 PERFORMANS KAZANIMI: html2canvas'ın bu sayfada en baştan
   yüklenen statik <script> etiketi kaldırıldı — artık cart-render.js'teki
@@ -31,11 +31,11 @@
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
-<link rel="stylesheet" href="product-style.css?v=TKP.04.11.26-12:40.1466">
+<link rel="stylesheet" href="product-style.css?v=TKP.08.11.26-11:41.1502">
 <link rel="stylesheet" href="calc-style.css?v=WG.011126.1022.1262">
 <link rel="stylesheet" href="belge-style.css?v=TKP.08.11.26-08:49.1498">
-<link rel="stylesheet" href="musteri-serit.css?v=TKP.05.11.26-13:08.1486">
-<link rel="stylesheet" href="cart-style.css?v=TKP.05.11.26-13:08.1486">
+<link rel="stylesheet" href="musteri-serit.css?v=TKP.08.11.26-11:41.1502">
+<link rel="stylesheet" href="cart-style.css?v=TKP.08.11.26-11:41.1502">
 <link rel="stylesheet" href="detail-style.css?v=TKP.02.11.26-10:48.1375">
 <!-- YENİ (12.10.2026, Abdullah onayı) — Belge Önizleme'de onaylanan açık
      gri zemin + türe-özel rozet renk tasarımı Sepet tablosuna taşındı.
@@ -66,6 +66,11 @@
   </div>
   <div class="ub-sayfa-etiket" id="rotaSeridi"></div>
 </div>
+<!-- KUR SATIRI (08.11.2026, Abdullah onayı): Hesapla penceresinin içinden buraya,
+     sabit üst şeridin en altına (arama kutusunun üstüne) taşındı. Aynı ID'ler —
+     hesapla-popup.js aynen çalışır. Pencere açıkken: bu işleme özel kur seçimi;
+     kapalıyken: günün kurları kartı (KurPanel). -->
+<button type="button" class="kur-ust-satir" id="hpKurRozetBtn">💱 Kur: <span id="hpKurDeger">-</span> <span class="kur-ust-ipucu" id="hpKurIpucu">— günün kurları için dokun</span></button>
 </div>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
      onaylandı: "Okey tamam kodlayalım") — çekmece menü artık SADECE Ana
@@ -246,7 +251,7 @@
           <div class="hesapla-baslik" id="hpUrunAd">Ürün</div>
           <div class="hesapla-kod" id="hpUrunKod"></div>
         </div>
-        <button class="hc-listeye-ekle-buton hc-listeye-ekle-buton--bekliyor" id="hpBtnListeyeEkle"><span class="hp-btn-etiket">➕ SEPETE EKLE</span><span class="hp-sepet-sayac" id="hpSepetSayac" hidden></span></button>
+        <button class="hc-listeye-ekle-buton hc-listeye-ekle-buton--bekliyor" id="hpBtnListeyeEkle"><svg class="hp-sepet-ikon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h3l2.6 12.2a1.6 1.6 0 0 0 1.6 1.3h8.4a1.6 1.6 0 0 0 1.6-1.2L21 7H6.2"/><circle cx="9.5" cy="20.2" r="1.4" fill="#fff"/><circle cx="17.5" cy="20.2" r="1.4" fill="#fff"/></svg><span class="hp-btn-etiket" data-sabit="1">SEPETE EKLE</span><span class="hp-sepet-sayac" id="hpSepetSayac" hidden></span></button>
       </div>
 
       <div id="hpGecmisAlimIpucu" class="gecmis-alim-ipucu" hidden></div>
@@ -273,8 +278,6 @@
         </div>
       </div>
 
-      <button class="kur-secenek-btn" id="hpKurRozetBtn" style="margin-bottom:9px;">💱 Kur: <span id="hpKurDeger">-</span> — değiştirmek için dokun</button>
-
       <div class="hc-grid-2">
         <div class="hc-turuncu-kart">
           <div class="hc-turuncu-etiket">İSK EURO BİRİM FİYAT</div>
@@ -297,9 +300,12 @@
         </div>
       </div>
 
-      <div class="hc-kutu hc-kutu--prim">
-        <div class="hc-kutu-etiket">PRİM</div>
-        <div class="hc-kutu-deger" id="hpPrimTL">-</div>
+      <div class="hp-prim" id="hpPrimKutu">
+        <span class="hp-prim-baslik">PRİM</span>
+        <div class="hp-prim-satir">
+          <div><div class="hp-prim-etiket">ORAN</div><div class="hp-prim-deger hp-prim-deger--yesil" id="hpPrimYuzde">-</div></div>
+          <div><div class="hp-prim-etiket">TUTAR</div><div class="hp-prim-deger" id="hpPrimTL">-</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -466,7 +472,7 @@
 <script src="kur-panel.js?v=TKP.04.11.26-18:54.1473"></script>
 <script src="cart-render.js?v=TKP.08.11.26-09:20.1499"></script>
 <script src="urun-arama.js?v=TKP.04.11.26-16:00.1470"></script>
-<script src="hesapla-popup.js?v=TKP.02.11.26-08:55.1358"></script>
+<script src="hesapla-popup.js?v=TKP.08.11.26-11:41.1502"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026): bugünkü üst-bar birleştirmesiyle
      (#btnMenu -> #btnAsMenuAc) bu dosyanın menü tıklamasını yakalayan kısmı zaten
      kırılmıştı (element bulunamıyordu, confirm() hiç tetiklenmiyordu). Abdullah'ın
