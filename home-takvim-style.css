@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.08.11.26-15:28.1508
+/* home-takvim-style.css — TKP.08.11.26-17:50.1510
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -38,7 +38,7 @@
 .ht-tatil-baslik { color: #c0392b; }
 .ht-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
 .ht-gun {
-  position: relative; text-align: center; padding: 3px 0 6px;
+  position: relative; text-align: center; padding: 3px 0 4px; /* 08.11.2026: gün kutusu dikeyde ~%10 kısaldı (Abdullah) */
   font-size: 12px; font-weight: 700; color: #333; border-radius: 6px;
   border: 2px solid transparent; cursor: pointer; user-select: none;
 }
@@ -54,9 +54,9 @@
 .ht-gun--secili { border-color: #e8a317; box-shadow: 0 0 0 1.5px #fff inset; }
 .ht-gun--secili.ht-gun--tatil, .ht-gun--secili.ht-gun--gecmis { background: #faeeda; }
 
-.ht-bildirim { display: flex; justify-content: center; align-items: center; gap: 3px; height: 15px; margin-bottom: 1px; }
+.ht-bildirim { display: flex; justify-content: center; align-items: center; gap: 3px; height: 15px; margin-bottom: 0; }
 .ht-gun--bos .ht-bildirim { display: none; }
-.ht-gun-no { display: block; line-height: 1.2; }
+.ht-gun-no { display: block; line-height: 1.1; }
 .ht-rozet {
   min-width: 15px; height: 15px; padding: 0 3px;
   border-radius: 8px; font-size: 9px; font-weight: 900; color: #fff;
