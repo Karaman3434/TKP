@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — TKP.08.11.26-20:37.1515
+  belge-onizleme-style-v2.css — TKP.08.11.26-22:02.1516
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -76,26 +76,6 @@
    yüksekliği (40px, yukarıda) değişmeden bu ikonların sığması için
    panelin iç dolgusu azaltıldı (1mm -> 2px 10px, yukarıda). */
 .belge-onizleme-sayfa .ikon-grup { display: flex; gap: 14px; flex-shrink: 0; align-items: center; }
-/* AYRINTI HAPI (08.11.2026, Abdullah onayı — mockup üzerinden: "4D renk, 4F
-   tasarım, etiket sadece büyük harf AYRINTI"): eski yuvarlak "i" düğmesi
-   yerine liste ikonu + "AYRINTI" yazılı hap. Renk, çubuktaki F.TEK/tarih/kod
-   yazısının rengiyle AYNI ve işlem tipine göre otomatik (tip-* sınıfından):
-   açık zemin + aynı renkte kenarlık/yazı. Düğmenin id'si (btnIslemlerAc) ve
-   işlevi DEĞİŞMEDİ. */
-.belge-onizleme-sayfa .ub-ayrinti-ikon {
-  --ay-renk: #38469a; --ay-zemin: #e8eaf6;
-  height: 32px; flex-shrink: 0; cursor: pointer; padding: 0 12px 0 9px;
-  border: 1.5px solid var(--ay-renk); border-radius: 99px;
-  background: var(--ay-zemin); color: var(--ay-renk);
-  display: flex; align-items: center; gap: 6px;
-  font-family: inherit; font-weight: 800; font-size: 13.5px; line-height: 1; letter-spacing: .5px;
-  font-style: normal; white-space: nowrap;
-}
-.belge-onizleme-sayfa .ub-ayrinti-ikon svg { flex-shrink: 0; display: block; }
-.belge-onizleme-sayfa .tip-teklif   .ub-ayrinti-ikon { --ay-renk: #249147; --ay-zemin: #e6f6ea; }
-.belge-onizleme-sayfa .tip-siparis  .ub-ayrinti-ikon { --ay-renk: #38469a; --ay-zemin: #e8eaf6; }
-.belge-onizleme-sayfa .tip-proforma .ub-ayrinti-ikon { --ay-renk: #8a4306; --ay-zemin: #fbeee2; }
-.belge-onizleme-sayfa .tip-numune   .ub-ayrinti-ikon { --ay-renk: #8e0e45; --ay-zemin: #fce4ec; }
 /* KALDIRILDI (02.11.2026, Abdullah onayı): paneldeki pasif Gönder ikonu
    (.ub-gonder-ikon) ve bu dosyadaki kuralları silindi — işlevi hiç
    tanımlanmamıştı, belge-render.js artık üretmiyor. */
@@ -702,4 +682,65 @@
   .belge-onizleme-sayfa .bmb-sol { gap: 2mm; }
   .belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-tip,
   .belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma .bmb-alt { font-size: 12.8px; }
+}
+
+/* İŞLEM PANELİ + AYRINTI HAPI YENİ TASARIM (08.11.2026, Abdullah onayı —
+   referans fotoğraf + mockup "köşeli uyumlu"): panel zemini/kenarlığı/yazısı
+   işlem tipine göre otomatik (teklif yeşil, sipariş lacivert, proforma kahve,
+   numune bordo); "tip | tarih | kod" ince dikey çizgilerle bölünür; kod hep
+   gri-lacivert. Köşe: panel 12px (programdaki diğer paneller — cari isim,
+   Vade/Fatura/Kargo, adres, ürün tablosu — ile aynı dil), hap 8px (panelin
+   içine uyumlu oturan eş merkezli köşe). Hap: işlem renginde dolu, beyaz liste
+   ikonu + AYRINTI + ">" ; düz renk (degrade YOK), hafif gölge. Düğmenin
+   id'si (btnIslemlerAc) ve işlevi DEĞİŞMEDİ. Bu blok dosyanın SONUNDA olmalı
+   (üstteki .tip-* renk ve dar ekran kurallarını geçersiz kılar). */
+.belge-onizleme-sayfa .belge-musteri-baslik { --ip-k:#2b3785; --ip-d:#38469a; --ip-z:#eaecf7; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-teklif   { --ip-k:#1a6b32; --ip-d:#1f8a3e; --ip-z:#e9f6ed; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-siparis  { --ip-k:#2b3785; --ip-d:#38469a; --ip-z:#eaecf7; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-proforma { --ip-k:#7a3a05; --ip-d:#a35208; --ip-z:#fbefe3; }
+.belge-onizleme-sayfa .belge-musteri-baslik.tip-numune   { --ip-k:#7d0c3c; --ip-d:#a3144f; --ip-z:#fce8ef; }
+.belge-onizleme-sayfa .belge-musteri-baslik[class*="tip-"] {
+  background: var(--ip-z);
+  /* tasarim-sistemi.css (08.11.2026) tüm panellere !important kırmızı çerçeve
+     veriyor — işlem paneli yeni tasarımda KENDİ işlem renginde çerçeve taşır
+     (Abdullah onayı, referans fotoğraf); cari isim paneli kırmızı kalır. */
+  border: 2px solid var(--ip-k) !important;
+  border-radius: 12px;
+  padding: 2px 5px 2px 11px;
+}
+.belge-onizleme-sayfa .belge-musteri-baslik[class*="tip-"] .bmb-sol { gap: 0; }
+.belge-onizleme-sayfa .belge-musteri-baslik[class*="tip-"] .bmb-tip,
+.belge-onizleme-sayfa .belge-musteri-baslik[class*="tip-"] .bmb-alt {
+  color: var(--ip-k); font-weight: 800; font-size: 15px; letter-spacing: 0;
+}
+.belge-onizleme-sayfa .belge-musteri-baslik[class*="tip-"] .bmb-kod {
+  color: #566073; font-weight: 800; font-size: 12.5px;
+}
+.belge-onizleme-sayfa .belge-musteri-baslik .bmb-alt::before,
+.belge-onizleme-sayfa .belge-musteri-baslik .bmb-kod::before {
+  content: ""; display: inline-block; width: 1.5px; height: 18px;
+  background: #7b8799; margin: 0 10px; vertical-align: middle;
+}
+.belge-onizleme-sayfa .ub-ayrinti-ikon {
+  height: 30px; flex-shrink: 0; cursor: pointer;
+  padding: 0 9px 0 11px; border: 0; border-radius: 8px;
+  background: var(--ip-d); color: #fff;
+  display: flex; align-items: center; gap: 6px;
+  font-family: inherit; font-weight: 800; font-size: 13.5px; line-height: 1;
+  letter-spacing: .5px; font-style: normal; white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.30);
+}
+.belge-onizleme-sayfa .ub-ayrinti-ikon svg { flex-shrink: 0; display: block; }
+/* DAR EKRAN (≤460px: S22 360, iPhone 13 390/414/430): tip | tarih | kod + hap sığsın diye yazılar ve
+   boşluklar küçülür, ">" işareti gizlenir. Ölçümle doğrulandı. */
+@media (max-width: 460px) {
+  .belge-onizleme-sayfa .belge-musteri-baslik[class*="tip-"] { padding-left: 8px; }
+  .belge-onizleme-sayfa .belge-musteri-baslik[class*="tip-"] .bmb-tip,
+  .belge-onizleme-sayfa .belge-musteri-baslik[class*="tip-"] .bmb-alt { font-size: 13px; }
+  .belge-onizleme-sayfa .belge-musteri-baslik[class*="tip-"] .bmb-kod { font-size: 11px; }
+  .belge-onizleme-sayfa .belge-musteri-baslik .bmb-alt::before,
+  .belge-onizleme-sayfa .belge-musteri-baslik .bmb-kod::before { margin: 0 6px; height: 15px; }
+  .belge-onizleme-sayfa .ub-ayrinti-ikon { padding: 0 8px 0 9px; gap: 5px; font-size: 12px; }
+  .belge-onizleme-sayfa .ub-ayrinti-ikon svg { width: 17px; height: 17px; }
+  .belge-onizleme-sayfa .ub-ayrinti-ikon .ay-ok { display: none; }
 }
