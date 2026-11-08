@@ -1,5 +1,5 @@
 /*
-  pin-render.js — TKP.03.11.26.1451
+  pin-render.js — TKP.08.11.26-18:05.1511
   =============
   4 haneli tuş takımı + gizli input ile PIN toplar, pinDogrula() ile
   kontrol eder, doğruysa aktivite zamanını güncelleyip home.html'e döner.
@@ -146,7 +146,8 @@ function tusTakiminiOlustur(){
   var tuslar = ["1","2","3","4","5","6","7","8","9","","0","⌫"];
   var grid = document.getElementById("pinTusGrid");
   grid.innerHTML = tuslar.map(function(t){
-    if(t === "") return "<button class='pin-tus pin-tus--bos'></button>";
+    // 08.11.2026 (Abdullah): Giriş tuşu, 0'ın yanındaki boş hücrede (eskiden tuş takımının altında ayrı bir büyük tuştu).
+    if(t === "") return "<button type='button' class='pin-tus pin-giris-buton' id='btnPinGiris' disabled>Giriş</button>";
     if(t === "⌫") return "<button class='pin-tus pin-tus--sil' data-sil='1'>⌫</button>";
     return "<button class='pin-tus' data-rakam='" + t + "'>" + t + "</button>";
   }).join("");

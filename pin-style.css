@@ -1,4 +1,4 @@
-/* pin-style.css — login-style.css'in üzerine eklenir. */
+/* pin-style.css — TKP.08.11.26-18:05.1511 — login-style.css'in üzerine eklenir. */
 
 /* PIN paneli — login-style.css'teki genel .giris-kutu'nun üzerine bu
    sayfaya özel daha kısa/dar sürümü (24.09.2026, %20 küçültme isteği). */
@@ -40,6 +40,7 @@
   opacity: 0;
   height: 0;
   width: 0;
+  pointer-events: none; /* 08.11.2026: görünmez kutu (padding'li ~32×28px) "2" tuşunun üstüne biniyordu; dokunuşu yutmasın */
 }
 
 .pin-tus-grid {
@@ -76,18 +77,15 @@
   margin-top: 10px;
 }
 
-/* Giriş tuşu (03.11.2026): 4 nokta doluyken aktif. */
+/* Giriş tuşu (03.11.2026): 4 nokta doluyken aktif.
+   08.11.2026 (Abdullah): tuş takımının boş hücresinde (0'ın solu), diğer tuşlarla aynı boyda. */
 .pin-giris-buton {
-  width: 100%;
   background: #003a70;
   border: 1.5px solid #004f99;
-  border-radius: 10px;
   color: #ffffff;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
-  padding: 11px 14px;
-  margin-top: 2px;
-  cursor: pointer;
+  box-sizing: border-box;
 }
 .pin-giris-buton:disabled {
   background: #e3e8ee;
