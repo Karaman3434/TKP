@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.08.11.26-13:14.1505
+// menu-cekmece.js — TKP.08.11.26-22:53.1517
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -621,6 +621,19 @@ function mcMusteriTipMenuOlustur(){
 
 // acik-belge-kontrol.js diğer lazy-load modüllerle (product-data.js/
 // customer-data.js) AYNI desenle, SADECE gerçekten gerektiğinde yükleniyor.
+
+// "İŞLEM YAP" YENİ ROTA (08.11.2026, Abdullah onayı): İşlem Yap'a dokununca eski yan tip
+// paneli yerine cari kart POPUP'ı açılır (fatura/teslimat/yetkili seçimi + İŞLEM SEÇ) —
+// bkz. islem-popup.js. Modül gerektiğinde yüklenir; yüklenemezse eski yan panel açılır.
+function mcIslemPopupAc(musteri, devam, yedek){
+  if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam); return; }
+  var s = document.createElement("script");
+  s.src = "islem-popup.js?v=TKP.08.11.26-22:53.1517";
+  s.onload = function(){ IslemPopup.ac(musteri, devam); };
+  s.onerror = function(){ if(typeof yedek === "function") yedek(); };
+  document.body.appendChild(s);
+}
+
 var mcAbkModulYukleniyor = false;
 var mcAbkModulBekleyenler = [];
 function mcAcikBelgeKontrolIleDevamEt(musteri, tip){
@@ -765,9 +778,15 @@ function mcMusteriAksiyonuUygula(aksiyon){
     case "cari": window.location.href = "customer-cari-kart.html"; break;
     case "temas": window.location.href = "customer-temas.html"; break;
     case "islemyap":
-      var tipMenu = mcMusteriTipMenuOlustur();
-      tipMenu.hidden = false;
-      mcMusteriTipMenuKonumla();
+      var mcIslemMusteri = mcMusteriAcikKisi;
+      mcIslemPopupAc(mcIslemMusteri, function(tip){
+        mcPopoverDonusIsaretle(mcIslemMusteri);
+        mcAcikBelgeKontrolIleDevamEt(mcIslemMusteri, tip);
+      }, function(){
+        var tipMenu = mcMusteriTipMenuOlustur();
+        tipMenu.hidden = false;
+        mcMusteriTipMenuKonumla();
+      });
       break;
     case "fatura": window.location.href = "customer-detail.html?ac=fatura"; break;
     case "gecmis": window.location.href = "gecmis.html"; break;

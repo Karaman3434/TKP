@@ -1,5 +1,5 @@
 /*
-  send-data.js — TKP.08.11.26-08:49.1498
+  send-data.js — TKP.08.11.26-22:53.1517
   ============
   TEK görevi: sepeti + seçili müşteriyi + belge türünü alıp Firebase
   arşivine ESKİ UYGULAMAYLA UYUMLU bir kayıt yazmak. Uyumluluk önemli:
@@ -18,6 +18,15 @@ var SendData = (function(){
     try{
       if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
     }catch(e){ console.error("Firebase başlatma hatası:", e); }
+  }
+
+  // Kayda işlenecek yetkili isimleri (08.11.2026): çoklu seçim (adresler.yetkililer) varsa hepsi,
+  // yoksa tek seçili yetkili; isim yoksa null (= Belge Önizleme tüm yetkilileri gösterir).
+  function yetkiliIsimleri(adresler){
+    if(!adresler) return null;
+    var liste = (adresler.yetkililer && adresler.yetkililer.length) ? adresler.yetkililer : (adresler.yetkili ? [adresler.yetkili] : []);
+    var isimler = liste.map(function(y){ return y && y.isim; }).filter(Boolean);
+    return isimler.length ? isimler : null;
   }
 
   function tarihStr(){
@@ -236,7 +245,7 @@ var SendData = (function(){
               eskiKayit.kdv = kdv || 0;
               if(adresler && adresler.faturaAdresi) eskiKayit.faturaAdresi = adresler.faturaAdresi;
               if(adresler && adresler.teslimatAdresi) eskiKayit.teslimatAdresi = adresler.teslimatAdresi;
-              if(adresler && adresler.yetkili && adresler.yetkili.isim) eskiKayit.gorunecekYetkililer = [adresler.yetkili.isim];
+              var ykIsimler = yetkiliIsimleri(adresler); if(ykIsimler) eskiKayit.gorunecekYetkililer = ykIsimler;
               if(!eskiKayit.musteriId && musteri.id) eskiKayit.musteriId = musteri.id;
               otomatikRevizeMi = true;
               kaydedilenKayit = eskiKayit;
@@ -247,7 +256,7 @@ var SendData = (function(){
                 mod: tip, urunler: urunlerKaydi, kur: kur, kurManuel: !!kurManuelMi, kdv: kdv || 0,
                 faturaAdresi: (adresler && adresler.faturaAdresi) || null,
                 teslimatAdresi: (adresler && adresler.teslimatAdresi) || null,
-                gorunecekYetkililer: (adresler && adresler.yetkili && adresler.yetkili.isim) ? [adresler.yetkili.isim] : null
+                gorunecekYetkililer: yetkiliIsimleri(adresler)
               };
               if(devralinanKod){
                 kaydedilenKayit.oncekiKod = devralinanKod;

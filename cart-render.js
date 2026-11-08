@@ -1,5 +1,5 @@
 /*
-  cart-render.js — TKP.08.11.26-12:34.1504
+  cart-render.js — TKP.08.11.26-22:53.1517
   GÜNCELLEME (04.11.2026, Abdullah onayı): İşlem Geçmişi penceresi satırları —
   tarih tek satır + altında (Tip), sayılar altında küçük EURO/% (cart-style.css).
   (önceki: TKP.02.11.26-10:22.1368)
@@ -169,6 +169,13 @@ function adresleriBelirle(musteri){
   if(musteri.iletisimler && musteri.iletisimler.length){
     var yi = (secim.yetkili!=null && musteri.iletisimler[secim.yetkili]) ? secim.yetkili : 0;
     seciliAdresler.yetkili = musteri.iletisimler[yi];
+    // ÇOKLU YETKİLİ (08.11.2026, Abdullah onayı — yeni İşlem Yap popup'ı): secim.yetkililer
+    // (indeks dizisi) varsa hepsi kayda işlenir; yoksa tek seçili yetkili (eski davranış).
+    var yl = [];
+    if(Array.isArray(secim.yetkililer)){
+      secim.yetkililer.forEach(function(ix){ if(musteri.iletisimler[ix] && yl.indexOf(musteri.iletisimler[ix]) < 0) yl.push(musteri.iletisimler[ix]); });
+    }
+    seciliAdresler.yetkililer = yl.length ? yl : [seciliAdresler.yetkili];
   }
 }
 

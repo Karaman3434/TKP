@@ -1,5 +1,5 @@
 /*
-  gonder-tablo-style-v2.css — TKP.05.11.26-10:45.1479
+  gonder-tablo-style-v2.css — TKP.08.11.26-22:53.1517
   ================================================================
   Belge Önizleme/Sepet'te onaylanan açık gri zemin dili Gönder
   ekranının ürün tablosuna da taşındı (12.10.2026, Abdullah onayı).
@@ -76,3 +76,21 @@ body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { color: #8e0e45;
 
 /* (05.11.2026) ORTAK ETİKET YAZISI artık TÜM sayfalarda tek yerden (tasarim-sistemi.css
    --etiket-yazi) geliyor — Gönder'e özel boy kuralı kaldırıldı. */
+
+/* İŞLEM HAREKET PANELİ ETİKETİ (08.11.2026, Abdullah onayı): kısa kod yerine tam ad
+   (SİPARİŞ / PROFORMA FATURA / NUMUNE / FİYAT TEKLİFİ) ve harf boyu %20 büyük.
+   Panel ölçüsü DEĞİŞMEDİ (min-height 40px, dış boşluklar aynı); büyüyen harf için
+   etiketin kendi satır yüksekliği daraltıldı (1.4 → 1.15) — iPad'de harf kesilmesin
+   diye overflow görünür bırakıldı, dikey iç boşluk yok. */
+.gonder-sayfa .belge-form-baslik-etiket {
+  font-size: calc(var(--serit-yazi, 14.04px) * 1.2);
+  line-height: 1.15;
+  padding: 0;
+  overflow: visible;
+}
+@media (max-width: 420px) {
+  .gonder-sayfa .belge-form-baslik.tip-proforma .belge-form-baslik-etiket { font-size: calc(12.8px * 1.2); }
+}
+/* Dar ekranda (360px) kırpılan şey tarih değil, küçük işlem kodu olsun. */
+.gonder-sayfa .belge-form-baslik-tarih { flex: 0 0 auto; }
+.gonder-sayfa .belge-form-baslik-kod { flex: 0 1 auto; min-width: 0; }

@@ -1,4 +1,4 @@
-/* send-style.css — TKP.04.11.26-15:00.1469 — aynı kural: gradyan/gölge yığılması yok.
+/* send-style.css — TKP.08.11.26-22:53.1517 — aynı kural: gradyan/gölge yığılması yok.
    GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim açılır listesi + Mail/WhatsApp/Tablo
    önizleme pencereleri kenardan kenara (dosya sonundaki iki blok). */
 
@@ -601,3 +601,8 @@ body.as-drawer-kilit { overflow: hidden; }
   padding-right: 8px !important;
 }
 #mailOnizlemeOverlay .sayfa-rota-serit { margin-left: -8px !important; margin-right: -8px !important; }
+
+/* KONU ↔ MESAJ BOŞLUĞU (08.11.2026, Abdullah onayı): bilgi satırı kaldırıldı;
+   konu kutusu ile MESAJ etiketi arası 1 mm. */
+.mail-konu-kutu { margin-bottom: 1mm; }
+.mail-konu-kutu + .form-etiket { margin-top: 0; }

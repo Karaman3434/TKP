@@ -1,5 +1,5 @@
 /*
-  send-render.js — TKP.08.11.26-14:14.1507
+  send-render.js — TKP.08.11.26-22:53.1517
   GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim artık Gönder tuşunun altında açılan
   tek sıra liste (iletisimPaneliKonumla/iletisimAcilirAc/Kapat, altKutuKonumla).
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
@@ -112,7 +112,12 @@ function mesajMetniOlustur(musteri, sepet, tip, kanal){
 // kelimeler (tek kelime haznesi, iki yerde farklı yazı YOK).
 // KISALTMA — KESİN KURAL (19.10.2026, Abdullah onayı — "%20 büyüt" turu):
 // TIP_ETIKET_BELGE (belge-render.js) ile BİREBİR aynı kısaltmalar.
-var FORM_BASLIK = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
+// 08.11.2026 (Abdullah onayı): Gönder/Mail işlem hareket panelinde KISA KOD YOK —
+// BÜYÜK HARF tam ad (SİPARİŞ / PROFORMA FATURA / NUMUNE / FİYAT TEKLİFİ), tek kaynak tip-etiketleri.js.
+var FORM_BASLIK = {
+  siparis: TipEtiket.buyukAl("siparis"), teklif: TipEtiket.buyukAl("teklif"),
+  proforma: TipEtiket.buyukAl("proforma"), numune: TipEtiket.buyukAl("numune")
+};
 // TÜRE ÖZEL RENK (12.10.2026, Abdullah onayı): "tip-<tip>" sınıfı eklendi —
 // gerçek renk belge-style.css'teki .belge-form-baslik.tip-* kurallarından
 // geliyor, bu şerit artık belgenin tek renkli göstergesi.
@@ -125,8 +130,16 @@ var FORM_BASLIK = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
 // olduğu yere, bu başlığın YANINA taşındı (sagMetin — Gönder'in canlı
 // önizlemesinde gerçek işlem kodu, giden görselde sadece tarih; bkz.
 // çağıran fonksiyonlar).
+// ÇOKLU YETKİLİ (08.11.2026): popup'ta birden fazla yetkili seçildiyse hepsi, yoksa tek seçili.
+function seciliYetkililerDizisi(yetkililer, secim, tek){
+  var d = [];
+  if(secim && Array.isArray(secim.yetkililer)){
+    secim.yetkililer.forEach(function(ix){ if(yetkililer[ix] && d.indexOf(yetkililer[ix]) < 0) d.push(yetkililer[ix]); });
+  }
+  return d.length ? d : (tek ? [tek] : []);
+}
 function formBaslikHtml(tip, tarihMetni, kodMetni){
-  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span class='belge-form-baslik-etiket'>" + (FORM_BASLIK[tip]||TipEtiket.kisa.siparis) + "</span>"
+  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span class='belge-form-baslik-etiket'>" + (FORM_BASLIK[tip]||FORM_BASLIK.siparis) + "</span>"
     + (tarihMetni ? "<span class='belge-form-baslik-tarih'>" + htmlEsc(tarihMetni) + "</span>" : "")
     + (kodMetni ? "<span class='belge-form-baslik-kod'>" + htmlEsc(kodMetni) + "</span>" : "")
     + "</div>";
@@ -197,6 +210,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   try{ yetkiliSecim = JSON.parse(localStorage.getItem("weiconv2_secili_iletisim")||"{}"); }catch(e){}
   var yki = (yetkiliSecim.yetkili!=null && yetkililer[yetkiliSecim.yetkili]) ? yetkiliSecim.yetkili : 0;
   var seciliYetkili = yetkililer[yki];
+  var seciliYetkiliDizi = seciliYetkililerDizisi(yetkililer, yetkiliSecim, seciliYetkili);
   var yetkiliBilgiHtml = seciliYetkili ? HareketTablo.yetkiliSatiriHtml(seciliYetkili.isim, seciliYetkili.telefon, seciliYetkili.eposta) : "";
   var tToplamEuro = 0;
   (sepet||[]).forEach(function(u){ var h = CartData.hesapla(u, kur, kdv); if(h && h.toplamEuro!=null) tToplamEuro += h.toplamEuro; });
@@ -224,7 +238,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     // turu, mockup üzerinden onaylandı): son parametre (true) teslimat
     // adresi girilmemişse bu canlı önizlemede de bloğu hiç göstermez; cari
     // kodu (koduGizle=false) eskisi gibi görünmeye devam eder.
-    musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : [], false, true);
+    musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, false, true);
     html = musteriBlokHtml
       + "<div class='belge-kart-ayrac'></div>"
       + "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStrOnizleme, kod) + "</div>"
@@ -349,6 +363,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   try{ yetkiliSecim = JSON.parse(localStorage.getItem("weiconv2_secili_iletisim")||"{}"); }catch(e){}
   var yki = (yetkiliSecim.yetkili!=null && yetkililer[yetkiliSecim.yetkili]) ? yetkiliSecim.yetkili : 0;
   var seciliYetkili = yetkililer[yki];
+  var seciliYetkiliDizi = seciliYetkililerDizisi(yetkililer, yetkiliSecim, seciliYetkili);
   var yetkiliBilgiHtml = seciliYetkili ? HareketTablo.yetkiliSatiriHtml(seciliYetkili.isim, seciliYetkili.telefon, seciliYetkili.eposta) : "";
 
   // Giden görselde dahili işlem kısa kodu (FT001... gibi) GÖSTERİLMEZ —
@@ -395,7 +410,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     // ADRESİ bloğu hiç görünmez. Diğer hiçbir çağrı (Cari Kart, Sepet,
     // Gönder'in canlı önizlemesi, Belge Önizleme) bunu geçmediği için
     // hepsi eskisi gibi boşsa "Girilmemiş" göstermeye devam eder.
-    cariBaslikHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkili ? [seciliYetkili] : [], true, true);
+    cariBaslikHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, true, true);
     cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr, null) + "</div>";
   }
 
@@ -997,6 +1012,7 @@ document.addEventListener("DOMContentLoaded", function(){
       var secim = {};
       try{ secim = JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){}
       secim[alanAdi] = i;
+      if(alanAdi === "yetkili") delete secim.yetkililer;   // Değiştir ile tek kişi seçildi — çoklu seçim geçersiz
       localStorage.setItem(KEY, JSON.stringify(secim));
       adresleriBelirle(g.musteri);
 

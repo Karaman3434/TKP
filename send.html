@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-14:14.1507 — send.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-22:53.1517 — send.html -->
 <!--
   27.10.2026 PERFORMANS KAZANIMI: html2canvas'ın bu sayfada en baştan
   yüklenen statik <script> etiketi kaldırıldı — artık send-render.js'teki
@@ -30,12 +30,12 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
 <link rel="stylesheet" href="cart-style.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="cari-kart-style.css?v=TKP.05.11.26-10:45.1479">
-<link rel="stylesheet" href="send-style.css?v=TKP.04.11.26-15:00.1469">
+<link rel="stylesheet" href="send-style.css?v=TKP.08.11.26-22:53.1517">
 <link rel="stylesheet" href="belge-style.css?v=TKP.05.11.26-13:08.1486">
 <link rel="stylesheet" href="detail-style.css?v=TKP.02.11.26-10:48.1375">
 <!-- YENİ (12.10.2026, Abdullah onayı) — ürün tablosuna da Sepet/Belge
      Önizleme'deki açık gri zemin taşındı. SADECE .gonder-sayfa altında. -->
-<link rel="stylesheet" href="gonder-tablo-style-v2.css?v=TKP.05.11.26-10:45.1479">
+<link rel="stylesheet" href="gonder-tablo-style-v2.css?v=TKP.08.11.26-22:53.1517">
 <!-- EKLENDİ (15.10.2026, Abdullah'ın isteğiyle) — müşteri ismi artık burada
      da TEK KURAL'a (musteri-serit.js) uyuyor; HareketTablo.cariKutulariHtml()
      bu dosyayı çağırıyor (bkz. hareket-tablo.js). -->
@@ -227,7 +227,6 @@
         <input type="text" class="mail-konu-input" id="mailOnizlemeKonu">
         <button type="button" class="mail-konu-kopyala-btn" id="mailKonuKopyalaBtn">📋 Kopyala</button>
       </div>
-      <div style="font-size:10.5px;color:#8a96a3;font-weight:600;margin:-6px 0 10px 2px;">Gönder'e basınca bu konu panoya da otomatik kopyalanır — mail uygulaması konuyu yanlış getirirse yapıştırabilirsin.</div>
 
       <div class="form-etiket">MESAJ</div>
       <div class="mail-onizleme-metin" id="mailOnizlemeMetin"></div>
@@ -295,7 +294,7 @@
 <script src="hareket-tablo.js?v=TKP.05.11.26-10:45.1479"></script>
 <script src="cart-data.js?v=TKP.03.11.26-18:20.1457"></script>
 <script src="customer-data.js?v=TKP.03.11.26-20:35.1460"></script>
-<script src="send-data.js?v=TKP.03.11.26-15:35.1455"></script>
+<script src="send-data.js?v=TKP.08.11.26-22:53.1517"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
 <!-- EKLENDİ (15.10.2026) — hareket-tablo.js'in cariKutulariHtml()'i artık
@@ -309,13 +308,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="teklif-pdf.js?v=WG.211026.1700.895"></script>
-<script src="send-render.js?v=TKP.08.11.26-14:14.1507"></script>
+<script src="send-render.js?v=TKP.08.11.26-22:53.1517"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026) — bkz. cart.html'deki aynı
      yorum: bugünkü üst-bar birleştirmesiyle kırıldı, yerine cart.html'deki
      10 dakikalık oto-sıfırlama geldi. -->
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=TKP.08.11.26-13:14.1505"></script>
+<script src="menu-cekmece.js?v=TKP.08.11.26-22:53.1517"></script>
 </body>
 </html>

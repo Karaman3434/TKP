@@ -1,5 +1,5 @@
 /*
-  customer-render.js — TKP.08.11.26-12:34.1504
+  customer-render.js — TKP.08.11.26-22:53.1517
   GÜNCELLEME (27.10.2026, Abdullah onayı — ana sayfa mini arama özelliği):
   "?musteriAc=<id-veya-ad>" parametresiyle buraya gelinirse, ilgili müşteri
   bulunup GERÇEK hızlı pencere (hizliPencereyiAc) otomatik açılır — bkz.
@@ -18,6 +18,19 @@
 // acik-belge-kontrol.js diğer lazy-load modüllerle AYNI desenle, SADECE
 // gerçekten gerektiğinde (SİPARİŞ seçilip açık belge varken) yükleniyor —
 // bkz. acik-belge-kontrol.js üstündeki not.
+
+// "İŞLEM YAP" YENİ ROTA (08.11.2026, Abdullah onayı): İşlem Yap'a dokununca eski yan tip
+// paneli yerine cari kart POPUP'ı açılır (fatura/teslimat/yetkili seçimi + İŞLEM SEÇ) —
+// bkz. islem-popup.js. Modül gerektiğinde yüklenir; yüklenemezse eski yan panel açılır.
+function cmIslemPopupAc(musteri, devam, yedek){
+  if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam); return; }
+  var s = document.createElement("script");
+  s.src = "islem-popup.js?v=TKP.08.11.26-22:53.1517";
+  s.onload = function(){ IslemPopup.ac(musteri, devam); };
+  s.onerror = function(){ if(typeof yedek === "function") yedek(); };
+  document.body.appendChild(s);
+}
+
 var cmAbkModulYukleniyor = false;
 var cmAbkModulBekleyenler = [];
 function cmAcikBelgeKontrolIleDevamEt(musteri, tip){
@@ -469,7 +482,11 @@ function cmAksiyonuUygula(aksiyon){
       // Kart'a gitmiyor — hızlı pencerenin yanında tip seçim penceresi
       // açılıyor (bkz. cmTipMenuAc). Tip seçilince asıl yönlendirme
       // #cmTipMenu .cm-tipmenu-oge tıklama kolu içinde yapılıyor.
-      cmTipMenuAc();
+      var cmIslemMusteri = cmAcikMusteri;
+      cmIslemPopupAc(cmIslemMusteri, function(tip){
+        cmDonusRotasiniKaydet("islemyap");
+        cmAcikBelgeKontrolIleDevamEt(cmIslemMusteri, tip);
+      }, cmTipMenuAc);
       break;
     case "fatura":
       window.location.href = "customer-detail.html?ac=fatura";

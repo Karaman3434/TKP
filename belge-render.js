@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.08.11.26-22:02.1516
+  belge-render.js — TKP.08.11.26-22:53.1517
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -511,6 +511,19 @@ function bhpRozetHTML(sayi){
 // acik-belge-kontrol.js diğer lazy-load modüllerle AYNI desenle, SADECE
 // gerçekten gerektiğinde (SİPARİŞ seçilip açık belge varken) yükleniyor —
 // bkz. acik-belge-kontrol.js üstündeki not.
+
+// "İŞLEM YAP" YENİ ROTA (08.11.2026, Abdullah onayı): İşlem Yap'a dokununca eski yan tip
+// paneli yerine cari kart POPUP'ı açılır (fatura/teslimat/yetkili seçimi + İŞLEM SEÇ) —
+// bkz. islem-popup.js. Modül gerektiğinde yüklenir; yüklenemezse eski yan panel açılır.
+function bhpIslemPopupAc(musteri, devam, yedek){
+  if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam); return; }
+  var s = document.createElement("script");
+  s.src = "islem-popup.js?v=TKP.08.11.26-22:53.1517";
+  s.onload = function(){ IslemPopup.ac(musteri, devam); };
+  s.onerror = function(){ if(typeof yedek === "function") yedek(); };
+  document.body.appendChild(s);
+}
+
 var bhpAbkModulYukleniyor = false;
 var bhpAbkModulBekleyenler = [];
 function bhpAcikBelgeKontrolIleDevamEt(musteri, tip){
@@ -679,8 +692,13 @@ function bhpAksiyonuUygula(aksiyon){
     case "cari": window.location.href = "customer-cari-kart.html"; break;
     case "temas": window.location.href = "customer-temas.html"; break;
     case "islemyap":
-      document.getElementById("bhpTipMenu").hidden = false;
-      bhpTipMenuKonumla();
+      var bhpIslemMusteri = bhpAcikMusteri;
+      bhpIslemPopupAc(bhpIslemMusteri, function(tip){
+        bhpAcikBelgeKontrolIleDevamEt(bhpIslemMusteri, tip);
+      }, function(){
+        document.getElementById("bhpTipMenu").hidden = false;
+        bhpTipMenuKonumla();
+      });
       break;
     case "fatura": window.location.href = "customer-detail.html?ac=fatura"; break;
     case "gecmis": window.location.href = "gecmis.html"; break;
