@@ -34,10 +34,23 @@ function tarihMetniAyikla(anahtar){
   return p[2] + "." + p[1] + "." + p[0];
 }
 
-var OZEL_GUN_ANAHTAR_KELIMELER = ["HAFTA SONU","TATİL","TATIL","RAPOR","İZİN","IZIN","BAYRAM","RESMİ TATİL","RESMI TATIL"];
+// ÖZEL GÜN (08.11.2026): hafta sonu (Cumartesi/Pazar — tarihten otomatik),
+// raporlu, resmi tatil, dinî bayram, yıllık izin, izin günleri → satır SARI.
+// Kelime eşleşmesi Türkçe harflerden bağımsızdır (İzin / IZIN / izin hepsi).
+var OZEL_GUN_ANAHTAR_KELIMELER = ["HAFTA SONU","HAFTASONU","TATIL","RAPOR","IZIN","BAYRAM","YILLIK"];
+function ozelGunMetniSadelestir(m){
+  return (m||"").toLocaleUpperCase("tr-TR")
+    .replace(/İ/g,"I").replace(/Ş/g,"S").replace(/Ğ/g,"G")
+    .replace(/Ü/g,"U").replace(/Ö/g,"O").replace(/Ç/g,"C");
+}
 function ozelGunMuHesapla(k){
-  var satirMetniBuyuk = ((k.guzergah||"") + " " + (k.ziyaretYerleri||"")).toLocaleUpperCase("tr-TR");
-  return OZEL_GUN_ANAHTAR_KELIMELER.some(function(kelime){ return satirMetniBuyuk.indexOf(kelime) !== -1; });
+  var p = (k.anahtar||"").split("-");
+  if(p.length === 3){
+    var gun = new Date(parseInt(p[0],10), parseInt(p[1],10)-1, parseInt(p[2],10)).getDay();
+    if(gun === 0 || gun === 6) return true; // Pazar / Cumartesi
+  }
+  var satirMetni = ozelGunMetniSadelestir((k.guzergah||"") + " " + (k.ziyaretYerleri||""));
+  return OZEL_GUN_ANAHTAR_KELIMELER.some(function(kelime){ return satirMetni.indexOf(kelime) !== -1; });
 }
 
 var seciliYilAy = null; // null = bu ay (varsayılan); "YYYY-MM" = geçmiş/seçilmiş ay
@@ -104,8 +117,8 @@ function tabloyuCiz(){
       var bugunMu = k.anahtar === bugunAnahtar;
       var satirSinifi = bugunMu ? " class='km-satir--bugun'" : "";
       // Hafta sonu / tatil / rapor / izin / bayram gibi özel kullanım
-      // günlerini fark etmek için satırın tamamı sarı zemin olur.
-      if(ozelGunMuHesapla(k) && !bugunMu) satirSinifi = " class='km-satir--ozelgun'";
+      // günlerinde satırın tamamı SARI zemin olur (bugün olsa bile).
+      if(ozelGunMuHesapla(k)) satirSinifi = " class='km-satir--ozelgun'";
       var baslangicSinifi = bugunMu ? " km-td-baslangic-bugun" : "";
       // Saat: "09:00-18:00" gibi aralık girilmişse iki satır (üstte
       // başlangıç, altta bitiş); tek saat varsa tek satır.
@@ -191,7 +204,7 @@ function excelAktar(){
       return;
     }
     var goruntulenenAy2 = seciliYilAy || (function(){ var d=new Date(); return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2); })();
-    var kayitlar = KmData.ayinKayitlari(goruntulenenAy2).slice().reverse();
+    var kayitlar = KmData.ayinKayitlari(goruntulenenAy2); // eski tarih üstte, yeni altta
     if(kayitlar.length === 0){
       alert("Bu ayda hiç kayıt yok, aktarılacak veri bulunamadı.");
       return;

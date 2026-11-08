@@ -252,8 +252,7 @@ var KmData = (function(){
     var yilAy = now.getFullYear()+"-"+("0"+(now.getMonth()+1)).slice(-2);
     return Object.keys(kayitlar)
       .filter(function(k){ return k.indexOf(yilAy)===0; })
-      .sort()
-      .reverse()
+      .sort() // 08.11.2026: ESKİ tarih en üstte, yeni tarih en altta (elle tutulan KM defteri gibi)
       .map(function(k){ return Object.assign({anahtar:k}, kayitlar[k]); });
   }
 
@@ -263,8 +262,7 @@ var KmData = (function(){
   function ayinKayitlari(yilAy){
     return Object.keys(kayitlar)
       .filter(function(k){ return k.indexOf(yilAy)===0; })
-      .sort()
-      .reverse()
+      .sort() // 08.11.2026: ESKİ tarih en üstte, yeni tarih en altta (elle tutulan KM defteri gibi)
       .map(function(k){ return Object.assign({anahtar:k}, kayitlar[k]); });
   }
 

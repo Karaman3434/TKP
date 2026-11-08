@@ -1,4 +1,4 @@
-/* km-style.css — TKP.02.11.26-10:48.1377 */
+/* km-style.css — TKP.08.11.26-08:14.1497 */
 /* km-style.css — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
@@ -361,11 +361,20 @@
 }
 .km-satir--bugun {
   background: #eafaf0; border: 1.5px solid #0e6b34;}
-.km-satir--ozelgun {
-  background: #faeeda; border: 1.5px solid #b7601f;}
-.km-satir--ozelgun td {
-  color: #b7601f;
+/* ÖZEL GÜN SATIRI (08.11.2026) — hafta sonu/rapor/tatil/bayram/izin: SARI.
+   Excel çıktısındaki FFFF00 ile aynı ton; yazdırmada da sarı çıkar. */
+.km-veri-tablo tr.km-satir--ozelgun td {
+  background: #ffff00;
+  color: #222;
   font-weight: 700;
+}
+.km-veri-tablo tr.km-satir--ozelgun td[contenteditable]:focus { background: #fff9b0; }
+@media print {
+  .km-veri-tablo tr.km-satir--ozelgun td {
+    background: #ffff00 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 }
 .km-td-baslangic-bugun {
   font-size: 16px;
