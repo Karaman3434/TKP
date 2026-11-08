@@ -1,4 +1,4 @@
-/* pin-style.css — TKP.08.11.26-18:05.1511 — login-style.css'in üzerine eklenir. */
+/* pin-style.css — TKP.08.11.26-18:20.1512 — login-style.css'in üzerine eklenir. */
 
 /* PIN paneli — login-style.css'teki genel .giris-kutu'nun üzerine bu
    sayfaya özel daha kısa/dar sürümü (24.09.2026, %20 küçültme isteği). */
@@ -93,3 +93,7 @@
   color: #8a96a5;
   cursor: default;
 }
+
+/* Günün sözü PIN ekranında ortalı (08.11.2026, Abdullah onayı — seçenek C); satırlar dengeli kırılır. */
+.hosg { text-align: center; }
+.hosg-soz { text-wrap: balance; }

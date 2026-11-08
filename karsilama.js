@@ -1,9 +1,9 @@
 /*
-  karsilama.js — TKP.08.11.26-10:41.1500
+  karsilama.js — TKP.08.11.26-18:20.1512
   =====================================
   PIN (pin.html) ve Giriş (login.html) ekranlarında, logonun hemen altında:
-    - Üstte CİHAZ ADI (ör. "Samsung S22"),
-    - altında saate göre motive edici bir karşılama sözü.
+    - CİHAZ ADI (ör. "Samsung S22") logonun içinde, alt satırda küçük (08.11.2026, seçenek C),
+    - logonun altında saate göre motive edici, ortalanmış bir karşılama sözü.
   (08.11.2026, Abdullah'ın isteği.) Sözlerde kimseye isimle hitap edilmez —
   her kullanıcıya söylenebilecek genel cümleler.
 
@@ -324,6 +324,17 @@ var Karsilama = (function(){
     return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
   }
 
+  // Cihaz adını logonun içindeki alt satıra yazar; ad yoksa satır gizlenir ve logo eski boyuna döner.
+  function adYaz(v){
+    var el = document.getElementById("karsilamaAd");
+    if(!el) return;
+    v = String(v || "").trim();
+    el.textContent = v;
+    el.hidden = !v;
+    var logo = el.parentNode;
+    if(logo && logo.classList) logo.classList.toggle("logo--ad", !!v);
+  }
+
   function ciz(){
     try{
       var logo = document.querySelector(".giris-kutu .logo");
@@ -331,9 +342,14 @@ var Karsilama = (function(){
       var blok = document.createElement("div");
       blok.className = "hosg";
       blok.id = "karsilamaBlok";
-      var ad = cihazAdiYerel();
-      blok.innerHTML = "<div class='hosg-ad' id='karsilamaAd'" + (ad ? "" : " hidden") + ">" + esc(ad) + "</div>"
-        + "<div class='hosg-soz'>" + esc(sozSec()) + "</div>";
+      // 08.11.2026 (Abdullah onayı — seçenek C): cihaz adı artık logonun İÇİNDE, "İŞ TAKİP" yazısının altında
+      // küçük (13px); altındaki blokta sadece ortalanmış karşılama sözü kalır.
+      var altAd = document.createElement("span");
+      altAd.className = "logo-alt";
+      altAd.id = "karsilamaAd";
+      logo.appendChild(altAd);
+      adYaz(cihazAdiYerel());
+      blok.innerHTML = "<div class='hosg-soz'>" + esc(sozSec()) + "</div>";
       logo.parentNode.insertBefore(blok, logo.nextSibling);
 
       // Oturum açıksa yöneticinin panelden verdiği güncel adı oku.
@@ -343,8 +359,7 @@ var Karsilama = (function(){
           firebase.database().ref("cihazlar/" + id + "/ad").once("value").then(function(snap){
             var v = String(snap.val() || "").trim();
             if(!v) return;
-            var el = document.getElementById("karsilamaAd");
-            if(el){ el.textContent = v; el.hidden = false; }
+            adYaz(v);
           }).catch(function(){});
         } else if(id && typeof firebase !== "undefined" && firebase.auth){
           // Oturum durumu birazdan çözülebilir (PIN ekranı açılışı) — bir kez dinle.
@@ -354,8 +369,7 @@ var Karsilama = (function(){
             firebase.database().ref("cihazlar/" + id + "/ad").once("value").then(function(snap){
               var v = String(snap.val() || "").trim();
               if(!v) return;
-              var el = document.getElementById("karsilamaAd");
-              if(el){ el.textContent = v; el.hidden = false; }
+              adYaz(v);
             }).catch(function(){});
           });
         }

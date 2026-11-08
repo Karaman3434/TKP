@@ -1,4 +1,4 @@
-/* login-style.css — TKP.08.11.26-18:05.1511 */
+/* login-style.css — TKP.08.11.26-18:20.1512 */
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
@@ -114,8 +114,10 @@ input:focus {
 
 /* KARŞILAMA (08.11.2026, Abdullah'ın isteği) — logonun altında cihaz adı +
    saate göre söz (karsilama.js). PIN ve Giriş ekranları bu dosyayı paylaşır. */
-.hosg { margin: 2px 0 14px; text-align: left; }
-.hosg-ad { font-size: 26px; font-weight: 900; color: #0d3d8c; letter-spacing: .2px; line-height: 1.1; }
-.hosg-ad[hidden] { display: none; }
+.hosg { margin: 0 0 14px; text-align: left; }  /* söz ortalama sadece PIN ekranında: pin-style.css */
+/* Cihaz adı logonun içinde (08.11.2026, Abdullah onayı — seçenek C): "İŞ TAKİP" altında ince çizgiyle ayrılmış küçük satır. */
+.logo.logo--ad { display: inline-flex; flex-direction: column; align-items: center; gap: 3px; padding: 9px 22px 8px; margin-bottom: 10px; }
+.logo-alt { font-size: 13px; letter-spacing: .3px; font-weight: 800; color: #dbe7fb; border-top: 1px solid rgba(255,255,255,.35); padding-top: 3px; width: 100%; text-align: center; }
+.logo-alt[hidden] { display: none; }
 .hosg-soz { margin-top: 6px; font-size: 18.5px; line-height: 1.4; color: #c4161f; font-weight: 600; }  /* 08.11.2026 (Abdullah): kırmızı; 14px → 15.4px (%10) → 18.5px (%20 daha) */
 .hosg-not { font-size: 12.5px; color: #6b7a90; margin: -4px 0 12px; font-weight: 600; }
