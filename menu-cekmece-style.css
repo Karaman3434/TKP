@@ -1,5 +1,5 @@
 /*
-  menu-cekmece-style.css — TKP.02.11.26-10:48.1383
+  menu-cekmece-style.css — TKP.08.11.26-11:06.1501
   ============================================================================
   "Menü her sayfada" (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı).
   Bu dosya SADECE net-yeni sınıfları içerir:
@@ -125,17 +125,20 @@
 }
 .as-drawer-mini-arama-input-sabit {
   flex: 1; min-width: 0;
-  background: rgba(255,255,255,.1);
-  border: 1.3px solid rgba(255,255,255,.22);
-  border-radius: 8px;
-  padding: 6px 9px;
+  /* 08.11.2026 (Abdullah onayı): tüm arama kutularıyla aynı dil — oval kenar,
+     kırmızı tonlu zemin, koyu kırmızı çerçeve (lacivert zemin uyarlaması;
+     açık zeminli sayfalar için bkz. arama-stili.css). */
+  background: rgba(255,92,92,.22);
+  border: 1.6px solid #d11d2a;
+  border-radius: 999px;
+  padding: 6px 14px;
   color: #fff;
   font-size: 12px;
   font-weight: 600;
   outline: none;
 }
-.as-drawer-mini-arama-input-sabit::placeholder { color: #8fb0de; font-weight: 600; }
-.as-drawer-mini-arama-input-sabit:focus { background: #153a72; border-color: #4f86d6; }
+.as-drawer-mini-arama-input-sabit::placeholder { color: #ffb3b3; font-weight: 600; }
+.as-drawer-mini-arama-input-sabit:focus { background: rgba(255,92,92,.32); border-color: #ff4d5a; }
 
 /* Yüzen sonuç penceresi — altMenuAc'ın "yana açılan panel"iyle AYNI
    konumlandırma/kapanma dili (bkz. menu-cekmece.js mcMiniSonucKonumla),

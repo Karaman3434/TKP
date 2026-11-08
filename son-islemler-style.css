@@ -1,4 +1,4 @@
-/* son-islemler-style.css — TKP.02.11.26-12:19.1394
+/* son-islemler-style.css — TKP.08.11.26-11:06.1501
    GÜNCELLEME (02.11.2026, Abdullah isteği): işlem kısa kodu kutusu (FT/RVZ/KAÇTI...)
    YATAYDA %20 büyütüldü: 36px -> 43.2px (grid'in 3. sütunu, aşağıdaki
    .sr-satir). Yükseklik/padding/yazı boyutu aynı. Satırın genişliği ve metin
@@ -9,7 +9,7 @@
 /* Bu sayfaya özgü "Siyah" tema (Ana Sayfa'daki Son İşlemler kutucuğunun
    rengiyle devam ediyor) — sadece #islemAra'yı hedefler, diğer tl- sayfalarını
    (Satış Listesi, Kaçan Satışlar) etkilemez. */
-#islemAra { border-color: #444444 !important; }
+/* 08.11.2026: kenar rengi artık ortak arama-stili.css'ten (koyu kırmızı). */
 
 /* TABLO TASARIMI (13.10.2026, Abdullah'ın paylaştığı referans görsel +
    gerçek ChatGPT kodu + yazılı talimat metnine göre): eski 2 satırlı

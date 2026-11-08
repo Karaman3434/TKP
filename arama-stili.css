@@ -1,0 +1,135 @@
+/*
+  arama-stili.css — TKP.08.11.26-11:06.1501
+  =========================================
+  TÜM ARAMA KUTULARI VE FİLTRELER İÇİN TEK, ORTAK GÖRÜNÜM (08.11.2026,
+  Abdullah onayı — mockup üzerinden: "Tüm programdaki arama motoru ve
+  filtrelerde istisnasız hepsinde"). Oval (tam yuvarlak) kenar, ÇOK HAFİF
+  KIRMIZI zemin, koyu kırmızı çerçeve.
+
+  Rengi/kalınlığı değiştirmek için SADECE aşağıdaki 5 değişkeni değiştir —
+  bütün sayfalar kendiliğinden güncellenir. Bu dosya her sayfanın kendi
+  CSS'inden SONRA yüklenir (sayfaların eski, dağınık .arama-kutusu vb.
+  kuralları artık yalnızca yerleşim/boyut için kalır; renk/kenar buradan).
+  Çekmecedeki (lacivert zeminli) Ürün/Müşteri arama kutuları aynı dilin
+  koyu zemin uyarlaması olarak menu-cekmece-style.css'tedir.
+*/
+:root{
+  --ak-zemin:#fff3f3;      /* çok hafif kırmızı zemin */
+  --ak-cerceve:#c4161f;    /* koyu kırmızı çerçeve */
+  --ak-kalinlik:1.6px;
+  --ak-yazi:#3a0a0e;
+  --ak-yer:#b0777c;        /* placeholder */
+  --ak-odak:#8b0a14;       /* odaklanınca çerçeve */
+  --ak-aktif-zemin:#ffdcdc;/* seçili/aktif filtre düğmesi zemini */
+}
+
+/* ---- ARAMA KUTULARI + FİLTRE GİRİŞLERİ (input / select) ---- */
+.arama-kutusu input,
+.musteri-sehir-filtre-kutu input,
+.gorev-arama-kutusu input,
+.islem-filtre-satiri input,
+.islem-filtre-satiri select,
+.duzenle-urun-arama-input,
+.hk-filtre-satir select,
+.km-ay-secici,
+#tgSirala,
+.tarih-filtre-input,
+.ht-yaz--ara{
+  background:var(--ak-zemin) !important;
+  border:var(--ak-kalinlik) solid var(--ak-cerceve) !important;
+  border-radius:999px !important;
+  color:var(--ak-yazi) !important;
+  box-shadow:none !important;
+}
+/* Oval kenarda yazı kenara yapışmasın */
+.arama-kutusu input,
+.musteri-sehir-filtre-kutu input,
+.gorev-arama-kutusu input,
+.islem-filtre-satiri input,
+.duzenle-urun-arama-input,
+#tgSirala,
+.hk-filtre-satir select,
+.km-ay-secici{
+  padding-left:18px !important;
+}
+.arama-kutusu input::placeholder,
+.musteri-sehir-filtre-kutu input::placeholder,
+.gorev-arama-kutusu input::placeholder,
+.islem-filtre-satiri input::placeholder,
+.duzenle-urun-arama-input::placeholder,
+.ht-yaz--ara input::placeholder{
+  color:var(--ak-yer) !important;
+  opacity:1;
+}
+.arama-kutusu input:focus,
+.musteri-sehir-filtre-kutu input:focus,
+.gorev-arama-kutusu input:focus,
+.islem-filtre-satiri input:focus,
+.islem-filtre-satiri select:focus,
+.duzenle-urun-arama-input:focus,
+.hk-filtre-satir select:focus,
+.km-ay-secici:focus,
+#tgSirala:focus,
+.tarih-filtre-input:focus,
+.ht-yaz--ara:focus-within{
+  border-color:var(--ak-odak) !important;
+  box-shadow:0 0 0 3px rgba(196,22,31,.16) !important;
+  outline:none !important;
+}
+
+/* Takvim defterindeki "Firma ara": sarmalayıcı oval, içindeki input saydam kalır */
+.ht-yaz--ara{ height:36px !important; padding:0 14px !important; }
+.ht-yaz--ara input{ background:transparent !important; border:0 !important; color:var(--ak-yazi) !important; }
+
+/* ---- FİLTRE DÜĞMELERİ (Tarih, filtre ikonu) ---- */
+.tarih-filtre-btn,
+.il-f-btn{
+  background:var(--ak-zemin) !important;
+  border:var(--ak-kalinlik) solid var(--ak-cerceve) !important;
+  border-radius:999px !important;
+  color:var(--ak-yazi) !important;
+  box-shadow:none !important;
+}
+.tarih-filtre-btn--aktif,
+.il-f-btn--aktif{
+  background:var(--ak-aktif-zemin) !important;
+  border-color:var(--ak-odak) !important;
+  color:var(--ak-odak) !important;
+}
+.tarih-filtre-btn-x{ color:var(--ak-cerceve) !important; }
+
+/* ---- FİLTRE ÇİPLERİ (seçili olmayanlar; seçili/türe özel renkler değişmez) ---- */
+.gecmis-filtre-cip:not(.gecmis-filtre-cip--aktif),
+.tarih-filtre-cip:not(.tarih-filtre-cip--aktif),
+.il-c:not(.il-c--on):not(.il-c--numune):not(.il-c--teklif):not(.il-c--proforma):not(.il-c--siparis){
+  background:var(--ak-zemin) !important;
+  border:1.4px solid var(--ak-cerceve) !important;
+  color:var(--ak-yazi) !important;
+}
+
+/* ---- ZİYARET / AJANDA: "Gün filtrele" kutusu + "Ay seç" düğmesi ----
+   Dış sarmalayıcı/düğme ortak görünümü alır; içindeki tarih girişi saydam kalır
+   (çift çerçeve olmasın). */
+.ziy-gun-filtre-yari,
+.aj-gun-filtre-yari,
+.ziy-ay-sec-btn,
+.aj-ay-sec-btn{
+  background:var(--ak-zemin) !important;
+  border:var(--ak-kalinlik) solid var(--ak-cerceve) !important;
+  border-radius:999px !important;
+  color:var(--ak-yazi) !important;
+  box-shadow:none !important;
+}
+.ziy-gun-filtre-yari:focus-within,
+.aj-gun-filtre-yari:focus-within{
+  border-color:var(--ak-odak) !important;
+  box-shadow:0 0 0 3px rgba(196,22,31,.16) !important;
+}
+.ziy-gun-filtre-input,
+.aj-gun-filtre-input{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  color:var(--ak-yazi) !important;
+  outline:none !important;
+}

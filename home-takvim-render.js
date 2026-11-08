@@ -1,5 +1,5 @@
 /*
-  home-takvim-render.js — TKP.06.11.26-10:17.1495
+  home-takvim-render.js — TKP.08.11.26-11:06.1501
   =================================================
   ANA SAYFA TAKVİMİ.
 
@@ -391,7 +391,7 @@
         alan.innerHTML = "<div class='ht-firma'>" + miniIk(secTur) + "<b>" + esc(firma.ad) + "</b>" + (firma.sehir ? "<small>· " + esc(firma.sehir) + "</small>" : "") + "<u id='htFirmaSil'>✕</u></div>";
         el("htFirmaSil").onclick = function(){ firma = null; firmaCiz(); };
       } else {
-        alan.innerHTML = "<div class='ht-yaz'><input type='text' id='htFirmaAra' placeholder='Firma ara…' autocomplete='off' spellcheck='false'><span aria-hidden='true'>🔍</span></div>";
+        alan.innerHTML = "<div class='ht-yaz ht-yaz--ara'><input type='text' id='htFirmaAra' placeholder='Firma ara…' autocomplete='off' spellcheck='false'><span aria-hidden='true'>🔍</span></div>";
         el("htFirmaAra").addEventListener("input", onerCiz);
       }
       el("htOner").innerHTML = "";

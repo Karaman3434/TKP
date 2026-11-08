@@ -1,4 +1,4 @@
-/* islem-liste-style.css — TKP.04.11.26-08:30.1462
+/* islem-liste-style.css — TKP.08.11.26-11:06.1501
    ORTAK İŞLEM LİSTESİ STİLİ (02.11.2026, Abdullah onayı): Son İşlemler,
    Satış Listesi, Ay Detay ve Kaçan Satışlar artık bu TEK dosyadan stillenir
    (islem-liste.js). Satır / gün bandı / rozet kuralları, onaylı "Son
@@ -11,7 +11,8 @@
 /* Bu sayfaya özgü "Siyah" tema (Ana Sayfa'daki Son İşlemler kutucuğunun
    rengiyle devam ediyor) — sadece #islemAra'yı hedefler, diğer tl- sayfalarını
    (Satış Listesi, Kaçan Satışlar) etkilemez. */
-#islemAra { border-color: #444444 !important; min-width: 0; }
+/* 08.11.2026: kenar rengi artık ortak arama-stili.css'ten (koyu kırmızı) — burada ezilmiyor. */
+#islemAra { min-width: 0; }
 
 /* TABLO TASARIMI (13.10.2026, Abdullah'ın paylaştığı referans görsel +
    gerçek ChatGPT kodu + yazılı talimat metnine göre): eski 2 satırlı
