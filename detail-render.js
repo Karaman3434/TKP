@@ -1,5 +1,5 @@
 /*
-  detail-render.js — WG.091026.0955.752
+  detail-render.js — TKP.08.11.26-09:20.1499
   ================
   Seçili müşterinin bilgilerini, sipariş geçmişini (ReportsData.sonIslemler
   üzerinden filtrelenmiş) ve ziyaret geçmişini gösterir.
@@ -76,6 +76,19 @@ function siparisGecmisiniCiz(){
 
 
 
+// Bu sayfa artık kart değil, yalnızca Fatura Takip / Görevlerim / Ürün Geçmişi
+// pencerelerinin barındırıcısı (08.11.2026). Pencere kapanınca arkada eski
+// "İşlemler" kartı AÇILMAZ: geldiği yere (popover'ın açıldığı sayfaya) dönülür;
+// geçmiş yoksa yeni Ana Sayfa > müşteri işlem kartına.
+function detayGeriDon(){
+  try{
+    var ref = document.referrer || "";
+    if(ref.indexOf(window.location.origin) === 0 && window.history.length > 1){ window.history.back(); return; }
+    var m = CustomerData.seciliyiOku();
+    window.location.href = "home.html" + (m && m.id ? "?musteriKart=" + encodeURIComponent(m.id) : "");
+  }catch(e){ window.location.href = "home.html"; }
+}
+
 function tilelariBagla(){
   document.getElementById("tileTemas").onclick = function(){
     window.location.href = "customer-temas.html";
@@ -100,7 +113,7 @@ function tilelariBagla(){
   };
 
   document.getElementById("tileUrunGecmisi").onclick = urunGecmisiniAc;
-  document.getElementById("btnUrunGecmisiKapat").onclick = function(){ document.getElementById("urunGecmisiOverlay").hidden = true; };
+  document.getElementById("btnUrunGecmisiKapat").onclick = function(){ document.getElementById("urunGecmisiOverlay").hidden = true; detayGeriDon(); };
   document.getElementById("btnUrunGecmisiGeri").onclick = function(){
     document.getElementById("urunGecmisiDetay").hidden = true;
     document.getElementById("urunGecmisiListesi").hidden = false;
@@ -111,7 +124,7 @@ function tilelariBagla(){
     document.getElementById("faturaTakipOverlay").hidden = false;
     faturaTakipCiz();
   };
-  document.getElementById("btnFaturaTakipKapat").onclick = function(){ document.getElementById("faturaTakipOverlay").hidden = true; };
+  document.getElementById("btnFaturaTakipKapat").onclick = function(){ document.getElementById("faturaTakipOverlay").hidden = true; detayGeriDon(); };
   if(typeof VadeTakipUI !== "undefined"){
     VadeTakipUI.baglaRozetler(document.getElementById("ftListe"), faturaTakipCiz);
   }

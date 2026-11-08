@@ -1,5 +1,5 @@
 /*
-  bakiye-urunler-render.js — TKP.08.11.26-08:49.1498
+  bakiye-urunler-render.js — TKP.08.11.26-09:20.1499
   GÜNCELLEME (05.11.2026, Abdullah onayı): Ekran artık "Stok Bekleyen ve Bakiye
   Bekleyen" — çipler (Tümü / ⏳ Stok Bekleyen / 📦 Bakiye Bekleyen), sipariş
   seviyesinde "Stok Bekliyor" kayıtları (ReportsData.stokBekleyenSiparisler)
@@ -187,7 +187,17 @@ function listeyiCiz(){
     var musteriFiltre = musteriFiltresiniAlVeTemizle();
     // Müşteri filtresi bir kerelik okunur; sonraki yeniden çizimlerde (tarih/çip
     // değişimi) korunması için ilk okunanı saklarız.
-    if(musteriFiltre) musteriFiltreSaklanan = musteriFiltre;
+    if(musteriFiltre){
+      musteriFiltreSaklanan = musteriFiltre;
+      // Müşteri popover'ından gelindi (08.11.2026): Geri/Kapat Raporlar menüsüne
+      // değil, geldiği yere (popover'a) dönsün.
+      try{
+        var bGeri = document.querySelector(".ub-btn--geri");
+        if(bGeri){ bGeri.setAttribute("href", "home.html"); bGeri.setAttribute("data-popover-geri", ""); }
+        var bKapat = document.getElementById("btnUstKapat");
+        if(bKapat) bKapat.removeAttribute("data-kapat-hedef");
+      }catch(e){}
+    }
     musteriFiltre = musteriFiltreSaklanan;
 
     function suz(liste){

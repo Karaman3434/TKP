@@ -1,3 +1,4 @@
+// customer-hub-render.js — TKP.08.11.26-09:20.1499
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -32,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function(){
   MusteriSeridi.uygula("hubMusteriSeridi", secili);
 
   document.getElementById("hubCariBtn").onclick = function(){ window.location.href = "customer-cari-kart.html"; };
-  document.getElementById("hubIslemlerBtn").onclick = function(){ window.location.href = "customer-detail.html"; };
+  document.getElementById("hubIslemlerBtn").onclick = function(){ window.location.href = "home.html?musteriKart=" + encodeURIComponent(secili.id || ""); };
 
   CustomerData.listeDegistiginde(function(){
     var taze = CustomerData.musteriBul(secili.ad);

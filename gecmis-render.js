@@ -1,5 +1,5 @@
 /*
-  gecmis-render.js — WG.271026.1843.1101
+  gecmis-render.js — TKP.08.11.26-09:20.1499
   ================
   Müşteriye özel İşlem Geçmişi sayfası. ReportsData.sonIslemler() zaten
   en yeniden en eskiye sıralı geliyor (bkz. reports-data.js); burada
@@ -236,14 +236,16 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("gecmisMusteriAd").textContent = secili.ad;
 
   // DÖNÜŞ ROTASI (06.10.2026, Abdullah'ın isteğiyle — "kesin kural"):
+  // (08.11.2026: eski customer-detail.html "İşlemler" kartı rotası kaldırıldı;
+  // flag yoksa Geri artık geldiği yere döner — bkz. data-popover-geri.)
   // Geri eskiden KOŞULSUZ customer-detail.html'e gidiyordu. Küçük
   // pencereden (Müşteri Bul) "İşlem Geçmişi" seçilerek buraya
   // gelindiyse, artık customer.html'e dönüyor. Bayrak yoksa (customer-
   // detail.html'in kendi kutucuğundan gelindiyse) davranış DEĞİŞMEDİ.
   try{
     if(localStorage.getItem("weiconv2_musteri_donus_sayfa") === "customer.html"){
-      var gecmisGeriEl = document.querySelector(".nav-btn--geri");
-      if(gecmisGeriEl) gecmisGeriEl.setAttribute("href", "customer.html");
+      var gecmisGeriEl = document.querySelector(".ub-btn--geri, .nav-btn--geri");
+      if(gecmisGeriEl){ gecmisGeriEl.setAttribute("href", "customer.html"); gecmisGeriEl.removeAttribute("data-popover-geri"); }
     }
   }catch(e){}
 

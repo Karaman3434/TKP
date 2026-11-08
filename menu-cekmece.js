@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.05.11.26-21:16.1489
+// menu-cekmece.js — TKP.08.11.26-09:20.1499
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -612,6 +612,7 @@ function mcMusteriTipMenuOlustur(){
     btn.onclick = function(){
       if(!mcMusteriAcikKisi) return;
       var tip = this.getAttribute("data-tip");
+      mcPopoverDonusIsaretle(mcMusteriAcikKisi);
       mcAcikBelgeKontrolIleDevamEt(mcMusteriAcikKisi, tip);
     };
   });
@@ -657,8 +658,109 @@ function mcMusteriTipMenuKonumla(){
   }catch(e){}
 }
 
+// ============================================================
+// POPOVER'A GERİ DÖNÜŞ (08.11.2026, Abdullah'ın isteği — "eski işlem kartı
+// açılmasın, sistem ne kadar ileri gittiyse o kadar geri gelsin ama YENİ
+// açılır pencere işlem kartına"). Müşteri popover'ından bir sayfaya
+// gidilirken, GİDİLEN SAYFANIN DEĞİL, ŞU ANKİ sayfanın tarayıcı geçmişi
+// kaydına (history.state) müşteri işaretlenir. Hedef sayfalarda Geri/Kapat
+// artık sabit bir adrese değil history.back()'e gider (bkz. data-popover-geri
+// ve aşağıdaki dinleyici); geri gelinen sayfada (ör. Ana Sayfa) bu işaret
+// bulunca çekmece + müşteri popover'ı otomatik yeniden açılır. İşaret
+// geçmiş kaydında durduğu için yenilemede de, derine inip (ör. Geçmiş >
+// Belge) adım adım geri dönüşte de korunur; okununca silinir.
+// Alternatif giriş: "?musteriKart=<müşteri kodu>" (Bildirimler, Takip
+// Gerekenler gibi sayfalardan müşteriye gidiş) — aynı açılışı yapar.
+// ============================================================
+function mcPopoverDonusIsaretle(m){
+  try{
+    if(!m) return;
+    var st = {};
+    try{ st = Object.assign({}, window.history.state || {}); }catch(e){}
+    st.mcPopoverMusteri = {id: m.id || null, ad: m.ad || "", sehir: m.sehir || "", il: m.il || ""};
+    window.history.replaceState(st, "", window.location.href);
+  }catch(e){}
+}
+
+function mcPopoverGeriAc(m){
+  try{
+    asDrawerAc();
+    var deneme = 0;
+    (function dene(){
+      deneme++;
+      var inp = document.querySelector("[data-mini-arama='musteri']");
+      var drawer = document.getElementById("asDrawer");
+      var hazir = inp && inp.getBoundingClientRect().height > 0 && drawer && drawer.getBoundingClientRect().left >= -1;
+      if(!hazir){ if(deneme < 30) setTimeout(dene, 100); return; }
+      mcMusteriModulunuYukle(function(){
+        // Müşteri listesi Firebase'den biraz geç gelebilir — kısa süre beklenir,
+        // gelmezse işaretteki asgari bilgiyle açılır.
+        var bekle = 0;
+        (function bul(){
+          var tam = null;
+          try{
+            if(m.id && CustomerData.musteriIdIleBul) tam = CustomerData.musteriIdIleBul(m.id);
+            if(!tam && m.ad) tam = CustomerData.musteriBul(m.ad);
+          }catch(e){}
+          if(!tam && bekle++ < 20){ setTimeout(bul, 150); return; }
+          var musteri = tam || m;
+          var panel = mcMiniSonucPaneliOlustur();
+          mcMiniAramaAktifInput = inp;
+          panel.hidden = false;
+          try{ inp.value = musteri.ad || ""; }catch(e){}
+          mcMusteriHizliPencereGoster(musteri, panel);
+        })();
+      });
+    })();
+  }catch(e){}
+}
+
+function mcPopoverGeriKontrol(){
+  try{
+    var m = null;
+    var st = window.history.state;
+    if(st && st.mcPopoverMusteri){
+      m = st.mcPopoverMusteri;
+      var yeni = Object.assign({}, st);
+      delete yeni.mcPopoverMusteri;
+      try{ window.history.replaceState(yeni, "", window.location.href); }catch(e){}
+    } else {
+      var p = /[?&]musteriKart=([^&#]+)/.exec(window.location.search || "");
+      if(p){
+        m = {id: decodeURIComponent(p[1]), ad: ""};
+        try{ window.history.replaceState(null, "", window.location.pathname); }catch(e){}
+      }
+    }
+    if(m) mcPopoverGeriAc(m);
+  }catch(e){}
+}
+
+// data-popover-geri: bu sayfayı bir yerden (müşteri popover'ı dahil) gelinen
+// herhangi bir akıştan açılmış sayfalarda Geri/Kapat, sabit adres yerine
+// "geldiğin yere dön" davranır. Aynı siteden gelinmemişse (doğrudan açılış)
+// düğmenin kendi href'i (yedek: home.html) çalışır.
+document.addEventListener("click", function(ev){
+  try{
+    var a = ev.target && ev.target.closest ? ev.target.closest("[data-popover-geri]") : null;
+    if(!a || ev.defaultPrevented) return;
+    var ref = document.referrer || "";
+    if(ref.indexOf(window.location.origin) === 0 && window.history.length > 1){
+      ev.preventDefault();
+      window.history.back();
+    }
+  }catch(e){}
+});
+
 function mcMusteriAksiyonuUygula(aksiyon){
   if(!mcMusteriAcikKisi) return;
+  // Popover geri açıldığında seçili müşteri başka bir akışta temizlenmiş
+  // olabilir (ör. işlem iptali) — hedef sayfalar seçili müşteriyi okuduğu
+  // için burada garanti altına alınıyor.
+  try{
+    var seciliMc = CustomerData.seciliyiOku();
+    if(!seciliMc || (mcMusteriAcikKisi.id && seciliMc.id !== mcMusteriAcikKisi.id)) CustomerData.sec(mcMusteriAcikKisi);
+  }catch(e){}
+  if(aksiyon !== "islemyap") mcPopoverDonusIsaretle(mcMusteriAcikKisi);
   switch(aksiyon){
     case "cari": window.location.href = "customer-cari-kart.html"; break;
     case "temas": window.location.href = "customer-temas.html"; break;
@@ -1006,6 +1108,7 @@ window.addEventListener("istakipAuthHazir", function(ev){
   mcDrawerListesiOlustur();
   mcAracKmDurumunuGetir();
   mcUrldenMenuAc();
+  mcPopoverGeriKontrol();
   try{
     var el = document.getElementById("asDrawerEposta");
     if(el && ev.detail && ev.detail.user) el.textContent = ev.detail.user.email;

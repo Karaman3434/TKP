@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.05.11.26-10:45.1479
+  cari-kart-render.js — TKP.08.11.26-09:20.1499
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -1009,6 +1009,12 @@ document.addEventListener("DOMContentLoaded", function(){
     // döner) HEM DE drawer'ın AÇILDIĞI HERHANGİ bir sayfayı (drawer 42
     // sayfanın hepsinde mevcut) doğru şekilde kapsar. Geçmiş yoksa (örn.
     // doğrudan URL ile girildiyse) HTML'deki sabit href yedek olarak kalır.
+    // GERİ (08.11.2026): eskiden sabit customer.html'e (müşteri listesi) gidiyordu;
+    // artık Kapat ile AYNI kuralı izler (geldiği yere / popover'a dön).
+    var cariGeriEl = document.querySelector(".ub-btn--geri");
+    if(cariGeriEl){
+      cariGeriEl.addEventListener("click", function(ev){ ev.preventDefault(); cariKapatBtnEl.click(); });
+    }
     cariKapatBtnEl.addEventListener("click", function(ev){
       localStorage.removeItem("weiconv2_islem_yap_akisi");
       localStorage.removeItem("weiconv2_sepetten_cari_acildi");

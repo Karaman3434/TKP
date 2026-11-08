@@ -1,5 +1,5 @@
 /*
-  cart-render.js — TKP.08.11.26-08:49.1498
+  cart-render.js — TKP.08.11.26-09:20.1499
   GÜNCELLEME (04.11.2026, Abdullah onayı): İşlem Geçmişi penceresi satırları —
   tarih tek satır + altında (Tip), sayılar altında küçük EURO/% (cart-style.css).
   (önceki: TKP.02.11.26-10:22.1368)
@@ -1132,7 +1132,7 @@ document.addEventListener("DOMContentLoaded", function(){
   // döner" kuralı. Bayrak yoksa (eski giriş noktaları) davranış DEĞİŞMEDİ.
   var cartDonusRotasi = null;
   try{ cartDonusRotasi = localStorage.getItem("weiconv2_musteri_donus_sayfa"); }catch(e){}
-  var geriLink = document.querySelector(".nav-btn--geri");
+  var geriLink = document.querySelector(".ub-btn--geri, .nav-btn--geri");
   if(geriLink){
     geriLink.addEventListener("click", function(ev){
       if(cartDonusRotasi === "customer.html"){

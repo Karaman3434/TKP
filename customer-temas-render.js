@@ -1,4 +1,5 @@
 /*
+  customer-temas-render.js — TKP.08.11.26-09:20.1499
   customer-temas-render.js
   ========================
   Seçili müşterinin Temas Geçmişi — "➕ Temas Gir" (tür seç: Ziyaret/
@@ -107,10 +108,10 @@ document.addEventListener("DOMContentLoaded", function(){
   // "Temas" kutucuğundan gelindiyse) davranış DEĞİŞMEDİ.
   try{
     if(localStorage.getItem("weiconv2_musteri_donus_sayfa") === "customer.html"){
-      var temasGeriEl = document.querySelector(".nav-btn--geri");
+      var temasGeriEl = document.querySelector(".ub-btn--geri, .nav-btn--geri");
       var temasKapatEl = document.getElementById("temasKapatBtn");
-      if(temasGeriEl) temasGeriEl.setAttribute("href", "customer.html");
-      if(temasKapatEl) temasKapatEl.setAttribute("href", "customer.html");
+      if(temasGeriEl){ temasGeriEl.setAttribute("href", "customer.html"); temasGeriEl.removeAttribute("data-popover-geri"); }
+      if(temasKapatEl){ temasKapatEl.setAttribute("href", "customer.html"); temasKapatEl.removeAttribute("data-popover-geri"); }
     }
   }catch(e){}
 

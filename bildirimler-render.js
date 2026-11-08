@@ -1,4 +1,5 @@
 /*
+  bildirimler-render.js — TKP.08.11.26-09:20.1499
   bildirimler-render.js
   ======================
   Eski uygulamanın bildirimListesiAc() ile BİREBİR aynı 3 bölüm:
@@ -193,7 +194,7 @@ function bildirimleriCiz(){
       kart.onclick = function(){
         var musteri = CustomerData.musteriBul(this.getAttribute("data-musteri"));
         if(musteri) CustomerData.sec(musteri);
-        window.location.href = "customer-detail.html";
+        window.location.href = "home.html?musteriKart=" + encodeURIComponent((musteri && musteri.id) || "");
       };
     });
     icerik.querySelectorAll(".gorev-tamamla-btn").forEach(function(btn){
@@ -208,7 +209,7 @@ function bildirimleriCiz(){
         var musteri = (id && CustomerData.musteriIdIleBul) ? CustomerData.musteriIdIleBul(id) : null;
         if(!musteri) musteri = CustomerData.musteriBul(this.getAttribute("data-musteri"));
         if(musteri) CustomerData.sec(musteri);
-        window.location.href = "customer-detail.html";
+        window.location.href = "home.html?musteriKart=" + encodeURIComponent((musteri && musteri.id) || "");
       };
     });
   }catch(e){ hataGoster("Bildirimler çizilemedi: " + e.message); }

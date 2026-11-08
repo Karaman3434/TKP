@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1280 — customer-detail.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-09:20.1499 — customer-detail.html -->
 <!--
   İŞ TAKİP — MÜŞTERİ KARTI / İŞLEMLER v4
   ==============================================
@@ -22,6 +22,22 @@
 <meta name="apple-mobile-web-app-title" content="İş Takip">
 <title>İş Takip — İşlemler</title>
 <script>document.documentElement.style.visibility='hidden';</script>
+<!-- ESKİ "İŞLEMLER" KARTI KALDIRILDI (08.11.2026, Abdullah'ın isteği): bu sayfa
+     artık bir kart/rota DEĞİL; yalnızca Fatura Takip / Görevlerim / Ürün Geçmişi
+     pencerelerinin barındırıcısı ("?ac=fatura|gorev|urun"). "?ac" yoksa yeni
+     Ana Sayfa > çekmece > müşteri işlem kartına (popover) yönlenir. -->
+<script>
+(function(){
+  try{
+    var ac = new URLSearchParams(window.location.search).get("ac");
+    if(ac !== "fatura" && ac !== "gorev" && ac !== "urun"){
+      var m = null;
+      try{ m = JSON.parse(localStorage.getItem("weicon_secili_musteri") || "null"); }catch(e){}
+      window.location.replace("home.html" + (m && m.id ? "?musteriKart=" + encodeURIComponent(m.id) : ""));
+    }
+  }catch(e){}
+})();
+</script>
 <link rel="stylesheet" href="tasarim-sistemi.css?v=TKP.05.11.26-13:08.1486">
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
@@ -44,7 +60,7 @@
 <div class="ub-bar">
   <div class="ub-grup">
     <button type="button" class="ub-btn ub-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="ub-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span></button>
-    <a class="ub-btn ub-btn--geri" href="customer.html" aria-label="Geri">‹</a>
+    <a class="ub-btn ub-btn--geri" href="home.html" data-popover-geri aria-label="Geri">‹</a>
     <button type="button" class="ub-btn ub-btn--bekle" id="btnUstBeklet" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
     <button type="button" class="ub-btn ub-btn--kapat" id="btnUstKapat" disabled aria-label="Kapat">✕</button>
   </div>
@@ -102,6 +118,9 @@
 
 <main class="sayfa">
 
+  <!-- Eski kart kutucukları GÖRÜNMEZ: yalnızca ?ac= ile ilgili pencereyi
+       açmak için tıklanıyorlar (detail-render.js). -->
+  <div id="islemlerGizliTetik" hidden>
   <div class="islemler-tile" id="tileTemas">
     <div class="islemler-tile-icerik">
       <div class="islemler-tile-baslik islemler-tile-baslik--mor">📍 Temas</div>
@@ -169,9 +188,7 @@
     </div>
   </div>
 
-  <div class="islemler-alt-buton-satir">
-    <a class="islemler-kapat-btn" href="customer.html">Kapat</a>
-  </div>
+  </div><!-- /islemlerGizliTetik -->
 
   <!-- ÜRÜN GEÇMİŞİ — önce ürün listesi, bir ürüne dokununca o ürünün
        tarih tarih liste fiyatı/iskonto/net fiyat tablosu. -->
@@ -235,8 +252,8 @@
 <script src="vade-takip-ui.js?v=WG.230926.0954.605"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
-<script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("customer-detail.html", "📋 İşlemler"); RotaTakip.ciz("rotaSeridi"); });</script>
-<script src="detail-render.js?v=WG.121026.1345.771"></script>
+<script>document.addEventListener("DOMContentLoaded", function(){ var acEt = new URLSearchParams(window.location.search).get("ac"); RotaTakip.kaydet("customer-detail.html", acEt === "fatura" ? "📄 Fatura Takip" : acEt === "gorev" ? "📋 Görevlerim" : acEt === "urun" ? "📦 Ürün Geçmişi" : "📋 İşlemler"); RotaTakip.ciz("rotaSeridi"); });</script>
+<script src="detail-render.js?v=TKP.08.11.26-09:20.1499"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
 <script>
   window.BEKLEYEN_ISLEM_AYAR = {
@@ -248,6 +265,6 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=TKP.05.11.26-21:16.1489"></script>
+<script src="menu-cekmece.js?v=TKP.08.11.26-09:20.1499"></script>
 </body>
 </html>

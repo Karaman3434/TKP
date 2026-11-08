@@ -1,3 +1,4 @@
+// takip-gerekenler-render.js — TKP.08.11.26-09:20.1499
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -91,7 +92,7 @@ function listeyiCiz(){
       satir.onclick = function(){
         CustomerData.sec(liste[i]);
         CustomerData.sonGoruntulendi(liste[i].ad);
-        window.location.href = "customer-detail.html";
+        window.location.href = "home.html?musteriKart=" + encodeURIComponent(liste[i].id || "");
       };
     });
   }catch(e){ hataGoster("Liste çizilemedi: " + e.message); }
