@@ -1,5 +1,5 @@
 /*
-  home-render.js — TKP.08.11.26-17:33.1509
+  home-render.js — TKP.08.11.26-23:57.1520
   ==============
   Bu dosyanın TEK görevi: IsTakipData'dan veriyi okuyup ekrana (DOM'a) yazmak.
   Hiçbir hesaplama yapmaz, hiçbir Firebase çağrısı içermez.
@@ -40,6 +40,24 @@ function tarihiGuncelle(){
   }catch(e){ hataGoster("Tarih güncellenemedi: " + e.message); }
 }
 
+// Kasım satışı: EURO rakamı %30 büyük (--eur-carpan: 1.3, bkz. home-anasayfa-style.css). TL ile yan yana
+// sığmazsa (dar ekran / çok haneli tutar) çarpan 1.0'a kadar kademeli düşürülür; satır taşmaz.
+function satisRakamlariniSigdir(){
+  try{
+    var eur = document.querySelector(".as-satis-tut--eur");
+    var satir = eur && eur.parentNode;
+    if(!satir) return;
+    var m = 1.3;
+    eur.style.setProperty("--eur-carpan", m);
+    while(satir.scrollWidth > satir.clientWidth + 1 && m > 1.0){
+      m = Math.round((m - 0.02) * 100) / 100;
+      eur.style.setProperty("--eur-carpan", m);
+    }
+  }catch(e){}
+}
+window.addEventListener("resize", function(){ satisRakamlariniSigdir(); });
+try{ if(document.fonts && document.fonts.ready) document.fonts.ready.then(satisRakamlariniSigdir); }catch(e){}
+
 function kartlariGuncelle(){
   try{
     var ay = IsTakipData.buAyinVerisi();
@@ -54,6 +72,7 @@ function kartlariGuncelle(){
     setText("anaSayfaBugunSatis", IsTakipData.fmt(bugun.toplamEuro) + " EURO");
     setText("anaSayfaBugunPrim", IsTakipData.fmt(bugun.toplamPrim) + " TL");
 
+    satisRakamlariniSigdir();
     hedefGostergesiniGuncelle(ay.toplamEuro);
     odenebilirKomisyonuGuncelle(ay);
 
