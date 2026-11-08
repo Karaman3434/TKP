@@ -1,4 +1,4 @@
-/* tasarim-sistemi.css — TKP.05.11.26-13:08.1486
+/* tasarim-sistemi.css — TKP.08.11.26-12:34.1504
    =====================================================================
    TABLO TASARIMI — TEK KONTROL NOKTASI (02.11.2026, Abdullah onayı)
    Programdaki tüm tabloların renk / çizgi / yazı boyu / iç boşluk değerleri
@@ -135,4 +135,25 @@
   --mc-td-font-weight: 500;
   --mc-td-font-size: 11px;
   --mc-ilk-border-right: 1px solid #e2e6ec;
+}
+
+/* =====================================================================
+   MÜŞTERİ VE İŞLEM (HAREKET) PANELLERİ — KIRMIZI ÇERÇEVE (08.11.2026,
+   Abdullah onayı — mockup üzerinden). TEK KONTROL NOKTASI: rengi/kalınlığı
+   değiştirmek için sadece bu iki değişkeni değiştir.
+   Kapsam: müşteri paneli (.musteri-serit — Sepet, Belge Önizleme, Gönder,
+   Cari Kart, Müşteri Detay…) ve işlem/hareket paneli (Sepet'te
+   .belge-belge-baslik-serit--mavi, Belge Önizleme'de .belge-musteri-baslik,
+   Gönder/Mail'de .belge-form-baslik). Arama kutularıyla aynı koyu kırmızı.
+   ===================================================================== */
+:root{
+  --panel-cerceve: #c4161f;
+  --panel-cerceve-kalinlik: 1.8px;
+}
+.musteri-serit,
+.belge-belge-baslik-serit--mavi,
+.belge-musteri-baslik,
+.belge-form-baslik {
+  border-color: var(--panel-cerceve) !important;
+  border-width: var(--panel-cerceve-kalinlik) !important;
 }

@@ -1,5 +1,5 @@
 /*
-  cart-render.js — TKP.08.11.26-09:20.1499
+  cart-render.js — TKP.08.11.26-12:34.1504
   GÜNCELLEME (04.11.2026, Abdullah onayı): İşlem Geçmişi penceresi satırları —
   tarih tek satır + altında (Tip), sayılar altında küçük EURO/% (cart-style.css).
   (önceki: TKP.02.11.26-10:22.1368)
@@ -83,7 +83,7 @@ function crIzinVarMi(anahtar){
 
 // KISALTMA — KESİN KURAL (19.10.2026, Abdullah onayı — "%20 büyüt" turu):
 // TIP_ETIKET_BELGE (belge-render.js) ile BİREBİR aynı kısaltmalar.
-var TIP_ETIKET_ROZET = {numune:"NUMUNE", teklif:"F. TEKLİFİ", proforma:"PROFORMA", siparis:"SİPARİŞ"};
+var TIP_ETIKET_ROZET = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
 var secilenTip = "siparis";
 var seciliAdresler = {};
 var revizeSecimBekleniyor = null;
@@ -219,7 +219,7 @@ function musterisizGonderSeridiHtml(tamamMi){
 // görünmüyordu (SADECE sipariş kayıtlarına bakıyordu) — bu artık
 // reports-data.js'te düzeltildi, bu popup da aynı düzeltilmiş veriyi
 // kullanıyor.
-var TIP_ETIKET_MUSTERI_GECMIS = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
+var TIP_ETIKET_MUSTERI_GECMIS = TipEtiket.kisa;
 // Müşteri şeridine dokununca geçmiş alımlar açılır (05.11.2026, Abdullah onayı);
 // şeridin içindeki Gönder ikonu bundan ETKİLENMEZ.
 function musteriSeridiGecmisBagla(){

@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.08.11.26-08:49.1498
+  belge-render.js — TKP.08.11.26-12:34.1504
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -56,8 +56,8 @@ function fmt(n){
 // KISALTMA — KESİN KURAL (19.10.2026, Abdullah onayı — "%20 büyüt" turu):
 // "FİYAT TEKLİFİ"->"F. TEKLİFİ", "PROFORMA FATURA"->"PROFORMA" — en uzun
 // etiket kısalınca kutuya %20 daha büyük harfle de kırpılmadan sığıyor.
-var TIP_ETIKET_BELGE = {numune:"NUMUNE", teklif:"F. TEKLİFİ", proforma:"PROFORMA", siparis:"SİPARİŞ"};
-var KOD_ONEK_BELGE = {numune:"NM", teklif:"FT", proforma:"PF", siparis:"SP"};
+var TIP_ETIKET_BELGE = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
+var KOD_ONEK_BELGE = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js) — eskiden SP/FT/PF/NM
 // HATA DÜZELTME (WG.090926.196): SP/FT/PF/NM standardından önce oluşan
 // eski belgelerin kodu hâlâ eski önekle (SİP./F.TEK./P.FAT./NUM.)
 // başlıyor — bu yüzden renk haritası her iki öneki de tanır.
@@ -93,7 +93,7 @@ var DURUM_ETIKET = {
   iptal: {ikon:"🚫", ad:"İPTAL EDİLDİ", renk:"#c0392b", bg:"#fdeceb"},
   iade: {ikon:"↩️", ad:"İADE EDİLDİ", renk:"#6a1b9a", bg:"#f3e5f5"},
   kacan: {ikon:"❌", ad:"KAÇAN SİPARİŞ", renk:"#c0392b", bg:"#fff4e5"},
-  beklemede: {ikon:"⏳", ad:"STOK BEKLİYOR", renk:"#5b3c1e", bg:"#e9d9c3"}
+  beklemede: {ikon:"⏳", ad:TipEtiket.kisa.stok, renk:"#5b3c1e", bg:"#e9d9c3"}
 };
 
 function tarihiGuncelle(){
@@ -289,7 +289,7 @@ function belgeyiCiz(kayit, musteri){
       + "<button type='button' class='ub-ayrinti-ikon' id='btnIslemlerAc' title='Ayrıntı' aria-label='Ayrıntı'>i</button>"
       + "</span>";
     var siparisPaneliHtml = "<div class='belge-musteri-baslik tip-" + (kayit.tip||"siparis") + "'>"
-      + "<div class='bmb-sol'><span class='bmb-tip'>" + (TIP_ETIKET_BELGE[kayit.tip]||"SİPARİŞ") + "</span>"
+      + "<div class='bmb-sol'><span class='bmb-tip'>" + (TIP_ETIKET_BELGE[kayit.tip]||TipEtiket.kisa.siparis) + "</span>"
       + (bmbAltMetin ? "<span class='bmb-alt'>" + bmbAltMetin + "</span>" : "")
       + (bmbKodMetin ? "<span class='bmb-kod'>" + bmbKodMetin + "</span>" : "")
       + "</div>" + ikonGrupHtml + "</div>";
@@ -542,10 +542,10 @@ function bhpPencereOlustur(){
   tipMenu.id = "bhpTipMenu";
   tipMenu.hidden = true;
   tipMenu.innerHTML = "<div class='cm-tipmenu-baslik'>Ne için ürün arıyorsun?</div>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--numune' data-tip='numune'><span class='cm-tipmenu-oge-ikon'>🧪</span><span>Numune</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--teklif' data-tip='teklif'><span class='cm-tipmenu-oge-ikon'>💬</span><span>Fiyat Teklifi</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--proforma' data-tip='proforma'><span class='cm-tipmenu-oge-ikon'>🧾</span><span>Proforma Fatura</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--siparis' data-tip='siparis'><span class='cm-tipmenu-oge-ikon'>📦</span><span>Sipariş</span></button>";
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--numune' data-tip='numune'><span class='cm-tipmenu-oge-ikon'>🧪</span><span data-tip-kisa='numune'>"+TipEtiket.kisa.numune+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--teklif' data-tip='teklif'><span class='cm-tipmenu-oge-ikon'>💬</span><span data-tip-kisa='teklif'>"+TipEtiket.kisa.teklif+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--proforma' data-tip='proforma'><span class='cm-tipmenu-oge-ikon'>🧾</span><span data-tip-kisa='proforma'>"+TipEtiket.kisa.proforma+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--siparis' data-tip='siparis'><span class='cm-tipmenu-oge-ikon'>📦</span><span data-tip-kisa='siparis'>"+TipEtiket.kisa.siparis+"</span></button>";
   document.body.appendChild(tipMenu);
 
   // ROTA DEĞİŞİKLİĞİ (27.10.2026, Abdullah onayı): tip seçilince artık
@@ -735,7 +735,7 @@ function bhpAc(musteri, ankorEl){
   }catch(e){ hataGoster("Hızlı pencere açılamadı: " + e.message); }
 }
 
-var TIP_ETIKET_UZUN = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma Fatura", siparis:"Sipariş"};
+var TIP_ETIKET_UZUN = TipEtiket.kisa; // 08.11.2026: artık kısa (tek kaynak). Belge Geçmişi satırında yanındaki rozet aynı kısaltmayı gösterdiği için ayrı etiket yazısı basılmıyor.
 var TIP_IKON_BELGE = {numune:"🧪", teklif:"📝", proforma:"🧾", siparis:"📦"};
 // RENK GÜNCELLEMESİ (12.10.2026, Abdullah onayı — kurumsal/yumuşatılmış
 // "Seçenek B" paleti, swatch fotoğraflarından örneklenip yumuşatıldı).
@@ -844,7 +844,7 @@ function belgeGecmisiniCiz(kayit){
       + (tiklanabilirMi ? (" data-tip='" + adim.tip + "' data-ts='" + adim.ts + "'") : "") + ">"
       + "<span class='belge-gecmis-tarih2' style='color:" + renk + ";'>" + htmlEsc(kisaTarihBelge(adim.tarih)) + "</span>"
       + "<span class='belge-gecmis-rozet2' style='background:" + rozetRenk.bg + ";color:" + rozetRenk.yazi + ";'>" + onek + "</span>"
-      + "<span class='belge-gecmis-baslik2' style='color:" + rozetRenk.yazi + ";'>" + (TIP_ETIKET_UZUN[adim.tip]||"") + "</span>"
+      + "<span class='belge-gecmis-baslik2' style='color:" + rozetRenk.yazi + ";'>" + "" + "</span>"
       + (aktifMi
           ? "<span class='belge-gecmis-suan2'>ŞU AN</span>"
           : "<span class='belge-gecmis-kod2' style='color:" + rozetRenk.yazi + ";'>" + htmlEsc(adim.kod||"") + "</span>")
@@ -1352,7 +1352,7 @@ document.addEventListener("DOMContentLoaded", function(){
   // sıraya göre, kronolojik (Numune→Teklif→Proforma→Sipariş) listelenir.
   // "Tekrarla" seçeneği KALDIRILDI (18.10.2026, Abdullah'ın isteğiyle) —
   // popup artık SADECE gerçek sonraki-aşama seçeneklerini gösteriyor.
-  var TIP_ETIKET_ILERLET = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma", siparis:"Sipariş"};
+  var TIP_ETIKET_ILERLET = TipEtiket.kisa;
   var TIP_IKON_ILERLET = {numune:"🧪", teklif:"📄", proforma:"🧾", siparis:"📦"};
   // (05.11.2026, Abdullah onayı — mockup üzerinden) İlerlet artık "Devam Et"/
   // "Kapat" tuşlu pencere DEĞİL: "i" tuşunun altında küçük açılır liste; bir

@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: TKP.06.11.26-10:17.1495
+  ziyaret-render.js — VERSİYON: TKP.08.11.26-12:34.1504
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -261,7 +261,7 @@ function temasPaneliniDoldur(anahtar){
   }catch(e){ hataGoster("Temas paneli açılamadı: " + e.message); }
 }
 
-var ISLEM_TUR_ETIKET = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
+var ISLEM_TUR_ETIKET = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
 
 // Bugünkü işlemler tablosu (15.09.2026) — seçili gündeki sipariş/teklif/
 // proforma/numune kayıtlarını tarih/işlem no/tür olarak listeler. Temas/

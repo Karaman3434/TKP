@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.08.11.26-09:20.1499
+// menu-cekmece.js — TKP.08.11.26-12:34.1504
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -143,7 +143,7 @@ var DRAWER_ALT_MENULERI = {
       {ikon:"📌", etiket:"Görevlerim", href:"gorevler.html"},
       {ikon:"⚠️", etiket:"Takip Gerekenler", href:"takip-gerekenler.html"},
       {ikon:"❌", etiket:"Kaçan Satışlar", href:"kacan-satislar.html"},
-      {ikon:"📦", etiket:"Stok Bekleyen ve Bakiye Bekleyen", href:"bakiye-urunler.html"}
+      {ikon:"📦", etiket: TipEtiket.kisa.stok + " ve " + TipEtiket.kisa.bakiye, href:"bakiye-urunler.html"}
     ]
   },
   musteri: {
@@ -437,10 +437,10 @@ function mcUrunSonuclariniCiz(q, panel){
 // şekilde nötr gösterilir; bu özellik için reports-data.js'i TÜM 42
 // sayfaya ekstra yüklemek kapsam dışı tutuldu. ----
 var MC_MUSTERI_TIP_ROZET = {
-  numune:   {kisa:"NM", bg:"#FFF0D9", fg:"#b7601f"},
-  teklif:   {kisa:"FT", bg:"#DDF5E9", fg:"#0e6b34"},
-  proforma: {kisa:"PF", bg:"#f3e8fb", fg:"#6a1b9a"},
-  siparis:  {kisa:"SP", bg:"#DCEEFF", fg:"#0c447c"}
+  numune:   {kisa:TipEtiket.kisa.numune, bg:"#FFF0D9", fg:"#b7601f"},
+  teklif:   {kisa:TipEtiket.kisa.teklif, bg:"#DDF5E9", fg:"#0e6b34"},
+  proforma: {kisa:TipEtiket.kisa.proforma, bg:"#f3e8fb", fg:"#6a1b9a"},
+  siparis:  {kisa:TipEtiket.kisa.siparis, bg:"#DCEEFF", fg:"#0c447c"}
 };
 function mcMusteriSonIslemBilgisi(m){
   try{
@@ -596,10 +596,10 @@ function mcMusteriTipMenuOlustur(){
   tipMenu.id = "mcMusteriTipMenu";
   tipMenu.hidden = true;
   tipMenu.innerHTML = "<div class='cm-tipmenu-baslik'>Ne için ürün arıyorsun?</div>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--numune' data-tip='numune'><span class='cm-tipmenu-oge-ikon'>🧪</span><span>Numune</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--teklif' data-tip='teklif'><span class='cm-tipmenu-oge-ikon'>💬</span><span>Fiyat Teklifi</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--proforma' data-tip='proforma'><span class='cm-tipmenu-oge-ikon'>🧾</span><span>Proforma Fatura</span></button>"
-    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--siparis' data-tip='siparis'><span class='cm-tipmenu-oge-ikon'>📦</span><span>Sipariş</span></button>";
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--numune' data-tip='numune'><span class='cm-tipmenu-oge-ikon'>🧪</span><span>"+TipEtiket.kisa.numune+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--teklif' data-tip='teklif'><span class='cm-tipmenu-oge-ikon'>💬</span><span>"+TipEtiket.kisa.teklif+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--proforma' data-tip='proforma'><span class='cm-tipmenu-oge-ikon'>🧾</span><span>"+TipEtiket.kisa.proforma+"</span></button>"
+    + "<button type='button' class='cm-tipmenu-oge cm-tipmenu-oge--siparis' data-tip='siparis'><span class='cm-tipmenu-oge-ikon'>📦</span><span>"+TipEtiket.kisa.siparis+"</span></button>";
   var ustKap = document.getElementById("asDrawerOverlay") || document.body;
   ustKap.appendChild(tipMenu);
 

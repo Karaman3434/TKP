@@ -1,5 +1,5 @@
 /*
-  islem-liste.js — TKP.04.11.26-08:30.1462
+  islem-liste.js — TKP.08.11.26-12:34.1504
   ==========================================================================
   ORTAK İŞLEM LİSTESİ (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır
   filtre" turu; mockup: Son İşlemler satır tasarımı + arama kutusu yanında
@@ -46,17 +46,17 @@ var IslemListesi = (function(){
 
   // ---- Satır görünümü (Son İşlemler tasarımı — standart) ----------------
   var TIP_META = {
-    siparis:  {rozet:"SP",    rozetBg:"#a8c5e1", rozetRenk:"#0c447c", serit:"#185fa5"},
-    teklif:   {rozet:"FT",    rozetBg:"#aadebb", rozetRenk:"#0c5b4b", serit:"#28a745"},
-    proforma: {rozet:"PF",    rozetBg:"#f8bf92", rozetRenk:"#7e3a06", serit:"#e8690a"},
-    numune:   {rozet:"NM",    rozetBg:"#eba7c0", rozetRenk:"#790e3d", serit:"#c2185b"}
+    siparis:  {rozet:TipEtiket.kisa.siparis,    rozetBg:"#a8c5e1", rozetRenk:"#0c447c", serit:"#185fa5"},
+    teklif:   {rozet:TipEtiket.kisa.teklif,    rozetBg:"#aadebb", rozetRenk:"#0c5b4b", serit:"#28a745"},
+    proforma: {rozet:TipEtiket.kisa.proforma,    rozetBg:"#f8bf92", rozetRenk:"#7e3a06", serit:"#e8690a"},
+    numune:   {rozet:TipEtiket.kisa.numune,    rozetBg:"#eba7c0", rozetRenk:"#790e3d", serit:"#c2185b"}
   };
   var RVZ_META = {rozet:"RVZ", rozetBg:"#e6c3a2", rozetRenk:"#714309", serit:"#b7601f"};
   var KACAN_META = {rozet:"KAÇTI", rozetBg:"#fdecea", rozetRenk:"#a32d2d", serit:"#c0392b"};
   var KANAL_HARF = {mail:"M", whatsapp:"W"};
   var KANAL_RENK = {mail:"#185fa5", whatsapp:"#128C7E"};
   var GUNLER = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-  var TIP_ETIKET = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
+  var TIP_ETIKET = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
   var TARIH_ETIKET = {bugun:"Bugün", bu_hafta:"Bu Hafta", bu_ay:"Bu Ay", bu_yil:"Bu Yıl", ozel:"Özel Aralık"};
 
   // ---- Hazır tuşlar = hazır filtre ayarları ------------------------------
@@ -103,8 +103,8 @@ var IslemListesi = (function(){
     return "<span class='sr-kanal-harf' style='color:" + KANAL_RENK[kanal] + ";'>" + KANAL_HARF[kanal] + "</span>";
   }
   function tutarHucreHTML(k){
-    if(k._beklemede) return "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Stok Bekliyor</span>";
-    if(k._bakiye) return "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 BAKİYE</span>";
+    if(k._beklemede) return "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ " + TipEtiket.kisa.stok + "</span>";
+    if(k._bakiye) return "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 " + TipEtiket.kisa.bakiye + "</span>";
     // "İşlem tutarı bulunmayan satırlara tutar uydurma." (referans talimatı)
     return k._tutar > 0 ? fmt(k._tutar) + " €" : "<span class='sr-tutar-yok'>—</span>";
   }
@@ -294,7 +294,7 @@ var IslemListesi = (function(){
       var etkinDurum = taban.durum || durum.durum;
       if(etkinTip) parcalar.push(TIP_ETIKET[etkinTip]);
       if(etkinDurum === "kacan") parcalar.push("Kaçanlar");
-      if(etkinDurum === "bekleyen") parcalar.push("Stok ve Bakiye Bekleyen");
+      if(etkinDurum === "bekleyen") parcalar.push(TipEtiket.kisa.stok + " ve " + TipEtiket.kisa.bakiye);
       if(taban.tarihBas == null && !taban.ayAd && tarihSecimi() !== "tumu") parcalar.push(TARIH_ETIKET[tarihSecimi()] || "");
       if(durum.kanal) parcalar.push(durum.kanal === "yok" ? "Kanal yok" : (durum.kanal === "mail" ? "Mail" : "WhatsApp"));
       return parcalar.length ? parcalar.join(" · ") : "Tüm işlemler";
@@ -339,7 +339,7 @@ var IslemListesi = (function(){
           + "<button type='button' class='il-c" + (durum.siralama === "eski" ? " il-c--on" : "") + "' data-act='sira' data-v='eski'>Eski → Yeni</button></div>";
       }
       if(opts.beklemedeToggle){
-        h += "<label class='il-secenek'><input type='checkbox' data-act='bekleme'" + (durum.beklemedeDahil ? " checked" : "") + "><span>⏳ Stok Bekleyen siparişleri dahil et</span></label>";
+        h += "<label class='il-secenek'><input type='checkbox' data-act='bekleme'" + (durum.beklemedeDahil ? " checked" : "") + "><span>⏳ "+TipEtiket.kisa.stok+" siparişleri dahil et</span></label>";
       }
       h += "<button type='button' class='il-goster' data-act='kapat'>" + o.eslesen + " kaydı göster</button>";
       panelEl.innerHTML = h;

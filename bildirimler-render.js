@@ -1,5 +1,5 @@
 /*
-  bildirimler-render.js — TKP.08.11.26-09:20.1499
+  bildirimler-render.js — TKP.08.11.26-12:34.1504
   bildirimler-render.js
   ======================
   Eski uygulamanın bildirimListesiAc() ile BİREBİR aynı 3 bölüm:
@@ -31,7 +31,7 @@ function htmlEsc(s){
   return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 
-var TIP_ETIKET_B = {teklif:"FİYAT TEKLİFİ", proforma:"PROFORMA", numune:"NUMUNE"};
+var TIP_ETIKET_B = TipEtiket.kisa;
 var SEVIYE_ETIKET = {ilk:"⏳ 15+ gün", ikinci:"⚠️ 30+ gün", kritik:"🔴 33+ gün — İNCELE"};
 var SEVIYE_RENK = {ilk:"#f2994a", ikinci:"#e0524a", kritik:"#c0392b"};
 var TIP_KOD_RENK = {siparis:"#003a70", teklif:"#1a7431", proforma:"#5c1680", numune:"#7a4008"};
@@ -50,7 +50,7 @@ function cariSatirHTML(kod, isim, sehir){
     + "<span class='cari-isim'>" + htmlEsc(isim||"") + "</span>"
     + (sehir ? "<span class='cari-ayrac'> - </span><span class='cari-sehir'>" + htmlEsc(sehir) + "</span>" : "");
 }
-var TIP_ETIKET_B = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
+var TIP_ETIKET_B = TipEtiket.kisa;
 
 function ilerletTiklandi(b){
   try{
@@ -87,7 +87,7 @@ function bildirimleriCiz(){
     var html = "";
 
     if(beklemedeListe.length > 0){
-      html += "<div class='bildirim-bolum-baslik'>⏳ Stok Bekleyen Siparişler</div>";
+      html += "<div class='bildirim-bolum-baslik'>⏳ B.STK Siparişler</div>";
       beklemedeListe.forEach(function(b){
         html += "<div class='beklemede-hatirlat-karti' data-ts='" + b.ts + "'>"
           + "<div class='acik-surec-ust'>"
@@ -95,7 +95,7 @@ function bildirimleriCiz(){
           + "<div class='acik-surec-seviye' style='color:#854f0b;'>" + b.gun + " gündür</div>"
           + "</div>"
           + "<div class='acik-surec-detay'>"
-          + "<span style='font-weight:800;color:#003a70;'>" + kanalHarfHTML(b.kanal) + htmlEsc(b.kod||"Sipariş") + "</span>"
+          + "<span style='font-weight:800;color:#003a70;'>" + kanalHarfHTML(b.kanal) + htmlEsc(b.kod||TipEtiket.kisa.siparis) + "</span>"
           + " · <b>" + fmt(b.tutar) + " EURO</b> stok bekliyor</div>"
           + (b.beklemedeNot ? "<div class='beklemede-hatirlat-not'>" + htmlEsc(b.beklemedeNot) + "</div>" : "")
           + "</div>";

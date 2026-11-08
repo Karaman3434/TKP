@@ -1,5 +1,5 @@
 /*
-  hesapla-popup.js — TKP.08.11.26-12:01.1503
+  hesapla-popup.js — TKP.08.11.26-12:34.1504
   =======================================
   GÜNCELLENDİ (02.11.2026, Abdullah onayı — mockup onaylandı: "Ok tmm
   kodlayalım"): cart.html'de alttaki "Kapat" ve "SEPETE EKLE" butonları
@@ -47,7 +47,7 @@ var HesaplaPopup = (function(){
   // DÜZELTME (12.10.2026) — geçmiş alım ipucu artık sipariş dışında teklif/
   // proforma/numune de gösterebildiği için, hangi tür olduğunu kısaca
   // belirtmek için (TIP_ETIKET_BELGE ile aynı sözcükler, kısaltılmış).
-  var TIP_ETIKET_KISA = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
+  var TIP_ETIKET_KISA = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
 
   var seciliUrunBilgi = null;   // {ad, berta, abas, fiyat(=listeFiyat)}
   var duzenlenenIdx = null;     // null = yeni ürün, dolu = sepetteki idx düzenleniyor

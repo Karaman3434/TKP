@@ -1,5 +1,5 @@
 /*
-  customer-render.js — TKP.02.11.26-10:48.1386
+  customer-render.js — TKP.08.11.26-12:34.1504
   GÜNCELLEME (27.10.2026, Abdullah onayı — ana sayfa mini arama özelliği):
   "?musteriAc=<id-veya-ad>" parametresiyle buraya gelinirse, ilgili müşteri
   bulunup GERÇEK hızlı pencere (hizliPencereyiAc) otomatik açılır — bkz.
@@ -153,10 +153,10 @@ function sonIslemBilgisi(m){
 // TABLO TASARIMI (13.10.2026) — rozet renkleri referans paletiyle (sp mavi,
 // ft yeşil, pf mor, nm turuncu) ve uygulamanın kendi tutarlı renk kuralıyla.
 var MUSTERI_TIP_ROZET = {
-  numune:   {kisa:"NM", bg:"#FFF0D9", fg:"#b7601f"},
-  teklif:   {kisa:"FT", bg:"#DDF5E9", fg:"#0e6b34"},
-  proforma: {kisa:"PF", bg:"#f3e8fb", fg:"#6a1b9a"},
-  siparis:  {kisa:"SP", bg:"#DCEEFF", fg:"#0c447c"}
+  numune:   {kisa:TipEtiket.kisa.numune, bg:"#FFF0D9", fg:"#b7601f"},
+  teklif:   {kisa:TipEtiket.kisa.teklif, bg:"#DDF5E9", fg:"#0e6b34"},
+  proforma: {kisa:TipEtiket.kisa.proforma, bg:"#f3e8fb", fg:"#6a1b9a"},
+  siparis:  {kisa:TipEtiket.kisa.siparis, bg:"#DCEEFF", fg:"#0c447c"}
 };
 
 // Satırın solundaki renkli şerit + tür rozeti — işlem türüne göre ANLAMLI

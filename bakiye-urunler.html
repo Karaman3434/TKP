@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.01.11.26-16:07.1274 — bakiye-urunler.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-12:34.1504 — bakiye-urunler.html -->
 <!-- GÜNCELLEME (26.10.2026, Abdullah onayı) — başlık/sekme adı "Bakiyedeki
      Ürünler" → "Bakiye ve Bekleyen Ürünler" (bkz. menu-cekmece.js'teki aynı
      değişiklik). AYRICA (aynı gün, mockup onaylı — "Evet, bu tasarımı
@@ -21,9 +21,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="İş Takip">
-<title>İş Takip — Stok Bekleyen ve Bakiye Bekleyen</title>
+<title>İş Takip — B.STK ve B.BAK</title>
 <script>document.documentElement.style.visibility='hidden';</script>
-<link rel="stylesheet" href="tasarim-sistemi.css?v=TKP.05.11.26-13:08.1486">
+<link rel="stylesheet" href="tasarim-sistemi.css?v=TKP.08.11.26-12:34.1504">
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
@@ -47,7 +47,7 @@
     <button type="button" class="ub-btn ub-btn--bekle" id="btnUstBeklet" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
     <button type="button" class="ub-btn ub-btn--kapat" id="btnUstKapat" data-kapat-hedef="home.html" disabled aria-label="Kapat">✕</button>
   </div>
-  <div class="ub-sayfa-etiket"><span>Stok Bekleyen ve Bakiye Bekleyen</span></div>
+  <div class="ub-sayfa-etiket"><span><span data-tip-kisa="stok">B.STK</span> ve <span data-tip-kisa="bakiye">B.BAK</span></span></div>
 </div>
 </div>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
@@ -102,8 +102,8 @@
        Geçmiş ekranındaki .gecmis-filtre-cip ile AYNI görünüm. -->
   <div class="gecmis-filtre-satiri" id="buFiltreSatiri" style="padding:8px 0 4px;">
     <button class="gecmis-filtre-cip gecmis-filtre-cip--aktif" data-f="">Tümü</button>
-    <button class="gecmis-filtre-cip" data-f="stok" style="--cip-renk:#a9743b;">⏳ Stok Bekleyen</button>
-    <button class="gecmis-filtre-cip" data-f="bakiye" style="--cip-renk:#b7601f;">📦 Bakiye Bekleyen</button>
+    <button class="gecmis-filtre-cip" data-f="stok" style="--cip-renk:#a9743b;">⏳ <span data-tip-kisa="stok">B.STK</span></button>
+    <button class="gecmis-filtre-cip" data-f="bakiye" style="--cip-renk:#b7601f;">📦 <span data-tip-kisa="bakiye">B.BAK</span></button>
   </div>
   <div class="liste-filtre-satiri">
     <div id="tarihFiltreYeri"></div>
@@ -119,6 +119,7 @@
 
 </main>
 
+<script src="tip-etiketleri.js?v=TKP.08.11.26-12:34.1504"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -133,10 +134,10 @@
 <script src="reports-safety-fix.js?v=WG.020926.1523.89"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="tarih-filtre.js?v=TKP.02.11.26-13:55.1395"></script>
-<script src="bakiye-urunler-render.js?v=TKP.08.11.26-09:20.1499"></script>
+<script src="bakiye-urunler-render.js?v=TKP.08.11.26-12:34.1504"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=TKP.08.11.26-09:20.1499"></script>
+<script src="menu-cekmece.js?v=TKP.08.11.26-12:34.1504"></script>
 </body>
 </html>

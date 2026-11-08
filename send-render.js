@@ -1,5 +1,5 @@
 /*
-  send-render.js — TKP.04.11.26-15:00.1469
+  send-render.js — TKP.08.11.26-12:34.1504
   GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim artık Gönder tuşunun altında açılan
   tek sıra liste (iletisimPaneliKonumla/iletisimAcilirAc/Kapat, altKutuKonumla).
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
@@ -112,7 +112,7 @@ function mesajMetniOlustur(musteri, sepet, tip, kanal){
 // kelimeler (tek kelime haznesi, iki yerde farklı yazı YOK).
 // KISALTMA — KESİN KURAL (19.10.2026, Abdullah onayı — "%20 büyüt" turu):
 // TIP_ETIKET_BELGE (belge-render.js) ile BİREBİR aynı kısaltmalar.
-var FORM_BASLIK = {numune:"NUMUNE", teklif:"F. TEKLİFİ", proforma:"PROFORMA", siparis:"SİPARİŞ"};
+var FORM_BASLIK = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
 // TÜRE ÖZEL RENK (12.10.2026, Abdullah onayı): "tip-<tip>" sınıfı eklendi —
 // gerçek renk belge-style.css'teki .belge-form-baslik.tip-* kurallarından
 // geliyor, bu şerit artık belgenin tek renkli göstergesi.
@@ -126,7 +126,7 @@ var FORM_BASLIK = {numune:"NUMUNE", teklif:"F. TEKLİFİ", proforma:"PROFORMA", 
 // önizlemesinde gerçek işlem kodu, giden görselde sadece tarih; bkz.
 // çağıran fonksiyonlar).
 function formBaslikHtml(tip, tarihMetni, kodMetni){
-  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span class='belge-form-baslik-etiket'>" + (FORM_BASLIK[tip]||"SİPARİŞ") + "</span>"
+  return "<div class='belge-form-baslik tip-" + (tip||"siparis") + "'><span class='belge-form-baslik-etiket'>" + (FORM_BASLIK[tip]||TipEtiket.kisa.siparis) + "</span>"
     + (tarihMetni ? "<span class='belge-form-baslik-tarih'>" + htmlEsc(tarihMetni) + "</span>" : "")
     + (kodMetni ? "<span class='belge-form-baslik-kod'>" + htmlEsc(kodMetni) + "</span>" : "")
     + "</div>";
@@ -298,7 +298,7 @@ function kisiAlanlariniDoldur(kisi){
 }
 
 
-var TIP_ETIKET_BELGE_G = {numune:"NUMUNE", teklif:"F. TEKLİFİ", proforma:"PROFORMA", siparis:"SİPARİŞ"};
+var TIP_ETIKET_BELGE_G = TipEtiket.kisa;
 
 function fmtG2(n){
   return (n||0).toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2});

@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.08.11.26-09:20.1499
+  cari-kart-render.js — TKP.08.11.26-12:34.1504
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -32,7 +32,7 @@ function hataGoster(mesaj){
 
 // Açık Teklif Uyarısı (22.09.2026) için küçük yardımcılar.
 function fmt(n){ return (n||0).toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2}); }
-var TIP_ETIKET_B = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma Fatura", siparis:"Sipariş"};
+var TIP_ETIKET_B = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
 
 // EKLENDİ (27.10.2026, Abdullah onayı, mockup üzerinden onaylandı — "pat
 // tablomuz açılsın" turu): "açık belge" uyarısındaki kod/tarih/tutar
@@ -918,7 +918,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     function acikBelgeUyariGoster(acikBelge){
-      var etiket = TIP_ETIKET_B ? TIP_ETIKET_B[acikBelge.tip] : acikBelge.tip;
+      var etiket = TipEtiket.uzun[acikBelge.tip] || acikBelge.tip; // cümle içinde tam ad
       document.getElementById("acikBelgeUyariMetin").textContent =
         musteriVerisi.ad + " için, henüz siparişe dönüşmemiş bir " + (etiket||acikBelge.tip) + " bulundu:";
       document.getElementById("acikBelgeUyariKayitMetin").textContent =

@@ -1,5 +1,5 @@
 /*
-  gecmis-render.js — TKP.08.11.26-09:20.1499
+  gecmis-render.js — TKP.08.11.26-12:34.1504
   ================
   Müşteriye özel İşlem Geçmişi sayfası. ReportsData.sonIslemler() zaten
   en yeniden en eskiye sıralı geliyor (bkz. reports-data.js); burada
@@ -58,10 +58,10 @@ function ayniMusteriKaydiMi(kayitMusteriAdi, kayitMusteriId, seciliAd, seciliId)
 // son-islemler-render.js, satis-listesi-render.js ve
 // kacan-satislar-render.js'de birebir aynı tutulmalı.
 var TIP_META = {
-  siparis:  {rozet:"SP",    rozetBg:"#e6f1fb", rozetRenk:"#0c447c", serit:"#185fa5", kodRenk:"#003a70"},
-  teklif:   {rozet:"FT",    rozetBg:"#e1f5ee", rozetRenk:"#0e6b58", serit:"#28a745", kodRenk:"#1a7431"},
-  proforma: {rozet:"PF",    rozetBg:"#ffe4cc", rozetRenk:"#b45309", serit:"#e8690a", kodRenk:"#8a4306"},
-  numune:   {rozet:"NM",    rozetBg:"#fce4ec", rozetRenk:"#ad1457", serit:"#c2185b", kodRenk:"#8e0e45"}
+  siparis:  {rozet:TipEtiket.kisa.siparis,    rozetBg:"#e6f1fb", rozetRenk:"#0c447c", serit:"#185fa5", kodRenk:"#003a70"},
+  teklif:   {rozet:TipEtiket.kisa.teklif,    rozetBg:"#e1f5ee", rozetRenk:"#0e6b58", serit:"#28a745", kodRenk:"#1a7431"},
+  proforma: {rozet:TipEtiket.kisa.proforma,    rozetBg:"#ffe4cc", rozetRenk:"#b45309", serit:"#e8690a", kodRenk:"#8a4306"},
+  numune:   {rozet:TipEtiket.kisa.numune,    rozetBg:"#fce4ec", rozetRenk:"#ad1457", serit:"#c2185b", kodRenk:"#8e0e45"}
 };
 var RVZ_META = {rozet:"RVZ", rozetBg:"#faeeda", rozetRenk:"#854f0b", serit:"#b7601f"};
 var KACAN_META = {rozet:"KAÇTI", rozetBg:"#fdecea", rozetRenk:"#a32d2d", serit:"#c0392b"};
@@ -107,8 +107,8 @@ function tlKartHTML(k){
   var kod = k.kod || meta.rozet;
   var beklemedeMi = k.durum === "beklemede";
   var tutarHucre = beklemedeMi
-    ? "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ Stok Bekliyor</span>"
-    : (bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 BAKİYE</span>" : fmt(k._tutar) + " €");
+    ? "<span class='sr-durum-ek sr-durum-ek--beklemede'>⏳ " + TipEtiket.kisa.stok + "</span>"
+    : (bakiyeKayitVarMi(k) ? "<span class='sr-durum-ek sr-durum-ek--bakiye'>📦 " + TipEtiket.kisa.bakiye + "</span>" : fmt(k._tutar) + " €");
   return "<div class='sr-satir sr-satir--tekmusteri" + (beklemedeMi ? " sr-satir--beklemede" : "") + "' data-i='" + k._i + "' style='border-left-color:" + rozetMeta.serit + ";'>"
     + "<span class='sr-rozet-h' style='background:" + rozetMeta.rozetBg + ";color:" + rozetMeta.rozetRenk + ";'>" + rozetMeta.rozet + "</span>"
     + "<div class='sr-belge-h'>" + kanalHarfHTML(k.kanal) + kodHTML(kod, k.tip) + (kacanMi && k.kacanRakip ? "<span class='sr-rakip'> · Rakip: " + htmlEsc(k.kacanRakip) + "</span>" : "") + "</div>"

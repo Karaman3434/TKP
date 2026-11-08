@@ -1,5 +1,5 @@
 /*
-  detail-render.js — TKP.08.11.26-09:20.1499
+  detail-render.js — TKP.08.11.26-12:34.1504
   ================
   Seçili müşterinin bilgilerini, sipariş geçmişini (ReportsData.sonIslemler
   üzerinden filtrelenmiş) ve ziyaret geçmişini gösterir.
@@ -30,7 +30,7 @@ function htmlEsc(s){
   return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 
-var TIP_ETIKET = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
+var TIP_ETIKET = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
 
 function fmtG(n){
   return (n||0).toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2});

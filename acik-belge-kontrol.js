@@ -1,5 +1,5 @@
 /*
-  acik-belge-kontrol.js — TKP.05.11.26-12:12.1483 (YENİ DOSYA, 27.10.2026)
+  acik-belge-kontrol.js — TKP.08.11.26-12:34.1504 (YENİ DOSYA, 27.10.2026)
   ============================================================
   ROTA DEĞİŞİKLİĞİ (Abdullah onayı): "İşlem Yap" → tip seç akışı artık
   Cari Kart'a UĞRAMADAN direkt cart.html'e (Ürün Bul/Sepet) gidiyor. Bu
@@ -80,7 +80,8 @@ var AcikBelgeKontrol = (function(){
   }
 
   function fmt(n){ return (n||0).toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2}); }
-  var TIP_ETIKET_B_ABK = {numune:"Numune", teklif:"Fiyat Teklifi", proforma:"Proforma Fatura", siparis:"Sipariş"};
+  // 08.11.2026: kısaltmalar tek kaynaktan (tip-etiketleri.js). Tablo etiketi kısa; cümle içinde tam ad.
+  var TIP_ETIKET_B_ABK = TipEtiket.kisa;
 
   // cari-kart-render.js'teki belgeSatirDegerHesaplaCK/belgeHesaplaAdaptoruCK
   // ile BİREBİR aynı mantık — kodun kendisi (küçük hesap fonksiyonları)
@@ -159,7 +160,7 @@ var AcikBelgeKontrol = (function(){
 
   function uyariGoster(musteri, acikBelge, devamEt){
     overlayOlustur();
-    var etiket = TIP_ETIKET_B_ABK[acikBelge.tip];
+    var etiket = TipEtiket.uzun[acikBelge.tip]; // cümle içinde tam ad
     document.getElementById("abkMetin").textContent =
       musteri.ad + " için, henüz siparişe dönüşmemiş bir " + (etiket||acikBelge.tip) + " bulundu:";
     document.getElementById("abkKayitMetin").textContent =

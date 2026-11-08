@@ -158,7 +158,7 @@ var IsTakipData = (function(){
 
   // (05.11.2026) Temas penceresindeki "İŞLEMLER" satırları: seçili günün numune/teklif/proforma/sipariş kayıtları.
   function gunIslemleri(anahtar){
-    var TIP_AD = {numune:"Numune", teklif:"Teklif", proforma:"Proforma", siparis:"Sipariş"};
+    var TIP_AD = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
     var sonuc = [];
     ["numune","teklif","proforma","siparis"].forEach(function(tip){
       (arsivHamData[tip] || []).forEach(function(k){

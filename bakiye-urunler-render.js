@@ -1,5 +1,5 @@
 /*
-  bakiye-urunler-render.js — TKP.08.11.26-09:20.1499
+  bakiye-urunler-render.js — TKP.08.11.26-12:34.1504
   GÜNCELLEME (05.11.2026, Abdullah onayı): Ekran artık "Stok Bekleyen ve Bakiye
   Bekleyen" — çipler (Tümü / ⏳ Stok Bekleyen / 📦 Bakiye Bekleyen), sipariş
   seviyesinde "Stok Bekliyor" kayıtları (ReportsData.stokBekleyenSiparisler)
@@ -78,7 +78,7 @@ function kodHTML(kod, tip){
 
 // BEKLEYEN EK SATIRI (08.11.2026, Abdullah onayı): termin tarihi ("tarihi geçti"
 // uyarısıyla) ve "teklif/proforma verildi" izi — ikisi de yoksa ek satır çıkmaz.
-var BU_TIP_AD = {teklif:"Fiyat Teklifi", proforma:"Proforma", siparis:"Sipariş", numune:"Numune"};
+var BU_TIP_AD = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
 function ekSatirHTML(termin, ilerleme){
   var parcalar = [], uyari = false;
   var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(termin||"");
@@ -220,7 +220,7 @@ function listeyiCiz(){
     var gorunen = (gosterStok ? stokListe : []).concat(gosterBakiye ? bakiyeListe : []);
 
     if(!gorunen.length){
-      var ne = aktifTurFiltre === "stok" ? "stok bekleyen sipariş" : aktifTurFiltre === "bakiye" ? "bakiye bekleyen ürün" : "stok veya bakiye bekleyen kayıt";
+      var ne = aktifTurFiltre === "stok" ? TipEtiket.kisa.stok + " sipariş" : aktifTurFiltre === "bakiye" ? TipEtiket.kisa.bakiye + " ürün" : TipEtiket.kisa.stok + " veya " + TipEtiket.kisa.bakiye + " kayıt";
       govde.innerHTML = "<p class='bos-mesaj' style='margin:10px 12px;'>" + (musteriFiltre
         ? (htmlEsc(musteriFiltre.ad) + " için " + ne + " yok.")
         : (ne.charAt(0).toLocaleUpperCase("tr-TR") + ne.slice(1) + " yok.")) + "</p>";
@@ -235,8 +235,8 @@ function listeyiCiz(){
     // Boş bölüm, "Tümü" görünümünde de gösterilir (hangi tür boş, belli olsun);
     // tek tür seçiliyken sadece o bölüm çizilir.
     govde.innerHTML =
-      (gosterStok   ? bolumHTML("⏳ " + musteriEk + "STOK BEKLEYEN", stokListe, "Stok bekleyen sipariş yok.", stokKartHTML) : "") +
-      (gosterBakiye ? bolumHTML("📦 " + musteriEk + "BAKİYE BEKLEYEN", bakiyeListe, "Bakiye bekleyen ürün yok.", bakiyeKartHTML) : "");
+      (gosterStok   ? bolumHTML("⏳ " + musteriEk + TipEtiket.kisa.stok, stokListe, TipEtiket.kisa.stok + " sipariş yok.", stokKartHTML) : "") +
+      (gosterBakiye ? bolumHTML("📦 " + musteriEk + TipEtiket.kisa.bakiye, bakiyeListe, TipEtiket.kisa.bakiye + " ürün yok.", bakiyeKartHTML) : "");
 
     govde.querySelectorAll(".bu-kart[data-i]").forEach(function(el){
       el.onclick = function(){
