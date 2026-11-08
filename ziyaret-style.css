@@ -1,4 +1,4 @@
-/* ziyaret-style.css — TKP.02.11.26-10:48.1382 */
+/* ziyaret-style.css — TKP.08.11.26-15:28.1508 */
 .sayfa { padding: 4px 6px 16px; }
 
 /* Boşluk daraltıldı (25.09.2026, Abdullah'ın isteği: nav ile Gün Filtrele
@@ -28,7 +28,7 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 2px;
-  font-size: 10px;
+  font-size: 15px;  /* 08.11.2026 (Abdullah): gün kısaltmaları +%50 (10px idi) — Ana Sayfa takvimiyle aynı */
   font-weight: 900;
   text-align: center;
   color: #2d3540;

@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.06.11.26-10:17.1495
+/* home-takvim-style.css — TKP.08.11.26-15:28.1508
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -33,7 +33,7 @@
 }
 .ht-gun-basliklari {
   display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
-  font-size: 10px; font-weight: 900; text-align: center; color: #2d3540; margin-bottom: 4px;
+  font-size: 15px; font-weight: 900; text-align: center; color: #2d3540; margin-bottom: 4px;  /* 08.11.2026 (Abdullah): gün kısaltmaları +%50 (10px idi) */
 }
 .ht-tatil-baslik { color: #c0392b; }
 .ht-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
