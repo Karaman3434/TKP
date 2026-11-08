@@ -1,5 +1,5 @@
 /*
-  auth.js — TKP.04.11.26-22:52.1476
+  auth.js — TKP.08.11.26-08:04.1496
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -535,7 +535,10 @@
   window.addEventListener("offline", cevrimdisiDurumGuncelle);
   document.addEventListener("DOMContentLoaded", cevrimdisiDurumGuncelle);
 
-  // GÜNLÜK ARAÇ KM HATIRLATMA / KISITLAMA (16.10.2026 — Abdullah'ın ayrı
+  // GÜNLÜK ARAÇ KM HATIRLATMA (08.11.2026: 13:00 sonrası kilit/zorunlu
+  // yönlendirme KALDIRILDI — hatırlatma yalnızca 06:00-13:00 arası çıkar,
+  // "1 Saat Ertele" devam eder).
+  // (ilk sürüm: 16.10.2026 — Abdullah'ın ayrı
   // bir oturumda hazırlattığı paket; 20.10.2026'daki PIN "kaldığı yerden
   // devam" güncellemesinde auth.js'in bu bloğu yanlışlıkla atlanmış/
   // kaybolmuştu — 22.10.2026'da yüklediği orijinal paketten BİREBİR
@@ -682,7 +685,10 @@
         }
         var simdiKontrol=new Date(), dk=kmSaatDakika(simdiKontrol);
         if(dk>=bitis){
-          if(!kmSayfasi){ document.documentElement.style.visibility="hidden"; window.location.replace("km.html?kmZorunlu=1"); return; }
+          // 13:00 SONRASI (08.11.2026, Abdullah): hatırlatma çıkmaz ve sistem
+          // KİLİTLENMEZ (eskiden km.html'e zorlanırdı). Açık kalmış bir
+          // hatırlatma penceresi varsa kapatılır.
+          var acik=document.getElementById("istakipKmGunlukOverlay"); if(acik) acik.remove();
           tamam(); return;
         }
         if(dk<baslangic){
