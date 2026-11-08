@@ -1,5 +1,5 @@
 /*
-  reports-data.js — TKP.02.11.26-13:55.1402
+  reports-data.js — TKP.08.11.26-08:49.1498
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -415,7 +415,9 @@ var ReportsData = (function(){
           tip:k.tip, ts:k.ts, kod:k.kod, tarih:k.tarih||"",
           musteri:k.musteri, musteriId:k.musteriId||null, sehir:k.sehir||"",
           urunAd:u.ad||"İsimsiz Ürün", bakiyeAdet:u.bakiyeAdet, bakiyeNot:u.bakiyeNot||"",
-          adet:u.adet||0
+          adet:u.adet||0,
+          // 08.11.2026: termin tarihi + "teklif/proforma verildi" bilgisi (salt eklenti)
+          termin:u.bakiyeTermin||"", bekleyenIlerleme:k.bekleyenIlerleme||null
         });
       });
     });
@@ -437,9 +439,144 @@ var ReportsData = (function(){
         tip:k.tip, ts:k.ts, kod:k.kod, tarih:k.tarih||"",
         musteri:k.musteri, musteriId:k.musteriId||null, sehir:k.sehir||"",
         gun: Math.floor((bugun-(k.ts||0))/86400000),
-        beklemedeNot: k.beklemedeNot||"", urunSayisi:(k.urunler||[]).length
+        beklemedeNot: k.beklemedeNot||"", urunSayisi:(k.urunler||[]).length,
+        // 08.11.2026 (salt eklenti): termin tarihi + "teklif/proforma verildi" bilgisi
+        termin: k.terminTarihi||"", bekleyenIlerleme: k.bekleyenIlerleme||null
       };
     }).sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
+  }
+
+  // =====================================================================
+  // BEKLEYEN KAYIT YÖNETİMİ (08.11.2026, Abdullah onayı — "Stok Bekliyor" ve
+  // "Bakiye" tek akış): bir SİPARİŞ iki şekilde "bekleyen" olabilir:
+  //   stok   : durum:"beklemede" — siparişin TAMAMI bekliyor (satış/prim yok)
+  //   bakiye : en az bir satırda bakiyeAdet>0 — sevk edilen kısım satıştır,
+  //            kalan bekliyor
+  // Aşağıdaki fonksiyonlar bu iki durumun İLERLET / GELDİ / ÇIKAR işlemlerini
+  // TEK yerde toplar (belge-render.js ve cart-render.js sadece bunları çağırır).
+  // =====================================================================
+  function bekleyenModu(kayit){
+    if(!kayit || kayit.tip !== "siparis") return null;
+    if(kayit.durum === "beklemede") return "stok";
+    var bakiyeVar = (kayit.urunler||[]).some(function(u){ return (u.bakiyeAdet||0) > 0; });
+    return bakiyeVar ? "bakiye" : null;
+  }
+  // Ham arşiv kaydı (tip alanı yok, zaten arsiv/siparis içinde) için aynı karar
+  function bekleyenModuHam(k){
+    if(!k) return null;
+    if(k.durum === "beklemede") return "stok";
+    return (k.urunler||[]).some(function(u){ return (u.bakiyeAdet||0) > 0; }) ? "bakiye" : null;
+  }
+  // Satır eşleştirme anahtarı (sepet satırı <-> arşiv satırı)
+  function bekleyenSatirAnahtari(u){ return ((u && (u.abas || u.berta)) || (u && u.ad) || "").toString(); }
+  function bekleyenGunMetni(){
+    var d = new Date();
+    return ("0"+d.getDate()).slice(-2) + "." + ("0"+(d.getMonth()+1)).slice(-2) + "." + d.getFullYear();
+  }
+  function arsivSiparisDegistir(ts, degistir, geriBildir){
+    try{
+      var hata = null, sonuc = null;
+      firebase.database().ref("arsiv/siparis").transaction(function(mevcut){
+        var liste = mevcut ? (Array.isArray(mevcut) ? mevcut.filter(Boolean) : Object.values(mevcut)) : [];
+        var idx = liste.findIndex(function(k){ return k.ts === ts; });
+        if(idx === -1){ hata = "Kayıt bulunamadı"; return; }
+        var r = degistir(liste[idx]);
+        if(r === "sil"){ liste.splice(idx, 1); sonuc = "silindi"; } else { sonuc = "guncellendi"; }
+        return liste;
+      }, function(err, committed){
+        if(err){ geriBildir(false, err); return; }
+        if(!committed){ geriBildir(false, hata || "Kayıt bulunamadı"); return; }
+        geriBildir(true, sonuc);
+      });
+    }catch(e){ geriBildir(false, e); }
+  }
+
+  // GELDİ: bekleyen siparişten bir SİPARİŞ kaydedildi — gelen adetler bekleyenden düşülür.
+  //   hedef = {tip:"siparis", ts, mod:"stok"|"bakiye"}   yeniKayit = kaydedilen sipariş
+  // stok   : gelen satırlar siparişten düşer; hepsi geldiyse kayıt silinir (izi yeni
+  //          kaydın rota/oncekiKod'unda), kısmi gelişte kalanlar beklemede kalır.
+  // bakiye : bakiyeAdet gelen kadar azalır; kayıt (sevk edilen kısım satış) kalır,
+  //          "geldi → SP.xxx · tarih" izi bekleyenGecmisi'ne yazılır.
+  function bekleyenGeldi(hedef, yeniKayit, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    if(!hedef || !yeniKayit || hedef.ts === yeniKayit.ts){ cb(true, "atlandi"); return; }
+    var gun = bekleyenGunMetni();
+    arsivSiparisDegistir(hedef.ts, function(k){
+      var mod = bekleyenModuHam(k) || hedef.mod;
+      var gecmis = k.bekleyenGecmisi ? (Array.isArray(k.bekleyenGecmisi) ? k.bekleyenGecmisi.slice() : Object.values(k.bekleyenGecmisi)) : [];
+      (yeniKayit.urunler||[]).forEach(function(y){
+        var gelen = parseFloat(y.adet)||0;
+        if(gelen <= 0) return;
+        (k.urunler||[]).forEach(function(s){
+          if(gelen <= 0 || bekleyenSatirAnahtari(s) !== bekleyenSatirAnahtari(y)) return;
+          var dusen = 0;
+          if(mod === "stok"){
+            var adetKismi = Math.min(gelen, s.adet||0); s.adet = (s.adet||0) - adetKismi; dusen += adetKismi;
+            var bakKismi = Math.min(gelen - adetKismi, s.bakiyeAdet||0); s.bakiyeAdet = (s.bakiyeAdet||0) - bakKismi; dusen += bakKismi;
+            s.toplamEuro = (s.iskBirim||0) * (s.adet||0);
+          } else {
+            dusen = Math.min(gelen, s.bakiyeAdet||0); s.bakiyeAdet = (s.bakiyeAdet||0) - dusen;
+            if(s.bakiyeAdet <= 0){ s.bakiyeAdet = 0; s.bakiyeTermin = ""; }
+          }
+          if(dusen > 0){
+            gelen -= dusen;
+            gecmis.push({ts:Date.now(), tarih:gun, olay:"geldi", ad:s.ad||"", adet:dusen, yeniKod:yeniKayit.kod||"", yeniTip:yeniKayit.tip||"siparis"});
+          }
+        });
+      });
+      k.bekleyenGecmisi = gecmis;
+      if(mod === "stok"){
+        k.urunler = (k.urunler||[]).filter(function(s){ return (s.adet||0) > 0 || (s.bakiyeAdet||0) > 0; });
+        if(!k.urunler.length) return "sil";
+        k.revizeZamani = Date.now();
+      }
+      var kalanVar = (k.urunler||[]).some(function(s){ return (s.bakiyeAdet||0) > 0 || (mod === "stok" && (s.adet||0) > 0); });
+      if(!kalanVar){ k.bekleyenIlerleme = null; }
+      return "guncelle";
+    }, cb);
+  }
+
+  // BAĞLA: bekleyenden TEKLİF/PROFORMA verildi — bekleyen kayıt açık kalır, üzerinde
+  // "teklif verildi" izi tutulur (sipariş olunca bekleyenGeldi ile kapanır).
+  function bekleyenBagla(hedef, yeniKayit, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    if(!hedef || !yeniKayit){ cb(true); return; }
+    arsivSiparisDegistir(hedef.ts, function(k){
+      k.bekleyenIlerleme = {tip:yeniKayit.tip, kod:yeniKayit.kod||"", tarih:bekleyenGunMetni()};
+      return "guncelle";
+    }, function(ok, sonuc){
+      if(!ok){ cb(false, sonuc); return; }
+      // yeni teklif/proforma kaydına kaynak bağı yaz (sipariş olunca hangi bekleyenden düşüleceği)
+      kaydiAlanGuncelle(yeniKayit.tip, yeniKayit.ts, {bakiyeKaynak:{tip:"siparis", ts:hedef.ts, mod:hedef.mod||null}}, function(ok2, e2){ cb(ok2, e2); });
+    });
+  }
+
+  // ÇIKAR: bekleyenden çıkarma (vazgeçildi / başka yerden alındı / artık beklemiyor).
+  //   secim (sadece stok): "kacan" -> kaçan satış olarak kapat, "normal" -> işareti kaldır
+  //   bakiye: kalan bakiyeler sıfırlanır (sevk edilen kısım satış olarak kalır)
+  function bekleyendenCikar(kayit, secim, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    if(!kayit){ cb(false, "Kayıt yok"); return; }
+    var gun = bekleyenGunMetni();
+    arsivSiparisDegistir(kayit.ts, function(k){
+      var mod = bekleyenModuHam(k);
+      var gecmis = k.bekleyenGecmisi ? (Array.isArray(k.bekleyenGecmisi) ? k.bekleyenGecmisi.slice() : Object.values(k.bekleyenGecmisi)) : [];
+      if(mod === "stok"){
+        k.durum = (secim === "kacan") ? "kacan" : null;
+        k.beklemedeNot = null; k.terminTarihi = null;
+        gecmis.push({ts:Date.now(), tarih:gun, olay:(secim === "kacan" ? "kacan" : "isaret-kaldirildi")});
+      } else {
+        (k.urunler||[]).forEach(function(s){
+          if((s.bakiyeAdet||0) > 0){
+            gecmis.push({ts:Date.now(), tarih:gun, olay:"cikarildi", ad:s.ad||"", adet:s.bakiyeAdet});
+            s.bakiyeAdet = 0; s.bakiyeTermin = "";
+          }
+        });
+      }
+      k.bekleyenIlerleme = null;
+      k.bekleyenGecmisi = gecmis;
+      return "guncelle";
+    }, cb);
   }
 
   // Bu müşteride, henüz siparişe (veya sonraki aşamaya) dönüşmemiş en son
@@ -627,7 +764,9 @@ var ReportsData = (function(){
   // YOK). Boş dizi = bu kayıt ilerletilemez (İlerlet satırı gösterilmez).
   function ilerletSecenekleri(kayit){
     if(!kayit) return [];
-    if(kayit.tip === "siparis" && kayit.durum === "beklemede") return ["teklif","proforma","siparis"];
+    // 08.11.2026: bekleyen (stok bekliyor VEYA bakiyesi olan) sipariş — fiyat/termin
+    // değişmiş olabileceğinden Fiyat Teklifi / Proforma / Sipariş seçilebilir.
+    if(bekleyenModu(kayit)) return ["teklif","proforma","siparis"];
     return (SONRAKI_ASAMALAR[kayit.tip] || []).slice();
   }
 
@@ -646,12 +785,20 @@ var ReportsData = (function(){
     // "hesaplandı" sayma; kullanıcı Sepet'te bu ürüne dokunup Hesapla
     // ekranında gözden geçirip onaylamadan Kaydet/Gönder'e giremesin.
     var DIP_ORANI = 0.3635;
-    var sepet = (kayit.urunler||[]).map(function(u, i){
+    // BEKLEYEN (08.11.2026): stok bekleyen siparişte TÜM kalemler (adet + bakiye),
+    // bakiyeli siparişte SADECE bakiyesi olan kalemler (adet = bekleyen miktar) sepete gelir.
+    var bekleyenMod = bekleyenModu(kayit);
+    var eskiFiyatlar = [];
+    var kaynakSatirlar = (kayit.urunler||[]);
+    if(bekleyenMod === "bakiye") kaynakSatirlar = kaynakSatirlar.filter(function(u){ return (u.bakiyeAdet||0) > 0; });
+    var sepet = kaynakSatirlar.map(function(u, i){
       var dipEksikMi = !u.dipFiyat;
       var dipFiyat = dipEksikMi ? Math.round((u.listeFiyat||0)*DIP_ORANI*100)/100 : u.dipFiyat;
+      var adet = bekleyenMod === "bakiye" ? (u.bakiyeAdet||0) : (bekleyenMod === "stok" ? ((u.adet||0) + (u.bakiyeAdet||0)) : (u.adet||0));
+      if(bekleyenMod){ eskiFiyatlar.push({ad:u.ad||"İsimsiz Ürün", liste:u.listeFiyat||0, iskonto:u.iskonto||0, dip:dipFiyat, net:u.iskBirim||0}); }
       return {
         idx:i, ad: u.ad || "İsimsiz Ürün", berta: u.berta||"", abas: u.abas||"",
-        listeFiyat: u.listeFiyat||0, dipFiyat: dipFiyat, iskonto: u.iskonto||0, adet: u.adet||0,
+        listeFiyat: u.listeFiyat||0, dipFiyat: dipFiyat, iskonto: u.iskonto||0, adet: adet,
         hesaplandi: !dipEksikMi
       };
     });
@@ -665,7 +812,11 @@ var ReportsData = (function(){
     // listenin SONUNA şimdiki aşama eklenir — eski aşama kaydı silindiğinde
     // (bkz. kaynakSil) tüm geçmiş tarihleri kaybolmasın diye.
     var rotaSonrakineTasinacak = (kayit.rota || []).concat([{tip:kayit.tip, kod:kayit.kod||null, tarih:kayit.tarih||null}]);
-    localStorage.setItem("weiconv2_ilerlet_kaynak", JSON.stringify({tip:kayit.tip, ts:kayit.ts, kod:kayit.kod||null, tarih:kayit.tarih||null, rota:rotaSonrakineTasinacak, sonrakiAsamaSecenekleri:secenekler}));
+    var kaynakNesnesi = {tip:kayit.tip, ts:kayit.ts, kod:kayit.kod||null, tarih:kayit.tarih||null, rota:rotaSonrakineTasinacak, sonrakiAsamaSecenekleri:secenekler};
+    if(bekleyenMod){ kaynakNesnesi.bekleyenMod = bekleyenMod; kaynakNesnesi.eskiFiyatlar = eskiFiyatlar; }
+    // bekleyenden verilmiş teklif/proforma ilerletiliyorsa bekleyen bağı zincirde taşınır
+    if(kayit.bakiyeKaynak && !bekleyenMod){ kaynakNesnesi.bakiyeKaynak = kayit.bakiyeKaynak; }
+    localStorage.setItem("weiconv2_ilerlet_kaynak", JSON.stringify(kaynakNesnesi));
     if(hedefTip && secenekler.indexOf(hedefTip) !== -1){
       localStorage.setItem("weiconv2_onceden_secilen_tip", hedefTip);
     } else if(secenekler.length === 1){
@@ -693,12 +844,20 @@ var ReportsData = (function(){
   // önlemek için app genelinde zaten var olan bir kural.)
   function tekrarBaslat(kayit){
     var DIP_ORANI = 0.3635;
-    var sepet = (kayit.urunler||[]).map(function(u, i){
+    // BEKLEYEN (08.11.2026): stok bekleyen siparişte TÜM kalemler (adet + bakiye),
+    // bakiyeli siparişte SADECE bakiyesi olan kalemler (adet = bekleyen miktar) sepete gelir.
+    var bekleyenMod = bekleyenModu(kayit);
+    var eskiFiyatlar = [];
+    var kaynakSatirlar = (kayit.urunler||[]);
+    if(bekleyenMod === "bakiye") kaynakSatirlar = kaynakSatirlar.filter(function(u){ return (u.bakiyeAdet||0) > 0; });
+    var sepet = kaynakSatirlar.map(function(u, i){
       var dipEksikMi = !u.dipFiyat;
       var dipFiyat = dipEksikMi ? Math.round((u.listeFiyat||0)*DIP_ORANI*100)/100 : u.dipFiyat;
+      var adet = bekleyenMod === "bakiye" ? (u.bakiyeAdet||0) : (bekleyenMod === "stok" ? ((u.adet||0) + (u.bakiyeAdet||0)) : (u.adet||0));
+      if(bekleyenMod){ eskiFiyatlar.push({ad:u.ad||"İsimsiz Ürün", liste:u.listeFiyat||0, iskonto:u.iskonto||0, dip:dipFiyat, net:u.iskBirim||0}); }
       return {
         idx:i, ad: u.ad || "İsimsiz Ürün", berta: u.berta||"", abas: u.abas||"",
-        listeFiyat: u.listeFiyat||0, dipFiyat: dipFiyat, iskonto: u.iskonto||0, adet: u.adet||0,
+        listeFiyat: u.listeFiyat||0, dipFiyat: dipFiyat, iskonto: u.iskonto||0, adet: adet,
         hesaplandi: !dipEksikMi
       };
     });
@@ -854,6 +1013,10 @@ var ReportsData = (function(){
     beklemedeSiparisleriHesapla: beklemedeSiparisleriHesapla,
     bakiyedekiUrunler: bakiyedekiUrunler,
     stokBekleyenSiparisler: stokBekleyenSiparisler,
+    bekleyenModu: bekleyenModu,
+    bekleyenGeldi: bekleyenGeldi,
+    bekleyenBagla: bekleyenBagla,
+    bekleyendenCikar: bekleyendenCikar,
     yillikOzet: yillikOzet,
     aylikPrimOzeti12: aylikPrimOzeti12,
     enCokSatisYapilanMusteriler: enCokSatisYapilanMusteriler,

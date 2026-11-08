@@ -1,5 +1,5 @@
 /*
-  ust-bar-eylem.js — TKP.03.11.26-20:30.1459
+  ust-bar-eylem.js — TKP.08.11.26-08:49.1498
   ==========================================
   Üst barın (.ub-bar) SONUNDAKİ sayfa eylem tuşları: Kaydet (mor) ve Gönder
   (turkuaz) — Menü/Geri/Beklet/Kapat ile aynı ölçüde (Abdullah onayı,
@@ -48,6 +48,23 @@
       { tur:"gonder",
         aktifMi:function(){ return typeof ustGonderTiklandi === "function"; },
         tikla:function(){ ustGonderTiklandi(); } }
+    ],
+    // BELGE ÖNİZLEME (08.11.2026, Abdullah onayı): düzenleme pencerelerinin (Ürünler/
+    // Adet/Fiyat, Yetkili, Adres, Not, Stok Bekliyor) alttaki Kapat/Kaydet tuşları
+    // kalktı — Kaydet burada: o an AÇIK olan pencerenin Kaydet'ini tetikler;
+    // hiçbir pencere açık değilse tuş hiç görünmez. Kapat = üst bardaki ✕
+    // (açık pencere varsa önce onu kapatır — bkz. belge-render.js).
+    "belge-onizleme.html": [
+      { tur:"kaydet", gerekli:true,
+        hedef:function(){
+          var ids = ["duzenleOverlay","yetkiliSecOverlay","adresDuzenleOverlay","notDuzenleOverlay","beklemedeNotOverlay"];
+          var btnIds = {duzenleOverlay:"btnDuzenleKaydet", yetkiliSecOverlay:"btnYetkiliSecKaydet", adresDuzenleOverlay:"btnAdresDuzenleKaydet", notDuzenleOverlay:"btnNotDuzenleKaydet", beklemedeNotOverlay:"btnBeklemedeNotKaydet"};
+          for(var i=0;i<ids.length;i++){
+            var o = document.getElementById(ids[i]);
+            if(o && !o.hidden) return document.getElementById(btnIds[ids[i]]);
+          }
+          return null;
+        } }
     ],
     "customer-add.html":    [ { tur:"kaydet", hedef:id("btnYeniMusteriKaydet") } ],
     "ziyaret.html":         [ { tur:"kaydet", hedef:id("btnZiyKaydet") } ],

@@ -1,4 +1,4 @@
-/* reports-style.css — TKP.02.11.26-10:48.1374 */
+/* reports-style.css — TKP.08.11.26-08:49.1498 */
 /* reports-style.css — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
@@ -1011,3 +1011,13 @@
    Ürünler) için minimal, tek elemanlı satır — sadece tarih butonunu
    sağa yaslar. */
 .liste-filtre-satiri{ display:flex; justify-content:flex-end; margin-bottom:10px; }
+
+/* BEKLEYEN AKIŞI (08.11.2026, Abdullah onayı) — "Tamamı yok" tek dokunuş + alt Kapat/Kaydet
+   satırı gizli (Kaydet/Kapat artık üst barda; düğmeler DOM'da kalır, üst bar tetikler). */
+.duzenle-bakiye-tamami {
+  display: block; width: 100%; margin-top: 8px; box-sizing: border-box;
+  border: 1.5px solid #c0392b; background: #fff; color: #c0392b;
+  border-radius: 8px; padding: 8px; font-size: 12px; font-weight: 800; cursor: pointer;
+}
+.duzenle-bakiye-alan input[type=date] { margin-top: 3px; text-align: center; }
+.duzenle-buton-satir--gizli { display: none !important; }

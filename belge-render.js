@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.02.11.26-10:48.1385
+  belge-render.js — TKP.08.11.26-08:49.1498
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -337,6 +337,42 @@ function belgeyiCiz(kayit, musteri){
       + "</div>"
     ) : "";
 
+    // BEKLEYEN BİLGİ ŞERİDİ (08.11.2026, Abdullah onayı): termin tarihi, "teklif/
+    // proforma verildi" izi ve geldi / çıkarıldı geçmişi — sadece bilgi varsa çıkar.
+    var bekleyenBilgiHtml = (function(){
+      function tarihGoster(t){
+        var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(t||"");
+        return m ? (m[3]+"."+m[2]+"."+m[1]) : (t||"");
+      }
+      function terminGectiMi(t){
+        var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(t||"");
+        if(!m) return false;
+        var g = new Date(); g.setHours(0,0,0,0);
+        return new Date(+m[1], +m[2]-1, +m[3]).getTime() < g.getTime();
+      }
+      var satirlar = [];
+      if(kayit.durum === "beklemede" && kayit.terminTarihi){
+        satirlar.push("<div class='bb-satir" + (terminGectiMi(kayit.terminTarihi) ? " bb-satir--uyari" : "") + "'>📅 Beklenen termin: <b>" + htmlEsc(tarihGoster(kayit.terminTarihi)) + "</b>" + (terminGectiMi(kayit.terminTarihi) ? " — tarihi geçti, ürün gelmiş olabilir" : "") + "</div>");
+      }
+      (kayit.urunler||[]).forEach(function(u){
+        if((u.bakiyeAdet||0) > 0 && u.bakiyeTermin){
+          satirlar.push("<div class='bb-satir" + (terminGectiMi(u.bakiyeTermin) ? " bb-satir--uyari" : "") + "'>📅 " + htmlEsc(u.ad||"") + " — bakiye termini: <b>" + htmlEsc(tarihGoster(u.bakiyeTermin)) + "</b>" + (terminGectiMi(u.bakiyeTermin) ? " — tarihi geçti" : "") + "</div>");
+        }
+      });
+      if(kayit.bekleyenIlerleme){
+        var bi = kayit.bekleyenIlerleme;
+        satirlar.push("<div class='bb-satir'>📄 " + htmlEsc(TIP_ETIKET_BELGE[bi.tip] || bi.tip || "Belge") + " verildi" + (bi.kod ? " — " + htmlEsc(bi.kod) : "") + (bi.tarih ? " · " + htmlEsc(bi.tarih) : "") + "</div>");
+      }
+      var gecmis = kayit.bekleyenGecmisi ? (Array.isArray(kayit.bekleyenGecmisi) ? kayit.bekleyenGecmisi : Object.values(kayit.bekleyenGecmisi)) : [];
+      gecmis.forEach(function(g){
+        if(g.olay === "geldi") satirlar.push("<div class='bb-satir bb-satir--tamam'>✓ " + (g.adet||0) + " adet " + htmlEsc(g.ad||"") + " geldi → " + htmlEsc(g.yeniKod||"sipariş") + " · " + htmlEsc(g.tarih||"") + "</div>");
+        else if(g.olay === "cikarildi") satirlar.push("<div class='bb-satir'>⏏️ " + (g.adet||0) + " adet " + htmlEsc(g.ad||"") + " bekleyenden çıkarıldı · " + htmlEsc(g.tarih||"") + "</div>");
+        else if(g.olay === "kacan") satirlar.push("<div class='bb-satir'>❌ Bekleyenden çıkarıldı — kaçan satış · " + htmlEsc(g.tarih||"") + "</div>");
+        else if(g.olay === "isaret-kaldirildi") satirlar.push("<div class='bb-satir'>✅ Stok bekliyor işareti kaldırıldı · " + htmlEsc(g.tarih||"") + "</div>");
+      });
+      return satirlar.length ? "<div class='belge-bekleyen-bilgi'>" + satirlar.join("") + "</div>" : "";
+    })();
+
     // DÜZELTME (12.10.2026, Abdullah onayı): "tip-" + kayit.tip sınıfı
     // eklendi — belge-onizleme-style-v2.css bu sınıfla işlem türünün
     // rengini (sadece üst şeritteki tür adına ve isim noktasına) uyguluyor.
@@ -361,6 +397,7 @@ function belgeyiCiz(kayit, musteri){
       + "<div class='belge-kart belge-kart--urun-cerceveli'>"
       + satirlarHtml
       + bakiyeBlokHtml
+      + bekleyenBilgiHtml
       + "</div>"
       // GENEL TOPLAM + PRİM (02.11.2026, Abdullah onayı — mockup üzerinden):
       // artık TEK ortak fonksiyon (HareketTablo.genelToplamHtml, hareket-
@@ -871,6 +908,10 @@ function bakiyeAlaniHtml(u, i){
     + "<div class='duzenle-bakiye-alan-baslik'><span id='duzenleBakiyeBaslik-" + i + "'>" + baslikMetni + "</span><button type='button' class='duzenle-bakiye-kapat' data-bakiye-i='" + i + "'>✕</button></div>"
     + "<input type='number' step='1' min='0' class='duzenle-bakiye-adet' id='duzenleBakiyeAdet-" + i + "' placeholder='0' value='" + (varMi ? u.bakiyeAdet : "") + "'>"
     + "<input type='text' class='duzenle-bakiye-not' id='duzenleBakiyeNot-" + i + "' placeholder='Not (opsiyonel) — örn. ne zaman tamamlanacak' value='" + htmlEsc(u.bakiyeNot||"") + "'>"
+    // 08.11.2026: beklenen termin tarihi (opsiyonel) + "Tamamı yok" tek dokunuş
+    + "<label class='duzenle-etiket' for='duzenleBakiyeTermin-" + i + "' style='margin-top:8px;display:block'>Beklenen termin (opsiyonel)</label>"
+    + "<input type='date' class='duzenle-bakiye-not' id='duzenleBakiyeTermin-" + i + "' value='" + htmlEsc(u.bakiyeTermin||"") + "'>"
+    + "<button type='button' class='duzenle-bakiye-tamami' data-bakiye-i='" + i + "'>🚫 Tamamı yok — hiç sevk edilmedi</button>"
     + "</div>";
 }
 
@@ -923,11 +964,25 @@ function duzenlemeAc(k){
       document.getElementById("duzenleBakiyeAdet-" + i).focus();
     };
   });
+  // "Tamamı yok" (08.11.2026): sevk edilen adet bekleyene geçer — Adet 0, Bakiye = toplam
+  // sipariş edilen. Böylece "yok" ürün yanlışlıkla satış/prim sayılmaz.
+  kapsayici.querySelectorAll(".duzenle-bakiye-tamami").forEach(function(btn){
+    btn.onclick = function(){
+      var i = this.getAttribute("data-bakiye-i");
+      var adetEl = document.querySelector("[data-alan='adet'][data-i='" + i + "']");
+      var bakEl = document.getElementById("duzenleBakiyeAdet-" + i);
+      var toplam = (parseFloat(adetEl.value)||0) + (parseFloat(bakEl.value)||0);
+      adetEl.value = 0;
+      bakEl.value = toplam;
+      bakiyeModuGuncelle(i);
+    };
+  });
   kapsayici.querySelectorAll(".duzenle-bakiye-kapat").forEach(function(btn){
     btn.onclick = function(){
       var i = this.getAttribute("data-bakiye-i");
       document.getElementById("duzenleBakiyeAdet-" + i).value = "";
       document.getElementById("duzenleBakiyeNot-" + i).value = "";
+      document.getElementById("duzenleBakiyeTermin-" + i).value = "";
       document.getElementById("duzenleBakiyeAlan-" + i).hidden = true;
       document.getElementById("duzenleBakiyeLink-" + i).hidden = false;
     };
@@ -1017,6 +1072,7 @@ function duzenlemeKaydet(){
       var bakiyeAcikMi = bakiyeAlanEl ? !bakiyeAlanEl.hidden : false;
       var bakiyeAdet = bakiyeAcikMi ? (parseFloat(document.getElementById("duzenleBakiyeAdet-" + i).value)||0) : 0;
       var bakiyeNot = bakiyeAcikMi ? document.getElementById("duzenleBakiyeNot-" + i).value.trim() : "";
+      var bakiyeTermin = (bakiyeAcikMi && bakiyeAdet > 0) ? (document.getElementById("duzenleBakiyeTermin-" + i).value || "") : "";
       yeniUrunler.push({
         ad: degisen ? degisen.ad : u.ad,
         berta: degisen ? degisen.berta : u.berta,
@@ -1024,7 +1080,7 @@ function duzenlemeKaydet(){
         listeFiyat: listeFiyat, iskonto: iskonto, adet: adet, dipFiyat: dipFiyat,
         iskBirim: iskontoluFiyat,
         toplamEuro: iskontoluFiyat * adet,
-        bakiyeAdet: bakiyeAdet, bakiyeNot: bakiyeNot
+        bakiyeAdet: bakiyeAdet, bakiyeNot: bakiyeNot, bakiyeTermin: bakiyeTermin
       });
     });
     var btn = document.getElementById("btnDuzenleKaydet");
@@ -1110,6 +1166,11 @@ document.addEventListener("DOMContentLoaded", function(){
     // listesi/"sonrası yok" uyarısı olmasın).
     var sec = ReportsData.ilerletSecenekleri(sonCizilenKayit);
     document.getElementById("msIlerlet").hidden = !sec.length;
+    // BEKLEYEN (08.11.2026): stok bekleyen / bakiyeli sipariş — "İlerlet" yerine
+    // "Bekleyeni İlerlet" + "Bekleyenden Çıkar" satırı.
+    var bekleyenMod = ReportsData.bekleyenModu(sonCizilenKayit);
+    document.getElementById("msIlerlet").lastChild.nodeValue = bekleyenMod ? "Bekleyeni İlerlet" : "İlerlet";
+    document.getElementById("msCikar").hidden = !bekleyenMod;
     document.getElementById("islemlerOverlay").hidden = false;
     acilirKonumla("ayrintiAcilir");
     var t = document.getElementById("btnIslemlerAc");
@@ -1196,12 +1257,11 @@ document.addEventListener("DOMContentLoaded", function(){
     acilirKapat("islemlerOverlay");
     document.getElementById("duzenleMenuOverlay").hidden = false;
   };
-  document.getElementById("btnDuzenleMenuKapat").onclick = function(){ document.getElementById("duzenleMenuOverlay").hidden = true; };
+
   document.getElementById("btnMenuUrunler").onclick = function(){
     document.getElementById("duzenleMenuOverlay").hidden = true;
     duzenlemeAc(sonCizilenKayit);
   };
-  document.getElementById("btnDuzenleVazgec").onclick = function(){ document.getElementById("duzenleOverlay").hidden = true; duzenlenenKayit = null; };
   document.getElementById("btnDuzenleKaydet").onclick = duzenlemeKaydet;
 
   // ---- Yetkili Kişi seçimi (bu belgede kim görünsün) ----
@@ -1220,7 +1280,6 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     document.getElementById("yetkiliSecOverlay").hidden = false;
   };
-  document.getElementById("btnYetkiliSecVazgec").onclick = function(){ document.getElementById("yetkiliSecOverlay").hidden = true; };
   document.getElementById("btnYetkiliSecKaydet").onclick = function(){
     if(!sonCizilenKayit) return;
     var kutular = document.querySelectorAll("#yetkiliSecListesi input[type=checkbox]");
@@ -1254,7 +1313,6 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("duzenleMenuOverlay").hidden = true;
     adresDuzenleAc("teslimatAdresi", "Teslimat Adresini Düzenle");
   };
-  document.getElementById("btnAdresDuzenleVazgec").onclick = function(){ document.getElementById("adresDuzenleOverlay").hidden = true; duzenlenenAdresTuru = null; };
   document.getElementById("btnAdresDuzenleKaydet").onclick = function(){
     if(!sonCizilenKayit || !duzenlenenAdresTuru) return;
     var metin = document.getElementById("adresDuzenleMetni").value.trim();
@@ -1276,7 +1334,6 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("notDuzenleMetni").value = sonCizilenKayit.not || "";
     document.getElementById("notDuzenleOverlay").hidden = false;
   };
-  document.getElementById("btnNotDuzenleVazgec").onclick = function(){ document.getElementById("notDuzenleOverlay").hidden = true; };
   document.getElementById("btnNotDuzenleKaydet").onclick = function(){
     if(!sonCizilenKayit) return;
     var metin = document.getElementById("notDuzenleMetni").value.trim();
@@ -1331,6 +1388,41 @@ document.addEventListener("DOMContentLoaded", function(){
     }catch(e){ hataGoster("İlerlet seçenekleri açılamadı: " + e.message); }
   };
 
+  // ---- BEKLEYENDEN ÇIKAR (08.11.2026, Abdullah onayı) — "i" menüsünden; küçük
+  // açılır liste, bir satıra dokunmak doğrudan uygular (ayrı onay penceresi yok).
+  //   Stok Bekliyor : "Kaçan satış olarak kapat" / "İşareti kaldır (normal sipariş)"
+  //   Bakiye        : "Bakiyeyi kapat" (sevk edilen kısım satış olarak kalır)
+  document.getElementById("msCikar").onclick = function(){
+    acilirKapat("islemlerOverlay");
+    try{
+      if(!sonCizilenKayit) return;
+      var mod = ReportsData.bekleyenModu(sonCizilenKayit);
+      if(!mod) return;
+      var secenekler = mod === "stok"
+        ? [{k:"kacan", ikon:"❌", ad:"Kaçan satış olarak kapat"}, {k:"normal", ikon:"✅", ad:"İşareti kaldır (normal sipariş)"}]
+        : [{k:"bakiye", ikon:"📦", ad:"Bakiyeyi kapat (vazgeçildi)"}];
+      var liste = document.getElementById("cikarSecenekListesi");
+      liste.innerHTML = secenekler.map(function(o){
+        return "<button type='button' class='acilir-menu-oge acilir-menu-oge--notr' data-secim='" + o.k + "'><span class='acilir-menu-ikon'>" + o.ikon + "</span>" + o.ad + "</button>";
+      }).join("");
+      liste.querySelectorAll("[data-secim]").forEach(function(btn){
+        btn.onclick = function(){
+          var secim = this.getAttribute("data-secim");
+          acilirKapat("cikarSecOverlay");
+          if(!sonCizilenKayit) return;
+          ReportsData.bekleyendenCikar(sonCizilenKayit, secim, function(ok, err){
+            if(!ok){ hataGoster("Bekleyenden çıkarılamadı: " + (err && err.message ? err.message : err)); return; }
+            denemeCiz();
+          });
+        };
+      });
+      document.getElementById("cikarSecOverlay").hidden = false;
+      acilirKonumla("cikarAcilir");
+      var t = document.getElementById("btnIslemlerAc");
+      if(t) t.classList.add("ub-ayrinti-secili");
+    }catch(e){ hataGoster("Liste açılamadı: " + e.message); }
+  };
+
   // ---- Beklemede (sipariş verildi ama stokta yok, tedarik/termin
   // bekleniyor) — İşlemler menüsünden yeni işaretlenebilir, ya da
   // kayıt üzerindeki BEKLEMEDE rozetine dokunarak notu düzenlenebilir/
@@ -1341,6 +1433,7 @@ document.addEventListener("DOMContentLoaded", function(){
   function beklemedeNotAc(kayit){
     beklemedeDuzenlenenKayit = kayit;
     document.getElementById("beklemedeNotMetni").value = kayit.beklemedeNot || "";
+    document.getElementById("beklemedeTermin").value = kayit.terminTarihi || "";
     document.getElementById("beklemedeNotOverlay").hidden = false;
   }
   window.beklemedeNotAc = beklemedeNotAc;
@@ -1351,31 +1444,52 @@ document.addEventListener("DOMContentLoaded", function(){
     if(!sonCizilenKayit) return;
     beklemedeNotAc(sonCizilenKayit);
   };
-  document.getElementById("btnBeklemedeNotVazgec").onclick = function(){ document.getElementById("beklemedeNotOverlay").hidden = true; };
   document.getElementById("btnBeklemedeNotKaydet").onclick = function(){
     if(!beklemedeDuzenlenenKayit) return;
     var metin = document.getElementById("beklemedeNotMetni").value.trim();
     var btn = document.getElementById("btnBeklemedeNotKaydet");
     btn.disabled = true; btn.textContent = "Kaydediliyor...";
-    ReportsData.kaydiAlanGuncelle(beklemedeDuzenlenenKayit.tip, beklemedeDuzenlenenKayit.ts, {durum:"beklemede", beklemedeNot: metin}, function(basarili, err){
+    ReportsData.kaydiAlanGuncelle(beklemedeDuzenlenenKayit.tip, beklemedeDuzenlenenKayit.ts, {durum:"beklemede", beklemedeNot: metin, terminTarihi: document.getElementById("beklemedeTermin").value || null}, function(basarili, err){
       btn.disabled = false; btn.textContent = "Kaydet";
       if(!basarili){ hataGoster("Kaydedilemedi: " + (err && err.message)); return; }
       document.getElementById("beklemedeNotOverlay").hidden = true;
       denemeCiz();
     });
   };
-  document.getElementById("btnBeklemedeNotSil").onclick = function(){
-    if(!beklemedeDuzenlenenKayit) return;
-    if(!confirm("Stok bekleme durumu kaldırılsın mı? Kayıt tekrar normal şekilde toplamlara dahil olacak.")) return;
-    var btn = document.getElementById("btnBeklemedeNotSil");
-    btn.disabled = true;
-    ReportsData.kaydiAlanGuncelle(beklemedeDuzenlenenKayit.tip, beklemedeDuzenlenenKayit.ts, {durum:null, beklemedeNot:null}, function(basarili, err){
-      btn.disabled = false;
-      if(!basarili){ hataGoster("Kaldırılamadı: " + (err && err.message)); return; }
-      document.getElementById("beklemedeNotOverlay").hidden = true;
-      denemeCiz();
+  // ---- AÇIK PENCEREYİ KAPAT (08.11.2026, Abdullah onayı): alttaki Kapat/Vazgeç
+  // tuşları kalktı. Kapatma = üst bardaki ✕ (açık pencere/liste varsa önce onu
+  // kapatır) veya pencerenin dışına dokunmak. Kaydet = üst bardaki mor Kaydet
+  // (ust-bar-eylem.js, açık pencerenin Kaydet'ini tetikler).
+  var DUZENLE_PENCERELERI = ["duzenleMenuOverlay","yetkiliSecOverlay","adresDuzenleOverlay","notDuzenleOverlay","beklemedeNotOverlay","duzenleOverlay"];
+  var ACILIR_ZEMINLER = ["islemlerOverlay","ilerletSecOverlay","cikarSecOverlay"];
+  window.belgeAcikPenceresiniKapat = function(){
+    var kapandi = false;
+    DUZENLE_PENCERELERI.forEach(function(id){
+      var o = document.getElementById(id);
+      if(o && !o.hidden){ o.hidden = true; kapandi = true; }
     });
+    ACILIR_ZEMINLER.forEach(function(id){
+      var o = document.getElementById(id);
+      if(o && !o.hidden){ acilirKapat(id); kapandi = true; }
+    });
+    if(kapandi){ duzenlenenKayit = null; duzenlenenAdresTuru = null; beklemedeDuzenlenenKayit = null; }
+    return kapandi;
   };
+  DUZENLE_PENCERELERI.forEach(function(id){
+    var o = document.getElementById(id);
+    if(o) o.addEventListener("click", function(ev){ if(ev.target === this){ window.belgeAcikPenceresiniKapat(); } });
+  });
+  document.getElementById("cikarSecOverlay").addEventListener("click", function(ev){
+    if(ev.target === this) acilirKapat("cikarSecOverlay");
+  });
+  (function(){
+    var kapatEl = document.getElementById("btnBelgeKapat");
+    var eskiKapat = kapatEl.onclick;
+    kapatEl.onclick = function(ev){
+      if(window.belgeAcikPenceresiniKapat()) return;
+      if(eskiKapat) return eskiKapat.call(this, ev);
+    };
+  })();
 
   ReportsData.arsivDegistiginde(denemeCiz);
   CustomerData.listeDegistiginde(denemeCiz);

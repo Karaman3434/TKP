@@ -1,5 +1,5 @@
 /*
-  bakiye-urunler-render.js — TKP.05.11.26 (1480)
+  bakiye-urunler-render.js — TKP.08.11.26-08:49.1498
   GÜNCELLEME (05.11.2026, Abdullah onayı): Ekran artık "Stok Bekleyen ve Bakiye
   Bekleyen" — çipler (Tümü / ⏳ Stok Bekleyen / 📦 Bakiye Bekleyen), sipariş
   seviyesinde "Stok Bekliyor" kayıtları (ReportsData.stokBekleyenSiparisler)
@@ -76,6 +76,25 @@ function kodHTML(kod, tip){
   return "<span style='color:" + (HARF_RENK[tip] || HARF_RENK.siparis) + ";'>" + htmlEsc(harf) + "</span>" + htmlEsc(kalan);
 }
 
+// BEKLEYEN EK SATIRI (08.11.2026, Abdullah onayı): termin tarihi ("tarihi geçti"
+// uyarısıyla) ve "teklif/proforma verildi" izi — ikisi de yoksa ek satır çıkmaz.
+var BU_TIP_AD = {teklif:"Fiyat Teklifi", proforma:"Proforma", siparis:"Sipariş", numune:"Numune"};
+function ekSatirHTML(termin, ilerleme){
+  var parcalar = [], uyari = false;
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(termin||"");
+  if(m){
+    var g = new Date(); g.setHours(0,0,0,0);
+    var fark = Math.floor((g.getTime() - new Date(+m[1], +m[2]-1, +m[3]).getTime()) / 86400000);
+    var t = m[3] + "." + m[2] + "." + m[1];
+    if(fark > 0){ parcalar.push("📅 Termin " + t + " — " + fark + " gün geçti, gelmiş olabilir"); uyari = true; }
+    else if(fark === 0){ parcalar.push("📅 Termin bugün (" + t + ")"); uyari = true; }
+    else parcalar.push("📅 Termin " + t + " — " + (-fark) + " gün var");
+  }
+  if(ilerleme) parcalar.push("📄 " + (BU_TIP_AD[ilerleme.tip] || "Belge") + " verildi" + (ilerleme.kod ? " (" + ilerleme.kod + ")" : ""));
+  if(!parcalar.length) return "";
+  return "<div class='bu-kart-satir2' style='color:" + (uyari ? "#c0392b" : "#6b5a43") + ";font-weight:" + (uyari ? "800" : "600") + ";'>" + htmlEsc(parcalar.join(" · ")) + "</div>";
+}
+
 // "Tamamen yok" (s.adet<=0 — elde hiç kalmamış, sipariş tamamen bekliyor)
 // ile "kısmi bakiye" (s.adet>0 — bir kısmı zaten teslim/fatura edilmiş,
 // kalanı bakiyede) ayrımı SADECE bu satırda, ikon/renk/metin olarak
@@ -95,6 +114,7 @@ function bakiyeKartHTML(s){
     + "<button class='bu-kart-ok' aria-label='Siparişin tam tablosunu aç'>" + OK_SVG + "</button>"
     + "</div>"
     + "<div class='bu-kart-satir2' style='color:" + renk + ";'>" + satir2 + "</div>"
+    + ekSatirHTML(s.termin, s.bekleyenIlerleme)
     + "</div>"
     + "</div>";
 }
@@ -152,6 +172,7 @@ function stokKartHTML(s){
     + "<button class='bu-kart-ok' aria-label='Siparişin tam tablosunu aç'>" + OK_SVG + "</button>"
     + "</div>"
     + "<div class='bu-kart-satir2' style='color:#a9743b;'>" + satir2 + "</div>"
+    + ekSatirHTML(s.termin, s.bekleyenIlerleme)
     + "</div>"
     + "</div>";
 }

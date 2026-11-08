@@ -1,5 +1,5 @@
 /*
-  cart-render.js — TKP.04.11.26-18:54.1473
+  cart-render.js — TKP.08.11.26-08:49.1498
   GÜNCELLEME (04.11.2026, Abdullah onayı): İşlem Geçmişi penceresi satırları —
   tarih tek satır + altında (Tip), sayılar altında küçük EURO/% (cart-style.css).
   (önceki: TKP.02.11.26-10:22.1368)
@@ -635,12 +635,25 @@ function ilerletKaynagiVarsaSekmeAyarla(){
   uyari.className = "ilerlet-bilgi-kutu";
   if(secenekler.length === 1 || (oncedenSecilen && secenekler.indexOf(oncedenSecilen) !== -1)){
     secilenTip = (oncedenSecilen && secenekler.indexOf(oncedenSecilen) !== -1) ? oncedenSecilen : secenekler[0];
-    uyari.textContent = "▶️ İlerletiliyor — kayıt tamamlanınca önceki aşamanın belgesi otomatik silinecek.";
+    uyari.textContent = kaynak.bekleyenMod
+      ? "⏳ Bekleyen ürün ilerletiliyor — kayıt tamamlanınca gelen adetler bekleyenden düşülür. Adetleri ve fiyatları buradan düzenleyebilirsin."
+      : "▶️ İlerletiliyor — kayıt tamamlanınca önceki aşamanın belgesi otomatik silinecek.";
   } else {
     // "Revize ediliyor" bildirimi KALDIRILDI (03.11.2026, Abdullah'ın isteğiyle);
     // aşama seçimi Kaydet/Gönder'de popup ile sorulmaya devam eder.
     revizeSecimBekleniyor = secenekler;
     return;
+  }
+  if(kaynak.bekleyenMod && kaynak.eskiFiyatlar && kaynak.eskiFiyatlar.length){
+    // Önceki (bekleyen kayıttaki) fiyatlar — fiyat değiştiyse karşılaştırmak için.
+    var fiy = document.createElement("div");
+    fiy.style.cssText = "margin-top:6px;font-size:12px;font-weight:600;line-height:1.5;";
+    fiy.innerHTML = kaynak.eskiFiyatlar.map(function(f){
+      return "• " + htmlEsc(f.ad) + " — önceki: liste " + CartData.fmt(f.liste) + " · isk. %" + CartData.fmt(f.iskonto) + " · dip " + CartData.fmt(f.dip) + " EURO";
+    }).join("<br>");
+    uyari.appendChild(fiy);
+  } else if(kaynak.bakiyeKaynak){
+    uyari.textContent = "⏳ Bekleyen ürün için hazırlanan belge ilerletiliyor — sipariş olunca gelen adetler bekleyenden düşülür.";
   }
   document.getElementById("ilerletBilgiAlani").appendChild(uyari);
 }
@@ -781,12 +794,35 @@ function kaydetGercekIslem(niyet){
     if(gonderBtn) gonderBtn.disabled = true;
 
     var kaynak = ilerletKaynagiOku();
-    var devralinanKod = (kaynak && kaynak.kod) ? kaynak.kod : null;
+    // BEKLEYEN İLERLET (08.11.2026): bekleyen kayıt (stok bekliyor / bakiye) korunduğu için yeni
+    // belge onun kodunu DEVRALMAZ (aynı kod iki kayıtta olmasın) — taze günlük numara alır,
+    // bekleyene bağ kayıttan sonra yazılır (oncekiKod/rota, aşağıda).
+    var devralinanKod = (kaynak && kaynak.kod && !kaynak.bekleyenMod) ? kaynak.kod : null;
     var devralinanTarih = (kaynak && kaynak.tarih) ? kaynak.tarih : null;
     var devralinanRota = (kaynak && kaynak.rota) ? kaynak.rota : null;
     SendData.kaydet(secilenTip, musteri, sepet, kur, kdv, seciliAdresler, devralinanKod, devralinanTarih, devralinanRota, function(basarili, sonuc, revizeMi){
       if(basarili){
-        if(kaynak){
+        var bekleyenAkisi = !!(kaynak && (kaynak.bekleyenMod || kaynak.bakiyeKaynak));
+        if(bekleyenAkisi){
+          // BEKLEYEN İLERLET (08.11.2026): bekleyen kaydı (stok bekliyor / bakiye)
+          // silinmez — sipariş ise gelen adetler bekleyenden düşülür; teklif/proforma
+          // ise bekleyene "teklif verildi" izi yazılır. Zincirde araya giren eski
+          // teklif/proforma varsa (bakiyeKaynak) o normal şekilde silinir.
+          var yeniKayitBilgi = Object.assign({}, sonuc, {tip: secilenTip});
+          if(kaynak.bekleyenMod){
+            try{ ReportsData.kaydiAlanGuncelle(secilenTip, sonuc.ts, {oncekiKod: kaynak.kod||null, oncekiTarih: kaynak.tarih||null, rota: kaynak.rota||null}, function(){}); }catch(e){}
+          }
+          var asilBekleyen = kaynak.bakiyeKaynak || {tip:kaynak.tip, ts:kaynak.ts, mod:kaynak.bekleyenMod};
+          if(kaynak.bakiyeKaynak && kaynak.ts !== asilBekleyen.ts){
+            SendData.kaynakSil(kaynak.tip, kaynak.ts, function(){});
+          }
+          if(secilenTip === "siparis"){
+            ReportsData.bekleyenGeldi(asilBekleyen, yeniKayitBilgi, function(ok, e){ if(!ok) console.warn("Bekleyen düşülemedi:", e); });
+          } else {
+            ReportsData.bekleyenBagla(asilBekleyen, yeniKayitBilgi, function(ok, e){ if(!ok) console.warn("Bekleyen bağlanamadı:", e); });
+          }
+          localStorage.removeItem("weiconv2_ilerlet_kaynak");
+        } else if(kaynak){
           // KORUMA (05.11.2026): "Stok Bekliyor" siparişten tekrar SİPARİŞ'e
           // ilerletilirken SendData.kaydet'in "aynı gün + aynı müşteri + aynı
           // ürün seti = revize" kuralı kaynak kaydın KENDİSİNİ güncelleyebilir.
@@ -826,7 +862,7 @@ function kaydetGercekIslem(niyet){
         if(btn) btn.disabled = false;
         hataGoster("Kaydetme başarısız: " + (sonuc && sonuc.message ? sonuc.message : "bilinmeyen hata"));
       }
-    }, aktifKurManuelMi());
+    }, aktifKurManuelMi(), (kaynak && (kaynak.bekleyenMod || kaynak.bakiyeKaynak)) ? {yeniKayitZorla:true} : undefined);
   }catch(e){ hataGoster("Kaydet işlemi başarısız: " + e.message); }
 }
 

@@ -1,5 +1,5 @@
 /*
-  send-data.js — TKP.02.11.26-12:19.1392
+  send-data.js — TKP.08.11.26-08:49.1498
   ============
   TEK görevi: sepeti + seçili müşteriyi + belge türünü alıp Firebase
   arşivine ESKİ UYGULAMAYLA UYUMLU bir kayıt yazmak. Uyumluluk önemli:
@@ -152,7 +152,7 @@ var SendData = (function(){
     return d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate();
   }
 
-  function kaydet(tip, musteri, sepetUrunleri, kur, kdv, adresler, devralinanKod, devralinanTarih, devralinanRota, geriBildir, kurManuelMi){
+  function kaydet(tip, musteri, sepetUrunleri, kur, kdv, adresler, devralinanKod, devralinanTarih, devralinanRota, geriBildir, kurManuelMi, ekSecenek){
     var cb = typeof geriBildir === "function" ? geriBildir : function(){};
     try{
       if(!musteri || !musteri.ad) throw new Error("Müşteri bilgisi eksik.");
@@ -217,6 +217,9 @@ var SendData = (function(){
               if(!ayniMusteriMi) continue;
               if(!ayniGunMu(aday.ts, simdi)) continue;
               if(urunSetiImzaOlustur(aday.urunler) !== yeniImza) continue;
+              // 08.11.2026: bekleyen ürünü ilerletirken (aynı gün + aynı müşteri + aynı
+              // ürün seti olsa bile) kaynak bekleyen kaydın ÜSTÜNE YAZILMAZ — her zaman yeni kayıt.
+              if(ekSecenek && ekSecenek.yeniKayitZorla) continue;
               eslesenIdx = i;
               break;
             }

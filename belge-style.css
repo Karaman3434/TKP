@@ -1,4 +1,4 @@
-/* belge-style.css — TKP.05.11.26-13:08.1486
+/* belge-style.css — TKP.08.11.26-08:49.1498
    GÜNCELLEME (04.11.2026, Abdullah onayı): BEDELSİZ satır — .belge-bdl-yazi
    (kırmızı BEDELSİZ) ve .belge-td-bdl-iptal/.belge-bdl-cizgi (boş hücre + kırmızı çizgi).
    (önceki: TKP.02.11.26-10:48.1380)
@@ -1150,3 +1150,9 @@
   .belge-form-baslik.tip-proforma .belge-form-baslik-tarih,
   .belge-belge-baslik-serit--mavi.tip-proforma { font-size: 12.8px; }
 }
+
+/* BEKLEYEN BİLGİ ŞERİDİ (08.11.2026, Abdullah onayı) — termin / teklif verildi / geldi geçmişi. */
+.belge-bekleyen-bilgi { margin: 6px 4px 2px; padding: 7px 9px; border: 1.5px solid #e7c89a; background: #fffaf2; border-radius: 8px; }
+.belge-bekleyen-bilgi .bb-satir { font-size: 12px; font-weight: 600; color: #6b5a43; line-height: 1.55; }
+.belge-bekleyen-bilgi .bb-satir--uyari { color: #c0392b; font-weight: 800; }
+.belge-bekleyen-bilgi .bb-satir--tamam { color: #1e7a3a; font-weight: 700; }
