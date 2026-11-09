@@ -1,5 +1,5 @@
 /*
-  home-anasayfa-style.css — TKP.09.11.26-23:17.1531
+  home-anasayfa-style.css — TKP.09.11.26-23:35.1532
   ========================
   SADECE home.html'e özel — Abdullah'ın paylaştığı referans fotoğrafa göre
   yeniden tasarlanan Ana Sayfa (canlı mavi/yeşil, kartlı, çekmece menülü).
@@ -208,22 +208,7 @@
 .as-tarih-satir .as-tarih-panel,
 .as-tarih-satir .as-isgunu-panel { min-height: 57px; width: auto; }
 
-.as-kur-panel {
-  flex: 1;
-  min-width: 0;
-  background: #e3f5ec;
-  border: 1.5px solid #1a8a5e;
-  border-radius: 14px;
-  padding: 8px 8px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  /* 10.10.2026 — bkz. .as-isgunu-panel'deki aynı tarihli not. */
-  justify-content: center;
-  gap: 8px;
-}
-.as-kur-etiket { font-size: 10px; font-weight: 700; color: #1a8a5e; line-height: 1.2; text-align: center; }
-.as-kur-deger { font-size: 21px; font-weight: 800; color: #0e5c3e; line-height: 1; }
+/* .as-kur-panel / .as-kur-etiket / .as-kur-deger KALDIRILDI (09.11.2026, Abdullah onayı): yerine kur-panel.js sabit döviz paneli (.dv-sabit). */
 
 /* ---------- Hedef kartı (koyu lacivert) ---------- */
 .as-hedef-blok { padding: 0 0 10px; box-sizing: border-box; } /* 05.11.2026: boşluklar -1mm; 09.11.2026: altı 10px (Bugün satış/prim kutuları artık kartın ÜSTÜNDE, alttaki boşluk eskisi gibi kalsın) */

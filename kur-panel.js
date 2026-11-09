@@ -1,13 +1,14 @@
 /*
-  kur-panel.js — VERSİYON: TKP.09.11.26-23:17.1531
+  kur-panel.js — VERSİYON: TKP.09.11.26-23:35.1532
   ================================================
   04.11.2026 (Abdullah onayı — mockup, Seçenek B): EUR kuruna dokununca sağ
   kenarda küçük yüzen kartta GÜNÜN DÖVİZ KURLARI (programın kendi tablosu) açılır.
   Alttan kayan pencere DEĞİL. (TCMB sitesini iframe'e gömmek TCMB tarafından
   engelleniyor — "bağlanmayı reddetti" — o yüzden sayfa değil veri gösterilir.)
   - Tek yerden: KurPanel.ac() / KurPanel.kapat().
-  - Otomatik bağlanır: .as-kur-panel (Ana Sayfa EUR kur kutusu) ve
-    data-kur-panel özniteliği olan her öğe (olay delegasyonu); Sepet'teki
+  - Ana Sayfa: #dovizSabitPanel içine SABİT (hep açık) EUR+USD paneli çizilir
+    (KurPanel.sabitPanelKur, 09.11.2026). Eski .as-kur-panel kutusu kalktı.
+  - Otomatik bağlanır: data-kur-panel özniteliği olan her öğe (olay delegasyonu); Sepet'teki
     "TCMB Günlük Kur" tuşu da KurPanel.ac() çağırır.
   - VERİ KAYNAĞI (sırayla): 1) TCMB today.xml (alış/satış, bülten tarihi)
     2) Frankfurter (ECB, tek kur — alış "—", satış sütununda gösterilir ve
@@ -43,6 +44,23 @@ var KurPanel = (function(){
     st.id = "kurPanelCss";
     st.textContent =
       ".as-kur-panel{cursor:pointer;}" +
+      /* SABİT DÖVİZ PANELİ (09.11.2026, Abdullah onayı — mockup B): Ana Sayfa'da eski tek satırlık EUR kur kutusunun yerinde, hep açık. */
+      ".dv-sabit{width:100%;box-sizing:border-box;}" +
+      ".dv-kart{background:#fff;border:1.5px solid #0d3d8c;border-radius:12px;overflow:hidden;box-sizing:border-box;}" +
+      ".dv-ust{background:#0d3d8c;color:#fff;display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;}" +
+      ".dv-baslik{flex:1;min-width:0;font-size:12px;font-weight:800;line-height:1.15;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}" +
+      ".dv-baslik small{font-size:10px;font-weight:500;opacity:.9;}" +
+      ".dv-tarih{font-size:10.5px;font-weight:700;opacity:.9;}" +
+      ".dv-btn{background:rgba(255,255,255,.2);border:none;border-radius:7px;color:#fff;min-width:30px;height:28px;font-size:13px;font-weight:800;padding:0 7px;cursor:pointer;flex-shrink:0;}" +
+      ".dv-iki{display:grid;grid-template-columns:1fr 1fr;}" +
+      ".dv-kutu{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:9px 14px;color:#003a70;min-width:0;}" +
+      ".dv-kutu+.dv-kutu{border-left:1px solid #dde3ec;}" +
+      ".dv-kutu--eur{background:#fff6e0;}" +
+      ".dv-kod{font-size:14px;font-weight:800;white-space:nowrap;}" +
+      ".dv-kur{font-size:22px;font-weight:900;white-space:nowrap;}" +
+      ".dv-durum{grid-column:1 / -1;padding:12px;text-align:center;font-size:12px;font-weight:700;color:#8a8f98;}" +
+      ".dv-durum--hata{color:#c0392b;}" +
+      "@media (max-width:400px){.dv-kutu{padding:9px 9px;gap:4px;}.dv-kod{font-size:12.5px;}.dv-kur{font-size:19px;}}" +
       ".kp-perde{position:fixed;inset:0;z-index:6000;background:rgba(10,20,35,.32);}" +
       ".kp-kart{position:fixed;z-index:6001;left:1mm;right:1mm;top:calc(var(--ust-sabit-yukseklik,60px) + 8px);" +
         "width:auto;background:#fff;border-radius:12px;overflow:hidden;" +
@@ -206,11 +224,54 @@ var KurPanel = (function(){
     }catch(e){ console.error("Kur paneli açılamadı:", e); }
   }
 
+  // ---------- SABİT PANEL (Ana Sayfa) ----------
+  // 09.11.2026 (Abdullah onayı — mockup B): pencere yerine sayfaya yerleşik, hep açık panel.
+  // Yalnız EUR + USD (satış). Kaynak TCMB ise "TCMB", yedekse "yedek kaynak" yazar — yanıltıcı
+  // etiket yok. Veri 5 dk önbellekli (veriGetir); sayfa öne gelince / 5 dk'da bir tazelenir.
+  function sabitPanelKur(){
+    var alan = document.getElementById("dovizSabitPanel");
+    if(!alan) return;
+    cssEkle();
+    alan.innerHTML =
+      "<div class='dv-kart' role='group' aria-label='Günün döviz kurları'>" +
+        "<div class='dv-ust'>" +
+          "<div class='dv-baslik'>Günün Döviz Kurları <small class='dv-kaynak'>TCMB</small><span class='dv-tarih'></span></div>" +
+          "<button type='button' class='dv-btn' aria-label='TCMB sayfasını tarayıcıda aç'>↗</button>" +
+        "</div>" +
+        "<div class='dv-iki'><div class='dv-durum'>Kurlar yükleniyor…</div></div>" +
+      "</div>";
+    alan.querySelector(".dv-btn").onclick = function(){ window.open(TCMB_SAYFA, "_blank"); };
+
+    function ciz(v, onbellektenMi){
+      var iki = alan.querySelector(".dv-iki");
+      if(!iki) return;
+      if(!v){
+        iki.innerHTML = "<div class='dv-durum dv-durum--hata'>Kurlar şu an alınamadı. İnternet bağlantını kontrol et.</div>";
+        return;
+      }
+      alan.querySelector(".dv-kaynak").textContent = (v.kaynak === "tcmb" ? "TCMB" : "yedek kaynak") + (onbellektenMi ? " · son kayıtlı" : "");
+      alan.querySelector(".dv-tarih").textContent = String(v.bulten || "").split(" · ")[0];
+      var html = "";
+      DOVIZLER.forEach(function(d){
+        if(d.kod !== "EUR" && d.kod !== "USD") return;
+        if(!(v.satis[d.kod] > 0)) return;
+        html += "<div class='dv-kutu" + (d.kod === "EUR" ? " dv-kutu--eur" : "") + "'><span class='dv-kod'>" + d.bayrak + " " + d.kod + "</span><span class='dv-kur'>" + sayiYaz(v.satis[d.kod]) + "</span></div>";
+      });
+      iki.innerHTML = html || "<div class='dv-durum dv-durum--hata'>Kur verisi bulunamadı.</div>";
+    }
+    function yukle(){ veriGetir(ciz); }
+    yukle();
+    setInterval(yukle, TAZE_MS);
+    document.addEventListener("visibilitychange", function(){ if(!document.hidden) yukle(); });
+  }
+  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", sabitPanelKur);
+  else sabitPanelKur();
+
   cssEkle();
   document.addEventListener("click", function(ev){
     var hedef = ev.target && ev.target.closest ? ev.target.closest(".as-kur-panel,[data-kur-panel]") : null;
     if(hedef){ ev.preventDefault(); ac(); }
   });
 
-  return {ac: ac, kapat: kapat};
+  return {ac: ac, kapat: kapat, sabitPanelKur: sabitPanelKur};
 })();

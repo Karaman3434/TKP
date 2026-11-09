@@ -1,5 +1,5 @@
 /*
-  home-render.js — TKP.08.11.26-23:57.1520
+  home-render.js — TKP.09.11.26-23:35.1532
   ==============
   Bu dosyanın TEK görevi: IsTakipData'dan veriyi okuyup ekrana (DOM'a) yazmak.
   Hiçbir hesaplama yapmaz, hiçbir Firebase çağrısı içermez.
@@ -227,15 +227,6 @@ function hataRozetiGuncelle(){
   }catch(e){}
 }
 
-function asKurGuncelle(){
-  try{
-    var el = document.getElementById("asKurDeger");
-    if(!el) return;
-    var kur = parseFloat(localStorage.getItem("weicon_kur"));
-    el.textContent = isNaN(kur) ? "-" : kur.toLocaleString("tr-TR", {minimumFractionDigits:2, maximumFractionDigits:4});
-  }catch(e){}
-}
-
 // TAŞINDI (23.10.2026, "Menü her sayfada" — mockup onaylandı) — çekmece
 // aç/kapat + "yana açılan alt menü" (DRAWER_ALT_MENULERI, altMenuAc/Kapat,
 // asDrawerAc/Kapat, asDrawerBagla) artık home.html'e özel değil, TÜM
@@ -350,10 +341,8 @@ document.addEventListener("DOMContentLoaded", function(){
   // Firebase verisi henüz gelmemiş olabilir; ilk anda da bir kez dene.
   kartlariGuncelle();
 
-  asKurGuncelle();
   hataRozetiGuncelle();
   window.addEventListener("storage", function(ev){
-    if(ev.key === "weicon_kur") asKurGuncelle();
     if(ev.key === "weicon_hedef") kartlariGuncelle();
     if(ev.key === "weicon_hata_son_gorulen") hataRozetiGuncelle();
   });
@@ -361,6 +350,5 @@ document.addEventListener("DOMContentLoaded", function(){
   // NOT (23.10.2026) — #asDrawerEposta artık burada değil, menu-cekmece.js'teki
   // paylaşılan istakipAuthHazir dinleyicisinde dolduruluyor (tüm sayfalarda ortak).
   window.addEventListener("istakipAuthHazir", function(ev){
-    asKurGuncelle();
-  });
+    });
 });
