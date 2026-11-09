@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.08.11.26-23:35.1519
+  belge-render.js — TKP.09.11.26-15:24.1527
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -972,6 +972,7 @@ function duzenlemeAc(k){
       + "<div class='duzenle-alan-grid'>"
       + "<div class='duzenle-alan'><label class='duzenle-etiket'>Liste Fiyat</label><input type='number' step='0.01' data-alan='listeFiyat' data-i='" + i + "' value='" + (u.listeFiyat||0) + "'></div>"
       + "<div class='duzenle-alan'><label class='duzenle-etiket'>İskonto %</label><input type='number' step='0.1' data-alan='iskonto' data-i='" + i + "' value='" + (u.iskonto||0) + "'></div>"
+      + "<div class='duzenle-alan'><label class='duzenle-etiket'>Net Fiyat (otomatik)</label><input type='text' class='duzenle-net-oto' readonly tabindex='-1' data-alan='netFiyat' data-i='" + i + "' value=''></div>"
       + "<div class='duzenle-alan'><label class='duzenle-etiket'>Adet</label><input type='number' step='1' min='0' data-alan='adet' data-i='" + i + "' value='" + (u.adet != null ? u.adet : 1) + "'></div>"
       + "<div class='duzenle-alan'><label class='duzenle-etiket'>Dip Fiyat</label><input type='number' step='0.01' data-alan='dipFiyat' data-i='" + i + "' value='" + (u.dipFiyat||0) + "'></div>"
       + "</div>"
@@ -979,6 +980,22 @@ function duzenlemeAc(k){
       + "</div>";
   }).join("");
 
+  // NET FİYAT (otomatik) — 09.11.2026, Abdullah isteği ("iskontoyu
+  // değiştirince yeni fiyat otomatik hesaplansın"): Liste Fiyat veya
+  // İskonto % değişince Net Fiyat = Liste × (1 − İsk/100) anında yazılır.
+  // SALT-OKUNUR gösterge; kaydederken kullanılan formül (iskBirim) ile
+  // AYNI. Dip Fiyat (maliyet/prim tabanı) bu hesaptan ETKİLENMEZ.
+  function netFiyatGuncelle(i){
+    var l = parseFloat((document.querySelector("[data-alan='listeFiyat'][data-i='"+i+"']")||{}).value)||0;
+    var k = parseFloat((document.querySelector("[data-alan='iskonto'][data-i='"+i+"']")||{}).value)||0;
+    var n = document.querySelector("[data-alan='netFiyat'][data-i='"+i+"']");
+    if(n) n.value = (l - l*k/100).toFixed(2).replace(".", ",");
+  }
+  (k.urunler||[]).forEach(function(u, i){ netFiyatGuncelle(i); });
+  kapsayici.oninput = function(ev){
+    var a = ev.target && ev.target.getAttribute && ev.target.getAttribute("data-alan");
+    if(a === "listeFiyat" || a === "iskonto") netFiyatGuncelle(ev.target.getAttribute("data-i"));
+  };
   kapsayici.querySelectorAll(".duzenle-bakiye-link").forEach(function(link){
     link.onclick = function(){
       var i = this.getAttribute("data-bakiye-i");
@@ -1065,6 +1082,7 @@ function duzenlemeAc(k){
           duzenlemeUrunDegisiklikleri[i] = {ad:b.ad, berta:b.berta, abas:b.abas};
           document.getElementById("duzenleUrunAd-" + i).textContent = b.ad;
           document.querySelector("[data-alan='listeFiyat'][data-i='"+i+"']").value = b.fiyat;
+          netFiyatGuncelle(i);
           document.getElementById("duzenleUrunArama-" + i).hidden = true;
         };
       });

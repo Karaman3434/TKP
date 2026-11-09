@@ -1,4 +1,4 @@
-/* reports-style.css — TKP.08.11.26-13:59.1506 */
+/* reports-style.css — TKP.09.11.26-15:24.1527 */
 /* reports-style.css — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
@@ -318,6 +318,10 @@
   border-radius: 6px;
   padding: 6px 8px;
   font-size: 13px;
+}
+.duzenle-alan-grid input.duzenle-net-oto {
+  background: #eef6f0; border-color: #b7d9c0; color: #14532d; font-weight: 800;
+  pointer-events: none; /* 09.11.2026: salt-okunur otomatik Net Fiyat */
 }
 .duzenle-urun-degistir-link {
   background: none;
