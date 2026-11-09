@@ -1,10 +1,10 @@
-/* home-takvim-style.css — TKP.09.11.26-23:17.1531
+/* home-takvim-style.css — TKP.09.11.26-23:57.1533
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
    NOT: gradient KULLANILMAZ (home-style.css kuralı) — defter çizgileri SVG arka plan. */
 
-.ht-blok { padding: 0 0 10px; box-sizing: border-box; }
+.ht-blok { padding: 0 0 1mm; box-sizing: border-box; }
 .ht-kapsayici { position: relative; }
 
 .ht-ay-btn {
@@ -17,7 +17,7 @@
 }
 .ht-ozet {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  margin: 0 0 6px; padding: 9px 14px;
+  margin: 0 0 1mm; padding: 9px 14px;
   background: #fff; border: 1.5px solid #a9c9ee; border-radius: 12px;
   font-weight: 700; font-size: 15px;
 }
@@ -37,8 +37,14 @@
 }
 .ht-takvim-kutu {
   background: #fff; border: 1px solid #e2e6ec; border-radius: 10px;
-  padding: 10px; margin-bottom: 6px;
+  padding: 10px; margin-bottom: 0;
+  touch-action: pan-y; /* 09.11.2026: yatay kaydırma ay değiştirir */
 }
+.ht-ay-baslik {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 6px 6px; font-size: 14px; font-weight: 800; color: #0a2f5c;
+}
+.ht-ay-baslik i { font-style: normal; font-size: 18px; color: #9aa6b6; padding: 0 8px; cursor: pointer; }
 .ht-gun-basliklari {
   display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
   font-size: 15px; font-weight: 900; text-align: center; color: #2d3540; margin-bottom: 4px;  /* 08.11.2026 (Abdullah): gün kısaltmaları +%50 (10px idi) */
@@ -120,7 +126,6 @@
 .ht-ay-zemin { position: fixed; inset: 0; background: transparent; z-index: 2290; }
 .ht-ay-pop { position: absolute; z-index: 2300; box-sizing: border-box; background: #fff; border: 1.5px solid #003a70; border-radius: 12px; padding: 10px 8px 8px; box-shadow: 0 8px 22px rgba(0,0,0,.28); }
 .ht-ay-pop:before { content: ''; position: absolute; top: -8px; left: 50%; margin-left: -7px; width: 12px; height: 12px; background: #fff; border-left: 1.5px solid #003a70; border-top: 1.5px solid #003a70; transform: rotate(45deg); }
-.ht-ay-baslik { text-align: center; font-weight: 800; color: #0a2f5c; margin-bottom: 6px; font-size: 14px; }
 .ht-ay-satir { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px; }
 .ht-ay-secenek { flex-shrink: 0; padding: 9px 14px; border-radius: 10px; background: #eef2f8; color: #003a70; font-weight: 700; font-size: 13px; cursor: pointer; }
 .ht-ay-secenek--secili { background: #003a70; color: #fff; }

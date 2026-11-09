@@ -1,5 +1,5 @@
 /*
-  home-render.js — TKP.09.11.26-23:35.1532
+  home-render.js — TKP.09.11.26-23:57.1533
   ==============
   Bu dosyanın TEK görevi: IsTakipData'dan veriyi okuyup ekrana (DOM'a) yazmak.
   Hiçbir hesaplama yapmaz, hiçbir Firebase çağrısı içermez.
@@ -152,22 +152,6 @@ function setText(id, deger){
   var el = document.getElementById(id);
   if(el) el.textContent = deger;
   else console.warn("Element bulunamadı:", id);
-}
-
-function bildirimBanneriGuncelle(){
-  try{
-    var ozet = IsTakipData.bildirimOzetiHesapla();
-    var banner = document.getElementById("bildirimBanner");
-    if(ozet.toplam === 0){
-      banner.hidden = true;
-      return;
-    }
-    banner.hidden = false;
-    var parcalar = [];
-    if(ozet.acikSurecSayisi > 0) parcalar.push(ozet.acikSurecSayisi + " açık süreç (15+ gün)");
-    if(ozet.gecikmisGorevSayisi > 0) parcalar.push(ozet.gecikmisGorevSayisi + " gecikmiş görev");
-    document.getElementById("bildirimBannerAlt").textContent = parcalar.join(" · ");
-  }catch(e){ hataGoster("Bildirim banner'ı güncellenemedi: " + e.message); }
 }
 
 function isGunuKaldiHesapla(tarih){
@@ -333,11 +317,9 @@ document.addEventListener("DOMContentLoaded", function(){
   kaBaslatVeKontrolEt();
   try{ if(typeof CihazData !== "undefined") CihazData.kaydiGuncelle(); }catch(e){}
   IsTakipData.veriDegistiginde(kartlariGuncelle);
-  IsTakipData.bildirimDegistiginde(bildirimBanneriGuncelle);
   IsTakipData.bildirimVerisiDinlemeyeBasla();
   if(typeof KomisyonDonemData !== "undefined") KomisyonDonemData.degistiginde(function(){ odenebilirKomisyonuGuncelle(); });
   window.addEventListener("istakipAuthHazir", function(){ odenebilirKomisyonuGuncelle(); });
-  document.getElementById("bildirimBanner").onclick = function(){ window.location.href = "bildirimler.html"; };
   // Firebase verisi henüz gelmemiş olabilir; ilk anda da bir kez dene.
   kartlariGuncelle();
 

@@ -1,5 +1,5 @@
 /*
-  home-anasayfa-style.css — TKP.09.11.26-23:35.1532
+  home-anasayfa-style.css — TKP.09.11.26-23:57.1533
   ========================
   SADECE home.html'e özel — Abdullah'ın paylaştığı referans fotoğrafa göre
   yeniden tasarlanan Ana Sayfa (canlı mavi/yeşil, kartlı, çekmece menülü).
@@ -132,8 +132,8 @@
    TEK bir tutarlı boşluk. */
 .as-panel-satir {
   display: flex;
-  gap: 6px;
-  padding: 0 0 10px;
+  gap: 1mm;
+  padding: 0 0 1mm; /* 09.11.2026: paneller arası net 1mm */
   box-sizing: border-box;
 }
 /* YENİ TARİH PANELİ (06.10.2026, Abdullah'ın isteğiyle, referans görsele
@@ -155,7 +155,7 @@
   color: #fff;
 }
 .as-tarih-gun-sayi {
-  font-size: 31px; /* eski gün-adı yazısından (23px) %20 büyük büyük rakam */
+  font-size: 40px; /* 09.11.2026 (mockup A): 31 → 40 */ /* eski gün-adı yazısından (23px) %20 büyük büyük rakam */
   font-weight: 900;
   color: #fff;
   line-height: 1;
@@ -163,7 +163,7 @@
 }
 .as-tarih-metin-yeni { line-height: 1.15; text-align: left; min-width: 0; }
 .as-tarih-gun-yeni {
-  font-size: 10.2px;
+  font-size: 13.5px;
   font-weight: 800;
   color: #fff;
   letter-spacing: .2px;
@@ -175,10 +175,16 @@
   width: 100%;
 }
 .as-tarih-ayyil {
-  font-size: 10.2px;
-  font-weight: 800;
+  font-size: 18px; /* 09.11.2026 (mockup A): belirgin ay etiketi */
+  font-weight: 900;
   color: #fff;
   white-space: nowrap;
+}
+@media (max-width: 400px) {
+  .as-tarih-panel { gap: 4px; padding: 8px 2px; }
+  .as-tarih-gun-sayi { font-size: 31px; }
+  .as-tarih-gun-yeni { font-size: 11.5px; }
+  .as-tarih-ayyil { font-size: 14.5px; }
 }
 
 .as-isgunu-panel {
@@ -204,14 +210,14 @@
 .as-isgunu-deger { font-size: 31px; font-weight: 800; color: #c0392b; line-height: 1; }
 
 /* TARİH + İŞ GÜNÜ SATIRI (09.11.2026, Abdullah onayı — mockup): iki panel AYNI boyda yan yana (1fr 1fr). */
-.as-tarih-satir { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 0 0 6px; box-sizing: border-box; }
+.as-tarih-satir { display: grid; grid-template-columns: 1fr 1fr; gap: 1mm; margin: 0 0 1mm; box-sizing: border-box; }
 .as-tarih-satir .as-tarih-panel,
 .as-tarih-satir .as-isgunu-panel { min-height: 57px; width: auto; }
 
 /* .as-kur-panel / .as-kur-etiket / .as-kur-deger KALDIRILDI (09.11.2026, Abdullah onayı): yerine kur-panel.js sabit döviz paneli (.dv-sabit). */
 
 /* ---------- Hedef kartı (koyu lacivert) ---------- */
-.as-hedef-blok { padding: 0 0 10px; box-sizing: border-box; } /* 05.11.2026: boşluklar -1mm; 09.11.2026: altı 10px (Bugün satış/prim kutuları artık kartın ÜSTÜNDE, alttaki boşluk eskisi gibi kalsın) */
+.as-hedef-blok { padding: 0; box-sizing: border-box; } /* 05.11.2026: boşluklar -1mm; 09.11.2026: altı 10px (Bugün satış/prim kutuları artık kartın ÜSTÜNDE, alttaki boşluk eskisi gibi kalsın) */
 .as-hedef-kart {
   background: #0c2f66;
   border-radius: 16px;
@@ -272,8 +278,8 @@
 /* ---------- Bugün satış / Bugün prim ---------- */
 .as-kart-satir {
   display: flex;
-  gap: 10px;
-  padding: 0 0 10px;
+  gap: 1mm;
+  padding: 0 0 1mm;
   box-sizing: border-box;
 }
 .as-kart {

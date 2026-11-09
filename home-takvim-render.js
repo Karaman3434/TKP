@@ -1,5 +1,5 @@
 /*
-  home-takvim-render.js — TKP.09.11.26-23:17.1531
+  home-takvim-render.js — TKP.09.11.26-23:57.1533
   =================================================
   ANA SAYFA TAKVİMİ.
 
@@ -106,15 +106,18 @@
     var bugun = new Date();
     yil = bugun.getFullYear(); ay = bugun.getMonth();
     kapsayici.innerHTML =
-      "<button type='button' class='ht-ay-btn' id='htAySec'><span aria-hidden='true'>🗓️</span><span id='htAyBaslik'></span></button>"
       // (09.11.2026, Abdullah onayı) "Bugün · işlem · sipariş · temas" özeti artık burada DEĞİL —
       // home.html'de Bugün satış/prim kutularının üstünde (#htOzet); aynı id'ler, aynı kod.
-      + "<div class='ht-takvim-kutu'>"
+      // (09.11.2026, Abdullah onayı — mockup A) "Kasım 2026" çubuğu KALDIRILDI; ay adı takvimin içinde, sağa/sola kaydırınca ay değişir.
+      "<div class='ht-takvim-kutu' id='htTakvimKutu'>"
+      +   "<div class='ht-ay-baslik'><i id='htAyOnce' aria-label='Önceki ay'>‹</i><span id='htAyBaslik'></span><i id='htAySonra' aria-label='Sonraki ay'>›</i></div>"
       +   "<div class='ht-gun-basliklari'><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span class='ht-tatil-baslik'>Cmt</span><span class='ht-tatil-baslik'>Paz</span></div>"
       +   "<div class='ht-grid' id='htGrid'></div>"
       + "</div>";
     grid = document.getElementById("htGrid");
-    document.getElementById("htAySec").onclick = aySecAc;
+    document.getElementById("htAyOnce").onclick = function(){ ayKaydir(-1); };
+    document.getElementById("htAySonra").onclick = function(){ ayKaydir(1); };
+    swipeKur(document.getElementById("htTakvimKutu"));
     // 08.11.2026 (Abdullah onayı): "Bugün" etiketine dokununca bugünün Not + Ajanda penceresi açılır.
     document.getElementById("htOzetBugun").onclick = function(){
       var b = new Date();
@@ -261,41 +264,25 @@
     }catch(e){}
   }
 
-  // ---------- AY SEÇ ----------
-  // 08.11.2026 (Abdullah onayı — mockup): "Ay seç" artık ekranın ortasında karartan pencere değil;
-  // "Kasım 2026" çubuğunun HEMEN ALTINDA, çubuk genişliğinde, okla işaretli küçük açılır pencere.
-  // Dışına dokunmak kapatır; ay seçilince takvim o aya geçer ve pencere kapanır.
-  function aySecAc(){
-    if(document.querySelector(".ht-ay-pop")) return;
-    var btn = document.getElementById("htAySec");
-    if(!btn) return;
-    var kap = btn.offsetParent || btn.parentNode;
-    var bugun = new Date(), h = "";
-    for(var i=-12; i<=12; i++){
-      var d = new Date(bugun.getFullYear(), bugun.getMonth()+i, 1);
-      var sec = (d.getFullYear()===yil && d.getMonth()===ay);
-      h += "<div class='ht-ay-secenek" + (sec ? " ht-ay-secenek--secili" : "") + "' data-y='" + d.getFullYear() + "' data-a='" + d.getMonth() + "'>" + AY_ADLARI[d.getMonth()].slice(0,3) + " " + d.getFullYear() + "</div>";
-    }
-    var zemin = document.createElement("div");
-    zemin.className = "ht-ay-zemin";
-    var pop = document.createElement("div");
-    pop.className = "ht-ay-pop";
-    pop.innerHTML = "<div class='ht-ay-baslik'>Ay seç</div><div class='ht-ay-satir'>" + h + "</div>";
-    pop.style.top = (btn.offsetTop + btn.offsetHeight + 10) + "px";
-    pop.style.left = btn.offsetLeft + "px";
-    pop.style.width = btn.offsetWidth + "px";
-    document.body.appendChild(zemin);
-    kap.appendChild(pop);
-    var kapat = function(){ zemin.remove(); pop.remove(); };
-    zemin.addEventListener("click", kapat);
-    pop.querySelectorAll(".ht-ay-secenek").forEach(function(el){
-      el.onclick = function(){
-        yil = parseInt(this.getAttribute("data-y"),10); ay = parseInt(this.getAttribute("data-a"),10);
-        kapat(); panelKapat(); takvimiCiz();
-      };
-    });
-    var s = pop.querySelector(".ht-ay-secenek--secili"), satir = pop.querySelector(".ht-ay-satir");
-    if(s && satir) satir.scrollLeft = s.offsetLeft - (satir.clientWidth - s.offsetWidth) / 2;
+  // ---------- AY DEĞİŞTİR (kaydırma) ----------
+  // 09.11.2026 (Abdullah onayı): takvim sağa/sola kaydırılınca ay değişir (sola kaydır = sonraki ay).
+  function ayKaydir(d){
+    var t = new Date(yil, ay + d, 1);
+    yil = t.getFullYear(); ay = t.getMonth();
+    panelKapat(); takvimiCiz();
+  }
+  function swipeKur(el){
+    if(!el) return;
+    var x0 = 0, y0 = 0, aktif = false;
+    el.addEventListener("touchstart", function(e){
+      if(e.touches.length !== 1){ aktif = false; return; }
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; aktif = true;
+    }, {passive:true});
+    el.addEventListener("touchend", function(e){
+      if(!aktif) return; aktif = false;
+      var c = e.changedTouches[0], dx = c.clientX - x0, dy = c.clientY - y0;
+      if(Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5) ayKaydir(dx < 0 ? 1 : -1);
+    }, {passive:true});
   }
 
   // ---------- TEMAS PENCERESİ (21:42 onayı — mockup: Not defteri + Ziyaret Takvimi temas paneli) ----------
@@ -558,11 +545,11 @@
     // 09.11.2026 (Abdullah onayı): özet şeridi takvimle aynı izne bağlı.
     var ozet = document.getElementById("htOzet");
     if(ozet) ozet.hidden = !izinli;
-    // Tarih + İş günü satırı: takvim görünürken "Kasım 2026" çubuğunun ALT satırı;
+    // Tarih + İş günü satırı: takvim görünürken takvimin hemen ÜSTÜNDE;
     // takvim yoksa (izin yok) kendi yerinde (üst kur satırının altında) kalır.
-    var tSatir = document.getElementById("asTarihSatir"), ayBtn = document.getElementById("htAySec");
-    if(tSatir && ayBtn){
-      if(izinli){ if(ayBtn.nextSibling !== tSatir) ayBtn.parentNode.insertBefore(tSatir, ayBtn.nextSibling); }
+    var tSatir = document.getElementById("asTarihSatir"), kutu = document.getElementById("htTakvimKutu");
+    if(tSatir && kutu){
+      if(izinli){ if(kutu.previousSibling !== tSatir) kutu.parentNode.insertBefore(tSatir, kutu); }
       else if(blok && tSatir.parentNode !== blok.parentNode){ blok.parentNode.insertBefore(tSatir, blok); }
     }
   }
