@@ -1,5 +1,5 @@
 /*
-  kur-panel.js — VERSİYON: TKP.04.11.26-18:54.1473
+  kur-panel.js — VERSİYON: TKP.09.11.26-23:17.1531
   ================================================
   04.11.2026 (Abdullah onayı — mockup, Seçenek B): EUR kuruna dokununca sağ
   kenarda küçük yüzen kartta GÜNÜN DÖVİZ KURLARI (programın kendi tablosu) açılır.
@@ -44,8 +44,8 @@ var KurPanel = (function(){
     st.textContent =
       ".as-kur-panel{cursor:pointer;}" +
       ".kp-perde{position:fixed;inset:0;z-index:6000;background:rgba(10,20,35,.32);}" +
-      ".kp-kart{position:fixed;z-index:6001;right:6px;top:calc(var(--ust-sabit-yukseklik,60px) + 8px);" +
-        "width:min(72vw,340px);background:#fff;border-radius:12px;overflow:hidden;" +
+      ".kp-kart{position:fixed;z-index:6001;left:1mm;right:1mm;top:calc(var(--ust-sabit-yukseklik,60px) + 8px);" +
+        "width:auto;background:#fff;border-radius:12px;overflow:hidden;" +
         "box-shadow:-6px 6px 22px rgba(0,0,0,.38);display:flex;flex-direction:column;max-height:calc(100vh - 80px);}" +
       ".kp-ust{background:#0d3d8c;color:#fff;display:flex;align-items:center;gap:6px;padding:7px 7px 7px 12px;flex-shrink:0;}" +
       ".kp-baslik{flex:1;min-width:0;font-size:11px;font-weight:800;line-height:1.15;}" +
@@ -55,10 +55,10 @@ var KurPanel = (function(){
       ".kp-bulten{font-size:9.5px;font-weight:700;color:#556170;margin-bottom:5px;text-align:center;}" +
       ".kp-durum{padding:22px 8px;text-align:center;color:#8a8f98;font-size:12px;font-weight:700;}" +
       ".kp-durum--hata{color:#c0392b;}" +
-      ".kp-tablo{width:100%;border-collapse:collapse;font-size:12.5px;}" +
-      ".kp-tablo th{background:#eef2f8;color:#556170;font-size:10px;font-weight:800;padding:5px 4px;text-align:right;}" +
+      ".kp-tablo{width:100%;border-collapse:collapse;font-size:16px;}" +
+      ".kp-tablo th{background:#eef2f8;color:#556170;font-size:11px;font-weight:800;padding:6px 8px;text-align:right;}" +
       ".kp-tablo th:first-child,.kp-tablo td:first-child{text-align:left;}" +
-      ".kp-tablo td{padding:7px 4px;border-bottom:1px solid #eef1f5;text-align:right;font-weight:700;color:#003a70;white-space:nowrap;}" +
+      ".kp-tablo td{padding:11px 8px;border-bottom:1px solid #eef1f5;text-align:right;font-weight:700;color:#003a70;white-space:nowrap;}" +
       ".kp-tablo tr.kp-eur td{background:#fff6e0;font-weight:900;}" +
       ".kp-alt{background:#eef2f8;color:#556170;font-size:8.5px;font-weight:600;padding:4px 8px;border-top:1px solid #dde3ec;flex-shrink:0;}";
     document.head.appendChild(st);
@@ -138,23 +138,27 @@ var KurPanel = (function(){
 
   function tabloHtml(v, onbellektenMi){
     var html = "<div class='kp-bulten'>" + (v.bulten || "") + (onbellektenMi ? " · son kayıtlı" : "") + "</div>";
-    html += "<table class='kp-tablo'><thead><tr><th>Döviz</th><th>Alış</th><th>Satış</th></tr></thead><tbody>";
+    // 09.11.2026 (Abdullah onayı — mockup): yalnız EUR ve USD, yalnız SATIŞ sütunu (Alış sütunu kalktı).
+    html += "<table class='kp-tablo'><thead><tr><th>Döviz</th><th>Satış</th></tr></thead><tbody>";
     DOVIZLER.forEach(function(d){
+      if(d.kod !== "EUR" && d.kod !== "USD") return;
       if(!(v.satis[d.kod] > 0)) return;
       html += "<tr" + (d.kod === "EUR" ? " class='kp-eur'" : "") + "><td>" + d.bayrak + " " + d.kod + (d.unit > 1 ? " (" + d.unit + ")" : "") + "</td>"
-        + "<td>" + sayiYaz(v.alis[d.kod]) + "</td><td>" + sayiYaz(v.satis[d.kod]) + "</td></tr>";
+        + "<td>" + sayiYaz(v.satis[d.kod]) + "</td></tr>";
     });
     html += "</tbody></table>";
     return html;
   }
 
+  var SURUM = "1473";
   function altNotYaz(v, onbellektenMi){
     var alt = kok && kok.querySelector(".kp-alt");
     if(!alt) return;
+    setTimeout(function(){ if(alt) alt.textContent += " · s" + SURUM; }, 0);
     if(!v) alt.textContent = "↗ ile TCMB'nin kur sayfası tarayıcıda açılır.";
     else if(onbellektenMi) alt.textContent = "Kaynak: son kayıtlı veri (bağlantı kurulamadı) · ↗ ile TCMB sayfası";
     else if(v.kaynak === "tcmb") alt.textContent = "Kaynak: TCMB · ↗ ile tüm liste tarayıcıda açılır";
-    else alt.textContent = "Kaynak: yedek (TCMB'ye ulaşılamadı), tek kur — alış gösterilmez · ↗ ile TCMB sayfası";
+    else alt.textContent = "Kaynak: yedek (TCMB'ye ulaşılamadı) · ↗ ile TCMB sayfası";
   }
 
   function kapat(){

@@ -1,5 +1,5 @@
 /*
-  home-anasayfa-style.css — TKP.09.11.26-12:59.1523
+  home-anasayfa-style.css — TKP.09.11.26-23:17.1531
   ========================
   SADECE home.html'e özel — Abdullah'ın paylaştığı referans fotoğrafa göre
   yeniden tasarlanan Ana Sayfa (canlı mavi/yeşil, kartlı, çekmece menülü).
@@ -199,8 +199,14 @@
   gap: 8px;
 }
 .as-isgunu-ikon { font-size: 14px; line-height: 1; }
-.as-isgunu-etiket { font-size: 10px; font-weight: 700; color: #c0392b; line-height: 1.2; margin-top: 2px; text-align: center; }
-.as-isgunu-deger { font-size: 21px; font-weight: 800; color: #c0392b; line-height: 1; }
+/* 09.11.2026 (Abdullah onayı — mockup): etiket sayının SAĞINDA (HTML'de sayı önce), sayı 31px (tarih rakamıyla aynı boy). */
+.as-isgunu-etiket { font-size: 10.2px; font-weight: 700; color: #c0392b; line-height: 1.2; margin-top: 0; text-align: left; }
+.as-isgunu-deger { font-size: 31px; font-weight: 800; color: #c0392b; line-height: 1; }
+
+/* TARİH + İŞ GÜNÜ SATIRI (09.11.2026, Abdullah onayı — mockup): iki panel AYNI boyda yan yana (1fr 1fr). */
+.as-tarih-satir { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 0 0 6px; box-sizing: border-box; }
+.as-tarih-satir .as-tarih-panel,
+.as-tarih-satir .as-isgunu-panel { min-height: 57px; width: auto; }
 
 .as-kur-panel {
   flex: 1;
@@ -228,6 +234,12 @@
   color: #ffffff;
   box-sizing: border-box;
 }
+/* KASIM SATIŞ KARTI +%20 DİKEY (09.11.2026, Abdullah onayı — mockup): yazı boyları aynı, satır aralıkları açıldı. */
+.as-hedef-kart { padding-top: 16px; padding-bottom: 16px; }
+.as-hedef-kart .as-hedef-deger-satir,
+.as-hedef-kart .as-hedef-bar-sarmal,
+.as-hedef-kart .as-hedef-ayrac-satir,
+.as-hedef-kart .as-prim-iki { margin-top: 9px; }
 .as-hedef-ust-satir {
   display: flex;
   align-items: baseline;

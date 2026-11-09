@@ -1,5 +1,5 @@
 /*
-  home-takvim-render.js — TKP.09.11.26-18:48.1530
+  home-takvim-render.js — TKP.09.11.26-23:17.1531
   =================================================
   ANA SAYFA TAKVİMİ.
 
@@ -107,12 +107,8 @@
     yil = bugun.getFullYear(); ay = bugun.getMonth();
     kapsayici.innerHTML =
       "<button type='button' class='ht-ay-btn' id='htAySec'><span aria-hidden='true'>🗓️</span><span id='htAyBaslik'></span></button>"
-      + "<div class='ht-ozet' id='htOzet'>"
-      +   "<b class='ht-ozet-bugun' id='htOzetBugun' role='button' tabindex='0'>Bugün</b>"
-      +   "<span class='ht-ozet-oge ht-ozet-oge--islem'><i aria-hidden='true'>📝</i><span id='htOzetIslem'>0</span> işlem</span>"
-      +   "<span class='ht-ozet-oge ht-ozet-oge--siparis'><i aria-hidden='true'>📦</i><span id='htOzetSiparis'>0</span> sipariş</span>"
-      +   "<span class='ht-ozet-oge ht-ozet-oge--temas'><i aria-hidden='true'>👥</i><span id='htOzetTemas'>0</span> temas</span>"
-      + "</div>"
+      // (09.11.2026, Abdullah onayı) "Bugün · işlem · sipariş · temas" özeti artık burada DEĞİL —
+      // home.html'de Bugün satış/prim kutularının üstünde (#htOzet); aynı id'ler, aynı kod.
       + "<div class='ht-takvim-kutu'>"
       +   "<div class='ht-gun-basliklari'><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span class='ht-tatil-baslik'>Cmt</span><span class='ht-tatil-baslik'>Paz</span></div>"
       +   "<div class='ht-grid' id='htGrid'></div>"
@@ -559,6 +555,16 @@
     var blok = document.getElementById("anaTakvimBlok");
     var izinli = (typeof window.izinVarMi === "function") ? window.izinVarMi("ziyaret") : true;
     if(blok) blok.hidden = !izinli;
+    // 09.11.2026 (Abdullah onayı): özet şeridi takvimle aynı izne bağlı.
+    var ozet = document.getElementById("htOzet");
+    if(ozet) ozet.hidden = !izinli;
+    // Tarih + İş günü satırı: takvim görünürken "Kasım 2026" çubuğunun ALT satırı;
+    // takvim yoksa (izin yok) kendi yerinde (üst kur satırının altında) kalır.
+    var tSatir = document.getElementById("asTarihSatir"), ayBtn = document.getElementById("htAySec");
+    if(tSatir && ayBtn){
+      if(izinli){ if(ayBtn.nextSibling !== tSatir) ayBtn.parentNode.insertBefore(tSatir, ayBtn.nextSibling); }
+      else if(blok && tSatir.parentNode !== blok.parentNode){ blok.parentNode.insertBefore(tSatir, blok); }
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function(){

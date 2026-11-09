@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.09.11.26-12:59.1523 — home.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.09.11.26-23:17.1531 — home.html -->
 <!--
   İŞ TAKİP — ANA SAYFA v5 (sade "flat" tasarım + gerçek hedef ilerlemesi)
   =============================================================================
@@ -54,11 +54,11 @@
 <link rel="stylesheet" href="home-style.css?v=TKP.01.11.26-22:45.1344">
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
-<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.09.11.26-12:59.1523">
+<link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.09.11.26-23:17.1531">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı) —
      .as-drawer-oge--kilitli (kilitli satır görünümü), tüm sayfalarla ortak. -->
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.08.11.26-13:14.1505">
-<link rel="stylesheet" href="home-takvim-style.css?v=TKP.08.11.26-19:58.1514">
+<link rel="stylesheet" href="home-takvim-style.css?v=TKP.09.11.26-23:17.1531">
 <link rel="stylesheet" href="ust-bar-style.css?v=TKP.05.11.26-12:35.1485">
 <link rel="stylesheet" href="arama-stili.css?v=TKP.08.11.26-11:06.1501">
 </head>
@@ -90,6 +90,18 @@
          görsele göre) — kutu boyutu (flex:1, satırdaki diğer 2 kutuyla
          aynı yükseklik) DEĞİŞMEDİ, sadece görünüm: solda büyük gün
          rakamı (asTarihGunSayi), sağda GÜN ADI / ince ayraç / AY YIL. -->
+    <!-- 09.11.2026 (Abdullah onayı — mockup): Tarih + İş günü kaldı panelleri bu satırdan çıktı;
+         üst satırda yalnız EUR kur paneli kaldı (tam genişlik). Tarih/İş günü aşağıdaki
+         #asTarihSatir'da — takvim görünürken "Kasım 2026" çubuğunun ALT satırına
+         (home-takvim-render.js erisimUygula), takvim yoksa (ziyaret izni yok) bu konumda kalır. -->
+    <div class="as-kur-panel">
+      <div class="as-kur-etiket">EUR<br>kur</div>
+      <div class="as-kur-deger" id="asKurDeger">-</div>
+    </div>
+  </div>
+
+  <!-- TARİH + İŞ GÜNÜ (09.11.2026): iki panel AYNI boyda yan yana; İş günü etiketi sayının SAĞINDA. -->
+  <div class="as-tarih-satir" id="asTarihSatir">
     <div class="as-tarih-panel">
       <span class="as-tarih-gun-sayi" id="asTarihGunSayi">-</span>
       <div class="as-tarih-metin-yeni">
@@ -99,14 +111,8 @@
       </div>
     </div>
     <div class="as-isgunu-panel">
-      <div>
-        <div class="as-isgunu-etiket">İş günü<br>kaldı</div>
-      </div>
       <div class="as-isgunu-deger" id="isGunuDeger">-</div>
-    </div>
-    <div class="as-kur-panel">
-      <div class="as-kur-etiket">EUR<br>kur</div>
-      <div class="as-kur-deger" id="asKurDeger">-</div>
+      <div class="as-isgunu-etiket">İş günü<br>kaldı</div>
     </div>
   </div>
 
@@ -114,6 +120,15 @@
        Kod: home-takvim-render.js. "ziyaret" izni yoksa bölüm gizlenir. -->
   <div class="ht-blok" id="anaTakvimBlok" hidden>
     <div class="ht-kapsayici" id="anaTakvimAlan"></div>
+  </div>
+
+  <!-- 09.11.2026 (Abdullah onayı — mockup): Bugün / işlem / sipariş / temas özeti takvimden çıktı, Bugün satış / prim kutularının ÜST satırına taşındı.
+       Görünürlüğü takvimle aynı ("ziyaret" izni) — home-takvim-render.js erisimUygula. -->
+  <div class="ht-ozet" id="htOzet" hidden>
+    <b class="ht-ozet-bugun" id="htOzetBugun" role="button" tabindex="0">Bugün</b>
+    <span class="ht-ozet-oge ht-ozet-oge--islem"><i aria-hidden="true">📝</i><span id="htOzetIslem">0</span> işlem</span>
+    <span class="ht-ozet-oge ht-ozet-oge--siparis"><i aria-hidden="true">📦</i><span id="htOzetSiparis">0</span> sipariş</span>
+    <span class="ht-ozet-oge ht-ozet-oge--temas"><i aria-hidden="true">👥</i><span id="htOzetTemas">0</span> temas</span>
   </div>
 
   <!-- 09.11.2026 (Abdullah onayı — mockup): Bugün satış / Bugün prim kutuları Kasım satış kartının ÜST satırına taşındı (kartın içinde değil, hemen üstünde). -->
@@ -282,10 +297,10 @@
 <script src="gun-notlari-data.js?v=TKP.06.11.26-10:17.1495"></script>
 <script src="menu-cekmece.js?v=TKP.08.11.26-23:35.1519"></script>
 <script src="ajanda-foto.js?v=TKP.06.11.26-10:17.1495"></script>
-<script src="home-takvim-render.js?v=TKP.09.11.26-18:48.1530"></script>
+<script src="home-takvim-render.js?v=TKP.09.11.26-23:17.1531"></script>
 <script src="home-render.js?v=TKP.08.11.26-23:57.1520"></script>
 <!-- EKLENDİ (04.11.2026, Abdullah onayı — mockup): EUR kuruna dokununca TCMB kur kartı. -->
-<script src="kur-panel.js?v=TKP.04.11.26-18:54.1473"></script>
+<script src="kur-panel.js?v=TKP.09.11.26-23:17.1531"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 </body>

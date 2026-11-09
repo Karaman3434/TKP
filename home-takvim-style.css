@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.08.11.26-19:58.1514
+/* home-takvim-style.css — TKP.09.11.26-23:17.1531
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -21,6 +21,7 @@
   background: #fff; border: 1.5px solid #a9c9ee; border-radius: 12px;
   font-weight: 700; font-size: 15px;
 }
+.ht-ozet[hidden] { display: none; }  /* 09.11.2026: özet şeridi artık home.html'de, izinsiz kullanıcıda gizli */
 .ht-ozet b { color: #0a2f5c; }
 .ht-ozet-oge { white-space: nowrap; }
 /* "Bugün" etiketi dokunulabilir hap (08.11.2026): bugünün Not + Ajanda penceresini açar. */
