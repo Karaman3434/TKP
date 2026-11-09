@@ -1,5 +1,5 @@
 /*
-  ust-bar-eylem.js — TKP.08.11.26-08:49.1498
+  ust-bar-eylem.js — TKP.09.11.26-18:48.1530
   ==========================================
   Üst barın (.ub-bar) SONUNDAKİ sayfa eylem tuşları: Kaydet (mor) ve Gönder
   (turkuaz) — Menü/Geri/Beklet/Kapat ile aynı ölçüde (Abdullah onayı,
@@ -64,6 +64,17 @@
             if(o && !o.hidden) return document.getElementById(btnIds[ids[i]]);
           }
           return null;
+        } }
+    ],
+    // CARİ KART (09.11.2026, Abdullah isteği): Ekle/Düzenle formunun (Cari Bilgileri
+    // Düzenle, Yeni Yetkili Kişi vb.) alttaki Kapat/Kaydet tuşları kalktı —
+    // Kaydet burada: form AÇIKSA formun gizli Kaydet düğmesini tetikler, kapalıyken
+    // tuş hiç görünmez. Kapat = üstteki ✕ (cari-kart-render.js açık formu kapatır).
+    "customer-cari-kart.html": [
+      { tur:"kaydet", gerekli:true,
+        hedef:function(){
+          var o = document.getElementById("formOverlay");
+          return (o && !o.hidden) ? document.getElementById("formKaydetBtn") : null;
         } }
     ],
     "customer-add.html":    [ { tur:"kaydet", hedef:id("btnYeniMusteriKaydet") } ],

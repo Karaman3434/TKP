@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.09.11.26-12:06.1522
+  customer-data.js — TKP.09.11.26-18:48.1530
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -390,6 +390,38 @@ var CustomerData = (function(){
     return "M-" + String(maxNo+1).padStart(4, "0");
   }
 
+  // MÜŞTERİ KODU ÖNİZLEME / SEÇİM (09.11.2026, Abdullah isteği — "yeni
+  // müşteri tıklayınca sistem önce kodu kendisi ardışık oluştursun"):
+  // Yeni Müşteri formu açılır açılmaz bir sonraki kod (M-0043 gibi)
+  // gösterilir. Kayıt anında aynı kod KULLANILIR; yalnızca bu arada başka
+  // bir cihaz aynı kodu aldıysa (nadir) bir sonrakine geçilir — böylece
+  // asla çift kod oluşmaz. Kod kayıttan sonra HİÇ değişmez (isim değişse de).
+  function sonrakiKodOnizle(){
+    return musteriIdUret(liste, "");
+  }
+  function kodSec(istenen, tazeListe){
+    var k = String(istenen||"").trim();
+    if(/^M-\d{4}$/.test(k)){
+      var dolu = tazeListe.some(function(m){ return m && m.id === k; });
+      if(!dolu) return k;
+    }
+    return musteriIdUret(tazeListe, "");
+  }
+
+  // KOD + İSİM gösterimi için TEK ortak yardımcı (09.11.2026): kod verilmemişse
+  // isimden müşteri bulunup kodu alınır. Biçim "KOD - İsim"; kod kırmızı/kalın.
+  function kodBul(musteriId, ad){
+    if(musteriId) return String(musteriId);
+    if(!ad) return "";
+    var m = musteriBul(ad);
+    return (m && m.id) ? String(m.id) : "";
+  }
+  function kodAdHtml(musteriId, ad){
+    function e(t){ return String(t==null?"":t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+    var kod = kodBul(musteriId, ad);
+    return (kod ? "<b class='mk-kod' style='color:#c0392b;font-weight:700;'>" + e(kod) + "</b> - " : "") + e(ad||"");
+  }
+
   // ---- YAZIM DÜZENİ (WG.240926.611): ticari isim / yetkili ismi otomatik
   // büyük-küçük harf standardı.
   // KALDIRILDI (29.09.2026, Abdullah'ın bildirdiği hata): adresDurumuYap
@@ -541,7 +573,7 @@ var CustomerData = (function(){
     var yeniKayit = null;
     guvenliYaz(function(tazeListe){
       yeniKayit = {
-        id: musteriIdUret(tazeListe, bilgi.sehir),
+        id: kodSec(bilgi.kod, tazeListe),
         // DÜZELTME (30.10.2026, Abdullah onayı — "ismime dokunulmasın" turu):
         // ticari isim artık unvanDurumuYap() ile EZİLMİYOR — Abdullah bazı
         // kelimelerin baş harfini kasıtlı büyük yazıyor (ör. "Nuh'un Ankara
@@ -852,6 +884,9 @@ var CustomerData = (function(){
     hatirlatmalarBugun: hatirlatmalarBugun,
     gunFarkiHesapla: gunFarkiHesapla,
     yeniMusteriKaydet: yeniMusteriKaydet,
+    sonrakiKodOnizle: sonrakiKodOnizle,
+    kodBul: kodBul,
+    kodAdHtml: kodAdHtml,
     benzerMusterileriBul: benzerMusterileriBul,
     musteriGuncelle: musteriGuncelle,
     musteriBul: musteriBul,

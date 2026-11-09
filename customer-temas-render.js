@@ -1,5 +1,5 @@
 /*
-  customer-temas-render.js — TKP.08.11.26-09:20.1499
+  customer-temas-render.js — TKP.09.11.26-18:48.1530
   customer-temas-render.js
   ========================
   Seçili müşterinin Temas Geçmişi — "➕ Temas Gir" (tür seç: Ziyaret/
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function(){
   }
   seciliMusteriAdi = secili.ad;
   seciliMusteriId = secili.id || null;
-  document.getElementById("temasMusteriAd").textContent = secili.ad;
+  document.getElementById("temasMusteriAd").innerHTML = CustomerData.kodAdHtml(secili.id, secili.ad);  // KOD - İsim (09.11.2026)
   ziyaretGecmisiniCiz(secili);
 
   // DÖNÜŞ ROTASI (06.10.2026, Abdullah'ın isteğiyle — "kesin kural"):

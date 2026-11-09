@@ -1,5 +1,5 @@
 /*
-  customer-add-render.js — TKP.09.11.26-18:31.1529
+  customer-add-render.js — TKP.09.11.26-18:48.1530
   =======================
   Sadece yeni müşteri ekleme formunun mantığı. customer-render.js'ten
   ayrı — o dosya artık sadece LİSTE ile ilgileniyor.
@@ -42,6 +42,19 @@ document.addEventListener("DOMContentLoaded", function(){
   tarihiGuncelle();
   var btnMenuEl = document.getElementById("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
+
+  // MÜŞTERİ KODU (09.11.2026, Abdullah isteği): sıradaki kod forma açılır
+  // açılmaz yazılır; liste Firebase'den (yeniden) gelince tazelenir. Kayıt
+  // anında bu kod gönderilir (customer-data.js kodSec) — başka cihaz aynı
+  // kodu bu arada aldıysa otomatik bir sonrakine geçilir.
+  function kodTazele(){
+    try{
+      var el = document.getElementById("yeniMusteriKod");
+      if(el && CustomerData.sonrakiKodOnizle && CustomerData.uzunluk() > 0) el.textContent = CustomerData.sonrakiKodOnizle();  // liste gelmeden "M-0001" yanlış önizlemesi gösterilmez
+    }catch(e){}
+  }
+  kodTazele();
+  if(CustomerData.listeDegistiginde) CustomerData.listeDegistiginde(kodTazele);
 
   // İL KUTUSU (09.11.2026, Abdullah isteği): artık seçim kutusu DEĞİL — ilçe
   // gibi elle yazılan metin kutusu (eski 81 il listesi doldurması kaldırıldı).
@@ -99,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   document.getElementById("btnYeniMusteriKaydet").onclick = function(){
     var bilgi = {
+      kod: (document.getElementById("yeniMusteriKod")||{}).textContent,
       ad: document.getElementById("yeniMusteriAdi").value,
       sehir: document.getElementById("yeniMusteriSehir").value,
       il: document.getElementById("yeniMusteriIl") ? document.getElementById("yeniMusteriIl").value : "",
@@ -132,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function(){
       btn.disabled = false;
       btn.textContent = "YENİ MÜŞTERİ BİLGİLERİNİ KAYDET";
       if(basarili){
-        alert("✓ " + sonuc.ad + " kaydedildi.");
+        alert("✓ " + sonuc.id + " - " + sonuc.ad + " kaydedildi.");
         window.location.href = "customer.html";
       } else {
         hataGoster(typeof sonuc === "string" ? sonuc : "Kaydedilemedi: " + (sonuc && sonuc.message ? sonuc.message : "bilinmeyen hata"));

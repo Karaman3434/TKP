@@ -1,4 +1,4 @@
-/* cari-kart-style.css — TKP.09.11.26-13:17.1526 */
+/* cari-kart-style.css — TKP.09.11.26-18:48.1530 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -770,4 +770,34 @@
    kenardan kenara tam genişlik olduğu için değişmez. */
 @media (min-width: 700px) {
   #formOverlay .sheet { max-width: 624px !important; }
+}
+
+/* MÜŞTERİ KODU ŞERİDİ (09.11.2026, Abdullah isteği): Yeni Müşteri formu ve
+   Cari Bilgileri Düzenle formunun EN ÜSTÜNDE, isim kutusundan önce görünen
+   salt-okunur kod. Kod otomatik/sıralı üretilir ve bir daha değişmez.
+   Düz renk (gradyan yok); kod kırmızı — uygulama genelindeki kod rengiyle aynı. */
+.musteri-kod-serit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #fff;
+  border: 1.5px solid #d9b3ad;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.musteri-kod-serit__etiket {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  letter-spacing: .02em;
+}
+.musteri-kod-serit__kod {
+  font-size: 18px;
+  font-weight: 800;
+  color: #c0392b;
+}
+.musteri-kod-serit__not {
+  font-size: 11px;
+  color: #64748b;
 }

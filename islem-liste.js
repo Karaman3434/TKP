@@ -1,5 +1,5 @@
 /*
-  islem-liste.js — TKP.08.11.26-13:59.1506
+  islem-liste.js — TKP.09.11.26-18:48.1530
   ==========================================================================
   ORTAK İŞLEM LİSTESİ (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır
   filtre" turu; mockup: Son İşlemler satır tasarımı + arama kutusu yanında
@@ -165,7 +165,7 @@ var IslemListesi = (function(){
     var m = rozetMeta(k);
     return "<div class='sr-satir" + (k._beklemede ? " sr-satir--beklemede" : "") + "' data-i='" + i + "' style='border-left-color:" + m.serit + ";'>"
       + "<div class='sr-ust'>"
-      +   "<div class='sr-firma-h'>" + htmlEsc(k.musteri||"") + "</div>"
+      +   "<div class='sr-firma-h'>" + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml ? CustomerData.kodAdHtml(k.musteriId, k.musteri) : htmlEsc(k.musteri||"")) + "</div>"
       +   "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
       +   tlHucreHTML(k)
       + "</div>"
@@ -337,7 +337,7 @@ var IslemListesi = (function(){
             }).join("") + "</div>";
       }
       if(durum.musteriId || durum.musteriAd){
-        h += "<h5>MÜŞTERİ</h5><div class='il-r'><span class='il-pill'>👤 " + htmlEsc(durum.musteriAd || "Seçili müşteri") + "<button type='button' data-act='musteri-kaldir' aria-label='Müşteri filtresini kaldır'>✕</button></span></div>";
+        h += "<h5>MÜŞTERİ</h5><div class='il-r'><span class='il-pill'>👤 " + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml && durum.musteriAd ? CustomerData.kodAdHtml(durum.musteriId, durum.musteriAd) : htmlEsc(durum.musteriAd || "Seçili müşteri")) + "<button type='button' data-act='musteri-kaldir' aria-label='Müşteri filtresini kaldır'>✕</button></span></div>";
       }
       if(opts.siralama){
         h += "<h5>SIRALAMA</h5><div class='il-r'>"

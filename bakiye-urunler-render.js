@@ -1,5 +1,5 @@
 /*
-  bakiye-urunler-render.js — TKP.08.11.26-12:34.1504
+  bakiye-urunler-render.js — TKP.09.11.26-18:48.1530
   GÜNCELLEME (05.11.2026, Abdullah onayı): Ekran artık "Stok Bekleyen ve Bakiye
   Bekleyen" — çipler (Tümü / ⏳ Stok Bekleyen / 📦 Bakiye Bekleyen), sipariş
   seviyesinde "Stok Bekliyor" kayıtları (ReportsData.stokBekleyenSiparisler)
@@ -222,7 +222,7 @@ function listeyiCiz(){
     if(!gorunen.length){
       var ne = aktifTurFiltre === "stok" ? TipEtiket.kisa.stok + " sipariş" : aktifTurFiltre === "bakiye" ? TipEtiket.kisa.bakiye + " ürün" : TipEtiket.kisa.stok + " veya " + TipEtiket.kisa.bakiye + " kayıt";
       govde.innerHTML = "<p class='bos-mesaj' style='margin:10px 12px;'>" + (musteriFiltre
-        ? (htmlEsc(musteriFiltre.ad) + " için " + ne + " yok.")
+        ? (CustomerData.kodAdHtml(musteriFiltre.id, musteriFiltre.ad) + " için " + ne + " yok.")
         : (ne.charAt(0).toLocaleUpperCase("tr-TR") + ne.slice(1) + " yok.")) + "</p>";
       return;
     }

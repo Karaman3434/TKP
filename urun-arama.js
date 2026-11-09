@@ -1,5 +1,5 @@
 /*
-  urun-arama.js — TKP.04.11.26-16:00.1470
+  urun-arama.js — TKP.09.11.26-18:48.1530
   GÜNCELLEME (04.11.2026, Abdullah onayı): arama bölümü ikiye bölündü; müşteri paneli
   arama kutusu ile sonuç listesi arasında (uaIzinleriUygula iki bölümü birden gizler).
   GÜNCELLEME (27.10.2026, Abdullah onayı — mini arama özelliği): aşağıdaki
@@ -219,7 +219,7 @@ function uaUrunSatisGecmisiGetir(berta, abas){
       (kayit.urunler||[]).forEach(function(u){
         if(u.berta===berta && u.abas===abas){
           sonuc.push({
-            musteri: kayit.musteri||"-", tarih: kayit.tarih||"", ts: kayit.ts||0, tip: tip,
+            musteri: kayit.musteri||"-", musteriId: kayit.musteriId||"", tarih: kayit.tarih||"", ts: kayit.ts||0, tip: tip,
             adet: u.adet||0, iskBirim: u.iskBirim||0, iskonto: u.iskonto||0
           });
         }
@@ -249,7 +249,7 @@ function uaUrunSatisGecmisiniAc(berta, abas, ad){
         return "<div class='urun-gecmis-satir'>"
           + "<div class='urun-gecmis-satir-ust'>"
           + "<span class='urun-gecmis-tip-rozet' style='background:" + (TIP_RENK_URUN[g.tip]||"#2d3540") + ";color:" + (TIP_METIN_RENK_URUN[g.tip]||"#ffffff") + ";'>" + (TIP_ETIKET_URUN[g.tip]||"") + "</span>"
-          + "<span class='urun-gecmis-musteri'>" + htmlEsc(g.musteri) + "</span>"
+          + "<span class='urun-gecmis-musteri'>" + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml ? CustomerData.kodAdHtml(g.musteriId, g.musteri) : htmlEsc(g.musteri)) + "</span>"
           + "<span class='urun-gecmis-tarih'>" + htmlEsc(g.tarih) + "</span>"
           + "</div>"
           + "<div class='urun-gecmis-detay'>" + g.adet + " adet · " + g.iskBirim.toFixed(2) + " EURO/birim · %" + g.iskonto + " iskonto</div>"

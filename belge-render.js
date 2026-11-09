@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.09.11.26-18:01.1528
+  belge-render.js — TKP.09.11.26-18:48.1530
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -873,7 +873,7 @@ function belgeGecmisiniCiz(kayit){
   }
   kapsayici.hidden = false;
   var html = "<div class='belge-gecmis-baslik'>📜 Belge Geçmişi</div>"
-    + "<div class='belge-gecmis-alt'>" + htmlEsc(kayit.musteri) + " — bu iş için " + zincir.length + " belge bulundu</div>";
+    + "<div class='belge-gecmis-alt'>" + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml ? CustomerData.kodAdHtml(kayit.musteriId, kayit.musteri) : htmlEsc(kayit.musteri)) + " — bu iş için " + zincir.length + " belge bulundu</div>";
   zincir.forEach(function(adim, i){
     var renk = TIP_RENK_BELGE[adim.tip] || "#3569b8";
     var onek = KOD_ONEK_BELGE[adim.tip] || "?";
@@ -1190,7 +1190,12 @@ document.addEventListener("DOMContentLoaded", function(){
     var onek = KOD_ONEK_BELGE[sonCizilenKayit.tip] || "?";
     var renk = ONEK_RENK_BELGE[onek] || {yazi:"#334155", bg:"#eef2f8"};
     var sonuc = BekleyenIslemler.ekle({
-      baslik: sonCizilenKayit.musteri || "-",
+      // KOD - İsim (09.11.2026): bekleyen listesinde de müşteri kodu isimden önce.
+      baslik: (function(){
+        var ad = sonCizilenKayit.musteri || "-";
+        var kod = (typeof CustomerData !== "undefined" && CustomerData.kodBul) ? CustomerData.kodBul(sonCizilenKayit.musteriId, sonCizilenKayit.musteri) : "";
+        return kod ? (kod + " - " + ad) : ad;
+      })(),
       altKod: sonCizilenKayit.kod || "",
       kisaKod: onek,
       renkBg: renk.bg,

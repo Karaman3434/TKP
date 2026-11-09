@@ -1,5 +1,5 @@
 /*
-  ziyaret-render.js — VERSİYON: TKP.08.11.26-12:34.1504
+  ziyaret-render.js — VERSİYON: TKP.09.11.26-18:48.1530
   ====================================================
   Aylık takvim görünümü: Pazartesi başlangıç, Cmt/Paz kırmızı. Her günde
   İKİ renkli rozet aynı anda: solda mavi (temas/işlem sayısı), sağda
@@ -310,7 +310,7 @@ function firmaAramaCiz(){
     satir.onclick = function(){
       seciliFirma = {ad: this.getAttribute("data-ad"), sehir: this.getAttribute("data-sehir")};
       document.getElementById("ziySeciliFirma").hidden = false;
-      document.getElementById("ziySeciliFirma").textContent = "✓ " + seciliFirma.ad;
+      document.getElementById("ziySeciliFirma").innerHTML = "✓ " + CustomerData.kodAdHtml(seciliFirma.id, seciliFirma.ad);
       kapsayici.innerHTML = "";
       document.getElementById("ziyFirmaAra").value = "";
     };
@@ -631,7 +631,7 @@ function hatirlatmalariKontrolEt(){
     document.getElementById("ziyHatirlatmaListesi").innerHTML = liste.map(function(z){
       var turEtiket = z.tur==="temas" ? "☎ Temas" : "📍 Ziyaret";
       return "<div class='ziy-kayit-karti'>"
-        + "<div class='ziy-kayit-musteri'>" + htmlEsc(z.musteri) + "</div>"
+        + "<div class='ziy-kayit-musteri'>" + CustomerData.kodAdHtml(z.musteriId, z.musteri) + "</div>"
         + "<div class='ziy-kayit-tur'>" + turEtiket + (z.not ? " — " + htmlEsc(z.not) : "") + "</div>"
         + "</div>";
     }).join("");

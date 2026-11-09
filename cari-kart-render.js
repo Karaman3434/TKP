@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.09.11.26-18:31.1529
+  cari-kart-render.js — TKP.09.11.26-18:48.1530
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -473,7 +473,10 @@ function formAlanlariHtml(tip){
   if(tip === "cari-tam"){
     var m = musteriVerisi;
     var ilkFatura = (kayitlariGetir(m,"fatura")[0]) || {};
-    return "<div class='form-etiket'>MÜŞTERİ (TİCARİ) İSMİ</div><input class='form-input' id='fAd' placeholder='Müşteri ismi' value=\"" + escapeText(m.ad||"") + "\">"
+    // MÜŞTERİ KODU (09.11.2026, Abdullah isteği): isim kutusundan önce, salt-okunur
+    // ve DEĞİŞMEZ kod — isim değişse de aynı kod üzerinden devam edilir.
+    return "<div class='musteri-kod-serit'><span class='musteri-kod-serit__etiket'>Müşteri kodu</span><span class='musteri-kod-serit__kod'>" + escapeText(m.id||"—") + "</span></div>"
+      + "<div class='form-etiket'>MÜŞTERİ (TİCARİ) İSMİ</div><input class='form-input' id='fAd' placeholder='Müşteri ismi' value=\"" + escapeText(m.ad||"") + "\">"
       + "<p class='ck-not-aciklama' style='margin:-6px 0 10px'>Bu ismi değiştirirsen, geçmiş sipariş/teklif/görev kayıtları da otomatik olarak yeni isme taşınır.</p>"
       + "<div class='form-satir-2'>"
       + "<div><div class='form-etiket'>ŞEHİR (İLÇE)</div><input class='form-input' id='fSehir' placeholder='Şehir' value=\"" + escapeText(m.sehir||"") + "\"></div>"
@@ -1022,6 +1025,10 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     cariKapatBtnEl.addEventListener("click", function(ev){
       ev.preventDefault();
+      // FORM AÇIKSA (09.11.2026, Abdullah isteği): alttaki Kapat tuşu kalktı —
+      // üstteki ✕ önce açık Ekle/Düzenle formunu kapatır (sayfadan çıkmaz).
+      var acikForm = document.getElementById("formOverlay");
+      if(acikForm && !acikForm.hidden){ kapat("formOverlay"); return; }
       localStorage.removeItem("weiconv2_islem_yap_akisi");
       localStorage.removeItem("weiconv2_sepetten_cari_acildi");
       localStorage.removeItem("weiconv2_gonderden_cari_acildi");

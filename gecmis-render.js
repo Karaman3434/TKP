@@ -1,5 +1,5 @@
 /*
-  gecmis-render.js — TKP.08.11.26-12:34.1504
+  gecmis-render.js — TKP.09.11.26-18:48.1530
   ================
   Müşteriye özel İşlem Geçmişi sayfası. ReportsData.sonIslemler() zaten
   en yeniden en eskiye sıralı geliyor (bkz. reports-data.js); burada
@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function(){
     return;
   }
   seciliMusteriAdi = secili.ad;
-  document.getElementById("gecmisMusteriAd").textContent = secili.ad;
+  document.getElementById("gecmisMusteriAd").innerHTML = CustomerData.kodAdHtml(secili.id, secili.ad);  // KOD - İsim (09.11.2026)
 
   // DÖNÜŞ ROTASI (06.10.2026, Abdullah'ın isteğiyle — "kesin kural"):
   // (08.11.2026: eski customer-detail.html "İşlemler" kartı rotası kaldırıldı;

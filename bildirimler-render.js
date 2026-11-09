@@ -1,5 +1,5 @@
 /*
-  bildirimler-render.js — TKP.08.11.26-12:34.1504
+  bildirimler-render.js — TKP.09.11.26-18:48.1530
   bildirimler-render.js
   ======================
   Eski uygulamanın bildirimListesiAc() ile BİREBİR aynı 3 bölüm:
@@ -105,7 +105,7 @@ function bildirimleriCiz(){
     if(acikListe.length > 0){
       html += "<div class='bildirim-bolum-baslik'>▶️ Açık Süreçler</div>";
       acikListe.forEach(function(b){
-        var veri = htmlEsc(JSON.stringify({tip:b.tip, ts:b.ts, musteri:b.musteri, kod:(b.kod||TIP_ETIKET_B[b.tip]), tutar:b.tutar, gun:b.gun, kritik:b.seviye==="kritik"}));
+        var veri = htmlEsc(JSON.stringify({tip:b.tip, ts:b.ts, musteri:b.musteri, musteriId:b.musteriId, kod:(b.kod||TIP_ETIKET_B[b.tip]), tutar:b.tutar, gun:b.gun, kritik:b.seviye==="kritik"}));
         html += "<div class='acik-surec-satir' style='border-left:4px solid " + SEVIYE_RENK[b.seviye] + ";' data-veri='" + veri + "'>"
           + "<span class='as-kod'>" + htmlEsc(b.musteriId||"") + "</span>"
           + "<span class='as-firma'>" + htmlEsc(b.musteri) + "</span>"
@@ -176,7 +176,7 @@ function bildirimleriCiz(){
     icerik.querySelectorAll(".acik-surec-satir").forEach(function(satir){
       satir.onclick = function(){
         var veri = JSON.parse(this.getAttribute("data-veri"));
-        document.getElementById("sdBaslik").textContent = veri.musteri;
+        document.getElementById("sdBaslik").innerHTML = CustomerData.kodAdHtml(veri.musteriId, veri.musteri);
         var kodLink = document.getElementById("sdKodLink");
         kodLink.textContent = (veri.kod||"") + " ↗";
         document.getElementById("sdTutar").textContent = fmt(veri.tutar) + " EURO";

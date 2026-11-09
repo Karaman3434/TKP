@@ -1,5 +1,5 @@
 /*
-  home-takvim-render.js — TKP.08.11.26-19:58.1514
+  home-takvim-render.js — TKP.09.11.26-18:48.1530
   =================================================
   ANA SAYFA TAKVİMİ.
 
@@ -47,6 +47,8 @@
   function gosterimTarih(a){ var p = a.split("-"); return parseInt(p[2],10) + " " + AY_ADLARI[parseInt(p[1],10)-1] + " " + p[0]; }
   function gunAdi(a){ var p = a.split("-"); return GUN_ADLARI[new Date(+p[0], +p[1]-1, +p[2]).getDay()]; }
   function ikonHtml(t, harita){ harita = harita || TUR; return "<span class='ht-ik' style='background:" + harita[t].bg + "'><svg viewBox='0 0 24 24' aria-hidden='true'>" + harita[t].svg + "</svg></span>"; }
+  // KOD - İsim (09.11.2026): müşteri adının önüne kod — tek kaynak CustomerData.kodAdHtml.
+  function kodAd(id, ad){ return (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml) ? CustomerData.kodAdHtml(id, ad) : esc(ad); }
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
 
   // Müşteriye bağlı temas kayıtları — {tarih: {tur: [kayıt,...]}}
@@ -384,7 +386,7 @@
       TURLER.forEach(function(t){ (mt[t] || []).forEach(function(k){ kayitlar.push({t:t, k:k}); }); });
       kayitlar.sort(function(x, y){ return x.k.ts - y.k.ts; });
       kayitlar.forEach(function(r){
-        h += "<div class='ht-d-kayit'>" + miniIk(r.t) + "<i>" + hhmm(r.k.ts) + "</i><span class='ht-d-ad'>" + esc(r.k.musteri) + "</span>" + (r.k.not ? "<em>— " + esc(r.k.not) + "</em>" : "") + "</div>";
+        h += "<div class='ht-d-kayit'>" + miniIk(r.t) + "<i>" + hhmm(r.k.ts) + "</i><span class='ht-d-ad'>" + kodAd(r.k.musteriId, r.k.musteri) + "</span>" + (r.k.not ? "<em>— " + esc(r.k.not) + "</em>" : "") + "</div>";
       });
       // Eski serbest defter satırları (müşteriye bağlı olmayan) aynı çizgili kâğıtta, okunur.
       TURLER.forEach(function(t){
@@ -398,7 +400,7 @@
       if(islemler.length){
         h += "<div class='ht-ayrac'>İŞLEMLER</div>";
         islemler.forEach(function(k){
-          h += "<div class='ht-d-kayit ht-d-islem'><i>" + hhmm(k.ts) + "</i><span class='ht-d-ad'><b>" + esc(k.musteri || "-") + "</b> · " + esc(k.tipAd) + (k.kod ? " " + esc(k.kod) : "") + "</span></div>";
+          h += "<div class='ht-d-kayit ht-d-islem'><i>" + hhmm(k.ts) + "</i><span class='ht-d-ad'><b>" + kodAd(k.musteriId, k.musteri || "-") + "</b> · " + esc(k.tipAd) + (k.kod ? " " + esc(k.kod) : "") + "</span></div>";
         });
       }
       el("htKagit").innerHTML = h;
@@ -408,7 +410,7 @@
     function firmaCiz(){
       var alan = el("htFirmaAlan");
       if(firma){
-        alan.innerHTML = "<div class='ht-firma'>" + miniIk(secTur) + "<b>" + esc(firma.ad) + "</b>" + (firma.sehir ? "<small>· " + esc(firma.sehir) + "</small>" : "") + "<u id='htFirmaSil'>✕</u></div>";
+        alan.innerHTML = "<div class='ht-firma'>" + miniIk(secTur) + "<b>" + kodAd(firma.id, firma.ad) + "</b>" + (firma.sehir ? "<small>· " + esc(firma.sehir) + "</small>" : "") + "<u id='htFirmaSil'>✕</u></div>";
         el("htFirmaSil").onclick = function(){ firma = null; firmaCiz(); };
       } else {
         alan.innerHTML = "<div class='ht-yaz ht-yaz--ara'><input type='text' id='htFirmaAra' placeholder='Firma ara…' autocomplete='off' spellcheck='false'><span aria-hidden='true'>🔍</span></div>";
@@ -422,7 +424,7 @@
       if(!q.trim()){ k.innerHTML = ""; return; }
       var sonuc = (typeof CustomerData !== "undefined" ? CustomerData.ara(q) : []).slice(0, 6);
       k.innerHTML = sonuc.length ? "<div class='ht-oner'>" + sonuc.map(function(m, i){
-        return "<div data-i='" + i + "'>" + esc(m.ad) + (m.sehir ? " <small>· " + esc(m.sehir) + "</small>" : "") + "</div>";
+        return "<div data-i='" + i + "'>" + kodAd(m.id, m.ad) + (m.sehir ? " <small>· " + esc(m.sehir) + "</small>" : "") + "</div>";
       }).join("") + "</div>" : "";
       k.querySelectorAll(".ht-oner div").forEach(function(d){
         d.onclick = function(){
