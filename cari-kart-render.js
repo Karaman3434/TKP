@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.09.11.26-13:06.1525
+  cari-kart-render.js — TKP.09.11.26-18:01.1528
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -780,6 +780,16 @@ document.addEventListener("DOMContentLoaded", function(){
   }
   seciliMusteriAdi = secili.ad;
   alanlariDoldur(secili);
+  // BELGE ÖNİZLEME "DÜZENLE" HAPI (09.11.2026, Abdullah isteği): Belge
+  // Önizleme'deki müşteri şeridindeki DÜZENLE tuşu bu bayrağı bırakıp buraya
+  // gelir — Cari Bilgileri Düzenle formu hemen açılır. Bayrak her halükarda
+  // silinir; İşlem Yap / Sepet akışında (düzenleme kısıtlı) form AÇILMAZ.
+  try{
+    if(localStorage.getItem("weiconv2_cari_duzenle_ac") === "1"){
+      localStorage.removeItem("weiconv2_cari_duzenle_ac");
+      if(!akistanGeldiMi && !sepettenAcildiMi) eylemBaslat("cari", "duzenle");
+    }
+  }catch(e){}
 
   // YENİ TASARIM (WG.100926.196): başlık satırındaki "Bilgiyi Güncelle" /
   // 🗑️ kaldırıldı — artık bölümün İÇERİĞİNE dokununca bir popup açılıyor

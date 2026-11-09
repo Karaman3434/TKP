@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.09.11.26-15:24.1527
+  belge-render.js — TKP.09.11.26-18:01.1528
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -433,6 +433,24 @@ function belgeyiCiz(kayit, musteri){
         try{ CustomerData.sec(musteri); CustomerData.sonGoruntulendi(musteri.ad); }catch(e){}
         bhpAc(musteri, seritEl);
       };
+      // DÜZENLE HAPI (09.11.2026, Abdullah isteği): müşteri isminin yanında
+      // (şeridin sağında) — dokununca Cari Kart açılır ve "Cari Bilgileri
+      // Düzenle" formu hemen açık gelir (bayrak: weiconv2_cari_duzenle_ac,
+      // cari-kart-render.js okuyup siler). Hızlı pencere (isme dokunma)
+      // AYNEN duruyor; hap ona dokundurmaz. Tasarım: Cari Bilgi'deki hap.
+      var duzenleHapi = document.createElement("button");
+      duzenleHapi.type = "button";
+      duzenleHapi.className = "bo-duzenle-hap";
+      duzenleHapi.setAttribute("aria-label", "Cari bilgileri düzenle");
+      duzenleHapi.innerHTML = "<svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17z'/><path d='M14 7l3 3'/></svg><span>DÜZENLE</span><svg class='ay-ok' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M9 5l7 7-7 7'/></svg>";
+      duzenleHapi.onclick = function(ev){
+        ev.stopPropagation();
+        try{ CustomerData.sec(musteri); CustomerData.sonGoruntulendi(musteri.ad); }catch(e){}
+        try{ localStorage.setItem("weiconv2_cari_duzenle_ac", "1"); }catch(e){}
+        window.location.href = "customer-cari-kart.html";
+      };
+      seritEl.classList.add("musteri-serit--duzenle-hapli");
+      seritEl.appendChild(duzenleHapi);
     }
   }catch(e){ hataGoster("Belge çizilemedi: " + e.message); }
 }
