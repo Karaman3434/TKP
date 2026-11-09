@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.08.11.26-12:34.1504
+  cari-kart-render.js — TKP.09.11.26-13:06.1525
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -973,8 +973,13 @@ document.addEventListener("DOMContentLoaded", function(){
     };
   }
 
-  var cariKapatBtnEl = document.getElementById("cariKapatBtn");
+  // 09.11.2026 (Abdullah isteği): alttaki "Kapat" tuşu kaldırıldı — aynı
+  // işi artık üst bardaki ✕ (btnUstKapat) yapıyor. Mantık AYNEN korundu;
+  // eski <a href> yerine hedef değişkende tutuluyor.
+  var cariKapatBtnEl = document.getElementById("btnUstKapat");
+  var cariKapatHedef = "customer-hub.html";
   if(cariKapatBtnEl){
+    cariKapatBtnEl.disabled = false;
     // "İşlem Yap" akışından gelindiyse Kapat eskisi gibi müşteri listesine
     // döner (hub'a değil) — o akışta hub'ın bir anlamı yok.
     // DÜZELTME (06.10.2026, Abdullah'ın bildirdiği hata): akistanGeldiMi
@@ -990,8 +995,8 @@ document.addEventListener("DOMContentLoaded", function(){
     // açıldı" modunda Kapat her zaman cart.html'e döner — diğer iki özel
     // durumla (akistanGeldiMi/dönüş rotası) AYNI önceliğe sahip.
     var kapatSabitHedefliMi = akistanGeldiMi || sepettenAcildiMi || donusRotasi === "customer.html";
-    if(sepettenAcildiMi) cariKapatBtnEl.setAttribute("href", cariDonusSayfasi);
-    else if(kapatSabitHedefliMi) cariKapatBtnEl.setAttribute("href", "customer.html");
+    if(sepettenAcildiMi) cariKapatHedef = cariDonusSayfasi;
+    else if(kapatSabitHedefliMi) cariKapatHedef = "customer.html";
     // KAPAT "ESKİ/YABANCI SAYFAYA GÖTÜRÜYOR" HATASI DÜZELTMESİ (27.10.2026,
     // Abdullah'ın bildirdiği hata): HTML'deki sabit varsayılan href
     // (customer-hub.html) SADECE customer-hub.html'in kendi "🏢 CARİ"
@@ -1016,12 +1021,14 @@ document.addEventListener("DOMContentLoaded", function(){
       cariGeriEl.addEventListener("click", function(ev){ ev.preventDefault(); cariKapatBtnEl.click(); });
     }
     cariKapatBtnEl.addEventListener("click", function(ev){
+      ev.preventDefault();
       localStorage.removeItem("weiconv2_islem_yap_akisi");
       localStorage.removeItem("weiconv2_sepetten_cari_acildi");
       localStorage.removeItem("weiconv2_gonderden_cari_acildi");
       if(!kapatSabitHedefliMi && window.history.length > 1){
-        ev.preventDefault();
         window.history.back();
+      } else {
+        window.location.href = cariKapatHedef;
       }
     });
   }

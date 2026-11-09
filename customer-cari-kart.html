@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.09.11.26-13:01.1524 — customer-cari-kart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.09.11.26-13:06.1525 — customer-cari-kart.html -->
 <!--
   İŞ TAKİP — CARİ KART v7
   ==============================
@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
 <link rel="stylesheet" href="customer-style.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="detail-style.css?v=TKP.02.11.26-10:48.1375">
-<link rel="stylesheet" href="cari-kart-style.css?v=TKP.09.11.26-13:01.1524">
+<link rel="stylesheet" href="cari-kart-style.css?v=TKP.09.11.26-13:06.1525">
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="send-style.css?v=TKP.08.11.26-22:53.1517">
 <!-- EKLENDİ (27.10.2026, Abdullah'ın isteğiyle — "açık belge" uyarısında
@@ -59,7 +59,7 @@
     <button type="button" class="ub-btn ub-btn--menu" id="btnAsMenuAc" aria-label="Menüyü aç"><span class="ub-cizgiler" aria-hidden="true"><span></span><span></span><span></span></span></button>
     <a class="ub-btn ub-btn--geri" href="customer.html" aria-label="Geri">‹</a>
     <button type="button" class="ub-btn ub-btn--bekle" id="btnUstBeklet" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
-    <button type="button" class="ub-btn ub-btn--kapat" id="btnUstKapat" disabled aria-label="Kapat">✕</button>
+    <button type="button" class="ub-btn ub-btn--kapat" id="btnUstKapat" data-ozel-kapat="1" disabled aria-label="Kapat">✕</button>
   </div>
   <div class="ub-sayfa-etiket" id="rotaSeridi"></div>
 </div>
@@ -182,7 +182,7 @@
   <!-- /belge-adres-yetkili-cerceve -->
 
   <div class="ck-alt-buton-satir">
-    <a class="cari-kapat-buton" id="cariKapatBtn" href="customer-hub.html">Kapat</a>
+    <!-- 09.11.2026 (Abdullah isteği): alttaki "Kapat" tuşu kaldırıldı; üstteki ✕ (btnUstKapat) aynı işi yapar (bkz. cari-kart-render.js). -->
     <button class="cari-islemedevam-buton" id="btnIslemeDevam" hidden>📋 İŞLEMLER</button>
   </div>
 
@@ -303,7 +303,7 @@
      paylaşılan TEK tablo üretici (bkz. cari-kart-render.js). -->
 <script src="ikon-svg.js?v=TKP.01.11.26-17:06.1322"></script>
 <script src="hareket-tablo.js?v=TKP.09.11.26-00:12.1521"></script>
-<script src="cari-kart-render.js?v=TKP.08.11.26-12:34.1504"></script>
+<script src="cari-kart-render.js?v=TKP.09.11.26-13:06.1525"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
 <script>
   window.BEKLEYEN_ISLEM_AYAR = {
