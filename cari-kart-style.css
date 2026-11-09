@@ -1,4 +1,4 @@
-/* cari-kart-style.css — TKP.05.11.26-10:45.1479 */
+/* cari-kart-style.css — TKP.09.11.26-13:01.1524 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -767,3 +767,12 @@
 .akordiyon-buton--ekle { background: #f0fdfa; color: #0e6b58; border: 1px solid #0e6b58; }
 .akordiyon-buton--duzenle { background: #eaf2fc; color: #003a70; border: 1px solid #3569b8; }
 .akordiyon-buton--sil { background: #fdeaea; color: #c0392b; border: 1px solid #c0392b; }
+
+/* CARİ KART EKLE/DÜZENLE FORMU %30 GENİŞ (09.11.2026, Abdullah'ın isteği —
+   "bu popup yanlamasına kenarlara doğru yüzde 30 büyüsün"): iPad/geniş
+   ekranda ortak .sheet standardı 480px (home-style.css); SADECE bu form
+   penceresi (#formOverlay) 480 × 1.3 = 624px olur. Telefon (<700px) zaten
+   kenardan kenara tam genişlik olduğu için değişmez. */
+@media (min-width: 700px) {
+  #formOverlay .sheet { max-width: 624px !important; }
+}
