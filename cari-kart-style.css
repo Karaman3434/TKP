@@ -1,4 +1,4 @@
-/* cari-kart-style.css — TKP.09.11.26-13:06.1525 */
+/* cari-kart-style.css — TKP.09.11.26-13:17.1526 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -171,13 +171,28 @@
    özel sarmalayıcı sınıfları. */
 .ck-isim-sarmal { position: relative; cursor: pointer; border-radius: 10px; }
 .ck-isim-sarmal:active .musteri-serit { filter: brightness(0.96); }
+/* DÜZENLE HAPI (09.11.2026, Abdullah onayı — mockup): eski yuvarlak kalem
+   rozeti yerine, Belge Önizleme'deki AYRINTI hapıyla (belge-onizleme-style-v2.css
+   .ub-ayrinti-ikon) aynı görünüm: 30px yükseklik, 8px köşe, kalem ikonu + DÜZENLE
+   + ">". Şeridin içinde sağda, dikey ortalı; isim hapın altında kalmasın diye
+   şeridin sağ boşluğu artırıldı. Dar ekranda (<=460px) yazı küçülür, ">" gizlenir. */
+.ck-isim-sarmal .musteri-serit { padding-right: 142px; }
 .ck-isim-duzenle-rozet {
-  position: absolute; top: -7px; right: -7px;
-  width: 24px; height: 24px; border-radius: 50%;
+  position: absolute; top: 50%; right: 8px; transform: translateY(-50%);
+  height: 30px; box-sizing: border-box;
+  padding: 0 9px 0 11px; border-radius: 8px;
   background: #0d3d8c; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; line-height: 1; border: 2px solid #fff;
-  box-shadow: 0 1px 4px rgba(0,0,0,.3); pointer-events: none;
+  display: flex; align-items: center; gap: 6px;
+  font-family: inherit; font-weight: 800; font-size: 13px; line-height: 1;
+  letter-spacing: .5px; white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.30);
+  pointer-events: none;
+}
+.ck-isim-duzenle-rozet svg { flex-shrink: 0; display: block; }
+@media (max-width: 460px) {
+  .ck-isim-sarmal .musteri-serit { padding-right: 112px; }
+  .ck-isim-duzenle-rozet { padding: 0 8px 0 9px; gap: 5px; font-size: 12px; }
+  .ck-isim-duzenle-rozet .ay-ok { display: none; }
 }
 
 .bolum-eylem-grid {
