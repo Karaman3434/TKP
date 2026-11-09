@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.02.11.26-11:48.1388
+  customer-data.js — TKP.09.11.26-12:06.1522
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -410,7 +410,7 @@ var CustomerData = (function(){
 
   // ARTIK ÇAĞRILMIYOR (30.10.2026, Abdullah onayı — "ismime dokunulmasın"
   // turu): ticari isim artık hiçbir yerde bu kuralla EZİLMİYOR (bkz.
-  // yeniMusteriKaydet/musteriGuncelle/yaziminiDuzelt'teki aynı tarihli
+  // yeniMusteriKaydet/musteriGuncelle'deki aynı tarihli
   // notlar). Fonksiyon silinmedi (zararsız, başka hiçbir yerden
   // çağrılmıyor) — sadece artık kullanılmıyor.
   // Sadece ilk kelimenin ilk harfi büyük, devamı küçük (ticari isim kuralı).
@@ -467,126 +467,6 @@ var CustomerData = (function(){
     for(var f in kisi){ if(kisi.hasOwnProperty(f)) kopya[f] = kisi[f]; }
     kopya.isim = yetkiliIsimDurumuYap(kisi.isim);
     return kopya;
-  }
-
-  // TEK SEFERLİK GÖÇ: mevcut tüm kayıtlardaki ticari isim/adres/yetkili
-  // ismini yukarıdaki kurala göre yeniden yazar (Ayarlar > Bakım butonu).
-  function yaziminiDuzelt(geriBildir){
-    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
-    try{
-      var db = firebase.database();
-      var sayac = 0;
-      var mutateHatasi = null;
-      db.ref("musteriler").transaction(function(currentData){
-        var tazeListe = currentData ? (Array.isArray(currentData) ? currentData.filter(Boolean) : Object.values(currentData)) : [];
-        try{
-          sayac = 0;
-          return tazeListe.map(function(m){
-            var kopya = {};
-            for(var k in m){ if(m.hasOwnProperty(k)) kopya[k] = m[k]; }
-            // DÜZELTME (30.10.2026, Abdullah onayı): "Ayarlar > Bakım" tek
-            // seferlik göç aracı artık ticari İSME dokunmuyor (bkz.
-            // yeniMusteriKaydet/musteriGuncelle'deki aynı tarihli not) —
-            // SADECE adres/yetkili düzeltmesi aynı kaldı.
-            if(kopya.acikAdres){ var yeniAcik = adresDurumuYap(kopya.acikAdres); if(yeniAcik !== kopya.acikAdres){ kopya.acikAdres = yeniAcik; sayac++; } }
-            ["faturaAdresleri","teslimatAdresleri"].forEach(function(alan){
-              if(Array.isArray(kopya[alan])){
-                kopya[alan] = kopya[alan].map(function(a){
-                  if(!a || !a.adres) return a;
-                  var yeni = adresDurumuYap(a.adres);
-                  if(yeni === a.adres) return a;
-                  sayac++;
-                  return {etiket: a.etiket, adres: yeni};
-                });
-              }
-            });
-            if(Array.isArray(kopya.iletisimler)){
-              kopya.iletisimler = kopya.iletisimler.map(function(kisi){
-                if(!kisi || !kisi.isim) return kisi;
-                var yeniIsim = yetkiliIsimDurumuYap(kisi.isim);
-                if(yeniIsim === kisi.isim) return kisi;
-                sayac++;
-                var kisiKopya = {};
-                for(var f in kisi){ if(kisi.hasOwnProperty(f)) kisiKopya[f] = kisi[f]; }
-                kisiKopya.isim = yeniIsim;
-                return kisiKopya;
-              });
-            }
-            return kopya;
-          });
-        }catch(e){ mutateHatasi = e; return; }
-      }).then(function(result){
-        if(mutateHatasi){ cb(false, mutateHatasi); return; }
-        if(!result || !result.committed){ cb(false, new Error("Kayıt güncellenemedi — tekrar dene.")); return; }
-        cb(true, sayac);
-      }).catch(function(err){ cb(false, err); });
-    }catch(e){ cb(false, e); }
-  }
-
-  // ---- TEK SEFERLİK GÖÇ (WG.100926.196): tüm müşteri kodlarını
-  // "M-XXXX" standardına çevirir, geriye {eskiId: yeniId} eşleşmesi
-  // döner ki arşiv kayıtları da buna göre güncellenebilsin. ----
-  function idleriStandartlastir(geriBildir){
-    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
-    try{
-      var db = firebase.database();
-      var eslesme = {};
-      var mutateHatasi = null;
-      db.ref("musteriler").transaction(function(currentData){
-        var tazeListe = currentData ? (Array.isArray(currentData) ? currentData.filter(Boolean) : Object.values(currentData)) : [];
-        try{
-          eslesme = {};
-          return tazeListe.map(function(m, i){
-            var yeniId = "M-" + String(i+1).padStart(4, "0");
-            if(m.id && m.id !== yeniId) eslesme[m.id] = yeniId;
-            var kopya = {};
-            for(var k in m){ if(m.hasOwnProperty(k)) kopya[k] = m[k]; }
-            kopya.id = yeniId;
-            return kopya;
-          });
-        }catch(e){ mutateHatasi = e; return; }
-      }).then(function(result){
-        if(mutateHatasi){ cb(false, mutateHatasi); return; }
-        if(!result || !result.committed){ cb(false, new Error("Kayıt güncellenemedi — tekrar dene.")); return; }
-        cb(true, eslesme);
-      }).catch(function(err){ cb(false, err); });
-    }catch(e){ cb(false, e); }
-  }
-
-  // Numune/Teklif/Proforma/Sipariş arşivindeki her kaydın musteriId'sini
-  // yukarıdaki eşleşmeye göre günceller — geçmiş kayıtlar kopmasın diye.
-  function arsivMusteriIdGuncelle(eslesme, geriBildir){
-    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
-    if(!eslesme || Object.keys(eslesme).length === 0){ cb(true); return; }
-    var tipler = ["numune","teklif","proforma","siparis"];
-    var db = firebase.database();
-    var kalan = tipler.length;
-    var ilkHata = null;
-    tipler.forEach(function(tip){
-      var mutateHatasi = null;
-      db.ref("arsiv/" + tip).transaction(function(currentData){
-        var liste = currentData ? (Array.isArray(currentData) ? currentData.filter(Boolean) : Object.values(currentData)) : [];
-        try{
-          return liste.map(function(k){
-            if(k && k.musteriId && eslesme[k.musteriId]){
-              var kopya = {};
-              for(var f in k){ if(k.hasOwnProperty(f)) kopya[f] = k[f]; }
-              kopya.musteriId = eslesme[k.musteriId];
-              return kopya;
-            }
-            return k;
-          });
-        }catch(e){ mutateHatasi = e; return; }
-      }).then(function(result){
-        if(mutateHatasi || !result || !result.committed){ ilkHata = ilkHata || mutateHatasi || new Error(tip + " arşivi güncellenemedi."); }
-        kalan--;
-        if(kalan === 0) cb(!ilkHata, ilkHata);
-      }).catch(function(err){
-        ilkHata = ilkHata || err;
-        kalan--;
-        if(kalan === 0) cb(!ilkHata, ilkHata);
-      });
-    });
   }
 
   // KÖK NEDEN DÜZELTMESİ (13.09.2026): "Müşteriyi Sil" onay metni kullanıcıya
@@ -965,9 +845,6 @@ var CustomerData = (function(){
     musteriIdIleBul: musteriIdIleBul,
     sehirBul: sehirBul,
     konumMetni: konumMetni,
-    idleriStandartlastir: idleriStandartlastir,
-    yaziminiDuzelt: yaziminiDuzelt,
-    arsivMusteriIdGuncelle: arsivMusteriIdGuncelle,
     ziyaretHatirlatmalari: ziyaretHatirlatmalari,
     ziyaretEkle: ziyaretEkle,
     ziyaretSil: ziyaretSil,

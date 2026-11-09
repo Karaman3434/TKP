@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.08.11.26-23:35.1519 — ayarlar.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.09.11.26-12:06.1522 — ayarlar.html -->
 <!--
   AYARLAR — "her ayar kendi kutusu" tasarımı (02.10.2026, Abdullah'ın isteğiyle)
   ================================================================================
-  Eskiden tüm ayarlar (Kur/KDV/Hedef/Çalışan Erişimi/Bakım) tek bir uzun
+  Eskiden tüm ayarlar (Kur/KDV/Hedef/Çalışan Erişimi) tek bir uzun
   sayfada art arda duruyordu — Abdullah "çok karışık, her şey iç içe"
   dedi. Artık ana görünüm SADECE bir nav-liste (bkz. .ay-nav-satir): her
   ayarın kendi satırı var, dokununca ilgili ayar alttan açılan bir
-  AÇILIR PENCEREYE (.overlay/.sheet, genel standart) taşınıyor. "Bakım
-  Araçları" satırı önce 3 aracın listesini gösteren bir sheet açıyor,
-  oradan birine dokununca o sheet kapanıp aracın kendi sheet'i açılıyor.
+  AÇILIR PENCEREYE (.overlay/.sheet, genel standart) taşınıyor.
+  BAKIM ARAÇLARI KALDIRILDI (09.11.2026, Abdullah'ın isteği — "bu işlemleri
+  artık hiç yapmıyorum"): Müşteri Kodlarını Standartlaştır, İsim/Adres
+  Yazımını Düzelt ve Avans Dönemi Taşı hem ekrandan hem koddan (ayarlar-
+  render.js, customer-data.js) silindi.
   "Çalışan Erişimi" satırı 03.10.2026'da "Cihazlar ve Kullanıcılar" olarak
   yeniden adlandırıldı ve eski "Cihazlarım" sayfasıyla TEK platformda
   birleştirildi (Abdullah'ın isteği: "2 farklı denetleme sayfası olmasın")
@@ -150,16 +152,6 @@
       </span>
       <span class="ay-nav-ok">›</span>
     </button>
-    <button type="button" class="ay-nav-satir" id="ayNavBakim">
-      <span class="ay-nav-sol">
-        <span class="ay-nav-ikon">🔧</span>
-        <span class="ay-nav-metin-grup">
-          <span class="ay-nav-baslik">Bakım Araçları</span>
-          <span class="ay-nav-alt">3 araç · kod/isim düzeltme, avans taşıma</span>
-        </span>
-      </span>
-      <span class="ay-nav-ok">›</span>
-    </button>
   </div>
 
   <p class="surum-bilgisi" id="surumBilgisi"></p>
@@ -224,95 +216,6 @@
   </div>
 </div>
 
-<!-- SHEET: Bakım Araçları — liste -->
-<div class="overlay" id="ayBakimListeSheetOverlay" hidden>
-  <div class="sheet">
-    <div class="sheet-baslik">🔧 Bakım Araçları</div>
-    <div class="ay-nav-liste">
-      <button type="button" class="ay-nav-satir" id="ayNavBakimKod">
-        <span class="ay-nav-sol">
-          <span class="ay-nav-ikon">🔧</span>
-          <span class="ay-nav-metin-grup">
-            <span class="ay-nav-baslik">Müşteri Kodlarını Standartlaştır</span>
-            <span class="ay-nav-alt">Tüm kodları M-0001 biçimine çevirir</span>
-          </span>
-        </span>
-        <span class="ay-nav-ok">›</span>
-      </button>
-      <button type="button" class="ay-nav-satir" id="ayNavBakimYazim">
-        <span class="ay-nav-sol">
-          <span class="ay-nav-ikon">🔤</span>
-          <span class="ay-nav-metin-grup">
-            <span class="ay-nav-baslik">İsim/Adres Yazımını Düzelt</span>
-            <span class="ay-nav-alt">İlk harf büyük standardına çevirir</span>
-          </span>
-        </span>
-        <span class="ay-nav-ok">›</span>
-      </button>
-      <button type="button" class="ay-nav-satir" id="ayNavBakimAvans">
-        <span class="ay-nav-sol">
-          <span class="ay-nav-ikon">📦</span>
-          <span class="ay-nav-metin-grup">
-            <span class="ay-nav-baslik">Avans Dönemi Taşı</span>
-            <span class="ay-nav-alt">Seçili kaydı başka bir aya taşır</span>
-          </span>
-        </span>
-        <span class="ay-nav-ok">›</span>
-      </button>
-    </div>
-    <button class="btn-vazgec" data-sheet-kapat="ayBakimListeSheetOverlay" style="width:100%; margin-top:10px;">Kapat</button>
-  </div>
-</div>
-
-<!-- SHEET: Bakım — Müşteri Kodlarını Standartlaştır -->
-<div class="overlay" id="ayBakimKodSheetOverlay" hidden>
-  <div class="sheet">
-    <div class="sheet-baslik">🔧 Müşteri Kodlarını Standartlaştır</div>
-    <section class="ayar-kutu">
-      <p class="kur-son-guncelleme">Müşteri kodları zaman içinde farklı biçimlerde oluşmuş (M000005, M06001, M-0041 gibi). Bu araç HEPSİNİ tek bir standarda (M-0001, M-0002...) çevirir ve geçmiş Numune/Teklif/Proforma/Sipariş kayıtlarındaki müşteri bağlantılarını da buna göre günceller.</p>
-      <button class="kur-simdi-dene-btn" id="btnKodlariStandartlastir">🔧 Müşteri Kodlarını Standartlaştır (M-XXXX)</button>
-      <p class="kur-son-guncelleme" id="kodStandartSonuc"></p>
-    </section>
-    <button class="btn-vazgec" data-sheet-kapat="ayBakimKodSheetOverlay" style="width:100%;">Kapat</button>
-  </div>
-</div>
-
-<!-- SHEET: Bakım — İsim/Adres Yazımını Düzelt -->
-<div class="overlay" id="ayBakimYazimSheetOverlay" hidden>
-  <div class="sheet">
-    <div class="sheet-baslik">🔤 İsim/Adres Yazımını Düzelt</div>
-    <section class="ayar-kutu">
-      <p class="kur-son-guncelleme">Müşteri ismi/adres/yetkili ismi geçmişte TAMAMEN BÜYÜK ya da karışık girilmiş olabilir (örn. "DALYAN MAK. HIRD"). Bu araç HEPSİNİ tek standarda çevirir: ticari isim, açık adres, fatura/teslimat adresi ve yetkili ismi.</p>
-      <button class="kur-simdi-dene-btn" id="btnYaziminiDuzelt">🔤 İsim/Adres Yazımını Düzelt (İlk Harf Büyük)</button>
-      <p class="kur-son-guncelleme" id="yazimDuzeltSonuc"></p>
-    </section>
-    <button class="btn-vazgec" data-sheet-kapat="ayBakimYazimSheetOverlay" style="width:100%;">Kapat</button>
-  </div>
-</div>
-
-<!-- SHEET: Bakım — Avans Dönemi Taşı -->
-<div class="overlay" id="ayBakimAvansSheetOverlay" hidden>
-  <div class="sheet">
-    <div class="sheet-baslik">📦 Avans Dönemi Taşı</div>
-    <section class="ayar-kutu">
-      <!-- AVANS DÖNEMİ TAŞI (28.09.2026) — Avans Takibi'ne yanlış aya
-           (eski senkron hatasından kalma) kaydedilmiş bir taslak/kapalı
-           kaydı bulup DOĞRU aya taşımak için. -->
-      <p class="kur-son-guncelleme">Avans Takibi'nde bir dönemin verisi (taslak veya kapalı kayıt) yanlış ay/yıla kaydedilmiş olabilir — bu araç seçtiğin kaydı, seçtiğin hedef aya AÇIK (düzenlenebilir) taslak olarak taşır ve kaynaktan siler.</p>
-      <select id="bakimAvansKaynakSecici" style="width:100%; padding:10px; border-radius:8px; border:1.5px solid #ccc; margin-bottom:8px;">
-        <option value="">Kaynak dönem seç…</option>
-      </select>
-      <div style="display:flex; gap:8px; margin-bottom:8px;">
-        <input type="number" id="bakimAvansHedefAy" placeholder="Hedef Ay (1-12)" min="1" max="12" style="flex:1; padding:10px; border-radius:8px; border:1.5px solid #ccc;">
-        <input type="number" id="bakimAvansHedefYil" placeholder="Hedef Yıl" style="flex:1; padding:10px; border-radius:8px; border:1.5px solid #ccc;">
-      </div>
-      <button class="kur-simdi-dene-btn" id="btnBakimAvansTasi">📦 Seçili Kaydı Hedef Döneme Taşı</button>
-      <p class="kur-son-guncelleme" id="bakimAvansSonuc"></p>
-    </section>
-    <button class="btn-vazgec" data-sheet-kapat="ayBakimAvansSheetOverlay" style="width:100%;">Kapat</button>
-  </div>
-</div>
-
 <script src="tip-etiketleri.js?v=TKP.08.11.26-13:14.1505"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -325,11 +228,8 @@
 <script src="ust-bar-davranis.js?v=TKP.05.11.26-11:50.1482"></script>
 <script src="ayarlar-sync.js?v=WG.271026.2238.1132"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
-<script src="customer-data.js?v=TKP.03.11.26-20:35.1460"></script>
-<script src="maas-kayit-data.js?v=WG.271026.2238.1125"></script>
-<script src="avans-kayit-data.js?v=TKP.02.11.26-19:45.1441"></script>
 <script src="yonetim-penceresi.js?v=TKP.04.11.26-23:22.1477"></script>
-<script src="ayarlar-render.js?v=TKP.01.11.26-18:55.1337"></script>
+<script src="ayarlar-render.js?v=TKP.09.11.26-12:06.1522"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->

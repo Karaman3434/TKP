@@ -1,5 +1,5 @@
 /*
-  maas-hesaplama-render.js — TKP.02.11.26-21:05.1449
+  maas-hesaplama-render.js — TKP.09.11.26-12:06.1522
   ==========================================================
   MAAŞ HESAPLAMA (ÖZET) sayfası — 27.09.2026 mimari bölünmesi. Bu sayfa
   artık kendi Brüt Sabit Maaş / Brüt Prim hesaplamasını yapmıyor; Net
@@ -260,8 +260,7 @@ document.addEventListener("DOMContentLoaded", function(){
         + "Şu dönem(ler)de hâlâ dolu, kapatılmamış bir Avans Takibi taslağı var:\n"
         + baskaTaslaklar.map(function(t){ return "• " + AY_ADLARI_MH[t.ay] + " " + t.yil; }).join("\n")
         + "\n\nBunu şimdi kapatırsam, o taslaktaki gerçek verin görünmeden, bu ay SIFIR avans ile yanlış kapanır. "
-        + "Önce Avans Takibi sayfasından o döneme gidip verini kontrol et, gerekirse Ayarlar > Bakım bölümündeki "
-        + "\"Avans Dönemi Taşı\" aracıyla doğru döneme taşı, sonra buraya dönüp tekrar dene."
+        + "Önce Avans Takibi sayfasından o döneme gidip verini kontrol et / kapat, sonra buraya dönüp tekrar dene."
       );
       return;
     }
