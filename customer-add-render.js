@@ -1,5 +1,5 @@
 /*
-  customer-add-render.js — WG.011126.0821.1245
+  customer-add-render.js — TKP.09.11.26-18:31.1529
   =======================
   Sadece yeni müşteri ekleme formunun mantığı. customer-render.js'ten
   ayrı — o dosya artık sadece LİSTE ile ilgileniyor.
@@ -43,17 +43,8 @@ document.addEventListener("DOMContentLoaded", function(){
   var btnMenuEl = document.getElementById("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
 
-  // İL SEÇİM KUTUSU (01.11.2026, Abdullah onayı — mockup üzerinden):
-  // CustomerData.ilListesiGetir()'den (customer-data.js) 81 il, alfabetik
-  // sırayla dolduruluyor — elle yazım yok, yazım hatası riski kalmıyor.
-  var ilSecEl = document.getElementById("yeniMusteriIl");
-  if(ilSecEl && typeof CustomerData !== "undefined"){
-    var ilSecenekleriHtml = "<option value=''>İl seçiniz</option>";
-    CustomerData.ilListesiGetir().forEach(function(il){
-      ilSecenekleriHtml += "<option value=\"" + il + "\">" + il + "</option>";
-    });
-    ilSecEl.innerHTML = ilSecenekleriHtml;
-  }
+  // İL KUTUSU (09.11.2026, Abdullah isteği): artık seçim kutusu DEĞİL — ilçe
+  // gibi elle yazılan metin kutusu (eski 81 il listesi doldurması kaldırıldı).
 
   // YENİ (15.10.2026, Abdullah'ın isteğiyle): "📷 Fotoğraf/Ekran
   // Görüntüsünden Doldur" — kartvizit/tabela fotoğrafı veya ekran
@@ -63,7 +54,13 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("btnYeniMusteriFotoDoldur").onclick = function(){
     FotoDoldur.ac(function(veri){
       doldurBosIse("yeniMusteriAdi", veri.firmaAdi);
-      doldurBosIse("yeniMusteriSehir", veri.sehir);
+      // İLÇE / İL OTOMATİK AYRIMI (09.11.2026, Abdullah isteği): AI'nin
+      // okuduğu konum ("Altınordu/Ordu", "Sincan - Temelli / Ankara"...)
+      // FotoDoldur.konumAyir ile ilçe ve il olarak ayrılıp ilgili iki kutuya
+      // yazılır. Elle doldurulmuş kutunun üzerine yazılmaz (doldurBosIse).
+      var konum = FotoDoldur.konumAyir(veri.sehir, veri.il);
+      doldurBosIse("yeniMusteriSehir", konum.ilce);
+      doldurBosIse("yeniMusteriIl", konum.il);
       doldurBosIse("yeniMusteriAcikAdres", veri.acikAdres);
       doldurBosIse("yeniMusteriTelefon", veri.telefon);
       doldurBosIse("yeniMusteriEposta", veri.eposta);

@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.09.11.26-18:01.1528
+  cari-kart-render.js — TKP.09.11.26-18:31.1529
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -467,18 +467,8 @@ function vadePlaceholder(v){
   var metin = (eski && !sayisalMi) ? ("örn. 45 (önceki: " + eski + ")") : "örn. 45";
   return escapeText(metin).replace(/'/g, "&#39;");
 }
-// İL SEÇİM KUTUSU (01.11.2026, Abdullah onayı — mockup üzerinden):
-// CustomerData.ilListesiGetir()'den (customer-data.js) 81 il seçeneği —
-// elle yazım yok, yazım hatası riski kalmıyor. seciliIl mevcut kayıttaki
-// değeri işaretler (boşsa "İl seçiniz" seçili kalır).
-function ilSecenekleriHtml(seciliIl){
-  var html = "<option value=''" + (!seciliIl ? " selected" : "") + ">İl seçiniz</option>";
-  var liste = (typeof CustomerData !== "undefined") ? CustomerData.ilListesiGetir() : [];
-  liste.forEach(function(il){
-    html += "<option value=\"" + il + "\"" + (il === seciliIl ? " selected" : "") + ">" + il + "</option>";
-  });
-  return html;
-}
+// İL KUTUSU (09.11.2026, Abdullah isteği): artık SEÇİM KUTUSU DEĞİL — ilçe
+// gibi elle yazılan metin kutusu (eski ilSecenekleriHtml/81 il listesi kaldırıldı).
 function formAlanlariHtml(tip){
   if(tip === "cari-tam"){
     var m = musteriVerisi;
@@ -487,7 +477,7 @@ function formAlanlariHtml(tip){
       + "<p class='ck-not-aciklama' style='margin:-6px 0 10px'>Bu ismi değiştirirsen, geçmiş sipariş/teklif/görev kayıtları da otomatik olarak yeni isme taşınır.</p>"
       + "<div class='form-satir-2'>"
       + "<div><div class='form-etiket'>ŞEHİR (İLÇE)</div><input class='form-input' id='fSehir' placeholder='Şehir' value=\"" + escapeText(m.sehir||"") + "\"></div>"
-      + "<div><div class='form-etiket'>İL</div><select class='form-input' id='fIl'>" + ilSecenekleriHtml(m.il) + "</select></div>"
+      + "<div><div class='form-etiket'>İL</div><input class='form-input' id='fIl' placeholder='İl' autocomplete='off' value=\"" + escapeText(m.il||"") + "\"></div>"
       + "</div>"
       + "<div class='form-satir-2'>"
       + "<div><div class='form-etiket'>VADE (gün)</div><input class='form-input' type='number' min='0' step='1' inputmode='numeric' id='fVade' placeholder='" + vadePlaceholder(m.vade) + "' value=\"" + escapeText(vadeSayisalDeger(m.vade)) + "\"></div>"
@@ -500,7 +490,7 @@ function formAlanlariHtml(tip){
     var m2 = musteriVerisi;
     return "<div class='form-satir-2'>"
       + "<div><div class='form-etiket'>ŞEHİR (İLÇE)</div><input class='form-input' id='fSehir' placeholder='Şehir' value=\"" + escapeText(m2.sehir||"") + "\"></div>"
-      + "<div><div class='form-etiket'>İL</div><select class='form-input' id='fIl'>" + ilSecenekleriHtml(m2.il) + "</select></div>"
+      + "<div><div class='form-etiket'>İL</div><input class='form-input' id='fIl' placeholder='İl' autocomplete='off' value=\"" + escapeText(m2.il||"") + "\"></div>"
       + "</div>"
       + "<div class='form-etiket'>VADE (gün)</div><input class='form-input' type='number' min='0' step='1' inputmode='numeric' id='fVade' placeholder='" + vadePlaceholder(m2.vade) + "' value=\"" + escapeText(vadeSayisalDeger(m2.vade)) + "\">"
       + "<div class='form-etiket'>FATURA</div><input class='form-input' id='fFatura' placeholder='örn. EURO fatura' value=\"" + escapeText(m2.fatura||"") + "\">"

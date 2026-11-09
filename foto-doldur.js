@@ -1,5 +1,5 @@
 /*
-  foto-doldur.js — WG.271026.2238.1143
+  foto-doldur.js — TKP.09.11.26-18:31.1529
   =====================================
   "📷 Fotoğraf/Ekran Görüntüsünden Doldur" — TEK KAYNAK paylaşılan modül
   (15.10.2026, Abdullah'ın isteğiyle, eski tek-dosyalık v1 uygulamadaki
@@ -176,5 +176,61 @@ var FotoDoldur = (function(){
     document.getElementById("fdSecOverlay").hidden = false;
   }
 
-  return { ac: ac };
+  // İLÇE / İL AYRIMI (09.11.2026, Abdullah isteği — "fotoğraftan okumada bu
+  // ayrımı sistem kendisi otomatik yapsın"): AI konumu tek metin olarak
+  // verir ("Altınordu/Ordu", "Sincan - Temelli / Ankara", "Altınordu Ordu",
+  // "Ordu"). Burada {ilce, il}e ayrılır:
+  //   1) AI ayrıca "il" verdiyse o il; konum metninden il kısmı çıkarılır.
+  //   2) Metinde "/" (yoksa ",") varsa SON parça il, öncesi ilçe.
+  //   3) Yoksa son kelime 81 il listesinde varsa (Türkçe harf/büyük-küçük
+  //      harf farkı gözetmeden) o il, kalanı ilçe; metnin tamamı bir ilse
+  //      ilçe boş, il dolu kalır.
+  //   4) İl listede yoksa metin olduğu gibi ilçeye yazılır, il boş kalır.
+  // İl, listedeki doğru yazımıyla ("ORDU" → "Ordu", "ISTANBUL" → "İstanbul")
+  // döner. Liste CustomerData'dan; yüklü değilse yalnız "/" kuralı çalışır.
+  function trKatla(m){
+    return String(m || "").toLocaleLowerCase("tr-TR")
+      .replace(/ı/g, "i").replace(/ş/g, "s").replace(/ğ/g, "g")
+      .replace(/ü/g, "u").replace(/ö/g, "o").replace(/ç/g, "c")
+      .replace(/i̇/g, "i").trim();
+  }
+  function ilDogruYazim(ham){
+    var t = String(ham || "").replace(/\s+/g, " ").trim();
+    if(!t) return "";
+    var liste = (typeof CustomerData !== "undefined" && CustomerData.ilListesiGetir) ? CustomerData.ilListesiGetir() : [];
+    var anahtar = trKatla(t);
+    for(var i = 0; i < liste.length; i++){ if(trKatla(liste[i]) === anahtar) return liste[i]; }
+    var kucuk = t.toLocaleLowerCase("tr-TR");
+    return kucuk.charAt(0).toLocaleUpperCase("tr-TR") + kucuk.slice(1);
+  }
+  function ilMi(m){
+    var liste = (typeof CustomerData !== "undefined" && CustomerData.ilListesiGetir) ? CustomerData.ilListesiGetir() : [];
+    var a = trKatla(m);
+    return !!a && liste.some(function(il){ return trKatla(il) === a; });
+  }
+  function temizUc(m){ return String(m || "").replace(/^[\s\-\/,;.]+|[\s\-\/,;.]+$/g, "").replace(/\s+/g, " "); }
+  function konumAyir(konum, aiIl){
+    var t = String(konum || "").replace(/\s+/g, " ").trim();
+    var il = String(aiIl || "").trim();
+    if(il){
+      var kalan = t;
+      var idx = trKatla(t).lastIndexOf(trKatla(il));
+      if(idx >= 0 && trKatla(t).length === t.length) kalan = t.slice(0, idx) + t.slice(idx + il.length);
+      return { ilce: temizUc(kalan), il: ilDogruYazim(il) };
+    }
+    if(!t) return { ilce: "", il: "" };
+    var ayrac = t.lastIndexOf("/");
+    if(ayrac < 0) ayrac = t.lastIndexOf(",");
+    if(ayrac >= 0){
+      return { ilce: temizUc(t.slice(0, ayrac)), il: ilDogruYazim(temizUc(t.slice(ayrac + 1))) };
+    }
+    if(ilMi(t)) return { ilce: "", il: ilDogruYazim(t) };
+    var son = t.lastIndexOf(" ");
+    if(son > 0 && ilMi(t.slice(son + 1))){
+      return { ilce: temizUc(t.slice(0, son)), il: ilDogruYazim(t.slice(son + 1)) };
+    }
+    return { ilce: t, il: "" };
+  }
+
+  return { ac: ac, konumAyir: konumAyir };
 })();

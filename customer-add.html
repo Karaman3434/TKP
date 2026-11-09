@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.09.11.26-13:17.1526 — customer-add.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.09.11.26-18:31.1529 — customer-add.html -->
 <!--
   İŞ TAKİP — YENİ MÜŞTERİ EKLE v3
   ======================================
@@ -99,13 +99,14 @@
     <button class="form-foto-doldur-btn" type="button" id="btnYeniMusteriFotoDoldur">📷 Fotoğraf/Ekran Görüntüsünden Doldur</button>
     <input type="text" id="yeniMusteriAdi" placeholder="Müşteri Adı *">
     <!-- İL (01.11.2026, Abdullah onayı — mockup üzerinden): Şehir (ilçe)
-         alanının yanına, 81 ilden seçilen ayrı bir İL kutusu eklendi — mail/
-         WhatsApp'a giden tabloda "İlçe / İl" biçiminde gösterilir (bkz.
-         hareket-tablo.js cariKutulariHtml). Elle yazım DEĞİL, seçim kutusu
-         — yazım hatası/farklı biçim riski olmasın diye. -->
+         alanının yanına ayrı bir İL kutusu eklendi — mail/WhatsApp'a giden
+         tabloda "İlçe / İl" biçiminde gösterilir (bkz. hareket-tablo.js
+         cariKutulariHtml). 09.11.2026 (Abdullah isteği): İl artık SEÇİM
+         KUTUSU DEĞİL, ilçe gibi ELLE yazılan metin kutusu; fotoğraftan
+         okumada ilçe/il otomatik ayrılıp iki kutuya yazılır. -->
     <div class="form-satir-2">
       <input type="text" id="yeniMusteriSehir" placeholder="Şehir (İlçe)">
-      <select id="yeniMusteriIl"></select>
+      <input type="text" id="yeniMusteriIl" placeholder="İl" autocomplete="off">
     </div>
     <input type="text" id="yeniMusteriAcikAdres" placeholder="📍 Açık Adres (varsa, opsiyonel)">
     <div class="form-satir-3">
@@ -163,8 +164,8 @@
 <script src="customer-data.js?v=TKP.09.11.26-12:06.1522"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="ai-config.js?v=WG.271026.2206.1120"></script>
-<script src="foto-doldur.js?v=WG.271026.2238.1143"></script>
-<script src="customer-add-render.js?v=WG.011126.0821.1245"></script>
+<script src="foto-doldur.js?v=TKP.09.11.26-18:31.1529"></script>
+<script src="customer-add-render.js?v=TKP.09.11.26-18:31.1529"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
