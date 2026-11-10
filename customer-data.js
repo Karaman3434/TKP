@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.10.11.26-13:23.1548
+  customer-data.js — TKP.10.11.26-13:33.1549
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -273,6 +273,7 @@ var CustomerData = (function(){
       var kayit = gecmis.filter(function(z){ return z.ts === ts; })[0];
       if(!kayit) throw new Error("Temas kaydı bulunamadı");
       kayit.not = alanlar.not || "";
+      kayit.guncelTs = Date.now();   // en son düzeltilen kayıt = güncel ödeme planı (vade-takip-data.js planSec)
       if(alanlar.hatirlatmaTarihi) kayit.hatirlatmaTarihi = alanlar.hatirlatmaTarihi; else delete kayit.hatirlatmaTarihi;
       if(kayit.faturaTs){ if(alanlar.odemeIsaret) kayit.odeme = true; else delete kayit.odeme; }
       if(gecmis[0] && gecmis[0].ts === ts) tazeListe[idx].sonZiyaretNot = kayit.not;
@@ -287,7 +288,7 @@ var CustomerData = (function(){
       (m.ziyaretGecmisi||[]).forEach(function(z, i){
         sonuc.push({
           musteri: m.ad, musteriId: m.id||null, sehir: m.sehir||"", ts: z.ts, not: z.not||"",
-          tur: z.tur||"ziyaret", hatirlatmaTarihi: z.hatirlatmaTarihi||null, odeme: !!z.odeme, faturaTs: z.faturaTs||null, faturaKod: z.faturaKod||"", kayitIndex: i
+          tur: z.tur||"ziyaret", hatirlatmaTarihi: z.hatirlatmaTarihi||null, odeme: !!z.odeme, faturaTs: z.faturaTs||null, faturaKod: z.faturaKod||"", guncelTs: z.guncelTs||null, kayitIndex: i
         });
       });
     });

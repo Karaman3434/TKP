@@ -1,5 +1,5 @@
 /*
-  vade-takip-data.js — TKP.10.11.26-13:23.1548
+  vade-takip-data.js — TKP.10.11.26-13:33.1549
   ========================================
   FATURA · VADE · ÖDEME TAKİBİ — merkezi hesaplama modülü.
 
@@ -185,11 +185,18 @@ var VadeTakip = (function(){
     }).sort(function(a,b){ return (b.ts||0) - (a.ts||0); });
   }
 
-  // Güncel ödeme planı: en son "odeme" temasının tarihi varsa o; yoksa null.
+  // Güncel ödeme planı (10.11.2026, Abdullah isteği): müşterinin tarihli "odeme" kayıtları arasından, EN SON girilen/düzeltilen
+  // (guncelTs yoksa ts) olanın hatırlatma tarihi — girişin yapıldığı gün DEĞİL, açıklamaya yazılan ödeme tarihi gösterilir.
+  // Açıklaması dolu kayıt, açıklamasız (yalnız tarihli) eski kayda tercih edilir.
+  function planSec(l){
+    var a = l.filter(function(z){ return z.odeme && z.hatirlatmaTarihi; });
+    var n = a.filter(function(z){ return z.not; });
+    var h = n.length ? n : a;
+    return h.slice().sort(function(x, y){ return (y.guncelTs || y.ts || 0) - (x.guncelTs || x.ts || 0); })[0] || null;
+  }
   function odemePlani(musteriId, musteriAd){
-    var l = musteriTemaslari(musteriId, musteriAd).filter(function(z){ return z.odeme; });
-    if(!l.length || !l[0].hatirlatmaTarihi) return null;
-    return {tarih: l[0].hatirlatmaTarihi, not: l[0].not || "", ts: l[0].ts};
+    var son = planSec(musteriTemaslari(musteriId, musteriAd));
+    return son ? {tarih: son.hatirlatmaTarihi, not: String(son.not || "").replace(/^\[[^\]]*\]\s*/, ""), ts: son.ts} : null;
   }
 
   function planKaydet(musteriId, musteriAd, not, tarih, geriBildir){
@@ -233,8 +240,8 @@ var VadeTakip = (function(){
       g.durum = durumdanFark(g.maxFark);
       var t = (temasHaritasi[k] || temasHaritasi["ad:" + trKucuk(g.musteri)] || []).slice().sort(function(a,b){ return (b.ts||0) - (a.ts||0); });
       g.sonTemasTs = t.length ? t[0].ts : null;
-      var son = t.filter(function(z){ return z.odeme; })[0];
-      g.plan = (son && son.hatirlatmaTarihi) ? {tarih: son.hatirlatmaTarihi, not: String(son.not || "").replace(/^\[[^\]]*\]\s*/, ""), ts: son.ts} : null;
+      var son = planSec(t);
+      g.plan = son ? {tarih: son.hatirlatmaTarihi, not: String(son.not || "").replace(/^\[[^\]]*\]\s*/, ""), ts: son.ts} : null;
       if(g.plan){ g.planFark = planFarkGun(g.plan.tarih); gruplar.plan.push(g); }
       else gruplar[g.durum].push(g);
     });
