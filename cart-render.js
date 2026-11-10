@@ -1,5 +1,5 @@
 /*
-  cart-render.js — TKP.08.11.26-22:53.1517
+  cart-render.js — TKP.10.11.26-14:46.1552
   GÜNCELLEME (04.11.2026, Abdullah onayı): İşlem Geçmişi penceresi satırları —
   tarih tek satır + altında (Tip), sayılar altında küçük EURO/% (cart-style.css).
   (önceki: TKP.02.11.26-10:22.1368)
@@ -1071,7 +1071,19 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("btnMusterisizWhatsapp").onclick = musterisizWhatsappGonder;
   document.getElementById("btnMusterisizMail").onclick = musterisizMailGonder;
   document.getElementById("btnMusterisizVazgec").onclick = function(){ document.getElementById("musterisizGonderOverlay").hidden = true; };
-  document.getElementById("btnMusteriGecmisKapat").onclick = function(){ document.getElementById("musteriGecmisOverlay").hidden = true; };
+  // İşlem Geçmişi penceresi (10.11.2026, Abdullah isteği): alttaki "Kapat" butonu
+  // kaldırıldı; pencere AÇIKKEN üst bardaki ✕ yalnız pencereyi kapatır (işlemi
+  // iptal etmez / sepeti boşaltmaz). Kapalıyken ✕ eskisi gibi çalışır.
+  document.addEventListener("click", function(ev){
+    var ov = document.getElementById("musteriGecmisOverlay");
+    if(!ov || ov.hidden) return;
+    var t = ev.target;
+    if(t && t.closest && t.closest("#btnUstKapat")){
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      ov.hidden = true;
+    }
+  }, true);
 
   // İşlemi İptal Onay Popup — SADECE "🗑️ İşlemi İptal Et" butonu kullanıyor
   // (02.10.2026: "Geri" tuşu artık bunu tetiklemiyor, bkz. yukarısı).
