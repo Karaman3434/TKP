@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — TKP.09.11.26-18:01.1528
+  belge-onizleme-style-v2.css — TKP.10.11.26-10:08.1538
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -766,3 +766,8 @@
   .belge-onizleme-sayfa .bo-duzenle-hap { padding: 0 8px 0 9px; gap: 5px; font-size: 12px; }
   .belge-onizleme-sayfa .bo-duzenle-hap .ay-ok { display: none; }
 }
+
+/* ÖDEME GÜNÜ PANELİ (10.11.2026, Abdullah onayı): VADE/FATURA/KARGO'nun altında tek satır, tam genişlik; sadece Belge Önizleme. */
+.ozet-satir-3.bo-odeme-gunu { display: grid; grid-template-columns: 1fr; margin-top: 1mm; }
+.bo-odeme-gunu .ozet-alan { align-items: center; }
+.bo-odeme-gunu .ozet-metin { display: flex; align-items: baseline; gap: 10px; }

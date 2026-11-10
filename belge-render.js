@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.09.11.26-18:48.1530
+  belge-render.js — TKP.10.11.26-10:08.1538
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -298,6 +298,21 @@ function belgeyiCiz(kayit, musteri){
       + (bmbAltMetin ? "<span class='bmb-alt'>" + bmbAltMetin + "</span>" : "")
       + (bmbKodMetin ? "<span class='bmb-kod'>" + bmbKodMetin + "</span>" : "")
       + "</div>" + ikonGrupHtml + "</div>";
+    // ÖDEME GÜNÜ (10.11.2026, Abdullah onayı): tek satırlık panel, VADE/FATURA/KARGO'nun
+    // altında. SADECE bu sayfada (program içi bilgi) — Gönder/Mail/WhatsApp'a girmez
+    // (HareketTablo.cariKutulariHtml'e 11. parametre olarak yalnız burası geçirir).
+    // Hesap tüm listelerle AYNI tek kaynaktan: VadeTakip.odemeBilgisiFn (sipariş + sayısal vade).
+    var odemeGunuPaneliHtml = "";
+    try{
+      if(typeof VadeTakip !== "undefined" && typeof OdemeVadeUI !== "undefined"){
+        var odemeOge = VadeTakip.odemeBilgisiFn()(kayit);
+        if(odemeOge){
+          odemeGunuPaneliHtml = "<div class='ozet-satir-3 ozet-satir-3--birlesik bo-odeme-gunu'><div class='ozet-alan'>"
+            + "<span class='ozet-ikon'>" + (typeof IkonSvg !== "undefined" ? IkonSvg.svg("vade") : "📅") + "</span>"
+            + "<div class='ozet-metin'><div class='ozet-baslik'>ÖDEME GÜNÜ</div><div class='ozet-deger'>" + OdemeVadeUI.tarihUzun(odemeOge.vadeTs) + "</div></div></div></div>";
+        }
+      }
+    }catch(e){ odemeGunuPaneliHtml = ""; }
     var musteriBlokHtml = "<div class='belge-musteri-govde'>"
       // Geçmiş gösterimi artık SADECE #belgeGecmisiKutu'da (alttaki
       // "📜 Belge Geçmişi" kutusu) — buradaki süreç şeridi kaldırıldı,
@@ -320,7 +335,7 @@ function belgeyiCiz(kayit, musteri){
       // musteri.id doluysa basıyor (musteri-serit.js), koduGizle=false
       // olmasına rağmen kod bu yüzden hiç görünmüyordu. Artık gerçek
       // müşteri kaydındaki id (musteri.id) buraya da geçiriliyor.
-      + HareketTablo.cariKutulariHtml({id: (musteri&&musteri.id)||"", ad: kayit.musteri, sehir: sehir, telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true)
+      + HareketTablo.cariKutulariHtml({id: (musteri&&musteri.id)||"", ad: kayit.musteri, sehir: sehir, telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true, false, odemeGunuPaneliHtml)
       + "</div>";
 
     // BAKİYE ÜRÜN BLOĞU — sadece bakiyede kalan ürün varsa gösterilir. Ana

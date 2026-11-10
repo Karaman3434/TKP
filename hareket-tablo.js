@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — TKP.09.11.26-00:12.1521
+  hareket-tablo.js — TKP.10.11.26-10:08.1538
   =================
   GÜNCELLEME (04.11.2026, 14:35, Abdullah onayı — mockup üzerinden): BEDELSİZ
   satır gösterimi. TOPLAM sütunu "NUMUNE" yerine "BEDELSİZ" (kırmızı); LİSTE,
@@ -345,7 +345,7 @@ var HareketTablo = (function(){
   // TESLİMAT ADRESİ (boş/sadece boşluk) ve NOT (metni boş olan kayıtlar)
   // HİÇ basılmaz. SADECE send-render.js'in Mail/WhatsApp önizleme ve giden
   // görsel çağrıları geçer; Cari Kart/Sepet/Belge Önizleme etkilenmez.
-  function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi, koduGizle, teslimatBossaGizle, bosBlokGizle){
+  function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi, koduGizle, teslimatBossaGizle, bosBlokGizle, ekKosulHtml){
     if(bosBlokGizle){
       teslimatBossaGizle = true;
       if(teslimatAdr && !String(teslimatAdr).trim()) teslimatAdr = "";
@@ -382,6 +382,11 @@ var HareketTablo = (function(){
       +   "<div class='ozet-alan'>" + ozIk("fatura","🧾") + "<div class='ozet-metin'><div class='ozet-baslik'>FATURA</div><div class='ozet-deger'>" + htmlEsc(faturaTuru||"-") + "</div></div></div>"
       +   "<div class='ozet-alan'>" + ozIk("kargo","🚚") + "<div class='ozet-metin'><div class='ozet-baslik'>KARGO</div><div class='ozet-deger'>" + htmlEsc(kargo||"-") + "</div></div></div>"
       + "</div>";
+    // ÖDEME GÜNÜ PANELİ (10.11.2026, Abdullah onayı): SADECE Belge Önizleme
+    // (belge-render.js) 11. parametreyi gönderir — VADE/FATURA/KARGO'nun hemen
+    // altında, program içi bilgi amaçlı. Gönder / Mail / WhatsApp bu parametreyi
+    // HİÇ geçirmez, dolayısıyla müşteriye giden metinde asla görünmez.
+    if(ekKosulHtml) html += ekKosulHtml;
     // TEK ÇERÇEVE (18.10.2026, Abdullah onayı — "Sipariş Formu" v3 mockup):
     // Fatura Adresi / Teslimat Adresi / Yetkili artık ayrı ayrı kutucuklar
     // DEĞİL — eski iç tasarım (etiket + ince ayraç çizgisi) AYNEN korunarak

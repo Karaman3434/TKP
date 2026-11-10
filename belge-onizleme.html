@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.09.11.26-18:01.1528 — belge-onizleme.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.10.11.26-10:08.1538 — belge-onizleme.html -->
 <!--
   İŞ TAKİP — BELGE ÖNİZLEME v2 — VERSİYON: WG.211026.1700.870
   ====================================
@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="cari-kart-style.css?v=TKP.09.11.26-18:48.1530">
 <link rel="stylesheet" href="belge-style.css?v=TKP.08.11.26-08:49.1498">
 <link rel="stylesheet" href="reports-style.css?v=TKP.09.11.26-15:24.1527">
-<link rel="stylesheet" href="belge-onizleme-style-v2.css?v=TKP.09.11.26-18:01.1528">
+<link rel="stylesheet" href="belge-onizleme-style-v2.css?v=TKP.10.11.26-10:08.1538">
 <!-- EKLENDİ (15.10.2026, Abdullah'ın isteğiyle) — müşteri ismi artık burada
      da TEK KURAL'a (musteri-serit.js) uyuyor; HareketTablo.cariKutulariHtml()
      bu dosyayı çağırıyor (bkz. hareket-tablo.js). -->
@@ -251,7 +251,7 @@
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="product-data.js?v=TKP.04.11.26-12:30.1463"></script>
 <script src="ikon-svg.js?v=TKP.01.11.26-17:06.1322"></script>
-<script src="hareket-tablo.js?v=TKP.09.11.26-00:12.1521"></script>
+<script src="hareket-tablo.js?v=TKP.10.11.26-10:08.1538"></script>
 <!-- EKLENDİ (15.10.2026) — hareket-tablo.js'in cariKutulariHtml()'i artık
      MusteriSeridi.html() çağırıyor, bu yüzden bu sayfada da yüklü olmalı. -->
 <script src="musteri-serit.js?v=TKP.05.11.26-13:08.1486"></script>
@@ -268,7 +268,10 @@
      çalışıyor. -->
 <script>window.BEKLEYEN_ISLEM_GENERIK_KAPALI = true;</script>
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
-<script src="belge-render.js?v=TKP.09.11.26-18:48.1530"></script>
+<!-- EKLENDİ (10.11.2026): ÖDEME GÜNÜ paneli (yalnız Belge Önizleme) için ortak vade hesabı. -->
+<script src="vade-takip-data.js?v=TKP.10.11.26-09:30.1537"></script>
+<script src="odeme-vade-ui.js?v=TKP.10.11.26-09:30.1537"></script>
+<script src="belge-render.js?v=TKP.10.11.26-10:08.1538"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <script src="menu-cekmece.js?v=TKP.08.11.26-23:35.1519"></script>
 <!-- EKLENDİ (08.11.2026, Abdullah onayı): üst bardaki Kaydet tuşu (açık düzenleme penceresini kaydeder). -->
