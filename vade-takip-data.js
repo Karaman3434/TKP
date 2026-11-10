@@ -1,5 +1,5 @@
 /*
-  vade-takip-data.js — TKP.10.11.26-14:28.1551
+  vade-takip-data.js — TKP.10.11.26-15:08.1556
   ========================================
   FATURA · VADE · ÖDEME TAKİBİ — merkezi hesaplama modülü.
 
@@ -70,7 +70,9 @@ var VadeTakip = (function(){
     var kesimBasi = gunBasi(k.ts);
     var odendi = !!k.odendi;
     var oge = {
-      ts: k.ts, kod: k.kod, musteri: k.musteri, musteriId: k.musteriId || null,
+      ts: k.ts, kod: k.kod, musteri: k.musteri,
+      // 10.11.2026: eski kayıtlarda musteriId yoksa müşteri kartındaki KOD kullanılır (listelerde kod görünsün)
+      musteriId: k.musteriId || (musteri && musteri.id) || null,
       sehir: k.sehir || "", tutar: kayitTutari(k), kesimTs: kesimBasi,
       vadeGun: vadeGun, odendi: odendi
     };

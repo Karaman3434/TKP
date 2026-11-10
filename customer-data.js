@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.10.11.26-13:33.1549
+  customer-data.js — TKP.10.11.26-15:08.1556
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -34,12 +34,34 @@ var CustomerData = (function(){
         // (sadece şehir gerçekten değiştiyse listeleri yeniden çizdirir).
         try{ if(typeof ReportsData !== "undefined" && ReportsData.musteriBilgisiDegisti) ReportsData.musteriBilgisiDegisti(); }catch(e){}
         dinleyiciler.forEach(function(fn){ fn(); });
+        try{ kodsuzMusterilereKodAta(); }catch(e){}
       }, function(err){
         console.error("Müşteri okuma hatası:", err);
       });
     }catch(e){
       console.error("Firebase başlatma hatası:", e);
     }
+  }
+
+  // KODSUZ MÜŞTERİLERE KOD ATA (10.11.2026, Abdullah isteği — "bazı müşterilerde kod var,
+  // bazılarında yok"): müşteri kodu (id) HİÇ olmayan eski kayıtlara, mevcut en büyük
+  // M-XXXX'in devamından sıralı kod verilir. SADECE kodu boş olanlara dokunur; mevcut
+  // kodlar (formatı ne olursa olsun) ASLA değiştirilmez. Güvenli yazma (transaction)
+  // ile yapılır — iki cihaz aynı anda denerse ikincisi güncel veriyi görüp bir şey yapmaz.
+  // Sayfa açılışı başına en fazla 1 deneme.
+  var kodAtamaDenendi = false;
+  function kodsuzMusterilereKodAta(){
+    if(kodAtamaDenendi) return;
+    if(!liste.some(function(m){ return m && !m.id; })) return;
+    kodAtamaDenendi = true;
+    guvenliYaz(function(tazeListe){
+      var eksikler = tazeListe.filter(function(m){ return m && !m.id; });
+      if(!eksikler.length) throw new Error("Kod atanacak müşteri kalmadı.");
+      eksikler.forEach(function(m){ m.id = musteriIdUret(tazeListe, ""); });
+      return tazeListe;
+    }, function(ok, sonuc){
+      if(ok) console.info("Kodsuz müşterilere kod atandı.");
+    });
   }
 
   function listeDegistiginde(fn){ dinleyiciler.push(fn); }
