@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.10.11.26-14:22.1550
+/* home-takvim-style.css — TKP.10.11.26-18:04.1558
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -17,7 +17,7 @@
 }
 .ht-ozet {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  margin: 0 0 1mm; padding: 9px 14px;
+  margin: 0 0 1mm; padding: 7px 14px; /* 10.11.2026: dikeyde %10 */
   background: #fff; border: 1.5px solid #a9c9ee; border-radius: 12px;
   font-weight: 700; font-size: 15px;
 }
@@ -31,28 +31,28 @@
 .ht-ozet-oge--siparis { color: #b5760f; }
 .ht-ozet-oge--temas { color: #0e8a47; }
 @media (max-width: 400px) {
-  .ht-ozet { padding: 9px 8px; gap: 4px; font-size: 13.5px; }
+  .ht-ozet { padding: 7px 8px; gap: 4px; font-size: 13.5px; }
   .ht-ozet .ht-ozet-bugun { padding: 3px 9px; }
   .ht-ozet-oge i { font-size: 15px; margin-right: 2px; }
 }
 .ht-takvim-kutu {
   background: #8c99ae; border: 2px solid #0a2f5c; border-radius: 10px; /* 10.11.2026 (Abdullah): koyu ama daha açık gri zemin + çerçeve çizgisi */
-  padding: 10px; margin-bottom: 0;
+  padding: 7px 10px; margin-bottom: 0; /* 10.11.2026 (Abdullah): takvim dikeyde %10 kısaldı */
   touch-action: pan-y; /* 09.11.2026: yatay kaydırma ay değiştirir */
 }
 .ht-ay-baslik {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 6px 6px; font-size: 14px; font-weight: 800; color: #0a2f5c;
+  padding: 0 6px 3px; font-size: 14px; font-weight: 800; color: #0a2f5c;
 }
 .ht-ay-baslik i { font-style: normal; font-size: 18px; color: #26405f; padding: 0 8px; cursor: pointer; }
 .ht-gun-basliklari {
   display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
-  font-size: 15px; font-weight: 900; text-align: center; color: #0a2f5c; margin-bottom: 4px;  /* 08.11.2026 (Abdullah): gün kısaltmaları +%50 (10px idi) */
+  font-size: 15px; font-weight: 900; text-align: center; color: #0a2f5c; margin-bottom: 2px;  /* 08.11.2026 (Abdullah): gün kısaltmaları +%50 (10px idi) */
 }
 .ht-tatil-baslik { color: #8a1a12; }
 .ht-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
 .ht-gun {
-  position: relative; text-align: center; padding: 3px 0 4px; /* 08.11.2026: gün kutusu dikeyde ~%10 kısaldı (Abdullah) */
+  position: relative; text-align: center; padding: 1px 0 2px; /* 08.11.2026: gün kutusu dikeyde ~%10 kısaldı (Abdullah) */
   font-size: 12px; font-weight: 700; color: #333; border-radius: 6px;
   border: 2px solid transparent; cursor: pointer; user-select: none;
 }

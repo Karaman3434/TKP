@@ -1,5 +1,5 @@
 /*
-  kur-panel.js — VERSİYON: TKP.10.11.26-08:14.1534
+  kur-panel.js — VERSİYON: TKP.10.11.26-18:04.1558
   ================================================
   04.11.2026 (Abdullah onayı — mockup, Seçenek B): EUR kuruna dokununca sağ
   kenarda küçük yüzen kartta GÜNÜN DÖVİZ KURLARI (programın kendi tablosu) açılır.
@@ -48,20 +48,20 @@ var KurPanel = (function(){
       /* SABİT DÖVİZ PANELİ (09.11.2026, Abdullah onayı — mockup B): Ana Sayfa'da eski tek satırlık EUR kur kutusunun yerinde, hep açık. */
       ".dv-sabit{width:100%;box-sizing:border-box;}" +
       ".dv-kart{background:#fff;border:1.5px solid #0d3d8c;border-radius:12px;overflow:hidden;box-sizing:border-box;}" +
-      ".dv-ust{background:#0d3d8c;color:#fff;display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;}" +
+      ".dv-ust{background:#0d3d8c;color:#fff;display:flex;align-items:center;gap:8px;padding:4px 6px 4px 12px;}" +
       ".dv-baslik{flex:1;min-width:0;font-size:12px;font-weight:800;line-height:1.15;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}" +
       ".dv-baslik small{font-size:10px;font-weight:500;opacity:.9;}" +
       ".dv-tarih{font-size:10.5px;font-weight:700;opacity:.9;}" +
-      ".dv-btn{background:rgba(255,255,255,.2);border:none;border-radius:7px;color:#fff;min-width:30px;height:28px;font-size:13px;font-weight:800;padding:0 7px;cursor:pointer;flex-shrink:0;}" +
+      ".dv-btn{background:rgba(255,255,255,.2);border:none;border-radius:7px;color:#fff;min-width:30px;height:26px;font-size:13px;font-weight:800;padding:0 7px;cursor:pointer;flex-shrink:0;}" +
       ".dv-iki{display:grid;grid-template-columns:1fr 1fr;}" +
-      ".dv-kutu{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:9px 14px;color:#003a70;min-width:0;}" +
+      ".dv-kutu{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 14px;color:#003a70;min-width:0;}" +
       ".dv-kutu+.dv-kutu{border-left:1px solid #dde3ec;}" +
       ".dv-kutu--eur{background:#fff6e0;}" +
       ".dv-kod{font-size:14px;font-weight:800;white-space:nowrap;}" +
       ".dv-kur{font-size:22px;font-weight:900;white-space:nowrap;}" +
       ".dv-durum{grid-column:1 / -1;padding:12px;text-align:center;font-size:12px;font-weight:700;color:#8a8f98;}" +
       ".dv-durum--hata{color:#c0392b;}" +
-      "@media (max-width:400px){.dv-kutu{padding:9px 9px;gap:4px;}.dv-kod{font-size:12.5px;}.dv-kur{font-size:19px;}}" +
+      "@media (max-width:400px){.dv-kutu{padding:7px 9px;gap:4px;}.dv-kod{font-size:12.5px;}.dv-kur{font-size:19px;}}" +
       ".kp-perde{position:fixed;inset:0;z-index:6000;background:rgba(10,20,35,.32);}" +
       ".kp-kart{position:fixed;z-index:6001;left:1mm;right:1mm;top:calc(var(--ust-sabit-yukseklik,60px) + 8px);" +
         "width:auto;background:#fff;border-radius:12px;overflow:hidden;" +

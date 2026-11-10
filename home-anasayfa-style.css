@@ -1,5 +1,5 @@
 /*
-  home-anasayfa-style.css — TKP.10.11.26-08:14.1534
+  home-anasayfa-style.css — TKP.10.11.26-18:04.1558
   ========================
   SADECE home.html'e özel — Abdullah'ın paylaştığı referans fotoğrafa göre
   yeniden tasarlanan Ana Sayfa (canlı mavi/yeşil, kartlı, çekmece menülü).
@@ -213,7 +213,7 @@
 /* TARİH + İŞ GÜNÜ SATIRI (09.11.2026, Abdullah onayı — mockup): iki panel AYNI boyda yan yana (1fr 1fr). */
 .as-tarih-satir { display: grid; grid-template-columns: 1fr 1fr; gap: 1mm; margin: 0 0 1mm; box-sizing: border-box; }
 .as-tarih-satir .as-tarih-panel,
-.as-tarih-satir .as-isgunu-panel { min-height: 57px; width: auto; }
+.as-tarih-satir .as-isgunu-panel { min-height: 51px; width: auto; padding-top: 5px; padding-bottom: 5px; } /* 10.11.2026 (Abdullah): paneller dikeyde %10 kısaldı (57→51px) */
 
 /* .as-kur-panel / .as-kur-etiket / .as-kur-deger KALDIRILDI (09.11.2026, Abdullah onayı): yerine kur-panel.js sabit döviz paneli (.dv-sabit). */
 
@@ -227,11 +227,11 @@
   box-sizing: border-box;
 }
 /* KASIM SATIŞ KARTI +%20 DİKEY (09.11.2026, Abdullah onayı — mockup): yazı boyları aynı, satır aralıkları açıldı. */
-.as-hedef-kart { padding-top: 16px; padding-bottom: 16px; }
+.as-hedef-kart { padding-top: 11px; padding-bottom: 11px; } /* 10.11.2026 (Abdullah): dikeyde %10 kısaldı (16→11px; satır araları 9→6px) */
 .as-hedef-kart .as-hedef-deger-satir,
 .as-hedef-kart .as-hedef-bar-sarmal,
 .as-hedef-kart .as-hedef-ayrac-satir,
-.as-hedef-kart .as-prim-iki { margin-top: 9px; }
+.as-hedef-kart .as-prim-iki { margin-top: 6px; }
 .as-hedef-ust-satir {
   display: flex;
   align-items: baseline;
@@ -287,7 +287,7 @@
   flex: 1;
   min-width: 0;
   border-radius: 14px;
-  padding: 14px;
+  padding: 10px 14px; /* 10.11.2026 (Abdullah): dikeyde %10 kısaldı (14→10px) */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -641,3 +641,43 @@ body.as-drawer-kilit { overflow: hidden; }
 .as-satis-tut--eur { font-size: calc(clamp(19px, calc((100vw - 64px) / 12 * .85), 34px) * var(--eur-carpan, 1.3)); }
 /* --eur-carpan: 1.3 (=%30 büyük); rakamlar çok uzunsa (ör. 7 haneli TL) home-render.js
    satisRakamlariniSigdir() sığana kadar 1.0'a (eski boy) kadar düşürür — satır asla taşmaz. */
+
+/* ---------- "Ziyaret ve Ödeme Takip" butonu (10.11.2026, Abdullah isteği) ----------
+   Düz renk; paneller arası boşluk 1mm; pencere butonun altında (yer yoksa üstünde) açılır. */
+.as-tak-blok { position: relative; padding: 1mm 0 0; box-sizing: border-box; }
+.as-tak-blok[hidden] { display: none; }
+.as-tak-btn {
+  width: 100%; height: 46px; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: #e0700f; color: #fff; border: 1.5px solid #b85a0a; border-radius: 14px;
+  font-family: inherit; font-size: 17px; font-weight: 800; cursor: pointer;
+}
+.as-tak-rozet {
+  background: #c0392b; border: 2px solid #fff; border-radius: 999px;
+  min-width: 26px; padding: 1px 8px; box-sizing: border-box;
+  font-size: 14px; font-weight: 800; text-align: center; line-height: 1.3;
+}
+.as-tak-rozet[hidden] { display: none; }
+.as-tak-pop {
+  position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 50;
+  background: #fff; border: 1.5px solid #b85a0a; border-radius: 14px; overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,.22);
+}
+.as-tak-pop[hidden] { display: none; }
+.as-tak-pop--yukari { top: auto; bottom: calc(100% + 4px); }
+.as-tak-satir {
+  width: 100%; display: flex; align-items: center; gap: 10px; padding: 11px 14px;
+  background: #fff; border: 0; text-align: left; font-family: inherit; cursor: pointer; color: #042c53;
+}
+.as-tak-satir + .as-tak-satir { border-top: 1px solid #e3e8ef; }
+.as-tak-ikon { font-size: 22px; flex-shrink: 0; }
+.as-tak-metin { flex: 1; min-width: 0; }
+.as-tak-metin b { display: block; font-size: 16px; font-weight: 800; }
+.as-tak-metin small { display: block; font-size: 12px; font-weight: 600; color: #6b7280; margin-top: 1px; }
+.as-tak-say {
+  min-width: 28px; padding: 2px 9px; box-sizing: border-box; border-radius: 999px;
+  font-size: 15px; font-weight: 800; text-align: center; color: #fff; flex-shrink: 0;
+}
+.as-tak-say--kirmizi { background: #c0392b; }
+.as-tak-say--mavi { background: #1565c0; }
+.as-tak-say--sifir { background: #9aa6b6; }

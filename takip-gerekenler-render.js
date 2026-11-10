@@ -1,4 +1,4 @@
-// takip-gerekenler-render.js — TKP.08.11.26-09:20.1499
+// takip-gerekenler-render.js — TKP.10.11.26-18:04.1558
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -30,25 +30,14 @@ function cariSatirHTML(kod, isim, sehir){
     + (sehir ? "<span class='cari-ayrac'> - </span><span class='cari-sehir'>" + htmlEsc(sehir) + "</span>" : "");
 }
 
-// Aynı mantık customer-render.js'deki sonAktiviteZamani ile birebir aynı
-// tutulmalı: son ziyaret VEYA son işlemden hangisi daha yeniyse.
+// 10.11.2026: son aktivite hesabı ve 30 gün kuralı artık TEK KAYNAKTA (takip-ozet-data.js
+// → TakipOzet); Ana Sayfa "Ziyaret ve Ödeme Takip" butonu da aynı kuralı kullanır.
 var musteriSonIslemHaritasi = null;
 function sonIslemHaritasiniHazirla(){
-  var harita = {};
-  try{
-    if(typeof ReportsData !== "undefined"){
-      ReportsData.sonIslemler().forEach(function(k){
-        if(!k.musteriId) return;
-        if(!harita[k.musteriId] || k.ts > harita[k.musteriId]) harita[k.musteriId] = k.ts;
-      });
-    }
-  }catch(e){}
-  musteriSonIslemHaritasi = harita;
+  musteriSonIslemHaritasi = TakipOzet.sonIslemHaritasi();
 }
 function sonAktiviteZamani(m){
-  var sonIslem = (musteriSonIslemHaritasi && m.id) ? musteriSonIslemHaritasi[m.id] : null;
-  var aday = [m.sonZiyaret||0, sonIslem||0];
-  return Math.max.apply(null, aday);
+  return TakipOzet.sonAktiviteZamani(m, musteriSonIslemHaritasi);
 }
 
 function listeyiCiz(){
@@ -57,12 +46,7 @@ function listeyiCiz(){
     var sehirFiltre = (document.getElementById("tgSehirFiltre").value||"").toLocaleLowerCase("tr-TR");
     var sirala = document.getElementById("tgSirala").value;
 
-    var tumu = CustomerData.ara("");
-    var esikMs = 30*86400000;
-    var liste = tumu.filter(function(m){
-      var zaman = sonAktiviteZamani(m);
-      return zaman === 0 || (Date.now()-zaman) > esikMs;
-    });
+    var liste = TakipOzet.ziyaretBekleyenler();
     if(sehirFiltre) liste = liste.filter(function(m){ return (m.sehir||"").toLocaleLowerCase("tr-TR").indexOf(sehirFiltre) >= 0; });
 
     liste = liste.slice().sort(function(a,b){
@@ -109,5 +93,7 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("tgSehirFiltre").addEventListener("input", listeyiCiz);
   document.getElementById("tgSirala").addEventListener("change", listeyiCiz);
   CustomerData.listeDegistiginde(listeyiCiz);
+  // 10.11.2026: işlem arşivi sonradan gelirse liste (ve Ana Sayfa sayısıyla tutarlılık) tazelensin
+  if(typeof ReportsData !== "undefined" && ReportsData.arsivDegistiginde) ReportsData.arsivDegistiginde(listeyiCiz);
   listeyiCiz();
 });
