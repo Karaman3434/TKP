@@ -1,5 +1,5 @@
 /*
-  detail-render.js — TKP.10.11.26-12:04.1542
+  detail-render.js — TKP.10.11.26-12:32.1545
   ================
   Seçili müşterinin bilgilerini, sipariş geçmişini (ReportsData.sonIslemler
   üzerinden filtrelenmiş) ve ziyaret geçmişini gösterir.
@@ -122,13 +122,15 @@ function tilelariBagla(){
   };
 
   document.getElementById("tileFaturaTakip").onclick = function(){
+    if(typeof OdemeVadeUI !== "undefined") OdemeVadeUI.fnIptal();
     document.getElementById("faturaTakipOverlay").hidden = false;
     faturaTakipCiz();
   };
-  document.getElementById("btnFaturaTakipKapat").onclick = function(){ document.getElementById("faturaTakipOverlay").hidden = true; detayGeriDon(); };
+  document.getElementById("btnFaturaTakipKapat").onclick = function(){ if(typeof OdemeVadeUI !== "undefined") OdemeVadeUI.fnIptal(); document.getElementById("faturaTakipOverlay").hidden = true; detayGeriDon(); };
   if(typeof VadeTakipUI !== "undefined"){
     VadeTakipUI.baglaRozetler(document.getElementById("ftListe"), faturaTakipCiz);
   }
+  // Faturaya dokun → açıklama (Kaydet = üst bar Kaydet, Kapat = üst bar ✕) — bağlam her çizimde faturaTakipCiz'de tazelenir.
 }
 
 // FATURA · VADE · ÖDEME TAKİBİ — bu müşterinin tüm siparişleri, en yeni
@@ -205,6 +207,7 @@ function faturaTakipCiz(){
     // Ortak satırlar (odeme-vade-ui.js): ödeme günü + kalan/geçen gün rozeti, ödeme tarihine göre.
     kok.innerHTML = (typeof OdemeVadeUI !== "undefined" && OdemeVadeUI.faturaListesiHTML(ogeler))
       || ogeler.map(function(o){ return VadeTakipUI.satirHTML(o, {gosterMusteri:false}); }).join("");
+    if(typeof OdemeVadeUI !== "undefined") OdemeVadeUI.faturaNotBagla(kok, musteri.id || null, musteri.ad, faturaTakipCiz, faturaTakipCiz);
     faturaTakipOzetiGuncelle();
   }catch(e){ hataGoster("Fatura Takip listesi çizilemedi: " + e.message); }
 }

@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.10.11.26-09:30.1537
+  customer-data.js — TKP.10.11.26-12:32.1545
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -218,6 +218,8 @@ var CustomerData = (function(){
       if(hatirlatmaTarihi) kayit.hatirlatmaTarihi = hatirlatmaTarihi;
       // 10.11.2026 (Abdullah onayı — Vade Takip): ekAlan.odeme === true → bu temas bir ÖDEME PLANI notudur (Vade Takip / Cari Bilgi ÖDEME VADE penceresi).
       if(ekAlan && ekAlan.odeme) kayit.odeme = true;
+      // 10.11.2026 (Abdullah isteği — Fatura ve Ödeme Takip): bu temas BELİRLİ BİR FATURAYA yazılmış açıklamadır (faturaTs = sipariş kaydının ts'i, faturaKod = belge kodu).
+      if(ekAlan && ekAlan.faturaTs){ kayit.faturaTs = ekAlan.faturaTs; if(ekAlan.faturaKod) kayit.faturaKod = ekAlan.faturaKod; }
       tazeListe[idx].ziyaretGecmisi.push(kayit);
       tazeListe[idx].ziyaretGecmisi.sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
       tazeListe[idx].sonZiyaret = tazeListe[idx].ziyaretGecmisi[0].ts;
@@ -245,6 +247,21 @@ var CustomerData = (function(){
     }, geriBildir);
   }
 
+  // Bir temas kaydının açıklamasını (not) düzeltir — ts ile eşleşir (ziyaretSil ile aynı güvenli desen).
+  // Takvim, Cari Kart temas listesi ve Ana Sayfa aynı veriyi okuduğu için hepsi otomatik güncellenir.
+  // (10.11.2026, Abdullah isteği — fatura açıklamasını "Düzelt")
+  function ziyaretNotGuncelle(musteriAd, ts, yeniNot, geriBildir, musteriId){
+    guvenliYaz(function(tazeListe){
+      var idx = musteriIndexBul(tazeListe, musteriAd, musteriId);
+      if(idx===-1) throw new Error("Müşteri bulunamadı");
+      var gecmis = tazeListe[idx].ziyaretGecmisi || [];
+      var kayit = gecmis.filter(function(z){ return z.ts === ts; })[0];
+      if(!kayit) throw new Error("Temas kaydı bulunamadı");
+      kayit.not = yeniNot || "";
+      if(gecmis[0] && gecmis[0].ts === ts) tazeListe[idx].sonZiyaretNot = kayit.not;
+    }, geriBildir);
+  }
+
   // Takvim görünümü için: tüm müşterilerin tüm ziyaret/temas kayıtlarını,
   // hangi müşteriye ait olduğu bilgisiyle birlikte tek listede döner.
   function tumZiyaretTemaslar(){
@@ -253,7 +270,7 @@ var CustomerData = (function(){
       (m.ziyaretGecmisi||[]).forEach(function(z, i){
         sonuc.push({
           musteri: m.ad, musteriId: m.id||null, sehir: m.sehir||"", ts: z.ts, not: z.not||"",
-          tur: z.tur||"ziyaret", hatirlatmaTarihi: z.hatirlatmaTarihi||null, odeme: !!z.odeme, kayitIndex: i
+          tur: z.tur||"ziyaret", hatirlatmaTarihi: z.hatirlatmaTarihi||null, odeme: !!z.odeme, faturaTs: z.faturaTs||null, faturaKod: z.faturaKod||"", kayitIndex: i
         });
       });
     });
@@ -882,6 +899,7 @@ var CustomerData = (function(){
     ziyaretHatirlatmalari: ziyaretHatirlatmalari,
     ziyaretEkle: ziyaretEkle,
     ziyaretSil: ziyaretSil,
+    ziyaretNotGuncelle: ziyaretNotGuncelle,
     tumZiyaretTemaslar: tumZiyaretTemaslar,
     hatirlatmalarBugun: hatirlatmalarBugun,
     gunFarkiHesapla: gunFarkiHesapla,

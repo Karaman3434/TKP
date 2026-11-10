@@ -1,5 +1,5 @@
 /*
-  ust-bar-eylem.js — TKP.09.11.26-18:48.1530
+  ust-bar-eylem.js — TKP.10.11.26-12:32.1545
   ==========================================
   Üst barın (.ub-bar) SONUNDAKİ sayfa eylem tuşları: Kaydet (mor) ve Gönder
   (turkuaz) — Menü/Geri/Beklet/Kapat ile aynı ölçüde (Abdullah onayı,
@@ -57,6 +57,8 @@
     "belge-onizleme.html": [
       { tur:"kaydet", gerekli:true,
         hedef:function(){
+          // ÖDEME GÜNÜ penceresinde fatura açıklaması yazılıyorsa Kaydet onu kaydeder (10.11.2026).
+          if(typeof OdemeVadeUI !== "undefined"){ var fb = OdemeVadeUI.fnKaydetHedef(); if(fb) return fb; }
           var ids = ["duzenleOverlay","yetkiliSecOverlay","adresDuzenleOverlay","notDuzenleOverlay","beklemedeNotOverlay"];
           var btnIds = {duzenleOverlay:"btnDuzenleKaydet", yetkiliSecOverlay:"btnYetkiliSecKaydet", adresDuzenleOverlay:"btnAdresDuzenleKaydet", notDuzenleOverlay:"btnNotDuzenleKaydet", beklemedeNotOverlay:"btnBeklemedeNotKaydet"};
           for(var i=0;i<ids.length;i++){
@@ -77,6 +79,10 @@
           return (o && !o.hidden) ? document.getElementById("formKaydetBtn") : null;
         } }
     ],
+    // FATURA AÇIKLAMASI (10.11.2026, Abdullah isteği): bir faturaya dokunulup açıklama yazılırken Kaydet burada;
+    // form kapalıyken tuş hiç görünmez. Kapat = üstteki ✕ (önce formu kapatır — odeme-vade-ui.js).
+    "vade-takip.html":      [ { tur:"kaydet", gerekli:true, hedef:function(){ return (typeof OdemeVadeUI !== "undefined") ? OdemeVadeUI.fnKaydetHedef() : null; } } ],
+    "customer-detail.html": [ { tur:"kaydet", gerekli:true, hedef:function(){ return (typeof OdemeVadeUI !== "undefined") ? OdemeVadeUI.fnKaydetHedef() : null; } } ],
     "customer-add.html":    [ { tur:"kaydet", hedef:id("btnYeniMusteriKaydet") } ],
     "ziyaret.html":         [ { tur:"kaydet", hedef:id("btnZiyKaydet") } ],
     "km.html":              [ { tur:"kaydet", hedef:id("btnKmKaydet") } ],
