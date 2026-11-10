@@ -1,5 +1,5 @@
 /*
-  kur-panel.js — VERSİYON: TKP.10.11.26-18:04.1558
+  kur-panel.js — VERSİYON: TKP.11.11.26-00:01.1559
   ================================================
   04.11.2026 (Abdullah onayı — mockup, Seçenek B): EUR kuruna dokununca sağ
   kenarda küçük yüzen kartta GÜNÜN DÖVİZ KURLARI (programın kendi tablosu) açılır.
@@ -47,8 +47,8 @@ var KurPanel = (function(){
       ".as-kur-panel{cursor:pointer;}" +
       /* SABİT DÖVİZ PANELİ (09.11.2026, Abdullah onayı — mockup B): Ana Sayfa'da eski tek satırlık EUR kur kutusunun yerinde, hep açık. */
       ".dv-sabit{width:100%;box-sizing:border-box;}" +
-      ".dv-kart{background:#fff;border:1.5px solid #0d3d8c;border-radius:12px;overflow:hidden;box-sizing:border-box;}" +
-      ".dv-ust{background:#0d3d8c;color:#fff;display:flex;align-items:center;gap:8px;padding:4px 6px 4px 12px;}" +
+      ".dv-kart{background:#fff;border:1.5px solid var(--renk-mavi,#1257c7);border-radius:12px;overflow:hidden;box-sizing:border-box;}" +
+      ".dv-ust{background:var(--renk-mavi,#1257c7);color:#fff;display:flex;align-items:center;gap:8px;padding:4px 6px 4px 12px;}" +
       ".dv-baslik{flex:1;min-width:0;font-size:12px;font-weight:800;line-height:1.15;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}" +
       ".dv-baslik small{font-size:10px;font-weight:500;opacity:.9;}" +
       ".dv-tarih{font-size:10.5px;font-weight:700;opacity:.9;}" +
@@ -66,7 +66,7 @@ var KurPanel = (function(){
       ".kp-kart{position:fixed;z-index:6001;left:1mm;right:1mm;top:calc(var(--ust-sabit-yukseklik,60px) + 8px);" +
         "width:auto;background:#fff;border-radius:12px;overflow:hidden;" +
         "box-shadow:-6px 6px 22px rgba(0,0,0,.38);display:flex;flex-direction:column;max-height:calc(100vh - 80px);}" +
-      ".kp-ust{background:#0d3d8c;color:#fff;display:flex;align-items:center;gap:6px;padding:7px 7px 7px 12px;flex-shrink:0;}" +
+      ".kp-ust{background:var(--renk-mavi,#1257c7);color:#fff;display:flex;align-items:center;gap:6px;padding:7px 7px 7px 12px;flex-shrink:0;}" +
       ".kp-baslik{flex:1;min-width:0;font-size:11px;font-weight:800;line-height:1.15;}" +
       ".kp-baslik small{display:block;font-size:8.5px;font-weight:500;opacity:.85;}" +
       ".kp-btn{background:rgba(255,255,255,.2);border:none;border-radius:7px;color:#fff;min-width:30px;height:28px;font-size:13px;font-weight:800;padding:0 7px;cursor:pointer;}" +

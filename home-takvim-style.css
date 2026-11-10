@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.10.11.26-18:04.1558
+/* home-takvim-style.css — TKP.11.11.26-00:01.1559
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -27,16 +27,16 @@
 /* "Bugün" etiketi dokunulabilir hap (08.11.2026): bugünün Not + Ajanda penceresini açar. */
 .ht-ozet .ht-ozet-bugun { background: #dbe8fa; border: 1.5px solid #003a70; border-radius: 99px; padding: 3px 13px; cursor: pointer; }
 .ht-ozet-oge i { font-style: normal; font-size: 17px; margin-right: 4px; vertical-align: -2px; }
-.ht-ozet-oge--islem { color: #1257c7; }
+.ht-ozet-oge--islem { color: var(--renk-mavi,#1257c7); }
 .ht-ozet-oge--siparis { color: #b5760f; }
-.ht-ozet-oge--temas { color: #0e8a47; }
+.ht-ozet-oge--temas { color: #0e8a47; } /* beyaz zeminde okunsun diye koyu yeşil (standart yeşil açık kalıyor) */
 @media (max-width: 400px) {
   .ht-ozet { padding: 7px 8px; gap: 4px; font-size: 13.5px; }
   .ht-ozet .ht-ozet-bugun { padding: 3px 9px; }
   .ht-ozet-oge i { font-size: 15px; margin-right: 2px; }
 }
 .ht-takvim-kutu {
-  background: #8c99ae; border: 2px solid #0a2f5c; border-radius: 10px; /* 10.11.2026 (Abdullah): koyu ama daha açık gri zemin + çerçeve çizgisi */
+  background: #aeb8c6; border: 2px solid #0a2f5c; border-radius: 10px; /* 10.11.2026 (Abdullah): koyu ama daha açık gri zemin + çerçeve çizgisi */
   padding: 7px 10px; margin-bottom: 0; /* 10.11.2026 (Abdullah): takvim dikeyde %10 kısaldı */
   touch-action: pan-y; /* 09.11.2026: yatay kaydırma ay değiştirir */
 }
@@ -49,7 +49,7 @@
   display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
   font-size: 15px; font-weight: 900; text-align: center; color: #0a2f5c; margin-bottom: 2px;  /* 08.11.2026 (Abdullah): gün kısaltmaları +%50 (10px idi) */
 }
-.ht-tatil-baslik { color: #8a1a12; }
+.ht-tatil-baslik { color: var(--renk-kirmizi,#ff0000); }
 .ht-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
 .ht-gun {
   position: relative; text-align: center; padding: 1px 0 2px; /* 08.11.2026: gün kutusu dikeyde ~%10 kısaldı (Abdullah) */
@@ -57,38 +57,39 @@
   border: 2px solid transparent; cursor: pointer; user-select: none;
 }
 .ht-gun--bos { cursor: default; }
-.ht-gun--tatil { color: #c0392b; }
-/* Kalan iş günleri (bugün dahil) YEŞİL, geçen çalışılmış iş günleri AÇIK KIRMIZI. */
-/* (05.11.2026, ikinci tur) kalan iş günleri AÇIK MAVİ, hafta sonları AÇIK YEŞİL zemin. */
-.ht-gun--kalan { background: #d6e8fc; color: #0c2f66; border-color: #a9c9ee; }
-.ht-gun--tatil { background: #dff3e4; }
-.ht-gun--gecmis { background: #fde3e1; color: #7a1f19; }
-.ht-gun--bugun { border-color: #0a2f5c; }
-.ht-gun--secili.ht-gun--kalan { background: #d6e8fc; }
+.ht-gun--tatil { color: #0c2f66; }
+/* RENK STANDARDI (11.11.2026, Abdullah onayı): koyu zeminler + beyaz rakam; renkler home-anasayfa-style.css'teki
+   tek yeşil/mavi/kırmızı değişkenlerinden gelir. Hafta sonu (açık yeşil zemin) rakamı okunurluk için lacivert. */
+.ht-gun--kalan { background: var(--renk-mavi,#1257c7); color: #fff; border-color: #0d3f93; }
+.ht-gun--tatil { background: var(--renk-yesil,#22cc66); color: #0c2f66; border-color: #169a4c; }
+.ht-gun--gecmis { background: var(--renk-kirmizi,#ff0000); color: #fff; border-color: #b30000; }
+/* Seçili gün: zemin değişmez, sadece turuncu çerçeve (koyu zeminde beyaz rakam kaybolmasın) */
 .ht-gun--secili { border-color: #e8a317; box-shadow: 0 0 0 1.5px #fff inset; }
-.ht-gun--secili.ht-gun--tatil, .ht-gun--secili.ht-gun--gecmis { background: #faeeda; }
-/* BUGÜN (08.11.2026, Abdullah onayı — seçenek C): krem zemin (10.11.2026: altın sarısı yerine, Euro kutusu rengi) + lacivert çerçeve + kalın lacivert rakam
-   (hedef kartındaki oran dairesiyle aynı renk). Seçiliyken çerçeve yine turuncu (yukarıdaki .ht-gun--secili). */
+/* BUGÜN (11.11.2026, Abdullah onayı): parlak sarı zemin + lacivert çerçeve + kalın lacivert rakam. Seçiliyken çerçeve turuncu. */
 .ht-gun--bugun, .ht-gun--bugun.ht-gun--kalan, .ht-gun--bugun.ht-gun--tatil, .ht-gun--bugun.ht-gun--gecmis,
 .ht-gun--bugun.ht-gun--secili, .ht-gun--bugun.ht-gun--secili.ht-gun--kalan,
-.ht-gun--bugun.ht-gun--secili.ht-gun--tatil, .ht-gun--bugun.ht-gun--secili.ht-gun--gecmis { background: #fff6e0; color: #0a2f5c; }
+.ht-gun--bugun.ht-gun--secili.ht-gun--tatil, .ht-gun--bugun.ht-gun--secili.ht-gun--gecmis { background: #ffe600; color: #0a2f5c; border-color: #0a2f5c; }
+.ht-gun--bugun.ht-gun--secili { border-color: #e8a317; }
 .ht-gun--bugun .ht-gun-no { color: #0a2f5c; font-size: 13px; line-height: 1.01; font-weight: 900; }
 
 .ht-bildirim { display: flex; justify-content: center; align-items: center; gap: 3px; height: 15px; margin-bottom: 0; }
 .ht-gun--bos .ht-bildirim { display: none; }
 .ht-gun-no { display: block; line-height: 1.1; }
+.ht-gun--kalan .ht-gun-no, .ht-gun--gecmis .ht-gun-no { color: #fff; }
+.ht-gun--tatil .ht-gun-no { color: #0c2f66; }
+.ht-gun.ht-gun--bugun .ht-gun-no { color: #0a2f5c; }
 .ht-rozet {
   min-width: 15px; height: 15px; padding: 0 3px;
   border-radius: 8px; font-size: 9px; font-weight: 900; color: #fff;
   display: flex; align-items: center; justify-content: center; box-sizing: border-box;
 }
-.ht-rozet--temas { background: #2f6fd6; border: 1.5px solid #1d4f9e; }
-.ht-rozet--ajanda { background: #d6392f; border: 1.5px solid #a02920; }
+.ht-rozet--temas { background: var(--renk-mavi,#1257c7); border: 1.5px solid #fff; }
+.ht-rozet--ajanda { background: var(--renk-kirmizi,#ff0000); border: 1.5px solid #fff; }
 
 /* GÜN PANELİ — güne dokununca günün ÜSTÜNDE açılır (yarı genişlik, ok işaretli) */
 .ht-panel {
   position: absolute; z-index: 30; background: #fff;
-  border: 1.5px solid #1257c7; border-radius: 12px;
+  border: 1.5px solid var(--renk-mavi,#1257c7); border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,.28);
 }
 .ht-panel:after {

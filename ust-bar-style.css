@@ -1,4 +1,4 @@
-/* İŞ TAKİP V2 — VERSİYON: TKP.05.11.26-12:35.1485 — ust-bar-style.css
+/* İŞ TAKİP V2 — VERSİYON: TKP.11.11.26-00:01.1559 — ust-bar-style.css
    ===========================================================================
    GÜNCELLEME (03.11.2026, 14:45, Abdullah onayı — mockup v2 onaylandı):
    1) Sayfa adı etiketi (turuncu) artık Menü/Geri/Beklet/Kapat ile aynı
@@ -94,7 +94,7 @@
 }
 .ub-btn--menu  { width: 58.08px; background: linear-gradient(180deg,#1b3a66 0%, #0d3d8c 60%, #072b66 100%); }
 .ub-btn--geri  { background: linear-gradient(180deg,#4f8bf0 0%, #2a6bea 55%, #1452d6 100%); }
-.ub-btn--bekle { background: linear-gradient(180deg,#3ecf8e 0%, #1fa968 55%, #0e7a49 100%); }
+.ub-btn--bekle { background: var(--renk-yesil,#22cc66); } /* 11.11.2026: standart yeşil (home-anasayfa-style.css değişkeni) */
 .ub-btn--kapat { background: linear-gradient(180deg,#e0485c 0%, #c1121f 55%, #9c0d17 100%); }
 .ub-btn[disabled] {
   filter: grayscale(75%);
