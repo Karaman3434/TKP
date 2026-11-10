@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.10.11.26-11:55.1541
+  cari-kart-render.js — TKP.10.11.26-12:15.1543
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -351,12 +351,9 @@ function vadeRozetiniGuncelle(){
   r.textContent = n;
   r.hidden = !n;
 }
-// Pencere mantığı tek yerde: OdemeVadeUI.popupAc/popupKapat (Belge Önizleme ÖDEME GÜNÜ paneliyle ortak).
-function vadePopupKapat(){ return typeof OdemeVadeUI !== "undefined" && OdemeVadeUI.popupKapat(); }
-function vadePopupAc(){
-  OdemeVadeUI.popupAc({serit: document.querySelector(".ozet-satir-3"), ankaj: document.getElementById("ozetAlanVade"),
-    musteriId: musteriVerisi && musteriVerisi.id, musteriAd: musteriVerisi && musteriVerisi.ad, degisti: vadeRozetiniGuncelle});
-}
+// 10.11.2026 (Abdullah isteği): VADE kutusundan açılan Ödeme·Vade penceresi kaldırıldı;
+// pencere artık yalnızca Belge Önizleme'deki ÖDEME GÜNÜ panelinden açılır (OdemeVadeUI.popupAc).
+// VADE kutusu bilgi amaçlıdır (kırmızı rozet = geciken fatura sayısı); dokunuş eski davranışına döndü.
 
 var toastZamanlayici;
 function toastGoster(msg){
@@ -825,14 +822,7 @@ document.addEventListener("DOMContentLoaded", function(){
     };
   }
 
-  var vadeAlanEl = document.getElementById("ozetAlanVade");
-  if(vadeAlanEl) vadeAlanEl.addEventListener("click", function(ev){
-    if(!vadeIzniVarMi()) return;           // izin yoksa eski davranış (üst şerit → Temel Bilgiler)
-    ev.stopPropagation();
-    vadePopupAc();
-  });
-  if(typeof ReportsData !== "undefined" && ReportsData.arsivDegistiginde) ReportsData.arsivDegistiginde(function(){ vadeRozetiniGuncelle(); if(OdemeVadeUI.popupAcikMi()) OdemeVadeUI.popupCiz(); });
-  if(typeof CustomerData !== "undefined" && CustomerData.listeDegistiginde) CustomerData.listeDegistiginde(function(){ if(OdemeVadeUI.popupAcikMi()) OdemeVadeUI.popupCiz(); });
+  if(typeof ReportsData !== "undefined" && ReportsData.arsivDegistiginde) ReportsData.arsivDegistiginde(function(){ vadeRozetiniGuncelle(); });
 
   var acikBolumEylem = null;
   document.querySelectorAll(".ck-tiklanabilir-alan[data-bolum]").forEach(function(alan){
@@ -1061,8 +1051,6 @@ document.addEventListener("DOMContentLoaded", function(){
       // üstteki ✕ önce açık Ekle/Düzenle formunu kapatır (sayfadan çıkmaz).
       var acikForm = document.getElementById("formOverlay");
       if(acikForm && !acikForm.hidden){ kapat("formOverlay"); return; }
-      // Ödeme · Vade penceresi açıksa (10.11.2026): ✕ önce onu kapatır.
-      if(vadePopupKapat()) return;
       localStorage.removeItem("weiconv2_islem_yap_akisi");
       localStorage.removeItem("weiconv2_sepetten_cari_acildi");
       localStorage.removeItem("weiconv2_gonderden_cari_acildi");
