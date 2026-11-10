@@ -1,5 +1,5 @@
 /*
-  home-anasayfa-style.css — TKP.09.11.26-23:57.1533
+  home-anasayfa-style.css — TKP.10.11.26-08:14.1534
   ========================
   SADECE home.html'e özel — Abdullah'ın paylaştığı referans fotoğrafa göre
   yeniden tasarlanan Ana Sayfa (canlı mavi/yeşil, kartlı, çekmece menülü).
@@ -207,7 +207,8 @@
 .as-isgunu-ikon { font-size: 14px; line-height: 1; }
 /* 09.11.2026 (Abdullah onayı — mockup): etiket sayının SAĞINDA (HTML'de sayı önce), sayı 31px (tarih rakamıyla aynı boy). */
 .as-isgunu-etiket { font-size: 10.2px; font-weight: 700; color: #c0392b; line-height: 1.2; margin-top: 0; text-align: left; }
-.as-isgunu-deger { font-size: 31px; font-weight: 800; color: #c0392b; line-height: 1; }
+.as-isgunu-deger { font-size: 40px; font-weight: 900; color: #c0392b; line-height: 1; }
+@media (max-width: 400px) { .as-isgunu-deger { font-size: 31px; } } /* tarih rakamıyla aynı boy */
 
 /* TARİH + İŞ GÜNÜ SATIRI (09.11.2026, Abdullah onayı — mockup): iki panel AYNI boyda yan yana (1fr 1fr). */
 .as-tarih-satir { display: grid; grid-template-columns: 1fr 1fr; gap: 1mm; margin: 0 0 1mm; box-sizing: border-box; }

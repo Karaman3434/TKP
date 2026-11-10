@@ -1,5 +1,5 @@
 /*
-  kur-panel.js — VERSİYON: TKP.09.11.26-23:35.1532
+  kur-panel.js — VERSİYON: TKP.10.11.26-08:14.1534
   ================================================
   04.11.2026 (Abdullah onayı — mockup, Seçenek B): EUR kuruna dokununca sağ
   kenarda küçük yüzen kartta GÜNÜN DÖVİZ KURLARI (programın kendi tablosu) açılır.
@@ -19,6 +19,7 @@
 var KurPanel = (function(){
   var TCMB_SAYFA = "https://www.tcmb.gov.tr/wps/wcm/connect/tr/tcmb+tr/main+page+site+area/bugun";
   var TCMB_XML = "https://www.tcmb.gov.tr/kurlar/today.xml";
+  var YEDEK_EK = 0.05;
   var FRANKFURTER = "https://api.frankfurter.dev/v1/latest?base=EUR&symbols=TRY,USD,GBP,CHF,JPY,SAR";
   var ONBELLEK_ANAHTAR = "weicon_kur_panel_onbellek";
   var ZAMAN_ASIMI_MS = 5000;
@@ -106,7 +107,8 @@ var KurPanel = (function(){
     var alis = {}, satis = {};
     Array.prototype.forEach.call(dom.getElementsByTagName("Currency"), function(n){
       var kod = n.getAttribute("Kod") || n.getAttribute("CurrencyCode");
-      var a = n.getElementsByTagName("ForexBuying")[0], s = n.getElementsByTagName("ForexSelling")[0];
+      // 10.11.2026 (Abdullah): baz = TCMB sayfasındaki EFEKTİF SATIŞ (BanknoteSelling); yoksa Döviz Satış'a düşer.
+      var a = n.getElementsByTagName("ForexBuying")[0], s = n.getElementsByTagName("BanknoteSelling")[0] || n.getElementsByTagName("ForexSelling")[0];
       if(!kod) return;
       alis[kod] = a ? parseFloat(a.textContent.replace(",", ".")) : NaN;
       satis[kod] = s ? parseFloat(s.textContent.replace(",", ".")) : NaN;
@@ -126,6 +128,8 @@ var KurPanel = (function(){
         satis[k] = r.TRY / r[k] * birim;
       }
     });
+    // 10.11.2026 (Abdullah): yedek kaynakta efektif satış yok → EUR ve USD'ye +0,05 eklenir (en fazla 0,05; TCMB efektif satışına yaklaşmak için).
+    ["EUR","USD"].forEach(function(k){ if(satis[k] > 0) satis[k] = satis[k] + YEDEK_EK; });
     var tarih = v.date ? v.date.split("-").reverse().join(".") : "";
     return {kaynak:"yedek", bulten: tarih, alis: alis, satis: satis, zaman: Date.now()};
   }
@@ -235,7 +239,7 @@ var KurPanel = (function(){
     alan.innerHTML =
       "<div class='dv-kart' role='group' aria-label='Günün döviz kurları'>" +
         "<div class='dv-ust'>" +
-          "<div class='dv-baslik'>Günün Döviz Kurları <small class='dv-kaynak'>TCMB</small><span class='dv-tarih'></span></div>" +
+          "<div class='dv-baslik'>Günün Döviz Kurları</div>" +
           "<button type='button' class='dv-btn' aria-label='TCMB sayfasını tarayıcıda aç'>↗</button>" +
         "</div>" +
         "<div class='dv-iki'><div class='dv-durum'>Kurlar yükleniyor…</div></div>" +
@@ -249,8 +253,6 @@ var KurPanel = (function(){
         iki.innerHTML = "<div class='dv-durum dv-durum--hata'>Kurlar şu an alınamadı. İnternet bağlantını kontrol et.</div>";
         return;
       }
-      alan.querySelector(".dv-kaynak").textContent = (v.kaynak === "tcmb" ? "TCMB" : "yedek kaynak") + (onbellektenMi ? " · son kayıtlı" : "");
-      alan.querySelector(".dv-tarih").textContent = String(v.bulten || "").split(" · ")[0];
       var html = "";
       DOVIZLER.forEach(function(d){
         if(d.kod !== "EUR" && d.kod !== "USD") return;
