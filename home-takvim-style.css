@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.09.11.26-23:57.1533
+/* home-takvim-style.css — TKP.10.11.26-08:17.1536
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -36,7 +36,7 @@
   .ht-ozet-oge i { font-size: 15px; margin-right: 2px; }
 }
 .ht-takvim-kutu {
-  background: #fff; border: 1px solid #e2e6ec; border-radius: 10px;
+  background: #8c99ae; border: 2px solid #0a2f5c; border-radius: 10px; /* 10.11.2026 (Abdullah): koyu ama daha açık gri zemin + çerçeve çizgisi */
   padding: 10px; margin-bottom: 0;
   touch-action: pan-y; /* 09.11.2026: yatay kaydırma ay değiştirir */
 }
@@ -44,12 +44,12 @@
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 6px 6px; font-size: 14px; font-weight: 800; color: #0a2f5c;
 }
-.ht-ay-baslik i { font-style: normal; font-size: 18px; color: #9aa6b6; padding: 0 8px; cursor: pointer; }
+.ht-ay-baslik i { font-style: normal; font-size: 18px; color: #26405f; padding: 0 8px; cursor: pointer; }
 .ht-gun-basliklari {
   display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
-  font-size: 15px; font-weight: 900; text-align: center; color: #2d3540; margin-bottom: 4px;  /* 08.11.2026 (Abdullah): gün kısaltmaları +%50 (10px idi) */
+  font-size: 15px; font-weight: 900; text-align: center; color: #0a2f5c; margin-bottom: 4px;  /* 08.11.2026 (Abdullah): gün kısaltmaları +%50 (10px idi) */
 }
-.ht-tatil-baslik { color: #c0392b; }
+.ht-tatil-baslik { color: #8a1a12; }
 .ht-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
 .ht-gun {
   position: relative; text-align: center; padding: 3px 0 4px; /* 08.11.2026: gün kutusu dikeyde ~%10 kısaldı (Abdullah) */
@@ -67,11 +67,11 @@
 .ht-gun--secili.ht-gun--kalan { background: #d6e8fc; }
 .ht-gun--secili { border-color: #e8a317; box-shadow: 0 0 0 1.5px #fff inset; }
 .ht-gun--secili.ht-gun--tatil, .ht-gun--secili.ht-gun--gecmis { background: #faeeda; }
-/* BUGÜN (08.11.2026, Abdullah onayı — seçenek C): altın sarısı zemin + lacivert çerçeve + kalın lacivert rakam
+/* BUGÜN (08.11.2026, Abdullah onayı — seçenek C): krem zemin (10.11.2026: altın sarısı yerine, Euro kutusu rengi) + lacivert çerçeve + kalın lacivert rakam
    (hedef kartındaki oran dairesiyle aynı renk). Seçiliyken çerçeve yine turuncu (yukarıdaki .ht-gun--secili). */
 .ht-gun--bugun, .ht-gun--bugun.ht-gun--kalan, .ht-gun--bugun.ht-gun--tatil, .ht-gun--bugun.ht-gun--gecmis,
 .ht-gun--bugun.ht-gun--secili, .ht-gun--bugun.ht-gun--secili.ht-gun--kalan,
-.ht-gun--bugun.ht-gun--secili.ht-gun--tatil, .ht-gun--bugun.ht-gun--secili.ht-gun--gecmis { background: #e8c46a; color: #0a2f5c; }
+.ht-gun--bugun.ht-gun--secili.ht-gun--tatil, .ht-gun--bugun.ht-gun--secili.ht-gun--gecmis { background: #fff6e0; color: #0a2f5c; }
 .ht-gun--bugun .ht-gun-no { color: #0a2f5c; font-size: 13px; line-height: 1.01; font-weight: 900; }
 
 .ht-bildirim { display: flex; justify-content: center; align-items: center; gap: 3px; height: 15px; margin-bottom: 0; }
