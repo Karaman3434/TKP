@@ -1,5 +1,5 @@
 /*
-  reports-data.js — TKP.10.11.26-14:48.1553
+  reports-data.js — TKP.10.11.26-14:58.1554
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -199,20 +199,29 @@ var ReportsData = (function(){
       }
       if(!ayniMusteriMi) return;
       (k.urunler||[]).forEach(function(u){
-        var ad = u.ad || "İsimsiz Ürün";
-        if(!gruplar[ad]) gruplar[ad] = [];
-        gruplar[ad].push({
+        // 10.11.2026 (Abdullah KESİN KURALI): bir ürünün işlem geçmişinde HER ZAMAN en son
+        // alınan kayıt (fiyat/iskonto/adet) görünür. Ürün artık ADA göre değil KODA
+        // (Berta+Abas) göre gruplanır — aynı ürün farklı adlarla kaydedilmişse
+        // ("VA 20 500 g" / "İsimsiz Ürün") eski ad altında eski fiyat kalmasın.
+        // Kodu olmayan satırlar eskisi gibi ada göre gruplanır.
+        var kodAnahtar = ((u.berta||"") + "|" + (u.abas||"")).trim();
+        var anahtar = (kodAnahtar !== "|") ? ("k:" + kodAnahtar) : ("a:" + (u.ad || "İsimsiz Ürün"));
+        if(!gruplar[anahtar]) gruplar[anahtar] = [];
+        gruplar[anahtar].push({
           tarih: k.tarih, ts: k.ts, tip: k.tip,
           listeFiyat: u.listeFiyat||0, iskonto: u.iskonto||0,
           netFiyat: u.iskBirim!=null?u.iskBirim:(u.listeFiyat||0),
           adet: u.adet||0,
-          berta: u.berta||"", abas: u.abas||"" // 10.11.2026: İşlem Geçmişi tablosunda kod gösterimi için
+          berta: u.berta||"", abas: u.abas||"", // 10.11.2026: İşlem Geçmişi tablosunda kod gösterimi için
+          adHam: u.ad || ""
         });
       });
     });
-    var sonuc = Object.keys(gruplar).map(function(ad){
-      var kayitlar = gruplar[ad].sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
-      return {ad: ad, kayitlar: kayitlar, sonAlisTs: kayitlar[0].ts};
+    var sonuc = Object.keys(gruplar).map(function(anahtar){
+      var kayitlar = gruplar[anahtar].sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
+      // Gösterilecek ad: en yeni kaydın adı (boşsa, adı olan en yeni kayıt)
+      var adli = kayitlar.filter(function(r){ return r.adHam; })[0];
+      return {ad: adli ? adli.adHam : "İsimsiz Ürün", kayitlar: kayitlar, sonAlisTs: kayitlar[0].ts};
     });
     sonuc.sort(function(a,b){ return (b.sonAlisTs||0)-(a.sonAlisTs||0); });
     return sonuc;
