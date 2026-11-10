@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.10.11.26-12:32.1545
+  customer-data.js — TKP.10.11.26-13:23.1548
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -258,6 +258,23 @@ var CustomerData = (function(){
       var kayit = gecmis.filter(function(z){ return z.ts === ts; })[0];
       if(!kayit) throw new Error("Temas kaydı bulunamadı");
       kayit.not = yeniNot || "";
+      if(gecmis[0] && gecmis[0].ts === ts) tazeListe[idx].sonZiyaretNot = kayit.not;
+    }, geriBildir);
+  }
+
+  // Bir temas kaydının açıklamasını (+ hatırlatma tarihini) günceller (10.11.2026, Abdullah isteği — faturadaki açıklamayı Düzelt).
+  // alanlar: {not, hatirlatmaTarihi (boş = tarihsiz), odemeIsaret}. Faturaya bağlı kayıtta "odeme" işareti tarihe göre
+  // açılıp kapanır (tarihli = ödeme planı); müşteri geneli eski plan notunda işaret korunur.
+  function ziyaretGuncelle(musteriAd, ts, alanlar, geriBildir, musteriId){
+    guvenliYaz(function(tazeListe){
+      var idx = musteriIndexBul(tazeListe, musteriAd, musteriId);
+      if(idx===-1) throw new Error("Müşteri bulunamadı");
+      var gecmis = tazeListe[idx].ziyaretGecmisi || [];
+      var kayit = gecmis.filter(function(z){ return z.ts === ts; })[0];
+      if(!kayit) throw new Error("Temas kaydı bulunamadı");
+      kayit.not = alanlar.not || "";
+      if(alanlar.hatirlatmaTarihi) kayit.hatirlatmaTarihi = alanlar.hatirlatmaTarihi; else delete kayit.hatirlatmaTarihi;
+      if(kayit.faturaTs){ if(alanlar.odemeIsaret) kayit.odeme = true; else delete kayit.odeme; }
       if(gecmis[0] && gecmis[0].ts === ts) tazeListe[idx].sonZiyaretNot = kayit.not;
     }, geriBildir);
   }
@@ -900,6 +917,7 @@ var CustomerData = (function(){
     ziyaretEkle: ziyaretEkle,
     ziyaretSil: ziyaretSil,
     ziyaretNotGuncelle: ziyaretNotGuncelle,
+    ziyaretGuncelle: ziyaretGuncelle,
     tumZiyaretTemaslar: tumZiyaretTemaslar,
     hatirlatmalarBugun: hatirlatmalarBugun,
     gunFarkiHesapla: gunFarkiHesapla,
