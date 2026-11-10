@@ -1,5 +1,5 @@
 /*
-  vade-takip-data.js — TKP.10.11.26-13:33.1549
+  vade-takip-data.js — TKP.10.11.26-14:28.1551
   ========================================
   FATURA · VADE · ÖDEME TAKİBİ — merkezi hesaplama modülü.
 
@@ -7,8 +7,8 @@
   - Sadece SİPARİŞ kayıtları takip edilir (numune/teklif/proforma henüz
     satış değil). "Kaçan" olarak işaretlenmiş siparişler de takip dışıdır.
   - Vade tarihi = kaydın kesim tarihi (k.ts) + müşteri kartındaki VADE
-    (gün sayısı). Müşterinin VADE alanı sayı değilse (boş/eski serbest
-    metin), o müşterinin siparişleri "vade tanımsız" sayılır — Ana Sayfa
+    (gün sayısı). Müşterinin VADE alanı gün sayısı olarak okunamıyorsa
+    (boş/anlamsız metin; "30" ve "30 gün" okunur), o müşterinin siparişleri "vade tanımsız" sayılır — Ana Sayfa
     kutusuna ve Vade Takip listesine GİRMEZ, ama Müşteri Kartı'nda "kesileli
     X gün oldu" olarak nötr renkte görünmeye devam eder.
   - Bugünün tarihi ile vade tarihi GÜN bazında (saat gözetilmeden)
@@ -26,15 +26,20 @@ var VadeTakip = (function(){
     return d.getTime();
   }
 
-  // Müşterinin VADE alanını gün sayısına çevirir. Sayı değilse (boş, eski
-  // serbest metin, "PAUNT" gibi anlamsız test verisi) null döner — o
+  // Müşterinin VADE alanını gün sayısına çevirir. "30" ve "30 gün" gibi
+  // yazılar okunur (10.11.2026: eski kartlardaki "30 gün" yazısı müşteriyi
+  // yanlışlıkla vadesiz bırakıyordu). Okunamazsa (boş, "PAUNT" gibi anlamsız
+  // test verisi) null döner — o
   // müşteri takip dışı kalır ta ki Müşteri Kartı'ndan sayısal bir vade
   // günü girilene kadar.
   function vadeGunSayisi(musteri){
     if(!musteri) return null;
-    var n = parseInt(String(musteri.vade == null ? "" : musteri.vade).trim(), 10);
-    if(isNaN(n) || n < 0 || String(n) !== String(musteri.vade).trim()) return null;
-    return n;
+    var ham = String(musteri.vade == null ? "" : musteri.vade).trim();
+    // "30", "30 gün", "30 Gün", "30 gun", "30 günlük", "30 gün vade" kabul;
+    // "PAUNT", "45 gün çek", "30+15" gibi belirsiz metinler takip dışı kalır.
+    var e = /^(\d{1,3})\s*(?:g[üu]n(?:l[üu]k)?)?\s*(?:vade)?$/i.exec(ham);
+    if(!e) return null;
+    return parseInt(e[1], 10);
   }
 
   function musteriHaritasiKur(){

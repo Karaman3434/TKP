@@ -1,5 +1,5 @@
 /*
-  customer-render.js — TKP.10.11.26-11:51.1540
+  customer-render.js — TKP.10.11.26-14:28.1551
   GÜNCELLEME (27.10.2026, Abdullah onayı — ana sayfa mini arama özelliği):
   "?musteriAc=<id-veya-ad>" parametresiyle buraya gelinirse, ilgili müşteri
   bulunup GERÇEK hızlı pencere (hizliPencereyiAc) otomatik açılır — bkz.
@@ -316,8 +316,10 @@ function cmRozetSayilariniHesapla(m){
   try{
     if(typeof VadeTakip !== "undefined"){
       var ogeler = VadeTakip.musteriIcin(m.id, m.ad);
-      var acikTakipte = ogeler.filter(function(o){ return o.durum !== "vadesiz" && !o.odendi; });
-      sonuc.fatura = acikTakipte.length;
+      // 10.11.2026: rozet = VADESİ GEÇEN (ödenmemiş) fatura sayısı
+      if(typeof window.izinVarMi !== "function" || window.izinVarMi("vadeTakip")){
+        sonuc.fatura = ogeler.filter(function(o){ return o.durum === "gecti" && !o.odendi; }).length;
+      }
     }
   }catch(e){}
   try{

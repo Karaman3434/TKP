@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.10.11.26-12:04.1542
+// menu-cekmece.js — TKP.10.11.26-14:28.1551
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -540,7 +540,7 @@ function mcMusteriAyniKaydiMi(kayitMusteriAdi, kayitMusteriId, seciliAd, seciliI
 }
 
 // customer-render.js'teki cmRozetSayilariniHesapla ile AYNI hesap —
-// VadeTakip bu dosyanın yüklendiği hiçbir sayfada yok, "fatura" hep 0.
+// "fatura" = vadesi geçen fatura sayısı (VadeTakip yüklüyse).
 function mcMusteriRozetSayilariniHesapla(m){
   var sonuc = {temas:0, gecmis:0, gorev:0, fatura:0, urun:0, bekleyen:0};
   try{ sonuc.temas = (m.ziyaretGecmisi||[]).length; }catch(e){}
@@ -561,7 +561,10 @@ function mcMusteriRozetSayilariniHesapla(m){
   try{
     if(typeof VadeTakip !== "undefined"){
       var ogeler = VadeTakip.musteriIcin(m.id, m.ad);
-      sonuc.fatura = ogeler.filter(function(o){ return o.durum !== "vadesiz" && !o.odendi; }).length;
+      // 10.11.2026: rozet = VADESİ GEÇEN (ödenmemiş) fatura sayısı
+      if(typeof window.izinVarMi !== "function" || window.izinVarMi("vadeTakip")){
+        sonuc.fatura = ogeler.filter(function(o){ return o.durum === "gecti" && !o.odendi; }).length;
+      }
     }
   }catch(e){}
   try{

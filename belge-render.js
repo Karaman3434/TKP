@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.10.11.26-12:17.1544
+  belge-render.js — TKP.10.11.26-14:28.1551
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -518,7 +518,10 @@ function bhpRozetSayilariniHesapla(m){
   try{
     if(typeof VadeTakip !== "undefined"){
       var ogeler = VadeTakip.musteriIcin(m.id, m.ad);
-      sonuc.fatura = ogeler.filter(function(o){ return o.durum !== "vadesiz" && !o.odendi; }).length;
+      // 10.11.2026: rozet = VADESİ GEÇEN (ödenmemiş) fatura sayısı
+      if(typeof window.izinVarMi !== "function" || window.izinVarMi("vadeTakip")){
+        sonuc.fatura = ogeler.filter(function(o){ return o.durum === "gecti" && !o.odendi; }).length;
+      }
     }
   }catch(e){}
   try{
