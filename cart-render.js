@@ -1,5 +1,5 @@
 /*
-  cart-render.js — TKP.10.11.26-14:46.1552
+  cart-render.js — TKP.10.11.26-14:48.1553
   GÜNCELLEME (04.11.2026, Abdullah onayı): İşlem Geçmişi penceresi satırları —
   tarih tek satır + altında (Tip), sayılar altında küçük EURO/% (cart-style.css).
   (önceki: TKP.02.11.26-10:22.1368)
@@ -238,6 +238,69 @@ function musteriSeridiGecmisBagla(){
   };
 }
 
+// İŞLEM GEÇMİŞİNDEN SEPETE EKLE (10.11.2026, Abdullah isteği): geçmiş tablosunda
+// ürün satırına dokununca ürün DİREKT sepete eklenir (pencere açık kalır, birden
+// fazla ürün seçilebilir). Adet ve iskonto müşterinin o ürünü son aldığı kayıttan;
+// liste fiyatı katalogdaki GÜNCEL fiyat (katalogda yoksa son kayıttaki fiyat).
+// %100 iskontolu (bedelsiz) satırlar özel etiket sorduğu için normal Hesapla
+// penceresiyle açılır. Yetki: Hesapla/Sepete ekle izni (sepetHesaplaAc) gerekir.
+var mgSatirlar = [];
+var mgSepetteSayi = {};
+function mgToastGoster(metin){
+  var kutu = document.createElement("div");
+  kutu.textContent = metin;
+  kutu.style.cssText = "position:fixed;bottom:16px;left:8px;right:8px;background:#1e8449;color:#fff;padding:11px;border-radius:10px;font-size:14px;font-weight:800;text-align:center;z-index:99999;box-shadow:0 4px 14px rgba(0,0,0,.3);";
+  document.body.appendChild(kutu);
+  setTimeout(function(){ kutu.remove(); }, 1600);
+}
+function mgGuncelFiyat(berta, abas, yedek){
+  try{
+    if(typeof ProductData === "undefined") return yedek;
+    var tumu = ProductData.ara("");
+    var b = (berta||"").toLocaleLowerCase("tr-TR"), a = (abas||"").toLocaleLowerCase("tr-TR");
+    for(var i=0;i<tumu.length;i++){
+      var bilgi = ProductData.urunBilgisi(tumu[i].item);
+      if(((bilgi.berta||"").toLocaleLowerCase("tr-TR") === b) && ((bilgi.abas||"").toLocaleLowerCase("tr-TR") === a)){
+        return (bilgi.fiyat != null && !isNaN(parseFloat(bilgi.fiyat))) ? parseFloat(bilgi.fiyat) : yedek;
+      }
+    }
+  }catch(e){}
+  return yedek;
+}
+function mgSatiriSepeteEkle(i){
+  try{
+    var v = mgSatirlar[i];
+    if(!v) return;
+    if(typeof izinVarMi === "function" && !izinVarMi("sepetHesaplaAc")) return;
+    if(v.iskonto >= 100){
+      if(typeof HesaplaPopup !== "undefined"){
+        document.getElementById("musteriGecmisOverlay").hidden = true;
+        HesaplaPopup.ac({ad:v.ad, berta:v.berta, abas:v.abas, fiyat:mgGuncelFiyat(v.berta, v.abas, v.listeFiyat)}, null);
+      }
+      return;
+    }
+    // Yanlışlıkla çift dokunuşta aynı ürün iki kez eklenmesin (pencere açıkken)
+    if(mgSepetteSayi[v.ad]){ mgToastGoster("Bu ürün zaten sepete eklendi"); return; }
+    var liste = mgGuncelFiyat(v.berta, v.abas, v.listeFiyat);
+    CartData.ekle({
+      idx: "manuel_" + Date.now(), ad: v.ad, berta: v.berta, abas: v.abas,
+      listeFiyat: liste, dipFiyat: CartData.dipFiyatOner(liste),
+      iskonto: v.iskonto, adet: (v.adet || 1), hesaplandi: true
+    });
+    var anahtar = v.ad;
+    mgSepetteSayi[anahtar] = (mgSepetteSayi[anahtar] || 0) + 1;
+    var tr = document.querySelector("#musteriGecmisTabloGovde tr[data-i='" + i + "']");
+    if(tr){
+      tr.classList.add("mg-eklendi");
+      var rozet = tr.querySelector(".mg-sepet-rozet");
+      if(!rozet){ rozet = document.createElement("span"); rozet.className = "mg-sepet-rozet"; tr.querySelector(".mg-urun").appendChild(rozet); }
+      rozet.textContent = "✓ Sepette";
+    }
+    sayfayiCiz();
+    mgToastGoster("✓ Sepete eklendi: " + v.ad);
+  }catch(e){ hataGoster("Sepete eklenemedi: " + e.message); }
+}
+
 function musteriGecmisiniAc(){
   try{
     if(typeof ReportsData === "undefined" || typeof ReportsData.musteriUrunGecmisi !== "function"){
@@ -256,20 +319,26 @@ function musteriGecmisiniAc(){
     var baslikEl = document.getElementById("musteriGecmisBaslik");
     var govdeEl = document.getElementById("musteriGecmisTabloGovde");
     baslikEl.textContent = "🕓 İşlem Geçmişi";
+    mgSepetteSayi = {};
 
     if(gruplar.length === 0){
       govdeEl.innerHTML = "<tr><td colspan='6' style='text-align:center;color:#44494f;padding:16px 0;'>Bu müşteriye henüz sipariş/teklif olarak girilmiş bir ürün yok.</td></tr>";
     } else {
-      govdeEl.innerHTML = gruplar.map(function(g){
+      mgSatirlar = [];
+      govdeEl.innerHTML = gruplar.map(function(g, gi){
         var k = g.kayitlar[0]; // en yeni kayıt
+        mgSatirlar[gi] = {ad: g.ad, berta: k.berta||"", abas: k.abas||"", adet: k.adet||0, listeFiyat: k.listeFiyat||0, iskonto: k.iskonto||0};
         var tipEtiket = TIP_ETIKET_MUSTERI_GECMIS[k.tip] || "";
         var d = new Date(k.ts);
         var tarihFormatli = String(d.getDate()).padStart(2,"0") + "." + String(d.getMonth()+1).padStart(2,"0") + "." + d.getFullYear();
         function sayiBirim(sayi, birim, stil){
           return "<span class='belge-para-sayi'" + (stil ? " style='" + stil + "'" : "") + ">" + sayi + "</span><span class='belge-para-birim'" + (stil ? " style='" + stil + "'" : "") + ">" + birim + "</span>";
         }
-        return "<tr>"
-          + "<td class='mg-urun'>" + htmlEsc(g.ad) + "</td>"
+        return "<tr class='mg-satir' data-i='" + gi + "'>"
+          + "<td class='mg-urun'>"
+            // 10.11.2026 (Abdullah isteği): Ürün Bul tablosundaki gibi, ürün adının ÜSTÜNDE Berta (B) / Abas (A) kodu
+            + ((k.berta || k.abas) ? "<div class='tablo-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + htmlEsc(k.berta||"-") + "</span> <span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + htmlEsc(k.abas||"-") + "</span></div>" : "")
+            + htmlEsc(g.ad) + "</td>"
           + "<td class='mg-tarih'><b>" + tarihFormatli + "</b>" + (tipEtiket ? "<span class='mg-tip'>(" + tipEtiket + ")</span>" : "") + "</td>"
           + "<td>" + (k.adet||0) + "</td>"
           + "<td>" + sayiBirim(CartData.fmt(k.listeFiyat), "EURO") + "</td>"
@@ -1074,6 +1143,11 @@ document.addEventListener("DOMContentLoaded", function(){
   // İşlem Geçmişi penceresi (10.11.2026, Abdullah isteği): alttaki "Kapat" butonu
   // kaldırıldı; pencere AÇIKKEN üst bardaki ✕ yalnız pencereyi kapatır (işlemi
   // iptal etmez / sepeti boşaltmaz). Kapalıyken ✕ eskisi gibi çalışır.
+  var mgGovde = document.getElementById("musteriGecmisTabloGovde");
+  if(mgGovde) mgGovde.addEventListener("click", function(ev){
+    var tr = ev.target && ev.target.closest ? ev.target.closest("tr.mg-satir") : null;
+    if(tr) mgSatiriSepeteEkle(parseInt(tr.getAttribute("data-i"), 10));
+  });
   document.addEventListener("click", function(ev){
     var ov = document.getElementById("musteriGecmisOverlay");
     if(!ov || ov.hidden) return;

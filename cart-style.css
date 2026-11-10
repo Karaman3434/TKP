@@ -1,5 +1,5 @@
 /*
-  cart-style.css — TKP.08.11.26-13:14.1505
+  cart-style.css — TKP.10.11.26-14:48.1553
   GÜNCELLEME (04.11.2026, Abdullah onayı — mockup üzerinden): İşlem Geçmişi
   penceresi (#musteriGecmisOverlay) kenardan kenara + büyük okunaklı tablo.
   (önceki: TKP.02.11.26-10:48.1376)
@@ -925,6 +925,12 @@
 #musteriGecmisOverlay .belge-urun-tablo th { font-size: clamp(9.5px, 1.6vw, 12.5px); padding: 6px 2px; }
 #musteriGecmisOverlay .belge-urun-tablo td { padding: 7px 3px; vertical-align: middle; }
 #musteriGecmisOverlay .mg-urun { text-align: left; font-weight: 800; font-size: clamp(11.5px, 2vw, 15.5px); line-height: 1.25; padding-left: 6px; }
+#musteriGecmisOverlay .mg-urun .tablo-kod { font-size: clamp(9px, 1.55vw, 12px); line-height: 1.15; margin-bottom: 1px; font-weight: 600; }
+#musteriGecmisOverlay .mg-urun .kod-blok { white-space: nowrap; }
+#musteriGecmisOverlay tr.mg-satir { cursor: pointer; }
+#musteriGecmisOverlay tr.mg-satir:active td { background: #eef4fb; }
+#musteriGecmisOverlay tr.mg-eklendi td { background: #e8f6ee; }
+#musteriGecmisOverlay .mg-sepet-rozet { display: block; color: #1e8449; font-weight: 900; font-size: .8em; margin-top: 2px; }
 #musteriGecmisOverlay .mg-tarih b { display: block; white-space: nowrap; font-weight: 800; font-size: clamp(10px, 1.8vw, 14.5px); letter-spacing: -.2px; }
 #musteriGecmisOverlay .mg-tip { display: block; color: #8e44ad; font-weight: 700; font-size: .85em; }
 #musteriGecmisOverlay .belge-para-sayi { font-size: clamp(11.5px, 2vw, 15px); }

@@ -1,5 +1,5 @@
 /*
-  reports-data.js — TKP.08.11.26-08:49.1498
+  reports-data.js — TKP.10.11.26-14:48.1553
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -205,7 +205,8 @@ var ReportsData = (function(){
           tarih: k.tarih, ts: k.ts, tip: k.tip,
           listeFiyat: u.listeFiyat||0, iskonto: u.iskonto||0,
           netFiyat: u.iskBirim!=null?u.iskBirim:(u.listeFiyat||0),
-          adet: u.adet||0
+          adet: u.adet||0,
+          berta: u.berta||"", abas: u.abas||"" // 10.11.2026: İşlem Geçmişi tablosunda kod gösterimi için
         });
       });
     });
