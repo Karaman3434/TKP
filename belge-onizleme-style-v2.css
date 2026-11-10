@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — TKP.10.11.26-10:08.1538
+  belge-onizleme-style-v2.css — TKP.10.11.26-10:27.1539
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -771,3 +771,10 @@
 .ozet-satir-3.bo-odeme-gunu { display: grid; grid-template-columns: 1fr; margin-top: 1mm; }
 .bo-odeme-gunu .ozet-alan { align-items: center; }
 .bo-odeme-gunu .ozet-metin { display: flex; align-items: baseline; gap: 10px; }
+.bo-odeme-gunu .ozet-alan { position: relative; }
+.bo-odeme-gunu--tikla { cursor: pointer; }
+.bo-og-kalan { margin-left: auto; font-size: 12px; font-weight: 900; padding: 2px 9px; border-radius: 10px; white-space: nowrap; }
+.bo-og-kalan--k { background: #fde3e1; color: #c0392b; }
+.bo-og-kalan--t { background: #fff1d6; color: #8a7209; }
+.bo-og-kalan--y { background: #dff3e4; color: #0f7a3d; }
+.bo-og-kalan--o { background: #dfe3e9; color: #55606c; }

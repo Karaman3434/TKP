@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.10.11.26-10:08.1538
+  belge-render.js — TKP.10.11.26-10:27.1539
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -307,9 +307,11 @@ function belgeyiCiz(kayit, musteri){
       if(typeof VadeTakip !== "undefined" && typeof OdemeVadeUI !== "undefined"){
         var odemeOge = VadeTakip.odemeBilgisiFn()(kayit);
         if(odemeOge){
+          var kalan = OdemeVadeUI.kalanMetni(odemeOge);
           odemeGunuPaneliHtml = "<div class='ozet-satir-3 ozet-satir-3--birlesik bo-odeme-gunu'><div class='ozet-alan'>"
             + "<span class='ozet-ikon'>" + (typeof IkonSvg !== "undefined" ? IkonSvg.svg("vade") : "📅") + "</span>"
-            + "<div class='ozet-metin'><div class='ozet-baslik'>ÖDEME GÜNÜ</div><div class='ozet-deger'>" + OdemeVadeUI.tarihUzun(odemeOge.vadeTs) + "</div></div></div></div>";
+            + "<div class='ozet-metin'><div class='ozet-baslik'>ÖDEME GÜNÜ</div><div class='ozet-deger'>" + OdemeVadeUI.tarihUzun(odemeOge.vadeTs) + "</div></div>"
+            + "<span class='bo-og-kalan bo-og-kalan--" + kalan.sinif + "'>" + kalan.yazi + "</span></div></div>";
         }
       }
     }catch(e){ odemeGunuPaneliHtml = ""; }
@@ -1327,6 +1329,19 @@ document.addEventListener("DOMContentLoaded", function(){
     // tazeleniyor (.onclick = idempotent, üst üste binmez).
     var btnIslemlerAcEl = document.getElementById("btnIslemlerAc");
     if(btnIslemlerAcEl) btnIslemlerAcEl.onclick = ayrintiAcilirAc;
+
+    // ÖDEME GÜNÜ paneline dokununca (10.11.2026, Abdullah onayı): müşterinin ödeme görüşmeleri +
+    // not/hatırlatma + faturaları, panelin hemen altında (Cari Bilgi VADE penceresiyle AYNI bileşen).
+    // "vadeTakip" izni yoksa panel sadece bilgi olarak kalır (kısıtlama gevşetilmedi).
+    var odemePanelEl = document.querySelector(".bo-odeme-gunu");
+    if(odemePanelEl && typeof OdemeVadeUI !== "undefined" && (typeof window.izinVarMi !== "function" || window.izinVarMi("vadeTakip"))){
+      odemePanelEl.classList.add("bo-odeme-gunu--tikla");
+      odemePanelEl.onclick = function(){
+        OdemeVadeUI.popupAc({serit: odemePanelEl, ankaj: odemePanelEl.querySelector(".ozet-ikon"),
+          musteriId: (musteri && musteri.id) || kayit.musteriId || null, musteriAd: kayit.musteri,
+          degisti: function(){ denemeCiz(); }});
+      };
+    }
 
     // "Stok Bekliyor olarak işaretle" (TÜM sipariş bekliyor) — kayıt zaten bekleyen
     // (durum dolu) ya da ürün bazında bakiyeli ise gösterilmez: aynı siparişte iki

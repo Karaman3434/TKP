@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.10.11.26-09:30.1537
+  cari-kart-render.js — TKP.10.11.26-10:27.1539
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -351,32 +351,11 @@ function vadeRozetiniGuncelle(){
   r.textContent = n;
   r.hidden = !n;
 }
-var vadePopup = null;
-function vadePopupKapat(){
-  if(!vadePopup) return false;
-  if(typeof TarihSecici !== "undefined") TarihSecici.kapat();
-  vadePopup.dim.remove(); vadePopup.pop.remove(); vadePopup = null;
-  return true;
-}
-function vadePopupCiz(){
-  if(!vadePopup || !musteriVerisi) return;
-  OdemeVadeUI.ciz(vadePopup.icerik, musteriVerisi.id || null, musteriVerisi.ad, function(){ vadePopupCiz(); vadeRozetiniGuncelle(); });
-}
+// Pencere mantığı tek yerde: OdemeVadeUI.popupAc/popupKapat (Belge Önizleme ÖDEME GÜNÜ paneliyle ortak).
+function vadePopupKapat(){ return typeof OdemeVadeUI !== "undefined" && OdemeVadeUI.popupKapat(); }
 function vadePopupAc(){
-  if(vadePopup){ vadePopupKapat(); return; }
-  var serit = document.querySelector(".ozet-satir-3");
-  var alan = document.getElementById("ozetAlanVade");
-  var dim = document.createElement("div"); dim.className = "ov-dim";
-  var pop = document.createElement("div"); pop.className = "ov-pop";
-  var icerik = document.createElement("div"); pop.appendChild(icerik);
-  var sr = serit.getBoundingClientRect(), ar = alan.getBoundingClientRect();
-  pop.style.left = "8px"; pop.style.right = "8px";
-  pop.style.top = (sr.bottom + window.pageYOffset + 12) + "px";
-  pop.style.setProperty("--ov-ok", Math.max(14, ar.left + ar.width / 2 - 8 - 6) + "px");
-  document.body.appendChild(dim); document.body.appendChild(pop);
-  dim.onclick = vadePopupKapat;
-  vadePopup = {dim: dim, pop: pop, icerik: icerik};
-  vadePopupCiz();
+  OdemeVadeUI.popupAc({serit: document.querySelector(".ozet-satir-3"), ankaj: document.getElementById("ozetAlanVade"),
+    musteriId: musteriVerisi && musteriVerisi.id, musteriAd: musteriVerisi && musteriVerisi.ad, degisti: vadeRozetiniGuncelle});
 }
 
 var toastZamanlayici;
@@ -852,8 +831,8 @@ document.addEventListener("DOMContentLoaded", function(){
     ev.stopPropagation();
     vadePopupAc();
   });
-  if(typeof ReportsData !== "undefined" && ReportsData.arsivDegistiginde) ReportsData.arsivDegistiginde(function(){ vadeRozetiniGuncelle(); if(vadePopup) vadePopupCiz(); });
-  if(typeof CustomerData !== "undefined" && CustomerData.listeDegistiginde) CustomerData.listeDegistiginde(function(){ if(vadePopup) vadePopupCiz(); });
+  if(typeof ReportsData !== "undefined" && ReportsData.arsivDegistiginde) ReportsData.arsivDegistiginde(function(){ vadeRozetiniGuncelle(); if(OdemeVadeUI.popupAcikMi()) OdemeVadeUI.popupCiz(); });
+  if(typeof CustomerData !== "undefined" && CustomerData.listeDegistiginde) CustomerData.listeDegistiginde(function(){ if(OdemeVadeUI.popupAcikMi()) OdemeVadeUI.popupCiz(); });
 
   var acikBolumEylem = null;
   document.querySelectorAll(".ck-tiklanabilir-alan[data-bolum]").forEach(function(alan){

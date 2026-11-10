@@ -1,5 +1,5 @@
 /*
-  odeme-vade-ui.js — TKP.10.11.26-09:30.1537
+  odeme-vade-ui.js — TKP.10.11.26-10:27.1539
   ===========================================
   ÖDEME · VADE müşteri alanı (10.11.2026, Abdullah onayı — mockup). TEK YERDE:
   Vade Takip sayfasında bir müşteriye dokununca açılan alan VE Cari Bilgi
@@ -139,5 +139,44 @@ var OdemeVadeUI = (function(){
     return "<span class='ov-etiket ov-etiket--" + sinif + "'>📅 Son ödeme: " + tarihUzun(o.vadeTs) + " · " + yazi + "</span>";
   }
 
-  return {icerikHTML: icerikHTML, ciz: ciz, odemeEtiketiHTML: odemeEtiketiHTML, planEtiketi: planEtiketi, tarihKisa: tarihKisa, anahtarTs: anahtarTs, tarihUzun: tarihUzun};
+  // KALAN/GEÇEN GÜN YAZISI (10.11.2026, Abdullah onayı): Belge Önizleme "ÖDEME GÜNÜ" panelinin satır sonu.
+  function kalanMetni(o){
+    if(!o) return {yazi:"", sinif:""};
+    if(o.odendi) return {yazi:"✓ Ödendi", sinif:"o"};
+    if(o.durum === "gecti") return {yazi: o.farkGun + " gün geçti", sinif:"k"};
+    if(o.durum === "bugun") return {yazi:"bugün", sinif:"t"};
+    return {yazi: (-o.farkGun) + " gün kaldı", sinif: o.durum === "yaklasiyor" ? "t" : "y"};
+  }
+
+  // TEK POPUP (10.11.2026): Cari Bilgi VADE paneli ve Belge Önizleme ÖDEME GÜNÜ paneli aynı pencereyi açar.
+  // Şeridin (serit) HEMEN altında, sol/sağ 8px, dışına dokunmak kapatır; ok, ankaj elementinin ortasını gösterir.
+  var pop = null;
+  function popupKapat(){
+    if(!pop) return false;
+    if(typeof TarihSecici !== "undefined") TarihSecici.kapat();
+    pop.dim.remove(); pop.el.remove(); pop = null;
+    return true;
+  }
+  function popupCiz(){
+    if(!pop) return;
+    var o = pop.o;
+    ciz(pop.icerik, o.musteriId || null, o.musteriAd, function(){ popupCiz(); if(typeof o.degisti === "function") o.degisti(); });
+  }
+  function popupAc(o){
+    if(pop){ popupKapat(); return; }
+    var dim = document.createElement("div"); dim.className = "ov-dim";
+    var el = document.createElement("div"); el.className = "ov-pop";
+    var icerik = document.createElement("div"); el.appendChild(icerik);
+    var sr = o.serit.getBoundingClientRect(), ar = (o.ankaj || o.serit).getBoundingClientRect();
+    el.style.left = "8px"; el.style.right = "8px";
+    el.style.top = (sr.bottom + window.pageYOffset + 12) + "px";
+    el.style.setProperty("--ov-ok", Math.max(14, ar.left + ar.width / 2 - 8 - 6) + "px");
+    document.body.appendChild(dim); document.body.appendChild(el);
+    dim.onclick = popupKapat;
+    pop = {dim: dim, el: el, icerik: icerik, o: o};
+    popupCiz();
+  }
+
+  return {popupAc: popupAc, popupKapat: popupKapat, popupCiz: popupCiz, popupAcikMi: function(){ return !!pop; }, kalanMetni: kalanMetni,
+    icerikHTML: icerikHTML, ciz: ciz, odemeEtiketiHTML: odemeEtiketiHTML, planEtiketi: planEtiketi, tarihKisa: tarihKisa, anahtarTs: anahtarTs, tarihUzun: tarihUzun};
 })();
