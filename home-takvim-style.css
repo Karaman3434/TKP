@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.10.11.26-08:17.1536
+/* home-takvim-style.css — TKP.10.11.26-14:22.1550
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -258,3 +258,10 @@
 @keyframes htKaySol { from { opacity: .35; transform: translateX(-26px); } to { opacity: 1; transform: none; } }
 .ht-defter--aj.ht-kay-sag .ht-aj-defter, .ht-defter--aj.ht-kay-sag .ht-aj-foto { animation: htKaySag .18s ease-out; }
 .ht-defter--aj.ht-kay-sol .ht-aj-defter, .ht-defter--aj.ht-kay-sol .ht-aj-foto { animation: htKaySol .18s ease-out; }
+
+/* DÜZELT / SİL (10.11.2026, Abdullah isteği): kaydın yanında, sağ uçta */
+.ht-dg { margin-left: auto; flex: none; display: flex; flex-direction: column; gap: 3px; align-self: center; padding: 2px 0; }
+.ht-duz, .ht-sil { border: 1.4px solid #1257c7; background: #fff; color: #1257c7; border-radius: 999px; font-size: 11px; font-weight: 800; padding: 2px 9px; cursor: pointer; white-space: nowrap; font-family: inherit; }
+.ht-sil { border-color: #c0392b; color: #c0392b; }
+.ht-sil--onay { background: #c0392b; color: #fff; }
+.ht-ayrac u { text-decoration: none; margin-left: 8px; color: #c0392b; font-size: 14px; cursor: pointer; }

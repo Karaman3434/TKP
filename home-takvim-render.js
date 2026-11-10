@@ -1,5 +1,5 @@
 /*
-  home-takvim-render.js — TKP.09.11.26-23:57.1533
+  home-takvim-render.js — TKP.10.11.26-14:22.1550
   =================================================
   ANA SAYFA TAKVİMİ.
 
@@ -315,7 +315,7 @@
     var kagitHtml = "<div class='ht-d-kagit' id='htKagit'></div>";
     var yeniHtml =
         "<div class='ht-yeni'>"
-      +   "<div class='ht-ayrac'>YENİ KAYIT</div>"
+      +   "<div class='ht-ayrac' id='htAyrac'>YENİ KAYIT</div>"
       +   "<div id='htFirmaAlan'></div>"
       +   "<div id='htOner'></div>"
       +   "<textarea class='ht-d-metin' id='htNot' rows='1' placeholder='Not yaz…' spellcheck='false'></textarea>"
@@ -348,6 +348,8 @@
     var altEl = el("htDAlt");
     function ipucu(m, hata){ altEl.textContent = m; altEl.hidden = false; altEl.classList.toggle("ht-d-alt--hata", !!hata); }
 
+    var satirlar = [];   // listedeki düzenlenebilir satırlar (Düzelt / Sil düğmeleri bunlara indeksle bağlanır)
+    var duz = null;      // düzeltilen satır (formu doldurur): {kind:'temas'|'defter', ...}
     function listeCiz(){
       var sayilar = gunTurSayilari(a), isl = islemSayisi(a);
       if(aj){
@@ -368,14 +370,23 @@
       var mt = musteriTemaslari()[a] || {};
       TURLER.forEach(function(t){ (mt[t] || []).forEach(function(k){ kayitlar.push({t:t, k:k}); }); });
       kayitlar.sort(function(x, y){ return x.k.ts - y.k.ts; });
+      satirlar = [];
+      var dugme = function(i){
+        return "<span class='ht-dg'><button type='button' class='ht-duz' data-ri='" + i + "'>✎ Düzelt</button>"
+          + "<button type='button' class='ht-sil' data-ri='" + i + "'>🗑 Sil</button></span>";
+      };
       kayitlar.forEach(function(r){
-        h += "<div class='ht-d-kayit'>" + miniIk(r.t) + "<i>" + hhmm(r.k.ts) + "</i><span class='ht-d-ad'>" + kodAd(r.k.musteriId, r.k.musteri) + "</span>" + (r.k.not ? "<em>— " + esc(r.k.not) + "</em>" : "") + "</div>";
+        satirlar.push({kind: "temas", t: r.t, k: r.k});
+        h += "<div class='ht-d-kayit'>" + miniIk(r.t) + "<i>" + hhmm(r.k.ts) + "</i><span class='ht-d-ad'>" + kodAd(r.k.musteriId, r.k.musteri) + "</span>" + (r.k.not ? "<em>— " + esc(r.k.not) + "</em>" : "") + dugme(satirlar.length - 1) + "</div>";
       });
       // Eski serbest defter satırları (müşteriye bağlı olmayan) aynı çizgili kâğıtta, okunur.
       TURLER.forEach(function(t){
         var m = (typeof GunNotlariData !== "undefined") ? GunNotlariData.metin(a, t) : "";
-        String(m || "").split("\n").forEach(function(sat){
-          if(sat.trim()) h += "<div class='ht-d-kayit'>" + miniIk(t) + "<span class='ht-d-ad'>" + esc(sat.trim()) + "</span></div>";
+        String(m || "").split("\n").forEach(function(sat, idx){
+          if(sat.trim()){
+            satirlar.push({kind: "defter", t: t, idx: idx, metin: sat.trim()});
+            h += "<div class='ht-d-kayit'>" + miniIk(t) + "<span class='ht-d-ad'>" + esc(sat.trim()) + "</span>" + dugme(satirlar.length - 1) + "</div>";
+          }
         });
       });
       if(!h) h = "<div class='ht-d-kayit ht-d-bos'>Bu günde temas kaydı yok</div>";
@@ -389,12 +400,14 @@
       el("htKagit").innerHTML = h;
     }
 
-    function kaydetDurum(){ el("htKaydet").disabled = !firma; }
+    function kaydetDurum(){ el("htKaydet").disabled = !(firma || (duz && duz.kind === "defter")); }
     function firmaCiz(){
       var alan = el("htFirmaAlan");
-      if(firma){
-        alan.innerHTML = "<div class='ht-firma'>" + miniIk(secTur) + "<b>" + kodAd(firma.id, firma.ad) + "</b>" + (firma.sehir ? "<small>· " + esc(firma.sehir) + "</small>" : "") + "<u id='htFirmaSil'>✕</u></div>";
-        el("htFirmaSil").onclick = function(){ firma = null; firmaCiz(); };
+      if(duz && duz.kind === "defter"){
+        alan.innerHTML = "";   // eski serbest defter satırı: firma yok, sadece metin düzeltilir
+      } else if(firma){
+        alan.innerHTML = "<div class='ht-firma'>" + miniIk(secTur) + "<b>" + kodAd(firma.id, firma.ad) + "</b>" + (firma.sehir ? "<small>· " + esc(firma.sehir) + "</small>" : "") + (duz ? "" : "<u id='htFirmaSil'>✕</u>") + "</div>";
+        if(!duz) el("htFirmaSil").onclick = function(){ firma = null; firmaCiz(); };
       } else {
         alan.innerHTML = "<div class='ht-yaz ht-yaz--ara'><input type='text' id='htFirmaAra' placeholder='Firma ara…' autocomplete='off' spellcheck='false'><span aria-hidden='true'>🔍</span></div>";
         el("htFirmaAra").addEventListener("input", onerCiz);
@@ -435,7 +448,75 @@
       hatGuncelle();
     });
 
+    // ——— DÜZELT / SİL (10.11.2026, Abdullah isteği): listedeki bir kaydın yanındaki düğmeler ———
+    function duzBitir(){
+      duz = null; firma = null; notEl.value = ""; boyutla(); hatirlatma = false; hatGuncelle();
+      el("htAyrac").textContent = "YENİ KAYIT"; el("htKaydet").textContent = "✓ Kaydet";
+      firmaCiz(); listeCiz();
+    }
+    function duzBasla(r){
+      duz = r; secTur = r.t;
+      if(r.kind === "temas"){
+        firma = {ad: r.k.musteri, id: r.k.musteriId || null, sehir: r.k.sehir || ""};
+        notEl.value = r.k.not || "";
+        hatirlatma = !!r.k.hatirlatmaTarihi;
+        el("htHatTarih").value = r.k.hatirlatmaTarihi || "";
+      } else {
+        firma = null; notEl.value = r.metin; hatirlatma = false;
+      }
+      boyutla(); hatGuncelle();
+      el("htAyrac").innerHTML = "KAYDI DÜZELT <u id='htDuzIptal'>✕</u>";
+      el("htDuzIptal").onclick = duzBitir;
+      el("htKaydet").textContent = "✓ Güncelle";
+      listeCiz(); firmaCiz();
+      notEl.focus();
+    }
+    function defterSatirlariniYaz(r, yeniSatir, cb){
+      var sat = String(GunNotlariData.metin(a, r.t) || "").split("\n");
+      if(yeniSatir === null) sat.splice(r.idx, 1); else sat[r.idx] = yeniSatir;
+      GunNotlariData.kaydet(a, r.t, sat.join("\n"), cb);
+    }
+    el("htKagit").onclick = function(ev){
+      var b = ev.target.closest && ev.target.closest(".ht-duz, .ht-sil");
+      if(!b) return;
+      var r = satirlar[parseInt(b.getAttribute("data-ri"), 10)];
+      if(!r) return;
+      if(b.classList.contains("ht-duz")){ duzBasla(r); return; }
+      // Sil: iki dokunuş (ilkinde "Silinsin mi?", 4 sn içinde tekrar dokunulursa silinir)
+      if(!b._onay){
+        b._onay = true; b.textContent = "Silinsin mi?"; b.classList.add("ht-sil--onay");
+        setTimeout(function(){ if(b.isConnected){ b._onay = false; b.textContent = "🗑 Sil"; b.classList.remove("ht-sil--onay"); } }, 4000);
+        return;
+      }
+      b.disabled = true;
+      var bitti = function(basarili, err){
+        if(!document.body.contains(zemin)) return;
+        if(basarili){ if(duz && ((r.kind === "temas" && duz.k && duz.k.ts === r.k.ts) || duz === r)) duzBitir(); else listeCiz(); ipucu("Silindi ✓ · kapatmak için dışına dokun"); }
+        else { b.disabled = false; ipucu("Silinemedi: " + (err && err.message ? err.message : "bilinmeyen hata"), true); }
+      };
+      if(r.kind === "temas") CustomerData.ziyaretSil(r.k.musteri, r.k.ts, bitti, r.k.musteriId || undefined);
+      else defterSatirlariniYaz(r, null, bitti);
+    };
+
     el("htKaydet").onclick = function(){
+      if(duz){
+        var d = duz, dbtn = this;
+        dbtn.disabled = true; dbtn.textContent = "Kaydediliyor…";
+        var sonuc = function(basarili, err){
+          if(!document.body.contains(zemin)) return;
+          dbtn.textContent = "✓ Güncelle";
+          if(basarili){ duzBitir(); ipucu("Güncellendi ✓ · kapatmak için dışına dokun"); }
+          else { kaydetDurum(); ipucu("Kaydedilemedi: " + (err && err.message ? err.message : "bilinmeyen hata"), true); }
+        };
+        var yeni = notEl.value.trim();
+        if(d.kind === "temas"){
+          var hat2 = hatirlatma ? (el("htHatTarih").value || null) : null;
+          CustomerData.ziyaretGuncelle(d.k.musteri, d.k.ts, {not: yeni, hatirlatmaTarihi: hat2, odemeIsaret: !!hat2}, sonuc, d.k.musteriId || undefined);
+        } else {
+          defterSatirlariniYaz(d, yeni === "" ? null : yeni.replace(/\s*\n\s*/g, " "), sonuc);
+        }
+        return;
+      }
       if(!firma || typeof CustomerData === "undefined") return;
       var btn = this;
       btn.disabled = true; btn.textContent = "Kaydediliyor…";
@@ -483,6 +564,7 @@
     }
     function tazele(){ if(document.body.contains(zemin)){ listeCiz(); fotoCiz(); } }
     function gunDegistir(d){
+      if(duz) duzBitir();
       a = gunKaydir(a, d);
       sonFotoAnahtar = null;
       listeCiz(); fotoCiz();
