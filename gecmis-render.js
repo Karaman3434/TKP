@@ -1,5 +1,5 @@
 /*
-  gecmis-render.js — TKP.09.11.26-18:48.1530
+  gecmis-render.js — TKP.10.11.26-09:30.1537
   ================
   Müşteriye özel İşlem Geçmişi sayfası. ReportsData.sonIslemler() zaten
   en yeniden en eskiye sıralı geliyor (bkz. reports-data.js); burada
@@ -114,7 +114,20 @@ function tlKartHTML(k){
     + "<div class='sr-belge-h'>" + kanalHarfHTML(k.kanal) + kodHTML(kod, k.tip) + (kacanMi && k.kacanRakip ? "<span class='sr-rakip'> · Rakip: " + htmlEsc(k.kacanRakip) + "</span>" : "") + "</div>"
     + "<div class='sr-tutar-h'>" + tutarHucre + "</div>"
     + "<div class='sr-ok-h'>&#8250;</div>"
+    + odemeSatiriHTML(k)
     + "</div>";
+}
+// SON ÖDEME ETİKETİ (10.11.2026, Abdullah onayı — mockup): sipariş satırının
+// ikinci satırında "📅 Son ödeme: 12 Kas 2026 · 2 gün kaldı". Teklif/numune/
+// proforma ve vadesiz müşteride etiket yok. Vade günü şimdilik müşterinin
+// Müşteri Kartı'ndaki vadesidir (bkz. vade-takip-data.js).
+var odemeBilgisiHesapla = null;
+function odemeSatiriHTML(k){
+  try{
+    if(!odemeBilgisiHesapla && typeof VadeTakip !== "undefined" && typeof OdemeVadeUI !== "undefined") odemeBilgisiHesapla = VadeTakip.odemeBilgisiFn();
+    if(!odemeBilgisiHesapla) return "";
+    return OdemeVadeUI.odemeEtiketiHTML(odemeBilgisiHesapla(k));
+  }catch(e){ return ""; }
 }
 // BAKİYE (07.10.2026) — kayıt satislarListele/tumKacanlar'dan geldiyse
 // hazır "bakiyeVarMi" bayrağını, sonIslemler()'den ham geldiyse urunler
@@ -151,6 +164,7 @@ function listeyiCiz(){
     var seciliMusteri = CustomerData.musteriBul(seciliMusteriAdi);
     var seciliId = seciliMusteri ? seciliMusteri.id : null;
     var tumu = ReportsData.sonIslemler();
+    odemeBilgisiHesapla = null;     // her çizimde taze (müşteri vadesi / ödendi değişmiş olabilir)
     var bunaAit = tumu.filter(function(k){ return ayniMusteriKaydiMi(k.musteri, k.musteriId, seciliMusteriAdi, seciliId); });
 
     document.getElementById("gecmisMusteriSayac").textContent = bunaAit.length + " kayıtlı işlem";

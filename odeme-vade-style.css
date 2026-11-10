@@ -1,0 +1,81 @@
+/* odeme-vade-style.css — TKP.10.11.26-09:30.1537
+   ÖDEME · VADE müşteri alanı + küçük takvim açılır penceresi (10.11.2026, Abdullah onayı — mockup).
+   Arama/giriş kutuları ortak oval-kırmızı dilini (arama-stili.css değişkenleri) kullanır. */
+
+.ov-ozet { display:flex; justify-content:space-between; align-items:baseline; font-size:12.5px; color:#55606c; margin-bottom:10px; }
+.ov-ozet b { color:#c0392b; }
+.ov-ozet em { font-style:normal; font-weight:800; color:#042c53; font-size:15px; }
+.ov-form { display:flex; gap:6px; align-items:center; }
+.ov-not {
+  flex:1; min-width:0; height:40px; box-sizing:border-box; padding:0 14px; font-size:13px;
+  background:var(--ak-zemin,#fff3f3); border:var(--ak-kalinlik,1.6px) solid var(--ak-cerceve,#c4161f); border-radius:999px; color:var(--ak-yazi,#3a0a0e); outline:none;
+}
+.ov-not::placeholder { color:var(--ak-yer,#b0777c); opacity:1; }
+.ov-not:focus { border-color:var(--ak-odak,#8b0a14); }
+.ov-tarih {
+  height:40px; border-radius:999px; border:1.5px solid #003a70; background:#fff; color:#003a70;
+  font-weight:800; font-size:12.5px; padding:0 12px; white-space:nowrap; box-sizing:border-box; cursor:pointer;
+}
+.ov-tarih--secili { background:#003a70; color:#fff; }
+.ov-ok {
+  width:40px; height:40px; border-radius:50%; border:none; background:#1257c7; color:#fff;
+  font-weight:900; font-size:18px; flex-shrink:0; cursor:pointer; padding:0;
+}
+.ov-ok[hidden] { display:none; }
+.ov-ok:disabled { opacity:.5; }
+.ov-gec { margin-top:10px; }
+.ov-b, .ov-fb { font-size:11.5px; font-weight:700; color:#6b7280; margin-bottom:2px; }
+.ov-fb { margin:12px 0 4px; }
+.ov-s { font-size:12.5px; color:#222; padding:5px 0; border-top:1px dashed #cfdcf3; line-height:1.35; word-break:break-word; }
+.ov-s i { color:#9aa6b6; }
+.ov-s small { display:block; color:#6b7280; font-size:10.5px; }
+.ov-od { font-size:12px; color:#111827; font-weight:700; white-space:nowrap; }
+.ov-faturalar { margin-bottom:6px; }
+.ov-bos { font-size:12px; color:#6b7280; padding:8px 2px; }
+
+/* Son ödeme etiketi (İşlem Geçmişi satırı) */
+.ov-etiket { display:inline-flex; align-items:center; font-size:11px; font-weight:700; border-radius:10px; padding:2px 9px; white-space:nowrap; flex-basis:100%; justify-self:start; width:max-content; max-width:100%; }
+.ov-etiket--k { background:#fde3e1; color:#c0392b; }
+.ov-etiket--t { background:#fff1d6; color:#8a7209; }
+.ov-etiket--y { background:#dff3e4; color:#0f7a3d; }
+.ov-etiket--odendi { background:#eef1f5; color:#55606c; }
+
+/* KÜÇÜK TAKVİM AÇILIR PENCERESİ (tarih-secici.js) */
+.ts-zemin { position:fixed; left:0; right:0; top:0; bottom:0; z-index:9000; background:transparent; }
+.ts-pop {
+  position:fixed; z-index:9001; background:#fff; border:1.5px solid #003a70; border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,30,70,.25); padding:10px; box-sizing:border-box;
+}
+.ts-pop:before {
+  content:''; position:absolute; top:-8px; left:var(--ts-ok,40px); width:12px; height:12px; background:#fff;
+  border-left:1.5px solid #003a70; border-top:1.5px solid #003a70; transform:rotate(45deg);
+}
+.ts-ust { display:flex; justify-content:space-between; align-items:center; font-weight:800; color:#0a2f5c; font-size:14px; padding:0 2px 6px; }
+.ts-ust i { font-style:normal; font-size:22px; color:#003a70; width:38px; text-align:center; cursor:pointer; user-select:none; }
+.ts-hafta, .ts-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; text-align:center; }
+.ts-hafta { font-size:11px; font-weight:800; color:#2d3540; margin-bottom:3px; }
+.ts-hafta .ts-tatil { color:#c0392b; }
+.ts-gun, .ts-bos { height:34px; display:flex; align-items:center; justify-content:center; border-radius:8px; font-size:13px; font-weight:700; color:#0a2f5c; user-select:none; }
+.ts-gun { cursor:pointer; }
+.ts-gun.ts-tatil { color:#c0392b; }
+.ts-gun.ts-gecmis { color:#b9c0cb; cursor:default; }
+.ts-gun.ts-bugun { border:2px solid #0a2f5c; }
+.ts-gun.ts-secili { background:#003a70; color:#fff; }
+
+/* VADE panelindeki gecikmiş fatura sayısı (Cari Bilgi) + açılan pencere */
+.ov-rozet {
+  position:absolute; right:12px; top:50%; transform:translateY(-50%); min-width:26px; height:26px; border-radius:99px;
+  background:#c0392b; color:#fff; font-weight:900; font-size:14px; display:flex; align-items:center; justify-content:center;
+  padding:0 7px; box-sizing:border-box; box-shadow:0 0 0 2px #fff;
+}
+.ov-rozet[hidden] { display:none; }
+.ov-dim { position:fixed; left:0; right:0; top:0; bottom:0; background:rgba(10,30,60,.28); z-index:8000; }
+.ov-pop {
+  position:absolute; z-index:8001; background:#fff; border:1.5px solid #003a70; border-radius:16px;
+  padding:12px 12px 8px; box-shadow:0 10px 26px rgba(0,30,70,.35); box-sizing:border-box;
+}
+.ov-pop:before {
+  content:''; position:absolute; top:-8px; left:var(--ov-ok,70px); width:12px; height:12px; background:#fff;
+  border-left:1.5px solid #003a70; border-top:1.5px solid #003a70; transform:rotate(45deg);
+}
+.ozet-alan--vade { position: relative; }

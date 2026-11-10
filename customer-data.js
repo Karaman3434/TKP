@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.09.11.26-18:48.1530
+  customer-data.js — TKP.10.11.26-09:30.1537
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -207,7 +207,7 @@ var CustomerData = (function(){
     return sonuc;
   }
 
-  function ziyaretEkle(musteriAd, not, tur, hatirlatmaTarihi, geriBildir, musteriId){
+  function ziyaretEkle(musteriAd, not, tur, hatirlatmaTarihi, geriBildir, musteriId, ekAlan){
     // Geriye uyumluluk: eski çağrılar ziyaretEkle(ad, not, geriBildir) şeklindeydi.
     if(typeof tur === "function"){ geriBildir = tur; tur = "ziyaret"; hatirlatmaTarihi = null; }
     guvenliYaz(function(tazeListe){
@@ -216,6 +216,8 @@ var CustomerData = (function(){
       if(!tazeListe[idx].ziyaretGecmisi) tazeListe[idx].ziyaretGecmisi = [];
       var kayit = {ts:Date.now(), not: not || "", tur: tur || "ziyaret"};
       if(hatirlatmaTarihi) kayit.hatirlatmaTarihi = hatirlatmaTarihi;
+      // 10.11.2026 (Abdullah onayı — Vade Takip): ekAlan.odeme === true → bu temas bir ÖDEME PLANI notudur (Vade Takip / Cari Bilgi ÖDEME VADE penceresi).
+      if(ekAlan && ekAlan.odeme) kayit.odeme = true;
       tazeListe[idx].ziyaretGecmisi.push(kayit);
       tazeListe[idx].ziyaretGecmisi.sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
       tazeListe[idx].sonZiyaret = tazeListe[idx].ziyaretGecmisi[0].ts;
@@ -251,7 +253,7 @@ var CustomerData = (function(){
       (m.ziyaretGecmisi||[]).forEach(function(z, i){
         sonuc.push({
           musteri: m.ad, musteriId: m.id||null, sehir: m.sehir||"", ts: z.ts, not: z.not||"",
-          tur: z.tur||"ziyaret", hatirlatmaTarihi: z.hatirlatmaTarihi||null, kayitIndex: i
+          tur: z.tur||"ziyaret", hatirlatmaTarihi: z.hatirlatmaTarihi||null, odeme: !!z.odeme, kayitIndex: i
         });
       });
     });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.09.11.26-15:24.1527 — vade-takip.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.10.11.26-09:30.1537 — vade-takip.html -->
 <!--
   FATURA · VADE · ÖDEME TAKİBİ (21.09.2026) — Ana Sayfa'daki yeni kutudan
   açılır. Sadece VADE tanımlı (Müşteri Kartı'nda sayısal gün girilmiş) ve
@@ -26,11 +26,13 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
 <link rel="stylesheet" href="reports-style.css?v=TKP.09.11.26-15:24.1527">
 <link rel="stylesheet" href="satis-listesi-style.css?v=WG.211026.2235.932">
-<link rel="stylesheet" href="vade-takip-style.css?v=WG.230926.0954.605">
+<link rel="stylesheet" href="vade-takip-style.css?v=TKP.10.11.26-09:30.1537">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.09.11.26-23:35.1532">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="ust-bar-style.css?v=TKP.05.11.26-12:35.1485">
+<link rel="stylesheet" href="odeme-vade-style.css?v=TKP.10.11.26-09:30.1537">
+<link rel="stylesheet" href="arama-stili.css?v=TKP.08.11.26-11:06.1501">
 </head>
 <body>
 
@@ -94,6 +96,9 @@
 
 <main class="sayfa">
 
+  <!-- EKLENDİ (10.11.2026, Abdullah onayı — mockup): müşteri kodu / ad / belge no arama (oval kırmızı ortak arama stili). -->
+  <div class="arama-kutusu vt-arama"><input type="search" id="vtAra" placeholder="Müşteri kodu, ad veya belge no ara…" autocomplete="off"></div>
+
   <div id="vtListe"></div>
 
   <div class="vt-bos-durum" id="vtBos" hidden>✓ Takipte bekleyen fatura yok.</div>
@@ -111,13 +116,15 @@
 <script src="cihaz-data.js?v=WG.271026.2238.1122"></script>
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="ust-bar-davranis.js?v=TKP.05.11.26-11:50.1482"></script>
-<script src="customer-data.js?v=TKP.09.11.26-18:48.1530"></script>
+<script src="customer-data.js?v=TKP.10.11.26-09:30.1537"></script>
 <script src="reports-data.js?v=TKP.05.11.26-11:20.1481"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1523.89"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
-<script src="vade-takip-data.js?v=WG.210926.2044.591"></script>
+<script src="vade-takip-data.js?v=TKP.10.11.26-09:30.1537"></script>
 <script src="vade-takip-ui.js?v=WG.230926.0954.605"></script>
-<script src="vade-takip-render.js?v=WG.300926.1400.677"></script>
+<script src="tarih-secici.js?v=TKP.10.11.26-09:30.1537"></script>
+<script src="odeme-vade-ui.js?v=TKP.10.11.26-09:30.1537"></script>
+<script src="vade-takip-render.js?v=TKP.10.11.26-09:30.1537"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->

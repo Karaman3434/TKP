@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.09.11.26-18:48.1530
+  cari-kart-render.js — TKP.10.11.26-09:30.1537
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -321,6 +321,7 @@ function alanlariDoldur(musteri){
   document.getElementById("ozetVadeDeger").textContent = vadeGosterimMetni(musteri);
   document.getElementById("ozetFaturaDeger").textContent = musteri.fatura || "—";
   document.getElementById("ozetKargoDeger").textContent = musteri.kargo || "—";
+  vadeRozetiniGuncelle();
 
   anaSayfayiRenderEt();
 }
@@ -333,6 +334,49 @@ function vadeGosterimMetni(musteri){
   var gun = (typeof VadeTakip !== "undefined") ? VadeTakip.vadeGunSayisi(musteri) : null;
   if(gun !== null) return gun + " gün";
   return musteri.vade || "—";
+}
+
+// ÖDEME · VADE (10.11.2026, Abdullah onayı — mockup): VADE panelinde gecikmiş
+// (ödenmemiş) fatura sayısı kırmızı rozetle görünür; VADE'ye dokununca şeridin
+// HEMEN altında Vade Takip'teki müşteri alanıyla AYNI bileşen (odeme-vade-ui.js)
+// açılır. Yetki: "vadeTakip" izni olmayanda eski davranış korunur (VADE → Temel Bilgiler).
+function vadeIzniVarMi(){
+  return typeof OdemeVadeUI !== "undefined" && !(typeof akistanGeldiMi !== "undefined" && akistanGeldiMi) && !(typeof sepettenAcildiMi !== "undefined" && sepettenAcildiMi)
+    && (typeof window.izinVarMi !== "function" || window.izinVarMi("vadeTakip"));
+}
+function vadeRozetiniGuncelle(){
+  var r = document.getElementById("ozetVadeRozet");
+  if(!r) return;
+  var n = (musteriVerisi && vadeIzniVarMi() && typeof VadeTakip !== "undefined") ? VadeTakip.gecikmisSayisi(musteriVerisi.id || null, musteriVerisi.ad) : 0;
+  r.textContent = n;
+  r.hidden = !n;
+}
+var vadePopup = null;
+function vadePopupKapat(){
+  if(!vadePopup) return false;
+  if(typeof TarihSecici !== "undefined") TarihSecici.kapat();
+  vadePopup.dim.remove(); vadePopup.pop.remove(); vadePopup = null;
+  return true;
+}
+function vadePopupCiz(){
+  if(!vadePopup || !musteriVerisi) return;
+  OdemeVadeUI.ciz(vadePopup.icerik, musteriVerisi.id || null, musteriVerisi.ad, function(){ vadePopupCiz(); vadeRozetiniGuncelle(); });
+}
+function vadePopupAc(){
+  if(vadePopup){ vadePopupKapat(); return; }
+  var serit = document.querySelector(".ozet-satir-3");
+  var alan = document.getElementById("ozetAlanVade");
+  var dim = document.createElement("div"); dim.className = "ov-dim";
+  var pop = document.createElement("div"); pop.className = "ov-pop";
+  var icerik = document.createElement("div"); pop.appendChild(icerik);
+  var sr = serit.getBoundingClientRect(), ar = alan.getBoundingClientRect();
+  pop.style.left = "8px"; pop.style.right = "8px";
+  pop.style.top = (sr.bottom + window.pageYOffset + 12) + "px";
+  pop.style.setProperty("--ov-ok", Math.max(14, ar.left + ar.width / 2 - 8 - 6) + "px");
+  document.body.appendChild(dim); document.body.appendChild(pop);
+  dim.onclick = vadePopupKapat;
+  vadePopup = {dim: dim, pop: pop, icerik: icerik};
+  vadePopupCiz();
 }
 
 var toastZamanlayici;
@@ -802,6 +846,15 @@ document.addEventListener("DOMContentLoaded", function(){
     };
   }
 
+  var vadeAlanEl = document.getElementById("ozetAlanVade");
+  if(vadeAlanEl) vadeAlanEl.addEventListener("click", function(ev){
+    if(!vadeIzniVarMi()) return;           // izin yoksa eski davranış (üst şerit → Temel Bilgiler)
+    ev.stopPropagation();
+    vadePopupAc();
+  });
+  if(typeof ReportsData !== "undefined" && ReportsData.arsivDegistiginde) ReportsData.arsivDegistiginde(function(){ vadeRozetiniGuncelle(); if(vadePopup) vadePopupCiz(); });
+  if(typeof CustomerData !== "undefined" && CustomerData.listeDegistiginde) CustomerData.listeDegistiginde(function(){ if(vadePopup) vadePopupCiz(); });
+
   var acikBolumEylem = null;
   document.querySelectorAll(".ck-tiklanabilir-alan[data-bolum]").forEach(function(alan){
     alan.onclick = function(){
@@ -1029,6 +1082,8 @@ document.addEventListener("DOMContentLoaded", function(){
       // üstteki ✕ önce açık Ekle/Düzenle formunu kapatır (sayfadan çıkmaz).
       var acikForm = document.getElementById("formOverlay");
       if(acikForm && !acikForm.hidden){ kapat("formOverlay"); return; }
+      // Ödeme · Vade penceresi açıksa (10.11.2026): ✕ önce onu kapatır.
+      if(vadePopupKapat()) return;
       localStorage.removeItem("weiconv2_islem_yap_akisi");
       localStorage.removeItem("weiconv2_sepetten_cari_acildi");
       localStorage.removeItem("weiconv2_gonderden_cari_acildi");
