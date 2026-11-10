@@ -1,5 +1,5 @@
 /*
-  detail-render.js — TKP.10.11.26-11:51.1540
+  detail-render.js — TKP.10.11.26-11:55.1541
   ================
   Seçili müşterinin bilgilerini, sipariş geçmişini (ReportsData.sonIslemler
   üzerinden filtrelenmiş) ve ziyaret geçmişini gösterir.
@@ -156,6 +156,15 @@ function faturaTakipOzetiGuncelle(){
   }catch(e){ hataGoster("Fatura Takip özeti güncellenemedi: " + e.message); }
 }
 
+// TEK MERKEZ (10.11.2026, Abdullah isteği): fatura / ödeme / vade bilgisi hangi sayfadan
+// değişirse değişsin (ödendi işareti, müşteri vadesi, ödeme planı) bu özet ve — pencere
+// açıksa — liste ANINDA tazelenir (kaynak: ReportsData + CustomerData, tek veri).
+function faturaTakipYenile(){
+  faturaTakipOzetiGuncelle();
+  var ov = document.getElementById("faturaTakipOverlay");
+  if(ov && !ov.hidden) faturaTakipCiz();
+}
+
 function ftVadeRozetiniGuncelle(musteri){
   var rozet = document.getElementById("ftVadeRozet");
   var gun = (musteri && typeof VadeTakip !== "undefined") ? VadeTakip.vadeGunSayisi(musteri) : null;
@@ -299,14 +308,14 @@ document.addEventListener("DOMContentLoaded", function(){
     var tazeMusteri = CustomerData.musteriBul(seciliMusteriAdi);
     if(tazeMusteri){
       ustBilgiyiCiz(tazeMusteri);
-      faturaTakipOzetiGuncelle();
+      faturaTakipYenile();
     }
   });
   ReportsData.arsivDegistiginde(siparisGecmisiniCiz);
   ReportsData.gorevDegistiginde(musteriGorevleriniCiz);
   siparisGecmisiniCiz();
   musteriGorevleriniCiz();
-  ReportsData.arsivDegistiginde(faturaTakipOzetiGuncelle);
+  ReportsData.arsivDegistiginde(faturaTakipYenile);
   faturaTakipOzetiGuncelle();
   // HATA DÜZELTME (09.10.2026, Abdullah'ın isteğiyle) — "Ürün Geçmişi"
   // paneli SADECE tıklanma anındaki arşiv verisiyle bir kerelik çiziliyordu.

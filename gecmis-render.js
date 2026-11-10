@@ -1,5 +1,5 @@
 /*
-  gecmis-render.js — TKP.10.11.26-09:30.1537
+  gecmis-render.js — TKP.10.11.26-11:55.1541
   ================
   Müşteriye özel İşlem Geçmişi sayfası. ReportsData.sonIslemler() zaten
   en yeniden en eskiye sıralı geliyor (bkz. reports-data.js); burada
@@ -282,4 +282,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
   listeyiCiz();
   ReportsData.arsivDegistiginde(listeyiCiz);
+  // "Son ödeme" etiketi müşterinin vadesine bağlı — Müşteri Kartı'nda vade değişince burada da anında değişsin.
+  CustomerData.listeDegistiginde(listeyiCiz);
 });

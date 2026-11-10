@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.10.11.26-10:27.1539
+  cari-kart-render.js — TKP.10.11.26-11:55.1541
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -1090,6 +1090,7 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("ozetVadeDeger").textContent = vadeGosterimMetni(taze);
     document.getElementById("ozetFaturaDeger").textContent = taze.fatura || "—";
     document.getElementById("ozetKargoDeger").textContent = taze.kargo || "—";
+    vadeRozetiniGuncelle();      // vade / ödeme planı değişince gecikmiş sayısı da anında tazelenir
     anaSayfayiRenderEt();
   });
 });
