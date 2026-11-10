@@ -1,5 +1,5 @@
 /*
-  odeme-vade-ui.js — TKP.10.11.26-12:32.1545
+  odeme-vade-ui.js — TKP.10.11.26-13:04.1546
   ===========================================
   ÖDEME · VADE müşteri alanı (10.11.2026, Abdullah onayı — mockup). TEK YERDE:
   Vade Takip sayfasında bir müşteriye dokununca açılan alan VE Cari Bilgi
@@ -65,7 +65,7 @@ var OdemeVadeUI = (function(){
 
   function faturaSatiri(o, harita){
     var nl = (harita && harita[o.ts]) || [], son = nl[0] || null;
-    var formAcik = !!(fn && fn.ts === o.ts), duzeltiyor = formAcik && fn.mod === "duzelt";
+    var formAcik = !!(fn && fn.yer !== "liste" && fn.ts === o.ts), duzeltiyor = formAcik && fn.mod === "duzelt";
     var meta = VadeTakipUI.ROZET_META[o.odendi ? "odendi" : o.durum] || VadeTakipUI.ROZET_META.vadesiz;
     return "<div class='vt-satir" + (son ? " vt-satir--notlu" : "") + (o.odendi ? "" : " fn-tikla") + "' data-fts='" + o.ts + "' data-fkod='" + esc(o.kod) + "'>"
       + "<div class='vt-serit' style='background:" + meta.serit + ";'></div>"
@@ -142,7 +142,16 @@ var OdemeVadeUI = (function(){
         var z = (fnHarita()[ts] || []).filter(function(k){ return k.ts === kayitTs; })[0];
         metin = z ? notMetni(z) : "";
       }
-      fn = {ts: ts, kod: String(satir.getAttribute("data-fkod") || "").split(/\s+/)[0], mod: mod, kayitTs: kayitTs, metin: metin,
+      fn = {yer: "satir", ts: ts, kod: String(satir.getAttribute("data-fkod") || "").split(/\s+/)[0], mod: mod, kayitTs: kayitTs, metin: metin,
+            musteriId: c.musteriId, musteriAd: c.musteriAd, yerel: c.yerel, tamam: c.tamam, odak: true};
+      if(typeof c.yerel === "function") c.yerel();
+    }
+    // "Önceki görüşmeler" listesindeki bir açıklamayı düzelt (fatura açıklaması veya ödeme planı notu).
+    function acListe(kayitTs){
+      var c = kok._fnCtx;
+      var z = ((typeof CustomerData !== "undefined" && CustomerData.tumZiyaretTemaslar) ? CustomerData.tumZiyaretTemaslar() : []).filter(function(k){ return k.ts === kayitTs; })[0];
+      if(!z) return;
+      fn = {yer: "liste", ts: z.faturaTs || 0, kod: z.faturaKod || "", mod: "duzelt", kayitTs: kayitTs, metin: notMetni(z),
             musteriId: c.musteriId, musteriAd: c.musteriAd, yerel: c.yerel, tamam: c.tamam, odak: true};
       if(typeof c.yerel === "function") c.yerel();
     }
@@ -151,6 +160,7 @@ var OdemeVadeUI = (function(){
       var kay = t.closest && t.closest("#ovFnKaydet");
       if(kay){ fnKaydet(kay); return; }
       var duz = t.closest(".fn-duzelt");
+      if(duz && duz.hasAttribute("data-lkts")){ acListe(parseInt(duz.getAttribute("data-lkts"), 10)); return; }
       if(duz){ ac(duz.closest(".vt-satir"), "duzelt", parseInt(duz.getAttribute("data-kts"), 10)); return; }
       if(t.closest(".fn-form") || t.closest(".vt-rozet")) return;
       var satir = t.closest(".vt-satir.fn-tikla");
@@ -203,9 +213,22 @@ var OdemeVadeUI = (function(){
     var temaslar = VadeTakip.musteriTemaslari(musteriId, musteriAd);
     if(temaslar.length){
       h += "<div class='ov-gec'><div class='ov-b'>Önceki görüşmeler · en yeni üstte</div>";
+      var ogeHarita = {}; ogeler.forEach(function(o){ ogeHarita[o.ts] = o; });
       temaslar.forEach(function(z){
-        h += "<div class='ov-s'>" + (z.not ? "“" + esc(z.not) + "”" : "<i>(açıklama yok)</i>")
-          + "<small>" + (TUR[z.tur] || TUR.ziyaret) + " · " + saat(z.ts) + (z.hatirlatmaTarihi ? " · 🔔 " + tarihKisa(anahtarTs(z.hatirlatmaTarihi)) : "") + "</small></div>";
+        var duzenlenebilir = !!((z.faturaTs || z.odeme) && z.not);
+        var fo = z.faturaTs ? ogeHarita[z.faturaTs] : null;
+        // Hangi faturaya yazıldığı açıklamanın ÜZERİNDE görünür (10.11.2026, Abdullah isteği).
+        var chip = z.faturaTs ? "<div class='fn-chip'>📄 " + esc(String(z.faturaKod || (fo && fo.kod) || "").split(/\s+/)[0]) + " faturası" + (fo ? " · Ödeme " + tarihKisa(new Date(fo.vadeTs)) : "") + "</div>" : "";
+        var duzForm = !!(fn && fn.yer === "liste" && fn.kayitTs === z.ts);
+        h += "<div class='ov-s'>" + chip;
+        if(duzForm){
+          h += "<div class='fn-form'><input type='text' class='fn-input' placeholder='Açıklama' autocomplete='off' value='" + esc(fn.metin) + "'>"
+            + "<button type='button' id='ovFnKaydet' class='fn-kaydet-gizli' hidden aria-label='Kaydet'></button></div>";
+        } else {
+          h += "<div class='fn-liste-satir'><span class='fn-liste-y'>" + (z.not ? "“" + esc(notMetni(z)) + "”" : "<i>(açıklama yok)</i>") + "</span>"
+            + (duzenlenebilir ? "<button type='button' class='fn-duzelt' data-lkts='" + z.ts + "'>✎ Düzelt</button>" : "") + "</div>";
+        }
+        h += "<small>" + (TUR[z.tur] || TUR.ziyaret) + " · " + saat(z.ts) + (z.hatirlatmaTarihi ? " · 🔔 " + tarihKisa(anahtarTs(z.hatirlatmaTarihi)) : "") + "</small></div>";
       });
       h += "</div>";
     }
