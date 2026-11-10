@@ -1,5 +1,5 @@
 /*
-  detail-render.js — TKP.10.11.26-11:55.1541
+  detail-render.js — TKP.10.11.26-12:04.1542
   ================
   Seçili müşterinin bilgilerini, sipariş geçmişini (ReportsData.sonIslemler
   üzerinden filtrelenmiş) ve ziyaret geçmişini gösterir.
@@ -79,13 +79,14 @@ function siparisGecmisiniCiz(){
 // Bu sayfa artık kart değil, yalnızca Fatura Takip / Görevlerim / Ürün Geçmişi
 // pencerelerinin barındırıcısı (08.11.2026). Pencere kapanınca arkada eski
 // "İşlemler" kartı AÇILMAZ: geldiği yere (popover'ın açıldığı sayfaya) dönülür;
-// geçmiş yoksa yeni Ana Sayfa > müşteri işlem kartına.
+// geçmiş yoksa Ana Sayfa'ya (10.11.2026: müşteri penceresi artık yeniden açılmaz).
 function detayGeriDon(){
   try{
     var ref = document.referrer || "";
     if(ref.indexOf(window.location.origin) === 0 && window.history.length > 1){ window.history.back(); return; }
-    var m = CustomerData.seciliyiOku();
-    window.location.href = "home.html" + (m && m.id ? "?musteriKart=" + encodeURIComponent(m.id) : "");
+    // GÜNCELLEME (10.11.2026, Abdullah'ın isteği): geri dönülecek geçmiş yoksa düz Ana Sayfa
+    // (çekmece kapalı, arama boş) — eskiden müşteri penceresini yeniden açıyordu.
+    window.location.href = "home.html";
   }catch(e){ window.location.href = "home.html"; }
 }
 

@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.10.11.26-11:51.1540
+// menu-cekmece.js — TKP.10.11.26-12:04.1542
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -686,15 +686,22 @@ function mcMusteriTipMenuKonumla(){
 // Alternatif giriş: "?musteriKart=<müşteri kodu>" (Bildirimler, Takip
 // Gerekenler gibi sayfalardan müşteriye gidiş) — aynı açılışı yapar.
 // ============================================================
-function mcPopoverDonusIsaretle(m){
+// GÜNCELLEME (10.11.2026, Abdullah'ın isteği): artık İŞARETLENMİYOR. Müşteri seçilip bir sayfaya
+// gidildikten sonra Geri/Kapat ile Ana Sayfa'ya dönünce çekmece KAPALI, müşteri arama kutusu
+// BOŞ ve müşteri penceresi KAPALI gelir (eski "kaldığın yeri yeniden aç" davranışı kaldırıldı).
+// Fonksiyon, çağıran yerler bozulmasın diye boş bırakıldı.
+function mcPopoverDonusIsaretle(m){ /* bilinçli olarak boş */ }
+
+// Geri gelinen sayfa tarayıcı önbelleğinden (bfcache) olduğu gibi geri yüklenirse çekmece/arama/
+// pencere açık kalıyordu — hepsini kapatıp arama kutularını temizler.
+function mcGeriDonusTemizle(){
   try{
-    if(!m) return;
-    var st = {};
-    try{ st = Object.assign({}, window.history.state || {}); }catch(e){}
-    st.mcPopoverMusteri = {id: m.id || null, ad: m.ad || "", sehir: m.sehir || "", il: m.il || ""};
-    window.history.replaceState(st, "", window.location.href);
+    asDrawerKapat();
+    document.querySelectorAll("[data-mini-arama]").forEach(function(i){ try{ i.value = ""; }catch(e){} });
+    mcMiniSonucKapat();
   }catch(e){}
 }
+window.addEventListener("pageshow", function(ev){ if(ev.persisted) mcGeriDonusTemizle(); });
 
 function mcPopoverGeriAc(m){
   try{
@@ -734,7 +741,7 @@ function mcPopoverGeriKontrol(){
     var m = null;
     var st = window.history.state;
     if(st && st.mcPopoverMusteri){
-      m = st.mcPopoverMusteri;
+      // Eski sürümden kalmış işaret: açmadan temizle (10.11.2026 — geri dönüşte pencere açılmaz).
       var yeni = Object.assign({}, st);
       delete yeni.mcPopoverMusteri;
       try{ window.history.replaceState(yeni, "", window.location.href); }catch(e){}
