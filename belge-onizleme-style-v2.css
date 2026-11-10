@@ -1,5 +1,5 @@
 /*
-  belge-onizleme-style-v2.css — TKP.10.11.26-10:27.1539
+  belge-onizleme-style-v2.css — TKP.10.11.26-12:17.1544
   ===================================================
   AŞAMA: "Belge Önizleme" ekranı yeniden tasarımı (11.10.2026).
 
@@ -778,3 +778,5 @@
 .bo-og-kalan--t { background: #fff1d6; color: #8a7209; }
 .bo-og-kalan--y { background: #dff3e4; color: #0f7a3d; }
 .bo-og-kalan--o { background: #dfe3e9; color: #55606c; }
+/* ÖDEME GÜNÜ paneli: geciken fatura sayısı (kırmızı rozet), "N gün kaldı/geçti" yazısının sağında — satır içi */
+.bo-odeme-gunu .bo-og-rozet { position: static; transform: none; margin-left: 8px; flex: none; }

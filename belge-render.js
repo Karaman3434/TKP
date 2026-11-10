@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.10.11.26-11:51.1540
+  belge-render.js — TKP.10.11.26-12:17.1544
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -308,10 +308,16 @@ function belgeyiCiz(kayit, musteri){
         var odemeOge = VadeTakip.odemeBilgisiFn()(kayit);
         if(odemeOge){
           var kalan = OdemeVadeUI.kalanMetni(odemeOge);
+          // Geciken (ödenmemiş, günü geçmiş) fatura sayısı — müşterinin TÜM faturaları, tek kaynak: VadeTakip.gecikmisSayisi.
+          // "vadeTakip" izni yoksa gösterilmez (eski Cari VADE rozetiyle aynı kural).
+          var gecikmisAdet = (typeof window.izinVarMi !== "function" || window.izinVarMi("vadeTakip"))
+            ? VadeTakip.gecikmisSayisi((musteri && musteri.id) || kayit.musteriId || null, kayit.musteri) : 0;
           odemeGunuPaneliHtml = "<div class='ozet-satir-3 ozet-satir-3--birlesik bo-odeme-gunu'><div class='ozet-alan'>"
             + "<span class='ozet-ikon'>" + (typeof IkonSvg !== "undefined" ? IkonSvg.svg("vade") : "📅") + "</span>"
             + "<div class='ozet-metin'><div class='ozet-baslik'>ÖDEME GÜNÜ</div><div class='ozet-deger'>" + OdemeVadeUI.tarihUzun(odemeOge.vadeTs) + "</div></div>"
-            + "<span class='bo-og-kalan bo-og-kalan--" + kalan.sinif + "'>" + kalan.yazi + "</span></div></div>";
+            + "<span class='bo-og-kalan bo-og-kalan--" + kalan.sinif + "'>" + kalan.yazi + "</span>"
+            + (gecikmisAdet ? "<span class='ov-rozet bo-og-rozet' title='Geciken fatura'>" + gecikmisAdet + "</span>" : "")
+            + "</div></div>";
         }
       }
     }catch(e){ odemeGunuPaneliHtml = ""; }

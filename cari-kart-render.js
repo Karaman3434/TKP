@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.10.11.26-12:15.1543
+  cari-kart-render.js — TKP.10.11.26-12:17.1544
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -321,7 +321,6 @@ function alanlariDoldur(musteri){
   document.getElementById("ozetVadeDeger").textContent = vadeGosterimMetni(musteri);
   document.getElementById("ozetFaturaDeger").textContent = musteri.fatura || "—";
   document.getElementById("ozetKargoDeger").textContent = musteri.kargo || "—";
-  vadeRozetiniGuncelle();
 
   anaSayfayiRenderEt();
 }
@@ -336,24 +335,9 @@ function vadeGosterimMetni(musteri){
   return musteri.vade || "—";
 }
 
-// ÖDEME · VADE (10.11.2026, Abdullah onayı — mockup): VADE panelinde gecikmiş
-// (ödenmemiş) fatura sayısı kırmızı rozetle görünür; VADE'ye dokununca şeridin
-// HEMEN altında Vade Takip'teki müşteri alanıyla AYNI bileşen (odeme-vade-ui.js)
-// açılır. Yetki: "vadeTakip" izni olmayanda eski davranış korunur (VADE → Temel Bilgiler).
-function vadeIzniVarMi(){
-  return typeof OdemeVadeUI !== "undefined" && !(typeof akistanGeldiMi !== "undefined" && akistanGeldiMi) && !(typeof sepettenAcildiMi !== "undefined" && sepettenAcildiMi)
-    && (typeof window.izinVarMi !== "function" || window.izinVarMi("vadeTakip"));
-}
-function vadeRozetiniGuncelle(){
-  var r = document.getElementById("ozetVadeRozet");
-  if(!r) return;
-  var n = (musteriVerisi && vadeIzniVarMi() && typeof VadeTakip !== "undefined") ? VadeTakip.gecikmisSayisi(musteriVerisi.id || null, musteriVerisi.ad) : 0;
-  r.textContent = n;
-  r.hidden = !n;
-}
 // 10.11.2026 (Abdullah isteği): VADE kutusundan açılan Ödeme·Vade penceresi kaldırıldı;
 // pencere artık yalnızca Belge Önizleme'deki ÖDEME GÜNÜ panelinden açılır (OdemeVadeUI.popupAc).
-// VADE kutusu bilgi amaçlıdır (kırmızı rozet = geciken fatura sayısı); dokunuş eski davranışına döndü.
+// Geciken fatura sayısı (kırmızı rozet) de artık ÖDEME GÜNÜ panelinde; VADE kutusu eski haline döndü.
 
 var toastZamanlayici;
 function toastGoster(msg){
@@ -822,8 +806,6 @@ document.addEventListener("DOMContentLoaded", function(){
     };
   }
 
-  if(typeof ReportsData !== "undefined" && ReportsData.arsivDegistiginde) ReportsData.arsivDegistiginde(function(){ vadeRozetiniGuncelle(); });
-
   var acikBolumEylem = null;
   document.querySelectorAll(".ck-tiklanabilir-alan[data-bolum]").forEach(function(alan){
     alan.onclick = function(){
@@ -1078,7 +1060,6 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("ozetVadeDeger").textContent = vadeGosterimMetni(taze);
     document.getElementById("ozetFaturaDeger").textContent = taze.fatura || "—";
     document.getElementById("ozetKargoDeger").textContent = taze.kargo || "—";
-    vadeRozetiniGuncelle();      // vade / ödeme planı değişince gecikmiş sayısı da anında tazelenir
     anaSayfayiRenderEt();
   });
 });
