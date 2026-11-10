@@ -1,5 +1,5 @@
 /*
-  detail-render.js — TKP.10.11.26-12:32.1545
+  detail-render.js — TKP.10.11.26-15:01.1555
   ================
   Seçili müşterinin bilgilerini, sipariş geçmişini (ReportsData.sonIslemler
   üzerinden filtrelenmiş) ve ziyaret geçmişini gösterir.
@@ -80,17 +80,46 @@ function siparisGecmisiniCiz(){
 // pencerelerinin barındırıcısı (08.11.2026). Pencere kapanınca arkada eski
 // "İşlemler" kartı AÇILMAZ: geldiği yere (popover'ın açıldığı sayfaya) dönülür;
 // geçmiş yoksa Ana Sayfa'ya (10.11.2026: müşteri penceresi artık yeniden açılmaz).
+// GERİ / KAPAT KURALI (10.11.2026, Abdullah'ın isteği): bu sayfada
+//  • GERİ (‹) = rotada BİR ÖNCEKİ sayfaya (ör. Sepet) döner — Ana Sayfa'ya atlayıp rotayı
+//    atlamaz. Önceki durak rota yığınından (RotaTakip) okunur; yığında yoksa tarayıcı geçmişi,
+//    o da yoksa Ana Sayfa.
+//  • KAPAT (✕ ve alttaki Kapat) = her zaman Ana Sayfa (çekmece kapalı, arama boş).
+function detayOncekiSayfaHedefi(){
+  try{
+    var yigin = JSON.parse(sessionStorage.getItem("weiconv2_rota_yigin") || "[]");
+    for(var i = yigin.length - 1; i >= 0; i--){
+      if(yigin[i].href === "customer-detail.html"){
+        return i > 0 ? yigin[i-1].href : null;
+      }
+    }
+  }catch(e){}
+  return null;
+}
 function detayGeriDon(){
   try{
+    var hedef = detayOncekiSayfaHedefi();
+    if(hedef){ window.location.href = hedef; return; }
     var ref = document.referrer || "";
     if(ref.indexOf(window.location.origin) === 0 && window.history.length > 1){ window.history.back(); return; }
-    // GÜNCELLEME (10.11.2026, Abdullah'ın isteği): geri dönülecek geçmiş yoksa düz Ana Sayfa
-    // (çekmece kapalı, arama boş) — eskiden müşteri penceresini yeniden açıyordu.
     window.location.href = "home.html";
   }catch(e){ window.location.href = "home.html"; }
 }
+function detayKapatAnaSayfa(){
+  window.location.href = "home.html";
+}
 
 function tilelariBagla(){
+  // Geri (‹): menu-cekmece.js'in genel "geldiğin yere dön" dinleyicisinden ÖNCE devreye girer.
+  try{
+    var geriEl = document.querySelector(".ub-btn--geri");
+    if(geriEl) geriEl.addEventListener("click", function(ev){
+      ev.preventDefault();
+      ev.stopPropagation();
+      if(typeof OdemeVadeUI !== "undefined") OdemeVadeUI.fnIptal();
+      detayGeriDon();
+    });
+  }catch(e){}
   document.getElementById("tileTemas").onclick = function(){
     window.location.href = "customer-temas.html";
   };
@@ -114,7 +143,7 @@ function tilelariBagla(){
   };
 
   document.getElementById("tileUrunGecmisi").onclick = urunGecmisiniAc;
-  document.getElementById("btnUrunGecmisiKapat").onclick = function(){ document.getElementById("urunGecmisiOverlay").hidden = true; detayGeriDon(); };
+  document.getElementById("btnUrunGecmisiKapat").onclick = function(){ document.getElementById("urunGecmisiOverlay").hidden = true; detayKapatAnaSayfa(); };
   document.getElementById("btnUrunGecmisiGeri").onclick = function(){
     document.getElementById("urunGecmisiDetay").hidden = true;
     document.getElementById("urunGecmisiListesi").hidden = false;
@@ -126,7 +155,7 @@ function tilelariBagla(){
     document.getElementById("faturaTakipOverlay").hidden = false;
     faturaTakipCiz();
   };
-  document.getElementById("btnFaturaTakipKapat").onclick = function(){ if(typeof OdemeVadeUI !== "undefined") OdemeVadeUI.fnIptal(); document.getElementById("faturaTakipOverlay").hidden = true; detayGeriDon(); };
+  document.getElementById("btnFaturaTakipKapat").onclick = function(){ if(typeof OdemeVadeUI !== "undefined") OdemeVadeUI.fnIptal(); document.getElementById("faturaTakipOverlay").hidden = true; detayKapatAnaSayfa(); };
   if(typeof VadeTakipUI !== "undefined"){
     VadeTakipUI.baglaRozetler(document.getElementById("ftListe"), faturaTakipCiz);
   }
