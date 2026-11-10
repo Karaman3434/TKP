@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.10.11.26-10:27.1539
+  belge-render.js — TKP.10.11.26-11:51.1540
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -773,7 +773,7 @@ function bhpAc(musteri, ankorEl){
       {ikon:"🏢", etiket:"Cari", aksiyon:"cari"},
       {ikon:"📍", etiket:"Temas", aksiyon:"temas", rozet:rozetler.temas},
       {ikon:"🔍", etiket:"İşlem Yap", aksiyon:"islemyap"},
-      {ikon:"📄", etiket:"Fatura Takip", aksiyon:"fatura", rozet:rozetler.fatura},
+      {ikon:"📄", etiket:"Fatura ve Ödeme Takip", aksiyon:"fatura", rozet:rozetler.fatura},
       {ikon:"🕐", etiket:"İşlem Geçmişi", aksiyon:"gecmis", rozet:rozetler.gecmis},
       {ikon:"📋", etiket:"Görevlerim", aksiyon:"gorev", rozet:rozetler.gorev},
       {ikon:"📦", etiket:"Ürün Geçmişi", aksiyon:"urun", rozet:rozetler.urun},

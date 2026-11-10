@@ -1,5 +1,5 @@
 /*
-  odeme-vade-ui.js — TKP.10.11.26-10:27.1539
+  odeme-vade-ui.js — TKP.10.11.26-11:51.1540
   ===========================================
   ÖDEME · VADE müşteri alanı (10.11.2026, Abdullah onayı — mockup). TEK YERDE:
   Vade Takip sayfasında bir müşteriye dokununca açılan alan VE Cari Bilgi
@@ -177,6 +177,13 @@ var OdemeVadeUI = (function(){
     popupCiz();
   }
 
-  return {popupAc: popupAc, popupKapat: popupKapat, popupCiz: popupCiz, popupAcikMi: function(){ return !!pop; }, kalanMetni: kalanMetni,
+  // FATURA LİSTESİ (10.11.2026, Abdullah onayı): Müşteri Detay → "Fatura ve Ödeme Takip" penceresi de
+  // aynı satırları kullanır: ödeme günü + "N GÜN KALDI / N GÜN GECİKTİ" rozeti + belge kodu · kesim tarihi + tutar.
+  function faturaListesiHTML(ogeler){
+    var sirali = faturaSirala(ogeler);
+    return sirali.length ? "<div class='vt-grup ov-faturalar'>" + sirali.map(faturaSatiri).join("") + "</div>" : "";
+  }
+
+  return {faturaListesiHTML: faturaListesiHTML, popupAc: popupAc, popupKapat: popupKapat, popupCiz: popupCiz, popupAcikMi: function(){ return !!pop; }, kalanMetni: kalanMetni,
     icerikHTML: icerikHTML, ciz: ciz, odemeEtiketiHTML: odemeEtiketiHTML, planEtiketi: planEtiketi, tarihKisa: tarihKisa, anahtarTs: anahtarTs, tarihUzun: tarihUzun};
 })();

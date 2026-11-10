@@ -1,5 +1,5 @@
 /*
-  customer-render.js — TKP.08.11.26-23:35.1519
+  customer-render.js — TKP.10.11.26-11:51.1540
   GÜNCELLEME (27.10.2026, Abdullah onayı — ana sayfa mini arama özelliği):
   "?musteriAc=<id-veya-ad>" parametresiyle buraya gelinirse, ilgili müşteri
   bulunup GERÇEK hızlı pencere (hizliPencereyiAc) otomatik açılır — bkz.
@@ -363,7 +363,7 @@ function hizliPencereyiAc(musteri){
       {ikon:"🏢", etiket:"Cari", aksiyon:"cari"},
       {ikon:"📍", etiket:"Temas", aksiyon:"temas", rozet:rozetler.temas},
       {ikon:"🔍", etiket:"İşlem Yap", aksiyon:"islemyap"},
-      {ikon:"📄", etiket:"Fatura Takip", aksiyon:"fatura", rozet:rozetler.fatura},
+      {ikon:"📄", etiket:"Fatura ve Ödeme Takip", aksiyon:"fatura", rozet:rozetler.fatura},
       {ikon:"🕐", etiket:"İşlem Geçmişi", aksiyon:"gecmis", rozet:rozetler.gecmis},
       {ikon:"📋", etiket:"Görevlerim", aksiyon:"gorev", rozet:rozetler.gorev},
       {ikon:"📦", etiket:"Ürün Geçmişi", aksiyon:"urun", rozet:rozetler.urun},

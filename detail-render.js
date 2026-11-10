@@ -1,5 +1,5 @@
 /*
-  detail-render.js — TKP.08.11.26-12:34.1504
+  detail-render.js — TKP.10.11.26-11:51.1540
   ================
   Seçili müşterinin bilgilerini, sipariş geçmişini (ReportsData.sonIslemler
   üzerinden filtrelenmiş) ve ziyaret geçmişini gösterir.
@@ -192,7 +192,9 @@ function faturaTakipCiz(){
       bakiyeEl.hidden = true;
     }
 
-    kok.innerHTML = ogeler.map(function(o){ return VadeTakipUI.satirHTML(o, {gosterMusteri:false}); }).join("");
+    // Ortak satırlar (odeme-vade-ui.js): ödeme günü + kalan/geçen gün rozeti, ödeme tarihine göre.
+    kok.innerHTML = (typeof OdemeVadeUI !== "undefined" && OdemeVadeUI.faturaListesiHTML(ogeler))
+      || ogeler.map(function(o){ return VadeTakipUI.satirHTML(o, {gosterMusteri:false}); }).join("");
     faturaTakipOzetiGuncelle();
   }catch(e){ hataGoster("Fatura Takip listesi çizilemedi: " + e.message); }
 }

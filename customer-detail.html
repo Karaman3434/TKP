@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.09.11.26-12:06.1522 — customer-detail.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.10.11.26-11:51.1540 — customer-detail.html -->
 <!--
   İŞ TAKİP — MÜŞTERİ KARTI / İŞLEMLER v4
   ==============================================
@@ -47,7 +47,8 @@
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="send-style.css?v=TKP.08.11.26-22:53.1517">
 <link rel="stylesheet" href="belge-style.css?v=TKP.05.11.26-13:08.1486">
-<link rel="stylesheet" href="vade-takip-style.css?v=WG.230926.0954.605">
+<link rel="stylesheet" href="vade-takip-style.css?v=TKP.10.11.26-09:30.1537">
+<link rel="stylesheet" href="odeme-vade-style.css?v=TKP.10.11.26-09:30.1537">
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.09.11.26-23:35.1532">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.08.11.26-13:14.1505">
@@ -146,7 +147,7 @@
        altında; dokununca bu müşterinin sipariş/vade listesini açar. -->
   <div class="islemler-tile" id="tileFaturaTakip">
     <div class="islemler-tile-icerik">
-      <div class="islemler-tile-baslik islemler-tile-baslik--kirmizi">📄 Fatura Takip - Vade - Ödeme</div>
+      <div class="islemler-tile-baslik islemler-tile-baslik--kirmizi">📄 Fatura ve Ödeme Takip</div>
       <div class="islemler-tile-alt" id="faturaTakipAlt"></div>
     </div>
     <div class="islemler-tile-sag">
@@ -213,7 +214,7 @@
   <div class="tip-secim-overlay" id="faturaTakipOverlay" hidden>
     <div class="tip-secim-kutu" style="max-height:80vh; overflow-y:auto;">
       <div class="tip-secim-baslik ft-baslik-satir">
-        <span>📄 Fatura Takip</span>
+        <span>📄 Fatura ve Ödeme Takip</span>
         <span class="ft-vade-rozet" id="ftVadeRozet" hidden><span class="ft-vade-e">VADE</span><span class="ft-vade-d" id="ftVadeDeger">—</span></span>
       </div>
       <div class="vt-bakiye-uyari" id="ftBakiye" hidden>
@@ -249,12 +250,14 @@
 <script src="musteri-serit.js?v=TKP.05.11.26-13:08.1486"></script>
 <script src="reports-data.js?v=TKP.05.11.26-11:20.1481"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1338.87"></script>
-<script src="vade-takip-data.js?v=WG.220926.0900.593"></script>
+<script src="vade-takip-data.js?v=TKP.10.11.26-09:30.1537"></script>
 <script src="vade-takip-ui.js?v=WG.230926.0954.605"></script>
+<script src="tarih-secici.js?v=TKP.10.11.26-09:30.1537"></script>
+<script src="odeme-vade-ui.js?v=TKP.10.11.26-11:51.1540"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
-<script>document.addEventListener("DOMContentLoaded", function(){ var acEt = new URLSearchParams(window.location.search).get("ac"); RotaTakip.kaydet("customer-detail.html", acEt === "fatura" ? "📄 Fatura Takip" : acEt === "gorev" ? "📋 Görevlerim" : acEt === "urun" ? "📦 Ürün Geçmişi" : "📋 İşlemler"); RotaTakip.ciz("rotaSeridi"); });</script>
-<script src="detail-render.js?v=TKP.08.11.26-12:34.1504"></script>
+<script>document.addEventListener("DOMContentLoaded", function(){ var acEt = new URLSearchParams(window.location.search).get("ac"); RotaTakip.kaydet("customer-detail.html", acEt === "fatura" ? "📄 Fatura ve Ödeme Takip" : acEt === "gorev" ? "📋 Görevlerim" : acEt === "urun" ? "📦 Ürün Geçmişi" : "📋 İşlemler"); RotaTakip.ciz("rotaSeridi"); });</script>
+<script src="detail-render.js?v=TKP.10.11.26-11:51.1540"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
 <script>
   window.BEKLEYEN_ISLEM_AYAR = {
@@ -266,6 +269,6 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <script src="bekleyen-islemler.js?v=TKP.01.11.26-18:36.1335"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
-<script src="menu-cekmece.js?v=TKP.08.11.26-23:35.1519"></script>
+<script src="menu-cekmece.js?v=TKP.10.11.26-11:51.1540"></script>
 </body>
 </html>
