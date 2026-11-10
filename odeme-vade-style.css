@@ -1,4 +1,4 @@
-/* odeme-vade-style.css — TKP.10.11.26-13:04.1546
+/* odeme-vade-style.css — TKP.10.11.26-13:13.1547
    ÖDEME · VADE müşteri alanı + küçük takvim açılır penceresi (10.11.2026, Abdullah onayı — mockup).
    Arama/giriş kutuları ortak oval-kırmızı dilini (arama-stili.css değişkenleri) kullanır. */
 
@@ -104,3 +104,6 @@
 .fn-liste-satir { display:flex; align-items:flex-start; gap:8px; }
 .fn-liste-y { flex:1; min-width:0; word-break:break-word; }
 .ov-s .fn-form { margin:2px 0 4px; }
+
+/* İşlem satırlarındaki fatura açıklaması (odemeEtiketiHTML) */
+.ov-etiket--not { background:#eaf1fe; color:#1257c7; font-weight:600; white-space:normal; width:auto; max-width:100%; line-height:1.3; }
