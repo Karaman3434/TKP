@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.11.11.26-14:20.1566
+// menu-cekmece.js — TKP.11.11.26-17:44.1575
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -122,11 +122,10 @@ var MC_OGELER = [
   // yok (customer.html'de arama herkese "musteriBul" ile açık).
   { anahtarlar: ["sepet"], ikon: "🔍", renk: "#5dade2", etiket: "Ürün", altMenu: "urun", miniArama: "urun", miniAramaIzin: "sepetAramaGoster" },
   { anahtarlar: ["musteriBul"], ikon: "👥", renk: "#5dade2", etiket: "Müşteri", altMenu: "musteri", miniArama: "musteri" },
-  { anahtarlar: ["islemGecmisi"], ikon: "🕐", etiket: "Son İşlemler", href: "son-islemler.html" },
   { anahtarlar: ["markaKarsilastirma"], ikon: "🔄", renk: "#5dade2", etiket: "Marka Karşılaştırma", href: "marka-karsilastirma.html" },
   { anahtarlar: ["kmTakip"], ikon: "🚗", renk: "#ec7063", etiket: "Araç KM", altMenu: "arackm", aracKmDurum: true },
   { anahtarlar: ["raporlar", "satisListesi", "hareketler", "ziyaret", "takipGerekenler"], ikon: "📊", renk: "#f5b041", etiket: "Raporlar", altMenu: "raporlar" },
-  { anahtarlar: ["vadeTakip"], ikon: "📄", etiket: "Fatura · Vade · Ödeme Takip", href: "vade-takip.html" },
+  { anahtarlar: ["vadeTakip"], ikon: "📄", etiket: "Ödeme Takip", href: "vade-takip.html" },
   { anahtarlar: ["maasHesaplama", "netMaasHesaplama", "avansTakibi", "odenebilirKomisyon"], ikon: "🔒", renk: "#f5c451", etiket: "Kişisel", altMenu: "kisisel" }
 ];
 var MC_ANASAYFA_ANAHTAR = "anaSayfa";
@@ -959,7 +958,7 @@ function mcOgeHtml(o){
     return "<div class='as-drawer-oge as-drawer-oge--miniarama'>"
       + ikHtml
       + "<button type='button' class='as-drawer-mini-etiket' data-alt-menu='" + o.altMenu + "'>" + o.etiket + "</button>"
-      + "<input type='search' class='as-drawer-mini-arama-input-sabit' data-mini-arama='" + o.miniArama + "' placeholder='Ara...' autocomplete='off'>"
+      + "<input type='search' class='as-drawer-mini-arama-input-sabit' data-mini-arama='" + o.miniArama + "' placeholder='" + o.etiket + " ara' autocomplete='off'>"
       + "</div>";
   }
 

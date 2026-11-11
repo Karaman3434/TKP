@@ -1,4 +1,4 @@
-/* odeme-vade-style.css — TKP.11.11.26-16:29.1574
+/* odeme-vade-style.css — TKP.11.11.26-17:44.1575
    ÖDEME · VADE müşteri alanı + küçük takvim açılır penceresi (10.11.2026, Abdullah onayı — mockup).
    Arama/giriş kutuları ortak oval-kırmızı dilini (arama-stili.css değişkenleri) kullanır. */
 
@@ -128,3 +128,11 @@
   border-left:1.5px solid #1257c7; border-top:1.5px solid #1257c7; transform:rotate(45deg); }
 /* kilitli satırda not yoksa yalnız Sil düğmesi sağa yaslı */
 .vt-satir--kilit .fn-not-y:empty { display:block; }
+
+/* ÖZET SATIRI (11.11.2026, Abdullah isteği): "N açık fatura ... KDV dahil 1.376,29 EURO (77.513,46 TL)" — tek satır; dar ekranda TL kendiliğinden alta iner */
+.ov-ozet { flex-wrap:wrap; gap:2px 10px; }
+.ov-ozet em { margin-left:auto; text-align:right; }
+.vt-tek small { font-size:10px; font-weight:700; color:#7a8797; margin-right:2px; }
+.vt-tek b { font-weight:800; }
+.vt-tek i { font-style:normal; font-size:12px; font-weight:700; color:#5b6b7f; white-space:nowrap; }
+.ov-ozet .vt-tek b { color:#042c53; font-size:15px; }

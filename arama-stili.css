@@ -1,5 +1,5 @@
 /*
-  arama-stili.css — TKP.08.11.26-11:06.1501
+  arama-stili.css — TKP.11.11.26-17:44.1575
   =========================================
   TÜM ARAMA KUTULARI VE FİLTRELER İÇİN TEK, ORTAK GÖRÜNÜM (08.11.2026,
   Abdullah onayı — mockup üzerinden: "Tüm programdaki arama motoru ve
@@ -133,3 +133,55 @@
   color:var(--ak-yazi) !important;
   outline:none !important;
 }
+
+/* ============================================================================
+   ARAMA KUTUSU — 11.11.2026 (Abdullah isteği): ZEMİN BEYAZ, çerçeve kırmızı kalır;
+   satır başında HAFİF GRİ büyüteç + ne arandığını söyleyen gri etiket ("Müşteri ara"
+   gibi — input'un placeholder'ı). Yazı yazılınca büyüteç ve etiket kaybolur.
+   Etiket metni her kutunun kendi placeholder'ındadır; büyüteç buradan, TEK yerden gelir.
+   (Filtre düğmeleri/seçim kutuları eski hafif kırmızı zeminde kalır.)
+   ============================================================================ */
+:root{ --ak-arama-zemin:#fff; --ak-arama-yer:#9aa3ae; }
+.arama-kutusu input,
+.musteri-sehir-filtre-kutu input,
+.gorev-arama-kutusu input,
+#islemAra,
+.duzenle-urun-arama-input,
+.ht-yaz--ara{
+  background-color:var(--ak-arama-zemin) !important;
+}
+.arama-kutusu input,
+.musteri-sehir-filtre-kutu input,
+.gorev-arama-kutusu input,
+#islemAra,
+.duzenle-urun-arama-input,
+.ht-yaz--ara input{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3abb5' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5L21 21'/%3E%3C/svg%3E") !important;
+  background-repeat:no-repeat !important;
+  background-position:15px 50% !important;
+  background-size:17px 17px !important;
+  padding-left:41px !important;
+}
+.ht-yaz--ara input{ background-color:transparent !important; }
+.arama-kutusu input:not(:placeholder-shown),
+.musteri-sehir-filtre-kutu input:not(:placeholder-shown),
+.gorev-arama-kutusu input:not(:placeholder-shown),
+#islemAra:not(:placeholder-shown),
+.duzenle-urun-arama-input:not(:placeholder-shown),
+.ht-yaz--ara input:not(:placeholder-shown){
+  background-image:none !important;
+  padding-left:18px !important;
+}
+.arama-kutusu input::placeholder,
+.musteri-sehir-filtre-kutu input::placeholder,
+.gorev-arama-kutusu input::placeholder,
+#islemAra::placeholder,
+.duzenle-urun-arama-input::placeholder,
+.ht-yaz--ara input::placeholder{
+  color:var(--ak-arama-yer) !important;
+  opacity:1;
+  font-weight:500;
+}
+/* eski emoji büyüteç (sağdaki) artık gereksiz — yerine soldaki gri çizgi büyüteç var */
+.arama-kutusu .arama-ikon,
+.ht-yaz--ara > span{ display:none !important; }

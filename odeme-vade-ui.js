@@ -1,5 +1,5 @@
 /*
-  odeme-vade-ui.js — TKP.11.11.26-16:29.1574
+  odeme-vade-ui.js — TKP.11.11.26-17:44.1575
   ===========================================
   ÖDEME · VADE müşteri alanı (10.11.2026, Abdullah onayı — mockup). TEK YERDE:
   Vade Takip sayfasında bir müşteriye dokununca açılan alan VE Cari Bilgi
@@ -309,7 +309,7 @@ var OdemeVadeUI = (function(){
     var acik = sirali.filter(function(o){ return !o.odendi; });
     var gecikmis = acik.filter(function(o){ return o.durum === "gecti"; }).length;
     var toplam = acik.reduce(function(s,o){ return s + o.tutar; }, 0);
-    var h = "<div class='ov-ozet'><span>" + acik.length + " açık fatura" + (gecikmis ? " · <b>" + gecikmis + " gecikmiş</b>" : "") + "</span><em>" + VadeTakip.tutarHTML(toplam) + "</em></div>";
+    var h = "<div class='ov-ozet'><span>" + acik.length + " açık fatura" + (gecikmis ? " · <b>" + gecikmis + " gecikmiş</b>" : "") + "</span><em>" + VadeTakip.tutarSatirHTML(toplam) + "</em></div>";
     h += "<div class='ov-fb'>Faturalar · ödeme tarihine göre</div>";
     h += sirali.length ? "<div class='vt-grup ov-faturalar'>" + sirali.map(function(o){ return faturaSatiri(o); }).join("") + "</div>"
       : "<div class='ov-bos'>Bu müşteride vade günü tanımlı fatura yok.</div>";
@@ -398,7 +398,7 @@ var OdemeVadeUI = (function(){
     var B = VadeTakipUI.GRUP_BASLIK;
     var h = "<div class='vt-kdv-not' style='margin:2px 4px 8px;padding:6px 10px;font-size:12.5px;font-weight:700;color:#4a5a6e;text-align:center;background:#eef3f9;border-radius:10px;'>"
       + (vadeGun != null ? "Vade " + vadeGun + " gün · " : "") + esc(VadeTakip.kdvNotu()) + "</div>";
-    h += "<div class='ov-ozet' style='margin:0 4px 6px;'><span>" + acik.length + " açık fatura" + (gecikmis ? " · <b>" + gecikmis + " gecikmiş</b>" : "") + "</span><em>" + VadeTakip.tutarHTML(toplam) + "</em></div>";
+    h += "<div class='ov-ozet' style='margin:0 4px 6px;'><span>" + acik.length + " açık fatura" + (gecikmis ? " · <b>" + gecikmis + " gecikmiş</b>" : "") + "</span><em>" + VadeTakip.tutarSatirHTML(toplam) + "</em></div>";
     ["gecti","bugun","yaklasiyor","var","odendi"].forEach(function(id){
       var liste = id === "odendi" ? vadeli.filter(function(o){ return o.odendi; }) : acik.filter(function(o){ return o.durum === id; });
       if(!liste.length) return;

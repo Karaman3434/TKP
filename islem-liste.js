@@ -1,5 +1,5 @@
 /*
-  islem-liste.js — TKP.11.11.26-14:20.1566
+  islem-liste.js — TKP.11.11.26-17:44.1575
   ==========================================================================
   ORTAK İŞLEM LİSTESİ (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır
   filtre" turu; mockup: Son İşlemler satır tasarımı + arama kutusu yanında
@@ -223,8 +223,8 @@ var IslemListesi = (function(){
     // ---- Çubuk + pencere + liste iskeleti --------------------------------
     kok.innerHTML =
       "<div class='islem-filtre-satiri il-filtre-satiri' id='ilFiltreSatiri'>"
-      + "<input type='text' id='islemAra' placeholder='Müşteri adıyla ara...' autocomplete='off'>"
-      + (opts.tarihKilitli ? "" : "<div id='tarihFiltreYeri'></div>")
+      + "<input type='text' id='islemAra' placeholder='Müşteri ara' autocomplete='off'>"
+      + (opts.tarihKilitli ? "" : "<div id='tarihFiltreYeri' hidden></div>")   // 11.11.2026: ayrı Tarih düğmesi YOK — tarih seçimi Filtre penceresinde
       + "<button type='button' class='il-f-btn' id='ilFiltreBtn' aria-label='Filtreler' aria-expanded='false'>" + FILTRE_IKONU + "<b class='il-f-rozet' id='ilFiltreRozet' hidden></b></button>"
       + "</div>"
       + "<div class='il-dim' id='ilDim' hidden></div>"
@@ -260,8 +260,15 @@ var IslemListesi = (function(){
       };
     }
 
+    var ozelBas = "", ozelBit = "";   // Filtre penceresindeki özel aralık girişleri (yeniden çizimde korunur)
+    function tarihStr(str){
+      var p = (str || "").split("-"); if(p.length !== 3) return null;
+      var d = new Date(parseInt(p[0],10), parseInt(p[1],10)-1, parseInt(p[2],10));
+      return isNaN(d.getTime()) ? null : d;
+    }
     function aktifFiltreSayisi(){
       var n = 0;
+      if(tarihKontrol && taban.tarihBas == null && tarihSecimi() !== "tumu") n++;
       if(!taban.tip && durum.tip) n++;
       if(!taban.durum && durum.durum) n++;
       if(durum.musteriId || durum.musteriAd) n++;
@@ -308,7 +315,7 @@ var IslemListesi = (function(){
       if(etkinTip) parcalar.push(TIP_ETIKET[etkinTip]);
       if(etkinDurum === "kacan") parcalar.push("Kaçanlar");
       if(etkinDurum === "bekleyen") parcalar.push(TipEtiket.kisa.stok + " ve " + TipEtiket.kisa.bakiye);
-      if(taban.tarihBas == null && !taban.ayAd && tarihSecimi() !== "tumu") parcalar.push(TARIH_ETIKET[tarihSecimi()] || "");
+      if(taban.tarihBas == null && !taban.ayAd && tarihSecimi() !== "tumu") parcalar.push(TARIH_ETIKET[tarihSecimi()] || "Özel Aralık");
       if(durum.kanal) parcalar.push(durum.kanal === "yok" ? "Kanal yok" : (durum.kanal === "mail" ? "Mail" : "WhatsApp"));
       return parcalar.length ? parcalar.join(" · ") : "Tüm işlemler";
     }
@@ -336,6 +343,14 @@ var IslemListesi = (function(){
         h += "<h5>HAZIR TUŞLAR</h5><div class='il-r'>" + hazirListe.map(function(p){
           return "<button type='button' class='il-c" + (p.id === eslesen ? " il-c--on" : "") + "' data-act='hazir' data-id='" + p.id + "'>" + htmlEsc(p.etiket) + "</button>";
         }).join("") + "</div>";
+      }
+      if(tarihKontrol && taban.tarihBas == null){
+        var ts = tarihSecimi();
+        h += "<h5>TARİH</h5><div class='il-r'>" + [["bugun","Bugün"],["bu_hafta","Bu Hafta"],["bu_ay","Bu Ay"],["bu_yil","Bu Yıl"],["tumu","Tümü"]].map(function(t){
+          return "<button type='button' class='il-c" + (ts === t[0] ? " il-c--on" : "") + "' data-act='tarih' data-v='" + t[0] + "'>" + t[1] + "</button>";
+        }).join("") + "</div>"
+          + "<div class='il-tarih-ozel'><input type='date' class='tarih-filtre-input' data-ozel='bas' value='" + ozelBas + "' aria-label='Başlangıç tarihi'>"
+          + "<span>–</span><input type='date' class='tarih-filtre-input' data-ozel='bit' value='" + ozelBit + "' aria-label='Bitiş tarihi'></div>";
       }
       if(!taban.tip){
         h += "<h5>TÜR</h5><div class='il-r'><button type='button' class='il-c" + (!durum.tip ? " il-c--on" : "") + "' data-act='tip' data-v=''>Tümü</button>"
@@ -392,6 +407,7 @@ var IslemListesi = (function(){
       durum.musteriId = ""; durum.musteriAd = ""; durum.kanal = ""; durum.siralama = "yeni";
       aramaEl.value = "";
       if(tarihKontrol && taban.tarihBas == null) tarihKontrol.sec("tumu");
+      ozelBas = ""; ozelBit = "";
     }
 
     panelEl.addEventListener("click", function(ev){
@@ -401,6 +417,7 @@ var IslemListesi = (function(){
       if(act === "kapat"){ panelKapat(); return; }
       if(act === "hazir") hazirUygula(el.getAttribute("data-id"));
       else if(act === "tip") durum.tip = el.getAttribute("data-v") || "";
+      else if(act === "tarih"){ if(tarihKontrol){ tarihKontrol.sec(el.getAttribute("data-v") || "tumu"); ozelBas = ""; ozelBit = ""; } }
       else if(act === "kacan") durum.durum = (durum.durum === "kacan") ? "" : "kacan";
       else if(act === "sira") durum.siralama = el.getAttribute("data-v") || "yeni";
       else if(act === "musteri-kaldir"){ durum.musteriId = ""; durum.musteriAd = ""; }
@@ -410,6 +427,17 @@ var IslemListesi = (function(){
     });
     panelEl.addEventListener("change", function(ev){
       var el = ev.target;
+      // Özel aralık: iki tarih de seçilince kendiliğinden uygulanır (Uygula düğmesi yok)
+      if(el && el.getAttribute && el.getAttribute("data-ozel")){
+        if(el.getAttribute("data-ozel") === "bas") ozelBas = el.value; else ozelBit = el.value;
+        var b = tarihStr(ozelBas), t = tarihStr(ozelBit);
+        if(b && t && tarihKontrol){
+          if(b.getTime() > t.getTime()){ if(typeof hata === "function") hata("Başlangıç tarihi, bitiş tarihinden sonra olamaz."); return; }
+          tarihKontrol.sec("ozel", b, t);
+          ciz();
+        }
+        return;
+      }
       if(el && el.getAttribute && el.getAttribute("data-act") === "bekleme"){
         durum.beklemedeDahil = !!el.checked;
         if(opts.beklemedeAnahtar){ try{ localStorage.setItem(opts.beklemedeAnahtar, durum.beklemedeDahil ? "1" : "0"); }catch(e){} }

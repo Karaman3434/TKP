@@ -1,4 +1,4 @@
-/* islem-liste-style.css — TKP.11.11.26-14:20.1566
+/* islem-liste-style.css — TKP.11.11.26-17:44.1575
    ORTAK İŞLEM LİSTESİ STİLİ (02.11.2026, Abdullah onayı): Son İşlemler,
    Satış Listesi, Ay Detay ve Kaçan Satışlar artık bu TEK dosyadan stillenir
    (islem-liste.js). Satır / gün bandı / rozet kuralları, onaylı "Son
@@ -209,3 +209,8 @@
 .sr-tl-kdv { font-size: 11.2px; font-weight: 800; color: #d62828; white-space: nowrap; line-height: 1.1; margin-left: 2px; }
 /* GÜN TOPLAMI +%20 (11.11.2026, Abdullah onayı): şerit boyu aynı kalır (satır yüksekliği sınırlı). */
 #islemlerListesi .sr-grup-baslik span:last-child { font-size: 13.77px; line-height: 13.77px; height: 13.77px; display: inline-flex; align-items: center; }
+
+/* TARİH BÖLÜMÜ (11.11.2026, Abdullah isteği): Tarih ve Filtre düğmeleri tek Filtre düğmesinde birleşti */
+.il-tarih-ozel { display:flex; align-items:center; gap:8px; margin-top:8px; }
+.il-tarih-ozel span { color:#6b7280; font-weight:700; }
+.il-tarih-ozel .tarih-filtre-input { flex:1; min-width:0; height:38px; box-sizing:border-box; padding:0 10px; font-size:13px; font-family:inherit; border-radius:999px; }

@@ -1,5 +1,5 @@
 /*
-  vade-takip-data.js — TKP.11.11.26-16:09.1573
+  vade-takip-data.js — TKP.11.11.26-17:44.1575
   ========================================
   FATURA · VADE · ÖDEME TAKİBİ — merkezi hesaplama modülü.
 
@@ -237,6 +237,12 @@ var VadeTakip = (function(){
       + (kur ? "<span style='font-size:11.5px;font-weight:700;color:#5b6b7f;'>" + tutarFmt(v * kur) + " TL</span>" : "")
       + "</span>";
   }
+  // TEK SATIR tutar (11.11.2026, Abdullah isteği): "KDV dahil 1.376,29 EURO (77.513,46 TL)" — özet satırları için.
+  function tutarSatirHTML(euroHaric){
+    var v = kdvli(euroHaric), kur = kurDegeri();
+    return "<span class='vt-tek'><small>KDV dahil</small> <b>" + tutarFmt(v) + " EURO</b>"
+      + (kur ? " <i>(" + tutarFmt(v * kur) + " TL)</i>" : "") + "</span>";
+  }
   function kdvNotu(){
     var kur = kurDegeri();
     return "Tüm tutarlar %" + tutarFmt(kdvOrani()).replace(/,00$/, "") + " KDV dahil" + (kur ? " · TL karşılığı günün kuruyla (" + tutarFmt(kur) + ")" : "");
@@ -349,7 +355,7 @@ var VadeTakip = (function(){
     kdvli: kdvli,
     kdvOrani: kdvOrani,
     kurDegeri: kurDegeri,
-    tutarHTML: tutarHTML,
+    tutarHTML: tutarHTML, tutarSatirHTML: tutarSatirHTML,
     kdvNotu: kdvNotu,
     odemeBilgisiFn: odemeBilgisiFn,
     tarihAnahtari: tarihAnahtari,

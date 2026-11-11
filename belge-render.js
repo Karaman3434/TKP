@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.11.11.26-14:20.1566
+  belge-render.js — TKP.11.11.26-17:44.1575
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -998,7 +998,7 @@ function duzenlemeAc(k){
       + "</div>"
       + "<button type='button' class='duzenle-urun-degistir-link' data-degistir-i='" + i + "'>🔄 Ürünü Değiştir</button>"
       + "<div class='duzenle-urun-arama' id='duzenleUrunArama-" + i + "' hidden>"
-      + "<input type='text' class='duzenle-urun-arama-input' data-arama-i='" + i + "' placeholder='Ürün adı veya kod ara...'>"
+      + "<input type='text' class='duzenle-urun-arama-input' data-arama-i='" + i + "' placeholder='Ürün ara'>"
       + "<div class='duzenle-urun-arama-sonuc' id='duzenleUrunAramaSonuc-" + i + "'></div>"
       + "</div>"
       + "<div class='duzenle-alan-grid'>"

@@ -1,5 +1,5 @@
 /*
-  tarih-filtre.js — TKP.02.11.26-13:55.1395
+  tarih-filtre.js — TKP.11.11.26-17:44.1575
   =====================================
   TEK, PAYLAŞILAN tarih filtresi bileşeni (21.10.2026, Abdullah onayı —
   mockup üzerinden onaylandı). Son İşlemler, Müşteri Geçmişi, Satışlarım,
@@ -169,8 +169,8 @@ var TarihFiltre = (function(){
       // sec() filtre değiştiğinde `degisti` geri çağrısını ÇAĞIRMAZ — çağıran
       // kendi listesini zaten kendisi yeniden çizer. Mevcut kullanıcılar
       // (gecmis, bakiye-urunler...) bu yöntemleri kullanmadığı için etkilenmez.
-      sec: function(secim){
-        state.secim = secim || "tumu"; state.ozelBas = null; state.ozelBit = null;
+      sec: function(secim, ozelBas, ozelBit){   // 11.11.2026: "ozel" için başlangıç/bitiş tarihi de verilebilir
+        state.secim = secim || "tumu"; state.ozelBas = ozelBas || null; state.ozelBit = ozelBit || null;
         butonuGuncelle();
       },
       aralik: function(){ return aktifAralik ? { bas: aktifAralik.bas, bit: aktifAralik.bit } : null; },
