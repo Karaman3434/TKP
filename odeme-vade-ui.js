@@ -1,5 +1,5 @@
 /*
-  odeme-vade-ui.js — TKP.11.11.26-17:44.1575
+  odeme-vade-ui.js — TKP.11.11.26-18:32.1577
   ===========================================
   ÖDEME · VADE müşteri alanı (10.11.2026, Abdullah onayı — mockup). TEK YERDE:
   Vade Takip sayfasında bir müşteriye dokununca açılan alan VE Cari Bilgi
@@ -182,7 +182,7 @@ var OdemeVadeUI = (function(){
       CustomerData.ziyaretEkle(f.musteriAd, metin, "telefon", null, function(ok, err){
         if(!ok){ bitti(false, err); return; }
         VadeTakip.odendiToggle(f.ts, true, function(ok2, err2){ bitti(!!ok2, err2); });
-      }, f.musteriId || undefined, {faturaTs: f.ts, faturaKod: f.kod});
+      }, f.musteriId || undefined, {faturaTs: f.ts, faturaKod: f.kod, odemeNotu: true});
       return;
     }
     // Hatırlatma tarihi seçildiyse kayıt "ödeme planı" sayılır (odeme:true → Vade Takip'te ÖDEME PLANLANDI grubu).

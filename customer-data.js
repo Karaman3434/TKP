@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.11.11.26-15:17.1569
+  customer-data.js — TKP.11.11.26-18:32.1577
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -256,6 +256,8 @@ var CustomerData = (function(){
       if(ekAlan && ekAlan.odeme) kayit.odeme = true;
       // 10.11.2026 (Abdullah isteği — Fatura ve Ödeme Takip): bu temas BELİRLİ BİR FATURAYA yazılmış açıklamadır (faturaTs = sipariş kaydının ts'i, faturaKod = belge kodu).
       if(ekAlan && ekAlan.faturaTs){ kayit.faturaTs = ekAlan.faturaTs; if(ekAlan.faturaKod) kayit.faturaKod = ekAlan.faturaKod; }
+      // 11.11.2026: ÖDEME NOTU (ödendi işaretlenirken yazılan) — takvimde Telefon teması DEĞİL, "Ödeme alındı" satırı olarak görünür.
+      if(ekAlan && ekAlan.odemeNotu) kayit.odemeNotu = true;
       tazeListe[idx].ziyaretGecmisi.push(kayit);
       tazeListe[idx].ziyaretGecmisi.sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
       tazeListe[idx].sonZiyaret = tazeListe[idx].ziyaretGecmisi[0].ts;
@@ -324,7 +326,7 @@ var CustomerData = (function(){
       (m.ziyaretGecmisi||[]).forEach(function(z, i){
         sonuc.push({
           musteri: m.ad, musteriId: m.id||null, sehir: m.sehir||"", ts: z.ts, not: z.not||"",
-          tur: z.tur||"ziyaret", hatirlatmaTarihi: z.hatirlatmaTarihi||null, odeme: !!z.odeme, faturaTs: z.faturaTs||null, faturaKod: z.faturaKod||"", guncelTs: z.guncelTs||null, kayitIndex: i
+          tur: z.tur||"ziyaret", hatirlatmaTarihi: z.hatirlatmaTarihi||null, odeme: !!z.odeme, faturaTs: z.faturaTs||null, faturaKod: z.faturaKod||"", odemeNotu: !!z.odemeNotu, guncelTs: z.guncelTs||null, kayitIndex: i
         });
       });
     });

@@ -1,5 +1,5 @@
 /*
-  home-takvim-render.js — TKP.11.11.26-17:44.1575
+  home-takvim-render.js — TKP.11.11.26-18:32.1577
   =================================================
   ANA SAYFA TAKVİMİ.
 
@@ -57,6 +57,7 @@
     try{
       if(typeof CustomerData === "undefined") return s;
       CustomerData.tumZiyaretTemaslar().forEach(function(z){
+        if(z.odemeNotu) return;   // ödeme notu: "Ödeme alındı" satırında gösterilir (11.11.2026)
         var d = new Date(z.ts);
         var a = anahtar(d.getFullYear(), d.getMonth(), d.getDate());
         var t = TUR_T[z.tur] ? z.tur : "ziyaret";
@@ -79,8 +80,14 @@
     });
     return {tur: sonuc, toplam: toplam};
   }
+  // Alınan ödemeler (faturası ödendi yapılanlar) — gün anahtarına göre; gün sayısına ve gün penceresine eklenir.
+  function odemeGunleri(){
+    try{ return (typeof VadeTakip !== "undefined" && VadeTakip.odemeGunleri) ? VadeTakip.odemeGunleri() : {}; }catch(e){ return {}; }
+  }
   function islemSayisi(a){
-    try{ return (typeof IsTakipData !== "undefined" && IsTakipData.gunlukIslemSayilari) ? (IsTakipData.gunlukIslemSayilari()[a] || 0) : 0; }catch(e){ return 0; }
+    var n = 0;
+    try{ n = (typeof IsTakipData !== "undefined" && IsTakipData.gunlukIslemSayilari) ? (IsTakipData.gunlukIslemSayilari()[a] || 0) : 0; }catch(e){ n = 0; }
+    return n + (odemeGunleri()[a] || []).length;
   }
   // Gün başına rozet/“Temas” sayısı: temas (müşteri + defter) + işlem — Ziyaret Takvimi'ndeki mavi sayı gibi.
   function temasSayilari(){
@@ -93,6 +100,8 @@
         var is = IsTakipData.gunlukIslemSayilari();
         Object.keys(is).forEach(function(a){ s[a] = (s[a] || 0) + is[a]; });
       }
+      var od = odemeGunleri();
+      Object.keys(od).forEach(function(a){ s[a] = (s[a] || 0) + od[a].length; });
     }catch(e){}
     return s;
   }
@@ -289,6 +298,7 @@
   // Üst: tür logoları (aynı zamanda yeni kaydın türü). Çizgili kâğıtta günün temas satırları
   // (+ eski serbest defter satırları), "İŞLEMLER" ve altta "YENİ KAYIT": firma ara, not, hatırlatma, Kaydet.
   // Kayıt müşterinin temas geçmişine CustomerData.ziyaretEkle ile yazılır (Ziyaret Takvimi ile aynı kaynak).
+  function tutarYaz(v){ return (Math.round((v || 0) * 100) / 100).toLocaleString("tr-TR", {minimumFractionDigits:2, maximumFractionDigits:2}) + " €"; }
   function hhmm(ts){ var d = new Date(ts); return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
   function miniIk(t){ return "<span class='ht-mk' style='background:" + TUR_T[t].bg + "'><svg viewBox='0 0 24 24' aria-hidden='true'>" + TUR_T[t].svg + "</svg></span>"; }
   function yarinAnahtar(a){ var p = a.split("-"); var d = new Date(+p[0], +p[1]-1, +p[2]+1); return anahtar(d.getFullYear(), d.getMonth(), d.getDate()); }
@@ -395,6 +405,14 @@
         h += "<div class='ht-ayrac'>İŞLEMLER</div>";
         islemler.forEach(function(k){
           h += "<div class='ht-d-kayit ht-d-islem'><i>" + hhmm(k.ts) + "</i><span class='ht-d-ad'><b>" + kodAd(k.musteriId, k.musteri || "-") + "</b> · " + esc(k.tipAd) + (k.kod ? " " + esc(k.kod) : "") + "</span></div>";
+        });
+      }
+      var odemeler = odemeGunleri()[a] || [];
+      if(odemeler.length){
+        h += "<div class='ht-ayrac'>ÖDEMELER</div>";
+        odemeler.forEach(function(k){
+          h += "<div class='ht-d-kayit ht-d-islem'><i>" + hhmm(k.ts) + "</i><span class='ht-d-ad'><b>" + kodAd(k.musteriId, k.musteri || "-") + "</b> · 💰 Ödeme alındı"
+            + (k.kod ? " " + esc(String(k.kod).split(/\s+/)[0]) : "") + " · " + tutarYaz(k.tutar) + (k.not ? " <em>— " + esc(k.not) + "</em>" : "") + "</span></div>";
         });
       }
       el("htKagit").innerHTML = h;

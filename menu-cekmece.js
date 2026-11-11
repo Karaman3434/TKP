@@ -314,7 +314,7 @@ function mcMusteriModulunuYukle(hazirOlunca){
   if(mcMusteriModulYukleniyor) return;
   mcMusteriModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "customer-data.js?v=TKP.11.11.26-15:17.1569";
+  s.src = "customer-data.js?v=TKP.11.11.26-18:32.1577";
   s.onload = function(){
     mcMusteriDinleyiciyiBagla();
     mcMusteriModulBekleyenler.forEach(function(fn){ fn(); });

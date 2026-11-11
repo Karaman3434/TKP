@@ -1,5 +1,5 @@
 /*
-  vade-takip-data.js — TKP.11.11.26-17:44.1575
+  vade-takip-data.js — TKP.11.11.26-18:32.1577
   ========================================
   FATURA · VADE · ÖDEME TAKİBİ — merkezi hesaplama modülü.
 
@@ -333,6 +333,32 @@ var VadeTakip = (function(){
     };
   }
 
+  // ALINAN ÖDEMELER (11.11.2026, Abdullah isteği): faturası ödendi yapılan her sipariş, ödemenin alındığı GÜNE kayıt düşer
+  // (Ana Sayfa takvimi: gün sayısı + gün penceresi). Kaynak: sipariş kaydındaki odendi + odendiTs — ayrı bir yerde saklanmaz.
+  // Dönüş: {"YYYY-AA-GG": [{ts, faturaTs, kod, musteri, musteriId, tutar(KDV dahil EURO), not}]}
+  function odemeGunleri(){
+    var sonuc = {}, notlar = {};
+    try{
+      if(typeof CustomerData !== "undefined" && CustomerData.tumZiyaretTemaslar){
+        CustomerData.tumZiyaretTemaslar().forEach(function(z){
+          if(z.faturaTs && (!notlar[z.faturaTs] || z.ts > notlar[z.faturaTs].ts)) notlar[z.faturaTs] = z;
+        });
+      }
+    }catch(e){}
+    (ReportsData.tumSiparisler() || []).forEach(function(k){
+      if(!k.odendi || !k.odendiTs) return;
+      var d = new Date(k.odendiTs);
+      var a = d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+      var n = notlar[k.ts];
+      (sonuc[a] = sonuc[a] || []).push({
+        ts: k.odendiTs, faturaTs: k.ts, kod: k.kod, musteri: k.musteri, musteriId: k.musteriId || null,
+        tutar: kdvli(kayitTutari(k)), not: n ? String(n.not || "").replace(/^\[[^\]]*\]\s*/, "") : ""
+      });
+    });
+    Object.keys(sonuc).forEach(function(a){ sonuc[a].sort(function(x, y){ return y.ts - x.ts; }); });
+    return sonuc;
+  }
+
   function odendiToggle(ts, yeniDurum, geriBildir){
     ReportsData.kaydiAlanGuncelle("siparis", ts, {
       odendi: !!yeniDurum,
@@ -347,6 +373,7 @@ var VadeTakip = (function(){
     musteriIcin: musteriIcin,
     musteriGecmisBakiye: musteriGecmisBakiye,
     odendiToggle: odendiToggle,
+    odemeGunleri: odemeGunleri,
     musteriGruplari: musteriGruplari,
     musteriTemaslari: musteriTemaslari,
     odemePlani: odemePlani,
