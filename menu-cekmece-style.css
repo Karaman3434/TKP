@@ -1,5 +1,5 @@
 /*
-  menu-cekmece-style.css — TKP.11.11.26-17:44.1575
+  menu-cekmece-style.css — TKP.11.11.26-19:09.1578
   ============================================================================
   "Menü her sayfada" (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı).
   Bu dosya SADECE net-yeni sınıfları içerir:
@@ -195,7 +195,7 @@
 .as-drawer-mini-sonuc-panel .musteri-karti {
   cursor: pointer;
   display: grid;
-  grid-template-columns: 32px minmax(0,1fr) 42px 24px 38px 14px;
+  grid-template-columns: 42px minmax(0,1fr) 14px;
   align-items: center;
   gap: 4px;
   min-height: 36px;
@@ -204,9 +204,10 @@
   border-left: 3px solid #c3cad4;
 }
 .as-drawer-mini-sonuc-panel .musteri-karti:last-child { border-bottom: none; }
-.as-drawer-mini-sonuc-panel .musteri-kod-h { font-size: 10px; font-weight: 600; color: #c0392b; overflow-wrap: anywhere; }
-.as-drawer-mini-sonuc-panel .musteri-firma-h { font-size: 13.2px;  /* 08.11.2026: müşteri adı +%10 (12px idi) */  font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.as-drawer-mini-sonuc-panel .musteri-konum-h { font-size: 10px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.as-drawer-mini-sonuc-panel .musteri-kod-h { font-size: 10px; font-weight: 600; color: #c0392b; white-space: nowrap; }
+.as-drawer-mini-sonuc-panel .musteri-firma-h { font-size: 14.5px;  /* 11.11.2026: müşteri adı +%10 daha (13.2px idi) */  font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.as-drawer-mini-sonuc-panel .musteri-metin-h { min-width: 0; }
+.as-drawer-mini-sonuc-panel .musteri-konum-h { font-size: 11px; color: #8a93a1; line-height: 1.25; margin-top: 1px; min-width: 0; white-space: normal; overflow-wrap: anywhere; }
 .as-drawer-mini-sonuc-panel .musteri-rozet-h { display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; padding: 2px 1px; border-radius: 5px; text-align: center; line-height: 1; }
 .as-drawer-mini-sonuc-panel .musteri-rozet-h--yok { color: #c3cad4; font-weight: 600; background: none; }
 .as-drawer-mini-sonuc-panel .musteri-tarih-h { font-size: 10px; color: #5f6b7a; font-weight: 600; text-align: right; white-space: nowrap; }
@@ -229,6 +230,7 @@
   padding: 8px 0;
 }
 .as-drawer-mini-sonuc-panel .cm-altmenu-musteri-baslik {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 2px;

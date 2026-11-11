@@ -1,5 +1,5 @@
 /*
-  islem-popup.js — TKP.11.11.26-11:18.1564 (YENİ DOSYA, 08.11.2026)
+  islem-popup.js — TKP.11.11.26-19:09.1578 (YENİ DOSYA, 08.11.2026)
   ============================================================
   "İŞLEM YAP" YENİ ROTASI (Abdullah'ın yazdığı ve onayladığı rota):
     1) Müşteri ara, bul, seç          2) Müşteri işlem kartı (hızlı pencere) açılır
@@ -56,36 +56,36 @@ var IslemPopup = (function(){
     st.id = "ipStil";
     st.textContent =
       ".ip-arka{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(10,25,50,.5);z-index:9500}"
-    + ".ip-pop{position:fixed;left:14px;width:250px;max-width:calc(100vw - 28px);top:84px;margin:0;max-height:calc(100vh - 110px);display:flex;flex-direction:column;background:#fff;border:2px solid #073B70;border-radius:14px;box-shadow:0 8px 26px rgba(0,0,0,.35);z-index:9501;font-family:inherit}"
-    + ".ip-baslik{flex:none;background:#e8eef7;border-radius:12px 12px 0 0;padding:8px 12px;border-bottom:1.5px solid #c9d6e8}"
-    + ".ip-kod{color:#c0392b;font-weight:800;font-size:13px}"
-    + ".ip-ad{color:#0a2f5c;font-weight:800;font-size:15px;line-height:1.25}"
-    + ".ip-sehir{color:#556170;font-weight:600;font-size:12px}"
-    + ".ip-icerik{flex:1 1 auto;min-height:0;overflow-y:auto;padding:2px 6px 0;-webkit-overflow-scrolling:touch}"
-    + ".ip-etiket{display:flex;align-items:center;gap:8px;margin:8px 0 3px;color:#16a085;font-weight:800;font-size:12px;letter-spacing:.3px}"
-    + ".ip-etiket small{font-weight:700;font-size:11.5px;color:#667085;letter-spacing:0}"
-    + ".ip-satir{display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:8px;cursor:pointer;-webkit-tap-highlight-color:transparent}"
+    + ".ip-pop{position:fixed;left:14px;width:300px;max-width:calc(100vw - 28px);top:84px;margin:0;max-height:calc(100vh - 110px);display:flex;flex-direction:column;background:#fff;border:2px solid #073B70;border-radius:14px;box-shadow:0 8px 26px rgba(0,0,0,.35);z-index:9501;font-family:inherit}"
+    + ".ip-baslik{flex:none;background:#e8eef7;border-radius:12px 12px 0 0;padding:9.6px 14.4px;border-bottom:1.5px solid #c9d6e8}"
+    + ".ip-kod{color:#c0392b;font-weight:800;font-size:15.6px}"
+    + ".ip-ad{color:#0a2f5c;font-weight:800;font-size:18px;line-height:1.25}"
+    + ".ip-sehir{color:#556170;font-weight:600;font-size:14.4px}"
+    + ".ip-icerik{flex:1 1 auto;min-height:0;overflow-y:auto;padding:2.4px 7.2px 0;-webkit-overflow-scrolling:touch}"
+    + ".ip-etiket{display:flex;align-items:center;gap:9.6px;margin:9.6px 0 3.6px;color:#16a085;font-weight:800;font-size:14.4px;letter-spacing:.3px}"
+    + ".ip-etiket small{font-weight:700;font-size:13.8px;color:#667085;letter-spacing:0}"
+    + ".ip-satir{display:flex;align-items:center;gap:8.4px;padding:6px 7.2px;border-radius:8px;cursor:pointer;-webkit-tap-highlight-color:transparent}"
     + ".ip-satir--on{background:#e6f0fb}"
-    + ".ip-isaret{flex:none;width:20px;height:20px;box-sizing:border-box;border:2px solid #9aa6b5;border-radius:50%;display:flex;align-items:center;justify-content:center}"
+    + ".ip-isaret{flex:none;width:24px;height:24px;box-sizing:border-box;border:2px solid #9aa6b5;border-radius:50%;display:flex;align-items:center;justify-content:center}"
     + ".ip-isaret--kare{border-radius:6px}"
     + ".ip-satir--on .ip-isaret{border-color:#073B70}"
-    + ".ip-satir--on .ip-isaret--daire::after{content:'';width:11px;height:11px;border-radius:50%;background:#073B70}"
+    + ".ip-satir--on .ip-isaret--daire::after{content:'';width:13.2px;height:13.2px;border-radius:50%;background:#073B70}"
     + ".ip-satir--on .ip-isaret--kare{background:#073B70}"
-    + ".ip-satir--on .ip-isaret--kare::after{content:'';width:5px;height:10px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}"
+    + ".ip-satir--on .ip-isaret--kare::after{content:'';width:6px;height:12px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}"
     + ".ip-metin{min-width:0}"
-    + ".ip-ana{font-size:13px;font-weight:600;color:#1a2a3a;line-height:1.25;word-break:break-word;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}"
-    + ".ip-alt{font-size:11.5px;color:#667085;word-break:break-word}"
-    + ".ip-not{padding:10px 4px 4px;font-size:13px;color:#556170}"
-    + ".ip-alt-alan{flex:none;padding:8px 6px 8px;position:relative}"
-    + ".ip-islem{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:44px;border:0;border-radius:10px;background:#073B70;color:#fff;font-family:inherit;font-weight:800;font-size:15px;line-height:1;letter-spacing:.6px;cursor:pointer}"
-    + ".ip-islem svg{width:18px;height:18px}"
-    + ".ip-tipler{position:fixed;z-index:9502;background:#fff;border:1.5px solid #073B70;border-radius:12px;padding:8px;box-shadow:0 6px 18px rgba(0,30,70,.32);box-sizing:border-box}"
+    + ".ip-ana{font-size:15.6px;font-weight:600;color:#1a2a3a;line-height:1.25;word-break:break-word;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}"
+    + ".ip-alt{font-size:13.8px;color:#667085;word-break:break-word}"
+    + ".ip-not{padding:12px 4.8px 4.8px;font-size:15.6px;color:#556170}"
+    + ".ip-alt-alan{flex:none;padding:9.6px 7.2px 9.6px;position:relative}"
+    + ".ip-islem{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;height:52.8px;border:0;border-radius:10px;background:#073B70;color:#fff;font-family:inherit;font-weight:800;font-size:18px;line-height:1;letter-spacing:.6px;cursor:pointer}"
+    + ".ip-islem svg{width:21.6px;height:21.6px}"
+    + ".ip-tipler{position:fixed;z-index:9502;background:#fff;border:1.5px solid #073B70;border-radius:12px;padding:9.6px;box-shadow:0 6px 18px rgba(0,30,70,.32);box-sizing:border-box}"
     + ".ip-tipler[hidden]{display:none}"
-    + ".ip-tipler-baslik{font-size:11.5px;font-weight:800;color:#556170;margin:2px 4px 6px}"
-    + ".ip-tip{display:flex;align-items:center;gap:10px;width:100%;box-sizing:border-box;border:2px solid;border-radius:10px;padding:7px 10px;margin:0 0 6px;font-family:inherit;font-weight:800;font-size:13px;line-height:1.2;cursor:pointer;text-align:left}"
+    + ".ip-tipler-baslik{font-size:13.8px;font-weight:800;color:#556170;margin:2.4px 4.8px 7.2px}"
+    + ".ip-tip{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;border:2px solid;border-radius:10px;padding:8.4px 12px;margin:0 0 7.2px;font-family:inherit;font-weight:800;font-size:15.6px;line-height:1.2;cursor:pointer;text-align:left}"
     + ".ip-tip:last-child{margin-bottom:0}"
     + ".ip-tip:active{opacity:.8}"
-    + ".ip-ok{position:absolute;width:14px;height:14px;background:#fff;transform:rotate(45deg)}";
+    + ".ip-ok{position:absolute;width:16.8px;height:16.8px;background:#fff;transform:rotate(45deg)}";
     document.head.appendChild(st);
   }
 
@@ -180,7 +180,7 @@ var IslemPopup = (function(){
       try{
         var kr = kart.getBoundingClientRect();
         if(kr.width > 0){
-          var pw = 200;
+          var pw = 240;
           var pl = Math.round(kr.left - pw / 2);
           if(pl < 6) pl = 6;
           if(pl + pw > window.innerWidth - 6) pl = window.innerWidth - 6 - pw;
@@ -211,7 +211,7 @@ var IslemPopup = (function(){
     function tiplerAc(){
       // Liste popup'ın ÜSTÜNE biner: yarısı popup'ın üstünde, yarısı dışında; üst kenarı popup ile aynı hizada.
       var pop = el.querySelector(".ip-pop").getBoundingClientRect();
-      var TW = 186;
+      var TW = 223;
       tipler.hidden = false;
       tipler.style.width = TW + "px";
       var left = Math.round(pop.left + pop.width - TW / 2);

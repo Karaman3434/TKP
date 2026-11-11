@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.11.11.26-17:59.1576
+// menu-cekmece.js — TKP.11.11.26-19:09.1578
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -473,17 +473,14 @@ function mcMusteriSonuclariniCiz(q, panel){
   var html = "<div class='musteri-liste-kutu'>";
   for(var i=0;i<sonuclar.length;i++){
     var m = sonuclar[i];
-    var islem = mcMusteriSonIslemBilgisi(m);
-    var serit = islem ? MC_MUSTERI_TIP_ROZET[islem.tip].fg : "#c3cad4";
-    var rozetHtml = islem
-      ? "<span class='musteri-rozet-h' style='background:" + MC_MUSTERI_TIP_ROZET[islem.tip].bg + ";color:" + MC_MUSTERI_TIP_ROZET[islem.tip].fg + ";'>" + MC_MUSTERI_TIP_ROZET[islem.tip].kisa + "</span>"
-      : "<span class='musteri-rozet-h musteri-rozet-h--yok'>—</span>";
-    html += "<div class='musteri-karti' data-i='" + i + "' style='border-left-color:" + serit + ";'>"
+    // 11.11.2026 (Abdullah): sonuç satırı SADECE müşteri adı + ilçe/il (son işlem rozeti, tarih ve şerit kaldırıldı);
+    // konum satırı artık kırpılmıyor (alt satırda tam görünür).
+    html += "<div class='musteri-karti' data-i='" + i + "'>"
       + "<div class='musteri-kod-h'>" + mcHtmlEsc(m.id||"—") + "</div>"
-      + "<div class='musteri-firma-h'>" + mcHtmlEsc(m.ad||"") + "</div>"
-      + "<div class='musteri-konum-h'>" + mcHtmlEsc(mcKonum(m)) + "</div>"
-      + rozetHtml
-      + "<div class='musteri-tarih-h'>" + (islem ? mcMusteriTarihKisaYil(islem.ts) : "—") + "</div>"
+      + "<div class='musteri-metin-h'>"
+      +   "<div class='musteri-firma-h'>" + mcHtmlEsc(m.ad||"") + "</div>"
+      +   (mcKonum(m) ? "<div class='musteri-konum-h'>" + mcHtmlEsc(mcKonum(m)) + "</div>" : "")
+      + "</div>"
       + "<div class='musteri-ok-h'>&#8250;</div>"
       + "</div>";
   }
@@ -621,7 +618,7 @@ function mcIslemPopupAc(musteri, devam, yedek){
   var kart = (typeof mcMiniAramaPanel !== "undefined") ? mcMiniAramaPanel : null;
   if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam, {kart: kart}); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.11.11.26-11:18.1564";
+  s.src = "islem-popup.js?v=TKP.11.11.26-19:09.1578";
   s.onload = function(){ IslemPopup.ac(musteri, devam, {kart: kart}); };
   s.onerror = function(){ if(typeof yedek === "function") yedek(); };
   document.body.appendChild(s);
@@ -796,14 +793,14 @@ function mcMusteriHizliPencereGoster(musteri, panel){
     panel.classList.add("as-drawer-mini-sonuc-panel--aksiyon");
 
     var rozetler = mcMusteriRozetSayilariniHesapla(musteri);
-    var baslikHtml = "<div class='cm-altmenu-musteri-baslik'>"
+    // 11.11.2026 (Abdullah): "Cari" satırı kaldırıldı — başlıktaki müşteri adına/kartına dokununca cari kart açılır.
+    var baslikHtml = "<div class='cm-altmenu-musteri-baslik' id='mcMusteriBaslikCari' role='button' tabindex='0' aria-label='Cari kartı aç'>"
       + "<span><span class='ms-kod'>" + mcHtmlEsc(musteri.id||"—") + "</span></span>"
       + "<span class='ms-ad'>" + mcHtmlEsc(musteri.ad||"") + "</span>"
       + (mcKonum(musteri) ? "<span class='ms-sehir'>" + mcHtmlEsc(mcKonum(musteri)) + "</span>" : "")
       + "</div>";
 
     var ogeler = [
-      {ikon:"🏢", etiket:"Cari", aksiyon:"cari"},
       {ikon:"📍", etiket:"Temas", aksiyon:"temas", rozet:rozetler.temas},
       {ikon:"🔍", etiket:"İşlem Yap", aksiyon:"islemyap"},
       {ikon:"📄", etiket:"Fatura ve Ödeme Takip", aksiyon:"fatura", rozet:rozetler.fatura},
@@ -819,6 +816,8 @@ function mcMusteriHizliPencereGoster(musteri, panel){
     }).join("");
 
     panel.innerHTML = baslikHtml + "<div id='mcMusteriHizliListe'>" + listeHtml + "</div>";
+    var basEl = panel.querySelector("#mcMusteriBaslikCari");
+    if(basEl) basEl.onclick = function(){ mcMusteriAksiyonuUygula("cari"); };
     panel.querySelectorAll("#mcMusteriHizliListe .cm-altmenu-oge").forEach(function(btn){
       btn.onclick = function(){ mcMusteriAksiyonuUygula(this.getAttribute("data-aksiyon")); };
     });

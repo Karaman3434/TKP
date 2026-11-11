@@ -1,4 +1,4 @@
-/* product-style.css — TKP.08.11.26-13:14.1505 */
+/* product-style.css — TKP.11.11.26-19:09.1578 */
 /*
   product-style.css
   =================
@@ -108,6 +108,9 @@ body {
    cart-style.css'teki .sepet-alt-buton-satir[hidden] kuralıyla AYNI, daha
    önce bu projede zaten doğru uygulanmış desen burada da eklendi. */
 .mini-aksiyon-btn[hidden] { display: none; }
+/* 11.11.2026 (Abdullah): HİT ve EKSTRA tuşları sepet sayfasından kaldırıldı; menüdeki Ürün alt penceresinde (Hit Ürünler / Yeni Ürün Ekle).
+   Düğmeler DOM'da kalır (urun-arama.js izin + ?ac=hit / ?ac=yeniurun yönlendirmesi bunlara dayanıyor), sadece görünmez. */
+.yeni-arama-satiri .mini-aksiyon-btn { display: none !important; }
 
 /* ---------- Sepet satırı ---------- */
 .ozel-liste-satiri {
