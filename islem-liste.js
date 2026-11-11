@@ -1,5 +1,5 @@
 /*
-  islem-liste.js — TKP.09.11.26-18:48.1530
+  islem-liste.js — TKP.11.11.26-13:43.1565
   ==========================================================================
   ORTAK İŞLEM LİSTESİ (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır
   filtre" turu; mockup: Son İşlemler satır tasarımı + arama kutusu yanında
@@ -157,9 +157,17 @@ var IslemListesi = (function(){
   // Euro yerine etiket çıkan (stok bekliyor) ve tutarı olmayan satırlarda TL
   // yazılmaz. Bakiyeli siparişte sevk edilen kısmın TL'si yazılır (08.11.2026).
   // Küsuratsız, ₺ ile.
+  // GÜNCELLEME (11.11.2026, Abdullah onayı): kırmızı TL artık satırın sağ üstünde DEĞİL, 2. satırda
+  // Euro toplamın hemen yanında, parantez içinde ve KDV DAHİL: "(17.771 ₺)". KDV oranı belgenin
+  // kendi kaydından (k.kdv, yüzde) alınır; kaydında yoksa %20. Kur kuralları aynı (k._tl).
+  function kdvOrani(k){
+    var v = parseFloat(k.kdv);
+    return isNaN(v) ? 20 : v;
+  }
   function tlHucreHTML(k){
     if(k._beklemede || !(k._tutar > 0) || !(k._tl > 0)) return "";
-    return "<div class='sr-tl'>" + Math.round(k._tl).toLocaleString("tr-TR") + " ₺</div>";
+    var kdvDahil = k._tl * (1 + kdvOrani(k) / 100);
+    return "<span class='sr-tl-kdv'>(" + Math.round(kdvDahil).toLocaleString("tr-TR") + " ₺)</span>";
   }
   function satirHTML(k, i){
     var m = rozetMeta(k);
@@ -167,11 +175,10 @@ var IslemListesi = (function(){
       + "<div class='sr-ust'>"
       +   "<div class='sr-firma-h'>" + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml ? CustomerData.kodAdHtml(k.musteriId, k.musteri) : htmlEsc(k.musteri||"")) + "</div>"
       +   "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
-      +   tlHucreHTML(k)
       + "</div>"
       + "<div class='sr-alt'>"
       +   "<div class='sr-rota'>" + rotaHTML(k) + "</div>"
-      +   "<div class='sr-tm'>" + kanalHarfHTML(k.kanal) + "<div class='sr-tutar-h'>" + tutarHucreHTML(k) + "</div></div>"
+      +   "<div class='sr-tm'>" + kanalHarfHTML(k.kanal) + "<div class='sr-tutar-h'>" + tutarHucreHTML(k) + "</div>" + tlHucreHTML(k) + "</div>"
       + "</div>"
       + "<div class='sr-ok-h'>&#8250;</div>"
       + "</div>";
