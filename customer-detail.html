@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.11.11.26-15:17.1569 — customer-detail.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.11.11.26-15:39.1570 — customer-detail.html -->
 <!--
   İŞ TAKİP — MÜŞTERİ KARTI / İŞLEMLER v4
   ==============================================
@@ -43,7 +43,7 @@
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet / Bekleyen İşlemler". -->
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.01.11.26-18:36.1336">
 <link rel="stylesheet" href="customer-style.css?v=TKP.08.11.26-13:14.1505">
-<link rel="stylesheet" href="detail-style.css?v=TKP.11.11.26-14:20.1566">
+<link rel="stylesheet" href="detail-style.css?v=TKP.11.11.26-15:39.1570">
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="send-style.css?v=TKP.08.11.26-22:53.1517">
 <link rel="stylesheet" href="belge-style.css?v=TKP.11.11.26-14:43.1567">
@@ -200,19 +200,10 @@
   <!-- FATURA · VADE · ÖDEME TAKİBİ overlay'i (22.09.2026) — bu müşterinin
        tüm siparişleri, en yeni üstte; rozete dokununca ödendi/geri al
        (vade-takip-data.js / vade-takip-ui.js). -->
-  <div class="tip-secim-overlay" id="faturaTakipOverlay" hidden>
+  <div class="tip-secim-overlay" id="faturaTakipOverlay" data-nav-sayfa hidden>
     <div class="tip-secim-kutu" style="max-height:80vh; overflow-y:auto;">
-      <div class="tip-secim-baslik ft-baslik-satir">
-        <span>📄 Fatura ve Ödeme Takip</span>
-        <span class="ft-vade-rozet" id="ftVadeRozet" hidden><span class="ft-vade-e">VADE</span><span class="ft-vade-d" id="ftVadeDeger">—</span></span>
-      </div>
-      <div class="vt-bakiye-uyari" id="ftBakiye" hidden>
-        <span class="vt-b-etiket">⚠ Toplam vadesi geçmiş bakiye</span>
-        <span class="vt-b-deger">0,00 EURO</span>
-      </div>
       <div id="ftListe"></div>
       <p class="bos-mesaj" id="ftBos" hidden>Bu müşteriye ait sipariş kaydı yok.</p>
-      <button class="tip-secim-vazgec-btn" id="btnFaturaTakipKapat">Kapat</button>
     </div>
   </div>
 
@@ -227,20 +218,20 @@
 <script src="ust-sabit-olcum.js?v=WG.271026.2238.1146"></script>
 <script src="cihaz-data.js?v=WG.271026.2238.1122"></script>
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
-<script src="ust-bar-davranis.js?v=TKP.11.11.26-11:18.1564"></script>
+<script src="ust-bar-davranis.js?v=TKP.11.11.26-15:39.1570"></script>
 <script src="customer-data.js?v=TKP.11.11.26-15:17.1569"></script>
 <script src="musteri-serit.js?v=TKP.05.11.26-13:08.1486"></script>
 <script src="reports-data.js?v=TKP.11.11.26-14:20.1566"></script>
 <script src="reports-safety-fix.js?v=WG.020926.1338.87"></script>
 <script src="vade-takip-data.js?v=TKP.11.11.26-15:17.1569"></script>
-<script src="vade-takip-ui.js?v=TKP.10.11.26-15:20.1557"></script>
+<script src="vade-takip-ui.js?v=TKP.11.11.26-15:39.1570"></script>
 <script src="tarih-secici.js?v=TKP.10.11.26-09:30.1537"></script>
-<script src="odeme-vade-ui.js?v=TKP.11.11.26-11:18.1564"></script>
+<script src="odeme-vade-ui.js?v=TKP.11.11.26-15:39.1570"></script>
 <script src="ust-bar-eylem.js?v=TKP.10.11.26-12:32.1545"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){ var acEt = new URLSearchParams(window.location.search).get("ac"); RotaTakip.kaydet("customer-detail.html", acEt === "fatura" ? "📄 Fatura ve Ödeme Takip" : acEt === "urun" ? "📦 Ürün Geçmişi" : "📋 İşlemler"); RotaTakip.ciz("rotaSeridi"); });</script>
-<script src="detail-render.js?v=TKP.11.11.26-14:20.1566"></script>
+<script src="detail-render.js?v=TKP.11.11.26-15:39.1570"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
 <script>
   window.BEKLEYEN_ISLEM_AYAR = {

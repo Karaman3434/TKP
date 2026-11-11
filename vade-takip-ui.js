@@ -1,5 +1,5 @@
 /*
-  vade-takip-ui.js — WG.210926.2044.591
+  vade-takip-ui.js — TKP.11.11.26-15:39.1570
   ======================================
   Fatura Vade Takip satırının HTML'i (Ana Sayfa'dan açılan liste VE Müşteri
   Kartı aynı satır görünümünü kullanır) + rozete dokununca ödendi/geri al.
@@ -30,6 +30,16 @@ var VadeTakipUI = (function(){
     vadesiz:    {serit:"#9aa5b1", bg:"#eef1f5", renk:"#55606c"}
   };
 
+  // DURUM BÖLÜMÜ BAŞLIKLARI — TEK KAYNAK (11.11.2026): genel Fatura Vade Takip listesi (vade-takip-render.js)
+  // VE müşterinin Fatura ve Ödeme Takip sayfası (odeme-vade-ui.js musteriSayfasiHTML) aynı başlıkları kullanır.
+  var GRUP_BASLIK = {
+    gecti:      {yazi: "🔴 VADESİ GEÇTİ", renk: "#c0392b", not: "en uzun gecikme üstte"},
+    bugun:      {yazi: "🟠 BUGÜN VADESİ DOLUYOR", renk: "#b7601f", not: ""},
+    yaklasiyor: {yazi: "🟡 YAKLAŞIYOR (5 gün içinde)", renk: "#8a7209", not: ""},
+    "var":      {yazi: "🟢 VADESİ VAR", renk: "#0f7a3d", not: ""},
+    odendi:     {yazi: "✅ ÖDENDİ", renk: "#0f7a3d", not: ""}
+  };
+
   function rozetYazisi(o){
     // Tıklanabilir bilgi kuralı (23.09.2026): sonunda ↗ — dokununca
     // ödendi/geri al olduğu anlaşılsın diye.
@@ -55,7 +65,7 @@ var VadeTakipUI = (function(){
       + "<div class='vt-ust'>" + ustSol
       + "<span class='vt-rozet" + (o.odendi ? " vt-rozet--odendi" : "") + "' data-ts='" + o.ts + "' data-odendi='" + (o.odendi?"1":"0") + "' style='background:" + meta.bg + ";color:" + meta.renk + ";'>" + rozetYazisi(o) + "</span>"
       + "</div>"
-      + "<div class='vt-alt'><span class='vt-kod'>" + esc(o.kod) + " · " + tarihKisa(o.kesimTs) + "</span><span class='vt-tutar'>" + fmt(o.tutar) + " EURO</span></div>"
+      + "<div class='vt-alt'><span class='vt-kod'>" + esc(o.kod) + " · " + tarihKisa(o.kesimTs) + "</span><span class='vt-tutar'>" + (typeof VadeTakip !== "undefined" ? VadeTakip.tutarHTML(o.tutar) : fmt(o.tutar) + " EURO") + "</span></div>"
       + "</div></div>";
   }
 
@@ -88,6 +98,6 @@ var VadeTakipUI = (function(){
     });
   }
 
-  return { satirHTML: satirHTML, grupBasligiHTML: grupBasligiHTML, baglaRozetler: baglaRozetler, ROZET_META: ROZET_META };
+  return { satirHTML: satirHTML, grupBasligiHTML: grupBasligiHTML, baglaRozetler: baglaRozetler, ROZET_META: ROZET_META, GRUP_BASLIK: GRUP_BASLIK };
 
 })();

@@ -1,5 +1,5 @@
 /*
-  odeme-vade-ui.js — TKP.11.11.26-11:18.1564
+  odeme-vade-ui.js — TKP.11.11.26-15:39.1570
   ===========================================
   ÖDEME · VADE müşteri alanı (10.11.2026, Abdullah onayı — mockup). TEK YERDE:
   Vade Takip sayfasında bir müşteriye dokununca açılan alan VE Cari Bilgi
@@ -327,6 +327,29 @@ var OdemeVadeUI = (function(){
     return sirali.length ? "<div class='vt-grup ov-faturalar'>" + sirali.map(function(o){ return faturaSatiri(o); }).join("") + "</div>" : "";
   }
 
-  return {faturaNotBagla: faturaNotBagla, fnKapat: fnKapat, fnIptal: fnIptal, fnKaydetHedef: fnKaydetHedef, faturaListesiHTML: faturaListesiHTML, popupAc: popupAc, popupKapat: popupKapat, popupCiz: popupCiz, popupAcikMi: function(){ return !!pop; }, kalanMetni: kalanMetni,
+  // MÜŞTERİ FATURA VE ÖDEME TAKİP SAYFASI (11.11.2026, Abdullah onayı — mockup): genel Fatura Vade Takip listesiyle
+  // AYNI düzen — KDV notu şeridi, "N açık fatura · M gecikmiş + toplam" özeti, durum bölümleri (renkli başlık +
+  // fatura sayısı) ve her bölümde aynı fatura satırları. Vade günü tanımsız müşteride "" döner (çağıran eski listeye düşer).
+  function musteriSayfasiHTML(ogeler, vadeGun){
+    var vadeli = ogeler.filter(function(o){ return o.durum !== "vadesiz"; });
+    if(!vadeli.length) return "";
+    var acik = vadeli.filter(function(o){ return !o.odendi; });
+    var gecikmis = acik.filter(function(o){ return o.durum === "gecti"; }).length;
+    var toplam = acik.reduce(function(s,o){ return s + o.tutar; }, 0);
+    var B = VadeTakipUI.GRUP_BASLIK;
+    var h = "<div class='vt-kdv-not' style='margin:2px 4px 8px;padding:6px 10px;font-size:12.5px;font-weight:700;color:#4a5a6e;text-align:center;background:#eef3f9;border-radius:10px;'>"
+      + (vadeGun != null ? "Vade " + vadeGun + " gün · " : "") + esc(VadeTakip.kdvNotu()) + "</div>";
+    h += "<div class='ov-ozet' style='margin:0 4px 6px;'><span>" + acik.length + " açık fatura" + (gecikmis ? " · <b>" + gecikmis + " gecikmiş</b>" : "") + "</span><em>" + VadeTakip.tutarHTML(toplam) + "</em></div>";
+    ["gecti","bugun","yaklasiyor","var","odendi"].forEach(function(id){
+      var liste = id === "odendi" ? vadeli.filter(function(o){ return o.odendi; }) : acik.filter(function(o){ return o.durum === id; });
+      if(!liste.length) return;
+      var b = B[id];
+      h += "<div class='vt-grup-baslik vt-grup-baslik--m' style='color:" + b.renk + ";'><span>" + b.yazi + (b.not ? " <small>· " + b.not + "</small>" : "") + "</span><span class='vt-say'>" + liste.length + " fatura</span></div>";
+      h += faturaListesiHTML(liste).replace("vt-grup ov-faturalar", "vt-grup vt-grup--m ov-faturalar");
+    });
+    return h;
+  }
+
+  return {musteriSayfasiHTML: musteriSayfasiHTML, faturaNotBagla: faturaNotBagla, fnKapat: fnKapat, fnIptal: fnIptal, fnKaydetHedef: fnKaydetHedef, faturaListesiHTML: faturaListesiHTML, popupAc: popupAc, popupKapat: popupKapat, popupCiz: popupCiz, popupAcikMi: function(){ return !!pop; }, kalanMetni: kalanMetni,
     icerikHTML: icerikHTML, ciz: ciz, odemeEtiketiHTML: odemeEtiketiHTML, planEtiketi: planEtiketi, tarihKisa: tarihKisa, anahtarTs: anahtarTs, tarihUzun: tarihUzun};
 })();

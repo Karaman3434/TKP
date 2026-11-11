@@ -1,5 +1,5 @@
 /*
-  ust-bar-davranis.js — TKP.11.11.26-11:18.1564 (YENİDEN YAZILDI, 11.11.2026)
+  ust-bar-davranis.js — TKP.11.11.26-15:39.1570 (YENİDEN YAZILDI, 11.11.2026)
   ===========================================================================
   GERİ (‹) ve KAPAT (✕) için TEK, ORTAK davranış — TÜM sayfalarda aynı (Abdullah'ın
   11.11.2026 isteği + 3 onay: Kapat boşken Ana Sayfa / sistem Geri = ‹ / Geri geldiğin yol).
@@ -96,6 +96,7 @@
     for(var i = 0; i < adaylar.length; i++){
       var o = adaylar[i];
       if(o.id === "asDrawerOverlay" || o.hidden) continue;
+      if(o.hasAttribute("data-nav-sayfa")) continue;   // sayfanın KENDİSİ olan katman (11.11.2026): gizlenmez; ✕ → Ana Sayfa, ‹ → geldiğin sayfa
       var cs = window.getComputedStyle(o);
       if(cs.display === "none" || cs.visibility === "hidden") continue;
       var z = parseInt(cs.zIndex, 10); if(isNaN(z)) z = 0;

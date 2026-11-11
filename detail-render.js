@@ -1,5 +1,5 @@
 /*
-  detail-render.js — TKP.11.11.26-14:20.1566
+  detail-render.js — TKP.11.11.26-15:39.1570
   ================
   Seçili müşterinin bilgilerini, sipariş geçmişini (ReportsData.sonIslemler
   üzerinden filtrelenmiş) ve ziyaret geçmişini gösterir.
@@ -144,7 +144,7 @@ function tilelariBagla(){
     document.getElementById("faturaTakipOverlay").hidden = false;
     faturaTakipCiz();
   };
-  document.getElementById("btnFaturaTakipKapat").onclick = function(){ if(typeof OdemeVadeUI !== "undefined") OdemeVadeUI.fnIptal(); document.getElementById("faturaTakipOverlay").hidden = true; detayKapatAnaSayfa(); };
+  // (11.11.2026: alttaki "Kapat" tuşu kaldırıldı — sayfayı üst bardaki ✕ kapatır, bkz. ust-bar-davranis.js / data-nav-sayfa)
   if(typeof VadeTakipUI !== "undefined"){
     VadeTakipUI.baglaRozetler(document.getElementById("ftListe"), faturaTakipCiz);
   }
@@ -186,44 +186,29 @@ function faturaTakipYenile(){
   if(ov && !ov.hidden) faturaTakipCiz();
 }
 
-function ftVadeRozetiniGuncelle(musteri){
-  var rozet = document.getElementById("ftVadeRozet");
-  var gun = (musteri && typeof VadeTakip !== "undefined") ? VadeTakip.vadeGunSayisi(musteri) : null;
-  if(gun === null){ rozet.hidden = true; return; }
-  document.getElementById("ftVadeDeger").textContent = gun + " gün";
-  rozet.hidden = false;
-}
-
 function faturaTakipCiz(){
   try{
     if(typeof VadeTakip === "undefined" || typeof VadeTakipUI === "undefined") return;
     var musteri = CustomerData.musteriBul(seciliMusteriAdi);
     var kok = document.getElementById("ftListe");
     var bosEl = document.getElementById("ftBos");
-    var bakiyeEl = document.getElementById("ftBakiye");
-    ftVadeRozetiniGuncelle(musteri);
-    if(!musteri){ kok.innerHTML = ""; bosEl.hidden = false; bakiyeEl.hidden = true; return; }
+    if(!musteri){ kok.innerHTML = ""; bosEl.hidden = false; return; }
 
     var ogeler = VadeTakip.musteriIcin(musteri.id, musteri.ad);
     if(!ogeler.length){
       kok.innerHTML = "";
       bosEl.hidden = false;
-      bakiyeEl.hidden = true;
       faturaTakipOzetiGuncelle();
       return;
     }
     bosEl.hidden = true;
 
-    var gecmisBakiye = VadeTakip.musteriGecmisBakiye(musteri.id, musteri.ad);
-    if(gecmisBakiye > 0){
-      bakiyeEl.hidden = false;
-      bakiyeEl.querySelector(".vt-b-deger").innerHTML = VadeTakip.tutarHTML(gecmisBakiye); // KDV dahil + TL (10.11.2026)
-    } else {
-      bakiyeEl.hidden = true;
-    }
-
-    // Ortak satırlar (odeme-vade-ui.js): ödeme günü + kalan/geçen gün rozeti, ödeme tarihine göre.
-    kok.innerHTML = (typeof OdemeVadeUI !== "undefined" && OdemeVadeUI.faturaListesiHTML(ogeler))
+    // 11.11.2026 (Abdullah onayı — mockup): genel Fatura Vade Takip listesiyle AYNI düzen (KDV notu, özet satırı,
+    // durum bölümleri) — tek kaynak odeme-vade-ui.js musteriSayfasiHTML. Eski kırmızı "Toplam vadesi geçmiş bakiye"
+    // kutusu ve başlık/VADE rozeti kaldırıldı (vade günü not şeridinde, bakiye özet satırında).
+    // Vade günü tanımsız müşteride (liste boş döner) eski düz liste kalır.
+    var vadeGun = VadeTakip.vadeGunSayisi(musteri);
+    kok.innerHTML = (typeof OdemeVadeUI !== "undefined" && OdemeVadeUI.musteriSayfasiHTML(ogeler, vadeGun))
       || ogeler.map(function(o){ return VadeTakipUI.satirHTML(o, {gosterMusteri:false}); }).join("");
     if(typeof OdemeVadeUI !== "undefined") OdemeVadeUI.faturaNotBagla(kok, musteri.id || null, musteri.ad, faturaTakipCiz, faturaTakipCiz);
     faturaTakipOzetiGuncelle();

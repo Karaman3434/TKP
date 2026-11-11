@@ -1,4 +1,4 @@
-/* vade-takip-render.js — TKP.10.11.26-09:30.1537 */
+/* vade-takip-render.js — TKP.11.11.26-15:39.1570 */
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -24,10 +24,10 @@ function tarihiGuncelle(){
 // dokununca altında ortak "Ödeme · Vade" alanı (odeme-vade-ui.js) açılır.
 var GRUP_BASLIK = {
   plan:       {yazi: "📞 ÖDEME PLANLANDI", renk: "#1257c7", not: ""},
-  gecti:      {yazi: "🔴 VADESİ GEÇTİ", renk: "#c0392b", not: "en uzun gecikme üstte"},
-  bugun:      {yazi: "🟠 BUGÜN VADESİ DOLUYOR", renk: "#b7601f", not: ""},
-  yaklasiyor: {yazi: "🟡 YAKLAŞIYOR (5 gün içinde)", renk: "#8a7209", not: ""},
-  "var":      {yazi: "🟢 VADESİ VAR", renk: "#0f7a3d", not: ""}
+  gecti:      VadeTakipUI.GRUP_BASLIK.gecti,        // 11.11.2026: başlıklar tek kaynakta (vade-takip-ui.js)
+  bugun:      VadeTakipUI.GRUP_BASLIK.bugun,
+  yaklasiyor: VadeTakipUI.GRUP_BASLIK.yaklasiyor,
+  "var":      VadeTakipUI.GRUP_BASLIK["var"]
 };
 var SERIT = {plan:"#1257c7", gecti:"#c0392b", bugun:"#b7601f", yaklasiyor:"#c9a227", "var":"#0f7a3d"};
 var acikMusteri = null;   // aynı anda tek müşteri açık
@@ -60,7 +60,7 @@ function musteriSatiri(m, grupId){
     + "<div class='vt-govde'>"
     +   "<div class='vt-ust'><span class='vt-ad'>" + (m.musteriId ? "<b>" + esc(m.musteriId) + "</b> - " : "") + esc(m.musteri) + "</span>"
     +     "<span class='vt-rozet vt-rozet--m' style='background:" + rz.bg + ";color:" + rz.renk + ";'>" + rz.yazi + "</span></div>"
-    +   "<div class='vt-alt'><span class='vt-kod'>" + m.kayitlar.length + " fatura" + tem + "</span><span class='vt-tutar'>" + fmtTutar(m.toplam) + " EURO</span></div>";
+    +   "<div class='vt-alt'><span class='vt-kod'>" + m.kayitlar.length + " fatura" + tem + "</span><span class='vt-tutar'>" + VadeTakip.tutarHTML(m.toplam) + "</span></div>";
   if(grupId === "plan" && m.plan && m.plan.not) h += "<div class='vt-plan-not'>“" + esc(m.plan.not) + "”</div>";
   h += "</div></div>";
   if(acik) h += "<div class='vt-acilan' data-alan='" + esc(m.anahtar) + "'></div>";
@@ -89,7 +89,7 @@ function listeyiCiz(){
     }
     bos.hidden = true;
 
-    var html = "";
+    var html = "<div class='vt-kdv-not' style='margin:2px 4px 8px;padding:6px 10px;font-size:12.5px;font-weight:700;color:#4a5a6e;text-align:center;background:#eef3f9;border-radius:10px;'>" + esc(VadeTakip.kdvNotu()) + "</div>";
     gruplar.forEach(function(g){
       var b = GRUP_BASLIK[g.id];
       html += "<div class='vt-grup-baslik vt-grup-baslik--m' style='color:" + b.renk + ";'><span>" + b.yazi + (b.not ? " <small>· " + b.not + "</small>" : "") + "</span><span class='vt-say'>" + g.musteriler.length + " müşteri</span></div>";

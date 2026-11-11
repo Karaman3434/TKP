@@ -1,4 +1,4 @@
-/* detail-style.css — TKP.11.11.26-14:20.1566 */
+/* detail-style.css — TKP.11.11.26-15:39.1570 */
 /* detail-style.css — eski uygulamanın "musteriKartModal" (İŞLEMLER)
    ekranıyla BİREBİR aynı: ortalı başlık şeridi, navy müşteri adı şeridi,
    tek satır özet, 4 büyük eylem kutucuğu, alt Sil/Kapat. */
@@ -699,3 +699,5 @@
   margin-top: 16px;
   box-shadow: 0 3px 0 #7a0a12, 0 5px 12px rgba(120,10,15,.35), inset 0 1px 0 rgba(255,255,255,.35);
 }
+/* 11.11.2026: Fatura ve Ödeme Takip artık genel Fatura Vade Takip sayfası gibi düz sayfa (kutu/gölge yok). */
+#faturaTakipOverlay .tip-secim-kutu { box-shadow: none; padding: 0 0 12px; }
