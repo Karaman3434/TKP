@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — TKP.10.11.26-10:08.1538
+  hareket-tablo.js — TKP.11.11.26-14:43.1567
   =================
   GÜNCELLEME (04.11.2026, 14:35, Abdullah onayı — mockup üzerinden): BEDELSİZ
   satır gösterimi. TOPLAM sütunu "NUMUNE" yerine "BEDELSİZ" (kırmızı); LİSTE,
@@ -188,6 +188,9 @@ var HareketTablo = (function(){
       + "<span class='belge-gt-etiket-deger-grup'>"
       + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
       + "<span class='belge-gt-deger'>" + fmt(o.genelToplam) + " EURO" + (o.kur ? "<span class='belge-gt-deger-alt'>≈ " + Math.round(o.genelToplam*o.kur).toLocaleString("tr-TR") + " TL</span>" : "") + "</span>"
+      // KDV DAHİL TL (11.11.2026, Abdullah onayı — mockup üzerinden): Euro toplam x işlem kuru x 1,20 (%20 KDV);
+      // kırmızı ince harf + beyaz kontur (lacivert zeminde okunsun diye). ≈TL ile AYNI koşulda (kur varsa) görünür.
+      + (o.kur ? "<span class='belge-gt-kdv'><small>KDV DAHİL TL</small><b>" + Math.round(o.genelToplam*o.kur*1.2).toLocaleString("tr-TR") + "</b></span>" : "")
       + "</span>"
       + "</div>"
       + "</div>";

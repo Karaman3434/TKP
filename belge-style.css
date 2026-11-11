@@ -1,7 +1,7 @@
-/* belge-style.css — TKP.08.11.26-08:49.1498
+/* belge-style.css — TKP.11.11.26-14:43.1567
    GÜNCELLEME (04.11.2026, Abdullah onayı): BEDELSİZ satır — .belge-bdl-yazi
    (kırmızı BEDELSİZ) ve .belge-td-bdl-iptal/.belge-bdl-cizgi (boş hücre + kırmızı çizgi).
-   (önceki: TKP.02.11.26-10:48.1380)
+   (önceki: TKP.11.11.26-14:43.1567)
    GÜNCELLEME (02.11.2026): PRİM, GENEL TOPLAM kutusunun içine alındı (ortak
    .belge-gt-prim-* kuralları); eski .belge-prim-toplam-serit/.belge-prim-serit/
    .belge-pt-etiket/-deger ve .belge-prim-etiket/-deger kuralları kaldırıldı.
@@ -492,11 +492,11 @@
    dışına taşar ama görünmez olmaz); white-space nowrap kalıyor, ASLA
    alt satıra sarmıyor (Abdullah'ın isteği). Harf ile sayı arasındaki
    boşluk da kaldırıldı — "B11550400" gibi bitişik (bkz. hareket-tablo.js). */
-.belge-td-urun-kod { font-size: 8px; color: #1a2a3a; line-height: 1.3; white-space: nowrap; overflow: visible; font-weight: 800; }
+.belge-td-urun-kod { font-size: 9.6px; color: #1a2a3a; line-height: 1.3; white-space: nowrap; overflow: visible; font-weight: 800; }
 .kod-harf { font-weight: 900; font-size: 1.15em; padding: 0 1px; }
 .kod-blok--b { color: #c0392b; }
 .kod-blok--a { color: #003a70; }
-.belge-td-urun-ad { font-weight: 700; color: #101828; margin-top: 2px; font-size: 13px; line-height: 1.25; }
+.belge-td-urun-ad { font-weight: 700; color: #101828; margin-top: 2px; font-size: 14.3px; line-height: 1.25; }
 .belge-td-toplam { color: #101828; font-weight: 700; }
 /* BAKİYE NOTU (07.10.2026, Abdullah'ın isteğiyle) — artık ürün satırının
    altında DEĞİL, TÜM tablonun altında tek bir uyarı (bkz. hareket-tablo.js
@@ -809,15 +809,21 @@
    sırası HTML'de zaten etiket->değer, bkz. hareket-tablo.js grupHtml). */
 .belge-gt-etiket-deger-grup { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; flex-shrink: 0; margin-left: auto; }
 .belge-gt-etiket { font-size: 11px; font-weight: 700; letter-spacing: .3px; color: #ffffff; }
-.belge-gt-deger { font-size: 17px; font-weight: 800; flex-shrink: 0; text-align: right; white-space: nowrap; color: #ffffff; }
+.belge-gt-deger { font-size: 17px; font-weight: 800; flex-shrink: 0; text-align: right; white-space: nowrap; color: #ffffff; display: flex; align-items: baseline; gap: 6px; }
 .belge-gt-deger-alt {
   font-size: 11px;
   font-weight: 600;
   color: #a9c6e4;
   white-space: nowrap;
-  display: block;
-  margin-top: 1px;
+  display: inline;
+  margin-top: 0;
 }
+/* KDV DAHİL TL (11.11.2026, Abdullah onayı — mockup B): Euro toplamın altında, kırmızı İNCE harf
+   + ince beyaz kontur (lacivert zeminde kırmızı okunmuyordu). Kutu YOK. */
+.belge-gt-kdv { align-self: flex-end; margin-top: 3px; white-space: nowrap; color: #ff0000; font-weight: 500; }
+.belge-gt-kdv small, .belge-gt-kdv b { color: #ff0000; font-weight: 500; -webkit-text-stroke: 2px #ffffff; paint-order: stroke fill; }
+.belge-gt-kdv small { font-size: 11px; }
+.belge-gt-kdv b { font-size: 16px; margin-left: 5px; }
 /* PRİM, GENEL TOPLAM KUTUSUNUN İÇİNDE (02.11.2026, Abdullah onayı — mockup
    üzerinden): eskiden Sepet'te (body.cart-sayfa altında, 01.11.2026)
    "Bu işlem kuru" ile aynı kalıpta çerçeveli yeşil kutuydu; diğer sayfalarda

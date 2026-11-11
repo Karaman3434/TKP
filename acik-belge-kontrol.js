@@ -55,7 +55,7 @@ var AcikBelgeKontrol = (function(){
     kaynaklarYukleniyor = true;
     cssEkle("detail-style.css?v=TKP.11.11.26-14:20.1566", ".tip-secim-overlay");
     cssEkle("cari-kart-style.css?v=WG.011126.1022.1261", ".ck-sil-uyari-notu");
-    cssEkle("belge-style.css?v=TKP.05.11.26-13:08.1486", ".belge-urun-tablo");
+    cssEkle("belge-style.css?v=TKP.11.11.26-14:43.1567", ".belge-urun-tablo");
     if(typeof HareketTablo !== "undefined"){
       kaynaklarHazir = true;
       kaynaklarYukleniyor = false;
@@ -64,7 +64,7 @@ var AcikBelgeKontrol = (function(){
       return;
     }
     var s = document.createElement("script");
-    s.src = "hareket-tablo.js?v=TKP.02.11.26-10:22.1363";
+    s.src = "hareket-tablo.js?v=TKP.11.11.26-14:43.1567";
     s.onload = function(){
       kaynaklarHazir = true;
       kaynaklarYukleniyor = false;
