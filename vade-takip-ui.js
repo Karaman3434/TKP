@@ -1,5 +1,5 @@
 /*
-  vade-takip-ui.js — TKP.11.11.26-15:48.1571
+  vade-takip-ui.js — TKP.11.11.26-16:29.1574
   ======================================
   Fatura Vade Takip satırının HTML'i (Ana Sayfa'dan açılan liste VE Müşteri
   Kartı aynı satır görünümünü kullanır) + rozete dokununca ödendi/geri al.
@@ -83,7 +83,9 @@ var VadeTakipUI = (function(){
     kokEl.addEventListener("click", function(ev){
       var rozet = ev.target.closest(".vt-rozet");
       if(!rozet || !kokEl.contains(rozet)) return;
-      if(rozet.getAttribute("data-kilit") === "1") return;   // kilitli (ödenmiş) fatura: ödendi/geri al yapılmaz
+      // 11.11.2026: rozetle doğrudan ödendi/geri al KALDIRILDI. Açık faturanın rozeti ödeme NOTU penceresini açar
+      // (odeme-vade-ui.js faturaNotBagla), ödenmiş fatura kilitlidir. Bu bağlayıcı geriye uyumluluk için duruyor.
+      return;
       var ts = parseInt(rozet.getAttribute("data-ts"), 10);
       var suankiOdendi = rozet.getAttribute("data-odendi") === "1";
       var yeni = !suankiOdendi;

@@ -1,4 +1,4 @@
-/* vade-takip-render.js — TKP.11.11.26-15:55.1572 */
+/* vade-takip-render.js — TKP.11.11.26-16:29.1574 */
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -104,7 +104,7 @@ function listeyiCiz(){
       if(!alan){ acikMusteri = null; return; }
       var bulunan = null;
       gruplar.forEach(function(g){ g.musteriler.forEach(function(m){ if(m.anahtar === acikMusteri) bulunan = m; }); });
-      OdemeVadeUI.ciz(alan, bulunan.musteriId, bulunan.musteri, listeyiCiz);
+      OdemeVadeUI.ciz(alan, bulunan.musteriId, bulunan.musteri, listeyiCiz, true);   // genel listede ödenen fatura görünmez
     }
   }catch(e){ hataGoster("Vade Takip listesi çizilemedi: " + e.message); }
 }
