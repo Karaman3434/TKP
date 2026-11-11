@@ -1,5 +1,5 @@
 /*
-  odeme-vade-ui.js — TKP.11.11.26-15:39.1570
+  odeme-vade-ui.js — TKP.11.11.26-15:48.1571
   ===========================================
   ÖDEME · VADE müşteri alanı (10.11.2026, Abdullah onayı — mockup). TEK YERDE:
   Vade Takip sayfasında bir müşteriye dokununca açılan alan VE Cari Bilgi
@@ -86,20 +86,23 @@ var OdemeVadeUI = (function(){
     return l.sort(function(a, c){ return (c.ts || 0) - (a.ts || 0); });
   }
 
-  function faturaSatiri(o){
+  // kilit=true (müşteri sayfasındaki ÖDENMİŞ fatura): rozet ödendi/geri-al yapmaz, satıra dokunup açıklama yazılmaz,
+  // açıklama düzeltilemez; yalnızca mevcut açıklama kaydı silinebilir (🗑 Sil). 11.11.2026, Abdullah isteği.
+  function faturaSatiri(o, kilit){
+    kilit = !!(kilit && o.odendi);
     var nl = faturaNotlari(o), son = nl[0] || null;
     var formAcik = !!(fn && fn.ts === o.ts), duzeltiyor = formAcik && fn.mod === "duzelt";
     var meta = VadeTakipUI.ROZET_META[o.odendi ? "odendi" : o.durum] || VadeTakipUI.ROZET_META.vadesiz;
-    return "<div class='vt-satir" + (son ? " vt-satir--notlu" : "") + (o.odendi ? "" : " fn-tikla") + "' data-fts='" + o.ts + "' data-fkod='" + esc(o.kod) + "'>"
+    return "<div class='vt-satir" + (son ? " vt-satir--notlu" : "") + (o.odendi ? "" : " fn-tikla") + (kilit ? " vt-satir--kilit" : "") + "' data-fts='" + o.ts + "' data-fkod='" + esc(o.kod) + "'>"
       + "<div class='vt-serit' style='background:" + meta.serit + ";'></div>"
       + "<div class='vt-govde'>"
       +   "<div class='vt-ust'><span class='ov-od'>📅 Ödeme " + tarihUzun(o.vadeTs) + "</span>"
       +     (son ? "<span class='fn-ikon' title='Açıklama girilmiş'>💬</span>" : "")
-      +     "<span class='vt-rozet" + (o.odendi ? " vt-rozet--odendi" : "") + "' data-ts='" + o.ts + "' data-odendi='" + (o.odendi ? "1" : "0") + "' style='background:" + meta.bg + ";color:" + meta.renk + ";'>" + rozetYazisi(o) + "</span></div>"
+      +     "<span class='vt-rozet" + (o.odendi ? " vt-rozet--odendi" : "") + "' data-ts='" + o.ts + "' data-odendi='" + (o.odendi ? "1" : "0") + "'" + (kilit ? " data-kilit='1'" : "") + " style='background:" + meta.bg + ";color:" + meta.renk + ";'>" + (kilit ? "✓ ÖDENDİ" : rozetYazisi(o)) + "</span></div>"
       +   "<div class='vt-alt'><span class='vt-kod'>" + esc(o.kod) + " · " + tarihUzun(o.kesimTs) + "</span><span class='vt-tutar'>" + VadeTakip.tutarHTML(o.tutar) + "</span></div>"
       +   ((son && !duzeltiyor)
             ? "<div class='fn-not'><span class='fn-not-y'>“" + esc(notMetni(son)) + "” <small>· " + tarihKisa(new Date(son.ts)) + (son.hatirlatmaTarihi ? " · 🔔 " + tarihKisa(anahtarTs(son.hatirlatmaTarihi)) : "") + (nl.length > 1 ? " · +" + (nl.length - 1) + " önceki" : "") + "</small></span>"
-              + "<span class='fn-dugmeler'><button type='button' class='fn-duzelt' data-kts='" + son.ts + "'>✎ Düzelt</button>"
+              + "<span class='fn-dugmeler'>" + (kilit ? "" : "<button type='button' class='fn-duzelt' data-kts='" + son.ts + "'>✎ Düzelt</button>")
               + "<button type='button' class='fn-sil' data-kts='" + son.ts + "' aria-label='Sil'>🗑 Sil</button></span></div>"
             : "")
       +   (formAcik
@@ -246,9 +249,10 @@ var OdemeVadeUI = (function(){
   }
 
   function icerikHTML(musteriId, musteriAd){
+    // Genel Fatura Vade Takip listesi: ÖDENEN fatura listeden kalkar (11.11.2026, Abdullah isteği) — yalnız açıklar.
     var ogeler = VadeTakip.musteriIcin(musteriId, musteriAd);
-    var sirali = faturaSirala(ogeler);
-    var acik = sirali.filter(function(o){ return !o.odendi; });
+    var sirali = faturaSirala(ogeler).filter(function(o){ return !o.odendi; });
+    var acik = sirali;
     var gecikmis = acik.filter(function(o){ return o.durum === "gecti"; }).length;
     var toplam = acik.reduce(function(s,o){ return s + o.tutar; }, 0);
     var h = "<div class='ov-ozet'><span>" + acik.length + " açık fatura" + (gecikmis ? " · <b>" + gecikmis + " gecikmiş</b>" : "") + "</span><em>" + VadeTakip.tutarHTML(toplam) + "</em></div>";
@@ -322,9 +326,9 @@ var OdemeVadeUI = (function(){
 
   // FATURA LİSTESİ (10.11.2026, Abdullah onayı): Müşteri Detay → "Fatura ve Ödeme Takip" penceresi de
   // aynı satırları kullanır: ödeme günü + "N GÜN KALDI / N GÜN GECİKTİ" rozeti + belge kodu · kesim tarihi + tutar.
-  function faturaListesiHTML(ogeler){
+  function faturaListesiHTML(ogeler, kilit){
     var sirali = faturaSirala(ogeler);
-    return sirali.length ? "<div class='vt-grup ov-faturalar'>" + sirali.map(function(o){ return faturaSatiri(o); }).join("") + "</div>" : "";
+    return sirali.length ? "<div class='vt-grup ov-faturalar'>" + sirali.map(function(o){ return faturaSatiri(o, kilit); }).join("") + "</div>" : "";
   }
 
   // MÜŞTERİ FATURA VE ÖDEME TAKİP SAYFASI (11.11.2026, Abdullah onayı — mockup): genel Fatura Vade Takip listesiyle
@@ -345,7 +349,7 @@ var OdemeVadeUI = (function(){
       if(!liste.length) return;
       var b = B[id];
       h += "<div class='vt-grup-baslik vt-grup-baslik--m' style='color:" + b.renk + ";'><span>" + b.yazi + (b.not ? " <small>· " + b.not + "</small>" : "") + "</span><span class='vt-say'>" + liste.length + " fatura</span></div>";
-      h += faturaListesiHTML(liste).replace("vt-grup ov-faturalar", "vt-grup vt-grup--m ov-faturalar");
+      h += faturaListesiHTML(liste, id === "odendi").replace("vt-grup ov-faturalar", "vt-grup vt-grup--m ov-faturalar");
     });
     return h;
   }
