@@ -1,5 +1,5 @@
 /*
-  islem-popup.js — TKP.08.11.26-23:35.1519 (YENİ DOSYA, 08.11.2026)
+  islem-popup.js — TKP.11.11.26-10:54.1562 (YENİ DOSYA, 08.11.2026)
   ============================================================
   "İŞLEM YAP" YENİ ROTASI (Abdullah'ın yazdığı ve onayladığı rota):
     1) Müşteri ara, bul, seç          2) Müşteri işlem kartı (hızlı pencere) açılır
@@ -24,11 +24,12 @@
     (açık belge kontrolü, dönüş rotası bayrakları) her girişin kendi devam
     fonksiyonunda kalır.
 
-  KONUM (08.11.2026, Abdullah onayı — "Tasarım 3"): çağıran taraf açık olan işlem kartının
-  (hızlı pencere) konumunu verir; kart kaybolur, popup AYNI yerde ve KART GENİŞLİĞİNDE
-  açılır. İŞLEM SEÇ listesi popup'ın üstüne biner: yarısı popup'ın üstünde, yarısı dışında,
+  KONUM (11.11.2026, Abdullah onayı — "üstünde ama yan tarafında, yarı yarıya"): çağıran taraf
+  açık olan işlem kartının (hızlı pencere) konumunu verir; kart EKRANDA KALIR, popup kartın
+  sol yanına, yarısı kartın üstünde yarısı dışında binecek şekilde açılır (eski 08.11.2026
+  "Tasarım 3": kart kaybolup popup aynı yere oturuyordu — kaldırıldı). İŞLEM SEÇ listesi popup'ın üstüne biner: yarısı popup'ın üstünde, yarısı dışında,
   üst kenarı popup ile aynı hizada (ekrana sığmazsa sağ kenara yaslanır). Popup kapanınca
-  (dışına dokunma / tip seçme) kart geri gelir.
+  (dışına dokunma / tip seçme) yalnızca popup kapanır, kart yerinde kalır.
 
   DIŞA AÇILAN: IslemPopup.ac(musteri, tipSecilince(tip), {kart: <işlem kartı elemanı>})
 */
@@ -170,21 +171,23 @@ var IslemPopup = (function(){
     document.body.appendChild(el);
     kok = el;
 
-    // İşlem kartının yerine yerleş: kart gizlenir, popup aynı sol/üst konumda ve aynı genişlikte açılır.
+    // İşlem kartı (11.11.2026, Abdullah onayı — "üstünde ama yan tarafında, yarı yarıya"): kart GİZLENMEZ,
+    // ekranda kalır. Popup kartın üst kenarıyla aynı hizada, kartın SOL tarafına, genişliğinin yarısı kartın
+    // üstünde yarısı dışında kalacak şekilde biner (ekrana sığmazsa sol kenara yaslanır). Kapanınca kart
+    // olduğu gibi kalır.
     var kart = secenek && secenek.kart;
     if(kart){
       try{
         var kr = kart.getBoundingClientRect();
         if(kr.width > 0){
-          var pw = Math.max(190, Math.round(kr.width));
-          var pl = Math.max(6, Math.min(Math.round(kr.left), window.innerWidth - 6 - pw));
+          var pw = 200;
+          var pl = Math.round(kr.left - pw / 2);
+          if(pl < 6) pl = 6;
+          if(pl + pw > window.innerWidth - 6) pl = window.innerWidth - 6 - pw;
           var pt = Math.max(8, Math.round(kr.top));
           var pe = el.querySelector(".ip-pop");
           pe.style.left = pl + "px"; pe.style.width = pw + "px"; pe.style.maxWidth = "none";
           pe.style.top = pt + "px"; pe.style.maxHeight = "calc(100vh - " + (pt + 12) + "px)";
-          var onceki = kart.style.visibility;
-          kart.style.visibility = "hidden";
-          kartGeri = function(){ kart.style.visibility = onceki; };
         }
       }catch(e){}
     }

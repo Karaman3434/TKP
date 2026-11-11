@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.10.11.26-14:28.1551
+// menu-cekmece.js — TKP.11.11.26-10:54.1562
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -632,7 +632,7 @@ function mcIslemPopupAc(musteri, devam, yedek){
   var kart = (typeof mcMiniAramaPanel !== "undefined") ? mcMiniAramaPanel : null;
   if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam, {kart: kart}); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.08.11.26-23:35.1519";
+  s.src = "islem-popup.js?v=TKP.11.11.26-10:54.1562";
   s.onload = function(){ IslemPopup.ac(musteri, devam, {kart: kart}); };
   s.onerror = function(){ if(typeof yedek === "function") yedek(); };
   document.body.appendChild(s);
