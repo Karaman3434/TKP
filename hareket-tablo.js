@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — TKP.11.11.26-14:43.1567
+  hareket-tablo.js — TKP.11.11.26-19:45.1581
   =================
   GÜNCELLEME (04.11.2026, 14:35, Abdullah onayı — mockup üzerinden): BEDELSİZ
   satır gösterimi. TOPLAM sütunu "NUMUNE" yerine "BEDELSİZ" (kırmızı); LİSTE,
@@ -182,16 +182,25 @@ var HareketTablo = (function(){
     var kurEtiketMetni = "<span class='belge-gt-kur-etiket'>" + (o.kurManuelMi ? "✏️ Bu işlem kuru" : "Bu işlem kuru") + "</span><br><span class='belge-gt-kur-deger'>" + fmt(o.kur) + " EURO</span>";
     var primDeger = o.primMetni ? o.primMetni : (Math.round(o.primTl||0).toLocaleString("tr-TR") + " TL");
     return "<div class='belge-gt-kutu'>"
-      + "<div class='belge-gt-satir" + (primVar ? " belge-gt-satir--uclu" : "") + "'>"
+      + "<div class='belge-gt-satir" + (primVar ? " belge-gt-satir--uclu" : "") + (o.kur ? " belge-gt-satir--yeni" : "") + "'>"
       + (primVar ? "<span class='belge-gt-prim-ic'><span class='belge-gt-prim-etiket'>PRİM</span><br><span class='belge-gt-prim-deger'>" + primDeger + "</span></span>" : "")
       + (o.kur ? "<span class='" + kurIcSinifi + "'>" + kurEtiketMetni + "</span>" : "")
-      + "<span class='belge-gt-etiket-deger-grup'>"
-      + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
-      + "<span class='belge-gt-deger'>" + fmt(o.genelToplam) + " EURO" + (o.kur ? "<span class='belge-gt-deger-alt'>≈ " + Math.round(o.genelToplam*o.kur).toLocaleString("tr-TR") + " TL</span>" : "") + "</span>"
-      // KDV DAHİL TL (11.11.2026, Abdullah onayı — mockup üzerinden): Euro toplam x işlem kuru x 1,20 (%20 KDV);
-      // kırmızı ince harf + beyaz kontur (lacivert zeminde okunsun diye). ≈TL ile AYNI koşulda (kur varsa) görünür.
-      + (o.kur ? "<span class='belge-gt-kdv'><small>KDV DAHİL TL</small><b>" + Math.round(o.genelToplam*o.kur*1.2).toLocaleString("tr-TR") + "</b></span>" : "")
-      + "</span>"
+      // GENEL TOPLAM (11.11.2026, Abdullah onayı — mockup 4. tur): kur varsa etiket + 3 satır alt alta sağda:
+      // 1) EURO toplam (en büyük) 2) ≈ TL toplam 3) KDV DAHİL <tutar> TL (hepsi beyaz). Etiket rakamların soluna,
+      // dikeyde ortalı, aralarında 5 mm. Kur YOKSA (müşteriye giden görsel) eski düzen aynen korunur.
+      + (o.kur
+        ? "<span class='belge-gt-grup2'>"
+          + "<span class='belge-gt-etiket2'>GENEL TOPLAM</span>"
+          + "<span class='belge-gt-yigin2'>"
+          +   "<b class='belge-gt-euro2'>" + fmt(o.genelToplam) + " EURO</b>"
+          +   "<span class='belge-gt-tl2'>≈ " + Math.round(o.genelToplam*o.kur).toLocaleString("tr-TR") + " TL</span>"
+          +   "<span class='belge-gt-kdv2'><small>KDV DAHİL</small> <b>" + Math.round(o.genelToplam*o.kur*1.2).toLocaleString("tr-TR") + " TL</b></span>"
+          + "</span>"
+          + "</span>"
+        : "<span class='belge-gt-etiket-deger-grup'>"
+          + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
+          + "<span class='belge-gt-deger'>" + fmt(o.genelToplam) + " EURO</span>"
+          + "</span>")
       + "</div>"
       + "</div>";
   }
