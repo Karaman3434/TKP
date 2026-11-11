@@ -1,5 +1,5 @@
 /*
-  bekleyen-islemler.js — TKP.11.11.26-14:20.1566
+  bekleyen-islemler.js — TKP.11.11.26-20:22.1582
   ==========================================
   GÜNCELLEME (01.11.2026, Abdullah onayı — "Beklet tuşu çalışmıyor" hata
   bildirimi): Bu dosya eskiden KENDİ yuvarlak düğmesini ".app-nav" içine
@@ -143,10 +143,10 @@ var BekleyenIslemler = (function(){
   // bekletir. Beklettikten sonra, "başka bir işe geçebilesin" diye Ana
   // Sayfa'ya yönlendirir (Belge Önizleme'nin kendi özel düğmesiyle AYNI
   // mantık — bekletmek = buradan ayrılmak demek).
-  function buSayfayiBeklet(){
+  function buSayfayiBekletKaydi(){
     var ayar = window.BEKLEYEN_ISLEM_AYAR || {};
     var baslik = typeof ayar.baslik === "function" ? ayar.baslik() : (ayar.baslik || temizSayfaAdi());
-    var sonuc = ekle({
+    return ekle({
       baslik: baslik,
       altKod: ayar.altKod || "",
       kisaKod: ayar.kisaKod || "•",
@@ -155,6 +155,23 @@ var BekleyenIslemler = (function(){
       url: ayar.url || dosyaAdi(),
       resumeKey: ayar.resumeKey || ""
     });
+  }
+
+  // 11.11.2026 (Abdullah): menüden başka sayfaya geçerken o anki sayfa OTOMATİK bekletilir (Ana Sayfa'ya
+  // yönlendirmeden). Sessiz: mesaj/yönlendirme yok. true = bekletildi (ya da zaten bekleyenlerdeydi);
+  // false = bekletilemedi (Beklet bu sayfada kapalı/yetkisiz, ya da bekleyen listesi dolu) — çağıran yine de geçer.
+  function sayfayiSessizBeklet(){
+    try{
+      var btn = document.getElementById("btnUstBeklet");
+      if(!btn || btn.disabled) return false;
+      if(window.BEKLEYEN_ISLEM_GENERIK_KAPALI === true) return false;
+      var sonuc = buSayfayiBekletKaydi();
+      return !!(sonuc && (sonuc.basarili || /zaten/.test(sonuc.mesaj || "")));
+    }catch(e){ return false; }
+  }
+
+  function buSayfayiBeklet(){
+    var sonuc = buSayfayiBekletKaydi();
     if(!sonuc.basarili){
       biMesajGoster(sonuc.mesaj);
       return;
@@ -349,5 +366,5 @@ var BekleyenIslemler = (function(){
   }
   baslat();
 
-  return { ekle: ekle, sil: sil, devamEt: devamEt, listele: oku, guncelle: guncelle };
+  return { ekle: ekle, sil: sil, devamEt: devamEt, listele: oku, guncelle: guncelle, sayfayiSessizBeklet: sayfayiSessizBeklet };
 })();

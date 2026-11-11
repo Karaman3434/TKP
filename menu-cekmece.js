@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.11.11.26-19:19.1579
+// menu-cekmece.js — TKP.11.11.26-20:22.1582
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -421,7 +421,7 @@ function mcUrunSonuclariniCiz(q, panel){
         // cart.html kendi DOMContentLoaded'ında "?ac=hesapla&kod=..."
         // parametresini okuyup Hesapla popup'ını otomatik açar (bkz.
         // urun-arama.js — "?ac=hit"/"?ac=yeniurun" İLE AYNI desen).
-        window.location.href = "cart.html?ac=hesapla&kod=" + encodeURIComponent(kod);
+        mcSayfayaGec("cart.html?ac=hesapla&kod=" + encodeURIComponent(kod));
       };
     });
   }
@@ -759,8 +759,8 @@ function mcMusteriAksiyonuUygula(aksiyon){
   }catch(e){}
   if(aksiyon !== "islemyap") mcPopoverDonusIsaretle(mcMusteriAcikKisi);
   switch(aksiyon){
-    case "cari": window.location.href = "customer-cari-kart.html"; break;
-    case "temas": window.location.href = "customer-temas.html"; break;
+    case "cari": mcSayfayaGec("customer-cari-kart.html"); break;
+    case "temas": mcSayfayaGec("customer-temas.html"); break;
     case "islemyap":
       var mcIslemMusteri = mcMusteriAcikKisi;
       mcIslemPopupAc(mcIslemMusteri, function(tip){
@@ -772,12 +772,12 @@ function mcMusteriAksiyonuUygula(aksiyon){
         mcMusteriTipMenuKonumla();
       });
       break;
-    case "fatura": window.location.href = "customer-detail.html?ac=fatura"; break;
-    case "gecmis": window.location.href = "gecmis.html"; break;
-    case "urun": window.location.href = "customer-detail.html?ac=urun"; break;
+    case "fatura": mcSayfayaGec("customer-detail.html?ac=fatura"); break;
+    case "gecmis": mcSayfayaGec("gecmis.html"); break;
+    case "urun": mcSayfayaGec("customer-detail.html?ac=urun"); break;
     case "bekleyen":
       try{ localStorage.setItem("weiconv2_bakiye_musteri_filtre", JSON.stringify({id:mcMusteriAcikKisi.id||null, ad:mcMusteriAcikKisi.ad||""})); }catch(e){}
-      window.location.href = "bakiye-urunler.html";
+      mcSayfayaGec("bakiye-urunler.html");
       break;
   }
 }
@@ -1037,6 +1037,22 @@ function mcKatmanKapatici(){
   return false;
 }
 
+// SAYFA GEÇİŞİ (11.11.2026, Abdullah): bir sayfadayken menüden başka sayfa seçilince sistem o anki sayfayı
+// OTOMATİK bekletir (bekleyen işlemlere alır) ve seçilen sayfaya DOĞRUDAN geçer — önce Kapat → Ana Sayfa → menü
+// yolu gerekmez. Ana Sayfa'da (beklenecek bir şey yok) ve hedef Ana Sayfa/aynı sayfa ise bekletme yapılmaz.
+// Bekletilemezse (bekleyen listesi dolu, Beklet bu sayfada kapalı/yetkisiz) geçiş YİNE yapılır.
+function mcDosya(h){ return ((h || "").split("#")[0].split("?")[0].split("/").pop()) || "index.html"; }
+function mcSayfayaGec(href){
+  try{
+    var simdi = mcDosya(window.location.pathname), hedef = mcDosya(href);
+    if(simdi !== "home.html" && hedef !== "home.html" && hedef !== simdi
+       && typeof BekleyenIslemler !== "undefined" && BekleyenIslemler.sayfayiSessizBeklet){
+      BekleyenIslemler.sayfayiSessizBeklet();
+    }
+  }catch(e){}
+  if(window.Nav && Nav.git) Nav.git(href); else window.location.href = href;
+}
+
 function asDrawerBagla(){
   try{
     if(window.Nav) Nav.kapaticiEkle(mcKatmanKapatici);
@@ -1057,6 +1073,21 @@ function asDrawerBagla(){
         altMenuAc(this.getAttribute("data-alt-menu"), this);
       };
     });
+    // Menüdeki (çekmece + yana açılan alt menü) TÜM sayfa bağlantıları: yakalama aşamasında tek noktadan
+    // geçirilir — o anki sayfa bekletilir, hedef sayfaya doğrudan geçilir (bkz. mcSayfayaGec).
+    if(overlay){
+      overlay.addEventListener("click", function(ev){
+        try{
+          var a = ev.target && ev.target.closest ? ev.target.closest("a[href]") : null;
+          if(!a || !overlay.contains(a)) return;
+          if(a.getAttribute("aria-disabled") === "true") return;
+          var h = a.getAttribute("href");
+          if(!h || h.charAt(0) === "#" || /^(https?:|mailto:|tel:|javascript:)/i.test(h)) return;
+          ev.preventDefault(); ev.stopPropagation();
+          mcSayfayaGec(h);
+        }catch(e){}
+      }, true);
+    }
     document.addEventListener("click", function(ev){
       var panel = document.getElementById("asDrawerAltMenu");
       if(!panel || panel.hidden) return;
