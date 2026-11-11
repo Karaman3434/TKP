@@ -1,4 +1,4 @@
-/* reports-style.css — TKP.09.11.26-15:24.1527 */
+/* reports-style.css — TKP.11.11.26-14:20.1566 */
 /* reports-style.css — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
@@ -486,82 +486,6 @@
   font-weight: 900;
   cursor: pointer;
 }
-
-/* Görevler */
-.gorev-ekle-kutu {
-  border: 1px solid #e2e6ec;
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 16px;
-  background: #fafbfc;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.gorev-ekle-kutu input {
-  border: 2px solid #cbd5e1;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 14px;
-  color: #111;
-}
-.gorev-tarih-satir {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.gorev-ekle-buton {
-  background: #b7601f;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  padding: 12px;
-  font-size: 14px;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-.gorev-arama-kutusu { margin-bottom: 10px; }
-.gorev-arama-kutusu input {
-  width: 100%;
-  border: 2px solid #cbd5e1;
-  border-radius: 999px;
-  padding: 10px 14px;
-  font-size: 13px;
-}
-
-.gorev-karti {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border: 1px solid #e2e6ec;
-  border-radius: 10px;
-  padding: 7px 8px;
-  margin-bottom: 8px;
-  background: #fafbfc;
-}
-.gorev-karti.tamamlandi {
-  opacity: .55;
-}
-.gorev-checkbox {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-}
-.gorev-bilgi { flex: 1; min-width: 0; }
-.gorev-musteri { font-size: 13.5px; font-weight: 500; color: #003a70; }
-.gorev-musteri .cari-kod, .gorev-musteri .cari-ayrac, .gorev-musteri .cari-isim, .gorev-musteri .cari-sehir { font-size: 13px; font-weight: 400; letter-spacing: normal; }
-.gorev-musteri .cari-kod { color: #c0392b; }
-.gorev-musteri .cari-isim { color: #111827; font-weight: 400; }
-.gorev-aciklama { font-size: 12px; color: #333; margin-top: 2px; }
-.gorev-zaman { font-size: 10px; color: #44494f; margin-top: 2px; }
-.gorev-karti.tamamlandi .gorev-aciklama,
-.gorev-karti.tamamlandi .gorev-musteri {
-  text-decoration: line-through;
-}
-
-
 
 .bos-mesaj {
   text-align: center;

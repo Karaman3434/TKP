@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.11.11.26-11:18.1564
+  belge-render.js — TKP.11.11.26-14:20.1566
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -499,20 +499,12 @@ function bhpAyniMusteriKaydiMi(kayitMusteriAdi, kayitMusteriId, seciliAd, secili
 // customer-render.js'teki cmRozetSayilariniHesapla ile AYNI hesap —
 // VadeTakip bu sayfada yüklü değil, bu yüzden "fatura" her zaman 0 kalır.
 function bhpRozetSayilariniHesapla(m){
-  var sonuc = {temas:0, gecmis:0, gorev:0, fatura:0, urun:0, bekleyen:0};
+  var sonuc = {temas:0, gecmis:0, fatura:0, urun:0, bekleyen:0};
   try{ sonuc.temas = (m.ziyaretGecmisi||[]).length; }catch(e){}
   try{
     if(typeof ReportsData !== "undefined"){
       var tumu = ReportsData.sonIslemler();
       sonuc.gecmis = tumu.filter(function(k){ return bhpAyniMusteriKaydiMi(k.musteri, k.musteriId, m.ad, m.id); }).length;
-    }
-  }catch(e){}
-  try{
-    if(typeof ReportsData !== "undefined" && ReportsData.gorevleriGetir){
-      var adAnahtar = (m.ad||"").toLocaleLowerCase("tr-TR");
-      sonuc.gorev = ReportsData.gorevleriGetir().filter(function(g){
-        return (g.musteriAd||"").toLocaleLowerCase("tr-TR").indexOf(adAnahtar) >= 0;
-      }).length;
     }
   }catch(e){}
   try{
@@ -747,7 +739,6 @@ function bhpAksiyonuUygula(aksiyon){
       break;
     case "fatura": window.location.href = "customer-detail.html?ac=fatura"; break;
     case "gecmis": window.location.href = "gecmis.html"; break;
-    case "gorev": window.location.href = "customer-detail.html?ac=gorev"; break;
     case "urun": window.location.href = "customer-detail.html?ac=urun"; break;
     case "bekleyen":
       try{ localStorage.setItem("weiconv2_bakiye_musteri_filtre", JSON.stringify({id:bhpAcikMusteri.id||null, ad:bhpAcikMusteri.ad||""})); }catch(e){}
@@ -784,7 +775,6 @@ function bhpAc(musteri, ankorEl){
       {ikon:"🔍", etiket:"İşlem Yap", aksiyon:"islemyap"},
       {ikon:"📄", etiket:"Fatura ve Ödeme Takip", aksiyon:"fatura", rozet:rozetler.fatura},
       {ikon:"🕐", etiket:"İşlem Geçmişi", aksiyon:"gecmis", rozet:rozetler.gecmis},
-      {ikon:"📋", etiket:"Görevlerim", aksiyon:"gorev", rozet:rozetler.gorev},
       {ikon:"📦", etiket:"Ürün Geçmişi", aksiyon:"urun", rozet:rozetler.urun},
       {ikon:"📦", etiket:"Bekleyen Ürünler", aksiyon:"bekleyen", rozet:rozetler.bekleyen}
     ];

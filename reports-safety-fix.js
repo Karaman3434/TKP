@@ -1,3 +1,4 @@
+/* reports-safety-fix.js — TKP.11.11.26-14:20.1566 */
 /* WE-CON-CRM — reports safety layer
    HATA-004: Replaces stale read -> set writes with Realtime Database transactions.
    Loaded AFTER reports-data.js so existing UI/data contracts remain unchanged.
@@ -36,30 +37,6 @@
     }
   }
 
-  ReportsData.gorevEkle = function(musteriAd, aciklama, tarih, saat){
-    var yeni = {
-      id: 'gorev_' + Date.now() + '_' + Math.floor(Math.random()*10000),
-      musteriAd: musteriAd,
-      aciklama: aciklama,
-      tarih: tarih,
-      saat: saat,
-      tamamlandi: false,
-      tamamlanmaZamani: null,
-      olusturmaZamani: Date.now()
-    };
-    return transactionList('gorevler', function(list){ list.push(yeni); return true; });
-  };
-
-  ReportsData.gorevTamamlandiToggle = function(id){
-    return transactionList('gorevler', function(list){
-      var g = list.find(function(x){ return x.id === id; });
-      if(!g) return false;
-      g.tamamlandi = !g.tamamlandi;
-      g.tamamlanmaZamani = g.tamamlandi ? Date.now() : null;
-      return true;
-    });
-  };
-
   ReportsData.kaydiKacanIsaretle = function(tip, ts, sebep, rakip, geriBildir){
     return transactionList('arsiv/' + tip, function(list){
       var idx = list.findIndex(function(k){ return k.ts === ts; });
@@ -97,15 +74,9 @@
 
     function sonraki(){
       if(i >= tipler.length){
-        return transactionList('gorevler', function(list){
-          list.forEach(function(g){
-            if(g.musteriAd === digerAd || (digerId && g.musteriId === digerId)){
-              g.musteriAd = anaAd;
-              if(digerId || g.musteriId) g.musteriId = anaId;
-            }
-          });
-          return true;
-        }, geriBildir);
+        // (11.11.2026: Görevlerim özelliği kaldırıldı — görev kayıtları artık taşınmaz.)
+        if(geriBildir) geriBildir(true);
+        return Promise.resolve(true);
       }
       var tip = tipler[i++];
       return transactionList('arsiv/' + tip, function(list){

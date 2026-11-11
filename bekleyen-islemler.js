@@ -1,5 +1,5 @@
 /*
-  bekleyen-islemler.js — TKP.01.11.26-18:36.1335
+  bekleyen-islemler.js — TKP.11.11.26-14:20.1566
   ==========================================
   GÜNCELLEME (01.11.2026, Abdullah onayı — "Beklet tuşu çalışmıyor" hata
   bildirimi): Bu dosya eskiden KENDİ yuvarlak düğmesini ".app-nav" içine
@@ -302,13 +302,11 @@ var BekleyenIslemler = (function(){
     "gecmis.html": "bekletGecmis",
     "raporlar.html": "bekletRaporlar",
     "reports.html": "bekletRaporlar",
-    "kacan-satislar.html": "bekletRaporlar",
     "satis-listesi.html": "bekletSatisListesi",
     "hareketler.html": "bekletHareketler",
     "son-islemler.html": "bekletHareketler",
     "ziyaret.html": "bekletZiyaret",
     "takip-gerekenler.html": "bekletTakipGerekenler",
-    "gorevler.html": "bekletGorevler",
     "vade-takip.html": "bekletVadeTakip",
     "km.html": "bekletKm",
     "km-kayitlar.html": "bekletKm",

@@ -1,5 +1,5 @@
 /*
-  detail-render.js — TKP.11.11.26-11:18.1564
+  detail-render.js — TKP.11.11.26-14:20.1566
   ================
   Seçili müşterinin bilgilerini, sipariş geçmişini (ReportsData.sonIslemler
   üzerinden filtrelenmiş) ve ziyaret geçmişini gösterir.
@@ -120,11 +120,6 @@ function tilelariBagla(){
 
   document.getElementById("tileGecmis").onclick = function(){
     window.location.href = "gecmis.html";
-  };
-  document.getElementById("tileGorevler").onclick = function(){
-    var bolum = document.getElementById("bolumGorevler");
-    bolum.hidden = !bolum.hidden;
-    if(!bolum.hidden) bolum.scrollIntoView({behavior:"smooth", block:"start"});
   };
   // "İşlem Yap" kutucuğu — artık doğrudan ürün aramaya gitmiyor, önce
   // Cari Kart'a gidip vade/fatura/kargo/adres/yetkili bilgilerini gözden
@@ -284,34 +279,6 @@ function urunGecmisiniAc(){
   }catch(e){ hataGoster("Ürün geçmişi açılamadı: " + e.message); }
 }
 
-function musteriGorevleriniCiz(){
-  try{
-    var tumu = ReportsData.gorevleriGetir();
-    var bunaAit = tumu.filter(function(g){
-      return (g.musteriAd||"").toLocaleLowerCase("tr-TR").indexOf((seciliMusteriAdi||"").toLocaleLowerCase("tr-TR")) >= 0;
-    });
-    document.getElementById("badgeGorevler").textContent = bunaAit.length;
-    document.getElementById("gorevlerAlt").textContent = bunaAit.length>0 ? (bunaAit.length + " görev") : "Görev yok";
-
-    var kapsayici = document.getElementById("detayGorevListesi");
-    var bos = document.getElementById("detayGorevBos");
-    if(bunaAit.length === 0){
-      kapsayici.innerHTML = "";
-      bos.hidden = false;
-      return;
-    }
-    bos.hidden = true;
-    kapsayici.innerHTML = bunaAit.map(function(g){
-      return "<div class='gorev-karti" + (g.tamamlandi?" tamamlandi":"") + "'>"
-        + "<div class='gorev-bilgi'>"
-        + "<div class='gorev-aciklama'>" + htmlEsc(g.aciklama) + "</div>"
-        + "<div class='gorev-zaman'>" + htmlEsc(g.tarih||"") + " " + htmlEsc(g.saat||"") + "</div>"
-        + "</div>"
-        + "</div>";
-    }).join("");
-  }catch(e){ hataGoster("Görevler çizilemedi: " + e.message); }
-}
-
 window.addEventListener("error", function(ev){
   hataGoster("HATA: " + ev.message + " (" + (ev.filename||"").split("/").pop() + ":" + ev.lineno + ")");
 });
@@ -339,9 +306,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
   });
   ReportsData.arsivDegistiginde(siparisGecmisiniCiz);
-  ReportsData.gorevDegistiginde(musteriGorevleriniCiz);
   siparisGecmisiniCiz();
-  musteriGorevleriniCiz();
   ReportsData.arsivDegistiginde(faturaTakipYenile);
   faturaTakipOzetiGuncelle();
   // HATA DÜZELTME (09.10.2026, Abdullah'ın isteğiyle) — "Ürün Geçmişi"
@@ -368,14 +333,13 @@ document.addEventListener("DOMContentLoaded", function(){
 
   // OTOMATİK AÇILIŞ (05.10.2026, Abdullah'ın isteğiyle) — Müşteri Bul'daki
   // hızlı pencereden "Fatura Takip"/"Görevlerim"/"Ürün Geçmişi" seçilince
-  // buraya "?ac=fatura" / "?ac=gorev" / "?ac=urun" ile geliniyor; sayfa
+  // buraya "?ac=fatura" / "?ac=urun" ile geliniyor; sayfa
   // kendi tuşuna tıklanmış gibi davranıp ilgili pencereyi/satırı HEMEN
   // açıyor. Panel/liste verisi yukarıdaki satırlarla zaten hazırlandığı
   // için burada sadece tuşun click'ini tetiklemek yeterli.
   try{
     var acParam = new URLSearchParams(window.location.search).get("ac");
     if(acParam === "fatura"){ document.getElementById("tileFaturaTakip").click(); }
-    else if(acParam === "gorev"){ document.getElementById("tileGorevler").click(); }
     else if(acParam === "urun"){ document.getElementById("tileUrunGecmisi").click(); }
   }catch(e){ hataGoster("Otomatik açılış başarısız: " + e.message); }
 });

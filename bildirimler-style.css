@@ -1,3 +1,4 @@
+/* bildirimler-style.css — TKP.11.11.26-14:20.1566 */
 .sayfa { padding: 4px 6px 16px; }
 
 .bildirim-bolum-baslik {
@@ -159,38 +160,3 @@
   flex-shrink: 0;
 }
 
-.gorev-bildirim-karti {
-  background: #faeeda;
-  border: 1px solid #b7601f;
-  border-radius: 8px;
-  padding: 7px 8px;
-  margin-bottom: 10px;
-}
-.gorev-bildirim-musteri { font-size: 13.5px; font-weight: 500; color: #222222; margin-bottom: 5px; }
-.gorev-bildirim-musteri .cari-kod, .gorev-bildirim-musteri .cari-ayrac, .gorev-bildirim-musteri .cari-isim, .gorev-bildirim-musteri .cari-sehir { font-size: 13px; font-weight: 400; letter-spacing: normal; }
-.gorev-bildirim-musteri .cari-kod { color: #c0392b; }
-.gorev-bildirim-musteri .cari-isim { color: #111827; font-weight: 400; }
-.gorev-bildirim-aciklama { font-size: 13px; color: #556170; margin-bottom: 10px; line-height: 1.4; }
-.gorev-bildirim-buton-satir { display: flex; gap: 8px; }
-.gorev-tamamla-btn {
-  flex: 1;
-  background: #eafaf0;
-  color: #0e6b34;
-  border: 2px solid #0e6b34;
-  padding: 11px;
-  font-size: 12px;
-  font-weight: 800;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.gorev-musteriye-git-btn {
-  flex: 1;
-  background: #eef4fb;
-  color: #003a70;
-  border: 2px solid #7ea6d6;
-  padding: 11px;
-  font-size: 12px;
-  font-weight: 800;
-  border-radius: 6px;
-  cursor: pointer;
-}

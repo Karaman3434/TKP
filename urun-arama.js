@@ -1,5 +1,5 @@
 /*
-  urun-arama.js — TKP.09.11.26-18:48.1530
+  urun-arama.js — TKP.11.11.26-14:20.1566
   GÜNCELLEME (04.11.2026, Abdullah onayı): arama bölümü ikiye bölündü; müşteri paneli
   arama kutusu ile sonuç listesi arasında (uaIzinleriUygula iki bölümü birden gizler).
   GÜNCELLEME (27.10.2026, Abdullah onayı — mini arama özelliği): aşağıdaki
@@ -459,7 +459,7 @@ document.addEventListener("DOMContentLoaded", function(){
   // Ana sayfa çekmece menüsündeki "Ürün" alt menüsünden "Hit Ürünler" /
   // "Yeni Ürün Ekle" ile buraya "?ac=hit" / "?ac=yeniurun" parametresiyle
   // gelinirse, ilgili panel sayfa açılır açılmaz otomatik açılır —
-  // customer-render.js'teki "?ac=fatura/gorev/urun" deseniyle AYNI mantık
+  // customer-render.js'teki "?ac=fatura/urun" deseniyle AYNI mantık
   // (bkz. menu-cekmece.js DRAWER_ALT_MENULERI.urun). uaIzinleriUygula()
   // ZATEN yukarıda çalıştığı için izinsiz/gizli düğmeye dokunulmuyor —
   // izni olmayan bir çalışan bu parametreyle paneli açamaz.

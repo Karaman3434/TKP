@@ -1,5 +1,5 @@
 /*
-  islem-liste.js — TKP.11.11.26-13:43.1565
+  islem-liste.js — TKP.11.11.26-14:20.1566
   ==========================================================================
   ORTAK İŞLEM LİSTESİ (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır
   filtre" turu; mockup: Son İşlemler satır tasarımı + arama kutusu yanında
@@ -341,7 +341,11 @@ var IslemListesi = (function(){
         h += "<h5>TÜR</h5><div class='il-r'><button type='button' class='il-c" + (!durum.tip ? " il-c--on" : "") + "' data-act='tip' data-v=''>Tümü</button>"
           + ["numune","teklif","proforma","siparis"].map(function(t){
               return "<button type='button' class='il-c il-c--" + t + (durum.tip === t ? " il-c--on il-c--tip-on" : "") + "' data-act='tip' data-v='" + t + "'>" + TIP_ETIKET[t] + "</button>";
-            }).join("") + "</div>";
+            }).join("")
+          // KÇS (11.11.2026, Abdullah onayı): "Kaçan Satışlar" sekmesi kaldırıldı; kaçan işaretli kayıtlar
+          // artık TÜR satırında kısa kodla (KÇS) süzülür. Tür seçimiyle birleşir (ör. SİP + KÇS).
+          + (taban.durum ? "" : "<button type='button' class='il-c il-c--kacan" + (durum.durum === "kacan" ? " il-c--on il-c--tip-on" : "") + "' data-act='kacan'>" + TipEtiket.kisa.kacan + "</button>")
+          + "</div>";
       }
       if(durum.musteriId || durum.musteriAd){
         h += "<h5>MÜŞTERİ</h5><div class='il-r'><span class='il-pill'>👤 " + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml && durum.musteriAd ? CustomerData.kodAdHtml(durum.musteriId, durum.musteriAd) : htmlEsc(durum.musteriAd || "Seçili müşteri")) + "<button type='button' data-act='musteri-kaldir' aria-label='Müşteri filtresini kaldır'>✕</button></span></div>";
@@ -397,6 +401,7 @@ var IslemListesi = (function(){
       if(act === "kapat"){ panelKapat(); return; }
       if(act === "hazir") hazirUygula(el.getAttribute("data-id"));
       else if(act === "tip") durum.tip = el.getAttribute("data-v") || "";
+      else if(act === "kacan") durum.durum = (durum.durum === "kacan") ? "" : "kacan";
       else if(act === "sira") durum.siralama = el.getAttribute("data-v") || "yeni";
       else if(act === "musteri-kaldir"){ durum.musteriId = ""; durum.musteriAd = ""; }
       else if(act === "temizle") temizle();

@@ -1,5 +1,5 @@
 /*
-  gecmis-render.js — TKP.10.11.26-11:55.1541
+  gecmis-render.js — TKP.11.11.26-14:20.1566
   ================
   Müşteriye özel İşlem Geçmişi sayfası. ReportsData.sonIslemler() zaten
   en yeniden en eskiye sıralı geliyor (bkz. reports-data.js); burada
@@ -56,7 +56,7 @@ function ayniMusteriKaydiMi(kayitMusteriAdi, kayitMusteriId, seciliAd, seciliId)
 
 // v3 — tarih gruplu tasarım (05.09.2026). Bu sabitler reports-render.js,
 // son-islemler-render.js, satis-listesi-render.js ve
-// kacan-satislar-render.js'de birebir aynı tutulmalı.
+// (kacan-satislar sayfası 11.11.2026 kaldırıldı; kaçanlar artık Son İşlemler KÇS filtresinde.)
 var TIP_META = {
   siparis:  {rozet:TipEtiket.kisa.siparis,    rozetBg:"#e6f1fb", rozetRenk:"#0c447c", serit:"#185fa5", kodRenk:"#003a70"},
   teklif:   {rozet:TipEtiket.kisa.teklif,    rozetBg:"#e1f5ee", rozetRenk:"#0e6b58", serit:"#28a745", kodRenk:"#1a7431"},

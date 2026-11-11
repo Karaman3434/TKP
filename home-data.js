@@ -1,3 +1,4 @@
+/* home-data.js — TKP.11.11.26-14:20.1566 */
 /*
   home-data.js
   ============
@@ -184,7 +185,6 @@ var IsTakipData = (function(){
   }
 
   var arsivHamData = {numune:[], teklif:[], proforma:[], siparis:[]};
-  var gorevHamData = [];
   var bildirimDinleyicileri = [];
 
   function bildirimVerisiDinlemeyeBasla(){
@@ -209,11 +209,6 @@ var IsTakipData = (function(){
         });
         bildirimDinleyicileri.forEach(function(fn){ fn(); });
       });
-      db.ref("gorevler").on("value", function(snap){
-        var data = snap.val();
-        gorevHamData = data ? (Array.isArray(data) ? data.filter(Boolean) : Object.values(data)) : [];
-        bildirimDinleyicileri.forEach(function(fn){ fn(); });
-      });
     }catch(e){
       bildirimDinlemeBasladi = false;
       console.error("Bildirim verisi dinlenemedi:", e);
@@ -230,13 +225,7 @@ var IsTakipData = (function(){
         if(gunFarki >= 15) acikSurecSayisi++;
       });
     });
-    var gecikmisGorevSayisi = 0;
-    var bugunTarihStr = new Date().toISOString().slice(0,10);
-    gorevHamData.forEach(function(g){
-      if(g.tamamlandi) return;
-      if(g.tarih && g.tarih < bugunTarihStr) gecikmisGorevSayisi++;
-    });
-    return {acikSurecSayisi:acikSurecSayisi, gecikmisGorevSayisi:gecikmisGorevSayisi, toplam:acikSurecSayisi+gecikmisGorevSayisi};
+    return {acikSurecSayisi:acikSurecSayisi, gecikmisGorevSayisi:0, toplam:acikSurecSayisi};
   }
 
   function bildirimDegistiginde(fn){

@@ -53,7 +53,7 @@ var AcikBelgeKontrol = (function(){
     bekleyenler.push(hazirOlunca);
     if(kaynaklarYukleniyor) return;
     kaynaklarYukleniyor = true;
-    cssEkle("detail-style.css?v=TKP.02.11.26-10:48.1375", ".tip-secim-overlay");
+    cssEkle("detail-style.css?v=TKP.11.11.26-14:20.1566", ".tip-secim-overlay");
     cssEkle("cari-kart-style.css?v=WG.011126.1022.1261", ".ck-sil-uyari-notu");
     cssEkle("belge-style.css?v=TKP.05.11.26-13:08.1486", ".belge-urun-tablo");
     if(typeof HareketTablo !== "undefined"){

@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.11.11.26-11:18.1564
+// menu-cekmece.js — TKP.11.11.26-14:20.1566
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -125,7 +125,7 @@ var MC_OGELER = [
   { anahtarlar: ["islemGecmisi"], ikon: "🕐", etiket: "Son İşlemler", href: "son-islemler.html" },
   { anahtarlar: ["markaKarsilastirma"], ikon: "🔄", renk: "#5dade2", etiket: "Marka Karşılaştırma", href: "marka-karsilastirma.html" },
   { anahtarlar: ["kmTakip"], ikon: "🚗", renk: "#ec7063", etiket: "Araç KM", altMenu: "arackm", aracKmDurum: true },
-  { anahtarlar: ["raporlar", "satisListesi", "hareketler", "ziyaret", "takipGerekenler", "gorevler"], ikon: "📊", renk: "#f5b041", etiket: "Raporlar", altMenu: "raporlar" },
+  { anahtarlar: ["raporlar", "satisListesi", "hareketler", "ziyaret", "takipGerekenler"], ikon: "📊", renk: "#f5b041", etiket: "Raporlar", altMenu: "raporlar" },
   { anahtarlar: ["vadeTakip"], ikon: "📄", etiket: "Fatura · Vade · Ödeme Takip", href: "vade-takip.html" },
   { anahtarlar: ["maasHesaplama", "netMaasHesaplama", "avansTakibi", "odenebilirKomisyon"], ikon: "🔒", renk: "#f5c451", etiket: "Kişisel", altMenu: "kisisel" }
 ];
@@ -140,9 +140,7 @@ var DRAWER_ALT_MENULERI = {
     ogeler: [
       {ikon:"📊", etiket:"İstatistikler", href:"reports.html"},
       {ikon:"📋", etiket:"Son İşlemler", href:"son-islemler.html"},
-      {ikon:"📌", etiket:"Görevlerim", href:"gorevler.html"},
       {ikon:"⚠️", etiket:"Takip Gerekenler", href:"takip-gerekenler.html"},
-      {ikon:"❌", etiket:"Kaçan Satışlar", href:"kacan-satislar.html"},
       {ikon:"📦", etiket: TipEtiket.kisa.stok + " ve " + TipEtiket.kisa.bakiye, href:"bakiye-urunler.html"}
     ]
   },
@@ -156,7 +154,7 @@ var DRAWER_ALT_MENULERI = {
   // EKLENDİ (26.10.2026, Abdullah onayı — mockup üzerinden): "Ürün Bul"
   // satırının artık açtığı alt menü. "Hit Ürünler"/"Yeni Ürün Ekle" cart.
   // html'e "?ac=hit" / "?ac=yeniurun" ile gidiyor — customer-render.js'in
-  // "?ac=fatura/gorev/urun" deseniyle AYNI mantık: cart.html kendi
+  // "?ac=fatura/urun" deseniyle AYNI mantık: cart.html kendi
   // DOMContentLoaded'ında bu parametreyi okuyup ilgili paneli otomatik
   // açıyor (bkz. urun-arama.js).
   urun: {
@@ -317,7 +315,7 @@ function mcMusteriModulunuYukle(hazirOlunca){
   if(mcMusteriModulYukleniyor) return;
   mcMusteriModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "customer-data.js?v=TKP.02.11.26-11:48.1388";
+  s.src = "customer-data.js?v=TKP.11.11.26-14:20.1566";
   s.onload = function(){
     mcMusteriDinleyiciyiBagla();
     mcMusteriModulBekleyenler.forEach(function(fn){ fn(); });
@@ -542,20 +540,12 @@ function mcMusteriAyniKaydiMi(kayitMusteriAdi, kayitMusteriId, seciliAd, seciliI
 // customer-render.js'teki cmRozetSayilariniHesapla ile AYNI hesap —
 // "fatura" = vadesi geçen fatura sayısı (VadeTakip yüklüyse).
 function mcMusteriRozetSayilariniHesapla(m){
-  var sonuc = {temas:0, gecmis:0, gorev:0, fatura:0, urun:0, bekleyen:0};
+  var sonuc = {temas:0, gecmis:0, fatura:0, urun:0, bekleyen:0};
   try{ sonuc.temas = (m.ziyaretGecmisi||[]).length; }catch(e){}
   try{
     if(typeof ReportsData !== "undefined"){
       var tumu = ReportsData.sonIslemler();
       sonuc.gecmis = tumu.filter(function(k){ return mcMusteriAyniKaydiMi(k.musteri, k.musteriId, m.ad, m.id); }).length;
-    }
-  }catch(e){}
-  try{
-    if(typeof ReportsData !== "undefined" && ReportsData.gorevleriGetir){
-      var adAnahtar = (m.ad||"").toLocaleLowerCase("tr-TR");
-      sonuc.gorev = ReportsData.gorevleriGetir().filter(function(g){
-        return (g.musteriAd||"").toLocaleLowerCase("tr-TR").indexOf(adAnahtar) >= 0;
-      }).length;
     }
   }catch(e){}
   try{
@@ -788,7 +778,6 @@ function mcMusteriAksiyonuUygula(aksiyon){
       break;
     case "fatura": window.location.href = "customer-detail.html?ac=fatura"; break;
     case "gecmis": window.location.href = "gecmis.html"; break;
-    case "gorev": window.location.href = "customer-detail.html?ac=gorev"; break;
     case "urun": window.location.href = "customer-detail.html?ac=urun"; break;
     case "bekleyen":
       try{ localStorage.setItem("weiconv2_bakiye_musteri_filtre", JSON.stringify({id:mcMusteriAcikKisi.id||null, ad:mcMusteriAcikKisi.ad||""})); }catch(e){}
@@ -820,7 +809,6 @@ function mcMusteriHizliPencereGoster(musteri, panel){
       {ikon:"🔍", etiket:"İşlem Yap", aksiyon:"islemyap"},
       {ikon:"📄", etiket:"Fatura ve Ödeme Takip", aksiyon:"fatura", rozet:rozetler.fatura},
       {ikon:"🕐", etiket:"İşlem Geçmişi", aksiyon:"gecmis", rozet:rozetler.gecmis},
-      {ikon:"📋", etiket:"Görevlerim", aksiyon:"gorev", rozet:rozetler.gorev},
       {ikon:"📦", etiket:"Ürün Geçmişi", aksiyon:"urun", rozet:rozetler.urun},
       {ikon:"📦", etiket:"Bekleyen Ürünler", aksiyon:"bekleyen", rozet:rozetler.bekleyen}
     ];

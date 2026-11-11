@@ -1,4 +1,4 @@
-/* islem-liste-style.css — TKP.11.11.26-13:43.1565
+/* islem-liste-style.css — TKP.11.11.26-14:20.1566
    ORTAK İŞLEM LİSTESİ STİLİ (02.11.2026, Abdullah onayı): Son İşlemler,
    Satış Listesi, Ay Detay ve Kaçan Satışlar artık bu TEK dosyadan stillenir
    (islem-liste.js). Satır / gün bandı / rozet kuralları, onaylı "Son
@@ -188,6 +188,7 @@
 .il-c--teklif   { background: #cdeee0; color: #2d3540; }
 .il-c--proforma { background: #ffddb8; color: #2d3540; }
 .il-c--siparis  { background: #cfe2fa; color: #2d3540; }
+.il-c--kacan    { background: #f7c6c1; color: #7a1f1f; }
 .il-c--tip-on { border-color: #00305e; box-shadow: inset 0 0 0 1.5px #00305e; color: #00305e; }
 .il-pill {
   display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1.5px solid #00305e;

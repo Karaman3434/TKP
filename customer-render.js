@@ -1,5 +1,5 @@
 /*
-  customer-render.js — TKP.11.11.26-11:18.1564
+  customer-render.js — TKP.11.11.26-14:20.1566
   GÜNCELLEME (27.10.2026, Abdullah onayı — ana sayfa mini arama özelliği):
   "?musteriAc=<id-veya-ad>" parametresiyle buraya gelinirse, ilgili müşteri
   bulunup GERÇEK hızlı pencere (hizliPencereyiAc) otomatik açılır — bkz.
@@ -297,20 +297,12 @@ function cmAyniMusteriKaydiMi(kayitMusteriAdi, kayitMusteriId, seciliAd, seciliI
 // musteriGorevleriniCiz/faturaTakipOzetiGuncelle/urunGecmisiniAc'taki AYNI
 // hesaplamalar, sadece TEK (tıklanan) müşteri için, pencere açılırken.
 function cmRozetSayilariniHesapla(m){
-  var sonuc = {temas:0, gecmis:0, gorev:0, fatura:0, urun:0, bekleyen:0};
+  var sonuc = {temas:0, gecmis:0, fatura:0, urun:0, bekleyen:0};
   try{ sonuc.temas = (m.ziyaretGecmisi||[]).length; }catch(e){}
   try{
     if(typeof ReportsData !== "undefined"){
       var tumu = ReportsData.sonIslemler();
       sonuc.gecmis = tumu.filter(function(k){ return cmAyniMusteriKaydiMi(k.musteri, k.musteriId, m.ad, m.id); }).length;
-    }
-  }catch(e){}
-  try{
-    if(typeof ReportsData !== "undefined" && ReportsData.gorevleriGetir){
-      var adAnahtar = (m.ad||"").toLocaleLowerCase("tr-TR");
-      sonuc.gorev = ReportsData.gorevleriGetir().filter(function(g){
-        return (g.musteriAd||"").toLocaleLowerCase("tr-TR").indexOf(adAnahtar) >= 0;
-      }).length;
     }
   }catch(e){}
   try{
@@ -367,7 +359,6 @@ function hizliPencereyiAc(musteri){
       {ikon:"🔍", etiket:"İşlem Yap", aksiyon:"islemyap"},
       {ikon:"📄", etiket:"Fatura ve Ödeme Takip", aksiyon:"fatura", rozet:rozetler.fatura},
       {ikon:"🕐", etiket:"İşlem Geçmişi", aksiyon:"gecmis", rozet:rozetler.gecmis},
-      {ikon:"📋", etiket:"Görevlerim", aksiyon:"gorev", rozet:rozetler.gorev},
       {ikon:"📦", etiket:"Ürün Geçmişi", aksiyon:"urun", rozet:rozetler.urun},
       {ikon:"📦", etiket:"Bekleyen Ürünler", aksiyon:"bekleyen", rozet:rozetler.bekleyen}
     ];
@@ -496,9 +487,6 @@ function cmAksiyonuUygula(aksiyon){
       break;
     case "gecmis":
       window.location.href = "gecmis.html";
-      break;
-    case "gorev":
-      window.location.href = "customer-detail.html?ac=gorev";
       break;
     case "urun":
       window.location.href = "customer-detail.html?ac=urun";

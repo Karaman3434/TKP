@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.10.11.26-15:08.1556
+  customer-data.js — TKP.11.11.26-14:20.1566
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -589,7 +589,7 @@ var CustomerData = (function(){
         .toLocaleLowerCase("tr-TR").trim() === adNormal;
     }
 
-    var yollar = ["arsiv/numune","arsiv/teklif","arsiv/proforma","arsiv/siparis","gorevler"];
+    var yollar = ["arsiv/numune","arsiv/teklif","arsiv/proforma","arsiv/siparis"];   // 11.11.2026: Görevlerim kaldırıldı — "gorevler" yolu artık koddan silinmiyor
     var kalan = yollar.length;
     var ilkHata = null;
     var toplamSilinen = 0;

@@ -1,5 +1,5 @@
 /*
-  son-islemler-render.js — TKP.02.11.26-13:55.1398
+  son-islemler-render.js — TKP.11.11.26-14:20.1566
   =======================
   SON İŞLEMLER artık ORTAK İŞLEM LİSTESİ'ni (islem-liste.js) kullanıyor
   (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır filtre" turu).
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function(){
   var p = new URLSearchParams(window.location.search);
   IslemListesi.baslat({
     taban: {},
-    hazir: ["son","bugun","bu_ay","bu_yil","kacan","bekleyen"],
+    hazir: ["son","bugun","bu_ay","bu_yil","bekleyen"],   // "Kaçanlar" hazır tuşu → TÜR satırındaki KÇS (11.11.2026)
     baslangicHazir: "son",
     limit: 100,
     musteriId: p.get("musteriId") || "",

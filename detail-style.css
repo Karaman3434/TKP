@@ -1,4 +1,4 @@
-/* detail-style.css — TKP.02.11.26-10:48.1375 */
+/* detail-style.css — TKP.11.11.26-14:20.1566 */
 /* detail-style.css — eski uygulamanın "musteriKartModal" (İŞLEMLER)
    ekranıyla BİREBİR aynı: ortalı başlık şeridi, navy müşteri adı şeridi,
    tek satır özet, 4 büyük eylem kutucuğu, alt Sil/Kapat. */
@@ -50,11 +50,11 @@
 #tileTemas .islemler-tile-alt { color: #8e44ad; }
 #tileUrunBul { background: #f0f7ff; border: 2.5px solid #3569b8; }
 #tileUrunBul .islemler-tile-alt { color: #6a8fc9; }
-#tileGecmis, #tileGorevler { background: #f4f5f6; border: 2.5px solid #2d3540; }
+#tileGecmis { background: #f4f5f6; border: 2.5px solid #2d3540; }
 /* KİŞİSEL (24.09.2026) — kisisel.html'deki Maaş klasörü kutucuğu. */
 #kisiselMaasBtn { background: #eaf2fc; border: 2.5px solid #3569b8; }
 #kisiselMaasBtn .islemler-tile-alt { color: #6a8fc9; }
-#tileGecmis .islemler-tile-alt, #tileGorevler .islemler-tile-alt { color: #44494f; }
+#tileGecmis .islemler-tile-alt { color: #44494f; }
 #tileUrunGecmisi { background: #f6f0fd; border: 2.5px solid #8e44ad; }
 #tileUrunGecmisi .islemler-tile-alt { color: #8e44ad; }
 #tileFaturaTakip { background: #fdeaea; border: 2.5px solid #c0392b; }
@@ -581,18 +581,6 @@
   margin-bottom: 8px;
   background: #fafbfc;
 }
-
-.gorev-karti {
-  border: 1px solid #e2e6ec;
-  border-radius: 10px;
-  padding: 6px 7px;
-  margin-bottom: 8px;
-  background: #ffffff;
-}
-.gorev-karti.tamamlandi { opacity: .55; }
-.gorev-aciklama { font-size: 13px; font-weight: 700; color: #111827; }
-.gorev-karti.tamamlandi .gorev-aciklama { text-decoration: line-through; }
-.gorev-zaman { font-size: 11px; color: #44494f; margin-top: 2px; }
 
 .sekme-secim {
   display: grid;

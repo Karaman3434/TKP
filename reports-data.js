@@ -1,5 +1,5 @@
 /*
-  reports-data.js — TKP.10.11.26-14:58.1554
+  reports-data.js — TKP.11.11.26-14:20.1566
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -24,9 +24,7 @@
 var ReportsData = (function(){
 
   var arsiv = {numune:[], teklif:[], proforma:[], siparis:[]};
-  var gorevler = [];
   var arsivDinleyicileri = [];
-  var gorevDinleyicileri = [];
   // PERFORMANS KAZANIMI (27.10.2026): sonIslemler() ESKİDEN her çağrıda
   // arşivin TÜMÜNÜ (numune+teklif+proforma+siparis) yeniden düzleştirip
   // yeniden sıralıyordu — bu fonksiyon kod genelinde çok sık (bir sayfada
@@ -58,11 +56,6 @@ var ReportsData = (function(){
         arsivDinleyicileri.forEach(function(fn){ fn(); });
       });
 
-      db.ref("gorevler").on("value", function(snap){
-        var data = snap.val();
-        gorevler = data ? (Array.isArray(data) ? data.filter(Boolean) : Object.values(data)) : [];
-        gorevDinleyicileri.forEach(function(fn){ fn(); });
-      });
     }catch(e){
       console.error("Firebase başlatma hatası:", e);
     }
@@ -108,7 +101,6 @@ var ReportsData = (function(){
   }
 
   function arsivDegistiginde(fn){ arsivDinleyicileri.push(fn); }
-  function gorevDegistiginde(fn){ gorevDinleyicileri.push(fn); }
 
   function sonIslemler(limit){
     if(!sonIslemlerOnbellek){
@@ -122,50 +114,6 @@ var ReportsData = (function(){
       sonIslemlerOnbellek = hepsi;
     }
     return limit ? sonIslemlerOnbellek.slice(0, limit) : sonIslemlerOnbellek;
-  }
-
-  function gorevleriGetir(){
-    return gorevler.slice().sort(function(a,b){
-      if(a.tamamlandi !== b.tamamlandi) return a.tamamlandi ? 1 : -1;
-      return (a.olusturmaZamani||0) - (b.olusturmaZamani||0);
-    });
-  }
-
-  function gorevEkle(musteriAd, aciklama, tarih, saat){
-    var eslesenMusteri = (typeof CustomerData !== "undefined") ? CustomerData.musteriBul(musteriAd) : null;
-    var yeni = {
-      id: "gorev_" + Date.now() + "_" + Math.floor(Math.random()*10000),
-      musteriAd: musteriAd, musteriId: eslesenMusteri ? eslesenMusteri.id : null, aciklama: aciklama,
-      tarih: tarih, saat: saat,
-      tamamlandi: false, tamamlanmaZamani: null,
-      olusturmaZamani: Date.now()
-    };
-    guvenliGorevYaz(function(tazeGorevler){ tazeGorevler.push(yeni); });
-  }
-
-  function gorevTamamlandiToggle(id){
-    guvenliGorevYaz(function(tazeGorevler){
-      var g = tazeGorevler.find(function(x){ return x.id===id; });
-      if(!g) return;
-      g.tamamlandi = !g.tamamlandi;
-      g.tamamlanmaZamani = g.tamamlandi ? Date.now() : null;
-    });
-  }
-
-  // Görevler için de GÜVENLİ YAZMA DESENİ: transaction() Firebase'den EN
-  // TAZE veriyi garanti eder ve değişikliği onun üzerine uygular — iki cihaz
-  // aynı anda yazsa bile biri diğerini ezmez (29.09.2026).
-  function guvenliGorevYaz(mutateFn){
-    try{
-      var db = firebase.database();
-      db.ref("gorevler").transaction(function(mevcut){
-        var tazeGorevler = mevcut ? (Array.isArray(mevcut) ? mevcut.filter(Boolean) : Object.values(mevcut)) : [];
-        mutateFn(tazeGorevler);
-        return tazeGorevler;
-      }, function(err){
-        if(err) console.error("Görev kaydetme hatası:", err);
-      });
-    }catch(e){ console.error("Görev kaydetme hatası:", e); }
   }
 
   function tumSiparisler(){
@@ -679,7 +627,7 @@ var ReportsData = (function(){
     var i = 0;
 
     function sonrakiTipeGec(){
-      if(i >= tipler.length){ gorevleriTasi(); return; }
+      if(i >= tipler.length){ geriBildir(true); return; }
       var tip = tipler[i]; i++;
       db.ref("arsiv/" + tip).transaction(function(mevcut){
         var liste = mevcut ? (Array.isArray(mevcut) ? mevcut.filter(Boolean) : Object.values(mevcut)) : [];
@@ -693,19 +641,6 @@ var ReportsData = (function(){
       }, function(err){
         if(err){ geriBildir(false, err); return; }
         sonrakiTipeGec();
-      });
-    }
-
-    function gorevleriTasi(){
-      db.ref("gorevler").transaction(function(mevcut){
-        var liste = mevcut ? (Array.isArray(mevcut) ? mevcut.filter(Boolean) : Object.values(mevcut)) : [];
-        var degistiMi = false;
-        liste.forEach(function(g){ if(g.musteriAd===digerAd){ g.musteriAd=anaAd; degistiMi=true; } });
-        if(!degistiMi) return; // değişiklik yok — yazma iptal
-        return liste;
-      }, function(err){
-        if(err){ geriBildir(false, err); return; }
-        geriBildir(true);
       });
     }
 
@@ -1010,13 +945,9 @@ var ReportsData = (function(){
     baslat: baslat,
     arsivDegistiginde: arsivDegistiginde,
     musteriBilgisiDegisti: musteriBilgisiDegisti,
-    gorevDegistiginde: gorevDegistiginde,
     sonIslemler: sonIslemler,
     musterininAcikBelgesi: musterininAcikBelgesi,
     tumSiparisler: tumSiparisler,
-    gorevleriGetir: gorevleriGetir,
-    gorevEkle: gorevEkle,
-    gorevTamamlandiToggle: gorevTamamlandiToggle,
     ayToplami: ayToplami,
     son6Ay: son6Ay,
     acikSurecleriHesapla: acikSurecleriHesapla,

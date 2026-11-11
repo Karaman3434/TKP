@@ -1,5 +1,5 @@
 /*
-  auth.js — TKP.08.11.26-10:41.1500
+  auth.js — TKP.11.11.26-14:20.1566
   =======
   TÜM sayfalar tarafından paylaşılan tek görevi: Firebase oturumunun açık
   olup olmadığını kontrol etmek. Oturum yoksa login.html'e yönlendirir.
@@ -269,13 +269,11 @@
     "gecmis.html": "islemGecmisi",
     "raporlar.html": "raporlar",
     "reports.html": "raporlar",
-    "kacan-satislar.html": "raporlar",
     "satis-listesi.html": "satisListesi",
     "hareketler.html": "hareketler",
     "son-islemler.html": "hareketler",
     "ziyaret.html": "ziyaret",
     "takip-gerekenler.html": "takipGerekenler",
-    "gorevler.html": "gorevler",
     "vade-takip.html": "vadeTakip",
     "km.html": "kmTakip",
     "km-kayitlar.html": "kmTakip",
@@ -294,14 +292,14 @@
   // Hiçbir izin eşleşmediğinde yönlendirilecek ilk uygun sayfayı bulmak için
   // taranan sıra (anahtar -> o izne ait varsayılan sayfa).
   var SAYFA_IZIN_SIRASI = ["hesapla","urunBul","sepet","gonder","musteriBul","islemGecmisi",
-    "raporlar","satisListesi","hareketler","ziyaret","takipGerekenler","gorevler","vadeTakip",
+    "raporlar","satisListesi","hareketler","ziyaret","takipGerekenler","vadeTakip",
     "maasHesaplama","avansTakibi","odenebilirKomisyon","anaSayfa","kmTakip","bildirimler",
     "markaKarsilastirma"];
   var SAYFA_IZIN_DOSYA = {
     hesapla:"calc.html", urunBul:"product.html", sepet:"cart.html", gonder:"send.html",
     musteriBul:"customer.html", islemGecmisi:"gecmis.html", raporlar:"raporlar.html",
     satisListesi:"satis-listesi.html", hareketler:"hareketler.html", ziyaret:"ziyaret.html",
-    takipGerekenler:"takip-gerekenler.html", gorevler:"gorevler.html", vadeTakip:"vade-takip.html",
+    takipGerekenler:"takip-gerekenler.html", vadeTakip:"vade-takip.html",
     maasHesaplama:"maas-hesaplama.html", netMaasHesaplama:"net-maas-hesaplama.html",
     avansTakibi:"avans-takibi.html", odenebilirKomisyon:"odenebilir-komisyon.html",
     anaSayfa:"home.html", kmTakip:"km.html", bildirimler:"bildirimler.html",

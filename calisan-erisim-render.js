@@ -1,3 +1,4 @@
+/* calisan-erisim-render.js — TKP.11.11.26-14:20.1566 */
 /*
   calisan-erisim-render.js
   =========================
@@ -60,7 +61,6 @@ var IZIN_TANIMLARI = [
     { anahtar: "hareketler", etiket: "🔁 Hareketler" },
     { anahtar: "ziyaret", etiket: "📍 Ziyaret" },
     { anahtar: "takipGerekenler", etiket: "📌 Takip Gerekenler" },
-    { anahtar: "gorevler", etiket: "✅ Görevler" },
     { anahtar: "vadeTakip", etiket: "📅 Vade Takip" }
   ]},
   { grup: "Maaş ve Finans", sayfalar: [

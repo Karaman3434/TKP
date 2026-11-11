@@ -1,5 +1,5 @@
 /*
-  tip-etiketleri.js — TKP.08.11.26-13:14.1505
+  tip-etiketleri.js — TKP.11.11.26-14:20.1566
   ============================================
   BELGE / DURUM TÜRÜ KISALTMALARI — TEK KAYNAK (08.11.2026, Abdullah onayı):
   "Programdaki kısaltmalar: Sipariş SİP, Fiyat teklifi F.TEK, Proforma fatura
@@ -32,7 +32,8 @@ var TipEtiket = (function(){
     proforma: "P.FAT",
     numune:   "NUM",
     bakiye:   "B.BAK",
-    stok:     "B.STK"
+    stok:     "B.STK",
+    kacan:    "KÇS"   // Kaçan Satış (11.11.2026, Abdullah): Son İşlemler filtresinde kısa kod
   };
   var UZUN = {
     siparis:  "Sipariş",
@@ -40,7 +41,8 @@ var TipEtiket = (function(){
     proforma: "Proforma Fatura",
     numune:   "Numune",
     bakiye:   "Bekleyen Bakiye",
-    stok:     "Bekleyen Stok"
+    stok:     "Bekleyen Stok",
+    kacan:    "Kaçan Satış"
   };
 
   function kisaAl(tip){ return KISA[tip] || ""; }

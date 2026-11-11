@@ -1,5 +1,5 @@
 /*
-  bildirimler-render.js — TKP.09.11.26-18:48.1530
+  bildirimler-render.js — TKP.11.11.26-14:20.1566
   bildirimler-render.js
   ======================
   Eski uygulamanın bildirimListesiAc() ile BİREBİR aynı 3 bölüm:
@@ -82,7 +82,6 @@ function bildirimleriCiz(){
     var acikListe = ReportsData.acikSurecleriHesapla();
     var beklemedeListe = ReportsData.beklemedeSiparisleriHesapla().filter(function(b){ return b.gun>=3; });
     var ziyaretListe = CustomerData.ziyaretHatirlatmalari().filter(function(z){ return !z.hicZiyaretYok && z.gun>=15; });
-    var gorevListe = ReportsData.gorevleriGetir().filter(function(g){ return !g.tamamlandi; });
 
     var html = "";
 
@@ -124,21 +123,6 @@ function bildirimleriCiz(){
           + "<div class='ziyaret-hatirlat-musteri'>" + cariSatirHTML(z.musteriId, z.musteri, z.sehir) + "</div>"
           + "<div class='ziyaret-hatirlat-sag'><span class='ziyaret-hatirlat-gun'>" + z.gun + " gündür yok</span>"
           + "<span class='ziyaret-hatirlat-ok'><svg width='8' height='12' viewBox='0 0 20 32' fill='none'><path d='M4 4 L16 16 L4 28' stroke='#e24b4a' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/></svg></span></div>"
-          + "</div>";
-      });
-    }
-
-    if(gorevListe.length > 0){
-      html += "<div class='bildirim-bolum-baslik'>📌 Görevler</div>";
-      gorevListe.forEach(function(g){
-        var m = CustomerData.musteriBul(g.musteriAd);
-        html += "<div class='gorev-bildirim-karti'>"
-          + "<div class='gorev-bildirim-musteri'>" + cariSatirHTML(m?m.id:null, g.musteriAd, m?m.sehir:"") + "</div>"
-          + "<div class='gorev-bildirim-aciklama'>" + htmlEsc(g.aciklama) + "</div>"
-          + "<div class='gorev-bildirim-buton-satir'>"
-          + "<button class='gorev-tamamla-btn' data-gorev-id='" + htmlEsc(g.id) + "'>✓ Tamamlandı</button>"
-          + "<button class='gorev-musteriye-git-btn' data-musteri='" + htmlEsc(g.musteriAd) + "' data-musteri-id='" + htmlEsc(g.musteriId||"") + "'>🔍 Müşteriye Git</button>"
-          + "</div>"
           + "</div>";
       });
     }
@@ -197,21 +181,6 @@ function bildirimleriCiz(){
         window.location.href = "home.html?musteriKart=" + encodeURIComponent((musteri && musteri.id) || "");
       };
     });
-    icerik.querySelectorAll(".gorev-tamamla-btn").forEach(function(btn){
-      btn.onclick = function(){
-        ReportsData.gorevTamamlandiToggle(this.getAttribute("data-gorev-id"));
-        setTimeout(bildirimleriCiz, 300);
-      };
-    });
-    icerik.querySelectorAll(".gorev-musteriye-git-btn").forEach(function(btn){
-      btn.onclick = function(){
-        var id = this.getAttribute("data-musteri-id");
-        var musteri = (id && CustomerData.musteriIdIleBul) ? CustomerData.musteriIdIleBul(id) : null;
-        if(!musteri) musteri = CustomerData.musteriBul(this.getAttribute("data-musteri"));
-        if(musteri) CustomerData.sec(musteri);
-        window.location.href = "home.html?musteriKart=" + encodeURIComponent((musteri && musteri.id) || "");
-      };
-    });
   }catch(e){ hataGoster("Bildirimler çizilemedi: " + e.message); }
 }
 
@@ -224,7 +193,6 @@ document.addEventListener("DOMContentLoaded", function(){
   var btnMenuEl = document.getElementById("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
   ReportsData.arsivDegistiginde(bildirimleriCiz);
-  ReportsData.gorevDegistiginde(bildirimleriCiz);
   CustomerData.listeDegistiginde(bildirimleriCiz);
   bildirimleriCiz();
 });

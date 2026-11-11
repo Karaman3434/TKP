@@ -1,5 +1,5 @@
 /*
-  cihaz-kullanici-render.js — VERSİYON: TKP.04.11.26-23:22.1477
+  cihaz-kullanici-render.js — VERSİYON: TKP.11.11.26-14:20.1566
   ============================================================
   "Cihazlar ve Kullanıcılar" sayfasının TEK render dosyası — eski
   cihazlar-render.js (cihaz listesi/engelleme) ve calisan-erisim-render.js
@@ -956,7 +956,6 @@ var IZIN_TANIMLARI = [
     { anahtar: "hareketler", etiket: "🔁 Hareketler" },
     { anahtar: "ziyaret", etiket: "📍 Ziyaret" },
     { anahtar: "takipGerekenler", etiket: "📌 Takip Gerekenler" },
-    { anahtar: "gorevler", etiket: "✅ Görevler" },
     { anahtar: "vadeTakip", etiket: "📅 Vade Takip" }
   ]},
   { grup: "Maaş ve Finans", sayfalar: [
@@ -988,7 +987,6 @@ var IZIN_TANIMLARI = [
     { anahtar: "bekletHareketler", etiket: "🔁 Hareketler sayfasında" },
     { anahtar: "bekletZiyaret", etiket: "📍 Ziyaret sayfasında" },
     { anahtar: "bekletTakipGerekenler", etiket: "📌 Takip Gerekenler sayfasında" },
-    { anahtar: "bekletGorevler", etiket: "✅ Görevler sayfasında" },
     { anahtar: "bekletVadeTakip", etiket: "📅 Vade Takip sayfasında" },
     { anahtar: "bekletMaasHesaplama", etiket: "💰 Maaş Hesaplama sayfasında" },
     { anahtar: "bekletNetMaas", etiket: "💵 Net Maaş Hesaplama sayfasında" },
