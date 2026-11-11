@@ -1,5 +1,5 @@
 /*
-  vade-takip-data.js — TKP.11.11.26-15:17.1569
+  vade-takip-data.js — TKP.11.11.26-15:55.1572
   ========================================
   FATURA · VADE · ÖDEME TAKİBİ — merkezi hesaplama modülü.
 
@@ -272,6 +272,8 @@ var VadeTakip = (function(){
       var k1 = musteriAnahtari(z.musteriId, z.musteri), k2 = "ad:" + trKucuk(z.musteri);
       [k1,k2].forEach(function(k){ (temasHaritasi[k] = temasHaritasi[k] || []).push(z); });
     });
+    var odenenTs = {};
+    tumOgeler().forEach(function(o){ if(o.odendi) odenenTs[o.ts] = true; });
     var gruplar = {plan:[], gecti:[], bugun:[], yaklasiyor:[], "var":[]};
     sira.forEach(function(k){
       var g = map[k];
@@ -279,8 +281,9 @@ var VadeTakip = (function(){
       g.durum = durumdanFark(g.maxFark);
       var t = (temasHaritasi[k] || temasHaritasi["ad:" + trKucuk(g.musteri)] || []).slice().sort(function(a,b){ return (b.ts||0) - (a.ts||0); });
       g.sonTemasTs = t.length ? t[0].ts : null;
-      var son = planSec(t);
-      g.plan = son ? {tarih: son.hatirlatmaTarihi, not: String(son.not || "").replace(/^\[[^\]]*\]\s*/, ""), ts: son.ts} : null;
+      // ÖDENMİŞ faturaya bağlı notlar/plan genel listeden kalkar (11.11.2026, Abdullah isteği): fatura ödenince notu da gider.
+      var son = planSec(t.filter(function(z){ return !(z.faturaTs && odenenTs[z.faturaTs]); }));
+      g.plan = son ? {tarih: son.hatirlatmaTarihi, not: String(son.not || "").replace(/^\[[^\]]*\]\s*/, ""), ts: son.ts, kod: son.faturaKod || ""} : null;
       if(g.plan){ g.planFark = planFarkGun(g.plan.tarih); gruplar.plan.push(g); }
       else gruplar[g.durum].push(g);
     });

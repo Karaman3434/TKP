@@ -1,4 +1,4 @@
-/* vade-takip-render.js — TKP.11.11.26-15:39.1570 */
+/* vade-takip-render.js — TKP.11.11.26-15:55.1572 */
 function hataGoster(mesaj){
   console.error(mesaj);
   if(typeof HataLog !== "undefined") HataLog.kaydet(mesaj);
@@ -61,7 +61,7 @@ function musteriSatiri(m, grupId){
     +   "<div class='vt-ust'><span class='vt-ad'>" + (m.musteriId ? "<b>" + esc(m.musteriId) + "</b> - " : "") + esc(m.musteri) + "</span>"
     +     "<span class='vt-rozet vt-rozet--m' style='background:" + rz.bg + ";color:" + rz.renk + ";'>" + rz.yazi + "</span></div>"
     +   "<div class='vt-alt'><span class='vt-kod'>" + m.kayitlar.length + " fatura" + tem + "</span><span class='vt-tutar'>" + VadeTakip.tutarHTML(m.toplam) + "</span></div>";
-  if(grupId === "plan" && m.plan && m.plan.not) h += "<div class='vt-plan-not'>“" + esc(m.plan.not) + "”</div>";
+  if(grupId === "plan" && m.plan && m.plan.not) h += "<div class='vt-plan-not'>" + (m.plan.kod ? "<b>" + esc(m.plan.kod) + "</b> · " : "") + "“" + esc(m.plan.not) + "”</div>";
   h += "</div></div>";
   if(acik) h += "<div class='vt-acilan' data-alan='" + esc(m.anahtar) + "'></div>";
   return h;
