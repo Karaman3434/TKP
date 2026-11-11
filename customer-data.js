@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.11.11.26-14:20.1566
+  customer-data.js — TKP.11.11.26-15:17.1569
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -143,6 +143,20 @@ var CustomerData = (function(){
   function musteriIdIleBul(id){
     if(!id) return null;
     return liste.find(function(m){ return m.id === id; }) || null;
+  }
+
+  // "Bu işlem/sipariş kaydı bu müşteriye mi ait?" — TEK KURAL (11.11.2026, Abdullah: Green Diamond'un
+  // vadesi geçmiş siparişi Fatura ve Ödeme Takip'te görünmüyordu — sebep: müşteri koduyla (ID) eşleşme
+  // ZORUNLUYDU, oysa musteriId alanı olmayan eski kayıtlar var). Kural, İşlem Geçmişi'ndekiyle AYNI:
+  //  1) İkisinde de müşteri kodu varsa → kod eşleşmesi KESİN karardır.
+  //  2) Aksi halde (eski kayıt: kod yok) → isim: tam eşleşme ya da biri diğerinin başında geçiyor
+  //     (müşteri adı sonradan kısaltılmış/uzatılmış olabilir).
+  function kayitMusteriyeAitMi(kayitAd, kayitId, musteriAd, musteriId){
+    if(musteriId && kayitId) return kayitId === musteriId;
+    var a = (kayitAd||"").toLocaleLowerCase("tr-TR").trim();
+    var b = (musteriAd||"").toLocaleLowerCase("tr-TR").trim();
+    if(!a || !b) return false;
+    return a === b || a.indexOf(b) === 0 || b.indexOf(a) === 0;
   }
 
   // ---- GÜVENLİ YAZMA ÇEKİRDEĞİ (Firebase transaction) ----
@@ -934,6 +948,7 @@ var CustomerData = (function(){
     ilKoduEkleGuncelle: ilKoduEkleGuncelle,
     ilKoduSil: ilKoduSil,
     musteriIdIleBul: musteriIdIleBul,
+    kayitMusteriyeAitMi: kayitMusteriyeAitMi,
     sehirBul: sehirBul,
     konumMetni: konumMetni,
     ziyaretHatirlatmalari: ziyaretHatirlatmalari,

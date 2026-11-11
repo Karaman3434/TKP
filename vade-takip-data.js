@@ -1,5 +1,5 @@
 /*
-  vade-takip-data.js — TKP.10.11.26-15:08.1556
+  vade-takip-data.js — TKP.11.11.26-15:17.1569
   ========================================
   FATURA · VADE · ÖDEME TAKİBİ — merkezi hesaplama modülü.
 
@@ -148,9 +148,9 @@ var VadeTakip = (function(){
     var sonuc = [];
     (ReportsData.tumSiparisler()||[]).forEach(function(k){
       if(k.durum === "kacan") return;
-      var ayniMi = musteriId ? (k.musteriId === musteriId)
-        : (k.musteri||"").toLocaleLowerCase("tr-TR").trim() === (musteriAd||"").toLocaleLowerCase("tr-TR").trim();
-      if(!ayniMi) return;
+      // 11.11.2026: eski kayıtlarda musteriId YOKTU → eskiden hiç listelenmiyor, borç bakiyesine de girmiyordu.
+      // Artık İşlem Geçmişi ile AYNI tek kural (CustomerData.kayitMusteriyeAitMi): kod varsa kod, yoksa isim.
+      if(!CustomerData.kayitMusteriyeAitMi(k.musteri, k.musteriId, (musteri && musteri.ad) || musteriAd, (musteri && musteri.id) || musteriId)) return;
       sonuc.push(ogeOlustur(k, musteri));
     });
     sonuc.sort(function(a,b){ return b.ts - a.ts; });
@@ -208,6 +208,38 @@ var VadeTakip = (function(){
 
   function planKaydet(musteriId, musteriAd, not, tarih, geriBildir){
     CustomerData.ziyaretEkle(musteriAd, not || "", "telefon", tarih || null, geriBildir, musteriId || undefined, {odeme: true});
+  }
+
+  // ---- KDV DAHİL TUTAR + TL KARŞILIĞI (10.11.2026, Abdullah isteği) ----
+  // Alacak, merkezin kestiği fatura (liste fiyatı üzerinden iskontolu tutar + KDV) üzerinden
+  // takip edildiği için vade/fatura ekranlarındaki tüm tutarlar KDV DAHİL gösterilir.
+  // Kayıtlardaki tutar (toplamEuro) KDV HARİÇ'tir; burada KDV eklenir. TL karşılığı =
+  // KDV dahil EURO × günün kuru. KDV oranı ve kur sepetle AYNI ayarlardan okunur
+  // (weicon_kdv_orani — yoksa %20; weicon_kur — yoksa TL satırı gösterilmez).
+  function kdvOrani(){
+    var v = NaN;
+    try{ v = parseFloat(localStorage.getItem("weicon_kdv_orani")); }catch(e){}
+    return isNaN(v) ? 20 : v;
+  }
+  function kurDegeri(){
+    var v = NaN;
+    try{ v = parseFloat(localStorage.getItem("weicon_kur")); }catch(e){}
+    return (isNaN(v) || v <= 0) ? 0 : v;
+  }
+  function kdvli(euroHaric){ return (euroHaric||0) * (1 + kdvOrani()/100); }
+  function tutarFmt(n){ return (n||0).toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  // Tek ortak tutar gösterimi: üstte "KDV dahil  X EURO", altında "Y TL". (Stiller satır içi —
+  // hangi sayfada çizilirse çizilsin aynı görünür.)
+  function tutarHTML(euroHaric){
+    var v = kdvli(euroHaric), kur = kurDegeri();
+    return "<span style='display:inline-flex;flex-direction:column;align-items:flex-end;line-height:1.25;'>"
+      + "<span><small style='font-size:10px;font-weight:700;color:#7a8797;margin-right:5px;'>KDV dahil</small>" + tutarFmt(v) + " EURO</span>"
+      + (kur ? "<span style='font-size:11.5px;font-weight:700;color:#5b6b7f;'>" + tutarFmt(v * kur) + " TL</span>" : "")
+      + "</span>";
+  }
+  function kdvNotu(){
+    var kur = kurDegeri();
+    return "Tüm tutarlar %" + tutarFmt(kdvOrani()).replace(/,00$/, "") + " KDV dahil" + (kur ? " · TL karşılığı günün kuruyla (" + tutarFmt(kur) + ")" : "");
   }
 
   function gecikmisSayisi(musteriId, musteriAd){
@@ -293,6 +325,11 @@ var VadeTakip = (function(){
     odemePlani: odemePlani,
     planKaydet: planKaydet,
     gecikmisSayisi: gecikmisSayisi,
+    kdvli: kdvli,
+    kdvOrani: kdvOrani,
+    kurDegeri: kurDegeri,
+    tutarHTML: tutarHTML,
+    kdvNotu: kdvNotu,
     odemeBilgisiFn: odemeBilgisiFn,
     tarihAnahtari: tarihAnahtari,
     planFarkGun: planFarkGun

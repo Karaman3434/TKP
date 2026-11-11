@@ -1,4 +1,4 @@
-/* vade-takip-style.css — TKP.10.11.26-09:30.1537
+/* vade-takip-style.css — TKP.11.11.26-15:17.1569
    Fatura·Vade·Ödeme Takip satırları (Vade Takip ekranı + Müşteri Kartı'nda
    ortak kullanılır). Satır İKİ satırdır: üstte müşteri+rozet, altta belge
    kodu+tutar — ayrı bir "ödendi" butonu/satırı yok, rozet dokunulabilir. */
@@ -39,6 +39,7 @@
 .vt-satir:has(.vt-rozet--odendi) { opacity: .72; }
 
 /* Müşteri Kartı üstündeki "vadesi geçmiş toplam bakiye" uyarı kutusu */
+.vt-bakiye-uyari[hidden] { display: none !important; }   /* 11.11.2026: borç yokken "0,00 EURO" kutusu görünüyordu */
 .vt-bakiye-uyari {
   background: #fdf3f0; border: 1px solid #f3cfc7; border-radius: 10px;
   padding: 8px 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
