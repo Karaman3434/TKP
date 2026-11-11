@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.11.11.26-14:43.1567 — customer-detail.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.11.11.26-14:45.1568 — customer-detail.html -->
 <!--
   İŞ TAKİP — MÜŞTERİ KARTI / İŞLEMLER v4
   ==============================================
@@ -167,6 +167,53 @@
     </div>
   </div>
 
+  <div class="islemler-tile" id="tileUrunGecmisi">
+    <div class="islemler-tile-icerik">
+      <div class="islemler-tile-baslik islemler-tile-baslik--mor">📦 Ürün Geçmişi</div>
+      <div class="islemler-tile-alt" id="urunGecmisiAlt">Bu müşteriye satılan ürünler</div>
+    </div>
+    <div class="islemler-tile-sag">
+      <span class="islemler-rozet islemler-rozet--mor" id="badgeUrunGecmisi">0</span>
+      <span class="islemler-ok islemler-ok--mor">›</span>
+    </div>
+  </div>
+
+  </div><!-- /islemlerGizliTetik -->
+
+  <!-- ÜRÜN GEÇMİŞİ — önce ürün listesi, bir ürüne dokununca o ürünün
+       tarih tarih liste fiyatı/iskonto/net fiyat tablosu. -->
+  <div class="tip-secim-overlay" id="urunGecmisiOverlay" hidden>
+    <div class="tip-secim-kutu" style="max-height:80vh; overflow-y:auto;">
+      <div class="tip-secim-baslik" id="urunGecmisiBaslik">📦 Ürün Geçmişi</div>
+      <div id="urunGecmisiListesi"></div>
+      <div id="urunGecmisiDetay" hidden>
+        <button class="ck-duzenle-btn" id="btnUrunGecmisiGeri" style="width:100%; margin-bottom:10px;">‹ Ürün Listesine Dön</button>
+        <div class="data-table-container"><table class="belge-urun-tablo" style="font-size:10px;">
+          <thead><tr><th style='width:25%;'>TARİH</th><th style='width:15%;'>ADET</th><th style='width:18%;'>LİSTE</th><th style='width:20%;'>İSK</th><th style='width:22%;'>NET</th></tr></thead>
+          <tbody id="urunGecmisiTabloGovde"></tbody>
+        </table></div>
+      </div>
+      <button class="tip-secim-vazgec-btn" id="btnUrunGecmisiKapat">Kapat</button>
+    </div>
+  </div>
+
+  <!-- FATURA · VADE · ÖDEME TAKİBİ overlay'i (22.09.2026) — bu müşterinin
+       tüm siparişleri, en yeni üstte; rozete dokununca ödendi/geri al
+       (vade-takip-data.js / vade-takip-ui.js). -->
+  <div class="tip-secim-overlay" id="faturaTakipOverlay" hidden>
+    <div class="tip-secim-kutu" style="max-height:80vh; overflow-y:auto;">
+      <div class="tip-secim-baslik ft-baslik-satir">
+        <span>📄 Fatura ve Ödeme Takip</span>
+        <span class="ft-vade-rozet" id="ftVadeRozet" hidden><span class="ft-vade-e">VADE</span><span class="ft-vade-d" id="ftVadeDeger">—</span></span>
+      </div>
+      <div class="vt-bakiye-uyari" id="ftBakiye" hidden>
+        <span class="vt-b-etiket">⚠ Toplam vadesi geçmiş bakiye</span>
+        <span class="vt-b-deger">0,00 EURO</span>
+      </div>
+      <div id="ftListe"></div>
+      <p class="bos-mesaj" id="ftBos" hidden>Bu müşteriye ait sipariş kaydı yok.</p>
+      <button class="tip-secim-vazgec-btn" id="btnFaturaTakipKapat">Kapat</button>
+    </div>
   </div>
 
 </main>
