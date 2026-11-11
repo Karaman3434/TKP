@@ -1,5 +1,5 @@
 /*
-  vade-takip-data.js — TKP.11.11.26-15:55.1572
+  vade-takip-data.js — TKP.11.11.26-16:09.1573
   ========================================
   FATURA · VADE · ÖDEME TAKİBİ — merkezi hesaplama modülü.
 
@@ -74,7 +74,7 @@ var VadeTakip = (function(){
       // 10.11.2026: eski kayıtlarda musteriId yoksa müşteri kartındaki KOD kullanılır (listelerde kod görünsün)
       musteriId: k.musteriId || (musteri && musteri.id) || null,
       sehir: k.sehir || "", tutar: kayitTutari(k), kesimTs: kesimBasi,
-      vadeGun: vadeGun, odendi: odendi
+      vadeGun: vadeGun, odendi: odendi, odendiTs: k.odendiTs || null
     };
     if(vadeGun === null){
       oge.durum = "vadesiz";
@@ -253,6 +253,21 @@ var VadeTakip = (function(){
     return "var";
   }
 
+  // FATURAYA BAĞLANMAMIŞ not kime aittir? (11.11.2026, Abdullah isteği): faturalar listesindeki kuralın aynısı —
+  // müşteri geneli not, YAZILDIĞI ANDA en çok gecikmiş olan açık faturaya aittir (o fatura yoksa hiçbirine ait değil).
+  // Not faturaya bağlıysa (faturaTs) sahibi o faturadır. Sahip fatura ödenmişse not genel listeden kalkar.
+  function notSahibiTs(z, ogeler){
+    if(z.faturaTs) return z.faturaTs;
+    var nt = gunBasi(z.ts), en = null, enFark = 0;
+    ogeler.forEach(function(o){
+      if(o.ts > z.ts) return;                                   // not yazıldığında fatura henüz yoktu
+      if(o.odendi && o.odendiTs && o.odendiTs <= z.ts) return;  // not yazılmadan önce zaten ödenmişti
+      var f = Math.round((nt - o.vadeTs) / 86400000);
+      if(f > enFark){ enFark = f; en = o; }
+    });
+    return en ? en.ts : null;
+  }
+
   // Vade Takip ekranı: MÜŞTERİ bazlı gruplar.
   //  1) "plan"  : ödeme planı (tarih verilmiş) olanlar — plan tarihi en yakın/en geçmiş üstte
   //  2) gecti / bugun / yaklasiyor / var : kalan müşteriler; her grupta en acil üstte
@@ -272,8 +287,11 @@ var VadeTakip = (function(){
       var k1 = musteriAnahtari(z.musteriId, z.musteri), k2 = "ad:" + trKucuk(z.musteri);
       [k1,k2].forEach(function(k){ (temasHaritasi[k] = temasHaritasi[k] || []).push(z); });
     });
-    var odenenTs = {};
-    tumOgeler().forEach(function(o){ if(o.odendi) odenenTs[o.ts] = true; });
+    var odenenTs = {}, tumHepsi = tumOgeler(), musteriOgeleri = {};
+    tumHepsi.forEach(function(o){
+      if(o.odendi) odenenTs[o.ts] = true;
+      (musteriOgeleri[musteriAnahtari(o.musteriId, o.musteri)] = musteriOgeleri[musteriAnahtari(o.musteriId, o.musteri)] || []).push(o);
+    });
     var gruplar = {plan:[], gecti:[], bugun:[], yaklasiyor:[], "var":[]};
     sira.forEach(function(k){
       var g = map[k];
@@ -282,7 +300,7 @@ var VadeTakip = (function(){
       var t = (temasHaritasi[k] || temasHaritasi["ad:" + trKucuk(g.musteri)] || []).slice().sort(function(a,b){ return (b.ts||0) - (a.ts||0); });
       g.sonTemasTs = t.length ? t[0].ts : null;
       // ÖDENMİŞ faturaya bağlı notlar/plan genel listeden kalkar (11.11.2026, Abdullah isteği): fatura ödenince notu da gider.
-      var son = planSec(t.filter(function(z){ return !(z.faturaTs && odenenTs[z.faturaTs]); }));
+      var son = planSec(t.filter(function(z){ var sahip = notSahibiTs(z, musteriOgeleri[k] || []); return !(sahip && odenenTs[sahip]); }));
       g.plan = son ? {tarih: son.hatirlatmaTarihi, not: String(son.not || "").replace(/^\[[^\]]*\]\s*/, ""), ts: son.ts, kod: son.faturaKod || ""} : null;
       if(g.plan){ g.planFark = planFarkGun(g.plan.tarih); gruplar.plan.push(g); }
       else gruplar[g.durum].push(g);
