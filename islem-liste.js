@@ -1,5 +1,5 @@
 /*
-  islem-liste.js — TKP.11.11.26-17:44.1575
+  islem-liste.js — TKP.11.11.26-22:02.1584
   ==========================================================================
   ORTAK İŞLEM LİSTESİ (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır
   filtre" turu; mockup: Son İşlemler satır tasarımı + arama kutusu yanında
@@ -167,7 +167,7 @@ var IslemListesi = (function(){
   function tlHucreHTML(k){
     if(k._beklemede || !(k._tutar > 0) || !(k._tl > 0)) return "";
     var kdvDahil = k._tl * (1 + kdvOrani(k) / 100);
-    return "<span class='sr-tl-kdv'>(" + Math.round(kdvDahil).toLocaleString("tr-TR") + " ₺)</span>";
+    return "<span class='sr-tl-kdv'>(" + Math.round(kdvDahil).toLocaleString("tr-TR") + " ₺ <small class='sr-tl-kdv-et'>KDV'Lİ</small>)</span>";
   }
   function satirHTML(k, i){
     var m = rozetMeta(k);

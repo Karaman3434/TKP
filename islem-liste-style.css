@@ -1,4 +1,4 @@
-/* islem-liste-style.css — TKP.11.11.26-17:44.1575
+/* islem-liste-style.css — TKP.11.11.26-22:02.1584
    ORTAK İŞLEM LİSTESİ STİLİ (02.11.2026, Abdullah onayı): Son İşlemler,
    Satış Listesi, Ay Detay ve Kaçan Satışlar artık bu TEK dosyadan stillenir
    (islem-liste.js). Satır / gün bandı / rozet kuralları, onaylı "Son
@@ -141,7 +141,7 @@
 #islemlerListesi .sr-kd--rvz { padding: 0 !important; overflow: hidden; box-shadow: 0 0 0 1.5px #b7601f inset; }
 #islemlerListesi .sr-kd--rvz i { font-style: normal; padding: 3px 4px; }
 #islemlerListesi .sr-kd--rvz i.sr-kd-r { background: #b7601f; color: #fff; font-size: 10px; padding: 3px 3px; }
-#islemlerListesi .sr-tm { display: flex; align-items: center; gap: 4px; margin-left: 3px; flex: 0 0 auto; }
+#islemlerListesi .sr-tm { display: flex; align-items: center; gap: 4px; margin-left: 3px; flex: 0 1 auto; max-width: 100%; flex-wrap: wrap; justify-content: flex-end; }
 #islemlerListesi .sr-tm .sr-kanal-harf { margin: 0; font-size: 11.5px; line-height: 1; }
 #islemlerListesi .sr-tutar-h { white-space: nowrap; flex: 0 0 auto; }
 
@@ -207,6 +207,7 @@
 
 /* KDV DAHİL TL (11.11.2026, Abdullah onayı): Euro toplamın yanında, parantez içinde, kırmızı. */
 .sr-tl-kdv { font-size: 11.2px; font-weight: 800; color: #d62828; white-space: nowrap; line-height: 1.1; margin-left: 2px; }
+.sr-tl-kdv-et { font-size: 8.5px; font-weight: 800; letter-spacing: .2px; }   /* 11.11.2026: TL'nin sonunda "KDV'Lİ" etiketi */
 /* GÜN TOPLAMI +%20 (11.11.2026, Abdullah onayı): şerit boyu aynı kalır (satır yüksekliği sınırlı). */
 #islemlerListesi .sr-grup-baslik span:last-child { font-size: 13.77px; line-height: 13.77px; height: 13.77px; display: inline-flex; align-items: center; }
 
