@@ -1,5 +1,5 @@
 /*
-  bekleyen-islemler.js — TKP.11.11.26-20:22.1582
+  bekleyen-islemler.js — TKP.11.11.26-20:38.1583
   ==========================================
   GÜNCELLEME (01.11.2026, Abdullah onayı — "Beklet tuşu çalışmıyor" hata
   bildirimi): Bu dosya eskiden KENDİ yuvarlak düğmesini ".app-nav" içine
@@ -242,6 +242,9 @@ var BekleyenIslemler = (function(){
   function guncelle(){
     if(!elemanlarHazirMi) return;
     var liste = oku();
+    // 11.11.2026 (Abdullah onayı — mockup B): bekleyen sayfa olduğu sürece Beklet tuşu mor görünür.
+    var bekBtn = document.getElementById("btnUstBeklet");
+    if(bekBtn) bekBtn.classList.toggle("ub-btn--bekle-dolu", liste.length > 0);
     var sayi = document.getElementById("biNavSayi");
     if(sayi){
       if(liste.length > 0){ sayi.hidden = false; sayi.textContent = liste.length; }

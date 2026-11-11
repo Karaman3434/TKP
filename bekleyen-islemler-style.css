@@ -1,4 +1,4 @@
-/* bekleyen-islemler-style.css — TKP.01.11.26-18:36.1336
+/* bekleyen-islemler-style.css — TKP.11.11.26-20:38.1583
    ====================================
    GÜNCELLEME (01.11.2026, Abdullah onayı — "Beklet tuşu çalışmıyor" hata
    bildirimi): eski ".bi-nav-btn" (".app-nav" üzerine bindirilen yuvarlak
@@ -115,15 +115,19 @@
    düğme içindi, burada daha küçük bir rozetle köşeye sığdırıldı. ".ub-btn"
    zaten "position:relative" (bkz. ust-bar-style.css), ek bir kapsayıcıya
    gerek yok. */
+/* 11.11.2026 (Abdullah onayı — mockup B): rozet 2 kat büyütüldü (16px → 32px, yazı 9.5px → 19px, beyaz
+   çerçeve 2px) ve köşeden taşıyor; bekleyen sayfa olduğu sürece tuş MOR (bekleyen yokken yeşil kalır,
+   pasifken gri). */
 .ub-btn--bekle .bi-nav-sayi {
-  top: -4px;
-  right: -4px;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 3px;
-  font-size: 9.5px;
-  border-width: 1.5px;
+  top: -9px;
+  right: -9px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  font-size: 19px;
+  border: 2px solid #fff;
 }
+.ub-btn--bekle.ub-btn--bekle-dolu:not([disabled]) { background: #7c3aed; }
 
 /* Bekleyen işlemler listesindeki her satır — görsel dili, programdaki
    diğer "kayıt özeti" satırlarıyla (örn. belge-gecmis-cip-satir) aynı
