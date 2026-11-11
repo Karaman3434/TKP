@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.11.11.26-17:44.1575
+// menu-cekmece.js — TKP.11.11.26-17:59.1576
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -122,6 +122,7 @@ var MC_OGELER = [
   // yok (customer.html'de arama herkese "musteriBul" ile açık).
   { anahtarlar: ["sepet"], ikon: "🔍", renk: "#5dade2", etiket: "Ürün", altMenu: "urun", miniArama: "urun", miniAramaIzin: "sepetAramaGoster" },
   { anahtarlar: ["musteriBul"], ikon: "👥", renk: "#5dade2", etiket: "Müşteri", altMenu: "musteri", miniArama: "musteri" },
+  { anahtarlar: ["islemGecmisi"], ikon: "🕐", etiket: "Son İşlemler", href: "son-islemler.html" },
   { anahtarlar: ["markaKarsilastirma"], ikon: "🔄", renk: "#5dade2", etiket: "Marka Karşılaştırma", href: "marka-karsilastirma.html" },
   { anahtarlar: ["kmTakip"], ikon: "🚗", renk: "#ec7063", etiket: "Araç KM", altMenu: "arackm", aracKmDurum: true },
   { anahtarlar: ["raporlar", "satisListesi", "hareketler", "ziyaret", "takipGerekenler"], ikon: "📊", renk: "#f5b041", etiket: "Raporlar", altMenu: "raporlar" },
@@ -138,7 +139,6 @@ var DRAWER_ALT_MENULERI = {
     baslik: "Raporlar",
     ogeler: [
       {ikon:"📊", etiket:"İstatistikler", href:"reports.html"},
-      {ikon:"📋", etiket:"Son İşlemler", href:"son-islemler.html"},
       {ikon:"⚠️", etiket:"Takip Gerekenler", href:"takip-gerekenler.html"},
       {ikon:"📦", etiket: TipEtiket.kisa.stok + " ve " + TipEtiket.kisa.bakiye, href:"bakiye-urunler.html"}
     ]
