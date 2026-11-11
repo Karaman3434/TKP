@@ -1,5 +1,5 @@
 /*
-  menu-cekmece-style.css — TKP.11.11.26-19:20.1580
+  menu-cekmece-style.css — TKP.11.11.26-23:29.1585
   ============================================================================
   "Menü her sayfada" (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı).
   Bu dosya SADECE net-yeni sınıfları içerir:
@@ -129,11 +129,12 @@
      kırmızı tonlu zemin, koyu kırmızı çerçeve (lacivert zemin uyarlaması;
      açık zeminli sayfalar için bkz. arama-stili.css). */
   background: rgba(255,92,92,.22);
-  border: 1.6px solid #d11d2a;
+  border: 2px solid #d11d2a;   /* 11.11.2026: 1.6px → 2px — kesirli kalınlık oval kenarın alt çizgisini eksik/kaymış çiziyordu */
   border-radius: 999px;
   /* 08.11.2026 (Abdullah): menüdeki Ürün/Müşteri arama kutuları +%20 daha büyük
      (yazı 12→14.4px, iç boşluk 6/14→7.2/16.8px) */
-  padding: 7.2px 16.8px;
+  padding: 0 16.8px;
+  height: 33px; box-sizing: border-box;   /* 11.11.2026: tam sayı yükseklik (33.375px kesirliydi → alt çizgi kayıyordu); boyut pratikte aynı */
   color: #fff;
   font-size: 14.4px;
   font-weight: 600;

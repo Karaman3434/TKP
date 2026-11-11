@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.11.11.26-20:22.1582
+// menu-cekmece.js — TKP.11.11.26-23:29.1585
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -124,9 +124,9 @@ var MC_OGELER = [
   { anahtarlar: ["musteriBul"], ikon: "👥", renk: "#5dade2", etiket: "Müşteri", altMenu: "musteri", miniArama: "musteri" },
   { anahtarlar: ["islemGecmisi"], ikon: "🕐", etiket: "Son İşlemler", href: "son-islemler.html" },
   { anahtarlar: ["markaKarsilastirma"], ikon: "🔄", renk: "#5dade2", etiket: "Marka Karşılaştırma", href: "marka-karsilastirma.html" },
-  { anahtarlar: ["kmTakip"], ikon: "🚗", renk: "#ec7063", etiket: "Araç KM", altMenu: "arackm", aracKmDurum: true },
   { anahtarlar: ["raporlar", "satisListesi", "hareketler", "ziyaret", "takipGerekenler"], ikon: "📊", renk: "#f5b041", etiket: "Raporlar", altMenu: "raporlar" },
   { anahtarlar: ["vadeTakip"], ikon: "📄", etiket: "Ödeme Takip", href: "vade-takip.html" },
+  { anahtarlar: ["kmTakip"], ikon: "🚗", renk: "#ec7063", etiket: "Araç KM", altMenu: "arackm", aracKmDurum: true },   // 11.11.2026 (Abdullah): Araç KM, Kişisel sekmesinin hemen üst satırına taşındı
   { anahtarlar: ["maasHesaplama", "netMaasHesaplama", "avansTakibi", "odenebilirKomisyon"], ikon: "🔒", renk: "#f5c451", etiket: "Kişisel", altMenu: "kisisel" }
 ];
 var MC_ANASAYFA_ANAHTAR = "anaSayfa";
