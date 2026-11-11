@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.11.11.26-19:09.1578
+// menu-cekmece.js — TKP.11.11.26-19:19.1579
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -161,7 +161,7 @@ var DRAWER_ALT_MENULERI = {
     ogeler: [
       {ikon:"🔍", etiket:"Ürün Bul", href:"cart.html"},
       {ikon:"🔥", etiket:"Hit Ürünler", href:"cart.html?ac=hit"},
-      {ikon:"➕", etiket:"Yeni Ürün Ekle", href:"cart.html?ac=yeniurun", sinif:"as-drawer-altmenu-oge--yesil"}
+      {ikon:"➕", etiket:"Ekstra Ürün Ekle", href:"cart.html?ac=yeniurun", sinif:"as-drawer-altmenu-oge--yesil"}
     ]
   },
   // DEĞİŞİKLİK (02.11.2026, Abdullah onayı — mockup üzerinden): "Kişisel"
