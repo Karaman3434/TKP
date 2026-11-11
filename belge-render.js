@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.11.11.26-10:54.1562
+  belge-render.js — TKP.11.11.26-11:18.1564
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -563,7 +563,7 @@ function bhpIslemPopupAc(musteri, devam, yedek){
   var kart = document.getElementById("bhpPencere");
   if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam, {kart: kart}); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.11.11.26-10:54.1562";
+  s.src = "islem-popup.js?v=TKP.11.11.26-11:18.1564";
   s.onload = function(){ IslemPopup.ac(musteri, devam, {kart: kart}); };
   s.onerror = function(){ if(typeof yedek === "function") yedek(); };
   document.body.appendChild(s);
@@ -939,13 +939,11 @@ window.addEventListener("error", function(ev){
 // gerçek bir tıklamayla gelindiyse, tarayıcı geçmişinde bir adım geri gider
 // (kaç adım ileri gidildiyse o kadar geri gelir). Sayfa doğrudan bir
 // bağlantıdan/yer imi ile açıldıysa (geçmiş yoksa) Raporlar'a düşer.
-function akilliGeriBagla(yedekSayfa){
-  var btn = document.getElementById("btnGeriAkilli");
-  if(!btn) return;
-  btn.onclick = function(){
-    if(window.history.length > 1) window.history.back();
-    else window.location.href = yedekSayfa;
-  };
+// 11.11.2026: Geri artık ortak Nav'da (ust-bar-davranis.js) — açık pencereyi kapatır, yoksa
+// geldiğin yoldaki bir önceki sayfaya döner. Bu fonksiyon geriye dönük uyum için boş bırakıldı.
+function akilliGeriBagla(yedekSayfa){}
+function belgeOncekiSayfayaDon(){
+  if(window.Nav) Nav.git(Nav.geriHedefi(null)); else window.location.href = "home.html";
 }
 
 var duzenlenenKayit = null;
@@ -1191,10 +1189,7 @@ document.addEventListener("DOMContentLoaded", function(){
   tarihiGuncelle();
   var btnMenuEl = document.getElementById("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
-  document.getElementById("btnBelgeKapat").onclick = function(){
-    if(window.history.length > 1) window.history.back();
-    else window.location.href = "reports.html";
-  };
+  // Kapat (✕) artık ortak Nav'da: açık pencereleri kapatır, yoksa Ana Sayfa (11.11.2026).
   // TAŞINDI (01.11.2026, Abdullah onayı — mockup-panel.html Varyant A):
   // "btnIslemlerAc" artık STATİK HTML'de değil, İşlem Hareket Paneli
   // satırının İÇİNDE (siparisPaneliHtml, bkz. belgeyiCiz() ve denemeCiz()
@@ -1230,8 +1225,7 @@ document.addEventListener("DOMContentLoaded", function(){
       resumeKey: "weiconv2_goruntulenen_belge"
     });
     if(!sonuc.basarili){ hataGoster(sonuc.mesaj); return; }
-    if(window.history.length > 1) window.history.back();
-    else window.location.href = "reports.html";
+    belgeOncekiSayfayaDon();
   };
   // AÇILIR LİSTE (05.11.2026, Abdullah onayı): "Kapat" tuşu kalktı — dışarı
   // dokununca kapanır. Konum: "i" tuşunun hemen altı, sağa yaslı.
@@ -1296,8 +1290,7 @@ document.addEventListener("DOMContentLoaded", function(){
         // tarayıcı geçmişinde önceki sayfa varsa (her zaman vardır, buraya
         // bir yerden tıklanarak gelinmiştir) oraya dönülür — gecmis.html'den
         // gelindiyse gecmis.html'e, başka bir listeden gelindiyse oraya.
-        if(window.history.length > 1) window.history.back();
-        else window.location.href = "reports.html";
+        belgeOncekiSayfayaDon();
       } else {
         btn.disabled = false;
         btn.textContent = "🗑️ Kaydı sil";
@@ -1589,14 +1582,7 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("cikarSecOverlay").addEventListener("click", function(ev){
     if(ev.target === this) acilirKapat("cikarSecOverlay");
   });
-  (function(){
-    var kapatEl = document.getElementById("btnBelgeKapat");
-    var eskiKapat = kapatEl.onclick;
-    kapatEl.onclick = function(ev){
-      if(window.belgeAcikPenceresiniKapat()) return;
-      if(eskiKapat) return eskiKapat.call(this, ev);
-    };
-  })();
+  if(window.Nav) Nav.kapaticiEkle(function(){ return window.belgeAcikPenceresiniKapat(); });
 
   ReportsData.arsivDegistiginde(denemeCiz);
   CustomerData.listeDegistiginde(denemeCiz);

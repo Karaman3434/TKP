@@ -1,5 +1,5 @@
 /*
-  detail-render.js — TKP.10.11.26-15:01.1555
+  detail-render.js — TKP.11.11.26-11:18.1564
   ================
   Seçili müşterinin bilgilerini, sipariş geçmişini (ReportsData.sonIslemler
   üzerinden filtrelenmiş) ve ziyaret geçmişini gösterir.
@@ -112,13 +112,7 @@ function detayKapatAnaSayfa(){
 function tilelariBagla(){
   // Geri (‹): menu-cekmece.js'in genel "geldiğin yere dön" dinleyicisinden ÖNCE devreye girer.
   try{
-    var geriEl = document.querySelector(".ub-btn--geri");
-    if(geriEl) geriEl.addEventListener("click", function(ev){
-      ev.preventDefault();
-      ev.stopPropagation();
-      if(typeof OdemeVadeUI !== "undefined") OdemeVadeUI.fnIptal();
-      detayGeriDon();
-    });
+    // 11.11.2026: Geri (‹) ortak Nav'da (açık pencere/form önce kapanır, sonra yoldaki bir önceki sayfa).
   }catch(e){}
   document.getElementById("tileTemas").onclick = function(){
     window.location.href = "customer-temas.html";
@@ -228,7 +222,7 @@ function faturaTakipCiz(){
     var gecmisBakiye = VadeTakip.musteriGecmisBakiye(musteri.id, musteri.ad);
     if(gecmisBakiye > 0){
       bakiyeEl.hidden = false;
-      bakiyeEl.querySelector(".vt-b-deger").textContent = gecmisBakiye.toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2}) + " EURO";
+      bakiyeEl.querySelector(".vt-b-deger").innerHTML = VadeTakip.tutarHTML(gecmisBakiye); // KDV dahil + TL (10.11.2026)
     } else {
       bakiyeEl.hidden = true;
     }

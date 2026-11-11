@@ -1,5 +1,5 @@
 /*
-  send-render.js — TKP.11.11.26-11:07.1563
+  send-render.js — TKP.11.11.26-11:18.1564
   GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim artık Gönder tuşunun altında açılan
   tek sıra liste (iletisimPaneliKonumla/iletisimAcilirAc/Kapat, altKutuKonumla).
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
@@ -1216,6 +1216,14 @@ document.addEventListener("DOMContentLoaded", function(){
     var g = gonderUstTusu();
     if(g) g.classList.remove("ub-eylem-secili");
   }
+  // GERİ / KAPAT katman kapatıcısı (11.11.2026, ortak Nav — ust-bar-davranis.js): İletişim - Gönder
+  // paneli ve içindeki açılır kutular (Mail / PDF seçenekleri) tek adımda kapanır.
+  if(window.Nav) Nav.kapaticiEkle(function(){
+    var ov = document.getElementById("iletisimSheetOverlay");
+    if(ov && !ov.hidden){ iletisimAcilirKapat(); return true; }
+    return false;
+  });
+
   document.getElementById("btnIletisimAc").onclick = iletisimAcilirAc;
   document.getElementById("iletisimSheetOverlay").addEventListener("click", function(ev){
     if(ev.target === this) iletisimAcilirKapat();
@@ -1368,3 +1376,4 @@ document.addEventListener("DOMContentLoaded", function(){
     }
   }catch(e){}
 });
+

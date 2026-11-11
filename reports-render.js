@@ -1,5 +1,5 @@
 /*
-  reports-render.js
+  reports-render.js — TKP.11.11.26-11:18.1564
   =================
   Sadece Aylık Sipariş & Prim Özeti (son 12 ay) tablosunu çizer. Bir aya
   dokununca artık aynı sayfada açılmıyor — ay-detay.html'e yönlendirir
@@ -84,7 +84,8 @@ document.addEventListener("DOMContentLoaded", function(){
     var btn = document.getElementById("btnGeriAkilli");
     // (05.11.2026, Abdullah onayı): Geri = menüdeki Raporlar sekmesi
     // (home.html?menu=raporlar) — eski raporlar.html artık kullanılmıyor.
-    if(btn) btn.onclick = function(){ window.location.href = "home.html?menu=raporlar"; };
+    // 11.11.2026: Geri ortak Nav'da; Raporlar alt menüsüne dönüş bilgisi data-geri-href ile korunur.
+    if(btn) btn.setAttribute("data-geri-href", "home.html?menu=raporlar");
   })();
 
   ReportsData.arsivDegistiginde(function(){ istatistikleriCiz(); });

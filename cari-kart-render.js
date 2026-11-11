@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.10.11.26-12:17.1544
+  cari-kart-render.js — TKP.11.11.26-11:18.1564
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -1023,25 +1023,23 @@ document.addEventListener("DOMContentLoaded", function(){
     // doğrudan URL ile girildiyse) HTML'deki sabit href yedek olarak kalır.
     // GERİ (08.11.2026): eskiden sabit customer.html'e (müşteri listesi) gidiyordu;
     // artık Kapat ile AYNI kuralı izler (geldiği yere / popover'a dön).
-    var cariGeriEl = document.querySelector(".ub-btn--geri");
-    if(cariGeriEl){
-      cariGeriEl.addEventListener("click", function(ev){ ev.preventDefault(); cariKapatBtnEl.click(); });
+    // GERİ / KAPAT (11.11.2026): ortak Nav yönetiyor (ust-bar-davranis.js) — açık Ekle/Düzenle formu
+    // gibi katmanlar önce kapanır; katman yoksa Geri = yolda bir önceki sayfa, Kapat = Ana Sayfa.
+    // Sayfadan çıkarken akış bayrakları eskisi gibi temizlenir.
+    if(window.Nav){
+      Nav.kapaticiEkle(function(){
+        var acikForm = document.getElementById("formOverlay");
+        if(acikForm && !acikForm.hidden){ kapat("formOverlay"); return true; }
+        return false;
+      });
+      Nav.ayrilirken(function(){
+        try{
+          localStorage.removeItem("weiconv2_islem_yap_akisi");
+          localStorage.removeItem("weiconv2_sepetten_cari_acildi");
+          localStorage.removeItem("weiconv2_gonderden_cari_acildi");
+        }catch(e){}
+      });
     }
-    cariKapatBtnEl.addEventListener("click", function(ev){
-      ev.preventDefault();
-      // FORM AÇIKSA (09.11.2026, Abdullah isteği): alttaki Kapat tuşu kalktı —
-      // üstteki ✕ önce açık Ekle/Düzenle formunu kapatır (sayfadan çıkmaz).
-      var acikForm = document.getElementById("formOverlay");
-      if(acikForm && !acikForm.hidden){ kapat("formOverlay"); return; }
-      localStorage.removeItem("weiconv2_islem_yap_akisi");
-      localStorage.removeItem("weiconv2_sepetten_cari_acildi");
-      localStorage.removeItem("weiconv2_gonderden_cari_acildi");
-      if(!kapatSabitHedefliMi && window.history.length > 1){
-        window.history.back();
-      } else {
-        window.location.href = cariKapatHedef;
-      }
-    });
   }
 
   // Firebase'den taze veri gelince ana sayfayı ve (açıksa) akordiyonu tazele.

@@ -1,4 +1,4 @@
-/* ay-detay-render.js — TKP.02.11.26-13:55.1401
+/* ay-detay-render.js — TKP.11.11.26-11:18.1564
    AY DETAY artık ORTAK İŞLEM LİSTESİ'ni (islem-liste.js) kullanıyor
    (02.11.2026, Abdullah onayı). Gösterilen ay, İstatistikler'den
    "weiconv2_goruntulenen_ay" ile gelir (eskisi gibi).
@@ -10,11 +10,7 @@
    hiçbir toplama girmez) filtre penceresinde; ay toplamı da orada ("SİPARİŞ
    TOPLAMI" şeridi pencerenin özet satırına taşındı). */
 document.addEventListener("DOMContentLoaded", function(){
-  var btnGeri = document.getElementById("btnGeriAkilli");
-  if(btnGeri) btnGeri.onclick = function(){
-    if(window.history.length > 1) window.history.back();
-    else window.location.href = "reports.html";
-  };
+  // Geri (‹): ortak Nav yönetiyor (11.11.2026).
   var ayVerisi = null;
   try{ ayVerisi = JSON.parse(localStorage.getItem("weiconv2_goruntulenen_ay") || "null"); }catch(e){}
   if(!ayVerisi){

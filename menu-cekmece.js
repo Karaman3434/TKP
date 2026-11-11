@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.11.11.26-10:54.1562
+// menu-cekmece.js — TKP.11.11.26-11:18.1564
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -632,7 +632,7 @@ function mcIslemPopupAc(musteri, devam, yedek){
   var kart = (typeof mcMiniAramaPanel !== "undefined") ? mcMiniAramaPanel : null;
   if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam, {kart: kart}); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.11.11.26-10:54.1562";
+  s.src = "islem-popup.js?v=TKP.11.11.26-11:18.1564";
   s.onload = function(){ IslemPopup.ac(musteri, devam, {kart: kart}); };
   s.onerror = function(){ if(typeof yedek === "function") yedek(); };
   document.body.appendChild(s);
@@ -759,21 +759,8 @@ function mcPopoverGeriKontrol(){
   }catch(e){}
 }
 
-// data-popover-geri: bu sayfayı bir yerden (müşteri popover'ı dahil) gelinen
-// herhangi bir akıştan açılmış sayfalarda Geri/Kapat, sabit adres yerine
-// "geldiğin yere dön" davranır. Aynı siteden gelinmemişse (doğrudan açılış)
-// düğmenin kendi href'i (yedek: home.html) çalışır.
-document.addEventListener("click", function(ev){
-  try{
-    var a = ev.target && ev.target.closest ? ev.target.closest("[data-popover-geri]") : null;
-    if(!a || ev.defaultPrevented) return;
-    var ref = document.referrer || "";
-    if(ref.indexOf(window.location.origin) === 0 && window.history.length > 1){
-      ev.preventDefault();
-      window.history.back();
-    }
-  }catch(e){}
-});
+// (11.11.2026) Eski data-popover-geri dinleyicisi kaldırıldı: Geri/Kapat davranışının TAMAMI artık
+// ortak Nav'da (ust-bar-davranis.js) — Geri = geldiğin yoldaki bir önceki sayfa, Kapat = Ana Sayfa.
 
 function mcMusteriAksiyonuUygula(aksiyon){
   if(!mcMusteriAcikKisi) return;
@@ -946,6 +933,8 @@ function asDrawerKapat(){
     var overlay = document.getElementById("asDrawerOverlay");
     var drawer = document.getElementById("asDrawer");
     if(!overlay || !drawer) return;
+    // 11.11.2026: çekmece kapanırken İşlem Seç popup'ı + tip listesi de kapanır (✕ = hepsi).
+    try{ if(typeof IslemPopup !== "undefined") IslemPopup.kapat(); }catch(e){}
     altMenuKapat();
     mcMiniSonucKapat();
     drawer.classList.remove("as-drawer--acik");
@@ -1047,8 +1036,24 @@ function mcDrawerListesiOlustur(){
   }catch(e){ if(typeof hataGoster === "function") hataGoster("Menü izinleri uygulanamadı: " + e.message); }
 }
 
+// GERİ (‹) KATMAN KAPATICISI (11.11.2026, ortak Nav): açık olanların EN ÜSTTEKİNİ kapatır —
+// tip listesi → müşteri işlem kartı / arama sonuçları → alt menü → çekmece. (İŞLEM SEÇ popup'ı ve
+// onun listesi kendi kapatıcısını islem-popup.js'ten ekler, o daha üstte olduğu için önce denenir.)
+function mcKatmanKapatici(){
+  var tip = document.getElementById("mcMusteriTipMenu");
+  if(tip && !tip.hidden){ tip.hidden = true; return true; }
+  if(mcMiniAramaPanel && !mcMiniAramaPanel.hidden){ mcMiniSonucKapat(); return true; }
+  var alt = document.getElementById("asDrawerAltMenu");
+  if(alt && !alt.hidden){ altMenuKapat(); return true; }
+  var ov = document.getElementById("asDrawerOverlay");
+  var dr = document.getElementById("asDrawer");
+  if(ov && !ov.hidden && dr && dr.classList.contains("as-drawer--acik")){ asDrawerKapat(); return true; }
+  return false;
+}
+
 function asDrawerBagla(){
   try{
+    if(window.Nav) Nav.kapaticiEkle(mcKatmanKapatici);
     var btnAc = document.getElementById("btnAsMenuAc");
     if(btnAc) btnAc.onclick = asDrawerAc;
     var btnKapat = document.getElementById("btnAsMenuKapat");

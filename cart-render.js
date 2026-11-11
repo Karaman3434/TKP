@@ -1,5 +1,5 @@
 /*
-  cart-render.js — TKP.10.11.26-14:48.1553
+  cart-render.js — TKP.11.11.26-11:18.1564
   GÜNCELLEME (04.11.2026, Abdullah onayı): İşlem Geçmişi penceresi satırları —
   tarih tek satır + altında (Tip), sayılar altında küçük EURO/% (cart-style.css).
   (önceki: TKP.02.11.26-10:22.1368)
@@ -1225,20 +1225,8 @@ document.addEventListener("DOMContentLoaded", function(){
   // döner" kuralı. Bayrak yoksa (eski giriş noktaları) davranış DEĞİŞMEDİ.
   var cartDonusRotasi = null;
   try{ cartDonusRotasi = localStorage.getItem("weiconv2_musteri_donus_sayfa"); }catch(e){}
-  var geriLink = document.querySelector(".ub-btn--geri, .nav-btn--geri");
-  if(geriLink){
-    geriLink.addEventListener("click", function(ev){
-      if(cartDonusRotasi === "customer.html"){
-        ev.preventDefault();
-        window.location.href = "customer.html";
-        return;
-      }
-      if(window.history.length > 1){
-        ev.preventDefault();
-        window.history.back();
-      }
-    });
-  }
+  // GERİ (11.11.2026): artık ortak Nav (ust-bar-davranis.js) yönetiyor — açık pencere varsa onu
+  // kapatır, yoksa geldiğin yoldaki bir önceki sayfaya döner. Buradaki eski dinleyici kaldırıldı.
   // KAPAT (✕) = İŞLEMİ İPTAL ET + SEPETİ BOŞALT (03.11.2026, Abdullah'ın
   // isteğiyle — "kapat tuşu her zaman işlem iptal ve sepet boşalt demek
   // olacak"). Onay penceresi yok; kısa bildirim gösterilip hemen sıfırlanır.
@@ -1250,7 +1238,8 @@ document.addEventListener("DOMContentLoaded", function(){
       if(kapatIsleniyor) return;
       kapatIsleniyor = true;
       iptalBildirimiGoster();
-      herSeyiSifirlaVeGit(cartDonusRotasi === "customer.html" ? "customer.html" : "home.html", 900);
+      // 11.11.2026: Kapat her zaman Ana Sayfa'ya götürür (açık pencere varsa önce Nav onları kapatır).
+      herSeyiSifirlaVeGit("home.html", 900);
     };
   }
   document.getElementById("btnSepetIptal").onclick = function(){

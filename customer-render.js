@@ -1,5 +1,5 @@
 /*
-  customer-render.js — TKP.11.11.26-10:54.1562
+  customer-render.js — TKP.11.11.26-11:18.1564
   GÜNCELLEME (27.10.2026, Abdullah onayı — ana sayfa mini arama özelliği):
   "?musteriAc=<id-veya-ad>" parametresiyle buraya gelinirse, ilgili müşteri
   bulunup GERÇEK hızlı pencere (hizliPencereyiAc) otomatik açılır — bkz.
@@ -26,7 +26,7 @@ function cmIslemPopupAc(musteri, devam, yedek){
   var kart = document.getElementById("cmAltMenu");
   if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam, {kart: kart}); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.11.11.26-10:54.1562";
+  s.src = "islem-popup.js?v=TKP.11.11.26-11:18.1564";
   s.onload = function(){ IslemPopup.ac(musteri, devam, {kart: kart}); };
   s.onerror = function(){ if(typeof yedek === "function") yedek(); };
   document.body.appendChild(s);

@@ -1,5 +1,5 @@
 /*
-  islem-popup.js — TKP.11.11.26-10:54.1562 (YENİ DOSYA, 08.11.2026)
+  islem-popup.js — TKP.11.11.26-11:18.1564 (YENİ DOSYA, 08.11.2026)
   ============================================================
   "İŞLEM YAP" YENİ ROTASI (Abdullah'ın yazdığı ve onayladığı rota):
     1) Müşteri ara, bul, seç          2) Müşteri işlem kartı (hızlı pencere) açılır
@@ -223,7 +223,18 @@ var IslemPopup = (function(){
       if(ok) ok.style.display = "none";
     }
 
-    el.querySelector(".ip-arka").addEventListener("click", kapat);
+    // Zemine dokunmak popup'ı kapatır. AMA dokunulan yerin ALTINDA üst bar/çekmece Geri-Kapat (✕)
+    // düğmesi varsa o düğmeye basılmış sayılır (11.11.2026: ✕ = hepsini kapat, popup arkasında kalmasın).
+    el.querySelector(".ip-arka").addEventListener("click", function(ev){
+      try{
+        var altlar = document.elementsFromPoint(ev.clientX, ev.clientY);
+        for(var i = 0; i < altlar.length; i++){
+          var b = altlar[i].closest ? altlar[i].closest("#btnAsMenuKapat, .ub-bar .ub-btn--kapat, .ub-bar .ub-btn--geri") : null;
+          if(b && !b.disabled){ kapat(); b.click(); return; }
+        }
+      }catch(e){}
+      kapat();
+    });
     el.querySelector("#ipIslemSec").addEventListener("click", function(){
       if(tipler.hidden) tiplerAc(); else tiplerKapat();
     });
@@ -257,5 +268,18 @@ var IslemPopup = (function(){
     });
   }
 
-  return { ac: ac, kapat: kapat };
+  // GERİ (‹) için: açık İşlem Seç popup'ında önce tip listesi, sonra popup kapanır. Açık değilse false.
+  function ustKapat(){
+    if(!kok) return false;
+    var l = kok.querySelector("#ipTipler");
+    if(l && !l.hidden){
+      l.hidden = true;
+      return true;
+    }
+    kapat();
+    return true;
+  }
+  try{ if(window.Nav) Nav.kapaticiEkle(ustKapat); }catch(e){}
+
+  return { ac: ac, kapat: kapat, ustKapat: ustKapat };
 })();

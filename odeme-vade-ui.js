@@ -1,5 +1,5 @@
 /*
-  odeme-vade-ui.js — TKP.10.11.26-13:23.1548
+  odeme-vade-ui.js — TKP.11.11.26-11:18.1564
   ===========================================
   ÖDEME · VADE müşteri alanı (10.11.2026, Abdullah onayı — mockup). TEK YERDE:
   Vade Takip sayfasında bir müşteriye dokununca açılan alan VE Cari Bilgi
@@ -96,7 +96,7 @@ var OdemeVadeUI = (function(){
       +   "<div class='vt-ust'><span class='ov-od'>📅 Ödeme " + tarihUzun(o.vadeTs) + "</span>"
       +     (son ? "<span class='fn-ikon' title='Açıklama girilmiş'>💬</span>" : "")
       +     "<span class='vt-rozet" + (o.odendi ? " vt-rozet--odendi" : "") + "' data-ts='" + o.ts + "' data-odendi='" + (o.odendi ? "1" : "0") + "' style='background:" + meta.bg + ";color:" + meta.renk + ";'>" + rozetYazisi(o) + "</span></div>"
-      +   "<div class='vt-alt'><span class='vt-kod'>" + esc(o.kod) + " · " + tarihUzun(o.kesimTs) + "</span><span class='vt-tutar'>" + fmt(o.tutar) + " EURO</span></div>"
+      +   "<div class='vt-alt'><span class='vt-kod'>" + esc(o.kod) + " · " + tarihUzun(o.kesimTs) + "</span><span class='vt-tutar'>" + VadeTakip.tutarHTML(o.tutar) + "</span></div>"
       +   ((son && !duzeltiyor)
             ? "<div class='fn-not'><span class='fn-not-y'>“" + esc(notMetni(son)) + "” <small>· " + tarihKisa(new Date(son.ts)) + (son.hatirlatmaTarihi ? " · 🔔 " + tarihKisa(anahtarTs(son.hatirlatmaTarihi)) : "") + (nl.length > 1 ? " · +" + (nl.length - 1) + " önceki" : "") + "</small></span>"
               + "<span class='fn-dugmeler'><button type='button' class='fn-duzelt' data-kts='" + son.ts + "'>✎ Düzelt</button>"
@@ -225,15 +225,17 @@ var OdemeVadeUI = (function(){
     });
     fnSenkron(kok);
   }
-  // Üst bar ✕ (Kapat): açık açıklama formu varsa ÖNCE onu kapatır, sayfa/pencere kapanmaz.
-  document.addEventListener("click", function(ev){
-    try{
-      if(!fn || !fnKaydetHedef()) return;
-      if(ev.target.closest && ev.target.closest("#btnUstKapat, .ub-btn--kapat")){
-        ev.stopImmediatePropagation(); ev.preventDefault(); fnKapat();
-      }
-    }catch(e){}
-  }, true);
+  // Üst bar Geri (‹) / Kapat (✕): açık açıklama formu varsa ÖNCE onu kapatır, sayfa/pencere
+  // kapanmaz (11.11.2026: eski yakalama dinleyicisi yerine ortak Nav katman kapatıcısı).
+  document.addEventListener("DOMContentLoaded", function(){
+    if(window.Nav) Nav.kapaticiEkle(function(){
+      try{
+        if(fn && fnKaydetHedef()){ fnKapat(); return true; }
+        if(pop){ popupKapat(); return true; }
+      }catch(e){}
+      return false;
+    });
+  });
 
   // Fatura sırası: açıklar önce — en çok geciken üstte → en uzak vade altta; ödenenler en altta (en yeni üstte)
   function faturaSirala(ogeler){
@@ -249,7 +251,7 @@ var OdemeVadeUI = (function(){
     var acik = sirali.filter(function(o){ return !o.odendi; });
     var gecikmis = acik.filter(function(o){ return o.durum === "gecti"; }).length;
     var toplam = acik.reduce(function(s,o){ return s + o.tutar; }, 0);
-    var h = "<div class='ov-ozet'><span>" + acik.length + " açık fatura" + (gecikmis ? " · <b>" + gecikmis + " gecikmiş</b>" : "") + "</span><em>" + fmt(toplam) + " EURO</em></div>";
+    var h = "<div class='ov-ozet'><span>" + acik.length + " açık fatura" + (gecikmis ? " · <b>" + gecikmis + " gecikmiş</b>" : "") + "</span><em>" + VadeTakip.tutarHTML(toplam) + "</em></div>";
     h += "<div class='ov-fb'>Faturalar · ödeme tarihine göre</div>";
     h += sirali.length ? "<div class='vt-grup ov-faturalar'>" + sirali.map(function(o){ return faturaSatiri(o); }).join("") + "</div>"
       : "<div class='ov-bos'>Bu müşteride vade günü tanımlı fatura yok.</div>";
