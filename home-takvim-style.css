@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.11.11.26-00:01.1559
+/* home-takvim-style.css — TKP.11.11.26-07:42.1560
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -36,7 +36,7 @@
   .ht-ozet-oge i { font-size: 15px; margin-right: 2px; }
 }
 .ht-takvim-kutu {
-  background: #aeb8c6; border: 2px solid #0a2f5c; border-radius: 10px; /* 10.11.2026 (Abdullah): koyu ama daha açık gri zemin + çerçeve çizgisi */
+  background: var(--tk-zemin, #d6dae1); border: 2px solid #0a2f5c; border-radius: 10px; /* 10.11.2026 (Abdullah): koyu ama daha açık gri zemin + çerçeve çizgisi */
   padding: 7px 10px; margin-bottom: 0; /* 10.11.2026 (Abdullah): takvim dikeyde %10 kısaldı */
   touch-action: pan-y; /* 09.11.2026: yatay kaydırma ay değiştirir */
 }
@@ -58,11 +58,13 @@
 }
 .ht-gun--bos { cursor: default; }
 .ht-gun--tatil { color: #0c2f66; }
-/* RENK STANDARDI (11.11.2026, Abdullah onayı): koyu zeminler + beyaz rakam; renkler home-anasayfa-style.css'teki
-   tek yeşil/mavi/kırmızı değişkenlerinden gelir. Hafta sonu (açık yeşil zemin) rakamı okunurluk için lacivert. */
-.ht-gun--kalan { background: var(--renk-mavi,#1257c7); color: #fff; border-color: #0d3f93; }
-.ht-gun--tatil { background: var(--renk-yesil,#22cc66); color: #0c2f66; border-color: #169a4c; }
-.ht-gun--gecmis { background: var(--renk-kirmizi,#ff0000); color: #fff; border-color: #b30000; }
+/* TAKVİM RENKLERİ (11.11.2026, Abdullah onayı): sayfanın tek yeşil/mavi/kırmızısından (home-anasayfa-style.css) bağımsız,
+   takvime özel daha açık tonlar — takvimin rengini değiştirmek için sadece bu 5 satır:
+   kırmızı +%20, mavi +%20, yeşil +%10 açık; gri alt zemin ayrıca açıldı. Hafta sonu (açık yeşil zemin) rakamı okunurluk için lacivert. */
+.ht-takvim-kutu { --tk-zemin: #d6dae1; --tk-kirmizi: #ff4747; --tk-mavi: #3e81ee; --tk-yesil: #42df81; }
+.ht-gun--kalan { background: var(--tk-mavi); color: #fff; border-color: #1a5fd6; }
+.ht-gun--tatil { background: var(--tk-yesil); color: #0c2f66; border-color: #27c468; }
+.ht-gun--gecmis { background: var(--tk-kirmizi); color: #fff; border-color: #db1f1f; }
 /* Seçili gün: zemin değişmez, sadece turuncu çerçeve (koyu zeminde beyaz rakam kaybolmasın) */
 .ht-gun--secili { border-color: #e8a317; box-shadow: 0 0 0 1.5px #fff inset; }
 /* BUGÜN (11.11.2026, Abdullah onayı): parlak sarı zemin + lacivert çerçeve + kalın lacivert rakam. Seçiliyken çerçeve turuncu. */
@@ -80,11 +82,12 @@
 .ht-gun.ht-gun--bugun .ht-gun-no { color: #0a2f5c; }
 .ht-rozet {
   min-width: 15px; height: 15px; padding: 0 3px;
-  border-radius: 8px; font-size: 9px; font-weight: 900; color: #fff;
+  border-radius: 8px; font-size: 10px; font-weight: 900; color: #fff;
   display: flex; align-items: center; justify-content: center; box-sizing: border-box;
 }
-.ht-rozet--temas { background: var(--renk-mavi,#1257c7); border: 1.5px solid #fff; }
-.ht-rozet--ajanda { background: var(--renk-kirmizi,#ff0000); border: 1.5px solid #fff; }
+/* Rozetler (Öneri A, Abdullah onayı): her gün renginde okunsun diye beyaz zemin + lacivert çerçeve + renkli sayı */
+.ht-rozet--temas { background: #fff; color: var(--renk-mavi,#1257c7); border: 1.5px solid #0a2f5c; }
+.ht-rozet--ajanda { background: #fff; color: var(--renk-kirmizi,#ff0000); border: 1.5px solid #0a2f5c; }
 
 /* GÜN PANELİ — güne dokununca günün ÜSTÜNDE açılır (yarı genişlik, ok işaretli) */
 .ht-panel {
