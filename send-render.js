@@ -1,5 +1,5 @@
 /*
-  send-render.js — TKP.09.11.26-00:12.1521
+  send-render.js — TKP.11.11.26-11:07.1563
   GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim artık Gönder tuşunun altında açılan
   tek sıra liste (iletisimPaneliKonumla/iletisimAcilirAc/Kapat, altKutuKonumla).
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
@@ -687,9 +687,24 @@ function zinciriCevaplaKopyala(){
               var panoOgesi = new ClipboardItem({"image/png": blob});
               navigator.clipboard.write([panoOgesi]).then(function(){
                 gonderimKanaliniKaydet("mail");
-                basariBildirimGoster("Kopyalandı! Mail uygulamasına geçip zincire yapıştırabilirsin.");
-                setTimeout(function(){ mailUygulamasiniAcmayiDene(); }, 350);
-                setTimeout(function(){ basariEkraninaGit("panoya"); }, 1800);
+                // GÜNCELLEME (11.11.2026, Abdullah'ın isteğiyle): görsel panoya kopyalanınca,
+                // normal mail gönderimindeki gibi cihazın KENDİ paylaşım penceresi açılır —
+                // programdan çıkmadan oradan mail uygulaması seçilir, pano görseli yapıştırılır.
+                // Gönderilen şey SADECE bir boşluk (Web Share API en az bir alan ister): görsel
+                // dosya olarak eklenmez (pano zaten dolu), konu/metin de eklenmez.
+                // Pencere desteklenmiyorsa eski davranış: Android'de Outlook'u açmayı dene.
+                if(navigator.share){
+                  navigator.share({text:" "}).then(function(){
+                    basariEkraninaGit("panoya");
+                  }).catch(function(){
+                    // Pencere kapatıldı/iptal — pano yine dolu, eski akışla başarı ekranına geç.
+                    basariEkraninaGit("panoya");
+                  });
+                } else {
+                  basariBildirimGoster("Kopyalandı! Mail uygulamasına geçip zincire yapıştırabilirsin.");
+                  setTimeout(function(){ mailUygulamasiniAcmayiDene(); }, 350);
+                  setTimeout(function(){ basariEkraninaGit("panoya"); }, 1800);
+                }
               }).catch(function(err){
                 alert("Kopyalanamadı: " + (err && err.message ? err.message : "izin verilmedi"));
               });
