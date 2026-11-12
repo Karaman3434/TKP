@@ -145,13 +145,13 @@ var IslemPopup = (function(){
           var alt = b.alt(k);
           return "<div class='ip-satir' data-alan='" + b.alan + "' data-i='" + i + "'>"
             + "<span class='ip-isaret " + (b.kare ? "ip-isaret--kare" : "ip-isaret--daire") + "'></span>"
-            + "<span class='ip-metin'><div class='ip-ana'>" + esc(b.ana(k)) + "</div>"
+            + "<div class='ip-metin'><div class='ip-ana'>" + esc(b.ana(k)) + "</div>"
             + (alt ? "<div class='ip-alt'>" + esc(alt) + "</div>" : "")
             + ((b.alan === "yetkili" && (k.telefon || k.eposta)) ? "<div class='ip-iletisim'>"
               + (k.telefon ? "<span class='ip-iletisim-parca'>☎ " + esc(k.telefon) + "</span>" : "")
               + (k.telefon && k.eposta ? "<span class='ip-iletisim-ayrac'>|</span>" : "")
               + (k.eposta ? "<span class='ip-iletisim-parca ip-iletisim-parca--mail'>✉ " + esc(k.eposta) + "</span>" : "")
-              + "</div>" : "") + "</span></div>";
+              + "</div>" : "") + "</div></div>";
         }).join("");
     }).join("");
     if(!bolumler.length) icerikHtml = "<div class='ip-not'>Seçilecek ek bilgi yok — tek adres ve tek yetkili otomatik kullanılır.</div>";
