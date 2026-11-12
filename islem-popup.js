@@ -193,14 +193,19 @@ var IslemPopup = (function(){
       try{
         var kr = kart.getBoundingClientRect();
         if(kr.width > 0){
-          var pw = 240;
-          var pl = Math.round(kr.left - pw / 2);
-          if(pl < 6) pl = 6;
-          if(pl + pw > window.innerWidth - 6) pl = window.innerWidth - 6 - pw;
+          // Telefon ekranında popup'ı neredeyse tam genişlikte aç.
+          // Önceki 240px sabit genişlik, telefon ve e-posta alanlarını sıkıştırıyordu.
+          var kenarBosluk = window.innerWidth <= 380 ? 8 : 12;
+          var pw = Math.max(0, window.innerWidth - kenarBosluk * 2);
+          var pl = kenarBosluk;
           var pt = Math.max(8, Math.round(kr.top));
           var pe = el.querySelector(".ip-pop");
-          pe.style.left = pl + "px"; pe.style.width = pw + "px"; pe.style.maxWidth = "none";
-          pe.style.top = pt + "px"; pe.style.maxHeight = "calc(100vh - " + (pt + 12) + "px)";
+          pe.style.left = pl + "px";
+          pe.style.width = pw + "px";
+          pe.style.maxWidth = "calc(100vw - " + (kenarBosluk * 2) + "px)";
+          pe.style.boxSizing = "border-box";
+          pe.style.top = pt + "px";
+          pe.style.maxHeight = "calc(100vh - " + (pt + 12) + "px)";
         }
       }catch(e){}
     }
