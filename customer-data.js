@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.11.11.26-18:32.1577
+  customer-data.js — TKP.13.11.26-00:15.1587
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -93,6 +93,30 @@ var CustomerData = (function(){
     // müşteri için işaretlenmiş fatura/teslimat/yetkili seçimi de bir
     // sonraki (farklı) müşteriye sızmasın diye temizlenir.
     try{ localStorage.removeItem("weiconv2_secili_iletisim"); }catch(e){}
+  }
+
+  // SEÇİLİ YETKİLİLERİ ÇÖZ (12.11.2026, TEK KAYNAK — Sepet, Gönder ve Mail/WhatsApp görseli bunu kullanır):
+  // weiconv2_secili_iletisim'deki seçimi {yetkili, yetkililer, yetkiliIsimleri} müşterinin iletişim kişilerine çevirir.
+  // ÖNCE AD (yetkiliIsimleri) — aynı indeksteki kişinin adı tutuyorsa o, tutmuyorsa listede o adlı ilk kişi;
+  // ad yoksa/bulunamazsa eski davranış: indeks. Seçim boşsa [] döner (çağıran ilk kişiyi kullanır).
+  function seciliYetkilileriCoz(musteri, secim){
+    var l = (musteri && musteri.iletisimler) || [];
+    secim = secim || {};
+    var idx = (Array.isArray(secim.yetkililer) && secim.yetkililer.length) ? secim.yetkililer
+            : (secim.yetkili != null ? [secim.yetkili] : []);
+    var sonuc = [];
+    if(Array.isArray(secim.yetkiliIsimleri) && secim.yetkiliIsimleri.length){
+      secim.yetkiliIsimleri.forEach(function(isim, n){
+        if(!isim) return;
+        var ix = idx[n];
+        var k = (ix != null && l[ix] && l[ix].isim === isim) ? l[ix] : l.filter(function(x){ return x && x.isim === isim; })[0];
+        if(k && sonuc.indexOf(k) < 0) sonuc.push(k);
+      });
+    }
+    if(!sonuc.length){
+      idx.forEach(function(ix){ if(l[ix] && sonuc.indexOf(l[ix]) < 0) sonuc.push(l[ix]); });
+    }
+    return sonuc;
   }
 
   function seciliyiOku(){
@@ -944,6 +968,7 @@ var CustomerData = (function(){
     sec: sec,
     secimiKaldir: secimiKaldir,
     seciliyiOku: seciliyiOku,
+    seciliYetkilileriCoz: seciliYetkilileriCoz,
     uzunluk: function(){ return liste.length; },
     ilKodlariListele: ilKodlariListele,
     ilListesiGetir: ilListesiGetir,

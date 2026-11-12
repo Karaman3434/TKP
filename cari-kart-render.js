@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.11.11.26-11:18.1564
+  cari-kart-render.js — TKP.13.11.26-00:15.1587
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -164,6 +164,34 @@ function kayitAltMetin(tip, kayit){
 // okuyup varsayılan ilk kayıt yerine SENİN işaretlediğini kullanır.
 var secimler = {fatura:0, teslimat:0, yetkili:0};
 
+// 12.11.2026 (Abdullah'ın bildirdiği hata — "tik koymadığım kişinin adı mailde çıkıyor"): Cari Kart seçim modunda açılınca
+// eskiden hep ilk kayıtla (0) başlıyor ve "Bu Seçimlerle Devam Et" / Gönder'e dönüş, İşlem Yap penceresinde yapılan seçimi
+// sessizce ilk kişiyle EZİYORDU. Artık aynı müşteri için kayıtlı seçim varsa ondan başlanır; yetkili değiştirilmediyse çoklu
+// seçim + adlar aynen korunur, değiştirildiyse seçilen kişinin adı yazılır.
+var secimTohum = null;
+function secimiTohumla(m){
+  if(secimTohum !== null || !m) return;
+  secimTohum = {};
+  try{
+    var k = JSON.parse(localStorage.getItem("weiconv2_secili_iletisim") || "{}");
+    if(!k || !m.id || k.musteriId !== m.id) return;
+    secimTohum = k;
+    ["fatura","teslimat","yetkili"].forEach(function(a){ if(Number.isInteger(k[a]) && k[a] >= 0) secimler[a] = k[a]; });
+  }catch(e){}
+}
+function secimKayitNesnesi(){
+  var o = {fatura: secimler.fatura, teslimat: secimler.teslimat, yetkili: secimler.yetkili};
+  var m = musteriVerisi;
+  if(m && m.id) o.musteriId = m.id;
+  if(secimTohum && secimTohum.yetkili === secimler.yetkili && Array.isArray(secimTohum.yetkililer)){
+    o.yetkililer = secimTohum.yetkililer.slice();
+    if(Array.isArray(secimTohum.yetkiliIsimleri)) o.yetkiliIsimleri = secimTohum.yetkiliIsimleri.slice();
+  } else if(m && m.iletisimler && m.iletisimler[secimler.yetkili] && m.iletisimler[secimler.yetkili].isim){
+    o.yetkiliIsimleri = [m.iletisimler[secimler.yetkili].isim];
+  }
+  return o;
+}
+
 // DEĞİŞİKLİK (12.10.2026, Abdullah onayı): seçim tiki artık akıştan
 // bağımsız HER ZAMAN görünür/tıklanabilir (eskiden SADECE "İşlem Yap"
 // akışında görünüyordu, bkz. akistanGeldiMi). akistanGeldiMi hâlâ
@@ -189,6 +217,7 @@ var cariDonusSayfasi = gonderdenAcildiMi ? "send.html" : "cart.html";
 
 function anaSayfayiRenderEt(){
   var m = musteriVerisi;
+  secimiTohumla(m);
   ["fatura","teslimat","yetkili","not"].forEach(function(tip){
     var liste = kayitlariGetir(m, tip);
     var kapsayici = document.getElementById(tip + "Listesi");
@@ -912,7 +941,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     function siparisAkisinaDevamEt(secilenTip){
       localStorage.setItem("weiconv2_onceden_secilen_tip", secilenTip);
-      localStorage.setItem("weiconv2_secili_iletisim", JSON.stringify(secimler));
+      localStorage.setItem("weiconv2_secili_iletisim", JSON.stringify(secimKayitNesnesi()));
       localStorage.removeItem("weiconv2_islem_yap_akisi");
       // MÜŞTERİ SIZINTISI DÜZELTMESİ (27.10.2026, Abdullah'ın bildirdiği
       // kritik hata — bkz. cart-render.js sepetMusteriBaglantisiniDogrula):
@@ -970,7 +999,7 @@ document.addEventListener("DOMContentLoaded", function(){
     islemeDevamBtn.hidden = false;
     islemeDevamBtn.textContent = "✓ Bu Seçimlerle Devam Et";
     islemeDevamBtn.onclick = function(){
-      localStorage.setItem("weiconv2_secili_iletisim", JSON.stringify(secimler));
+      localStorage.setItem("weiconv2_secili_iletisim", JSON.stringify(secimKayitNesnesi()));
       localStorage.removeItem("weiconv2_sepetten_cari_acildi");
       if(gonderdenAcildiMi){
         localStorage.removeItem("weiconv2_gonderden_cari_acildi");

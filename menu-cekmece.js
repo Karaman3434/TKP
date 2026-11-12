@@ -314,7 +314,7 @@ function mcMusteriModulunuYukle(hazirOlunca){
   if(mcMusteriModulYukleniyor) return;
   mcMusteriModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "customer-data.js?v=TKP.11.11.26-18:32.1577";
+  s.src = "customer-data.js?v=TKP.13.11.26-00:15.1587";
   s.onload = function(){
     mcMusteriDinleyiciyiBagla();
     mcMusteriModulBekleyenler.forEach(function(fn){ fn(); });
@@ -618,7 +618,7 @@ function mcIslemPopupAc(musteri, devam, yedek){
   var kart = (typeof mcMiniAramaPanel !== "undefined") ? mcMiniAramaPanel : null;
   if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam, {kart: kart}); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.11.11.26-19:09.1578";
+  s.src = "islem-popup.js?v=TKP.13.11.26-00:15.1587";
   s.onload = function(){ IslemPopup.ac(musteri, devam, {kart: kart}); };
   s.onerror = function(){ if(typeof yedek === "function") yedek(); };
   document.body.appendChild(s);

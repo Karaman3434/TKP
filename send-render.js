@@ -1,5 +1,5 @@
 /*
-  send-render.js — TKP.11.11.26-11:18.1564
+  send-render.js — TKP.13.11.26-00:15.1587
   GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim artık Gönder tuşunun altında açılan
   tek sıra liste (iletisimPaneliKonumla/iletisimAcilirAc/Kapat, altKutuKonumla).
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
@@ -132,10 +132,8 @@ var FORM_BASLIK = {
 // çağıran fonksiyonlar).
 // ÇOKLU YETKİLİ (08.11.2026): popup'ta birden fazla yetkili seçildiyse hepsi, yoksa tek seçili.
 function seciliYetkililerDizisi(yetkililer, secim, tek){
-  var d = [];
-  if(secim && Array.isArray(secim.yetkililer)){
-    secim.yetkililer.forEach(function(ix){ if(yetkililer[ix] && d.indexOf(yetkililer[ix]) < 0) d.push(yetkililer[ix]); });
-  }
+  // 12.11.2026: çözüm tek kaynakta (CustomerData.seciliYetkilileriCoz) — önce ada göre, sonra indeks.
+  var d = CustomerData.seciliYetkilileriCoz({iletisimler: yetkililer}, secim);
   return d.length ? d : (tek ? [tek] : []);
 }
 function formBaslikHtml(tip, tarihMetni, kodMetni){
@@ -208,8 +206,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   var yetkililer = musteri.iletisimler || [];
   var yetkiliSecim = {};
   try{ yetkiliSecim = JSON.parse(localStorage.getItem("weiconv2_secili_iletisim")||"{}"); }catch(e){}
-  var yki = (yetkiliSecim.yetkili!=null && yetkililer[yetkiliSecim.yetkili]) ? yetkiliSecim.yetkili : 0;
-  var seciliYetkili = yetkililer[yki];
+  var seciliYetkili = CustomerData.seciliYetkilileriCoz({iletisimler: yetkililer}, yetkiliSecim)[0] || yetkililer[0];
   var seciliYetkiliDizi = seciliYetkililerDizisi(yetkililer, yetkiliSecim, seciliYetkili);
   var yetkiliBilgiHtml = seciliYetkili ? HareketTablo.yetkiliSatiriHtml(seciliYetkili.isim, seciliYetkili.telefon, seciliYetkili.eposta) : "";
   var tToplamEuro = 0;
@@ -301,17 +298,8 @@ function gonderKutusunuGoster(musteri, sepet, tip, kur, kdv, kod){
     var kisiler = musteri.iletisimler || [];
     var secim = {};
     try{ secim = JSON.parse(localStorage.getItem("weiconv2_secili_iletisim")||"{}"); }catch(e){}
-    var kayitliKisi = secim.yetkiliKayit || (Array.isArray(secim.yetkiliKayitlari) ? secim.yetkiliKayitlari[0] : null);
-    var seciliKisi = null;
-    if(kayitliKisi){
-      seciliKisi = kisiler.find(function(k){
-        var e1=String(k.eposta||"").trim().toLowerCase(), e2=String(kayitliKisi.eposta||"").trim().toLowerCase();
-        var n1=String(k.isim||"").trim().toLocaleLowerCase("tr-TR"), n2=String(kayitliKisi.isim||"").trim().toLocaleLowerCase("tr-TR");
-        return (e2 && e1===e2) || (!e2 && n2 && n1===n2);
-      });
-    }
-    var ki = (secim.yetkili!=null && kisiler[secim.yetkili]) ? secim.yetkili : 0;
-    kisiAlanlariniDoldur(seciliKisi || kayitliKisi || kisiler[ki] || {});
+    var kisi0 = CustomerData.seciliYetkilileriCoz({iletisimler: kisiler}, secim)[0] || kisiler[0];   // 12.11.2026: önce ada göre
+    kisiAlanlariniDoldur(kisi0 || {});
   }catch(e){ hataGoster("Gönderim alanı hazırlanamadı: " + e.message); }
 }
 
@@ -370,8 +358,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   var yetkililer = musteri.iletisimler || [];
   var yetkiliSecim = {};
   try{ yetkiliSecim = JSON.parse(localStorage.getItem("weiconv2_secili_iletisim")||"{}"); }catch(e){}
-  var yki = (yetkiliSecim.yetkili!=null && yetkililer[yetkiliSecim.yetkili]) ? yetkiliSecim.yetkili : 0;
-  var seciliYetkili = yetkililer[yki];
+  var seciliYetkili = CustomerData.seciliYetkilileriCoz({iletisimler: yetkililer}, yetkiliSecim)[0] || yetkililer[0];
   var seciliYetkiliDizi = seciliYetkililerDizisi(yetkililer, yetkiliSecim, seciliYetkili);
   var yetkiliBilgiHtml = seciliYetkili ? HareketTablo.yetkiliSatiriHtml(seciliYetkili.isim, seciliYetkili.telefon, seciliYetkili.eposta) : "";
 
@@ -992,6 +979,10 @@ document.addEventListener("DOMContentLoaded", function(){
         if(!etiket) return;
         var blok = etiket.nextElementSibling;           // .ck-blok (mevcut seçili değer)
         var secili = (secim[b.alanAdi] != null && b.liste[secim[b.alanAdi]]) ? secim[b.alanAdi] : 0;
+        if(b.alanAdi === "yetkili"){   // 12.11.2026: vurgulanan kişi, gerçekte kullanılan (ada göre çözülen) kişi olsun
+          var cozulen = CustomerData.seciliYetkilileriCoz({iletisimler: b.liste}, secim)[0];
+          if(cozulen) secili = b.liste.indexOf(cozulen);
+        }
 
         var tus = document.createElement("button");
         tus.type = "button";
@@ -1036,7 +1027,7 @@ document.addEventListener("DOMContentLoaded", function(){
       var secim = {};
       try{ secim = JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){}
       secim[alanAdi] = i;
-      if(alanAdi === "yetkili") delete secim.yetkililer;   // Değiştir ile tek kişi seçildi — çoklu seçim geçersiz
+      if(alanAdi === "yetkili"){ delete secim.yetkililer; delete secim.yetkiliIsimleri; }   // Değiştir ile tek kişi seçildi — çoklu seçim ve ad kaydı geçersiz
       localStorage.setItem(KEY, JSON.stringify(secim));
       adresleriBelirle(g.musteri);
 

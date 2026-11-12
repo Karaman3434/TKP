@@ -1,5 +1,5 @@
 /*
-  islem-popup.js — TKP.11.11.26-19:09.1578 (YENİ DOSYA, 08.11.2026)
+  islem-popup.js — TKP.13.11.26-00:15.1587 (YENİ DOSYA, 08.11.2026)
   ============================================================
   "İŞLEM YAP" YENİ ROTASI (Abdullah'ın yazdığı ve onayladığı rota):
     1) Müşteri ara, bul, seç          2) Müşteri işlem kartı (hızlı pencere) açılır
@@ -56,9 +56,7 @@ var IslemPopup = (function(){
     st.id = "ipStil";
     st.textContent =
       ".ip-arka{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(10,25,50,.5);z-index:9500}"
-    + ".ip-pop{position:fixed;left:12px;width:440px;max-width:calc(100vw - 24px);top:84px;margin:0;max-height:calc(100vh - 110px);display:flex;flex-direction:column;background:#fff;border:2px solid #073B70;border-radius:14px;box-shadow:0 8px 26px rgba(0,0,0,.35);z-index:9501;font-family:inherit}"
-    + "@media(max-width:380px){.ip-pop{left:8px;max-width:calc(100vw - 16px)}.ip-iletisim{font-size:10px;gap:4px}}"
-    + "@media(min-width:600px){.ip-pop{left:20px;width:480px;max-width:calc(100vw - 40px)}}"
+    + ".ip-pop{position:fixed;left:14px;width:300px;max-width:calc(100vw - 28px);top:84px;margin:0;max-height:calc(100vh - 110px);display:flex;flex-direction:column;background:#fff;border:2px solid #073B70;border-radius:14px;box-shadow:0 8px 26px rgba(0,0,0,.35);z-index:9501;font-family:inherit}"
     + ".ip-baslik{flex:none;background:#e8eef7;border-radius:12px 12px 0 0;padding:9.6px 14.4px;border-bottom:1.5px solid #c9d6e8}"
     + ".ip-kod{color:#c0392b;font-weight:800;font-size:15.6px}"
     + ".ip-ad{color:#0a2f5c;font-weight:800;font-size:18px;line-height:1.25}"
@@ -77,12 +75,13 @@ var IslemPopup = (function(){
     + ".ip-metin{min-width:0;flex:1 1 auto}"
     + ".ip-ana{font-size:15.6px;font-weight:600;color:#1a2a3a;line-height:1.25;word-break:break-word;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}"
     + ".ip-alt{font-size:13.8px;color:#667085;word-break:break-word}"
-    + ".ip-iletisim{display:flex;align-items:center;gap:8px;min-width:0;width:100%;margin-top:4px;font-size:11.5px;color:#174777}"
-    + ".ip-iletisim-parca{display:flex;align-items:center;gap:4px;min-width:0;white-space:nowrap}"
-    + ".ip-iletisim-parca:first-child{flex:0 1 46%}"
-    + ".ip-iletisim-parca--mail{flex:1 1 54%;white-space:normal;overflow-wrap:anywhere;word-break:break-word}"
-    + ".ip-iletisim-ayrac{color:#9aa6b5;flex:none}"
-    + ".ip-iletisim-ayrac{color:#9aa6b5;flex:none}"
+    // 12.11.2026 (Abdullah): yetkili satırında isim (+görev) üstte, altında telefon + e-posta YAN YANA tek satırda.
+    + ".ip-ana-satir{display:flex;align-items:baseline;gap:8px;min-width:0}"
+    + ".ip-ana-satir .ip-ana{flex:0 1 auto;min-width:0}"
+    + ".ip-ana-satir .ip-alt{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}"
+    + ".ip-iletisim{display:flex;align-items:center;gap:7px;margin-top:2px;font-size:11.5px;font-weight:600;color:#33475b;white-space:nowrap}"
+    + ".ip-iletisim .ip-tel{flex:none}"
+    + ".ip-iletisim .ip-mail{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;color:#1257c7}"
     + ".ip-not{padding:12px 4.8px 4.8px;font-size:15.6px;color:#556170}"
     + ".ip-alt-alan{flex:none;padding:9.6px 7.2px 9.6px;position:relative}"
     + ".ip-islem{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;height:52.8px;border:0;border-radius:10px;background:#073B70;color:#fff;font-family:inherit;font-weight:800;font-size:18px;line-height:1;letter-spacing:.6px;cursor:pointer}"
@@ -90,8 +89,7 @@ var IslemPopup = (function(){
     + ".ip-tipler{position:fixed;z-index:9502;background:#fff;border:1.5px solid #073B70;border-radius:12px;padding:9.6px;box-shadow:0 6px 18px rgba(0,30,70,.32);box-sizing:border-box}"
     + ".ip-tipler[hidden]{display:none}"
     + ".ip-tipler-baslik{font-size:13.8px;font-weight:800;color:#556170;margin:2.4px 4.8px 7.2px}"
-    + ".ip-tip{display:flex;align-items:center;gap:12px;width:100%;height:70px;min-height:70px;max-height:70px;box-sizing:border-box;border:2px solid;border-radius:10px;padding:8.4px 12px;margin:0 0 7.2px;font-family:inherit;font-weight:800;font-size:15.6px;line-height:1.2;cursor:pointer;text-align:left}"
-    + ".ip-tip>span:last-child{display:block;min-width:0;max-width:100%;white-space:normal}"
+    + ".ip-tip{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;border:2px solid;border-radius:10px;padding:8.4px 12px;min-height:58.2px;margin:0 0 7.2px;font-family:inherit;font-weight:800;font-size:15.6px;line-height:1.2;cursor:pointer;text-align:left}"   // 12.11.2026: tüm tip kutuları PROFORMA FATURA (2 satır) kutusu boyunda — min-height 58.2px
     + ".ip-tip:last-child{margin-bottom:0}"
     + ".ip-tip:active{opacity:.8}"
     + ".ip-ok{position:absolute;width:16.8px;height:16.8px;background:#fff;transform:rotate(45deg)}";
@@ -139,7 +137,8 @@ var IslemPopup = (function(){
     if(tes.length > 1) bolumler.push({alan:"teslimat", etiket:"TESLİMAT ADRESİ", ikon:IKON.teslimat, kare:false, liste:tes,
       ana:function(k){ return k.adres || k.etiket || "(adres yok)"; }, alt:function(k){ return k.adres ? (k.etiket || "") : ""; }});
     if(yet.length > 1) bolumler.push({alan:"yetkili", etiket:"YETKİLİ KİŞİ", ipucu:"çoklu", ikon:IKON.yetkili, kare:true, liste:yet,
-      ana:function(k){ return k.isim || "(isimsiz)"; }, alt:function(k){ return k.gorev || ""; }});
+      ana:function(k){ return k.isim || "(isimsiz)"; }, alt:function(k){ return k.gorev || ""; },
+      iletisim:function(k){ return {tel: k.telefon || "", mail: k.eposta || ""}; }});
 
     var el = document.createElement("div");
     el.id = "ipKok";
@@ -147,15 +146,17 @@ var IslemPopup = (function(){
       return "<div class='ip-etiket'>" + b.ikon + esc(b.etiket) + (b.ipucu ? " <small>(" + esc(b.ipucu) + ")</small>" : "") + "</div>"
         + b.liste.map(function(k, i){
           var alt = b.alt(k);
+          var ilt = b.iletisim ? b.iletisim(k) : null;
+          var iltHtml = (ilt && (ilt.tel || ilt.mail))
+            ? "<div class='ip-iletisim'>" + (ilt.tel ? "<span class='ip-tel'>" + esc(ilt.tel) + "</span>" : "")
+              + (ilt.mail ? "<span class='ip-mail'>" + esc(ilt.mail) + "</span>" : "") + "</div>" : "";
+          // yetkilide: isim + görev aynı satırda, altında telefon + e-posta; adreslerde eski düzen (ana / alt alt alta).
+          var metinHtml = b.iletisim
+            ? "<div class='ip-ana-satir'><div class='ip-ana'>" + esc(b.ana(k)) + "</div>" + (alt ? "<div class='ip-alt'>" + esc(alt) + "</div>" : "") + "</div>" + iltHtml
+            : "<div class='ip-ana'>" + esc(b.ana(k)) + "</div>" + (alt ? "<div class='ip-alt'>" + esc(alt) + "</div>" : "");
           return "<div class='ip-satir' data-alan='" + b.alan + "' data-i='" + i + "'>"
             + "<span class='ip-isaret " + (b.kare ? "ip-isaret--kare" : "ip-isaret--daire") + "'></span>"
-            + "<div class='ip-metin'><div class='ip-ana'>" + esc(b.ana(k)) + "</div>"
-            + (alt ? "<div class='ip-alt'>" + esc(alt) + "</div>" : "")
-            + ((b.alan === "yetkili" && (k.telefon || k.eposta)) ? "<div class='ip-iletisim'>"
-              + (k.telefon ? "<span class='ip-iletisim-parca'>☎ " + esc(k.telefon) + "</span>" : "")
-              + (k.telefon && k.eposta ? "<span class='ip-iletisim-ayrac'>|</span>" : "")
-              + (k.eposta ? "<span class='ip-iletisim-parca ip-iletisim-parca--mail'>✉ " + esc(k.eposta) + "</span>" : "")
-              + "</div>" : "") + "</div></div>";
+            + "<span class='ip-metin'>" + metinHtml + "</span></div>";
         }).join("");
     }).join("");
     if(!bolumler.length) icerikHtml = "<div class='ip-not'>Seçilecek ek bilgi yok — tek adres ve tek yetkili otomatik kullanılır.</div>";
@@ -194,20 +195,14 @@ var IslemPopup = (function(){
       try{
         var kr = kart.getBoundingClientRect();
         if(kr.width > 0){
-          // Onaylanan tasarım: tam geniş sürüme göre yatayda %20 daralt.
-          // Popup'ı ekranın ortasında tut; küçük ekranlarda da taşmayı önle.
-          var pw = Math.round(window.innerWidth * 0.80);
-          var minKenar = 8;
-          var pl = Math.max(minKenar, Math.round((window.innerWidth - pw) / 2));
-          pw = Math.min(pw, window.innerWidth - minKenar * 2);
+          var pw = Math.min(352, window.innerWidth - 12);   // 12.11.2026: telefon + e-posta yan yana sığsın diye 240 → 352 (ekrana göre kısıtlı)
+          var pl = Math.round(kr.left - pw / 2);
+          if(pl < 6) pl = 6;
+          if(pl + pw > window.innerWidth - 6) pl = window.innerWidth - 6 - pw;
           var pt = Math.max(8, Math.round(kr.top));
           var pe = el.querySelector(".ip-pop");
-          pe.style.left = pl + "px";
-          pe.style.width = pw + "px";
-          pe.style.maxWidth = "calc(100vw - 16px)";
-          pe.style.boxSizing = "border-box";
-          pe.style.top = pt + "px";
-          pe.style.maxHeight = "calc(100vh - " + (pt + 12) + "px)";
+          pe.style.left = pl + "px"; pe.style.width = pw + "px"; pe.style.maxWidth = "none";
+          pe.style.top = pt + "px"; pe.style.maxHeight = "calc(100vh - " + (pt + 12) + "px)";
         }
       }catch(e){}
     }
@@ -277,15 +272,14 @@ var IslemPopup = (function(){
       b.addEventListener("click", function(){
         var tip = this.getAttribute("data-tip");
         try{
-          var secilenKisiler = secim.yetkili.map(function(ix){ return yet[ix]; }).filter(Boolean);
-          var secimPaketi = {
-            musteriId: m.id || null,
+          localStorage.setItem("weiconv2_secili_iletisim", JSON.stringify({
             fatura: secim.fatura, teslimat: secim.teslimat,
+            musteriId: m.id || null,   // 12.11.2026: Cari Kart, seçimi SADECE aynı müşteri için tohumlasın
             yetkili: secim.yetkili[0], yetkililer: secim.yetkili.slice(),
-            yetkiliKayit: secilenKisiler[0] ? {isim:secilenKisiler[0].isim||"", gorev:secilenKisiler[0].gorev||"", telefon:secilenKisiler[0].telefon||"", eposta:secilenKisiler[0].eposta||""} : null,
-            yetkiliKayitlari: secilenKisiler.map(function(k){ return {isim:k.isim||"", gorev:k.gorev||"", telefon:k.telefon||"", eposta:k.eposta||""}; })
-          };
-          localStorage.setItem("weiconv2_secili_iletisim", JSON.stringify(secimPaketi));
+            // 12.11.2026: seçilen kişilerin ADLARI da yazılır — okuyan sayfalar önce ada bakar (sıra/indeks kayması mailde
+            // başka kişinin çıkmasına yol açmasın); ad bulunamazsa eski indeks kullanılır.
+            yetkiliIsimleri: secim.yetkili.map(function(ix){ return (yet[ix] && yet[ix].isim) || ""; })
+          }));
         }catch(e){}
         kapat();
         if(typeof tipSecilince === "function") tipSecilince(tip);

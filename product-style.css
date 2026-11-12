@@ -1,4 +1,4 @@
-/* product-style.css — TKP.11.11.26-19:09.1578 */
+/* product-style.css — TKP.13.11.26-00:15.1587 */
 /*
   product-style.css
   =================
@@ -565,16 +565,16 @@ button.ek-rozet { cursor: pointer; }
    HESAPLA düğmesi (93→70px) küçültüldü. Yalnız bu liste (#uaAramaSonucAlani)
    etkilenir; başka sayfa/panel aynı sınıfları eski boyutta kullanmaya devam eder. */
 #uaAramaSonucAlani .urun-adi {
-  font-size: 14.04px;
+  font-size: 16.15px;   /* 13.11.2026 (Abdullah): ürün adı harfleri +%15 (14.04 → 16.15); yer için harf/kelime aralığı biraz daha daraltıldı */
   line-height: 1.1;
-  letter-spacing: -.45px;
-  word-spacing: -1px;
+  letter-spacing: -.6px;
+  word-spacing: -2px;
 }
 #uaAramaSonucAlani .urun-fiyat-yazi {
-  font-size: 15.55px;
-  width: 76px;
+  font-size: 19.44px;   /* 13.11.2026 (Abdullah): Euro fiyatı +%25 (15.55 → 19.44) */
+  width: 80px;   /* 6 haneli fiyat ("1234.50 €") bile sığar; kalan yer ürün sütununa */
   margin-right: 0;
-  letter-spacing: -.5px;
+  letter-spacing: -1px;
 }
 #uaAramaSonucAlani .urun-islem-grup { gap: 2px; }
 #uaAramaSonucAlani .btn-hesapla-ac {
@@ -588,4 +588,4 @@ button.ek-rozet { cursor: pointer; }
 /* 08.11.2026 (Abdullah, ikinci tur): Berta/Abas harfleri ve kodları +%20 (9.6→11.52px);
    ürün adı etiketleri arasındaki dikey boşluklar −%20: satır aralığı 1.3→1.04,
    hücre üst/alt dolgusu 6→4.8px (yukarıdaki td kuralı). */
-#uaAramaSonucAlani .tablo-kod { font-size: 11.52px; line-height: 1.04; }
+#uaAramaSonucAlani .tablo-kod { font-size: 12.67px; line-height: 1.04; letter-spacing: -.4px; }   /* 13.11.2026 (Abdullah): Berta/Abas kodu +%10 (11.52 → 12.67) */
