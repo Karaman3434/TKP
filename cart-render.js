@@ -168,11 +168,30 @@ function adresleriBelirle(musteri){
   // yetkili de kayda işleniyor — bkz. send-data.js, belge-render.js.
   if(musteri.iletisimler && musteri.iletisimler.length){
     var yi = (secim.yetkili!=null && musteri.iletisimler[secim.yetkili]) ? secim.yetkili : 0;
-    seciliAdresler.yetkili = musteri.iletisimler[yi];
+    var ykKayit = secim.yetkiliKayit || (Array.isArray(secim.yetkiliKayitlari) ? secim.yetkiliKayitlari[0] : null);
+    var ykBulunan = null;
+    if(ykKayit){
+      ykBulunan = musteri.iletisimler.find(function(k){
+        var e1=String(k.eposta||"").trim().toLowerCase(), e2=String(ykKayit.eposta||"").trim().toLowerCase();
+        var n1=String(k.isim||"").trim().toLocaleLowerCase("tr-TR"), n2=String(ykKayit.isim||"").trim().toLocaleLowerCase("tr-TR");
+        return (e2 && e1===e2) || (!e2 && n2 && n1===n2);
+      });
+    }
+    seciliAdresler.yetkili = ykBulunan || musteri.iletisimler[yi];
     // ÇOKLU YETKİLİ (08.11.2026, Abdullah onayı — yeni İşlem Yap popup'ı): secim.yetkililer
     // (indeks dizisi) varsa hepsi kayda işlenir; yoksa tek seçili yetkili (eski davranış).
     var yl = [];
-    if(Array.isArray(secim.yetkililer)){
+    if(Array.isArray(secim.yetkiliKayitlari) && secim.yetkiliKayitlari.length){
+      secim.yetkiliKayitlari.forEach(function(kayit){
+        var bulunan = musteri.iletisimler.find(function(k){
+          var e1=String(k.eposta||"").trim().toLowerCase(), e2=String(kayit.eposta||"").trim().toLowerCase();
+          var n1=String(k.isim||"").trim().toLocaleLowerCase("tr-TR"), n2=String(kayit.isim||"").trim().toLocaleLowerCase("tr-TR");
+          return (e2 && e1===e2) || (!e2 && n2 && n1===n2);
+        });
+        if(bulunan && yl.indexOf(bulunan)<0) yl.push(bulunan);
+      });
+    }
+    if(!yl.length && Array.isArray(secim.yetkililer)){
       secim.yetkililer.forEach(function(ix){ if(musteri.iletisimler[ix] && yl.indexOf(musteri.iletisimler[ix]) < 0) yl.push(musteri.iletisimler[ix]); });
     }
     seciliAdresler.yetkililer = yl.length ? yl : [seciliAdresler.yetkili];
