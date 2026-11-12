@@ -79,7 +79,8 @@ var IslemPopup = (function(){
     + ".ip-alt{font-size:13.8px;color:#667085;word-break:break-word}"
     + ".ip-iletisim{display:flex;align-items:center;gap:8px;min-width:0;width:100%;margin-top:4px;font-size:11.5px;color:#174777}"
     + ".ip-iletisim-parca{display:flex;align-items:center;gap:4px;min-width:0;white-space:nowrap}"
-    + ".ip-iletisim-parca--mail{flex:1 1 auto;white-space:normal;overflow-wrap:anywhere;word-break:break-word}"
+    + ".ip-iletisim-parca:first-child{flex:0 1 46%}"
+    + ".ip-iletisim-parca--mail{flex:1 1 54%;white-space:normal;overflow-wrap:anywhere;word-break:break-word}"
     + ".ip-iletisim-ayrac{color:#9aa6b5;flex:none}"
     + ".ip-iletisim-ayrac{color:#9aa6b5;flex:none}"
     + ".ip-not{padding:12px 4.8px 4.8px;font-size:15.6px;color:#556170}"
@@ -193,16 +194,17 @@ var IslemPopup = (function(){
       try{
         var kr = kart.getBoundingClientRect();
         if(kr.width > 0){
-          // Telefon ekranında popup'ı neredeyse tam genişlikte aç.
-          // Önceki 240px sabit genişlik, telefon ve e-posta alanlarını sıkıştırıyordu.
-          var kenarBosluk = window.innerWidth <= 380 ? 8 : 12;
-          var pw = Math.max(0, window.innerWidth - kenarBosluk * 2);
-          var pl = kenarBosluk;
+          // Onaylanan tasarım: tam geniş sürüme göre yatayda %20 daralt.
+          // Popup'ı ekranın ortasında tut; küçük ekranlarda da taşmayı önle.
+          var pw = Math.round(window.innerWidth * 0.80);
+          var minKenar = 8;
+          var pl = Math.max(minKenar, Math.round((window.innerWidth - pw) / 2));
+          pw = Math.min(pw, window.innerWidth - minKenar * 2);
           var pt = Math.max(8, Math.round(kr.top));
           var pe = el.querySelector(".ip-pop");
           pe.style.left = pl + "px";
           pe.style.width = pw + "px";
-          pe.style.maxWidth = "calc(100vw - " + (kenarBosluk * 2) + "px)";
+          pe.style.maxWidth = "calc(100vw - 16px)";
           pe.style.boxSizing = "border-box";
           pe.style.top = pt + "px";
           pe.style.maxHeight = "calc(100vh - " + (pt + 12) + "px)";
