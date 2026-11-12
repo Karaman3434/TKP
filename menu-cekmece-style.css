@@ -1,5 +1,5 @@
 /*
-  menu-cekmece-style.css — TKP.11.11.26-23:29.1585
+  menu-cekmece-style.css — TKP.12.11.26-11:20.1586
   ============================================================================
   "Menü her sayfada" (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı).
   Bu dosya SADECE net-yeni sınıfları içerir:
@@ -175,13 +175,13 @@
 .as-drawer-mini-sonuc-panel .data-table td { padding: var(--mc-td-padding); border-bottom: var(--tbl-hucre-alt-cizgi); vertical-align: middle; font-weight: var(--mc-td-font-weight); font-size: var(--mc-td-font-size); color: var(--tbl-hucre-renk); font-variant-numeric: tabular-nums; }
 .as-drawer-mini-sonuc-panel .data-table td:first-child { border-right: var(--mc-ilk-border-right); }
 .as-drawer-mini-sonuc-panel .data-table tbody tr:nth-child(even) td { background: var(--tbl-zebra); }
-.as-drawer-mini-sonuc-panel .tablo-kod { font-size: 9px; font-weight: 500; line-height: 1.3; margin-bottom: 2px; color: #2d3540; }
+.as-drawer-mini-sonuc-panel .tablo-kod { font-size: 10.35px;  /* 12.11.2026: ürün listesi yazıları +%15 (9px idi) */ font-weight: 500; line-height: 1.3; margin-bottom: 2px; color: #2d3540; }
 .as-drawer-mini-sonuc-panel .kod-harf { font-weight: 900; font-size: 1.25em; padding: 0 1px; }
 .as-drawer-mini-sonuc-panel .kod-blok--b, .as-drawer-mini-sonuc-panel .kod-blok--a { color: #c0392b; }
-.as-drawer-mini-sonuc-panel .urun-adi { font-size: 11px; font-weight: 500; color: #111; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+.as-drawer-mini-sonuc-panel .urun-adi { font-size: 12.65px;  /* 12.11.2026: +%15 (11px idi) */ font-weight: 500; color: #111; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }   /* 12.11.2026: büyüyen yazıda uzun ürün adı "..." ile kesilmesin diye 2 satıra kadar */
 .as-drawer-mini-sonuc-panel .urun-islem-hucre { white-space: nowrap; }
 .as-drawer-mini-sonuc-panel .urun-islem-grup { display: flex; align-items: center; gap: 6px; }
-.as-drawer-mini-sonuc-panel .urun-fiyat-yazi { display: inline-block; width: 50px; text-align: right; font-size: 11.5px; font-weight: 700; color: #c0392b; margin-right: 2px; white-space: nowrap; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.as-drawer-mini-sonuc-panel .urun-fiyat-yazi { display: inline-block; width: 62px; text-align: right; font-size: 13.2px;  /* 12.11.2026: +%15 (11.5px idi; sayı büyüdüğü için kutu 50→62px) */ font-weight: 700; color: #c0392b; margin-right: 2px; white-space: nowrap; font-variant-numeric: tabular-nums; flex-shrink: 0; }
 .as-drawer-mini-sonuc-panel .btn-hesapla-ac { width: 56px; height: 30.24px; border: none; border-radius: 7px; font-size: 10.5px; font-weight: 900; letter-spacing: 0; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0; background: #1a2b3c; color: #ffffff; }
 .as-drawer-mini-sonuc-panel .btn-hesapla-ac:active { opacity: .6; }
 .as-drawer-mini-sonuc-panel .product-cell--tikla { cursor: pointer; }
