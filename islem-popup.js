@@ -75,6 +75,10 @@ var IslemPopup = (function(){
     + ".ip-metin{min-width:0}"
     + ".ip-ana{font-size:15.6px;font-weight:600;color:#1a2a3a;line-height:1.25;word-break:break-word;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}"
     + ".ip-alt{font-size:13.8px;color:#667085;word-break:break-word}"
+    + ".ip-iletisim{display:flex;align-items:center;gap:7px;min-width:0;margin-top:4px;font-size:11.5px;color:#174777;white-space:nowrap}"
+    + ".ip-iletisim-parca{display:flex;align-items:center;gap:4px;min-width:0;overflow:hidden;text-overflow:ellipsis}"
+    + ".ip-iletisim-parca--mail{flex:1 1 auto}"
+    + ".ip-iletisim-ayrac{color:#9aa6b5;flex:none}"
     + ".ip-not{padding:12px 4.8px 4.8px;font-size:15.6px;color:#556170}"
     + ".ip-alt-alan{flex:none;padding:9.6px 7.2px 9.6px;position:relative}"
     + ".ip-islem{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;height:52.8px;border:0;border-radius:10px;background:#073B70;color:#fff;font-family:inherit;font-weight:800;font-size:18px;line-height:1;letter-spacing:.6px;cursor:pointer}"
@@ -82,7 +86,8 @@ var IslemPopup = (function(){
     + ".ip-tipler{position:fixed;z-index:9502;background:#fff;border:1.5px solid #073B70;border-radius:12px;padding:9.6px;box-shadow:0 6px 18px rgba(0,30,70,.32);box-sizing:border-box}"
     + ".ip-tipler[hidden]{display:none}"
     + ".ip-tipler-baslik{font-size:13.8px;font-weight:800;color:#556170;margin:2.4px 4.8px 7.2px}"
-    + ".ip-tip{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;border:2px solid;border-radius:10px;padding:8.4px 12px;margin:0 0 7.2px;font-family:inherit;font-weight:800;font-size:15.6px;line-height:1.2;cursor:pointer;text-align:left}"
+    + ".ip-tip{display:flex;align-items:center;gap:12px;width:100%;height:70px;min-height:70px;max-height:70px;box-sizing:border-box;border:2px solid;border-radius:10px;padding:8.4px 12px;margin:0 0 7.2px;font-family:inherit;font-weight:800;font-size:15.6px;line-height:1.2;cursor:pointer;text-align:left}"
+    + ".ip-tip>span:last-child{display:block;min-width:0;max-width:100%;white-space:normal}"
     + ".ip-tip:last-child{margin-bottom:0}"
     + ".ip-tip:active{opacity:.8}"
     + ".ip-ok{position:absolute;width:16.8px;height:16.8px;background:#fff;transform:rotate(45deg)}";
@@ -140,8 +145,13 @@ var IslemPopup = (function(){
           var alt = b.alt(k);
           return "<div class='ip-satir' data-alan='" + b.alan + "' data-i='" + i + "'>"
             + "<span class='ip-isaret " + (b.kare ? "ip-isaret--kare" : "ip-isaret--daire") + "'></span>"
-            + "<span class='ip-metin'><div class='ip-ana'>" + esc(b.ana(k)) + "</div>"
-            + (alt ? "<div class='ip-alt'>" + esc(alt) + "</div>" : "") + "</span></div>";
+            + "<div class='ip-metin'><div class='ip-ana'>" + esc(b.ana(k)) + "</div>"
+            + (alt ? "<div class='ip-alt'>" + esc(alt) + "</div>" : "")
+            + ((b.alan === "yetkili" && (k.telefon || k.eposta)) ? "<div class='ip-iletisim'>"
+              + (k.telefon ? "<span class='ip-iletisim-parca'>☎ " + esc(k.telefon) + "</span>" : "")
+              + (k.telefon && k.eposta ? "<span class='ip-iletisim-ayrac'>|</span>" : "")
+              + (k.eposta ? "<span class='ip-iletisim-parca ip-iletisim-parca--mail'>✉ " + esc(k.eposta) + "</span>" : "")
+              + "</div>" : "") + "</div></div>";
         }).join("");
     }).join("");
     if(!bolumler.length) icerikHtml = "<div class='ip-not'>Seçilecek ek bilgi yok — tek adres ve tek yetkili otomatik kullanılır.</div>";
@@ -257,10 +267,15 @@ var IslemPopup = (function(){
       b.addEventListener("click", function(){
         var tip = this.getAttribute("data-tip");
         try{
-          localStorage.setItem("weiconv2_secili_iletisim", JSON.stringify({
+          var secilenKisiler = secim.yetkili.map(function(ix){ return yet[ix]; }).filter(Boolean);
+          var secimPaketi = {
+            musteriId: m.id || null,
             fatura: secim.fatura, teslimat: secim.teslimat,
-            yetkili: secim.yetkili[0], yetkililer: secim.yetkili.slice()
-          }));
+            yetkili: secim.yetkili[0], yetkililer: secim.yetkili.slice(),
+            yetkiliKayit: secilenKisiler[0] ? {isim:secilenKisiler[0].isim||"", gorev:secilenKisiler[0].gorev||"", telefon:secilenKisiler[0].telefon||"", eposta:secilenKisiler[0].eposta||""} : null,
+            yetkiliKayitlari: secilenKisiler.map(function(k){ return {isim:k.isim||"", gorev:k.gorev||"", telefon:k.telefon||"", eposta:k.eposta||""}; })
+          };
+          localStorage.setItem("weiconv2_secili_iletisim", JSON.stringify(secimPaketi));
         }catch(e){}
         kapat();
         if(typeof tipSecilince === "function") tipSecilince(tip);

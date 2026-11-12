@@ -301,8 +301,17 @@ function gonderKutusunuGoster(musteri, sepet, tip, kur, kdv, kod){
     var kisiler = musteri.iletisimler || [];
     var secim = {};
     try{ secim = JSON.parse(localStorage.getItem("weiconv2_secili_iletisim")||"{}"); }catch(e){}
+    var kayitliKisi = secim.yetkiliKayit || (Array.isArray(secim.yetkiliKayitlari) ? secim.yetkiliKayitlari[0] : null);
+    var seciliKisi = null;
+    if(kayitliKisi){
+      seciliKisi = kisiler.find(function(k){
+        var e1=String(k.eposta||"").trim().toLowerCase(), e2=String(kayitliKisi.eposta||"").trim().toLowerCase();
+        var n1=String(k.isim||"").trim().toLocaleLowerCase("tr-TR"), n2=String(kayitliKisi.isim||"").trim().toLocaleLowerCase("tr-TR");
+        return (e2 && e1===e2) || (!e2 && n2 && n1===n2);
+      });
+    }
     var ki = (secim.yetkili!=null && kisiler[secim.yetkili]) ? secim.yetkili : 0;
-    kisiAlanlariniDoldur(kisiler[ki] || {});
+    kisiAlanlariniDoldur(seciliKisi || kayitliKisi || kisiler[ki] || {});
   }catch(e){ hataGoster("Gönderim alanı hazırlanamadı: " + e.message); }
 }
 
