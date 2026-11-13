@@ -786,7 +786,11 @@
 .belge-onizleme-sayfa .ub-bar { flex-wrap: nowrap; gap: 0; padding: 6px 6px; }
 .belge-onizleme-sayfa .ub-grup { order: 1; margin: 0; gap: 6px; padding: 4px; max-width: 100%; }
 .belge-onizleme-sayfa .ub-btn--bilgi {
-  width: 48.4px; height: 44px; flex: 0 0 48.4px;
+  /* Diğer standart üst bar tuşlarıyla aynı ölçü; menü tuşu kendi geniş tasarımını korur. */
+  width: var(--ub-b, 52.8px);
+  height: 52.8px;
+  flex: 0 0 var(--ub-b, 52.8px);
+  box-sizing: border-box;
   background: linear-gradient(180deg,#ffad32 0%,#f28a0a 55%,#d96b00 100%);
   color: #fff;
 }
@@ -842,7 +846,7 @@
   .belge-onizleme-sayfa .ub-grup { gap: 4px; padding: 3px; }
   .belge-onizleme-sayfa .ub-btn { width: 43px; height: 42px; }
   .belge-onizleme-sayfa .ub-btn--menu { width: 51.6px; }
-  .belge-onizleme-sayfa .ub-btn--bilgi { width: 43px; flex-basis: 43px; }
+  .belge-onizleme-sayfa .ub-btn--bilgi { width: 43px; height: 42px; flex-basis: 43px; }
   .bo-teklif-tarih-saat { gap: 6px; padding-left: 6px; padding-right: 6px; font-size: 13px; }
   .bo-teklif-tarih-ikon svg, .bo-teklif-saat-ikon svg { width: 21px; height: 21px; }
   .bo-teklif-ayrac { margin: 0 1px; }
