@@ -1244,3 +1244,26 @@ body.cart-sayfa .kur-ust-ipucu {
   body.cart-sayfa .kur-ust-ipucu { font-size:10.8px; }
   .kur-ust-logo { font-size:18px; } .kur-ust-bayrak { font-size:19px; }
 }
+
+
+/* 13.11.2026 — İSKONTO KUTUSU ADET KUTUSUYLA AYNI YÜKSEKLİKTE */
+.hesapla-kutu.hesapla-kutu--sepet .hc-kutu--isk {
+  height:58px;
+  min-height:58px;
+  padding:0 8px;
+  gap:2px;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+.hesapla-kutu.hesapla-kutu--sepet .hc-kutu--isk .hc-kutu-etiket {
+  min-height:0;
+  padding:0;
+  line-height:1.05;
+}
+.hesapla-kutu.hesapla-kutu--sepet .hc-kutu--isk input {
+  height:auto;
+  min-height:0;
+  margin:0;
+  padding:0;
+  line-height:1.05;
+}
