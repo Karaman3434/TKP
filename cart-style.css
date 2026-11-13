@@ -1029,3 +1029,140 @@ body.cart-sayfa .belge-belge-baslik-serit--mavi { justify-content: center; }
   overflow: hidden;
   text-overflow: clip;
 }
+
+
+/* =========================================================================
+   13.11.2026 — ABDULLAH GERİ BİLDİRİMİ: MOBİL ÜRÜN HESAPLAMA SON DOKUNUŞLARI
+   Sadece cart.html. Menü/geri/bekle/kapat/kaydet/gönder düğmeleri değişmez.
+   ========================================================================= */
+
+/* Sayfa adı: toolbar düğmelerinin tasarımına dokunmadan yalnızca sayfa etiketi */
+body.cart-sayfa .ub-sayfa-etiket {
+  padding: 3px 0 5px;
+}
+body.cart-sayfa .ub-sayfa-etiket span,
+body.cart-sayfa .ub-sayfa-etiket b {
+  height: 30px;
+  line-height: 27px;
+  border: 1px solid #0c3672;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #1b559b 0%, #0d3d8c 100%);
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: .15px;
+  box-shadow: 0 2px 5px rgba(12,55,105,.16);
+}
+
+/* Günün EUR kuru: ana sayfadaki güncel döviz kartı diliyle uyumlu,
+   mevcut hpKurDeger ve hpKurIpucu kimlikleri/olayları aynen korunur. */
+body.cart-sayfa .kur-ust-satir {
+  display: grid;
+  grid-template-columns: minmax(105px, 1fr) minmax(120px, 1.15fr) minmax(88px, .9fr);
+  align-items: center;
+  gap: 6px;
+  width: calc(100% - 16px);
+  min-height: 58px;
+  margin: 6px 8px 7px;
+  padding: 6px 9px;
+  border: 1.5px solid #8db9e8;
+  border-radius: 13px;
+  background: linear-gradient(180deg, #f4f9ff 0%, #e2efff 100%);
+  color: #123b70;
+  box-shadow: 0 2px 5px rgba(12,55,105,.10);
+  text-align: left;
+}
+body.cart-sayfa .kur-ust-baslik {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  color: #174b91;
+  line-height: 1.1;
+}
+body.cart-sayfa .kur-ust-baslik strong {
+  font-size: 10px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+body.cart-sayfa .kur-ust-baslik small {
+  font-size: 8px;
+  font-weight: 700;
+  color: #64748b;
+  white-space: nowrap;
+}
+body.cart-sayfa .kur-ust-deger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 4px 6px;
+  border-left: 1px solid #b9d0ec;
+  border-right: 1px solid #b9d0ec;
+  white-space: nowrap;
+  color: #123b70;
+}
+body.cart-sayfa .kur-ust-deger b {
+  font-size: 11px;
+  font-weight: 900;
+}
+body.cart-sayfa .kur-ust-satir #hpKurDeger {
+  font-size: 19px;
+  font-weight: 900;
+  color: #123b70;
+  font-variant-numeric: tabular-nums;
+}
+body.cart-sayfa .kur-ust-ipucu {
+  min-width: 0;
+  font-size: 9px;
+  line-height: 1.2;
+  font-weight: 800;
+  color: #45627f;
+  text-align: center;
+}
+@media (max-width: 380px) {
+  body.cart-sayfa .kur-ust-satir {
+    grid-template-columns: minmax(91px, 1fr) minmax(112px, 1.1fr) minmax(72px, .8fr);
+    gap: 3px;
+    padding: 5px 6px;
+  }
+  body.cart-sayfa .kur-ust-baslik strong { font-size: 9px; }
+  body.cart-sayfa .kur-ust-baslik small { font-size: 7px; }
+  body.cart-sayfa .kur-ust-deger { gap: 3px; padding: 3px; }
+  body.cart-sayfa .kur-ust-deger b { font-size: 9px; }
+  body.cart-sayfa .kur-ust-satir #hpKurDeger { font-size: 16px; }
+  body.cart-sayfa .kur-ust-ipucu { font-size: 8px; }
+}
+
+/* PRİM paneli: başlık, ORAN/TUTAR etiketleri ve iki değer birlikte %20 küçültüldü. */
+.hesapla-kutu.hesapla-kutu--sepet .hp-prim {
+  margin-top: 8px;
+}
+.hesapla-kutu.hesapla-kutu--sepet .hp-prim-baslik {
+  top: -7px;
+  padding: 0 6px;
+  font-size: 9.6px;
+  line-height: 11px;
+}
+.hesapla-kutu.hesapla-kutu--sepet .hp-prim-satir > div {
+  padding: 3px 3px 2px;
+}
+.hesapla-kutu.hesapla-kutu--sepet .hp-prim-etiket {
+  font-size: 8.8px;
+  line-height: 1.05;
+}
+.hesapla-kutu.hesapla-kutu--sepet .hp-prim-deger {
+  font-size: 16.8px;
+  line-height: 1.1;
+}
+.hesapla-kutu.hesapla-kutu--sepet .hp-prim--tek .hp-prim-deger {
+  padding: 4px 0;
+}
+
+/* İskontolu EURO birim fiyatı: kırmızı vurgulu kart.
+   TL birim fiyatı turuncu kalır; sadece ilk kart hedeflenir. */
+.hesapla-kutu.hesapla-kutu--sepet .hc-turuncu-kart:first-child {
+  background: linear-gradient(180deg, #e53935 0%, #c62828 100%);
+  border: 1.5px solid #a91f1f;
+}
