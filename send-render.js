@@ -873,6 +873,52 @@ window.addEventListener("error", function(ev){
 
 document.addEventListener("DOMContentLoaded", function(){
   tarihiGuncelle();
+
+  // MAIL ÖNİZLEME İ MENÜSÜ (14.11.2026): Cari Kart ve Belge Önizleme'deki
+  // ortak İ menüsü burada da aynı iki işlemi sunar. Mevcut gönderim akışına
+  // ve mail içeriğine müdahale etmez.
+  var mailBilgiBtn = document.getElementById("btnMailOnizlemeBilgi");
+  var mailBilgiOverlay = document.getElementById("mailBilgiMenuOverlay");
+  var mailBilgiMenu = document.getElementById("mailBilgiMenu");
+  function mailBilgiMenuKapat(){
+    if(mailBilgiOverlay) mailBilgiOverlay.hidden = true;
+    if(mailBilgiBtn) mailBilgiBtn.classList.remove("ub-bilgi-secili");
+  }
+  function mailBilgiMenuAc(){
+    if(!mailBilgiBtn || !mailBilgiOverlay || !mailBilgiMenu) return;
+    mailBilgiOverlay.hidden = false;
+    var r = mailBilgiBtn.getBoundingClientRect(), w = mailBilgiMenu.offsetWidth || 300;
+    mailBilgiMenu.style.top = (r.bottom + 8) + "px";
+    mailBilgiMenu.style.left = Math.max(8, Math.min(r.right - w, window.innerWidth - w - 8)) + "px";
+    mailBilgiBtn.classList.add("ub-bilgi-secili");
+  }
+  if(mailBilgiBtn && mailBilgiOverlay && mailBilgiMenu){
+    mailBilgiBtn.onclick = function(){
+      if(!mailBilgiOverlay.hidden){ mailBilgiMenuKapat(); return; }
+      mailBilgiMenuAc();
+    };
+    mailBilgiOverlay.addEventListener("click", function(ev){
+      if(ev.target === mailBilgiOverlay) mailBilgiMenuKapat();
+    });
+    document.getElementById("btnMailCariDuzenle").onclick = function(){
+      mailBilgiMenuKapat();
+      var m = gonderBaglam && gonderBaglam.musteri;
+      if(!m){ hataGoster("Müşteri bilgisi henüz hazır değil."); return; }
+      try{ CustomerData.sec(m); CustomerData.sonGoruntulendi(m.ad); }catch(e){}
+      try{ localStorage.setItem("weiconv2_cari_duzenle_ac", "1"); }catch(e){}
+      window.location.href = "customer-cari-kart.html";
+    };
+    document.getElementById("btnMailIslemAyrinti").onclick = function(){
+      mailBilgiMenuKapat();
+      var m = gonderBaglam && gonderBaglam.musteri;
+      if(!m){ hataGoster("Müşteri bilgisi henüz hazır değil."); return; }
+      try{ CustomerData.sec(m); CustomerData.sonGoruntulendi(m.ad); }catch(e){}
+      window.location.href = "customer-detail.html";
+    };
+    window.addEventListener("resize", function(){
+      if(mailBilgiOverlay && !mailBilgiOverlay.hidden) mailBilgiMenuAc();
+    });
+  }
   // Menü butonu artık yarim-kalan-uyari.js tarafından yönetiliyor (sepette
   // ürün + seçili müşteri varsa uyarıp sonra temizleyip gidiyor).
 
