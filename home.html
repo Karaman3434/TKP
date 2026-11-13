@@ -100,7 +100,7 @@
     <div class="dv-sabit" id="dovizSabitPanel"></div>
   </div>
 
-  <!-- TARİH + İŞ GÜNÜ (09.11.2026): iki panel AYNI boyda yan yana; İş günü etiketi sayının SAĞINDA. -->
+  <!-- TARİH PANELİ: 13 / CUMA / KASIM 2026 tek ve geniş panelde. İş günü sayacı özet şeridine taşındı. -->
   <div class="as-tarih-satir" id="asTarihSatir">
     <div class="as-tarih-panel">
       <span class="as-tarih-gun-sayi" id="asTarihGunSayi">-</span>
@@ -110,38 +110,8 @@
         <div class="as-tarih-ayyil" id="asTarihAyYil">-</div>
       </div>
     </div>
-    <div class="as-isgunu-panel">
-      <div class="as-isgunu-deger" id="isGunuDeger">-</div>
-      <div class="as-isgunu-etiket">İş günü<br>kaldı</div>
-    </div>
   </div>
 
-  <!-- ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı): ürün görselinin yerine. 08.11.2026: yeri tarih/kur satırının hemen altına (hedef kartının üstüne) taşındı.
-       Kod: home-takvim-render.js. "ziyaret" izni yoksa bölüm gizlenir. -->
-  <div class="ht-blok" id="anaTakvimBlok" hidden>
-    <div class="ht-kapsayici" id="anaTakvimAlan"></div>
-  </div>
-
-  <!-- 09.11.2026 (Abdullah onayı — mockup): Bugün / işlem / sipariş / temas özeti takvimden çıktı, Bugün satış / prim kutularının ÜST satırına taşındı.
-       Görünürlüğü takvimle aynı ("ziyaret" izni) — home-takvim-render.js erisimUygula. -->
-  <div class="ht-ozet" id="htOzet" hidden>
-    <b class="ht-ozet-bugun" id="htOzetBugun" role="button" tabindex="0">Bugün</b>
-    <span class="ht-ozet-oge ht-ozet-oge--islem"><i aria-hidden="true">📝</i><span id="htOzetIslem">0</span> işlem</span>
-    <span class="ht-ozet-oge ht-ozet-oge--siparis"><i aria-hidden="true">📦</i><span id="htOzetSiparis">0</span> sipariş</span>
-    <span class="ht-ozet-oge ht-ozet-oge--temas"><i aria-hidden="true">👥</i><span id="htOzetTemas">0</span> temas</span>
-  </div>
-
-  <!-- 09.11.2026 (Abdullah onayı — mockup): Bugün satış / Bugün prim kutuları Kasım satış kartının ÜST satırına taşındı (kartın içinde değil, hemen üstünde). -->
-  <div class="as-kart-satir">
-    <div class="as-kart as-kart--satis" onclick="window.location.href='satis-listesi.html?kapsam=bugun'">
-      <div class="as-kart-etiket">Bugün satış</div>
-      <div class="as-kart-deger" id="anaSayfaBugunSatis">0,00 EURO</div>
-    </div>
-    <div class="as-kart as-kart--prim">
-      <div class="as-kart-etiket">Bugün prim</div>
-      <div class="as-kart-deger" id="anaSayfaBugunPrim">0,00 TL</div>
-    </div>
-  </div>
 
   <div class="as-hedef-blok">
     <div class="as-hedef-kart" onclick="window.location.href='satis-listesi.html?kapsam=ay'">
@@ -185,6 +155,37 @@
       </div>
     </div>
   </div>
+  <!-- 09.11.2026 (Abdullah onayı — mockup): Bugün satış / Bugün prim kutuları Kasım satış kartının ÜST satırına taşındı (kartın içinde değil, hemen üstünde). -->
+  <div class="as-kart-satir">
+    <div class="as-kart as-kart--satis" onclick="window.location.href='satis-listesi.html?kapsam=bugun'">
+      <div class="as-kart-etiket">Bugün satış</div>
+      <div class="as-kart-deger" id="anaSayfaBugunSatis">0,00 EURO</div>
+    </div>
+    <div class="as-kart as-kart--prim">
+      <div class="as-kart-etiket">Bugün prim</div>
+      <div class="as-kart-deger" id="anaSayfaBugunPrim">0,00 TL</div>
+    </div>
+  </div>
+
+
+  <!-- 09.11.2026 (Abdullah onayı — mockup): Bugün / işlem / sipariş / temas / iş günü özeti Bugün satış ve prim kutularının altına, takvimin üstüne yerleştirildi.
+       Görünürlüğü takvimle aynı ("ziyaret" izni) — home-takvim-render.js erisimUygula. -->
+  <div class="ht-ozet" id="htOzet" hidden>
+    <b class="ht-ozet-bugun" id="htOzetBugun" role="button" tabindex="0">Bugün</b>
+    <span class="ht-ozet-oge ht-ozet-oge--islem"><i aria-hidden="true">📝</i><span id="htOzetIslem">0</span> işlem</span>
+    <span class="ht-ozet-oge ht-ozet-oge--siparis"><i aria-hidden="true">📦</i><span id="htOzetSiparis">0</span> sipariş</span>
+    <span class="ht-ozet-oge ht-ozet-oge--temas"><i aria-hidden="true">👥</i><span id="htOzetTemas">0</span> temas</span>
+    <span class="ht-ozet-oge ht-ozet-oge--isgunu"><i aria-hidden="true">🗓</i><span id="isGunuDeger">-</span><span class="ht-isgunu-etiket">iş günü<br>kaldı</span></span>
+  </div>
+
+
+  <!-- ANA SAYFA TAKVİMİ: aylık görünüm, tarih ve satış özetlerinin altında.
+       Kod: home-takvim-render.js. "ziyaret" izni yoksa bölüm gizlenir. -->
+  <div class="ht-blok" id="anaTakvimBlok" hidden>
+    <div class="ht-kapsayici" id="anaTakvimAlan"></div>
+  </div>
+
+
 
   <!-- 10.11.2026 (Abdullah isteği): "Ziyaret ve Ödeme Takip" butonu — vadesi geçen ödemeler ve
        ziyaret bekleyenler tek dokunuşla. Kod: home-takip-buton.js (sayılar TakipOzet'ten). Yetkisiz kullanıcıda gizli. -->
