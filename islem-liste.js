@@ -115,6 +115,17 @@ var IslemListesi = (function(){
     if(k._tutar > 0) return bakiyeIbaresi + fmt(k._tutar) + " €";
     return bakiyeIbaresi || "<span class='sr-tutar-yok'>—</span>";
   }
+  // Satır primi: ana sayfa ve aylık prim özetiyle aynı hesaplama kuralı.
+  function primSatiriHTML(k){
+    if(!k || k.tip !== "siparis" || k._beklemede) return "";
+    var prim = (k.urunler||[]).reduce(function(toplam,u){
+      if((u.iskonto||0) > 60) return toplam;
+      var satirPrimi = ((u.iskBirim||0)-(u.dipFiyat||0))*(u.adet||1)*0.22;
+      return toplam + (satirPrimi > 0 ? satirPrimi : 0);
+    },0);
+    if(!(prim > 0)) return "";
+    return "<div class='sr-prim-satir'><span class='sr-prim-etiket'>PRİM</span><span class='sr-prim-tutar'>" + fmt(prim) + " €</span></div>";
+  }
   // ---- SATIR TASARIMI v3 (03.11.2026, Abdullah onayı — mockup "iki satır,
   // rota toplama bitişik"): 1. satır "MÜŞTERİ - İlçe / İL" (tek satır, alt
   // satıra inmez), 2. satır sağa yaslı İŞLEM ROTASI + tutar: her aşama
@@ -171,11 +182,11 @@ var IslemListesi = (function(){
     var kdvDahil = k._tl * (1 + kdvOrani(k) / 100);
     return "<span class='sr-tl-kdv'>(" + Math.round(kdvDahil).toLocaleString("tr-TR") + " ₺ <small class='sr-tl-kdv-et'>KDV'Lİ</small>)</span>";
   }
-  function satirHTML(k, i){
+  function satirHTML(k, i, primSatiriGoster){
     var m = rozetMeta(k);
     return "<div class='sr-satir" + (k._beklemede ? " sr-satir--beklemede" : "") + "' data-i='" + i + "' style='border-left-color:" + m.serit + ";'>"
       + "<div class='sr-ust'>"
-      +   "<div class='sr-firma-h'>" + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml ? CustomerData.kodAdHtml(k.musteriId, k.musteri) : htmlEsc(k.musteri||"")) + "</div>"
+      +   "<div class='sr-firma-blok'><div class='sr-firma-h'>" + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml ? CustomerData.kodAdHtml(k.musteriId, k.musteri) : htmlEsc(k.musteri||"")) + "</div>" + (primSatiriGoster ? primSatiriHTML(k) : "") + "</div>"
       +   "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
       + "</div>"
       + "<div class='sr-alt'>"
@@ -185,12 +196,12 @@ var IslemListesi = (function(){
       + "<div class='sr-ok-h'>&#8250;</div>"
       + "</div>";
   }
-  function gruplaHTML(kayitlar, toplamaBeklemedeDahil){
+  function gruplaHTML(kayitlar, toplamaBeklemedeDahil, primSatiriGoster){
     var gruplar = [], harita = {};
     kayitlar.forEach(function(k, i){
       var a = gunAnahtari(k.ts);
       if(!harita[a]){ harita[a] = {ts:k.ts, satirlar:[], toplam:0}; gruplar.push(harita[a]); }
-      harita[a].satirlar.push(satirHTML(k, i));
+      harita[a].satirlar.push(satirHTML(k, i, primSatiriGoster));
       if(!k._beklemede || toplamaBeklemedeDahil) harita[a].toplam += k._tutar;
     });
     return gruplar.map(function(g){
@@ -299,7 +310,7 @@ var IslemListesi = (function(){
           bosEl.hidden = false;
         } else {
           bosEl.hidden = true;
-          listeEl.innerHTML = gruplaHTML(kayitlar, s.beklemedeToplamaDahil);
+          listeEl.innerHTML = gruplaHTML(kayitlar, s.beklemedeToplamaDahil, !!opts.primSatiriGoster);
           listeEl.querySelectorAll(".sr-satir").forEach(function(el){
             el.onclick = function(){
               var k = kayitlar[parseInt(this.getAttribute("data-i"), 10)];
