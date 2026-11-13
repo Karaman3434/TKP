@@ -804,7 +804,7 @@
 .bo-teklif-ust { width: 100%; box-sizing: border-box; padding: 2px 6px 9px; text-align: center; }
 .bo-teklif-baslik {
   margin: 0 0 8px; padding: 0; color: #071d4d;
-  font-size: clamp(25px, 7vw, 34px); line-height: 1.12;
+  font-size: clamp(17.5px, 4.9vw, 23.8px); line-height: 1.12;
   font-weight: 950; letter-spacing: .2px;
 }
 .bo-teklif-tarih-saat {
