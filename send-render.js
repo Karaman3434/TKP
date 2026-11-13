@@ -189,6 +189,17 @@ function tarihSaatStr(orijinalTarih){
   return simdi.getDate() + " " + aylarKisa[simdi.getMonth()] + " " + simdi.getFullYear() + " " + ("0"+simdi.getHours()).slice(-2) + ":" + ("0"+simdi.getMinutes()).slice(-2);
 }
 
+function mailOnizlemeTarihSaatHtml(){
+  var d = new Date();
+  var tarih = d.toLocaleDateString("tr-TR", {day:"numeric", month:"long", year:"numeric"});
+  var saat = ("0"+d.getHours()).slice(-2) + ":" + ("0"+d.getMinutes()).slice(-2);
+  return "<div class='mail-onizleme-tarih-saat'>"
+    + "<span class='mail-onizleme-tarih-grup'><svg viewBox='0 0 24 24' aria-hidden='true'><rect x='3' y='5' width='18' height='16' rx='2'></rect><path d='M16 3v4M8 3v4M3 10h18M8 14l2 2 5-5'></path></svg><span>Tarih: " + htmlEsc(tarih) + "</span></span>"
+    + "<span class='mail-onizleme-tarih-ayrac' aria-hidden='true'></span>"
+    + "<span class='mail-onizleme-saat-grup'><svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9'></circle><path d='M12 7v5l3 2'></path></svg><span>" + saat + "</span></span>"
+    + "</div>";
+}
+
 function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   var basit = kanal === "whatsapp";
   var tarihStrOnizleme = tarihSaatStr();
@@ -232,11 +243,21 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     // adresi girilmemişse bu canlı önizlemede de bloğu hiç göstermez; cari
     // kodu (koduGizle=false) eskisi gibi görünmeye devam eder.
     musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, false, true, true);
-    html = musteriBlokHtml
-      + "<div class='belge-kart-ayrac'></div>"
-      + "<div class='belge-kart'>" + formBaslikHtml(tip, null, null) + "</div>"
-      + "<div class='belge-kart-ayrac'></div>"
-      + "<div class='belge-kart belge-kart--urun-cerceveli'>";
+    if(kanal === "mail"){
+      html = "<div class='mail-onizleme-belge-baslik'>"
+        + formBaslikHtml(tip, null, null)
+        + mailOnizlemeTarihSaatHtml()
+        + "</div><div class='belge-kart-ayrac'></div>"
+        + musteriBlokHtml
+        + "<div class='belge-kart-ayrac'></div>"
+        + "<div class='belge-kart belge-kart--urun-cerceveli'>";
+    } else {
+      html = musteriBlokHtml
+        + "<div class='belge-kart-ayrac'></div>"
+        + "<div class='belge-kart'>" + formBaslikHtml(tip, null, null) + "</div>"
+        + "<div class='belge-kart-ayrac'></div>"
+        + "<div class='belge-kart belge-kart--urun-cerceveli'>";
+    }
   }
 
   // TEK RENK KURALI (12.10.2026, Abdullah onayı): üründe TÜR · TARİH SAAT
@@ -516,7 +537,7 @@ function mailOnizlemeAc(){
     var konu = mailKonuOlustur();
     document.getElementById("mailOnizlemeKonu").value = konu;
     document.getElementById("mailOnizlemeMetin").textContent = document.getElementById("gonderMetin").value;
-    document.getElementById("mailOnizlemeTablo").innerHTML = tamOnizlemeHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, null, g.kod);
+    document.getElementById("mailOnizlemeTablo").innerHTML = tamOnizlemeHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, "mail", g.kod);
     document.getElementById("mailOnizlemeOverlay").hidden = false;
     kosulSatirlariniSigdir(document.getElementById("mailOnizlemeTablo"));
   }catch(e){ hataGoster("Mail önizleme açılamadı: " + e.message); }
