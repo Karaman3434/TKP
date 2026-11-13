@@ -1,4 +1,4 @@
-/* islem-liste-style.css — TKP.11.11.26-22:02.1584
+/* islem-liste-style.css — TKP.14.11.26-01:08.1641
    ORTAK İŞLEM LİSTESİ STİLİ (02.11.2026, Abdullah onayı): Son İşlemler,
    Satış Listesi, Ay Detay ve Kaçan Satışlar artık bu TEK dosyadan stillenir
    (islem-liste.js). Satır / gün bandı / rozet kuralları, onaylı "Son
@@ -50,7 +50,7 @@
   background: #0d3d8c; color: #ffffff; display: flex; justify-content: space-between;
   /* YAZI BOYU %15 KÜÇÜLTÜLDÜ (01.11.2026, Abdullah onayı): 13.5px -> 11.475px
      — hem tarih hem gün toplamı aynı font-size'ı paylaşıyor. */
-  align-items: center; padding: 7px 3mm; border-radius: 9px; font-size: 11.475px;
+  align-items: center; padding: 7px 3mm; border-radius: 9px; font-size: 13.2px;
   font-weight: 800; line-height: 1.2; margin: 8px 0 4px; letter-spacing: .1px;
 }
 #islemlerListesi .sr-grup-baslik:first-child { margin-top: 0; }
@@ -91,28 +91,28 @@
    sınıflara dokunulmadı, onlar kendi ayrı tarihli büyütmesini korur). */
 /* Prim, sipariş rotası/tutar satırında hizalı gösterilir. */
 #islemlerListesi .sr-prim-satir { display: inline-flex; align-items: center; gap: 5px; margin: 0; flex: 0 0 auto; white-space: nowrap; line-height: 1; }
-#islemlerListesi .sr-prim-etiket { display: inline-flex; align-items: center; justify-content: center; padding: 2px 5px; border-radius: 4px; background: #22cc66; color: #fff; font-size: 9px; font-weight: 800; line-height: 1; }
-#islemlerListesi .sr-prim-tutar { color: #22cc66; font-size: 9.9px; font-weight: 900; line-height: 1; white-space: nowrap; }
-#islemlerListesi .sr-firma-h { font-size: 14.8px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
-#islemlerListesi .sr-konum-h { font-size: 12.1px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
+#islemlerListesi .sr-prim-etiket { display: inline-flex; align-items: center; justify-content: center; padding: 2px 5px; border-radius: 4px; background: #0f7a38; color: #fff; font-size: 10.35px; font-weight: 800; line-height: 1; }
+#islemlerListesi .sr-prim-tutar { color: #0f7a38; font-size: 11.38px; font-weight: 900; line-height: 1; white-space: nowrap; }
+#islemlerListesi .sr-firma-h { font-size: 17.02px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
+#islemlerListesi .sr-konum-h { font-size: 13.91px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
 #islemlerListesi .sr-rozet-h {
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 11.5px; font-weight: 800; padding: 4px 2px; border-radius: 5px;
+  font-size: 13.22px; font-weight: 800; padding: 4px 2px; border-radius: 5px;
   text-align: center; line-height: 1;
 }
-#islemlerListesi .sr-belge-h { font-size: 11.5px; font-weight: 700; color: #5f6b7a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#islemlerListesi .sr-belge-h { font-size: 13.22px; font-weight: 700; color: #5f6b7a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #islemlerListesi .sr-kanal-harf { font-weight: 900; margin-right: 2px; }
 /* TUTAR RENGİ SİYAH (01.11.2026, Abdullah onayı — "ayırt edici değil"
    turu): eskiden mavi (#0755C9) idi, ayırt ediciliği yetersizdi — artık
    firma adıyla aynı koyu/siyah tonda, kalın. */
 /* TUTAR RENGİ TEKRAR MAVİ (04.11.2026, Abdullah onayı — "Euro toplamın sayı
    rengi MAVİ olsun"): üstündeki kırmızı TL karşılığıyla birlikte okunur. */
-#islemlerListesi .sr-tutar-h { font-size: 12.6px; font-weight: 800; color: #0755c9; text-align: right; overflow-wrap: anywhere; line-height: 1.15; }
+#islemlerListesi .sr-tutar-h { font-size: 14.49px; font-weight: 800; color: #0755c9; text-align: right; overflow-wrap: anywhere; line-height: 1.15; }
 /* TL KARŞILIĞI (04.11.2026): 1. satırın sağı, Euro toplamın üstü, kırmızı. */
 /* (eski .sr-tl kuralı: artık kullanılmıyor, geriye dönük) */
-#islemlerListesi .sr-tl { flex: 0 0 auto; margin-left: auto; font-size: 11.8px; font-weight: 800; color: #d62828; white-space: nowrap; line-height: 1.2; }
+#islemlerListesi .sr-tl { flex: 0 0 auto; margin-left: auto; font-size: 13.57px; font-weight: 800; color: #d62828; white-space: nowrap; line-height: 1.2; }
 #islemlerListesi .sr-tutar-yok { color: #c3cad4; font-weight: 600; }
-#islemlerListesi .sr-durum-ek { font-size: 11px; font-weight: 800; color: #b7601f; background: #FFF0D9; padding: 2px 4px; border-radius: 5px; white-space: nowrap; display:inline-block; }
+#islemlerListesi .sr-durum-ek { font-size: 12.65px; font-weight: 800; color: #b7601f; background: #FFF0D9; padding: 2px 4px; border-radius: 5px; white-space: nowrap; display:inline-block; }
 /* BEKLEMEDE RENK GÜNCELLEMESİ (21.10.2026, Abdullah onayı — "açık kahve"
    turu): "⏳ Beklemede" etiketi artık ayrı bir modifier sınıfla kendi
    renginde — ".sr-durum-ek" taban sınıfı (örn. "📦 Bekleyen" bakiye
@@ -123,30 +123,30 @@
    büyüyen yazı artık ok ikonuna binmiyor (bkz. aşağıdaki test). */
 /* BAKİYE İBARESİ (08.11.2026): tutarın ÖNÜNDE küçük "📦 B.BAK" (bkz. islem-liste.js tutarHucreHTML) */
 .sr-durum-ek--bakiye { margin-right: 4px; }
-#islemlerListesi .sr-durum-ek--bakiye { font-size: 9.3px; padding: 2px 3px; letter-spacing: -0.1px; vertical-align: 1px; }
-#islemlerListesi .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; font-size: 9.3px; padding: 2px 3px; letter-spacing: -0.1px; }
+#islemlerListesi .sr-durum-ek--bakiye { font-size: 10.7px; padding: 2px 3px; letter-spacing: -0.1px; vertical-align: 1px; }
+#islemlerListesi .sr-durum-ek--beklemede { color: #5b3c1e; background: #e9d9c3; font-size: 10.7px; padding: 2px 3px; letter-spacing: -0.1px; }
 #islemlerListesi .sr-satir--beklemede { background: #f5ede1; }
-#islemlerListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }
+#islemlerListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 21.85px; font-weight: 900; line-height: 1; }
 
 /* SATIR v3 (03.11.2026, Abdullah onayı — "iki satır, rota toplama bitişik") */
 #islemlerListesi .sr-ust { grid-column: 1; grid-row: 1; display: flex; align-items: center; gap: 5px; min-width: 0; }
 #islemlerListesi .sr-ust .sr-firma-h { flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; }
-#islemlerListesi .sr-ust .sr-konum-h { flex: 1 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; font-size: 12px; }
+#islemlerListesi .sr-ust .sr-konum-h { flex: 1 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; font-size: 13.8px; }
 #islemlerListesi .sr-ust .sr-konum-h:not(:empty):before { content: "- "; color: #b5bcc7; }
-#islemlerListesi .sr-alt { grid-column: 1; grid-row: 2; display: flex; align-items: center; justify-content: space-between; gap: 5px; min-width: 0; flex-wrap: nowrap; white-space: nowrap; overflow: hidden; }
+#islemlerListesi .sr-alt { grid-column: 1; grid-row: 2; display: flex; align-items: center; justify-content: space-between; gap: 5px; min-width: 0; flex-wrap: wrap; row-gap: 3px; white-space: nowrap; overflow: hidden; }  /* 14.11.2026: yazılar +%15 olunca en kalabalık satır (PRİM + 3 aşamalı rota + tutar) tek satıra sığmazsa tutar alta iner; rota artık kırpılmaz */
 #islemlerListesi .sr-ok-h { grid-column: 2; grid-row: 1 / span 2; }
 #islemlerListesi .sr-rota { display: flex; align-items: center; justify-content: center; gap: 3px; min-width: 0; flex: 1 1 auto; white-space: nowrap; overflow: hidden; }
 #islemlerListesi .sr-as { display: inline-flex; align-items: center; gap: 2px; }
-#islemlerListesi .sr-as small { font-size: 9.8px; font-weight: 600; color: #8f98a6; letter-spacing: -.1px; }
-#islemlerListesi .sr-as--son small { font-size: 10.4px; font-weight: 700; color: #4a5565; }
-#islemlerListesi .sr-ay { color: #b5bcc7; font-weight: 900; font-size: 10px; }
-#islemlerListesi .sr-kd { display: inline-flex; align-items: center; font-size: 10px; font-weight: 900; padding: 2px 3px; border-radius: 4px; line-height: 1; }
-#islemlerListesi .sr-as--son .sr-kd { font-size: 11px; padding: 3px 4px; border-radius: 5px; }
+#islemlerListesi .sr-as small { font-size: 11.27px; font-weight: 600; color: #8f98a6; letter-spacing: -.1px; }
+#islemlerListesi .sr-as--son small { font-size: 11.96px; font-weight: 700; color: #4a5565; }
+#islemlerListesi .sr-ay { color: #b5bcc7; font-weight: 900; font-size: 11.5px; }
+#islemlerListesi .sr-kd { display: inline-flex; align-items: center; font-size: 11.5px; font-weight: 900; padding: 2px 3px; border-radius: 4px; line-height: 1; }
+#islemlerListesi .sr-as--son .sr-kd { font-size: 12.65px; padding: 3px 4px; border-radius: 5px; }
 #islemlerListesi .sr-kd--rvz { padding: 0 !important; overflow: hidden; box-shadow: 0 0 0 1.5px #b7601f inset; }
 #islemlerListesi .sr-kd--rvz i { font-style: normal; padding: 3px 4px; }
-#islemlerListesi .sr-kd--rvz i.sr-kd-r { background: #b7601f; color: #fff; font-size: 10px; padding: 3px 3px; }
-#islemlerListesi .sr-tm { display: flex; align-items: center; gap: 4px; margin-left: 0; flex: 0 0 auto; min-width: 0; max-width: 100%; flex-wrap: nowrap; justify-content: flex-end; white-space: nowrap; }
-#islemlerListesi .sr-tm .sr-kanal-harf { margin: 0; font-size: 11.5px; line-height: 1; }
+#islemlerListesi .sr-kd--rvz i.sr-kd-r { background: #b7601f; color: #fff; font-size: 11.5px; padding: 3px 3px; }
+#islemlerListesi .sr-tm { display: flex; align-items: center; gap: 4px; margin-left: auto; flex: 0 0 auto; min-width: 0; max-width: 100%; flex-wrap: nowrap; justify-content: flex-end; white-space: nowrap; }
+#islemlerListesi .sr-tm .sr-kanal-harf { margin: 0; font-size: 13.22px; line-height: 1; }
 #islemlerListesi .sr-tutar-h { white-space: nowrap; flex: 0 0 auto; }
 
 /* =====================================================================
@@ -210,53 +210,12 @@
 }
 
 /* KDV DAHİL TL (11.11.2026, Abdullah onayı): Euro toplamın yanında, parantez içinde, kırmızı. */
-.sr-tl-kdv { font-size: 11.2px; font-weight: 800; color: #d62828; white-space: nowrap; line-height: 1.1; margin-left: 2px; }
-.sr-tl-kdv-et { font-size: 8.5px; font-weight: 800; letter-spacing: .2px; }   /* 11.11.2026: TL'nin sonunda "KDV'Lİ" etiketi */
+.sr-tl-kdv { font-size: 12.88px; font-weight: 800; color: #d62828; white-space: nowrap; line-height: 1.1; margin-left: 2px; }
+.sr-tl-kdv-et { font-size: 9.77px; font-weight: 800; letter-spacing: .2px; }   /* 11.11.2026: TL'nin sonunda "KDV'Lİ" etiketi */
 /* GÜN TOPLAMI +%20 (11.11.2026, Abdullah onayı): şerit boyu aynı kalır (satır yüksekliği sınırlı). */
-#islemlerListesi .sr-grup-baslik span:last-child { font-size: 13.77px; line-height: 13.77px; height: 13.77px; display: inline-flex; align-items: center; }
+#islemlerListesi .sr-grup-baslik span:last-child { font-size: 15.84px; line-height: 15.84px; height: 15.84px; display: inline-flex; align-items: center; }
 
 /* TARİH BÖLÜMÜ (11.11.2026, Abdullah isteği): Tarih ve Filtre düğmeleri tek Filtre düğmesinde birleşti */
 .il-tarih-ozel { display:flex; align-items:center; gap:8px; margin-top:8px; }
 .il-tarih-ozel span { color:#6b7280; font-weight:700; }
 .il-tarih-ozel .tarih-filtre-input { flex:1; min-width:0; height:38px; box-sizing:border-box; padding:0 10px; font-size:13px; font-family:inherit; border-radius:999px; }
-
-
-/* TKP.14.11.26 — Son İşlemler listesindeki tüm metin/rakamlar +%15. */
-referansın kesin
-   isteği). Günlük gruplama/toplam KALDIRILDI — düz liste. SADECE
-   #islemlerListesi ile scope'landı — reports-style.css'teki paylaşılan
-   .tl-* sınıfları (Satış Listesi { font-size: 13.196px !important; }
-beyaz kalın yazı; satır aralığı/köşe
-   yuvarlaklığı büyütüldü ki göz bir çırpıda günü satırlardan ayırabilsin.
-   SADECE #islemlerListesi (bu sayfa) ile scope'lu — diğer liste
-   sayfalarındaki (Satışlarım/Kaçan Satışlar/Ay Detayı/İşlem Geçmişi)
-   ".tl-grup-baslik" ve kendi ".sr-grup-baslik" kopyalarına DOKUNULMADI. */
-#islemlerListesi .sr-grup-baslik { font-size: 13.196px !important; }
-#islemlerListesi .sr-prim-etiket { font-size: 10.350px !important; }
-#islemlerListesi .sr-prim-tutar { font-size: 11.385px !important; }
-#islemlerListesi .sr-firma-h { font-size: 17.020px !important; }
-#islemlerListesi .sr-konum-h { font-size: 13.915px !important; }
-#islemlerListesi .sr-rozet-h { font-size: 13.225px !important; }
-#islemlerListesi .sr-belge-h { font-size: 13.225px !important; }
-Abdullah onayı — "Euro toplamın sayı
-   rengi MAVİ olsun"): üstündeki kırmızı TL karşılığıyla birlikte okunur. */
-#islemlerListesi .sr-tutar-h { font-size: 14.490px !important; }
-geriye dönük) */
-#islemlerListesi .sr-tl { font-size: 13.570px !important; }
-#islemlerListesi .sr-durum-ek { font-size: 12.650px !important; }
-#islemlerListesi .sr-durum-ek--bakiye { font-size: 10.695px !important; }
-#islemlerListesi .sr-durum-ek--beklemede { font-size: 10.695px !important; }
-#islemlerListesi .sr-ok-h { font-size: 21.850px !important; }
-#islemlerListesi .sr-ust .sr-konum-h { font-size: 13.800px !important; }
-#islemlerListesi .sr-as small { font-size: 11.270px !important; }
-#islemlerListesi .sr-as--son small { font-size: 11.960px !important; }
-#islemlerListesi .sr-ay { font-size: 11.500px !important; }
-#islemlerListesi .sr-kd { font-size: 11.500px !important; }
-#islemlerListesi .sr-as--son .sr-kd { font-size: 12.650px !important; }
-#islemlerListesi .sr-kd--rvz i.sr-kd-r { font-size: 11.500px !important; }
-#islemlerListesi .sr-tm .sr-kanal-harf { font-size: 13.225px !important; }
-Abdullah onayı): şerit boyu aynı kalır (satır yüksekliği sınırlı). */
-#islemlerListesi .sr-grup-baslik span:last-child { font-size: 15.835px !important; }
-#islemlerListesi .sr-grup-baslik span:last-child { font-size: 15.835px !important; }
-#islemlerListesi .sr-tl-kdv { font-size: 12.880px !important; }
-#islemlerListesi .sr-tl-kdv-et { font-size: 9.775px !important; }
