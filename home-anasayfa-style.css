@@ -694,3 +694,8 @@ body.as-drawer-kilit { overflow: hidden; }
 .as-tak-say--kirmizi { background: var(--renk-kirmizi); }
 .as-tak-say--mavi { background: var(--renk-mavi); }
 .as-tak-say--sifir { background: #9aa6b6; }
+
+
+/* 13.11.2026 — Tek satırlı tarih paneli; iş günü sayacı özet şeridinde. */
+.as-tarih-satir { grid-template-columns:minmax(0,1fr)!important; }
+.as-tarih-satir .as-tarih-panel { width:100%;min-height:58px;padding-top:7px;padding-bottom:7px; }
