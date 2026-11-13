@@ -740,10 +740,11 @@
 .hesapla-kutu .hc-kutu--isk {
   padding-top: 0;
   padding-bottom: 0;
-  height: 58px;  /* 08.11.2026: kutu boyu sabit (eski içerik yüksekliği) */
+  min-height: 68px; height: auto; /* 13.11.2026: İskonto etiketi ve büyük değer kırpılmasın */
+  overflow: visible;
 }
 .hesapla-kutu .hc-kutu--isk input {
-  font-size: 33.7px;  /* 31.2px * 1.08 — kutu boyu sabit olduğu için en fazla %8 */
+  font-size: 31.2px; line-height: 1.05; /* Etiketle birlikte dikey taşma/kırpılma önlendi */
 }
 
 /* Turuncu iskonto kutuları (08.11.2026, Abdullah onayı): kutu boyu sabit 68px;
@@ -1081,12 +1082,13 @@ body.cart-sayfa .kur-ust-baslik {
   line-height: 1.1;
 }
 body.cart-sayfa .kur-ust-baslik strong {
-  font-size: 10px;
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px;
   font-weight: 900;
   white-space: nowrap;
 }
 body.cart-sayfa .kur-ust-baslik small {
-  font-size: 8px;
+  font-size: 9.6px;
   font-weight: 700;
   color: #64748b;
   white-space: nowrap;
@@ -1104,34 +1106,38 @@ body.cart-sayfa .kur-ust-deger {
   color: #123b70;
 }
 body.cart-sayfa .kur-ust-deger b {
-  font-size: 11px;
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 13.2px;
   font-weight: 900;
 }
 body.cart-sayfa .kur-ust-satir #hpKurDeger {
-  font-size: 19px;
+  font-size: 22.8px;
   font-weight: 900;
   color: #123b70;
   font-variant-numeric: tabular-nums;
 }
 body.cart-sayfa .kur-ust-ipucu {
   min-width: 0;
-  font-size: 9px;
+  font-size: 10.8px;
   line-height: 1.2;
   font-weight: 800;
   color: #45627f;
   text-align: center;
 }
+.kur-ust-logo { display:inline-flex; font-size:18px; line-height:1; vertical-align:middle; }
+.kur-ust-bayrak { display:inline-flex; font-size:18px; line-height:1; vertical-align:middle; }
 @media (max-width: 380px) {
   body.cart-sayfa .kur-ust-satir {
     grid-template-columns: minmax(91px, 1fr) minmax(112px, 1.1fr) minmax(72px, .8fr);
     gap: 3px;
     padding: 5px 6px;
   }
-  body.cart-sayfa .kur-ust-baslik strong { font-size: 9px; }
+  body.cart-sayfa .kur-ust-baslik strong { font-size: 10px; }
+  .kur-ust-logo,.kur-ust-bayrak { font-size:15px; }
   body.cart-sayfa .kur-ust-baslik small { font-size: 7px; }
   body.cart-sayfa .kur-ust-deger { gap: 3px; padding: 3px; }
   body.cart-sayfa .kur-ust-deger b { font-size: 9px; }
-  body.cart-sayfa .kur-ust-satir #hpKurDeger { font-size: 16px; }
+  body.cart-sayfa .kur-ust-satir #hpKurDeger { font-size: 18px; }
   body.cart-sayfa .kur-ust-ipucu { font-size: 8px; }
 }
 
