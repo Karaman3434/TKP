@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function(){
     hazir: [{id:"son", etiket:"Tümü"}, "bugun", "bu_ay", "bu_yil", "bekleyen"],
     baslangicHazir: kapsam === "ay" ? "bu_ay" : "bugun",
     primFiltresi: true,
+    primSatiriGoster: true,
     baslangicPrimli: primli,
     bosMesaj: primli ? "Bu ay primli satış yok." : "Bu kapsamda satış kaydı yok."
   });
