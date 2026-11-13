@@ -1,4 +1,4 @@
-/* home-takvim-style.css — TKP.11.11.26-07:42.1560
+/* home-takvim-style.css — TKP.13.11.26-22:10.1620
    ANA SAYFA TAKVİMİ (05.11.2026, Abdullah onayı — mockup onaylandı).
    Ürün görselinin yerine geçen aylık takvim + gün temas paneli (yukarı açılır)
    + not defteri penceresi. Tüm sınıflar "ht-" önekli.
@@ -269,3 +269,127 @@
 .ht-sil { border-color: #c0392b; color: #c0392b; }
 .ht-sil--onay { background: #c0392b; color: #fff; }
 .ht-ayrac u { text-decoration: none; margin-left: 8px; color: #c0392b; font-size: 14px; cursor: pointer; }
+
+
+/* =========================================================
+   13.11.2026 — PREMIUM TAKVİM (Abdullah onaylı birleşik tasarım)
+   Tasarım 1'in ferah kartı + Tasarım 2'nin gün kapsülleri
+   + Tasarım 3'ün renkli alt özet panelleri.
+   Mevcut tarih, rozet, seçim, ay geçişi ve popup davranışı korunur.
+   ========================================================= */
+.ht-blok { padding:0 0 2mm; }
+.ht-kapsayici { position:relative; }
+.ht-takvim-kutu {
+  --tk-zemin:#f5f9ff; --tk-kirmizi:#ff3b3b; --tk-mavi:#1671df; --tk-yesil:#19ca61;
+  padding:0 10px 9px; margin:0 0 2px;
+  border:2px solid #176fca; border-radius:18px;
+  background:linear-gradient(180deg,#ffffff 0%,#f6f9ff 100%);
+  box-shadow:0 5px 16px rgba(10,47,92,.16),inset 0 1px 0 rgba(255,255,255,.95);
+  overflow:visible;
+}
+.ht-ay-baslik {
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  min-height:54px;margin:0 -10px 8px;padding:5px 13px;
+  border-radius:15px 15px 0 0;color:#fff;
+  background:linear-gradient(115deg,#073568 0%,#0755a7 52%,#062c5b 100%);
+  box-shadow:inset 0 -2px 0 rgba(255,255,255,.12);
+}
+.ht-ay-baslik-orta {
+  display:flex;align-items:center;justify-content:center;gap:9px;min-width:0;
+  color:#fff;font-size:clamp(17px,4.2vw,23px);font-weight:900;
+  letter-spacing:.1px;text-shadow:0 1px 2px rgba(0,0,0,.2);
+}
+.ht-ay-baslik-orta svg {
+  width:25px;height:25px;flex:none;fill:none;stroke:#fff;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.ht-nav-btn {
+  width:39px;height:36px;flex:none;display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.4);border-radius:11px;
+  background:linear-gradient(180deg,#1684e9,#0752a3);color:#fff;
+  font-family:inherit;font-size:25px;font-weight:900;line-height:1;
+  box-shadow:0 3px 7px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.3);
+  cursor:pointer;padding:0;
+}
+.ht-gun-basliklari {
+  display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin:0 0 7px;
+}
+.ht-gun-basliklari > span {
+  min-width:0;min-height:30px;display:flex;align-items:center;justify-content:center;
+  border:1px solid #d5e5f7;border-radius:10px;
+  background:linear-gradient(180deg,#0b477f,#062b56);
+  color:#fff;font-size:clamp(11px,2.9vw,15px);font-weight:900;
+  box-shadow:0 2px 4px rgba(8,43,84,.15);
+}
+.ht-gun-basliklari > .ht-tatil-baslik {
+  color:#fff;border-color:#d82b2b;background:linear-gradient(180deg,#ff5555,#d90000);
+}
+.ht-grid { display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px; }
+.ht-gun {
+  min-width:0;min-height:39px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2px 1px 3px;border:2px solid transparent;border-radius:10px;
+  font-size:clamp(13px,3.4vw,18px);font-weight:900;box-sizing:border-box;
+  box-shadow:0 2px 5px rgba(9,37,72,.14),inset 0 1px 0 rgba(255,255,255,.35);
+  transition:filter .12s ease,transform .12s ease;
+}
+.ht-gun:not(.ht-gun--bos):active { filter:brightness(.94);transform:scale(.97); }
+.ht-gun--kalan { background:linear-gradient(145deg,#2788f4,#0754c4);color:#fff;border-color:#0a61cc; }
+.ht-gun--gecmis { background:linear-gradient(145deg,#ff5555,#e20e19);color:#fff;border-color:#d9232d; }
+.ht-gun--tatil { background:linear-gradient(145deg,#36e978,#05b94f);color:#063d2a;border-color:#18c969; }
+.ht-gun--bugun,.ht-gun--bugun.ht-gun--kalan,.ht-gun--bugun.ht-gun--tatil,
+.ht-gun--bugun.ht-gun--gecmis,.ht-gun--bugun.ht-gun--secili {
+  background:linear-gradient(145deg,#ffed26,#ffd600);color:#082e5b;border:3px solid #07539b;
+  box-shadow:0 2px 7px rgba(7,55,105,.2),inset 0 1px 0 rgba(255,255,255,.6);
+}
+.ht-gun--bugun .ht-gun-no { color:#082e5b;font-size:clamp(14px,3.7vw,19px);font-weight:950; }
+.ht-gun--secili:not(.ht-gun--bugun) { outline:2px solid #fff;outline-offset:-4px; }
+.ht-gun--bos { background:transparent;border-color:transparent;box-shadow:none;cursor:default; }
+.ht-bildirim { height:15px;min-height:15px;gap:3px;margin:0 0 1px; }
+.ht-rozet {
+  min-width:16px;height:16px;padding:0 3px;border:2px solid #0a2f5c;border-radius:50%;
+  background:#fff;color:#0754a8;font-size:10px;font-weight:950;line-height:1;
+  box-shadow:0 1px 2px rgba(0,0,0,.18);
+}
+.ht-rozet--temas,.ht-rozet--ajanda { background:#fff;color:#0754a8;border-color:#0a2f5c; }
+.ht-gun--kalan .ht-gun-no,.ht-gun--gecmis .ht-gun-no { color:#fff; }
+.ht-gun--tatil .ht-gun-no { color:#063d2a; }
+
+/* Alt özet: Bugün + işlem + sipariş + temas aynı kartın içinde. */
+.ht-ozet {
+  display:grid;grid-template-columns:1.05fr 1fr 1fr 1fr;align-items:stretch;gap:5px;
+  margin:10px -1px 0;padding:6px;border:1.5px solid #9dc8ef;border-radius:15px;
+  background:linear-gradient(180deg,#fafdff,#eaf3ff);
+  box-shadow:inset 0 1px 0 #fff;font-size:clamp(10px,2.7vw,14px);
+  font-weight:900;box-sizing:border-box;
+}
+.ht-ozet[hidden] { display:none; }
+.ht-ozet > * {
+  min-width:0;display:flex;align-items:center;justify-content:center;gap:4px;
+  padding:5px 2px;border-radius:11px;white-space:nowrap;text-align:center;box-sizing:border-box;
+}
+.ht-ozet .ht-ozet-bugun {
+  border:1px solid #0b4d91;background:linear-gradient(145deg,#167fe0,#06366f);
+  color:#fff;padding:5px 3px;box-shadow:0 2px 5px rgba(0,43,93,.2);
+}
+.ht-ozet .ht-ozet-bugun:active { filter:brightness(.92); }
+.ht-ozet-oge--islem { color:#063c7d;background:linear-gradient(145deg,#e2f0ff,#c8e2ff); }
+.ht-ozet-oge--siparis { color:#825000;background:linear-gradient(145deg,#fff4df,#ffe0a8); }
+.ht-ozet-oge--temas { color:#006d72;background:linear-gradient(145deg,#e0ffff,#b8f5f5); }
+.ht-ozet-oge i { font-style:normal;font-size:clamp(14px,3.5vw,20px);margin:0;vertical-align:middle; }
+.ht-ozet-oge span { display:inline; }
+.ht-ozet-oge span[id] { font-variant-numeric:tabular-nums; }
+@media (max-width:400px) {
+  .ht-takvim-kutu { padding:0 7px 7px;border-radius:15px; }
+  .ht-ay-baslik { margin:0 -7px 7px;padding:4px 9px;min-height:48px; }
+  .ht-nav-btn { width:34px;height:32px;font-size:22px; }
+  .ht-ay-baslik-orta svg { width:21px;height:21px; }
+  .ht-gun-basliklari { gap:3px;margin-bottom:5px; }
+  .ht-gun-basliklari > span { min-height:27px;border-radius:8px; }
+  .ht-grid { gap:3px; }
+  .ht-gun { min-height:35px;border-radius:8px;padding:1px 0 2px; }
+  .ht-bildirim { height:13px;min-height:13px; }
+  .ht-rozet { min-width:14px;height:14px;font-size:9px;border-width:1.5px; }
+  .ht-ozet { gap:3px;padding:4px;margin-top:8px;border-radius:12px; }
+  .ht-ozet > * { gap:2px;padding:5px 1px;border-radius:9px; }
+  .ht-ozet-oge i { font-size:14px; }
+}
