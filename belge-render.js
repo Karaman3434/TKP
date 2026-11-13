@@ -368,8 +368,13 @@ function belgeyiCiz(kayit, musteri){
     var aylarTeklif = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
     var teklifTarih = "Tarih: " + simdi.getDate() + " " + aylarTeklif[simdi.getMonth()] + " " + simdi.getFullYear();
     var teklifSaat = String(simdi.getHours()).padStart(2,"0") + ":" + String(simdi.getMinutes()).padStart(2,"0");
+    // Belge başlığı sabit "FİYAT TEKLİFİ" değildir; seçili işlem türünün
+    // tam adı kullanılır: SİPARİŞ / NUMUNE / PROFORMA FATURA / FİYAT TEKLİFİ.
+    var belgeBaslikMetni = (typeof TipEtiket !== "undefined" && TipEtiket.buyukAl)
+      ? (TipEtiket.buyukAl(kayit.tip) || "BELGE")
+      : "BELGE";
     var teklifUstHtml = "<section class='bo-teklif-ust'>"
-      + "<h1 class='bo-teklif-baslik'>FİYAT TEKLİFİ</h1>"
+      + "<h1 class='bo-teklif-baslik'>" + htmlEsc(belgeBaslikMetni) + "</h1>"
       + "<div class='bo-teklif-tarih-saat'>"
       + "<span class='bo-teklif-tarih-ikon' aria-hidden='true'><svg viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2'></rect><path d='M16 3v4M8 3v4M3 10h18M8 15l2 2 4-4'></path></svg></span>"
       + "<strong>" + htmlEsc(teklifTarih) + "</strong>"
