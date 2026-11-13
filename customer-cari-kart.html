@@ -62,6 +62,7 @@
     <a class="ub-btn ub-btn--geri" href="customer.html" aria-label="Geri">‹</a>
     <button type="button" class="ub-btn ub-btn--bekle" id="btnUstBeklet" disabled aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
     <button type="button" class="ub-btn ub-btn--kapat" id="btnUstKapat" disabled aria-label="Kapat">✕</button>
+    <button type="button" class="ub-btn ub-btn--bilgi ck-ust-bilgi" id="btnCariBilgiMenu" aria-label="Cari ve işlem seçenekleri" title="Bilgi / İşlemler"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 10.5v5"></path><circle cx="12" cy="7.3" r="0.8" fill="currentColor" stroke="none"></circle></svg></button>
   </div>
   <div class="ub-sayfa-etiket" id="rotaSeridi"></div>
 </div>
@@ -113,6 +114,13 @@
 </div>
 
 
+<!-- Ortak i bilgi menüsü -->
+<div class="ck-bilgi-menu-zemin" id="ckBilgiMenuOverlay" hidden>
+  <div class="ck-bilgi-menu" id="ckBilgiMenu" role="menu" aria-label="Cari ve işlem seçenekleri">
+    <button type="button" class="ck-bilgi-menu-oge" id="btnCariDuzenleMenu"><span class="ck-bilgi-menu-ikon ck-bilgi-menu-ikon--cari" aria-hidden="true">♙</span><span class="ck-bilgi-menu-metin"><strong>Cari Düzenle</strong><small>Müşteri (cari) bilgilerini düzenle</small></span><span class="ck-bilgi-menu-ok" aria-hidden="true">›</span></button>
+    <button type="button" class="ck-bilgi-menu-oge" id="btnCariIslemAyrintiMenu"><span class="ck-bilgi-menu-ikon ck-bilgi-menu-ikon--islem" aria-hidden="true">▤</span><span class="ck-bilgi-menu-metin"><strong>İşlem Ayrıntı</strong><small>Müşterinin işlem ve belge kayıtlarını görüntüle</small></span><span class="ck-bilgi-menu-ok" aria-hidden="true">›</span></button>
+  </div>
+</div>
 <main class="sayfa">
 
   <!-- EKLENDİ (29.10.2026, Abdullah onayı — mockup) — müşteri (ticari) ismine
@@ -126,7 +134,6 @@
   <div id="cariKartMusteriAlan" class="ck-isim-sarmal">
     <div id="cariKartMusteriSeridi"></div>
     <!-- 09.11.2026 (Abdullah onayı — mockup): eski yuvarlak kalem rozeti, Belge Önizleme'deki AYRINTI hapıyla aynı tasarımda "DÜZENLE" hapına dönüştü. Dokunma davranışı değişmedi (tüm alan tıklanır). -->
-    <span class="ck-isim-duzenle-rozet"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17z"/><path d="M14 7l3 3"/></svg><span>DÜZENLE</span><svg class="ay-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span>
   </div>
 
   <!-- "TEMEL BİLGİLER" etiketi 06.10.2026'da Abdullah'ın isteğiyle kaldırıldı. -->
