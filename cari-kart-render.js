@@ -826,12 +826,26 @@ document.addEventListener("DOMContentLoaded", function(){
   // açılmadan, doğrudan "Cari Bilgileri Düzenle" formu (isim dahil) açılır.
   // Aynı akistanGeldiMi/sepettenAcildiMi kısıtı diğer bölümlerle TUTARLI —
   // İşlem Yap seçim akışındayken burada da düzenleme yapılamaz.
-  var musteriIsimAlani = document.getElementById("cariKartMusteriAlan");
-  if(musteriIsimAlani){
-    musteriIsimAlani.onclick = function(){
-      if(akistanGeldiMi) return;
-      if(sepettenAcildiMi) return;
-      eylemBaslat("cari", "duzenle");
+  // Cari düzenleme ve işlem ayrıntısı artık tek i menüsünde.
+  var bilgiBtn = document.getElementById("btnCariBilgiMenu");
+  var bilgiOverlay = document.getElementById("ckBilgiMenuOverlay");
+  var bilgiMenu = document.getElementById("ckBilgiMenu");
+  function cariBilgiMenuKapat(){ if(bilgiOverlay) bilgiOverlay.hidden = true; if(bilgiBtn) bilgiBtn.classList.remove("ub-bilgi-secili"); }
+  if(bilgiBtn && bilgiOverlay && bilgiMenu){
+    bilgiBtn.onclick = function(){
+      if(!bilgiOverlay.hidden){ cariBilgiMenuKapat(); return; }
+      bilgiOverlay.hidden = false;
+      var r = bilgiBtn.getBoundingClientRect(), w = bilgiMenu.offsetWidth || 300;
+      bilgiMenu.style.top = (r.bottom + 8) + "px";
+      bilgiMenu.style.left = Math.max(8, Math.min(r.right - w, window.innerWidth - w - 8)) + "px";
+      bilgiBtn.classList.add("ub-bilgi-secili");
+    };
+    bilgiOverlay.addEventListener("click", function(ev){ if(ev.target === bilgiOverlay) cariBilgiMenuKapat(); });
+    document.getElementById("btnCariDuzenleMenu").onclick = function(){ cariBilgiMenuKapat(); if(akistanGeldiMi || sepettenAcildiMi) return; eylemBaslat("cari", "duzenle"); };
+    document.getElementById("btnCariIslemAyrintiMenu").onclick = function(){
+      cariBilgiMenuKapat(); if(!musteriVerisi) return;
+      try{ CustomerData.sec(musteriVerisi); CustomerData.sonGoruntulendi(musteriVerisi.ad); }catch(e){}
+      window.location.href = "customer-detail.html";
     };
   }
 
