@@ -1,5 +1,5 @@
 /*
-  reports-data.js — TKP.11.11.26-14:20.1566
+  reports-data.js — TKP.13.11.26-08:45.1588
   ===============
   TEK görevi: arşiv kayıtlarını ("arsiv/numune|teklif|proforma|siparis") ve
   görevleri ("gorevler") Firebase'den okumak/yazmak. Eski uygulamayla AYNI
@@ -899,6 +899,16 @@ var ReportsData = (function(){
       return s + (u.toplamEuro !== undefined ? u.toplamEuro : ((u.iskBirim||0)*(u.adet||0)));
     }, 0);
   }
+  // PRİMLİ SİPARİŞ (13.11.2026, Abdullah): ana sayfadaki "<Ay> primi" toplamına giren siparişler.
+  // Kural ayToplami() / IsTakipData.buAyinVerisi() ile BİREBİR aynı: beklemede sipariş hariç;
+  // satır primi = (iskBirim − dipFiyat) × adet × 0.22, iskonto %60'ı aşarsa 0; en az bir satırı > 0 ise primli.
+  function kayitPrimliMi(k){
+    if(!k || k.tip !== "siparis" || k.durum === "beklemede") return false;
+    return (k.urunler||[]).some(function(u){
+      if((u.iskonto||0) > 60) return false;
+      return ((u.iskBirim||0)-(u.dipFiyat||0))*(u.adet||1)*0.22 > 0;
+    });
+  }
   function islemSorgula(spec){
     spec = spec || {};
     var yedekKur = guncelKurYedek();
@@ -912,6 +922,7 @@ var ReportsData = (function(){
       if(spec.durum === "kacan" && k.durum !== "kacan") return;
       if(spec.durum === "bekleyen" && !(beklemede || bakiye)) return;
       if(spec.beklemedeHaric && beklemede) return;
+      if(spec.primli && !kayitPrimliMi(k)) return;
       var ts = k.ts || 0;
       if(spec.ayAd){
         var tp = (k.tarih||"").split(" ");
@@ -966,6 +977,7 @@ var ReportsData = (function(){
     satislarListele: satislarListele,
     tumKacanlar: tumKacanlar,
     islemSorgula: islemSorgula,
+    kayitPrimliMi: kayitPrimliMi,
     kaydiSil: kaydiSil,
     kayitlariBirlestir: kayitlariBirlestir,
     musteriUrunGecmisi: musteriUrunGecmisi,

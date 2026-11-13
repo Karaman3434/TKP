@@ -1,5 +1,5 @@
 /*
-  islem-liste.js — TKP.11.11.26-22:02.1584
+  islem-liste.js — TKP.13.11.26-08:45.1588
   ==========================================================================
   ORTAK İŞLEM LİSTESİ (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır
   filtre" turu; mockup: Son İşlemler satır tasarımı + arama kutusu yanında
@@ -39,6 +39,8 @@
     beklemedeToggle  : true ise "Stok Bekleyenleri dahil et" anahtarı (Ay Detay);
                        kapalıyken stok bekleyen kayıtlar listede görünmez
     beklemedeAnahtar : bu anahtarın localStorage adı
+    primFiltresi     : true ise pencerede "PRİM · Primli satışlar" anahtarı görünür (Satış Listesi)
+    baslangicPrimli  : true ise liste açılışta sadece primli siparişlerle başlar (ana sayfa "<Ay> primi" dokunuşu)
     bosMesaj         : hiç kayıt yokken yazı
     musteriId / musteriAd : bir müşterinin kayıtlarıyla başlat (İşlem Geçmişi için)
 */
@@ -214,7 +216,8 @@ var IslemListesi = (function(){
     var durum = {
       tip: taban.tip || "", durum: taban.durum || "",
       musteriId: opts.musteriId || "", musteriAd: opts.musteriAd || "",
-      kanal: "", siralama: "yeni", beklemedeDahil: false
+      kanal: "", siralama: "yeni", beklemedeDahil: false,
+      primli: !!opts.baslangicPrimli    // 13.11.2026: sadece primli siparişler (bkz. ReportsData.kayitPrimliMi)
     };
     if(opts.beklemedeToggle && opts.beklemedeAnahtar){
       try{ durum.beklemedeDahil = localStorage.getItem(opts.beklemedeAnahtar) === "1"; }catch(e){}
@@ -255,6 +258,7 @@ var IslemListesi = (function(){
         arama: aramaEl.value || "",
         musteriId: durum.musteriId, musteriAd: durum.musteriAd,
         kanal: durum.kanal, siralama: durum.siralama, limit: opts.limit || 0,
+        primli: !!durum.primli,
         beklemedeHaric: !!opts.beklemedeToggle && !durum.beklemedeDahil,
         beklemedeToplamaDahil: !!opts.beklemedeToggle && durum.beklemedeDahil
       };
@@ -273,6 +277,7 @@ var IslemListesi = (function(){
       if(!taban.durum && durum.durum) n++;
       if(durum.musteriId || durum.musteriAd) n++;
       if(durum.kanal) n++;
+      if(durum.primli) n++;
       if(durum.siralama !== "yeni") n++;
       return n;
     }
@@ -316,6 +321,7 @@ var IslemListesi = (function(){
       if(etkinDurum === "kacan") parcalar.push("Kaçanlar");
       if(etkinDurum === "bekleyen") parcalar.push(TipEtiket.kisa.stok + " ve " + TipEtiket.kisa.bakiye);
       if(taban.tarihBas == null && !taban.ayAd && tarihSecimi() !== "tumu") parcalar.push(TARIH_ETIKET[tarihSecimi()] || "Özel Aralık");
+      if(durum.primli) parcalar.push("Primli satışlar");
       if(durum.kanal) parcalar.push(durum.kanal === "yok" ? "Kanal yok" : (durum.kanal === "mail" ? "Mail" : "WhatsApp"));
       return parcalar.length ? parcalar.join(" · ") : "Tüm işlemler";
     }
@@ -362,6 +368,9 @@ var IslemListesi = (function(){
           + (taban.durum ? "" : "<button type='button' class='il-c il-c--kacan" + (durum.durum === "kacan" ? " il-c--on il-c--tip-on" : "") + "' data-act='kacan'>" + TipEtiket.kisa.kacan + "</button>")
           + "</div>";
       }
+      if(opts.primFiltresi){
+        h += "<h5>PRİM</h5><div class='il-r'><button type='button' class='il-c" + (durum.primli ? " il-c--on" : "") + "' data-act='primli'>Primli satışlar</button></div>";
+      }
       if(durum.musteriId || durum.musteriAd){
         h += "<h5>MÜŞTERİ</h5><div class='il-r'><span class='il-pill'>👤 " + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml && durum.musteriAd ? CustomerData.kodAdHtml(durum.musteriId, durum.musteriAd) : htmlEsc(durum.musteriAd || "Seçili müşteri")) + "<button type='button' data-act='musteri-kaldir' aria-label='Müşteri filtresini kaldır'>✕</button></span></div>";
       }
@@ -404,7 +413,7 @@ var IslemListesi = (function(){
     }
     function temizle(){
       durum.tip = taban.tip || ""; durum.durum = taban.durum || "";
-      durum.musteriId = ""; durum.musteriAd = ""; durum.kanal = ""; durum.siralama = "yeni";
+      durum.musteriId = ""; durum.musteriAd = ""; durum.kanal = ""; durum.siralama = "yeni"; durum.primli = false;
       aramaEl.value = "";
       if(tarihKontrol && taban.tarihBas == null) tarihKontrol.sec("tumu");
       ozelBas = ""; ozelBit = "";
@@ -419,6 +428,7 @@ var IslemListesi = (function(){
       else if(act === "tip") durum.tip = el.getAttribute("data-v") || "";
       else if(act === "tarih"){ if(tarihKontrol){ tarihKontrol.sec(el.getAttribute("data-v") || "tumu"); ozelBas = ""; ozelBit = ""; } }
       else if(act === "kacan") durum.durum = (durum.durum === "kacan") ? "" : "kacan";
+      else if(act === "primli") durum.primli = !durum.primli;
       else if(act === "sira") durum.siralama = el.getAttribute("data-v") || "yeni";
       else if(act === "musteri-kaldir"){ durum.musteriId = ""; durum.musteriAd = ""; }
       else if(act === "temizle") temizle();

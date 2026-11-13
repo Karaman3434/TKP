@@ -1,4 +1,4 @@
-/* satis-listesi-render.js — TKP.02.11.26-13:55.1399
+/* satis-listesi-render.js — TKP.13.11.26-08:45.1588
    BUGÜNÜN / BU AYIN SATIŞLARI artık ORTAK İŞLEM LİSTESİ'ni (islem-liste.js)
    kullanıyor (02.11.2026, Abdullah onayı). Eski ?kapsam=bugun|ay adresi
    aynen çalışır: sadece hangi hazır tuşun (Bugün / Bu Ay) açılışta seçili
@@ -11,12 +11,17 @@
 document.addEventListener("DOMContentLoaded", function(){
   var params = new URLSearchParams(window.location.search);
   var kapsam = params.get("kapsam") === "ay" ? "ay" : "bugun";
+  // 13.11.2026 (Abdullah): ana sayfada "<Ay> primi" toplamına dokunulunca ?kapsam=ay&prim=1 —
+  // liste İÇİNDE BULUNULAN AYIN sadece primli siparişleriyle açılır (ay otomatik: "Bu Ay" hazır tuşu).
+  var primli = kapsam === "ay" && params.get("prim") === "1";
   var baslik = document.getElementById("rotaBaslik");
-  if(baslik) baslik.textContent = kapsam === "ay" ? "Bu Ayın Satışları" : "Bugünün Satışları";
+  if(baslik) baslik.textContent = primli ? "Bu Ayın Primli Satışları" : (kapsam === "ay" ? "Bu Ayın Satışları" : "Bugünün Satışları");
   IslemListesi.baslat({
     taban: {tip: "siparis"},
     hazir: [{id:"son", etiket:"Tümü"}, "bugun", "bu_ay", "bu_yil", "bekleyen"],
     baslangicHazir: kapsam === "ay" ? "bu_ay" : "bugun",
-    bosMesaj: "Bu kapsamda satış kaydı yok."
+    primFiltresi: true,
+    baslangicPrimli: primli,
+    bosMesaj: primli ? "Bu ay primli satış yok." : "Bu kapsamda satış kaydı yok."
   });
 });

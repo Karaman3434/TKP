@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.13.11.26-00:15.1587 — home.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.13.11.26-08:45.1588 — home.html -->
 <!--
   İŞ TAKİP — ANA SAYFA v5 (sade "flat" tasarım + gerçek hedef ilerlemesi)
   =============================================================================
@@ -177,7 +177,8 @@
           <div class="as-prim-etiket" id="anaSayfaOdenebilirEtiketi">Eylül 2026 ödenebilir</div>
           <div class="as-prim-tut"><span id="anaSayfaOdenebilirToplam">—</span><small>TL</small></div>
         </div>
-        <div class="as-prim-sutun as-prim-sutun--sag">
+        <!-- 13.11.2026 (Abdullah): "<Ay> primi" toplamına dokunmak, bu ayın SADECE primli satışlarını açar (ay otomatik = ana sayfada gösterilen ay) -->
+        <div class="as-prim-sutun as-prim-sutun--sag" id="asPrimSutunSag" role="button" tabindex="0" style="cursor:pointer" onclick="event.stopPropagation(); window.location.href='satis-listesi.html?kapsam=ay&amp;prim=1'">
           <div class="as-prim-etiket" id="anaSayfaPrimEtiketi">Eylül 2026 primi</div>
           <div class="as-prim-tut"><span id="anaSayfaPrimToplam">0,00</span><small>TL</small></div>
         </div>
@@ -280,7 +281,7 @@
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
 <script src="home-data.js?v=TKP.11.11.26-14:20.1566"></script>
 <script src="customer-data.js?v=TKP.13.11.26-00:15.1587"></script>
-<script src="reports-data.js?v=TKP.11.11.26-14:20.1566"></script>
+<script src="reports-data.js?v=TKP.13.11.26-08:45.1588"></script>
 <script src="vade-takip-data.js?v=TKP.11.11.26-18:32.1577"></script>
 <script src="takip-ozet-data.js?v=TKP.10.11.26-18:04.1558"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
