@@ -780,3 +780,70 @@
 .bo-og-kalan--o { background: #dfe3e9; color: #55606c; }
 /* ÖDEME GÜNÜ paneli: geciken fatura sayısı (kırmızı rozet), "N gün kaldı/geçti" yazısının sağında — satır içi */
 .bo-odeme-gunu .bo-og-rozet { position: static; transform: none; margin-left: 8px; flex: none; }
+
+
+/* FİYAT TEKLİFİ ÜST DÜZENİ — sabit beş kontrol + başlık/tarih paneli. */
+.belge-onizleme-sayfa .ub-bar { flex-wrap: nowrap; gap: 0; padding: 6px 6px; }
+.belge-onizleme-sayfa .ub-grup { order: 1; margin: 0; gap: 6px; padding: 4px; max-width: 100%; }
+.belge-onizleme-sayfa .ub-btn--bilgi {
+  width: 48.4px; height: 44px; flex: 0 0 48.4px;
+  background: linear-gradient(180deg,#ffad32 0%,#f28a0a 55%,#d96b00 100%);
+  color: #fff;
+}
+.belge-onizleme-sayfa .ub-btn--bilgi svg {
+  width: 25px; height: 25px; fill: none; stroke: currentColor;
+  stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round;
+}
+.belge-onizleme-sayfa .ub-btn--bilgi.ub-bilgi-secili {
+  box-shadow: 0 0 0 3px rgba(242,138,10,.22), inset 0 1px 0 rgba(255,255,255,.35);
+}
+.bo-teklif-ust { width: 100%; box-sizing: border-box; padding: 2px 6px 9px; text-align: center; }
+.bo-teklif-baslik {
+  margin: 0 0 8px; padding: 0; color: #071d4d;
+  font-size: clamp(25px, 7vw, 34px); line-height: 1.12;
+  font-weight: 950; letter-spacing: .2px;
+}
+.bo-teklif-tarih-saat {
+  min-height: 48px; box-sizing: border-box; width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 7px 10px; border: 2px solid #1674c5; border-radius: 15px;
+  background: linear-gradient(90deg,#d8efff 0%,#c6e5ff 50%,#d8efff 100%);
+  color: #071d4d; font-size: clamp(14px, 4vw, 18px); line-height: 1.1; white-space: nowrap;
+}
+.bo-teklif-tarih-ikon svg, .bo-teklif-saat-ikon svg {
+  width: 25px; height: 25px; display: block; fill: none; stroke: currentColor;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.bo-teklif-ayrac { width: 2px; height: 26px; margin: 0 4px; background: #17345d; opacity: .75; }
+.bo-bilgi-menu-zemin { position: fixed; inset: 0; z-index: 1205; background: transparent; }
+.bo-bilgi-menu-zemin[hidden] { display: none; }
+.bo-bilgi-menu {
+  position: fixed; width: min(300px, calc(100vw - 20px)); box-sizing: border-box;
+  padding: 8px 10px; border: 1.5px solid #aab8ca; border-radius: 18px;
+  background: #fff; box-shadow: 0 8px 22px rgba(13,35,70,.24);
+}
+.bo-bilgi-menu-oge {
+  width: 100%; min-height: 68px; display: flex; align-items: center; gap: 10px;
+  padding: 8px 2px; border: 0; background: transparent; color: #10264c;
+  text-align: left; cursor: pointer; font-family: inherit;
+}
+.bo-bilgi-menu-oge + .bo-bilgi-menu-oge { border-top: 1px solid #d9e0e9; }
+.bo-bilgi-menu-ikon {
+  width: 48px; height: 48px; flex: 0 0 48px; display: flex;
+  align-items: center; justify-content: center; border-radius: 13px;
+  background: #fff0dc; color: #df7308; font-size: 30px; font-weight: 800;
+}
+.bo-bilgi-menu-ikon--islem { color: #a93612; }
+.bo-bilgi-menu-metin { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.bo-bilgi-menu-metin strong { color: #10264c; font-size: 16px; font-weight: 900; line-height: 1.15; }
+.bo-bilgi-menu-metin small { color: #333d4c; font-size: 11.5px; line-height: 1.25; }
+.bo-bilgi-menu-ok { margin-left: auto; color: #10264c; font-size: 29px; line-height: 1; font-weight: 500; }
+@media (max-width: 380px) {
+  .belge-onizleme-sayfa .ub-grup { gap: 4px; padding: 3px; }
+  .belge-onizleme-sayfa .ub-btn { width: 43px; height: 42px; }
+  .belge-onizleme-sayfa .ub-btn--menu { width: 51.6px; }
+  .belge-onizleme-sayfa .ub-btn--bilgi { width: 43px; flex-basis: 43px; }
+  .bo-teklif-tarih-saat { gap: 6px; padding-left: 6px; padding-right: 6px; font-size: 13px; }
+  .bo-teklif-tarih-ikon svg, .bo-teklif-saat-ikon svg { width: 21px; height: 21px; }
+  .bo-teklif-ayrac { margin: 0 1px; }
+}

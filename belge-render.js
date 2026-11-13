@@ -250,54 +250,7 @@ function belgeyiCiz(kayit, musteri){
     // (HareketTablo.cariKutulariHtml) çağrılıyor. HANGİ yetkili(ler)in
     // gösterileceği mantığı (kayit.gorunecekYetkililer filtresi, yukarıda)
     // DEĞİŞMEDİ — bu sayfanın kendi işleyişi; sadece görsel üretim ortak.
-    // KOD/TARİH ŞERİDİ KALDIRILDI (18.10.2026, Abdullah onayı — "tek kutu"
-    // tasarımı): cari kart ile ürün tablosu arasındaki ayrı ".belge-belge-
-    // baslik-serit--mavi" şeridi artık YOK — içeriği (tarih + kısaltılmış
-    // işlem kodu) üstteki başlık kutusuna (.belge-musteri-baslik) taşındı,
-    // ikinci (küçük) bir alt satır olarak (.bmb-alt). Kısaltma gerçek
-    // KOD_ONEK_BELGE ile birebir (FT/SP/PF/NM), sıra no kod içinden
-    // (ilk 3 haneli rakam grubu) ayıklanıyor — örn. "FT001   18.10.2026
-    // 05:22" -> "FT.001".
-    var baslikOneki = KOD_ONEK_BELGE[kayit.tip] || kodOnekiAyiklaBelge(kayit.kod) || "";
-    var siraEslesme = (kayit.kod || "").match(/(\d{3})/);
-    var baslikKisaKod = (baslikOneki && siraEslesme) ? (baslikOneki + "." + siraEslesme[1]) : (kayit.kod || "");
-    // TEK TASARIM — KESİN KURAL (19.10.2026, Abdullah onayı — "amina koyayım"
-    // turu): tarih ve kısa kod artık AYRI span (bmb-alt/bmb-kod) — Gönder/
-    // Mail (.belge-form-baslik-tarih/kod) ve Sepet ile BİREBİR aynı yapı.
-    var bmbAltMetin = htmlEsc(kayit.tarih || "") + (kayit.revizeZamani ? " · 🔄 REVİZE" : "");
-    var bmbKodMetin = baslikKisaKod ? htmlEsc(baslikKisaKod) : "";
-    // WEICON ROZETİ KALDIRILDI (19.10.2026, Abdullah onayı): Gönder/Mail
-    // başlığından zaten "7 fotoğraf" turunda kaldırılmıştı — bu sayfa
-    // (Belge Önizleme) tek kalan yerdi, artık o da kaldırıldı. Boşalan
-    // alan bmb-sol'a kaldı (tarih/kod artık daha rahat yer buluyor).
-    // SIRA DEĞİŞİKLİĞİ (28.10.2026, Abdullah onayı — mockup üzerinden
-    // onaylandı): işlem/kod paneli (aşağıda) artık müşteri cari bilgisinin
-    // ÜSTÜNDE DEĞİL — Gönder/Mail'in (send-render.js, 26.10.2026 onaylı)
-    // BİREBİR aynı sırası: cari kutusu üstte, işlem/kod paneli ürün
-    // tablosunun hemen üstünde, kendi ayrı kartında. "musteriBlokHtml"
-    // artık SADECE cari kutusunu taşıyor; işlem/kod paneli ayrı bir
-    // değişkende (siparisPaneliHtml, aşağıda html birleştirmesinde kullanılır).
-    // EKLENDİ (01.11.2026, Abdullah onayı — mockup-panel.html Varyant A,
-    // mockup.html birleşik üst bar turu): panelin sağına Ayrıntı ("i") +
-    // Gönder (paylaş, şimdilik pasif — işlevi henüz tanımlanmadı) ikon
-    // grubu eklendi; eski alt buton satırındaki "AYRINTI" tuşu kaldırıldı,
-    // id="btnIslemlerAc" buraya taşındı (bağlama artık denemeCiz() içinde,
-    // yukarıda — bu element her çizimde burada yeniden oluşuyor).
-    // KALDIRILDI (02.11.2026, Abdullah onayı): buradaki pasif Gönder ikonu
-    // (class='ub-gonder-ikon') silindi — işlevi hiç tanımlanmamıştı.
-    var ikonGrupHtml = "<span class='ikon-grup'>"
-      + "<button type='button' class='ub-ayrinti-ikon' id='btnIslemlerAc' title='Ayrıntı' aria-label='Ayrıntı'>"
-      // AYRINTI HAPI (08.11.2026, Abdullah onayı): eski "i" yerine liste ikonu + AYRINTI yazısı + ">" (renk/köşe: belge-onizleme-style-v2.css sonundaki İŞLEM PANELİ bloğu).
-      + "<svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' aria-hidden='true'><circle cx='5' cy='6' r='1.2' fill='currentColor'/><circle cx='5' cy='12' r='1.2' fill='currentColor'/><circle cx='5' cy='18' r='1.2' fill='currentColor'/><path d='M10 6h10M10 12h10M10 18h7'/></svg>"
-      + "<span>AYRINTI</span>"
-      + "<svg class='ay-ok' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M9 5l7 7-7 7'/></svg>"
-      + "</button>"
-      + "</span>";
-    var siparisPaneliHtml = "<div class='belge-musteri-baslik tip-" + (kayit.tip||"siparis") + "'>"
-      + "<div class='bmb-sol'><span class='bmb-tip'>" + (TIP_ETIKET_BELGE[kayit.tip]||TipEtiket.kisa.siparis) + "</span>"
-      + (bmbAltMetin ? "<span class='bmb-alt'>" + bmbAltMetin + "</span>" : "")
-      + (bmbKodMetin ? "<span class='bmb-kod'>" + bmbKodMetin + "</span>" : "")
-      + "</div>" + ikonGrupHtml + "</div>";
+    // İşlem türü/tarih/kod şeridi yeni tasarımda kaldırıldı.
     // ÖDEME GÜNÜ (10.11.2026, Abdullah onayı): tek satırlık panel, VADE/FATURA/KARGO'nun
     // altında. SADECE bu sayfada (program içi bilgi) — Gönder/Mail/WhatsApp'a girmez
     // (HareketTablo.cariKutulariHtml'e 11. parametre olarak yalnız burası geçirir).
@@ -411,16 +364,22 @@ function belgeyiCiz(kayit, musteri){
     // tam yuvarlak köşesi VE çerçevesi var ("belge-kart--urun-cerceveli" —
     // Gönder'in giden görseliyle BİREBİR aynı çerçeve dili, 18.10.2026).
     // GENEL TOPLAM ve PRİM iki AYRI, bağımsız, tam yuvarlak köşeli kutu.
-    var html = "<div class='belge-kart belge-kart--cari-ust tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
+    var simdi = new Date();
+    var aylarTeklif = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+    var teklifTarih = "Tarih: " + simdi.getDate() + " " + aylarTeklif[simdi.getMonth()] + " " + simdi.getFullYear();
+    var teklifSaat = String(simdi.getHours()).padStart(2,"0") + ":" + String(simdi.getMinutes()).padStart(2,"0");
+    var teklifUstHtml = "<section class='bo-teklif-ust'>"
+      + "<h1 class='bo-teklif-baslik'>FİYAT TEKLİFİ</h1>"
+      + "<div class='bo-teklif-tarih-saat'>"
+      + "<span class='bo-teklif-tarih-ikon' aria-hidden='true'><svg viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2'></rect><path d='M16 3v4M8 3v4M3 10h18M8 15l2 2 4-4'></path></svg></span>"
+      + "<strong>" + htmlEsc(teklifTarih) + "</strong>"
+      + "<span class='bo-teklif-ayrac' aria-hidden='true'></span>"
+      + "<span class='bo-teklif-saat-ikon' aria-hidden='true'><svg viewBox='0 0 24 24'><circle cx='12' cy='12' r='9'></circle><path d='M12 7v5l3 2'></path></svg></span>"
+      + "<strong>" + teklifSaat + "</strong>"
+      + "</div></section>";
+    var html = teklifUstHtml + "<div class='belge-kart belge-kart--cari-ust tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
       + durumRozetHtml
       + musteriBlokHtml
-      + "</div>"
-      // "belge-kart--siparis-paneli" sınıfı (28.10.2026, Abdullah onayı —
-      // "daralt" turu) SADECE bu kartı, diğer tüm .belge-kart çiftlerine
-      // (paylaşılan margin-bottom:1mm kuralına) dokunmadan, scoped olarak
-      // hedefleyebilmek için eklendi — bkz. belge-onizleme-style-v2.css.
-      + "<div class='belge-kart belge-kart--siparis-paneli tip-" + (kayit.tip||"siparis") + "'>"
-      + siparisPaneliHtml
       + "</div>"
       + "<div class='belge-kart belge-kart--urun-cerceveli'>"
       + satirlarHtml
@@ -456,24 +415,7 @@ function belgeyiCiz(kayit, musteri){
         try{ CustomerData.sec(musteri); CustomerData.sonGoruntulendi(musteri.ad); }catch(e){}
         bhpAc(musteri, seritEl);
       };
-      // DÜZENLE HAPI (09.11.2026, Abdullah isteği): müşteri isminin yanında
-      // (şeridin sağında) — dokununca Cari Kart açılır ve "Cari Bilgileri
-      // Düzenle" formu hemen açık gelir (bayrak: weiconv2_cari_duzenle_ac,
-      // cari-kart-render.js okuyup siler). Hızlı pencere (isme dokunma)
-      // AYNEN duruyor; hap ona dokundurmaz. Tasarım: Cari Bilgi'deki hap.
-      var duzenleHapi = document.createElement("button");
-      duzenleHapi.type = "button";
-      duzenleHapi.className = "bo-duzenle-hap";
-      duzenleHapi.setAttribute("aria-label", "Cari bilgileri düzenle");
-      duzenleHapi.innerHTML = "<svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17z'/><path d='M14 7l3 3'/></svg><span>DÜZENLE</span><svg class='ay-ok' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M9 5l7 7-7 7'/></svg>";
-      duzenleHapi.onclick = function(ev){
-        ev.stopPropagation();
-        try{ CustomerData.sec(musteri); CustomerData.sonGoruntulendi(musteri.ad); }catch(e){}
-        try{ localStorage.setItem("weiconv2_cari_duzenle_ac", "1"); }catch(e){}
-        window.location.href = "customer-cari-kart.html";
-      };
-      seritEl.classList.add("musteri-serit--duzenle-hapli");
-      seritEl.appendChild(duzenleHapi);
+      // Cari düzenleme artık üst bardaki turuncu bilgi menüsünden açılır.
     }
   }catch(e){ hataGoster("Belge çizilemedi: " + e.message); }
 }
@@ -1320,7 +1262,17 @@ document.addEventListener("DOMContentLoaded", function(){
     // oluşuyor, bu yüzden bağlama da HER denemeCiz() çağrısında burada
     // tazeleniyor (.onclick = idempotent, üst üste binmez).
     var btnIslemlerAcEl = document.getElementById("btnIslemlerAc");
-    if(btnIslemlerAcEl) btnIslemlerAcEl.onclick = ayrintiAcilirAc;
+    if(btnIslemlerAcEl) btnIslemlerAcEl.onclick = function(){
+      var z = document.getElementById("belgeBilgiMenuOverlay");
+      var m = document.getElementById("belgeBilgiMenu");
+      if(!z || !m) return;
+      z.hidden = false;
+      var r = btnIslemlerAcEl.getBoundingClientRect();
+      var w = m.offsetWidth || 300;
+      m.style.top = (r.bottom + 8) + "px";
+      m.style.left = Math.max(8, Math.min(r.right - w, window.innerWidth - w - 8)) + "px";
+      btnIslemlerAcEl.classList.add("ub-bilgi-secili");
+    };
 
     // ÖDEME GÜNÜ paneline dokununca (10.11.2026, Abdullah onayı): müşterinin ödeme görüşmeleri +
     // not/hatırlatma + faturaları, panelin hemen altında (Cari Bilgi VADE penceresiyle AYNI bileşen).
@@ -1341,6 +1293,27 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("btnMenuBeklemede").hidden = !!kayit.durum || (kayit.urunler||[]).some(function(u){ return (u.bakiyeAdet||0) > 0; });
     return true;
   }
+
+  function belgeBilgiMenuKapat(){
+    var z = document.getElementById("belgeBilgiMenuOverlay");
+    if(z) z.hidden = true;
+    var t = document.getElementById("btnIslemlerAc");
+    if(t) t.classList.remove("ub-bilgi-secili");
+  }
+  document.getElementById("belgeBilgiMenuOverlay").addEventListener("click", function(ev){
+    if(ev.target === this) belgeBilgiMenuKapat();
+  });
+  document.getElementById("btnCariDuzenleBilgi").onclick = function(){
+    belgeBilgiMenuKapat();
+    if(!sonCizilenMusteri) return;
+    try{ CustomerData.sec(sonCizilenMusteri); CustomerData.sonGoruntulendi(sonCizilenMusteri.ad); }catch(e){}
+    try{ localStorage.setItem("weiconv2_cari_duzenle_ac", "1"); }catch(e){}
+    window.location.href = "customer-cari-kart.html";
+  };
+  document.getElementById("btnIslemAyrintiBilgi").onclick = function(){
+    belgeBilgiMenuKapat();
+    if(sonCizilenKayit) ayrintiAcilirAc();
+  };
 
   document.getElementById("msDuzenle").onclick = function(){
     if(!sonCizilenKayit) return;

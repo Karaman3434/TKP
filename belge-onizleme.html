@@ -40,7 +40,7 @@
 <link rel="stylesheet" href="reports-style.css?v=TKP.11.11.26-14:20.1566">
 <link rel="stylesheet" href="vade-takip-style.css?v=TKP.11.11.26-15:48.1571">
 <link rel="stylesheet" href="odeme-vade-style.css?v=TKP.11.11.26-17:44.1575">
-<link rel="stylesheet" href="belge-onizleme-style-v2.css?v=TKP.13.11.26-23:55.1623">
+<link rel="stylesheet" href="belge-onizleme-style-v2.css?v=TKP.14.11.26-00:45.1624">
 <!-- EKLENDİ (15.10.2026, Abdullah'ın isteğiyle) — müşteri ismi artık burada
      da TEK KURAL'a (musteri-serit.js) uyuyor; HareketTablo.cariKutulariHtml()
      bu dosyayı çağırıyor (bkz. hareket-tablo.js). -->
@@ -67,8 +67,8 @@
     <button type="button" class="ub-btn ub-btn--geri" id="btnGeriAkilli" aria-label="Geri">‹</button>
     <button type="button" class="ub-btn ub-btn--bekle" id="btnBelgeBeklet" aria-label="Beklet"><span class="ub-bekle-cizgiler"><span></span><span></span></span></button>
     <button type="button" class="ub-btn ub-btn--kapat" id="btnBelgeKapat" aria-label="Kapat">✕</button>
+    <button type="button" class="ub-btn ub-btn--bilgi" id="btnIslemlerAc" aria-label="Cari ve işlem seçenekleri" title="Bilgi / İşlemler"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 10.5v5"></path><circle cx="12" cy="7.3" r="0.8" fill="currentColor" stroke="none"></circle></svg></button>
   </div>
-  <div class="ub-sayfa-etiket"><span>Belge Önizleme</span></div>
 </div>
 </div>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
@@ -125,6 +125,22 @@
        Ayrıntı artık İşlem Hareket Paneli satırının içinde (bkz.
        belge-render.js siparisPaneliHtml). Üç butonun id'leri de
        işlevleriyle birlikte yeni yerlerine TAŞINDI, silinmedi. -->
+
+  <!-- BİLGİ MENÜSÜ: üst bardaki turuncu i tuşundan açılır. -->
+  <div class="bo-bilgi-menu-zemin" id="belgeBilgiMenuOverlay" hidden>
+    <div class="bo-bilgi-menu" id="belgeBilgiMenu" role="menu" aria-label="Cari ve işlem seçenekleri">
+      <button type="button" class="bo-bilgi-menu-oge" id="btnCariDuzenleBilgi">
+        <span class="bo-bilgi-menu-ikon bo-bilgi-menu-ikon--cari" aria-hidden="true">♙</span>
+        <span class="bo-bilgi-menu-metin"><strong>Cari Düzenle</strong><small>Müşteri (cari) bilgilerini düzenle</small></span>
+        <span class="bo-bilgi-menu-ok" aria-hidden="true">›</span>
+      </button>
+      <button type="button" class="bo-bilgi-menu-oge" id="btnIslemAyrintiBilgi">
+        <span class="bo-bilgi-menu-ikon bo-bilgi-menu-ikon--islem" aria-hidden="true">▤</span>
+        <span class="bo-bilgi-menu-metin"><strong>İşlem Ayrıntı</strong><small>Bu işlem (belge) bilgilerini düzenle</small></span>
+        <span class="bo-bilgi-menu-ok" aria-hidden="true">›</span>
+      </button>
+    </div>
+  </div>
 
   <!-- AYRINTI AÇILIR LİSTESİ (05.11.2026, Abdullah onayı — mockup üzerinden:
        "ayrıntılar büyük pop-up açılmasın, i harfinin hemen altında küçük
@@ -275,7 +291,7 @@
 <script src="vade-takip-ui.js?v=TKP.11.11.26-16:29.1574"></script>
 <script src="tarih-secici.js?v=TKP.10.11.26-09:30.1537"></script>
 <script src="odeme-vade-ui.js?v=TKP.11.11.26-18:32.1577"></script>
-<script src="belge-render.js?v=TKP.13.11.26-23:55.1623"></script>
+<script src="belge-render.js?v=TKP.14.11.26-00:45.1624"></script>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — mockup onaylandı). -->
 <script src="ust-bar-davranis.js?v=TKP.11.11.26-15:39.1570"></script>
 <script src="menu-cekmece.js?v=TKP.11.11.26-23:29.1585"></script>
