@@ -94,3 +94,13 @@ body.gonder-sayfa .belge-belge-baslik-serit--mavi.tip-numune   { color: #8e0e45;
 /* Dar ekranda (360px) kırpılan şey tarih değil, küçük işlem kodu olsun. */
 .gonder-sayfa .belge-form-baslik-tarih { flex: 0 0 auto; }
 .gonder-sayfa .belge-form-baslik-kod { flex: 0 1 auto; min-width: 0; }
+
+
+/* TKP.14.11.26 — Gönder/Mail belge etiketi: işlem türüne göre renk.
+   Tarih-saat metni send-render.js tarafından bu panelden kaldırılır.
+   Sadece Gönder ekranı ve onun mail/görsel önizlemeleri etkilenir. */
+body.gonder-sayfa .belge-form-baslik.tip-siparis  { color:#1769d2; }
+body.gonder-sayfa .belge-form-baslik.tip-teklif   { color:#159447; }
+body.gonder-sayfa .belge-form-baslik.tip-proforma { color:#ef8500; }
+body.gonder-sayfa .belge-form-baslik.tip-numune   { color:#d96b78; }
+body.gonder-sayfa .belge-form-baslik.tip-kacan    { color:#8b42b5; }
