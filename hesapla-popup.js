@@ -376,6 +376,9 @@ var HesaplaPopup = (function(){
     };
 
     // Bu hesaplamaya özel döviz kuru (kalıcı değil — "Listeye Ekle"ye kadar).
+    document.getElementById("hpKurRozetBtn").onkeydown = function(ev){
+      if(ev && (ev.key === "Enter" || ev.key === " ")){ ev.preventDefault(); this.click(); }
+    };
     document.getElementById("hpKurRozetBtn").onclick = function(){
       // 08.11.2026: cart.html'de satır sayfanın en üstünde. Pencere KAPALIYKEN
       // (bu işleme özel kur anlamsız) günün kurları kartını açar.
