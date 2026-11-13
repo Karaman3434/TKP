@@ -58,8 +58,8 @@ jobs:
           if not version:
               problems.append("manifest.json: _version eksik")
           expected = f"manifest.json?v={version}"
-          link_pattern = re.compile(r"<link\\b[^>]*\\brel=[\"']manifest[\"'][^>]*>", re.I)
-          href_pattern = re.compile(r"\\bhref=[\"']([^\"']+)[\"']", re.I)
+          link_pattern = re.compile(r"<link\b[^>]*\brel=[\"']manifest[\"'][^>]*>", re.I)
+          href_pattern = re.compile(r"\bhref=[\"']([^\"']+)[\"']", re.I)
           for path in pathlib.Path(".").rglob("*.html"):
               if ".git" in path.parts:
                   continue
