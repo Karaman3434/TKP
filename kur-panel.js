@@ -164,7 +164,7 @@ var KurPanel = (function(){
     DOVIZLER.forEach(function(d){
       if(d.kod !== "EUR" && d.kod !== "USD") return;
       if(!(v.satis[d.kod] > 0)) return;
-      html += "<tr" + (d.kod === "EUR" ? " class='kp-eur'" : "") + "><td><span class='kp-bayrak'>" + d.bayrak + "</span> <strong>" + d.kod + "</strong>" + (d.unit > 1 ? " (" + d.unit + ")" : "") + "</td>
+      html += "<tr" + (d.kod === "EUR" ? " class='kp-eur'" : "") + "><td><span class='kp-bayrak'>" + d.bayrak + "</span> <strong>" + d.kod + "</strong>" + (d.unit > 1 ? " (" + d.unit + ")" : "") + "</td>"
         + "<td>" + sayiYaz(v.satis[d.kod]) + "</td></tr>";
     });
     html += "</tbody></table>";
