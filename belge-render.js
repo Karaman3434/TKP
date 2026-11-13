@@ -310,7 +310,8 @@ function belgeyiCiz(kayit, musteri){
     var belgeBaslikMetni = (TipEtiket && TipEtiket.buyukAl) ? TipEtiket.buyukAl(kayit.tip) : (TIP_ETIKET_BELGE[kayit.tip] || "BELGE");
     var siparisPaneliHtml = "<section class='weicon-belge-ustluk'>"
       + "<div class='weicon-belge-marka-satir'>"
-      + "<img class='weicon-belge-logo' src='weicon-logo-temiz.png' alt='WEICON'>"
+      + "<svg class='weicon-logo-filtre-tanim' width='0' height='0' aria-hidden='true' focusable='false'><filter id='weiconLogoColorSwap' color-interpolation-filters='sRGB'><feColorMatrix type='matrix' values='-1 0 0 0 1 0 -1 0 0 1.4 0 0 -1 0 1.8 0 0 0 1 0'/></filter></svg>"
+      + "<span class='weicon-logo-kutu'><img class='weicon-belge-logo' src='weicon-logo-temiz.png' alt='WEICON'><sup>®</sup></span>"
       + "<span class='weicon-belge-dikey-ayrac' aria-hidden='true'></span>"
       + "<h1 class='weicon-belge-tur'>" + htmlEsc(belgeBaslikMetni) + "</h1>"
       + ikonGrupHtml
