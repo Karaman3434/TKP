@@ -117,17 +117,11 @@
     kapsayici.innerHTML =
       // Onaylı yerleşim: tarih ve satış özetlerinin altında; günlük özet takvimden hemen önce, ayrı şeritte.
       "<div class='ht-takvim-kutu' id='htTakvimKutu'>"
-      +   "<div class='ht-ay-baslik'>"
-      +     "<button type='button' class='ht-nav-btn' id='htAyOnce' aria-label='Önceki ay'>‹</button>"
       +   "<span id='htAyBaslik' class='ht-sr-only' aria-hidden='true'></span>"
-      +     "<button type='button' class='ht-nav-btn' id='htAySonra' aria-label='Sonraki ay'>›</button>"
-      +   "</div>"
       +   "<div class='ht-gun-basliklari'><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span class='ht-tatil-baslik'>Cmt</span><span class='ht-tatil-baslik'>Paz</span></div>"
       +   "<div class='ht-grid' id='htGrid'></div>"
       + "</div>";
     grid = document.getElementById("htGrid");
-    document.getElementById("htAyOnce").onclick = function(){ ayKaydir(-1); };
-    document.getElementById("htAySonra").onclick = function(){ ayKaydir(1); };
     swipeKur(document.getElementById("htTakvimKutu"));
     // 08.11.2026 (Abdullah onayı): "Bugün" etiketine dokununca bugünün Not + Ajanda penceresi açılır.
     document.getElementById("htOzetBugun").onclick = function(){
@@ -647,13 +641,8 @@
     // 09.11.2026 (Abdullah onayı): özet şeridi takvimle aynı izne bağlı.
     var ozet = document.getElementById("htOzet");
     if(ozet) ozet.hidden = !izinli;
-    // Tarih + İş günü satırı: takvim görünürken takvimin hemen ÜSTÜNDE;
-    // takvim yoksa (izin yok) kendi yerinde (üst kur satırının altında) kalır.
-    var tSatir = document.getElementById("asTarihSatir"), kutu = document.getElementById("htTakvimKutu");
-    if(tSatir && kutu){
-      if(izinli){ if(kutu.previousSibling !== tSatir) kutu.parentNode.insertBefore(tSatir, kutu); }
-      else if(blok && tSatir.parentNode !== blok.parentNode){ blok.parentNode.insertBefore(tSatir, blok); }
-    }
+    // Tarih paneli DOM'da döviz panelinin hemen altında sabit kalır.
+    // Takvim görünürlüğü değişse de tarih paneli yer değiştirmez.
   }
 
   document.addEventListener("DOMContentLoaded", function(){
