@@ -1,6 +1,8 @@
 name: İş Takip Sağlık Kontrolü
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
   schedule:
@@ -11,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: istakip-health-check
+  group: istakip-health-check-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -45,6 +47,50 @@ jobs:
             echo "OK JS: $file"
           done
 
+      - name: Manifest bağlantı ve ikon sürüm tutarlılığı
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, re, sys
+          manifest = json.loads(pathlib.Path("manifest.json").read_text(encoding="utf-8"))
+          version = manifest.get("_version")
+          problems = []
+          checked = 0
+          if not version:
+              problems.append("manifest.json: _version eksik")
+          expected = f"manifest.json?v={version}"
+          link_pattern = re.compile(r"<link\\b[^>]*\\brel=[\"']manifest[\"'][^>]*>", re.I)
+          href_pattern = re.compile(r"\\bhref=[\"']([^\"']+)[\"']", re.I)
+          for path in pathlib.Path(".").rglob("*.html"):
+              if ".git" in path.parts:
+                  continue
+              try:
+                  content = path.read_text(encoding="utf-8")
+              except (UnicodeDecodeError, OSError):
+                  continue
+              links = link_pattern.findall(content)
+              if not links:
+                  continue
+              checked += 1
+              if len(links) != 1:
+                  problems.append(f"{path}: {len(links)} manifest bağlantısı bulundu; tam 1 olmalı")
+                  continue
+              match = href_pattern.search(links[0])
+              if not match or match.group(1) != expected:
+                  actual = match.group(1) if match else "(href yok)"
+                  problems.append(f"{path}: manifest bağlantısı {actual}; beklenen {expected}")
+          for icon in manifest.get("icons", []):
+              if isinstance(icon, dict) and "maskable" in str(icon.get("purpose", "")):
+                  src = icon.get("src", "")
+                  if f"?v={version}" not in src:
+                      problems.append(f"Maskable simge sürümü manifest _version ile eşleşmiyor: {src}")
+          print(f"Kontrol edilen HTML manifest bağlantısı: {checked}")
+          if problems:
+              print("MANIFEST TUTARLILIK KONTROLÜ BAŞARISIZ:")
+              for problem in problems:
+                  print("- " + problem)
+              sys.exit(1)
+          print("OK: tüm HTML manifest bağlantıları ve maskable simge sürümleri güncel.")
+          PY
       - name: Temel güvenlik regresyon kontrolü
         run: |
           python3 - <<'PY'
