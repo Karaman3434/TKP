@@ -479,3 +479,22 @@
   .ht-bildirim { top:2px;left:2px;right:2px;height:18px;min-height:18px; }
   .ht-rozet { min-width:18px;height:17px;padding:0 3px;font-size:10px;border-radius:6px; }
 }
+
+
+/* 13.11.2026 — Onaylı referans: ay okları/üst mavi ok şeridi kaldırıldı.
+   Ay geçişi dokunmatik sağ-sol kaydırma ile çalışır. */
+.ht-ay-baslik { display:none!important; }
+.ht-takvim-kutu { padding-top:10px; }
+.ht-gun {
+  min-height:43.2px;
+}
+.ht-gun .ht-bildirim { top:2px; }
+.ht-gun-no { line-height:1; }
+.ht-ozet { margin:1mm 0!important; }
+.ht-blok { margin:1mm 0!important; }
+@media (max-width:400px) {
+  .ht-takvim-kutu { padding-top:7px; }
+  .ht-gun { min-height:40.5px!important; }
+  .ht-bildirim { height:16px!important;min-height:16px!important; }
+  .ht-rozet { min-width:17px;height:16px;font-size:9.5px; }
+}
