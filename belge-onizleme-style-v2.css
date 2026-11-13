@@ -808,14 +808,15 @@
   font-weight: 950; letter-spacing: .2px;
 }
 .bo-teklif-tarih-saat {
-  min-height: 48px; box-sizing: border-box; width: 100%;
+  /* Panel yüksekliği en az %30 azaltıldı; metin boyutu aynen korunur. */
+  min-height: 33px; box-sizing: border-box; width: 100%;
   display: flex; align-items: center; justify-content: center; gap: 10px;
-  padding: 7px 10px; border: 2px solid #1674c5; border-radius: 15px;
+  padding: 2px 10px; border: 2px solid #1674c5; border-radius: 12px;
   background: linear-gradient(90deg,#d8efff 0%,#c6e5ff 50%,#d8efff 100%);
   color: #071d4d; font-size: clamp(14px, 4vw, 18px); line-height: 1.1; white-space: nowrap;
 }
 .bo-teklif-tarih-ikon svg, .bo-teklif-saat-ikon svg {
-  width: 25px; height: 25px; display: block; fill: none; stroke: currentColor;
+  width: 20px; height: 20px; display: block; fill: none; stroke: currentColor;
   stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
 .bo-teklif-ayrac { width: 2px; height: 26px; margin: 0 4px; background: #17345d; opacity: .75; }
@@ -848,6 +849,6 @@
   .belge-onizleme-sayfa .ub-btn--menu { width: 51.6px; }
   .belge-onizleme-sayfa .ub-btn--bilgi { width: 43px; height: 42px; flex-basis: 43px; }
   .bo-teklif-tarih-saat { gap: 6px; padding-left: 6px; padding-right: 6px; font-size: 13px; }
-  .bo-teklif-tarih-ikon svg, .bo-teklif-saat-ikon svg { width: 21px; height: 21px; }
+  .bo-teklif-tarih-ikon svg, .bo-teklif-saat-ikon svg { width: 18px; height: 18px; }
   .bo-teklif-ayrac { margin: 0 1px; }
 }
