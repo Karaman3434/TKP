@@ -92,7 +92,7 @@
 /* Prim, sipariş rotası/tutar satırında hizalı gösterilir. */
 #islemlerListesi .sr-prim-satir { display: inline-flex; align-items: center; gap: 5px; margin: 0 auto 0 0; flex: 0 0 auto; white-space: nowrap; line-height: 1; }
 #islemlerListesi .sr-prim-etiket { display: inline-flex; align-items: center; justify-content: center; padding: 2px 5px; border-radius: 4px; background: #22cc66; color: #fff; font-size: 9px; font-weight: 800; line-height: 1; }
-#islemlerListesi .sr-prim-tutar { color: #22cc66; font-size: 10.8px; font-weight: 900; line-height: 1; white-space: nowrap; }
+#islemlerListesi .sr-prim-tutar { color: #22cc66; font-size: 9.9px; font-weight: 900; line-height: 1; white-space: nowrap; }
 #islemlerListesi .sr-firma-h { font-size: 14.8px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
 #islemlerListesi .sr-konum-h { font-size: 12.1px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
 #islemlerListesi .sr-rozet-h {
