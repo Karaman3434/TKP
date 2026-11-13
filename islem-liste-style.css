@@ -219,3 +219,44 @@
 .il-tarih-ozel { display:flex; align-items:center; gap:8px; margin-top:8px; }
 .il-tarih-ozel span { color:#6b7280; font-weight:700; }
 .il-tarih-ozel .tarih-filtre-input { flex:1; min-width:0; height:38px; box-sizing:border-box; padding:0 10px; font-size:13px; font-family:inherit; border-radius:999px; }
+
+
+/* TKP.14.11.26 — Son İşlemler listesindeki tüm metin/rakamlar +%15. */
+referansın kesin
+   isteği). Günlük gruplama/toplam KALDIRILDI — düz liste. SADECE
+   #islemlerListesi ile scope'landı — reports-style.css'teki paylaşılan
+   .tl-* sınıfları (Satış Listesi { font-size: 13.196px !important; }
+beyaz kalın yazı; satır aralığı/köşe
+   yuvarlaklığı büyütüldü ki göz bir çırpıda günü satırlardan ayırabilsin.
+   SADECE #islemlerListesi (bu sayfa) ile scope'lu — diğer liste
+   sayfalarındaki (Satışlarım/Kaçan Satışlar/Ay Detayı/İşlem Geçmişi)
+   ".tl-grup-baslik" ve kendi ".sr-grup-baslik" kopyalarına DOKUNULMADI. */
+#islemlerListesi .sr-grup-baslik { font-size: 13.196px !important; }
+#islemlerListesi .sr-prim-etiket { font-size: 10.350px !important; }
+#islemlerListesi .sr-prim-tutar { font-size: 11.385px !important; }
+#islemlerListesi .sr-firma-h { font-size: 17.020px !important; }
+#islemlerListesi .sr-konum-h { font-size: 13.915px !important; }
+#islemlerListesi .sr-rozet-h { font-size: 13.225px !important; }
+#islemlerListesi .sr-belge-h { font-size: 13.225px !important; }
+Abdullah onayı — "Euro toplamın sayı
+   rengi MAVİ olsun"): üstündeki kırmızı TL karşılığıyla birlikte okunur. */
+#islemlerListesi .sr-tutar-h { font-size: 14.490px !important; }
+geriye dönük) */
+#islemlerListesi .sr-tl { font-size: 13.570px !important; }
+#islemlerListesi .sr-durum-ek { font-size: 12.650px !important; }
+#islemlerListesi .sr-durum-ek--bakiye { font-size: 10.695px !important; }
+#islemlerListesi .sr-durum-ek--beklemede { font-size: 10.695px !important; }
+#islemlerListesi .sr-ok-h { font-size: 21.850px !important; }
+#islemlerListesi .sr-ust .sr-konum-h { font-size: 13.800px !important; }
+#islemlerListesi .sr-as small { font-size: 11.270px !important; }
+#islemlerListesi .sr-as--son small { font-size: 11.960px !important; }
+#islemlerListesi .sr-ay { font-size: 11.500px !important; }
+#islemlerListesi .sr-kd { font-size: 11.500px !important; }
+#islemlerListesi .sr-as--son .sr-kd { font-size: 12.650px !important; }
+#islemlerListesi .sr-kd--rvz i.sr-kd-r { font-size: 11.500px !important; }
+#islemlerListesi .sr-tm .sr-kanal-harf { font-size: 13.225px !important; }
+Abdullah onayı): şerit boyu aynı kalır (satır yüksekliği sınırlı). */
+#islemlerListesi .sr-grup-baslik span:last-child { font-size: 15.835px !important; }
+#islemlerListesi .sr-grup-baslik span:last-child { font-size: 15.835px !important; }
+#islemlerListesi .sr-tl-kdv { font-size: 12.880px !important; }
+#islemlerListesi .sr-tl-kdv-et { font-size: 9.775px !important; }
