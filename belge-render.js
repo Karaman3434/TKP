@@ -297,7 +297,8 @@ function belgeyiCiz(kayit, musteri){
     var tarihKaydi = String(kayit.tarih || "").trim();
     var tarihMatch = tarihKaydi.match(/^(\d{1,2})[.\s\/-]+([A-Za-zÇĞİÖŞÜçğıöşü]+|\d{1,2})[.\s\/-]+(\d{4})(?:[ T]+(\d{1,2}:\d{2}))?/);
     var ayAdlari = { "1":"Ocak","2":"Şubat","3":"Mart","4":"Nisan","5":"Mayıs","6":"Haziran","7":"Temmuz","8":"Ağustos","9":"Eylül","10":"Ekim","11":"Kasım","12":"Aralık",
-      "oca":"Ocak","şub":"Şubat","mar":"Mart","nis":"Nisan","may":"Mayıs","haz":"Haziran","tem":"Temmuz","ağu":"Ağustos","eyl":"Eylül","eki":"Ekim","kas":"Kasım","ara":"Aralık" };
+      "oca":"Ocak","şub":"Şubat","mar":"Mart","nis":"Nisan","may":"Mayıs","haz":"Haziran","tem":"Temmuz","ağu":"Ağustos","eyl":"Eylül","eki":"Ekim","kas":"Kasım","ara":"Aralık",
+      "ocak":"Ocak","şubat":"Şubat","mart":"Mart","nisan":"Nisan","mayıs":"Mayıs","haziran":"Haziran","temmuz":"Temmuz","ağustos":"Ağustos","eylül":"Eylül","ekim":"Ekim","kasım":"Kasım","aralık":"Aralık" };
     var tarihGosterim = tarihKaydi, saatGosterim = "";
     if(tarihMatch){
       var ayAnahtar = String(tarihMatch[2]).toLocaleLowerCase("tr-TR").replace(/\.$/,"");
