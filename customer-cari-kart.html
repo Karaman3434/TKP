@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.13.11.26-08:45.1588 — customer-cari-kart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.14.11.26-01:35.1592 — customer-cari-kart.html -->
 <!--
   İŞ TAKİP — CARİ KART v7
   ==============================
@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.11.11.26-20:38.1583">
 <link rel="stylesheet" href="customer-style.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="detail-style.css?v=TKP.11.11.26-15:39.1570">
-<link rel="stylesheet" href="cari-kart-style.css?v=TKP.14.11.26-00:42.1590">
+<link rel="stylesheet" href="cari-kart-style.css?v=TKP.14.11.26-01:35.1592">
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.08.11.26-13:14.1505">
 <link rel="stylesheet" href="send-style.css?v=TKP.08.11.26-22:53.1517">
 <!-- EKLENDİ (27.10.2026, Abdullah'ın isteğiyle — "açık belge" uyarısında
@@ -123,17 +123,10 @@
 </div>
 <main class="sayfa">
 
-  <!-- EKLENDİ (29.10.2026, Abdullah onayı — mockup) — müşteri (ticari) ismine
-       DOĞRUDAN dokununca (aşağıdaki VADE/FATURA/KARGO satırındaki "Bilgiyi
-       Güncelle" ara popup'ı OLMADAN) "Cari Bilgileri Düzenle" formu açılır
-       — isim bu formun EN ÜSTÜNDE zaten vardı (bkz. cari-kart-render.js
-       formAlanlariHtml "cari-tam"), sadece buraya ikinci, daha net bir giriş
-       noktası eklendi. Tıklama cari-kart-render.js'de bağlanıyor
-       (#cariKartMusteriAlan). musteri-serit.css/js'e DOKUNULMADI (paylaşılan
-       bileşen, sadece bu sayfaya özel sarmalayıcı). -->
+  <!-- Cari kart başlığı salt görüntülenir. Düzenleme ve işlem ayrıntısı,
+       yalnızca üst bardaki turuncu İ menüsünden açılır. -->
   <div id="cariKartMusteriAlan" class="ck-isim-sarmal">
     <div id="cariKartMusteriSeridi"></div>
-    <!-- 09.11.2026 (Abdullah onayı — mockup): eski yuvarlak kalem rozeti, Belge Önizleme'deki AYRINTI hapıyla aynı tasarımda "DÜZENLE" hapına dönüştü. Dokunma davranışı değişmedi (tüm alan tıklanır). -->
   </div>
 
   <!-- "TEMEL BİLGİLER" etiketi 06.10.2026'da Abdullah'ın isteğiyle kaldırıldı. -->
@@ -318,7 +311,7 @@
      paylaşılan TEK tablo üretici (bkz. cari-kart-render.js). -->
 <script src="ikon-svg.js?v=TKP.01.11.26-17:06.1322"></script>
 <script src="hareket-tablo.js?v=TKP.11.11.26-19:45.1581"></script>
-<script src="cari-kart-render.js?v=TKP.14.11.26-00:42.1590"></script>
+<script src="cari-kart-render.js?v=TKP.14.11.26-01:35.1592"></script>
 <!-- EKLENDİ (15.10.2026, Abdullah onayı) — "Beklet" bu sayfada açık olan müşteriyi hatırlasın diye özelleştirildi. -->
 <script>
   window.BEKLEYEN_ISLEM_AYAR = {
