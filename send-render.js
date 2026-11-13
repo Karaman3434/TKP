@@ -423,8 +423,19 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     // ADRESİ bloğu hiç görünmez. Diğer hiçbir çağrı (Cari Kart, Sepet,
     // Gönder'in canlı önizlemesi, Belge Önizleme) bunu geçmediği için
     // hepsi eskisi gibi boşsa "Girilmemiş" göstermeye devam eder.
-    cariBaslikHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, true, true, true);
-    cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + "<div class='belge-kart'>" + formBaslikHtml(tip, null, null) + "</div>";
+    if(kanal === "mail"){
+      // E-postaya eklenen görselde de canlı Mail Önizleme ile aynı üst başlık.
+      // Eski işlem paneli müşteri kartının altından kaldırılır.
+      cariBaslikHtml = "<div class='mail-giden-belge-baslik'>"
+        + formBaslikHtml(tip, null, null)
+        + mailOnizlemeTarihSaatHtml()
+        + "</div><div class='belge-kart-ayrac'></div>"
+        + HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, true, true, true);
+      cariGovdeHtml = "";
+    } else {
+      cariBaslikHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, true, true, true);
+      cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + "<div class='belge-kart'>" + formBaslikHtml(tip, null, null) + "</div>";
+    }
   }
 
   // "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı — v5 mockup, program
