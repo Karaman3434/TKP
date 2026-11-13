@@ -217,9 +217,10 @@
        konu başlığı + mesaj + sipariş tablosu birlikte gösterilir. -->
   <div class="overlay" id="mailOnizlemeOverlay" hidden>
     <div class="sheet mail-onizleme-sheet">
-      <div class="sayfa-rota-serit">
+      <div class="sayfa-rota-serit mail-onizleme-ustbaslik">
         <span class="sayfa-rota-serit-isim">📧 Mail Önizleme</span>
         <span class="sayfa-rota-serit-rota">Gönder</span>
+        <button type="button" class="mail-onizleme-bilgi-btn" id="btnMailOnizlemeBilgi" aria-label="Cari ve işlem seçenekleri" title="Cari ve işlem seçenekleri">İ</button>
       </div>
 
       <div class="mail-konu-kutu">
@@ -242,6 +243,22 @@
         <button class="btn-vazgec" id="mailOnizlemeVazgecBtn">Kapat</button>
         <button class="btn-kaydet" id="mailOnizlemeGonderBtn">✓ Gönder (yeni mail aç)</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Mail Önizleme İ MENÜSÜ: Cari Düzenle ve İşlem Ayrıntı aynı ortak menüde. -->
+  <div class="ck-bilgi-menu-zemin" id="mailBilgiMenuOverlay" hidden>
+    <div class="ck-bilgi-menu" id="mailBilgiMenu" role="menu" aria-label="Cari ve işlem seçenekleri">
+      <button type="button" class="ck-bilgi-menu-oge" id="btnMailCariDuzenle">
+        <span class="ck-bilgi-menu-ikon ck-bilgi-menu-ikon--cari" aria-hidden="true">♙</span>
+        <span class="ck-bilgi-menu-metin"><strong>Cari Düzenle</strong><small>Müşteri (cari) bilgilerini düzenle</small></span>
+        <span class="ck-bilgi-menu-ok" aria-hidden="true">›</span>
+      </button>
+      <button type="button" class="ck-bilgi-menu-oge" id="btnMailIslemAyrinti">
+        <span class="ck-bilgi-menu-ikon ck-bilgi-menu-ikon--islem" aria-hidden="true">▤</span>
+        <span class="ck-bilgi-menu-metin"><strong>İşlem Ayrıntı</strong><small>Müşterinin işlem ve belge kayıtlarını görüntüle</small></span>
+        <span class="ck-bilgi-menu-ok" aria-hidden="true">›</span>
+      </button>
     </div>
   </div>
 
