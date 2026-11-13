@@ -721,16 +721,7 @@
   content: ""; display: inline-block; width: 1.5px; height: 18px;
   background: #7b8799; margin: 0 10px; vertical-align: middle;
 }
-.belge-onizleme-sayfa .ub-ayrinti-ikon {
-  height: 30px; flex-shrink: 0; cursor: pointer;
-  padding: 0 9px 0 11px; border: 0; border-radius: 8px;
-  background: var(--ip-d); color: #fff;
-  display: flex; align-items: center; gap: 6px;
-  font-family: inherit; font-weight: 800; font-size: 13.5px; line-height: 1;
-  letter-spacing: .5px; font-style: normal; white-space: nowrap;
-  box-shadow: 0 2px 5px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.30);
-}
-.belge-onizleme-sayfa .ub-ayrinti-ikon svg { flex-shrink: 0; display: block; }
+
 /* DAR EKRAN (≤460px: S22 360, iPhone 13 390/414/430): tip | tarih | kod + hap sığsın diye yazılar ve
    boşluklar küçülür, ">" işareti gizlenir. Ölçümle doğrulandı. */
 @media (max-width: 460px) {
@@ -740,32 +731,8 @@
   .belge-onizleme-sayfa .belge-musteri-baslik[class*="tip-"] .bmb-kod { font-size: 11px; }
   .belge-onizleme-sayfa .belge-musteri-baslik .bmb-alt::before,
   .belge-onizleme-sayfa .belge-musteri-baslik .bmb-kod::before { margin: 0 6px; height: 15px; }
-  .belge-onizleme-sayfa .ub-ayrinti-ikon { padding: 0 8px 0 9px; gap: 5px; font-size: 12px; }
-  .belge-onizleme-sayfa .ub-ayrinti-ikon svg { width: 17px; height: 17px; }
-  .belge-onizleme-sayfa .ub-ayrinti-ikon .ay-ok { display: none; }
 }
 
-
-/* DÜZENLE HAPI — müşteri şeridinin sağında (09.11.2026, Abdullah isteği).
-   Görünüm Cari Bilgi'deki hapla (cari-kart-style.css .ck-isim-duzenle-rozet)
-   ve AYRINTI hapıyla aynı. Şerit relative; isim hapın altında kalmasın diye
-   sağ boşluk artırıldı. Dar ekranda (<=460px) yazı küçülür, ">" gizlenir. */
-.belge-onizleme-sayfa .musteri-serit--duzenle-hapli { position: relative; padding-right: 142px; }
-.belge-onizleme-sayfa .bo-duzenle-hap {
-  position: absolute; top: 50%; right: 6px; transform: translateY(-50%);
-  height: 30px; box-sizing: border-box; padding: 0 9px 0 11px; margin: 0;
-  border: 0; border-radius: 8px; background: #0d3d8c; color: #fff;
-  display: flex; align-items: center; gap: 6px;
-  font-family: inherit; font-weight: 800; font-size: 13px; line-height: 1;
-  letter-spacing: .5px; white-space: nowrap; cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.30);
-}
-.belge-onizleme-sayfa .bo-duzenle-hap svg { flex-shrink: 0; display: block; }
-@media (max-width: 460px) {
-  .belge-onizleme-sayfa .musteri-serit--duzenle-hapli { padding-right: 112px; }
-  .belge-onizleme-sayfa .bo-duzenle-hap { padding: 0 8px 0 9px; gap: 5px; font-size: 12px; }
-  .belge-onizleme-sayfa .bo-duzenle-hap .ay-ok { display: none; }
-}
 
 /* ÖDEME GÜNÜ PANELİ (10.11.2026, Abdullah onayı): VADE/FATURA/KARGO'nun altında tek satır, tam genişlik; sadece Belge Önizleme. */
 .ozet-satir-3.bo-odeme-gunu { display: grid; grid-template-columns: 1fr; margin-top: 1mm; }
@@ -782,7 +749,7 @@
 .bo-odeme-gunu .bo-og-rozet { position: static; transform: none; margin-left: 8px; flex: none; }
 
 
-/* FİYAT TEKLİFİ ÜST DÜZENİ — sabit beş kontrol + başlık/tarih paneli. */
+/* Belge Önizleme — üstte sabit beş kontrol + işlem türü başlığı/tarih paneli. */
 .belge-onizleme-sayfa .ub-bar { flex-wrap: nowrap; gap: 0; padding: 6px 6px; }
 .belge-onizleme-sayfa .ub-grup { order: 1; margin: 0; gap: 6px; padding: 4px; max-width: 100%; }
 .belge-onizleme-sayfa .ub-btn--bilgi {
