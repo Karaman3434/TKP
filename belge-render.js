@@ -293,11 +293,37 @@ function belgeyiCiz(kayit, musteri){
       + "<svg class='ay-ok' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M9 5l7 7-7 7'/></svg>"
       + "</button>"
       + "</span>";
-    var siparisPaneliHtml = "<div class='belge-musteri-baslik tip-" + (kayit.tip||"siparis") + "'>"
-      + "<div class='bmb-sol'><span class='bmb-tip'>" + (TIP_ETIKET_BELGE[kayit.tip]||TipEtiket.kisa.siparis) + "</span>"
-      + (bmbAltMetin ? "<span class='bmb-alt'>" + bmbAltMetin + "</span>" : "")
-      + (bmbKodMetin ? "<span class='bmb-kod'>" + bmbKodMetin + "</span>" : "")
-      + "</div>" + ikonGrupHtml + "</div>";
+    // WEICON kurumsal belge üstlüğü: yalnızca görünüm düzeni, kayıt alanları değişmez.
+    var tarihKaydi = String(kayit.tarih || "").trim();
+    var tarihMatch = tarihKaydi.match(/^(\d{1,2})[.\s\/-]+([A-Za-zÇĞİÖŞÜçğıöşü]+|\d{1,2})[.\s\/-]+(\d{4})(?:[ T]+(\d{1,2}:\d{2}))?/);
+    var ayAdlari = { "1":"Ocak","2":"Şubat","3":"Mart","4":"Nisan","5":"Mayıs","6":"Haziran","7":"Temmuz","8":"Ağustos","9":"Eylül","10":"Ekim","11":"Kasım","12":"Aralık",
+      "oca":"Ocak","şub":"Şubat","mar":"Mart","nis":"Nisan","may":"Mayıs","haz":"Haziran","tem":"Temmuz","ağu":"Ağustos","eyl":"Eylül","eki":"Ekim","kas":"Kasım","ara":"Aralık",
+      "ocak":"Ocak","şubat":"Şubat","mart":"Mart","nisan":"Nisan","mayıs":"Mayıs","haziran":"Haziran","temmuz":"Temmuz","ağustos":"Ağustos","eylül":"Eylül","ekim":"Ekim","kasım":"Kasım","aralık":"Aralık" };
+    var tarihGosterim = tarihKaydi, saatGosterim = "";
+    if(tarihMatch){
+      var ayAnahtar = String(tarihMatch[2]).toLocaleLowerCase("tr-TR").replace(/\.$/,"");
+      tarihGosterim = parseInt(tarihMatch[1],10) + " " + (ayAdlari[ayAnahtar] || tarihMatch[2]) + " " + tarihMatch[3];
+      saatGosterim = tarihMatch[4] || "";
+    }else{
+      var saatEslesme = tarihKaydi.match(/(?:^|\s)(\d{1,2}:\d{2})$/);
+      if(saatEslesme){ saatGosterim = saatEslesme[1]; tarihGosterim = tarihKaydi.slice(0, saatEslesme.index).trim(); }
+    }
+    var belgeBaslikMetni = (TipEtiket && TipEtiket.buyukAl) ? TipEtiket.buyukAl(kayit.tip) : (TIP_ETIKET_BELGE[kayit.tip] || "BELGE");
+    var siparisPaneliHtml = "<section class='weicon-belge-ustluk'>"
+      + "<div class='weicon-belge-marka-satir'>"
+      + "<svg class='weicon-logo-filtre-tanim' width='0' height='0' aria-hidden='true' focusable='false'><filter id='weiconLogoColorSwap' color-interpolation-filters='sRGB'><feColorMatrix type='matrix' values='-1 0 0 0 1 0 -1 0 0 1.4 0 0 -1 0 1.8 0 0 0 1 0'/></filter></svg>"
+      + "<span class='weicon-logo-kutu'><img class='weicon-belge-logo' src='weicon-logo-temiz.png' alt='WEICON'><sup>®</sup></span>"
+      + "<span class='weicon-belge-dikey-ayrac' aria-hidden='true'></span>"
+      + "<h1 class='weicon-belge-tur'>" + htmlEsc(belgeBaslikMetni) + "</h1>"
+      + ikonGrupHtml
+      + "</div>"
+      + "<div class='weicon-belge-tarih-serit'>"
+      + "<span class='weicon-tarih-ikon' aria-hidden='true'><svg viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2'/><path d='M16 3v4M8 3v4M3 10h18M8 15l2.5 2.5L16 12'/></svg></span>"
+      + "<strong>Tarih: " + htmlEsc(tarihGosterim || "-") + "</strong>"
+      + (saatGosterim ? "<span class='weicon-saat-ikon' aria-hidden='true'><svg viewBox='0 0 24 24'><circle cx='12' cy='12' r='9'/><path d='M12 7v5l3 2'/></svg></span><strong class='weicon-saat-deger'>" + htmlEsc(saatGosterim) + "</strong>" : "")
+      + (kayit.revizeZamani ? "<span class='weicon-revize-rozet'>REVİZE</span>" : "")
+      + "</div>"
+      + "</section>";
     // ÖDEME GÜNÜ (10.11.2026, Abdullah onayı): tek satırlık panel, VADE/FATURA/KARGO'nun
     // altında. SADECE bu sayfada (program içi bilgi) — Gönder/Mail/WhatsApp'a girmez
     // (HareketTablo.cariKutulariHtml'e 11. parametre olarak yalnız burası geçirir).
@@ -321,7 +347,7 @@ function belgeyiCiz(kayit, musteri){
         }
       }
     }catch(e){ odemeGunuPaneliHtml = ""; }
-    var musteriBlokHtml = "<div class='belge-musteri-govde'>"
+    var musteriBlokHtml = "<div class='weicon-cari-baslik'><span class='weicon-cari-baslik-ikon' aria-hidden='true'><svg viewBox='0 0 24 24'><path d='M3 21V8l9-5 9 5v13M7 21v-7h10v7M8 9h2M14 9h2M8 12h2M14 12h2'/></svg></span><strong>MÜŞTERİ BİLGİLERİ</strong></div><div class='belge-musteri-govde'>";
       // Geçmiş gösterimi artık SADECE #belgeGecmisiKutu'da (alttaki
       // "📜 Belge Geçmişi" kutusu) — buradaki süreç şeridi kaldırıldı,
       // aynı bilgiyi ikinci kez basıyordu (19.10.2026, Abdullah onayı).
@@ -411,7 +437,8 @@ function belgeyiCiz(kayit, musteri){
     // tam yuvarlak köşesi VE çerçevesi var ("belge-kart--urun-cerceveli" —
     // Gönder'in giden görseliyle BİREBİR aynı çerçeve dili, 18.10.2026).
     // GENEL TOPLAM ve PRİM iki AYRI, bağımsız, tam yuvarlak köşeli kutu.
-    var html = "<div class='belge-kart belge-kart--cari-ust tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
+    var html = siparisPaneliHtml
+      + "<div class='belge-kart belge-kart--cari-ust weicon-cari-kart tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
       + durumRozetHtml
       + musteriBlokHtml
       + "</div>"
@@ -419,9 +446,6 @@ function belgeyiCiz(kayit, musteri){
       // "daralt" turu) SADECE bu kartı, diğer tüm .belge-kart çiftlerine
       // (paylaşılan margin-bottom:1mm kuralına) dokunmadan, scoped olarak
       // hedefleyebilmek için eklendi — bkz. belge-onizleme-style-v2.css.
-      + "<div class='belge-kart belge-kart--siparis-paneli tip-" + (kayit.tip||"siparis") + "'>"
-      + siparisPaneliHtml
-      + "</div>"
       + "<div class='belge-kart belge-kart--urun-cerceveli'>"
       + satirlarHtml
       + bakiyeBlokHtml
@@ -431,13 +455,15 @@ function belgeyiCiz(kayit, musteri){
       // artık TEK ortak fonksiyon (HareketTablo.genelToplamHtml, hareket-
       // tablo.js) — Sepet/Cari Kart ile aynı kutu; PRİM ayrı yeşil şerit
       // değil, kutunun içinde. Prim tutarı/"Prim yok" mantığı DEĞİŞMEDİ.
+      + "<div class='weicon-toplam-sarmal'><span class='weicon-toplam-ikon' aria-hidden='true'><svg viewBox='0 0 48 48'><ellipse cx='15' cy='12' rx='9' ry='4'/><path d='M6 12v7c0 2.2 4 4 9 4s9-1.8 9-4v-7M6 19v7c0 2.2 4 4 9 4 2 0 4-.4 5.8-1.1'/><ellipse cx='34' cy='25' rx='9' ry='4'/><path d='M25 25v7c0 2.2 4 4 9 4s9-1.8 9-4v-7M25 32v7c0 2.2 4 4 9 4s9-1.8 9-4v-7'/></svg></span>"
       + HareketTablo.genelToplamHtml({
           genelToplam: netEuro,
           kur: kayit.kur,
           kurManuelMi: !!kayit.kurManuel,
           primTl: toplamPrim<0 ? null : toplamPrimTl,
           primMetni: toplamPrim<0 ? "Prim yok" : ""
-        });
+        })
+      + "</div>";
 
     document.getElementById("belgeIcerik").innerHTML = html;
     var beklemedeRozetBtn = document.getElementById("beklemedeRozetBtn");
