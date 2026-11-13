@@ -1280,3 +1280,37 @@ body.cart-sayfa .kur-ust-ipucu {
   padding:0;
   line-height:1.05;
 }
+
+
+/* 13.11.2026 — ÜRÜN HESAPLAMA DÖVİZ PANELİ ANA SAYFA İLE AYNI
+   Aynı KurPanel bileşeni EUR + USD satış verisini ve tasarımı üretir. */
+body.cart-sayfa #hpKurRozetBtn.kur-ust-satir {
+  all:unset;
+  display:block;
+  width:calc(100% - 12px);
+  margin:6px 6px 7px;
+  cursor:pointer;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+body.cart-sayfa #hpKurRozetBtn.kur-ust-satir:focus-visible {
+  outline:3px solid #f4c542;
+  outline-offset:2px;
+  border-radius:14px;
+}
+body.cart-sayfa #dovizSabitPanel,
+body.cart-sayfa #dovizSabitPanel .dv-kart {
+  width:100%;
+  box-sizing:border-box;
+}
+body.cart-sayfa .kur-sr-only {
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  padding:0!important;
+  margin:-1px!important;
+  overflow:hidden!important;
+  clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;
+  border:0!important;
+}

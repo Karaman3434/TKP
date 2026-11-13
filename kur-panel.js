@@ -242,7 +242,7 @@ var KurPanel = (function(){
         "</div>" +
         "<div class='dv-kurlar'><div class='dv-durum'>Kurlar yükleniyor…</div></div>" +
       "</div>";
-    alan.querySelector(".dv-btn").onclick = function(){ window.open(TCMB_SAYFA, "_blank"); };
+    alan.querySelector(".dv-btn").onclick = function(ev){ if(ev){ ev.stopPropagation(); } window.open(TCMB_SAYFA, "_blank"); };
 
     function ciz(v, onbellektenMi){
       var iki = alan.querySelector(".dv-kurlar");
@@ -255,7 +255,7 @@ var KurPanel = (function(){
       DOVIZLER.forEach(function(d){
         if(d.kod !== "EUR" && d.kod !== "USD") return;
         if(!(v.satis[d.kod] > 0)) return;
-        html += "<div class='dv-kutu'><span class='dv-kod'><span class='dv-bayrak'>" + d.bayrak + "</span>" + d.kod + "</span><span class='dv-kur'>" + sayiYaz(v.satis[d.kod]) + "</span></div>";
+        html += "<div class='dv-kutu'><span class='dv-kod'><span class='dv-bayrak'>" + d.bayrak + "</span>" + d.kod + "</span><span class='dv-kur'" + (d.kod === "EUR" ? " id='hpKurDeger'" : "") + ">" + sayiYaz(v.satis[d.kod]) + "</span></div>";
       });
       iki.innerHTML = html || "<div class='dv-durum dv-durum--hata'>Kur verisi bulunamadı.</div>";
     }
