@@ -196,8 +196,9 @@ var IslemListesi = (function(){
       +   "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
       + "</div>"
       + "<div class='sr-alt'>"
+      +   (primSatiriGoster ? primSatiriHTML(k) : "")
       +   "<div class='sr-rota'>" + rotaHTML(k) + "</div>"
-      +   "<div class='sr-tm'>" + (primSatiriGoster ? primSatiriHTML(k) : "") + kanalHarfHTML(k.kanal) + "<div class='sr-tutar-h'>" + tutarHucreHTML(k) + "</div>" + tlHucreHTML(k) + "</div>"
+      +   "<div class='sr-tm'>" + kanalHarfHTML(k.kanal) + "<div class='sr-tutar-h'>" + tutarHucreHTML(k) + "</div>" + tlHucreHTML(k) + "</div>"
       + "</div>"
       + "<div class='sr-ok-h'>&#8250;</div>"
       + "</div>";
