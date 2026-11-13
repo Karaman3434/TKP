@@ -157,3 +157,199 @@
   border-color: var(--panel-cerceve) !important;
   border-width: var(--panel-cerceve-kalinlik) !important;
 }
+
+ 
+/* ABDULLAH ONAYLI ORTAK TASARIM STANDARDI — 14.11.2026
+   Cari kart, sepet, hesaplama, raporlar, son işlemler, belge önizleme,
+   mail ve WhatsApp tabloları için tek görsel standart.
+   Yalnızca görünüm kurallarıdır; veri/hesaplama/işlem davranışına dokunmaz.
+*/
+:root {
+  --tbl-kutu-cerceve: 1.5px solid #0d3d8c;
+  --tbl-kutu-radius: 12px;
+  --tbl-baslik-bg: #e9eff7;
+  --tbl-baslik-renk: #0d3d8c;
+  --tbl-baslik-alt-cizgi: 1.5px solid #0d3d8c;
+  --tbl-hucre-alt-cizgi: 1px solid #d8e1ee;
+  --tbl-hucre-renk: #172033;
+  --tbl-dikey-cizgi: 1px solid #d8e1ee;
+  --tbl-zebra: #f7f9fc;
+
+  --vt-th-font-size: 11.5px;
+  --vt-th-font-weight: 900;
+  --vt-th-padding: 7px 4px;
+  --vt-td-padding: 7px 4px;
+  --vt-td-font-weight: 600;
+  --vt-td-font-size: 12.5px;
+
+  --bu-tablo-font-size: 11.5px;
+  --bu-th-border: none;
+  --bu-th-border-bottom: 1px solid #d8e1ee;
+  --bu-th-padding: 6px 3px;
+  --bu-th-font-size: 11px;
+  --bu-th-font-weight: 900;
+  --bu-td-border: none;
+  --bu-td-border-top: 1px solid #d8e1ee;
+  --bu-td-padding: 7px 4px;
+  --bu-td-font-weight: 700;
+  --bu-td-color: #172033;
+  --bu-td-font-size: 12.5px;
+
+  --kv-container-border: 1.5px solid #0d3d8c;
+  --kv-container-border-top: 1.5px solid #0d3d8c;
+  --kv-container-border-radius: 0 0 12px 12px;
+  --kv-th-background: #e9eff7;
+  --kv-th-color: #0d3d8c;
+  --kv-th-font-weight: 900;
+  --kv-th-padding: 6px 3px;
+  --kv-th-border: 1px solid #d8e1ee;
+  --kv-td-padding: 6px 3px;
+  --kv-td-border: 1px solid #d8e1ee;
+
+  --ao-th-border: 1px solid #d8e1ee;
+  --ao-th-padding: 6px 3px;
+  --ao-th-font-size: 10px;
+  --ao-td-border: 1px solid #d8e1ee;
+  --ao-td-padding: 6px 3px;
+  --ao-td-font-weight: 700;
+  --ao-td-font-size: 11px;
+
+  --mh-th-background: #e9eff7;
+  --mh-th-color: #0d3d8c;
+  --mh-th-padding: 6px 4px;
+  --mh-th-font-size: 10px;
+  --mh-th-font-weight: 900;
+  --mh-th-border: 1px solid #d8e1ee;
+  --mh-td-border-bottom: 1px solid #d8e1ee;
+  --mh-td-padding: 6px 4px;
+
+  --ok-th-padding: 6px 4px;
+  --ok-th-font-size: 10px;
+  --ok-th-font-weight: 900;
+  --ok-th-border: 1px solid #d8e1ee;
+  --okg-td-border-bottom: 1px solid #d8e1ee;
+  --okg-td-padding: 6px 4px;
+  --okf-td-border-bottom: 1px solid #d8e1ee;
+  --okf-td-padding: 6px 4px;
+
+  --zi-thtd-border: 1px solid #d8e1ee;
+  --zi-thtd-padding: 6px;
+  --zi-th-background: #e9eff7;
+  --zi-th-color: #0d3d8c;
+}
+
+/* Müşteri adı şeridi — onaylı lacivert zemin / beyaz yazı. */
+.musteri-serit {
+  background: #0d3d8c !important;
+  border: 1.5px solid #0d3d8c !important;
+  border-radius: 10px !important;
+}
+.musteri-serit .ms-ad,
+.musteri-serit .ms-kod,
+.musteri-serit .ms-ayrac,
+.musteri-serit .ms-sehir {
+  color: #ffffff !important;
+}
+
+/* Vade / Fatura / Kargo: tek satır, beyaz zemin, lacivert etiket ve ikon. */
+.ozet-alan {
+  background: #ffffff !important;
+  border: 1.5px solid #0d3d8c !important;
+  border-radius: 10px !important;
+  padding: 2px 7px !important;
+  gap: 5px !important;
+  min-height: 30px;
+}
+.ozet-ikon,
+.ozet-baslik,
+.ck-blok-etiket,
+.ck-blok-etiket--fatura,
+.ck-blok-etiket--teslimat,
+.ck-blok-etiket--yetkili,
+.ck-blok-etiket--not,
+.ck-blok-etiket--temel,
+.ck-blok-etiket-ikon,
+.ck-kart-iletisim-ikon,
+.belge-adres-etiket-fatura,
+.belge-adres-etiket-teslimat,
+.belge-adres-etiket-yetkili,
+.belge-kosul-ikon,
+.belge-kosul-etiket {
+  color: #0d3d8c !important;
+}
+.ozet-metin {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: baseline !important;
+  gap: 5px !important;
+  width: auto !important;
+  min-width: 0;
+}
+.ozet-baslik,
+.ozet-deger {
+  margin: 0 !important;
+  white-space: nowrap;
+}
+.ozet-deger { color: #172033 !important; }
+
+/* Ortak tablo yüzeyi ve başlık/hücre standardı. */
+.data-table-container {
+  border: 1.5px solid #0d3d8c !important;
+  border-radius: 12px !important;
+}
+.data-table th,
+.sepet-tablo th,
+.belge-urun-tablo th,
+.aylik-ozet-tablo th,
+.km-veri-tablo th,
+.mh-harcama-tablo th,
+.ziy-islem-tablo th {
+  background: #e9eff7 !important;
+  color: #0d3d8c !important;
+  border-color: #d8e1ee !important;
+  font-weight: 900 !important;
+}
+.data-table td,
+.sepet-tablo td,
+.belge-urun-tablo td,
+.aylik-ozet-tablo td,
+.km-veri-tablo td,
+.mh-harcama-tablo td,
+.ziy-islem-tablo td {
+  border-color: #d8e1ee !important;
+  color: #172033;
+}
+.data-table th,
+.data-table td,
+.sepet-tablo th,
+.sepet-tablo td,
+.belge-urun-tablo th,
+.belge-urun-tablo td,
+.aylik-ozet-tablo th,
+.aylik-ozet-tablo td {
+  vertical-align: middle;
+}
+.sepet-tablo th,
+.sepet-tablo td {
+  padding: 6px 3px !important;
+}
+.belge-urun-tablo th { padding: 6px 3px !important; }
+.belge-urun-tablo td { padding: 7px 4px !important; }
+.data-table th,
+.aylik-ozet-tablo th { padding: 6px 4px !important; }
+.data-table td,
+.aylik-ozet-tablo td { padding: 6px 4px !important; }
+
+/* Son İşlemler hareket satırları da aynı lacivert / açık mavi çizgi ailesinde. */
+#islemlerListesi .sr-satir {
+  border-bottom-color: #d8e1ee !important;
+}
+#islemlerListesi .sr-grup-baslik {
+  background: #0d3d8c !important;
+  color: #ffffff !important;
+}
+#islemlerListesi .sr-firma-h,
+#islemlerListesi .sr-belge-h,
+#islemlerListesi .sr-tutar-h {
+  color: #172033 !important;
+}
