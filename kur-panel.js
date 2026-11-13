@@ -60,7 +60,7 @@ var KurPanel = (function(){
       ".dv-kur{font-size:19.2px;font-weight:900;letter-spacing:-.35px;white-space:nowrap;color:#092d62;font-variant-numeric:tabular-nums;}" +
       ".dv-durum{grid-column:1 / -1;padding:10px 6px;text-align:center;font-size:11px;font-weight:700;color:#64748b;background:#f5f9ff;}" +
       ".dv-durum--hata{color:#c0392b;}" +
-      "@media (max-width:380px){.dv-kart{grid-template-columns:minmax(94px,1.02fr) minmax(0,1fr) minmax(0,1fr);}.dv-mobil-baslik{font-size:10px;padding:6px 4px;}.dv-kutu{gap:3px;padding:6px 3px;}.dv-kod{font-size:9.5px;}.dv-bayrak{font-size:13px;}.dv-kur{font-size:14px;letter-spacing:-.5px;}}" +
+      "@media (max-width:380px){.dv-kart{grid-template-columns:minmax(94px,1.02fr) minmax(0,1fr) minmax(0,1fr);}.dv-mobil-baslik{font-size:12px;padding:7px 4px;}.dv-kutu{gap:4px;padding:7px 3px;}.dv-kod{font-size:11.4px;}.dv-bayrak{font-size:15.6px;}.dv-kur{font-size:16.8px;letter-spacing:-.5px;}}" +
       ".kp-perde{position:fixed;inset:0;z-index:6000;background:rgba(10,20,35,.32);}" +
       ".kp-kart{position:fixed;z-index:6001;left:1mm;right:1mm;top:calc(var(--ust-sabit-yukseklik,60px) + 8px);" +
         "width:auto;background:#fff;border-radius:12px;overflow:hidden;" +
