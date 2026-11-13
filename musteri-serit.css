@@ -38,9 +38,9 @@
   box-sizing: border-box;
 }
 .musteri-serit .ms-ad {
-  /* %20 KÜÇÜLTME (01.11.2026, Abdullah onayı): 15px -> 12px — panelde
-     Gönder ikonu eklenince isim/şehir için yer kalmıyordu. */
-  font-size: var(--serit-yazi, 14.04px);
+  /* ABDULLAH ONAYI: müşteri adı tüm sayfalarda %20 büyütüldü.
+     Şehir/il metninin boyutu kendi ortak kuralında korunur. */
+  font-size: calc(var(--serit-yazi, 14.04px) * 1.2);
   font-weight: var(--etiket-agirlik, 700);
   letter-spacing: var(--etiket-harf-araligi, .2px);
   color: #0a2f5c;
