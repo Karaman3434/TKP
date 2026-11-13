@@ -608,3 +608,27 @@ body.as-drawer-kilit { overflow: hidden; }
    konu kutusu ile MESAJ etiketi arası 1 mm. */
 .mail-konu-kutu { margin-bottom: 1mm; }
 .mail-konu-kutu + .form-etiket { margin-top: 0; }
+
+
+/* MAIL ÖNİZLEME — ortak İ bilgi menüsü (14.11.2026). */
+#mailOnizlemeOverlay .mail-onizleme-ustbaslik {
+  display:flex; align-items:center; gap:8px; min-height:42px;
+}
+#mailOnizlemeOverlay .mail-onizleme-ustbaslik .sayfa-rota-serit-isim {
+  flex:1; min-width:0;
+}
+#mailOnizlemeOverlay .mail-onizleme-ustbaslik .sayfa-rota-serit-rota {
+  margin-left:auto; white-space:nowrap;
+}
+.mail-onizleme-bilgi-btn {
+  flex:0 0 36px; width:36px; height:34px; padding:0;
+  display:inline-flex; align-items:center; justify-content:center;
+  border:1.5px solid #9a4c05; border-radius:9px;
+  background:#fff0dc; color:#a94f00;
+  font:900 21px/1 inherit; cursor:pointer;
+  box-shadow:0 2px 5px rgba(80,35,0,.16);
+}
+.mail-onizleme-bilgi-btn.ub-bilgi-secili {
+  outline:3px solid rgba(14,165,164,.28); outline-offset:1px;
+}
+#mailBilgiMenuOverlay { z-index:13050; }
