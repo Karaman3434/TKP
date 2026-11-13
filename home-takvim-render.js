@@ -115,20 +115,16 @@
     var bugun = new Date();
     yil = bugun.getFullYear(); ay = bugun.getMonth();
     kapsayici.innerHTML =
-      // (09.11.2026, Abdullah onayı) "Bugün · işlem · sipariş · temas" özeti artık burada DEĞİL —
-      // home.html'de Bugün satış/prim kutularının üstünde (#htOzet); aynı id'ler, aynı kod.
-      // (09.11.2026, Abdullah onayı — mockup A) "Kasım 2026" çubuğu KALDIRILDI; ay adı takvimin içinde, sağa/sola kaydırınca ay değişir.
+      // Onaylı yerleşim: tarih ve satış özetlerinin altında; günlük özet takvimden hemen önce, ayrı şeritte.
       "<div class='ht-takvim-kutu' id='htTakvimKutu'>"
       +   "<div class='ht-ay-baslik'>"
       +     "<button type='button' class='ht-nav-btn' id='htAyOnce' aria-label='Önceki ay'>‹</button>"
-      +     "<div class='ht-ay-baslik-orta'><svg viewBox='0 0 24 24' aria-hidden='true'><rect x='3' y='5' width='18' height='16' rx='2'/><path d='M7 3v4M17 3v4M3 10h18M8 14h2m4 0h2m-8 3h2m4 0h2'/></svg><span id='htAyBaslik'></span></div>"
+      +   "<span id='htAyBaslik' class='ht-sr-only' aria-hidden='true'></span>"
       +     "<button type='button' class='ht-nav-btn' id='htAySonra' aria-label='Sonraki ay'>›</button>"
       +   "</div>"
       +   "<div class='ht-gun-basliklari'><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span class='ht-tatil-baslik'>Cmt</span><span class='ht-tatil-baslik'>Paz</span></div>"
       +   "<div class='ht-grid' id='htGrid'></div>"
       + "</div>";
-    var ozetPanel = document.getElementById("htOzet");
-    if(ozetPanel) document.getElementById("htTakvimKutu").appendChild(ozetPanel);
     grid = document.getElementById("htGrid");
     document.getElementById("htAyOnce").onclick = function(){ ayKaydir(-1); };
     document.getElementById("htAySonra").onclick = function(){ ayKaydir(1); };
@@ -198,13 +194,13 @@
         else sinif += (new Date(yil, ay, g).getTime() >= bugunDeger) ? " ht-gun--kalan" : " ht-gun--gecmis";
         if(a === bugunA) sinif += " ht-gun--bugun";
         if(a === seciliAnahtar) sinif += " ht-gun--secili";
-        var bildirim = temas[a] || 0; // temas + işlem
-        var aj = ajanda[a] || 0;
-        // Bildirim sayısı günün sayısının ÜSTÜNDE (kendi satırında); kırmızı = ajanda sayfası.
+        // Ayrı veri kaynakları: mavi = günlük işlem/ödeme, turuncu = müşteri teması/ziyaret.
+        var islemAdet = islemSayisi(a);
+        var temasAdet = gunTurSayilari(a).toplam;
         html += "<div class='" + sinif + "' data-a='" + a + "'>"
-          + "<span class='ht-bildirim'>"
-          +   (bildirim > 0 ? "<span class='ht-rozet ht-rozet--temas'>" + bildirim + "</span>" : "")
-          +   (aj > 0 ? "<span class='ht-rozet ht-rozet--ajanda'>" + aj + "</span>" : "")
+          + "<span class='ht-bildirim' aria-hidden='true'>"
+          +   (islemAdet > 0 ? "<span class='ht-rozet ht-rozet--islem'>" + islemAdet + "</span>" : "")
+          +   (temasAdet > 0 ? "<span class='ht-rozet ht-rozet--temas'>" + temasAdet + "</span>" : "")
           + "</span>"
           + "<span class='ht-gun-no'>" + g + "</span>"
           + "</div>";
