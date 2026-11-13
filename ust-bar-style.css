@@ -309,3 +309,25 @@
 }
 .ub-logo { min-width: 105px; }
 .ub-logo img { max-width: 100%; height: auto; max-height: 44px; object-fit: contain; }
+
+
+/* TKP.14.11.26 — ORTAK İ BİLGİ TUŞU: cari kartı ve işlem tablosu bulunan ekranlarda tek tasarım. */
+.ub-btn--bilgi,
+.ck-ust-bilgi {
+  flex: 0 0 var(--ub-b,58.08px);
+  width: var(--ub-b,58.08px);
+  min-width: 0;
+  background: linear-gradient(180deg,#2785ed 0%,#0d62c7 58%,#084a9b 100%) !important;
+  color: #fff !important;
+  border: 1px solid #0a4e9d;
+  font-family: Arial,sans-serif;
+  font-size: 27px !important;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: none;
+  box-shadow: 0 2px 0 rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.35);
+}
+.ub-btn--bilgi:focus-visible,
+.ck-ust-bilgi:focus-visible { outline: 3px solid #70b7ff; outline-offset: 2px; }
+.ub-btn--bilgi svg,
+.ck-ust-bilgi svg { display:none !important; }
