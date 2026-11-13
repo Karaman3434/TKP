@@ -38,8 +38,8 @@ body.as-drawer-kilit { overflow: hidden; }
   text-align: left;
   background: none;
   border: none;
-  padding: 10.8px 14.4px; /* 13.11.2026: Yeni Mail/Zincir Cevapla alanı dikey +%20 */
-  min-height: 46px;
+  padding: 13px 14.4px; /* Yeni Mail/Zincir Cevapla alanı dikey +%20 */
+  min-height: 55px;
   cursor: pointer;
 }
 .mail-secenek-popover-oge:not(:last-child) { border-bottom: 1px solid #eef1f5; }
@@ -580,7 +580,7 @@ body.as-drawer-kilit { overflow: hidden; }
   transform: rotate(45deg);
 }
 .iletisim-acilir .iletisim-secenek-grid { grid-template-columns: 1fr; gap: 7px; margin-bottom: 0; }
-.iletisim-acilir .iletisim-secenek-btn { min-height: 48px; padding-top: 11.25px; padding-bottom: 11.25px; } /* İletişim seçenekleri dikey +%25 */
+.iletisim-acilir .iletisim-secenek-btn { min-height: 48px; padding-top: 11.25px; padding-bottom: 11.25px; box-sizing:border-box; } /* Mail/WhatsApp/Tablo/PDF penceresi dikey +%25 */
 .ub-eylem button.ub-eylem-secili { outline: 3px solid #0ea5a4; outline-offset: 1px; }
 
 

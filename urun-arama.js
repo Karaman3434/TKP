@@ -298,7 +298,7 @@ function uaOzelListeyiAc(baslik, liste){
   } else {
     govde.innerHTML = liste.slice(0,30).map(function(u,i){
       return "<tr data-i='" + i + "'>"
-        + "<td class='hit-urun-sira-ad'>" + (i+1) + ". " + htmlEsc(u.ad) + "<div class='hit-urun-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + htmlEsc(u.berta||"-") + "</span> <span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + htmlEsc(u.abas||"-") + "</span>" + "</div></td>"
+        + "<td class='hit-urun-sira-ad'>" + (i+1) + ". " + htmlEsc(u.ad) + "<div class='hit-urun-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + htmlEsc(u.berta||"-") + "</span><span class='kod-ayrac' aria-hidden='true'></span><span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + htmlEsc(u.abas||"-") + "</span>" + "</div></td>"
         + "<td class='hit-urun-adet'>" + u.adet + "</td>"
         + "<td>📊</td>"
         + "</tr>";
