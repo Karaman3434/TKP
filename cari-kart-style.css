@@ -803,6 +803,8 @@
 }
 
 /* Ortak i bilgi tuşu ve açılır menü — Belge Önizleme standardı. */
+.ck-ust-bilgi { background:linear-gradient(180deg,#f28a0a 0%,#df7108 55%,#b95705 100%); color:#fff; }
+.ck-ust-bilgi svg { width:25px; height:25px; fill:none; stroke:currentColor; stroke-width:2.1; stroke-linecap:round; stroke-linejoin:round; }
 .ck-ust-bilgi { flex-shrink:0; }
 .ck-ust-bilgi svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .ck-ust-bilgi.ub-bilgi-secili { outline:3px solid #0ea5a4; outline-offset:1px; }
