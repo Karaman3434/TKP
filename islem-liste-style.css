@@ -89,11 +89,10 @@
    Abdullah onayı — "harf ve sayıların boyutu" turu, SADECE bu sayfa
    #islemlerListesi kapsamında — diğer liste sayfalarındaki eşdeğer
    sınıflara dokunulmadı, onlar kendi ayrı tarihli büyütmesini korur). */
-#islemlerListesi .sr-firma-blok { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; flex: 0 1 auto; }
-#islemlerListesi .sr-prim-satir { display: flex; align-items: center; gap: 6px; margin-top: 2px; line-height: 1; }
-/* Prim etiketi %20, prim tutarı ise son onayla ek %20 küçültüldü. Ana sayfanın yeşili: #22cc66. */
+/* Prim, sipariş rotası/tutar satırında hizalı gösterilir. */
+#islemlerListesi .sr-prim-satir { display: inline-flex; align-items: center; gap: 5px; margin: 0 auto 0 0; flex: 0 0 auto; white-space: nowrap; line-height: 1; }
 #islemlerListesi .sr-prim-etiket { display: inline-flex; align-items: center; justify-content: center; padding: 2px 5px; border-radius: 4px; background: #22cc66; color: #fff; font-size: 9px; font-weight: 800; line-height: 1; }
-#islemlerListesi .sr-prim-tutar { color: #22cc66; font-size: 9px; font-weight: 800; line-height: 1; white-space: nowrap; }
+#islemlerListesi .sr-prim-tutar { color: #22cc66; font-size: 9.9px; font-weight: 900; line-height: 1; white-space: nowrap; }
 #islemlerListesi .sr-firma-h { font-size: 14.8px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
 #islemlerListesi .sr-konum-h { font-size: 12.1px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
 #islemlerListesi .sr-rozet-h {
@@ -146,7 +145,7 @@
 #islemlerListesi .sr-kd--rvz { padding: 0 !important; overflow: hidden; box-shadow: 0 0 0 1.5px #b7601f inset; }
 #islemlerListesi .sr-kd--rvz i { font-style: normal; padding: 3px 4px; }
 #islemlerListesi .sr-kd--rvz i.sr-kd-r { background: #b7601f; color: #fff; font-size: 10px; padding: 3px 3px; }
-#islemlerListesi .sr-tm { display: flex; align-items: center; gap: 4px; margin-left: 3px; flex: 0 1 auto; max-width: 100%; flex-wrap: wrap; justify-content: flex-end; }
+#islemlerListesi .sr-tm { display: flex; align-items: center; gap: 4px; margin-left: 3px; flex: 1 1 auto; min-width: 0; max-width: 100%; flex-wrap: wrap; justify-content: flex-end; }
 #islemlerListesi .sr-tm .sr-kanal-harf { margin: 0; font-size: 11.5px; line-height: 1; }
 #islemlerListesi .sr-tutar-h { white-space: nowrap; flex: 0 0 auto; }
 
