@@ -151,3 +151,20 @@
   white-space: nowrap;
   pointer-events: none;
 }
+
+
+/* ABDULLAH — müşteri adı maksimum okunabilir boyut / 1mm iç boşluk (14.11.2026). */
+.musteri-serit {
+  padding: 1mm !important;
+  box-sizing: border-box !important;
+  min-height: 40px !important;
+}
+.musteri-serit .ms-ad {
+  font-size: 20px !important;
+  line-height: 1 !important;
+  min-width: 0;
+}
+.musteri-serit .ms-sehir {
+  font-size: var(--serit-yazi, 14.04px) !important;
+  line-height: 1.1 !important;
+}
