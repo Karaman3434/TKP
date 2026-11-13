@@ -89,6 +89,11 @@
    Abdullah onayı — "harf ve sayıların boyutu" turu, SADECE bu sayfa
    #islemlerListesi kapsamında — diğer liste sayfalarındaki eşdeğer
    sınıflara dokunulmadı, onlar kendi ayrı tarihli büyütmesini korur). */
+#islemlerListesi .sr-firma-blok { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; flex: 0 1 auto; }
+#islemlerListesi .sr-prim-satir { display: flex; align-items: center; gap: 6px; margin-top: 2px; line-height: 1; }
+/* Prim etiketi %20, prim tutarı ise son onayla ek %20 küçültüldü. Ana sayfanın yeşili: #22cc66. */
+#islemlerListesi .sr-prim-etiket { display: inline-flex; align-items: center; justify-content: center; padding: 2px 5px; border-radius: 4px; background: #22cc66; color: #fff; font-size: 9px; font-weight: 800; line-height: 1; }
+#islemlerListesi .sr-prim-tutar { color: #22cc66; font-size: 9px; font-weight: 800; line-height: 1; white-space: nowrap; }
 #islemlerListesi .sr-firma-h { font-size: 14.8px; font-weight: 700; color: #1f2430; line-height: 1.25; overflow-wrap: anywhere; min-width: 0; }
 #islemlerListesi .sr-konum-h { font-size: 12.1px; color: #8a93a1; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
 #islemlerListesi .sr-rozet-h {
@@ -125,7 +130,7 @@
 #islemlerListesi .sr-ok-h { display: flex; align-items: center; justify-content: center; color: #E12626; font-size: 19px; font-weight: 900; line-height: 1; }
 
 /* SATIR v3 (03.11.2026, Abdullah onayı — "iki satır, rota toplama bitişik") */
-#islemlerListesi .sr-ust { grid-column: 1; grid-row: 1; display: flex; align-items: baseline; gap: 5px; min-width: 0; }
+#islemlerListesi .sr-ust { grid-column: 1; grid-row: 1; display: flex; align-items: center; gap: 5px; min-width: 0; }
 #islemlerListesi .sr-ust .sr-firma-h { flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; }
 #islemlerListesi .sr-ust .sr-konum-h { flex: 1 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; font-size: 12px; }
 #islemlerListesi .sr-ust .sr-konum-h:not(:empty):before { content: "- "; color: #b5bcc7; }
