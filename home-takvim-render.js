@@ -119,7 +119,7 @@
       "<div class='ht-takvim-kutu' id='htTakvimKutu'>"
       +   "<div class='ht-ay-baslik'>"
       +     "<button type='button' class='ht-nav-btn' id='htAyOnce' aria-label='Önceki ay'>‹</button>"
-      +     "<div class='ht-ay-baslik-orta'><svg viewBox='0 0 24 24' aria-hidden='true'><rect x='3' y='5' width='18' height='16' rx='2'/><path d='M7 3v4M17 3v4M3 10h18M8 14h2m4 0h2m-8 3h2m4 0h2'/></svg><span id='htAyBaslik'></span></div>"
+      +   "<span id='htAyBaslik' class='ht-sr-only' aria-hidden='true'></span>"
       +     "<button type='button' class='ht-nav-btn' id='htAySonra' aria-label='Sonraki ay'>›</button>"
       +   "</div>"
       +   "<div class='ht-gun-basliklari'><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span class='ht-tatil-baslik'>Cmt</span><span class='ht-tatil-baslik'>Paz</span></div>"
