@@ -361,7 +361,8 @@
 .musteri-ozet-ad,
 .belge-musteri-ad,
 .cari-ad,
-#islemlerListesi .sr-firma-h {
+.ck-isim-satir,
+.sr-firma-h {
   font-size: 26px !important;
   line-height: 1 !important;
 }
