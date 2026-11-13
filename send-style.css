@@ -647,7 +647,7 @@ body.as-drawer-kilit { overflow: hidden; }
 #mailOnizlemeTablo .mail-onizleme-tarih-saat{
   min-height:33px;box-sizing:border-box;width:100%;display:flex;align-items:center;justify-content:center;
   gap:10px;padding:2px 10px;border:2px solid #1674c5;border-radius:12px;
-  background:linear-gradient(90deg,#d8efff 0%,#c6e5ff 50%,#d8efff 100%);
+  background:#ffffff;
   color:#071d4d;font-size:clamp(14px,4vw,18px);line-height:1.1;white-space:nowrap;font-weight:850;
 }
 #mailOnizlemeTablo .mail-onizleme-tarih-grup,#mailOnizlemeTablo .mail-onizleme-saat-grup{
@@ -680,7 +680,7 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani .mail-onizleme-tarih-saat{
   min-height:33px;box-sizing:border-box;width:100%;display:flex;align-items:center;justify-content:center;
   gap:10px;padding:2px 10px;border:2px solid #1674c5;border-radius:12px;
-  background:linear-gradient(90deg,#d8efff 0%,#c6e5ff 50%,#d8efff 100%);
+  background:#ffffff;
   color:#071d4d;font-size:18px;line-height:1.1;white-space:nowrap;font-weight:850;
 }
 #belgeGorselAlani .mail-onizleme-tarih-grup,#belgeGorselAlani .mail-onizleme-saat-grup{
