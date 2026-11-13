@@ -852,3 +852,10 @@
   .bo-teklif-tarih-ikon svg, .bo-teklif-saat-ikon svg { width: 18px; height: 18px; }
   .bo-teklif-ayrac { margin: 0 1px; }
 }
+
+/* Önizleme işlem etiketi yazı renkleri — yalnızca başlık metni renklendirilir. */
+.belge-onizleme-sayfa .bo-teklif-baslik.tip-siparis { color: #38469a; }
+.belge-onizleme-sayfa .bo-teklif-baslik.tip-teklif { color: #249147; }
+.belge-onizleme-sayfa .bo-teklif-baslik.tip-numune { color: #e57373; }
+.belge-onizleme-sayfa .bo-teklif-baslik.tip-proforma { color: #e8690a; }
+.belge-onizleme-sayfa .bo-teklif-baslik.tip-kacan { color: #7e57c2; }
