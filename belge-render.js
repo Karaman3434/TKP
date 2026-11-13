@@ -374,7 +374,7 @@ function belgeyiCiz(kayit, musteri){
       ? (TipEtiket.buyukAl(kayit.tip) || "BELGE")
       : "BELGE";
     var teklifUstHtml = "<section class='bo-teklif-ust'>"
-      + "<h1 class='bo-teklif-baslik'>" + htmlEsc(belgeBaslikMetni) + "</h1>"
+      + "<h1 class='bo-teklif-baslik tip-" + htmlEsc(kayit.tip || "siparis") + "'>" + htmlEsc(belgeBaslikMetni) + "</h1>"
       + "<div class='bo-teklif-tarih-saat'>"
       + "<span class='bo-teklif-tarih-ikon' aria-hidden='true'><svg viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2'></rect><path d='M16 3v4M8 3v4M3 10h18M8 15l2 2 4-4'></path></svg></span>"
       + "<strong>" + htmlEsc(teklifTarih) + "</strong>"
