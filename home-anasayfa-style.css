@@ -764,3 +764,7 @@ body.as-drawer-kilit { overflow: hidden; }
   .as-tarih-gun-yeni { font-size:16px; }
   .as-tarih-ayyil { font-size:18px; }
 }
+
+
+/* Üst döviz paneli ile tarih bannerı arasında toplam boşluk 1mm olsun. */
+.as-panel-satir { padding-bottom:0!important; }
