@@ -134,7 +134,7 @@ function uaSonuclariCiz(){
         : "";
       html += "<tr>"
         + "<td class='product-cell" + (webAcVarMi && !ekMi ? " product-cell--tikla" : "") + "' data-idx='" + idx + "'" + (ekMi ? " data-ek-satir='1'" : "") + " title='" + (webAcVarMi && !ekMi ? "dokununca WEICON sayfası açılır" : "") + "'>"
-        + "<div class='tablo-kod'>" + ekRozet + "<span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + htmlEsc(bilgi.berta||"-") + "</span> <span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + htmlEsc(bilgi.abas||"-") + "</span></div>"
+        + "<div class='tablo-kod'>" + ekRozet + "<span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + htmlEsc(bilgi.berta||"-") + "</span><span class='kod-ayrac' aria-hidden='true'></span><span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + htmlEsc(bilgi.abas||"-") + "</span></div>"
         + "<div class='urun-adi'>" + htmlEsc(bilgi.ad) + "</div>"
         + "</td>"
         + "<td class='urun-islem-hucre'><div class='urun-islem-grup'>"
