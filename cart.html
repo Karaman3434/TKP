@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="calc-style.css?v=WG.011126.1022.1262">
 <link rel="stylesheet" href="belge-style.css?v=TKP.11.11.26-19:45.1581">
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.08.11.26-13:14.1505">
-<link rel="stylesheet" href="cart-style.css?v=TKP.13.11.26-13:45.1602">
+<link rel="stylesheet" href="cart-style.css?v=TKP.13.11.26-14:20.1603">
 <link rel="stylesheet" href="detail-style.css?v=TKP.11.11.26-15:39.1570">
 <!-- YENİ (12.10.2026, Abdullah onayı) — Belge Önizleme'de onaylanan açık
      gri zemin + türe-özel rozet renk tasarımı Sepet tablosuna taşındı.
@@ -70,7 +70,7 @@
      sabit üst şeridin en altına (arama kutusunun üstüne) taşındı. Aynı ID'ler —
      hesapla-popup.js aynen çalışır. Pencere açıkken: bu işleme özel kur seçimi;
      kapalıyken: günün kurları kartı (KurPanel). -->
-<button type="button" class="kur-ust-satir" id="hpKurRozetBtn">💱 Kur: <span id="hpKurDeger">-</span> <span class="kur-ust-ipucu" id="hpKurIpucu">— günün kurları için dokun</span></button>
+<button type="button" class="kur-ust-satir" id="hpKurRozetBtn"><span class="kur-ust-baslik"><strong>GÜNÜN DÖVİZ KURU</strong><small>Güncel EUR satış kuru</small></span><span class="kur-ust-deger"><b>🇪🇺 EUR</b><strong id="hpKurDeger">-</strong></span><span class="kur-ust-ipucu" id="hpKurIpucu">Değiştirmek için dokunun</span></button>
 </div>
 <!-- EKLENDİ (23.10.2026, "Menü her sayfada" — Abdullah'ın isteğiyle, mockup
      onaylandı: "Okey tamam kodlayalım") — çekmece menü artık SADECE Ana
@@ -469,7 +469,7 @@
 <script src="send-data.js?v=TKP.08.11.26-22:53.1517"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
 <script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
-<script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "🔍 Ürün Bul / Hesapla / Sepet"); RotaTakip.ciz("rotaSeridi"); });</script>
+<script>document.addEventListener("DOMContentLoaded", function(){ RotaTakip.kaydet("cart.html", "Ürün Hesapla"); RotaTakip.ciz("rotaSeridi"); });</script>
 <script src="kur-panel.js?v=TKP.11.11.26-09:13.1561"></script>
 <script src="cart-render.js?v=TKP.13.11.26-00:15.1587"></script>
 <script src="urun-arama.js?v=TKP.11.11.26-14:20.1566"></script>
