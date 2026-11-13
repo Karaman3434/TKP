@@ -242,7 +242,7 @@ var HesaplaPopup = (function(){
       var kodParcalari = [];
       if(urun.berta) kodParcalari.push("Berta: " + urun.berta);
       if(urun.abas) kodParcalari.push("Abas: " + urun.abas);
-      document.getElementById("hpUrunKod").textContent = kodParcalari.join(" · ");
+      document.getElementById("hpUrunKod").textContent = kodParcalari.join("   │   ");
 
       var listeFiyat = (duzenlenenIdx !== null) ? (urun.listeFiyat||0) : (urun.fiyat||0);
       document.getElementById("hpListeFiyat").value = listeFiyat;
