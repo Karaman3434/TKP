@@ -46,22 +46,21 @@ var KurPanel = (function(){
     st.textContent =
       ".as-kur-panel{cursor:pointer;}" +
       /* SABİT DÖVİZ PANELİ (09.11.2026, Abdullah onayı — mockup B): Ana Sayfa'da eski tek satırlık EUR kur kutusunun yerinde, hep açık. */
+      /* Mobil ana sayfa döviz şeridi — yalnızca #dovizSabitPanel alanını etkiler. */
       ".dv-sabit{width:100%;box-sizing:border-box;}" +
-      ".dv-kart{background:#fff;border:1.5px solid var(--renk-mavi,#1257c7);border-radius:12px;overflow:hidden;box-sizing:border-box;}" +
-      ".dv-ust{background:var(--renk-mavi,#1257c7);color:#fff;display:flex;align-items:center;gap:8px;padding:4px 6px 4px 12px;}" +
-      ".dv-baslik{flex:1;min-width:0;font-size:12px;font-weight:800;line-height:1.15;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}" +
-      ".dv-baslik small{font-size:10px;font-weight:500;opacity:.9;}" +
-      ".dv-tarih{font-size:10.5px;font-weight:700;opacity:.9;}" +
-      ".dv-btn{background:rgba(255,255,255,.2);border:none;border-radius:7px;color:#fff;min-width:30px;height:26px;font-size:13px;font-weight:800;padding:0 7px;cursor:pointer;flex-shrink:0;}" +
-      ".dv-iki{display:grid;grid-template-columns:1fr 1fr;}" +
-      ".dv-kutu{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 14px;color:#003a70;min-width:0;}" +
-      ".dv-kutu+.dv-kutu{border-left:1px solid #dde3ec;}" +
-      ".dv-kutu--eur{background:#fff6e0;}" +
-      ".dv-kod{font-size:14px;font-weight:800;white-space:nowrap;}" +
-      ".dv-kur{font-size:22px;font-weight:900;white-space:nowrap;}" +
-      ".dv-durum{grid-column:1 / -1;padding:12px;text-align:center;font-size:12px;font-weight:700;color:#8a8f98;}" +
+      ".dv-kart{display:grid;grid-template-columns:minmax(104px,1.08fr) minmax(0,1fr) minmax(0,1fr);align-items:stretch;width:100%;background:#eaf3ff;border:1.5px solid #2d70c7;border-radius:14px;overflow:hidden;box-sizing:border-box;box-shadow:0 2px 5px rgba(12,55,105,.12);}" +
+      ".dv-mobil-baslik{display:flex;align-items:center;justify-content:center;gap:4px;padding:7px 7px;background:linear-gradient(135deg,#174b91,#0c3672);color:#fff;font-size:11px;font-weight:900;line-height:1.15;}" +
+      ".dv-mobil-baslik span{display:block;}" +
+      ".dv-mobil-baslik .dv-btn{background:rgba(255,255,255,.18);border:0;border-radius:6px;color:#fff;min-width:21px;height:23px;font-size:12px;font-weight:800;padding:0 4px;cursor:pointer;flex:0 0 auto;}" +
+      ".dv-kurlar{display:contents;}" +
+      ".dv-kutu{display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 5px;color:#123b70;min-width:0;background:linear-gradient(180deg,#f8fbff,#e1efff);}" +
+      ".dv-kutu+.dv-kutu{border-left:1px solid #b9d0ec;}" +
+      ".dv-kod{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:900;white-space:nowrap;}" +
+      ".dv-bayrak{font-size:15px;line-height:1;}" +
+      ".dv-kur{font-size:16px;font-weight:900;letter-spacing:-.35px;white-space:nowrap;color:#123b70;font-variant-numeric:tabular-nums;}" +
+      ".dv-durum{grid-column:1 / -1;padding:10px 6px;text-align:center;font-size:11px;font-weight:700;color:#64748b;background:#f5f9ff;}" +
       ".dv-durum--hata{color:#c0392b;}" +
-      "@media (max-width:400px){.dv-kutu{padding:7px 9px;gap:4px;}.dv-kod{font-size:12.5px;}.dv-kur{font-size:19px;}}" +
+      "@media (max-width:380px){.dv-kart{grid-template-columns:minmax(94px,1.02fr) minmax(0,1fr) minmax(0,1fr);}.dv-mobil-baslik{font-size:10px;padding:6px 4px;}.dv-kutu{gap:3px;padding:6px 3px;}.dv-kod{font-size:9.5px;}.dv-bayrak{font-size:13px;}.dv-kur{font-size:14px;letter-spacing:-.5px;}}" +
       ".kp-perde{position:fixed;inset:0;z-index:6000;background:rgba(10,20,35,.32);}" +
       ".kp-kart{position:fixed;z-index:6001;left:1mm;right:1mm;top:calc(var(--ust-sabit-yukseklik,60px) + 8px);" +
         "width:auto;background:#fff;border-radius:12px;overflow:hidden;" +
@@ -238,16 +237,15 @@ var KurPanel = (function(){
     cssEkle();
     alan.innerHTML =
       "<div class='dv-kart' role='group' aria-label='Günün döviz kurları'>" +
-        "<div class='dv-ust'>" +
-          "<div class='dv-baslik'>Günün Döviz Kurları</div>" +
+        "<div class='dv-mobil-baslik'><span>Günün Döviz<br>Kurları</span>" +
           "<button type='button' class='dv-btn' aria-label='TCMB sayfasını tarayıcıda aç'>↗</button>" +
         "</div>" +
-        "<div class='dv-iki'><div class='dv-durum'>Kurlar yükleniyor…</div></div>" +
+        "<div class='dv-kurlar'><div class='dv-durum'>Kurlar yükleniyor…</div></div>" +
       "</div>";
     alan.querySelector(".dv-btn").onclick = function(){ window.open(TCMB_SAYFA, "_blank"); };
 
     function ciz(v, onbellektenMi){
-      var iki = alan.querySelector(".dv-iki");
+      var iki = alan.querySelector(".dv-kurlar");
       if(!iki) return;
       if(!v){
         iki.innerHTML = "<div class='dv-durum dv-durum--hata'>Kurlar şu an alınamadı. İnternet bağlantını kontrol et.</div>";
@@ -257,7 +255,7 @@ var KurPanel = (function(){
       DOVIZLER.forEach(function(d){
         if(d.kod !== "EUR" && d.kod !== "USD") return;
         if(!(v.satis[d.kod] > 0)) return;
-        html += "<div class='dv-kutu" + (d.kod === "EUR" ? " dv-kutu--eur" : "") + "'><span class='dv-kod'>" + d.bayrak + " " + d.kod + "</span><span class='dv-kur'>" + sayiYaz(v.satis[d.kod]) + "</span></div>";
+        html += "<div class='dv-kutu'><span class='dv-kod'><span class='dv-bayrak'>" + d.bayrak + "</span>" + d.kod + "</span><span class='dv-kur'>" + sayiYaz(v.satis[d.kod]) + "</span></div>";
       });
       iki.innerHTML = html || "<div class='dv-durum dv-durum--hata'>Kur verisi bulunamadı.</div>";
     }
