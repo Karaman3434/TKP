@@ -362,7 +362,12 @@
 .belge-musteri-ad,
 .cari-ad,
 .ck-isim-satir,
-.sr-firma-h {
+.belge-onizleme-sayfa .ck-isim-satir,
+.sr-firma-h,
+#islemlerListesi .sr-firma-h,
+#ayDetayListesi .sr-firma-h,
+#slListe .sr-firma-h,
+#ksListe .sr-firma-h {
   font-size: 26px !important;
   line-height: 1 !important;
 }
