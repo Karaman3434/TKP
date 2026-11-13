@@ -115,16 +115,22 @@ var IslemListesi = (function(){
     if(k._tutar > 0) return bakiyeIbaresi + fmt(k._tutar) + " €";
     return bakiyeIbaresi || "<span class='sr-tutar-yok'>—</span>";
   }
-  // Satır primi: ana sayfa ve aylık prim özetiyle aynı hesaplama kuralı.
+  // Belge önizlemesiyle birebir prim hesabı: her ürün satırının primi,
+  // kaydedilmiş belge kuru ile ayrı ayrı TL'ye çevrilip yuvarlanır; sonra toplanır.
   function primSatiriHTML(k){
     if(!k || k.tip !== "siparis" || k._beklemede) return "";
-    var prim = (k.urunler||[]).reduce(function(toplam,u){
-      if((u.iskonto||0) > 60) return toplam;
-      var satirPrimi = ((u.iskBirim||0)-(u.dipFiyat||0))*(u.adet||1)*0.22;
-      return toplam + (satirPrimi > 0 ? satirPrimi : 0);
+    var kur = Number(k._kur || k.kur || 0);
+    if(!(kur > 0)) return "";
+    var primTl = (k.urunler||[]).reduce(function(toplam,u){
+      var adet = u.adet || 0;
+      var netBirim = u.iskBirim !== undefined ? u.iskBirim : (u.listeFiyat || 0);
+      var mk = netBirim - (u.dipFiyat || 0);
+      var prim = ((u.iskonto || 0) > 60) ? 0 : mk * adet * 0.22;
+      var satirPrimTl = Math.round(prim * kur);
+      return toplam + (satirPrimTl > 0 ? satirPrimTl : 0);
     },0);
-    if(!(prim > 0)) return "";
-    return "<div class='sr-prim-satir'><span class='sr-prim-etiket'>PRİM</span><span class='sr-prim-tutar'>" + fmt(prim) + " €</span></div>";
+    if(!(primTl > 0)) return "";
+    return "<div class='sr-prim-satir'><span class='sr-prim-etiket'>PRİM</span><span class='sr-prim-tutar'>" + primTl.toLocaleString("tr-TR") + " TL</span></div>";
   }
   // ---- SATIR TASARIMI v3 (03.11.2026, Abdullah onayı — mockup "iki satır,
   // rota toplama bitişik"): 1. satır "MÜŞTERİ - İlçe / İL" (tek satır, alt
@@ -186,12 +192,12 @@ var IslemListesi = (function(){
     var m = rozetMeta(k);
     return "<div class='sr-satir" + (k._beklemede ? " sr-satir--beklemede" : "") + "' data-i='" + i + "' style='border-left-color:" + m.serit + ";'>"
       + "<div class='sr-ust'>"
-      +   "<div class='sr-firma-blok'><div class='sr-firma-h'>" + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml ? CustomerData.kodAdHtml(k.musteriId, k.musteri) : htmlEsc(k.musteri||"")) + "</div>" + (primSatiriGoster ? primSatiriHTML(k) : "") + "</div>"
+      +   "<div class='sr-firma-h'>" + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml ? CustomerData.kodAdHtml(k.musteriId, k.musteri) : htmlEsc(k.musteri||"")) + "</div>"
       +   "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
       + "</div>"
       + "<div class='sr-alt'>"
       +   "<div class='sr-rota'>" + rotaHTML(k) + "</div>"
-      +   "<div class='sr-tm'>" + kanalHarfHTML(k.kanal) + "<div class='sr-tutar-h'>" + tutarHucreHTML(k) + "</div>" + tlHucreHTML(k) + "</div>"
+      +   "<div class='sr-tm'>" + (primSatiriGoster ? primSatiriHTML(k) : "") + kanalHarfHTML(k.kanal) + "<div class='sr-tutar-h'>" + tutarHucreHTML(k) + "</div>" + tlHucreHTML(k) + "</div>"
       + "</div>"
       + "<div class='sr-ok-h'>&#8250;</div>"
       + "</div>";
