@@ -393,3 +393,89 @@
   .ht-ozet > * { gap:2px;padding:5px 1px;border-radius:9px; }
   .ht-ozet-oge i { font-size:14px; }
 }
+
+
+/* 13.11.2026 — Abdullah onaylı son tasarım: işlem/temas rozetleri köşelerde,
+   özet şeridi satış kutularının altında; takvim altında açıklama paneli yok. */
+.ht-sr-only {
+  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;
+  margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;border:0!important;
+}
+.ht-ay-baslik { min-height:40px; }
+.ht-ay-baslik .ht-nav-btn:first-child { margin-right:auto; }
+.ht-ay-baslik .ht-nav-btn:last-child { margin-left:auto; }
+.ht-ozet {
+  display:grid!important;grid-template-columns:1.05fr 1fr 1fr 1fr 1.18fr;
+  align-items:stretch;gap:4px;width:100%;margin:7px 0 8px;padding:5px;
+  border:1.5px solid #9dc8ef;border-radius:15px;
+  background:linear-gradient(180deg,#fafdff,#eaf3ff);
+  box-shadow:0 3px 9px rgba(10,47,92,.10),inset 0 1px 0 #fff;
+  box-sizing:border-box;font-size:clamp(9px,2.45vw,13px);
+}
+.ht-ozet[hidden] { display:none!important; }
+.ht-ozet > * {
+  min-width:0;display:flex;align-items:center;justify-content:center;gap:3px;
+  padding:5px 2px;border-radius:10px;white-space:nowrap;text-align:center;
+  box-sizing:border-box;font-weight:900;line-height:1.1;
+}
+.ht-ozet .ht-ozet-bugun {
+  border:1px solid #0b4d91;background:linear-gradient(145deg,#167fe0,#06366f);
+  color:#fff;padding:5px 3px;box-shadow:0 2px 5px rgba(0,43,93,.2);
+}
+.ht-ozet-oge--islem {
+  color:#064bba!important;background:linear-gradient(145deg,#e2f0ff,#c5e0ff)!important;
+  border:1px solid #91bfff;
+}
+.ht-ozet-oge--siparis {
+  color:#825000!important;background:linear-gradient(145deg,#fff4df,#ffe0a8)!important;
+  border:1px solid #f4d39b;
+}
+.ht-ozet-oge--temas {
+  color:#e66b00!important;background:linear-gradient(145deg,#fff0dc,#ffd7a5)!important;
+  border:1px solid #ffbd72;
+}
+.ht-ozet-oge--isgunu {
+  color:#064b9c!important;background:linear-gradient(145deg,#e6f3ff,#c4e2ff)!important;
+  border:1px solid #a5cffa;
+}
+.ht-ozet-oge--isgunu #isGunuDeger { font-size:1.15em;font-weight:950; }
+.ht-ozet-oge--isgunu .ht-isgunu-etiket { white-space:normal;text-align:left;line-height:1.05; }
+.ht-ozet-oge i { font-style:normal;font-size:clamp(14px,3.5vw,19px);margin:0;vertical-align:middle; }
+.ht-ozet-oge span { display:inline; }
+.ht-ozet-oge span[id] { font-variant-numeric:tabular-nums; }
+.ht-gun {
+  position:relative;min-height:48px;padding:17px 2px 4px!important;
+  display:flex;align-items:center;justify-content:center;box-sizing:border-box;
+}
+.ht-bildirim {
+  position:absolute;top:2px;left:3px;right:3px;height:20px;min-height:20px;
+  margin:0;padding:0;display:flex;align-items:flex-start;justify-content:space-between;
+  gap:3px;pointer-events:none;
+}
+.ht-rozet {
+  min-width:20px;height:19px;padding:0 4px;display:inline-flex;
+  align-items:center;justify-content:center;border-radius:7px;
+  font-size:11px;font-weight:950;line-height:1;border:1px solid transparent;
+  box-sizing:border-box;box-shadow:0 1px 3px rgba(0,0,0,.22);
+}
+.ht-rozet--islem {
+  background:linear-gradient(145deg,#1684ff,#0754c5);color:#fff;border-color:#06459f;
+}
+.ht-rozet--temas {
+  background:linear-gradient(145deg,#ffad32,#f07800);color:#fff;border-color:#d96300;
+}
+.ht-gun-no {
+  position:relative;z-index:1;display:block;text-align:center;line-height:1.05;
+  font-size:clamp(14px,3.6vw,19px);font-weight:950;
+}
+.ht-gun--bos .ht-bildirim { display:none!important; }
+@media (max-width:400px) {
+  .ht-ozet { grid-template-columns:1.02fr 1fr .95fr 1fr 1.15fr;gap:3px;padding:4px;margin:6px 0 7px;font-size:clamp(8.4px,2.35vw,11.5px); }
+  .ht-ozet > * { gap:2px;padding:5px 1px;border-radius:9px; }
+  .ht-ozet-oge i { font-size:14px; }
+  .ht-ozet-oge--isgunu .ht-isgunu-etiket { font-size:.92em; }
+  .ht-gun { min-height:45px;padding:16px 1px 3px!important; }
+  .ht-bildirim { top:2px;left:2px;right:2px;height:18px;min-height:18px; }
+  .ht-rozet { min-width:18px;height:17px;padding:0 3px;font-size:10px;border-radius:6px; }
+}
