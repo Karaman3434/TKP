@@ -1244,3 +1244,39 @@ body.cart-sayfa .kur-ust-ipucu {
   body.cart-sayfa .kur-ust-ipucu { font-size:10.8px; }
   .kur-ust-logo { font-size:18px; } .kur-ust-bayrak { font-size:19px; }
 }
+
+
+/* 13.11.2026 — ADET / İSKONTO KUTULARI EŞİT YÜKSEKLİK
+   Adet alanı, yeşil İskonto (%) kutusuyla aynı ölçüye getirilir. */
+.hesapla-kutu.hesapla-kutu--sepet .hc-grid-2 > .hc-kutu:has(#hpAdet) {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:74px;
+  min-height:74px;
+  padding:5px 8px 4px;
+  gap:3px;
+  overflow:visible;
+  box-sizing:border-box;
+}
+.hesapla-kutu.hesapla-kutu--sepet .hc-grid-2 > .hc-kutu:has(#hpAdet) .hc-kutu-etiket {
+  display:block;
+  flex:0 0 auto;
+  width:100%;
+  min-height:15px;
+  padding:2px 0 1px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:visible;
+  position:relative;
+  z-index:1;
+}
+.hesapla-kutu.hesapla-kutu--sepet .hc-grid-2 > .hc-kutu:has(#hpAdet) input {
+  flex:0 0 auto;
+  height:32px;
+  min-height:32px;
+  margin:0;
+  padding:0;
+  line-height:1.05;
+}
