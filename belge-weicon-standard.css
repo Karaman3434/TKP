@@ -1,0 +1,420 @@
+/*
+  belge-weicon-standard.css — WEICON onaylı fiyat teklifi tasarımı
+  Kapsam: yalnızca belge-onizleme.html / .belge-onizleme-sayfa.
+  Veri, hesaplama, kayıt ve ortak bileşen dosyalarına dokunmaz.
+*/
+.belge-onizleme-sayfa .sayfa {
+  background:#fff;
+  padding:10px 2mm 14px;
+  color:#102c50;
+}
+.belge-onizleme-sayfa .weicon-belge-ustluk {
+  width:100%;
+  margin:0 0 5mm;
+  background:#fff;
+}
+.belge-onizleme-sayfa .weicon-belge-marka-satir {
+  min-height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:2px 3px 8px;
+  box-sizing:border-box;
+}
+.belge-onizleme-sayfa .weicon-belge-logo {
+  display:block;
+  width:47%;
+  max-width:440px;
+  max-height:76px;
+  height:auto;
+  object-fit:contain;
+  object-position:left center;
+  flex:0 1 47%;
+}
+.belge-onizleme-sayfa .weicon-belge-dikey-ayrac {
+  width:2px;
+  height:48px;
+  flex:0 0 2px;
+  background:#0b2f5d;
+}
+.belge-onizleme-sayfa .weicon-belge-tur {
+  flex:1 1 auto;
+  min-width:0;
+  margin:0;
+  color:#071b3b;
+  font-size:clamp(18px,4.8vw,36px);
+  line-height:1.05;
+  font-weight:900;
+  letter-spacing:.15px;
+  text-align:center;
+  white-space:nowrap;
+}
+.belge-onizleme-sayfa .weicon-belge-marka-satir .ikon-grup {
+  flex:0 0 auto;
+  gap:0;
+}
+.belge-onizleme-sayfa .weicon-belge-marka-satir .ub-ayrinti-ikon {
+  width:32px;
+  height:32px;
+  padding:0;
+  justify-content:center;
+  border-radius:8px;
+  background:#0b3d73;
+  color:#fff;
+  font-size:0;
+}
+.belge-onizleme-sayfa .weicon-belge-marka-satir .ub-ayrinti-ikon span,
+.belge-onizleme-sayfa .weicon-belge-marka-satir .ub-ayrinti-ikon .ay-ok { display:none; }
+.belge-onizleme-sayfa .weicon-belge-tarih-serit {
+  min-height:40px;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:5px 10px;
+  border:1.5px solid #244c7a;
+  border-radius:10px;
+  background:#dce9f7;
+  color:#0b2f5d;
+  font-size:15px;
+  line-height:1.2;
+}
+.belge-onizleme-sayfa .weicon-belge-tarih-serit strong { font-weight:800; white-space:nowrap; }
+.belge-onizleme-sayfa .weicon-tarih-ikon,
+.belge-onizleme-sayfa .weicon-saat-ikon {
+  display:inline-flex;
+  width:24px;
+  height:24px;
+  flex:0 0 24px;
+  color:#0b2f5d;
+}
+.belge-onizleme-sayfa .weicon-tarih-ikon svg,
+.belge-onizleme-sayfa .weicon-saat-ikon svg {
+  width:100%; height:100%; fill:none; stroke:currentColor;
+  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+}
+.belge-onizleme-sayfa .weicon-saat-ikon { margin-left:12px; }
+.belge-onizleme-sayfa .weicon-revize-rozet {
+  margin-left:4px;
+  padding:2px 6px;
+  border-radius:5px;
+  background:#fce8e8;
+  color:#b42318;
+  font-size:10px;
+  font-weight:900;
+}
+.belge-onizleme-sayfa .weicon-cari-kart {
+  padding:0;
+  overflow:hidden;
+  background:#fff;
+  border:1.5px solid #173f70;
+  border-radius:12px;
+  margin-bottom:2mm;
+  box-sizing:border-box;
+}
+.belge-onizleme-sayfa .weicon-cari-baslik {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-height:34px;
+  padding:5px 12px;
+  background:#0b3d73;
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:.25px;
+  box-sizing:border-box;
+}
+.belge-onizleme-sayfa .weicon-cari-baslik-ikon {
+  display:inline-flex;
+  width:22px; height:22px; flex:0 0 22px;
+}
+.belge-onizleme-sayfa .weicon-cari-baslik-ikon svg {
+  width:100%; height:100%; fill:none; stroke:currentColor;
+  stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .belge-musteri-govde {
+  padding:6px 7px 7px;
+  background:#fff;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .musteri-serit {
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:5px 9px;
+  margin:0 0 2mm;
+  border:1px solid #244c7a;
+  border-radius:9px;
+  background:#fff;
+  box-sizing:border-box;
+  text-align:center;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .musteri-serit .ms-ad {
+  flex:1 1 auto;
+  color:#101f36;
+  font-size:15px;
+  font-weight:900;
+  text-align:center;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .musteri-serit .ms-kod { display:none; }
+.belge-onizleme-sayfa .weicon-cari-kart .musteri-serit .ms-ayrac,
+.belge-onizleme-sayfa .weicon-cari-kart .musteri-serit .ms-sehir { color:#334d6d; font-size:inherit; font-weight:800; }
+.belge-onizleme-sayfa .weicon-cari-kart .musteri-serit .bo-duzenle-hap {
+  width:27px; height:27px; min-width:27px;
+  padding:0; justify-content:center; right:4px;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .musteri-serit .bo-duzenle-hap span,
+.belge-onizleme-sayfa .weicon-cari-kart .musteri-serit .bo-duzenle-hap .ay-ok { display:none; }
+.belge-onizleme-sayfa .weicon-cari-kart .musteri-serit--duzenle-hapli { padding-right:38px; }
+.belge-onizleme-sayfa .weicon-cari-kart .ozet-satir-3 {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:0;
+  margin:0 0 2mm;
+  padding:0;
+  border:1px solid #244c7a;
+  border-radius:9px;
+  overflow:hidden;
+  background:#fff;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .ozet-alan {
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:6px 5px;
+  border:0;
+  border-radius:0;
+  background:#fff;
+  text-align:left;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .ozet-alan + .ozet-alan { border-left:1px solid #244c7a; }
+.belge-onizleme-sayfa .weicon-cari-kart .ozet-ikon { width:30px; height:30px; flex:0 0 30px; color:#1765bd; }
+.belge-onizleme-sayfa .weicon-cari-kart .ozet-alan:nth-child(2) .ozet-ikon { color:#e69a18; }
+.belge-onizleme-sayfa .weicon-cari-kart .ozet-alan:nth-child(3) .ozet-ikon { color:#168b49; }
+.belge-onizleme-sayfa .weicon-cari-kart .ozet-metin { min-width:0; width:auto; }
+.belge-onizleme-sayfa .weicon-cari-kart .ozet-baslik {
+  color:#102e55;
+  font-size:13px;
+  line-height:1.15;
+  font-weight:900;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .ozet-deger {
+  color:#172b46;
+  font-size:13px;
+  line-height:1.2;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .belge-adres-yetkili-cerceve {
+  margin:0;
+  padding:0;
+  border:1px solid #244c7a;
+  border-radius:9px;
+  overflow:hidden;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .ck-blok-etiket {
+  display:flex;
+  align-items:center;
+  min-height:27px;
+  margin:0;
+  padding:4px 10px;
+  background:#0b3d73;
+  color:#fff;
+  font-size:12.5px;
+  line-height:1.2;
+  font-weight:900;
+  box-sizing:border-box;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .ck-blok-etiket-ikon {
+  width:19px; height:19px; margin-right:7px; color:#fff;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .ck-blok-etiket-ikon svg { width:100%; height:100%; }
+.belge-onizleme-sayfa .weicon-cari-kart .ck-blok {
+  margin:0;
+  padding:6px 12px 7px;
+  background:#fff;
+  border:0;
+  border-bottom:1px solid #c8d4e2;
+  box-sizing:border-box;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .ck-blok:last-child { border-bottom:0; }
+.belge-onizleme-sayfa .weicon-cari-kart .ck-kart-liste { margin:0; padding:0; }
+.belge-onizleme-sayfa .weicon-cari-kart .ck-kart {
+  min-height:52px;
+  padding:0;
+  background:#fff;
+  color:#172b46;
+  font-size:13.5px;
+  line-height:1.35;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .ck-kart-iletisim {
+  margin-top:3px;
+  padding-top:2px;
+  color:#52647a;
+  font-size:11.5px;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .ck-kart-iletisim-ikon { color:#0b3d73; }
+.belge-onizleme-sayfa .weicon-cari-kart .ck-blok-etiket--yetkili { background:#0b3d73; color:#fff; }
+.belge-onizleme-sayfa .weicon-cari-kart .belge-yetkili-satir {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:4px 9px;
+  color:#172b46;
+  font-size:13px;
+  line-height:1.35;
+  font-weight:700;
+}
+.belge-onizleme-sayfa .weicon-cari-kart .belge-yetkili-detay { color:#52647a; font-size:12px; }
+.belge-onizleme-sayfa .weicon-cari-kart .ck-blok-etiket--not { background:#0b3d73; color:#fff; }
+.belge-onizleme-sayfa .weicon-cari-kart .belge-adres-bos { color:#718096; font-style:italic; }
+
+/* Ürün tablosu: referanstaki lacivert başlık, beyaz hücreler ve ince mavi ızgara. */
+.belge-onizleme-sayfa .belge-kart--urun-cerceveli {
+  margin:0 0 2mm;
+  padding:0;
+  border:1.5px solid #173f70;
+  border-radius:10px;
+  overflow:hidden;
+  background:#fff;
+}
+.belge-onizleme-sayfa .belge-urun-tablo th {
+  background:#0b3d73 !important;
+  color:#fff !important;
+  border-color:#8ea8c4 !important;
+  font-size:12px;
+  font-weight:900;
+  padding:6px 3px;
+}
+.belge-onizleme-sayfa .belge-urun-tablo td {
+  background:#fff !important;
+  color:#111c2d;
+  border-color:#9db2c9 !important;
+  padding:7px 4px;
+  font-size:12px;
+}
+.belge-onizleme-sayfa .belge-urun-tablo .kod-blok--b { color:#1264bf !important; background:transparent !important; }
+.belge-onizleme-sayfa .belge-urun-tablo .kod-blok--a { color:#d12c2c !important; background:transparent !important; }
+.belge-onizleme-sayfa .belge-urun-tablo .kod-harf { font-weight:900; }
+.belge-onizleme-sayfa .belge-urun-tablo .tablo-kod,
+.belge-onizleme-sayfa .belge-urun-tablo .kod-blok { background:transparent !important; }
+
+/* Genel toplam: aynı lacivert panelde, tüm mevcut prim/kur/toplam verileri korunur. */
+.belge-onizleme-sayfa .weicon-toplam-sarmal {
+  display:flex;
+  align-items:stretch;
+  gap:10px;
+  margin:0 0 2mm;
+  padding:8px 10px;
+  border-radius:11px;
+  background:#0b3d73;
+  box-sizing:border-box;
+}
+.belge-onizleme-sayfa .weicon-toplam-ikon {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 58px;
+  padding-right:9px;
+  border-right:1px solid rgba(255,255,255,.8);
+  color:#fff;
+}
+.belge-onizleme-sayfa .weicon-toplam-ikon svg {
+  width:48px; height:48px; fill:none; stroke:currentColor;
+  stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;
+}
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-kutu {
+  flex:1 1 auto;
+  min-width:0;
+  margin:0;
+  border-radius:0;
+  background:transparent;
+  overflow:visible;
+}
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-satir {
+  min-height:54px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:4px 2px;
+  color:#fff;
+}
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-prim-ic,
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-kur-ic {
+  padding:3px 7px;
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:7px;
+  background:transparent;
+  color:#fff;
+}
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-prim-etiket,
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-prim-deger,
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-kur-etiket,
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-kur-deger { color:#fff; }
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-prim-ic { background:transparent; }
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-etiket2 {
+  padding-left:10px;
+  border-left:1px solid rgba(255,255,255,.85);
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+}
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-euro2 { color:#fff; font-size:clamp(17px,4.4vw,27px); }
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-tl2,
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-kdv2 { color:#dce9f7; font-size:10px; }
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-deger { color:#fff; font-size:clamp(17px,4.4vw,27px); }
+.belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-etiket { color:#fff; font-size:12px; }
+
+@media (max-width:460px) {
+  .belge-onizleme-sayfa .sayfa { padding:8px 1.5mm 12px; }
+  .belge-onizleme-sayfa .weicon-belge-ustluk { margin-bottom:5mm; }
+  .belge-onizleme-sayfa .weicon-belge-marka-satir { min-height:55px; gap:7px; padding:0 1px 6px; }
+  .belge-onizleme-sayfa .weicon-belge-logo { width:45%; max-height:57px; }
+  .belge-onizleme-sayfa .weicon-belge-dikey-ayrac { height:37px; width:1.5px; flex-basis:1.5px; }
+  .belge-onizleme-sayfa .weicon-belge-tur { font-size:clamp(16px,4.4vw,21px); letter-spacing:0; }
+  .belge-onizleme-sayfa .weicon-belge-marka-satir .ub-ayrinti-ikon { width:27px; height:27px; }
+  .belge-onizleme-sayfa .weicon-belge-marka-satir .ub-ayrinti-ikon svg { width:16px; height:16px; }
+  .belge-onizleme-sayfa .weicon-belge-tarih-serit { min-height:37px; gap:6px; padding:4px 5px; font-size:12.5px; }
+  .belge-onizleme-sayfa .weicon-tarih-ikon,
+  .belge-onizleme-sayfa .weicon-saat-ikon { width:20px; height:20px; flex-basis:20px; }
+  .belge-onizleme-sayfa .weicon-saat-ikon { margin-left:4px; }
+  .belge-onizleme-sayfa .weicon-cari-baslik { min-height:31px; font-size:12.5px; }
+  .belge-onizleme-sayfa .weicon-cari-kart .belge-musteri-govde { padding:5px; }
+  .belge-onizleme-sayfa .weicon-cari-kart .musteri-serit .ms-ad { font-size:13px; }
+  .belge-onizleme-sayfa .weicon-cari-kart .ozet-alan { gap:4px; padding:5px 3px; }
+  .belge-onizleme-sayfa .weicon-cari-kart .ozet-ikon { width:24px; height:24px; flex-basis:24px; }
+  .belge-onizleme-sayfa .weicon-cari-kart .ozet-baslik { font-size:11.5px; }
+  .belge-onizleme-sayfa .weicon-cari-kart .ozet-deger { font-size:11.5px; }
+  .belge-onizleme-sayfa .weicon-cari-kart .ck-blok-etiket { min-height:25px; font-size:11.5px; }
+  .belge-onizleme-sayfa .weicon-cari-kart .ck-kart { min-height:46px; font-size:12px; }
+  .belge-onizleme-sayfa .weicon-cari-kart .ck-kart-iletisim { font-size:10.5px; }
+  .belge-onizleme-sayfa .weicon-cari-kart .belge-yetkili-satir { font-size:11.5px; }
+  .belge-onizleme-sayfa .weicon-cari-kart .belge-yetkili-detay { font-size:10.5px; }
+  .belge-onizleme-sayfa .belge-urun-tablo th { font-size:9.5px; padding:5px 2px; }
+  .belge-onizleme-sayfa .belge-urun-tablo td { font-size:10.5px; padding:5px 2px; }
+  .belge-onizleme-sayfa .weicon-toplam-sarmal { gap:6px; padding:6px; }
+  .belge-onizleme-sayfa .weicon-toplam-ikon { flex-basis:39px; padding-right:5px; }
+  .belge-onizleme-sayfa .weicon-toplam-ikon svg { width:36px; height:36px; }
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-satir { gap:4px; min-height:42px; }
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-prim-ic,
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-kur-ic { padding:2px 4px; }
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-prim-etiket,
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-kur-etiket { font-size:8px; }
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-prim-deger,
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-kur-deger { font-size:10px; }
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-etiket2 { font-size:10px; padding-left:5px; }
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-euro2,
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-deger { font-size:16px; }
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-tl2,
+  .belge-onizleme-sayfa .weicon-toplam-sarmal .belge-gt-kdv2 { font-size:8px; }
+}
