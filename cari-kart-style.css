@@ -801,3 +801,21 @@
   font-size: 11px;
   color: #64748b;
 }
+
+/* Ortak i bilgi tuşu ve açılır menü — Belge Önizleme standardı. */
+.ck-ust-bilgi { flex-shrink:0; }
+.ck-ust-bilgi svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.ck-ust-bilgi.ub-bilgi-secili { outline:3px solid #0ea5a4; outline-offset:1px; }
+.ck-bilgi-menu-zemin { position:fixed; inset:0; z-index:10020; background:transparent; }
+.ck-bilgi-menu-zemin[hidden] { display:none !important; }
+.ck-bilgi-menu { position:fixed; width:min(300px,calc(100vw - 16px)); padding:7px; background:#fff; border:1.5px solid #cbd5e1; border-radius:12px; box-shadow:0 8px 24px rgba(15,23,42,.22); }
+.ck-bilgi-menu-oge { width:100%; min-height:58px; display:flex; align-items:center; gap:10px; padding:9px 10px; border:0; border-radius:8px; background:#fff; color:#263548; text-align:left; cursor:pointer; font:inherit; }
+.ck-bilgi-menu-oge + .ck-bilgi-menu-oge { border-top:1px solid #e8edf3; }
+.ck-bilgi-menu-oge:active { background:#f1f5f9; }
+.ck-bilgi-menu-ikon { width:34px; height:34px; flex:0 0 34px; display:grid; place-items:center; border-radius:8px; font-size:19px; font-weight:800; }
+.ck-bilgi-menu-ikon--cari { color:#0d3d8c; background:#e8effb; }
+.ck-bilgi-menu-ikon--islem { color:#137a70; background:#e6f5f2; }
+.ck-bilgi-menu-metin { min-width:0; flex:1; display:flex; flex-direction:column; gap:3px; }
+.ck-bilgi-menu-metin strong { font-size:13px; font-weight:800; }
+.ck-bilgi-menu-metin small { font-size:11px; color:#718096; line-height:1.25; }
+.ck-bilgi-menu-ok { color:#64748b; font-size:22px; font-weight:700; }
