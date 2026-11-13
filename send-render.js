@@ -116,7 +116,8 @@ function mesajMetniOlustur(musteri, sepet, tip, kanal){
 // BÜYÜK HARF tam ad (SİPARİŞ / PROFORMA FATURA / NUMUNE / FİYAT TEKLİFİ), tek kaynak tip-etiketleri.js.
 var FORM_BASLIK = {
   siparis: TipEtiket.buyukAl("siparis"), teklif: TipEtiket.buyukAl("teklif"),
-  proforma: TipEtiket.buyukAl("proforma"), numune: TipEtiket.buyukAl("numune")
+  proforma: TipEtiket.buyukAl("proforma"), numune: TipEtiket.buyukAl("numune"),
+  kacan: TipEtiket.buyukAl("kacan")
 };
 // TÜRE ÖZEL RENK (12.10.2026, Abdullah onayı): "tip-<tip>" sınıfı eklendi —
 // gerçek renk belge-style.css'teki .belge-form-baslik.tip-* kurallarından
@@ -124,12 +125,8 @@ var FORM_BASLIK = {
 // TEK TASARIM (18.10.2026, Abdullah onayı): bu kutu artık Belge Önizleme'nin
 // ".belge-musteri-baslik" kutusuyla BİREBİR aynı — metin solda, WEICON
 // rozeti sağda (bkz. belge-style.css .belge-form-baslik).
-// GÜNCELLEME (19.10.2026, Abdullah onayı — "7 fotoğraf" turu): WEICON rozeti
-// kaldırıldı — altta ayrı bir kutuda tekrar gösterilen "FİYAT TEKLİFİ ·
-// tarih" şeridi de kaldırıldı (çift gösterimdi), o bilgi artık WEICON'un
-// olduğu yere, bu başlığın YANINA taşındı (sagMetin — Gönder'in canlı
-// önizlemesinde gerçek işlem kodu, giden görselde sadece tarih; bkz.
-// çağıran fonksiyonlar).
+// 14.11.2026 (Abdullah onayı): ürün tablosu üzerindeki eski tarih-saat
+// bilgisi kaldırılır; belge türü etiketi kalır ve işlem türüne göre renklenir.
 // ÇOKLU YETKİLİ (08.11.2026): popup'ta birden fazla yetkili seçildiyse hepsi, yoksa tek seçili.
 function seciliYetkililerDizisi(yetkililer, secim, tek){
   // 12.11.2026: çözüm tek kaynakta (CustomerData.seciliYetkilileriCoz) — önce ada göre, sonra indeks.
@@ -182,10 +179,9 @@ function kosulSatirlariniSigdir(kok){
 // görünür. Fatura/Teslimat/Yetkili seçim mantığı (adresleriBelirle/
 // seciliAdresler, weiconv2_secili_iletisim) DEĞİŞMEDİ.
 
-// Belge tipi + tarih/saat metni (27.09.2026) — hem Gönder ekranının canlı
-// önizlemesi (tamOnizlemeHtmlOlustur) hem de gönderilen gerçek görsel
-// (belgeGorselHtmlOlustur) AYNI biçimi kullanır. orijinalTarih verilirse
-// (Geçmişten tekrar paylaşım) o kullanılır — verilmezse "şu an" hesaplanır.
+// Belge türü etiketi (14.11.2026): Gönder/Mail önizlemesinde ve giden
+// görselde işlem türü etiketi korunur; ürün tablosu üzerindeki eski
+// tarih-saat satırı artık gösterilmez. Üst sipariş tarih alanı ayrı kalır.
 function tarihSaatStr(orijinalTarih){
   if(orijinalTarih) return orijinalTarih;
   var simdi = new Date();
@@ -225,7 +221,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
       + "<div class='belge-musteri-govde'>"
       + musteriBlokHtml
       + "</div>"
-      + formBaslikHtml(tip, tarihStrOnizleme, null)
+      + formBaslikHtml(tip, null, null)
       + "</div><div class='belge-kart-ayrac'></div>"
       + "<div class='belge-kart'>";
   } else {
@@ -238,7 +234,7 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, false, true, true);
     html = musteriBlokHtml
       + "<div class='belge-kart-ayrac'></div>"
-      + "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStrOnizleme, null) + "</div>"
+      + "<div class='belge-kart'>" + formBaslikHtml(tip, null, null) + "</div>"
       + "<div class='belge-kart-ayrac'></div>"
       + "<div class='belge-kart belge-kart--urun-cerceveli'>";
   }
@@ -390,7 +386,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
       + "<div class='belge-musteri-ad belge-musteri-ad--sade'>" + htmlEsc(musteri.ad) + "</div>"
       + (musteri.sehir ? "<div class='belge-musteri-sehir'>" + htmlEsc(musteri.sehir) + "</div>" : "")
       + "</div>"
-      + formBaslikHtml(tip, tarihStr, null)
+      + formBaslikHtml(tip, null, null)
       + "</div>";
     cariGovdeHtml = "";
   } else {
@@ -407,7 +403,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     // Gönder'in canlı önizlemesi, Belge Önizleme) bunu geçmediği için
     // hepsi eskisi gibi boşsa "Girilmemiş" göstermeye devam eder.
     cariBaslikHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, true, true, true);
-    cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + "<div class='belge-kart'>" + formBaslikHtml(tip, tarihStr, null) + "</div>";
+    cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + "<div class='belge-kart'>" + formBaslikHtml(tip, null, null) + "</div>";
   }
 
   // "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı — v5 mockup, program
