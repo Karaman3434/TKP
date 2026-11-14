@@ -1,63 +1,86 @@
 /*
-  rota-takip.js
-  =============
-  Tıklanabilir "rota şeridi" — Abdullah'ın isteğiyle (15.09.2026) eski statik
-  gri ".rota-etiketi" yazısının yerine geçiyor. Ziyaret edilen sayfalar
-  sessionStorage'da bir yığın olarak tutulur; her durak kendi sayfasına
-  giden bir bağlantı olur, en sondaki (şu an bulunulan sayfa) tıklanamaz.
-
-  Kullanım (her sayfanın kendi <script> bloğunda, DOMContentLoaded içinde):
-    RotaTakip.kaydet("cart.html", "Sepet");
-    RotaTakip.ciz("rotaSeridi");
-
-  Ana Sayfa'ya dönüldüğünde (sifirlaMi=true) yığın temizlenir — "Ana
-  Sayfa'ya gitmek zaten benim rotamı sıfırlamak istediğim an" (Abdullah).
-  Aynı sayfaya tekrar gelinirse (örn. geri gidip farklı bir yoldan aynı
-  sayfaya varılırsa) yığın o noktada kesilir, sonsuza kadar büyümez.
+  rota-takip.js — İŞ TAKİP / ROTA PANELİ
+  Rota paneli yalnızca mevcut sayfayı ve o sayfaya gelinen gezinme yolunu gösterir.
+  Önceki duraklar tıklanabilir; son durak aktif sayfadır.
 */
 var RotaTakip = (function(){
   var ANAHTAR = "weiconv2_rota_yigin";
 
   function yiginiOku(){
-    try{ return JSON.parse(sessionStorage.getItem(ANAHTAR)||"[]"); }catch(e){ return []; }
+    try {
+      var veri = JSON.parse(sessionStorage.getItem(ANAHTAR) || "[]");
+      return Array.isArray(veri) ? veri.filter(function(x){ return x && x.href && x.etiket; }) : [];
+    } catch(e) { return []; }
   }
   function yiginiYaz(yigin){
-    try{ sessionStorage.setItem(ANAHTAR, JSON.stringify(yigin)); }catch(e){}
+    try { sessionStorage.setItem(ANAHTAR, JSON.stringify(yigin)); } catch(e) {}
   }
-
   function kaydet(href, etiket, sifirlaMi){
     var yigin = sifirlaMi ? [] : yiginiOku();
     var mevcutIdx = -1;
-    for(var i=0;i<yigin.length;i++){ if(yigin[i].href === href){ mevcutIdx = i; break; } }
-    if(mevcutIdx !== -1){
-      yigin = yigin.slice(0, mevcutIdx+1);
-    } else {
-      yigin.push({href: href, etiket: etiket});
+    for(var i=0;i<yigin.length;i++){
+      if(yigin[i].href === href){ mevcutIdx = i; break; }
     }
+    if(mevcutIdx !== -1) yigin = yigin.slice(0, mevcutIdx + 1);
+    else yigin.push({href: href, etiket: etiket});
     yiginiYaz(yigin);
     return yigin;
   }
-
   function sifirla(){ yiginiYaz([]); }
 
-  function ciz(konteynerId){
-    var yigin = yiginiOku();
-    var el = document.getElementById(konteynerId);
-    if(!el || yigin.length === 0) return;
-    var mevcut = yigin[yigin.length-1];
-    // GUNCELLENDI (01.11.2026, Abdullah onayi — birlesik ust bar mockup'i):
-    // eskiden burada "<isim> › <ebeveyn rotasi>" breadcrumb zinciri yazılırdı
-    // (ayrı turuncu .sayfa-rota-serit şeridi içinde, bolca yer vardı). Artık
-    // bu etiket üst bardaki dar .ub-sayfa-etiket kutusuna taşındı — sadece
-    // o anki sayfa adı gösteriliyor, zincir metni (rota) artık YAZILMIYOR.
-    // Başındaki emoji de (tüm üst bar etiketleriyle tutarlı olsun diye)
-    // ekrana basılırken ayıklanıyor — yığında (sessionStorage) tam etiket
-    // hâlâ saklanıyor, sadece görünen metin sadeleşti.
-    var temizEtiket = mevcut.etiket.replace(/^\S+\s+/, function(ilkKelime){
-      return /[A-Za-zÇĞİIÖŞÜçğıiöşü]/.test(ilkKelime) ? ilkKelime : "";
-    });
-    el.innerHTML = "<span>" + temizEtiket + "</span>";
+  function gorunenEtiket(etiket){
+    return String(etiket || "").replace(/^\S+\s+/, function(ilk){
+      return /[A-Za-zÇĞİIÖŞÜçğıiöşü]/.test(ilk) ? ilk : "";
+    }).trim();
   }
+  function stilEkle(){
+    if(document.getElementById("rotaPanelStili")) return;
+    var css = document.createElement("style");
+    css.id = "rotaPanelStili";
+    css.textContent = [
+      ".ub-sayfa-etiket.rota-panel{order:5;flex:0 0 100%;width:100%;height:auto;min-width:0;margin:0;padding:1mm;display:flex;align-items:center;justify-content:flex-start;gap:1mm;box-sizing:border-box;background:#e0730f;border:0;border-radius:0;overflow-x:auto;overflow-y:hidden;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;}",
+      ".ub-sayfa-etiket.rota-panel::-webkit-scrollbar{display:none;}",
+      ".rota-panel-durak{display:inline-flex;align-items:center;flex:0 0 auto;min-width:0;color:#fff;text-decoration:none;font-size:12px;font-weight:700;line-height:1.2;padding:0;margin:0;white-space:nowrap;background:transparent;border:0;}",
+      ".rota-panel-durak--aktif{font-size:15px;font-weight:900;}",
+      ".rota-panel-ayrac{display:inline-block;flex:0 0 1px;width:1px;height:13px;background:rgba(255,255,255,.85);margin:0 1mm;}",
+      ".rota-panel-durak:focus-visible{outline:2px solid #fff;outline-offset:2px;border-radius:2px;}"
+    ].join("");
+    document.head.appendChild(css);
+  }
+  function ciz(konteynerId){
+    var el = document.getElementById(konteynerId);
+    if(!el) return;
+    var yigin = yiginiOku();
+    if(!yigin.length){ el.textContent = ""; return; }
+    stilEkle();
+    el.classList.add("rota-panel");
+    el.setAttribute("aria-label", "Bulunduğunuz sayfa ve gezinme rotası");
+    el.replaceChildren();
 
-  return { kaydet: kaydet, ciz: ciz, sifirla: sifirla };
+    yigin.forEach(function(durak, index){
+      if(index > 0){
+        var ayirac = document.createElement("span");
+        ayirac.className = "rota-panel-ayrac";
+        ayirac.setAttribute("aria-hidden", "true");
+        el.appendChild(ayirac);
+      }
+      var metin = gorunenEtiket(durak.etiket);
+      if(index === yigin.length - 1){
+        var aktif = document.createElement("span");
+        aktif.className = "rota-panel-durak rota-panel-durak--aktif";
+        aktif.textContent = metin;
+        aktif.setAttribute("aria-current", "page");
+        el.appendChild(aktif);
+      } else {
+        var baglanti = document.createElement("a");
+        baglanti.className = "rota-panel-durak";
+        baglanti.href = durak.href;
+        baglanti.textContent = metin;
+        el.appendChild(baglanti);
+      }
+    });
+    // En son durak görünür kalsın; uzun rotalarda panel yatay kaydırılabilir.
+    el.scrollLeft = el.scrollWidth;
+  }
+  return {kaydet:kaydet, ciz:ciz, sifirla:sifirla};
 })();
