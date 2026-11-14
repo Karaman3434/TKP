@@ -63,6 +63,7 @@
 #mailOnizlemeTablo .mail-onizleme-tarih-saat,
 #belgeGorselAlani .mail-onizleme-tarih-saat,
 .belge-onizleme-sayfa .bo-teklif-tarih-saat{
+  background:#ffffff !important;
   box-sizing:border-box !important;
   height:var(--onayli-tarih-yukseklik) !important;
   min-height:var(--onayli-tarih-yukseklik) !important;
