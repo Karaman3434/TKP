@@ -1467,3 +1467,70 @@ body.cart-sayfa .kur-sr-only {
     --ub-b: min(58.08px, calc((100vw - 5mm - 6px - 24px - 5px - 8px - 6px - 4px) / 7.2));
   }
 }
+
+
+/* 14.11.2026 — Sepet ekranı düzeltmeleri: kodların dikey dizilimi,
+   ortak tarih paneli ölçüsü, 3mm üst boşluk ve ortalı geçmiş penceresi. */
+body.cart-sayfa .belge-td-urun-kod {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:center;
+  gap:1px;
+  white-space:normal !important;
+  line-height:1.05 !important;
+}
+body.cart-sayfa .belge-td-urun-kod .kod-ayrac { display:none !important; }
+body.cart-sayfa .belge-td-urun-kod .kod-blok { display:block !important; white-space:nowrap; }
+
+/* Tarih paneli, ortak belge başlık şeritleriyle aynı 40px ölçü standardında. */
+body.cart-sayfa .cart-tarih-paneli {
+  min-height:40px !important;
+  height:40px;
+  margin:1mm 0 !important;
+  padding:2.5px 16px !important;
+  box-sizing:border-box !important;
+  border-radius:12px !important;
+  border-width:1.5px !important;
+  font-size:13.2px !important;
+  gap:3mm !important;
+}
+body.cart-sayfa .cart-tarih-takvim,
+body.cart-sayfa .cart-tarih-saat-ikon { font-size:16px !important; }
+
+/* İşlem etiketi ile üst kur alanı arasında en az 3mm nefes alanı. */
+body.cart-sayfa #hpKurRozetBtn { margin-top:3mm !important; }
+
+/* Geçmiş alımları penceresi: sağ/sol kenara bağlı değil, ekranın tam ortasında. */
+body.cart-sayfa .cart-gecmis-popover:not([hidden]) {
+  position:fixed !important;
+  inset:0 !important;
+  z-index:100500 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:16px 12px !important;
+  box-sizing:border-box !important;
+  overflow-y:auto !important;
+  background:rgba(7,22,43,.48) !important;
+  pointer-events:auto !important;
+}
+body.cart-sayfa .cart-gecmis-popover > .tip-secim-kutu {
+  position:relative !important;
+  inset:auto !important;
+  left:auto !important;
+  top:auto !important;
+  transform:none !important;
+  flex:0 1 480px !important;
+  width:100% !important;
+  max-width:480px !important;
+  max-height:min(78dvh,680px) !important;
+  overflow:auto !important;
+  margin:0 !important;
+  padding:10px 8px 12px !important;
+  border:1.5px solid #174b86 !important;
+  border-radius:14px !important;
+  box-shadow:0 10px 30px rgba(0,0,0,.28) !important;
+  background:#fff !important;
+}
+body.cart-sayfa .cart-gecmis-popover .data-table-container { overflow-x:auto !important; }
