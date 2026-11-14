@@ -498,3 +498,54 @@
   .ht-bildirim { height:16px!important;min-height:16px!important; }
   .ht-rozet { min-width:17px;height:16px;font-size:9.5px; }
 }
+
+
+/* ABDULLAH ONAYI — TAKVİM BEYAZ ZEMİN / DURUMA GÖRE KALIN ÇERÇEVE
+   Geçmiş hafta içi: mavi çerçeve; hafta sonu: kırmızı çerçeve;
+   gelecek hafta içi: yeşil çerçeve; bugün: sarı zemin.
+   Gün kutularının iç zemini beyaz, çerçeveler 3px kalınlığındadır. */
+.ht-gun:not(.ht-gun--bos) {
+  box-sizing: border-box !important;
+  background: #ffffff !important;
+  color: #102f5d !important;
+  border-width: 3px !important;
+  border-style: solid !important;
+  border-radius: 9px !important;
+}
+.ht-gun--gecmis:not(.ht-gun--bugun) {
+  background: #ffffff !important;
+  color: #102f5d !important;
+  border-color: #1769c2 !important;
+}
+.ht-gun--kalan:not(.ht-gun--bugun) {
+  background: #ffffff !important;
+  color: #102f5d !important;
+  border-color: #20b96b !important;
+}
+.ht-gun--tatil:not(.ht-gun--bugun) {
+  background: #ffffff !important;
+  color: #102f5d !important;
+  border-color: #e64b52 !important;
+}
+.ht-gun--bugun,
+.ht-gun--bugun.ht-gun--kalan,
+.ht-gun--bugun.ht-gun--tatil,
+.ht-gun--bugun.ht-gun--gecmis {
+  background: #ffe600 !important;
+  color: #102f5d !important;
+  border: 3px solid #102f5d !important;
+}
+.ht-gun:not(.ht-gun--bos) .ht-gun-no,
+.ht-gun--kalan:not(.ht-gun--bugun) .ht-gun-no,
+.ht-gun--gecmis:not(.ht-gun--bugun) .ht-gun-no,
+.ht-gun--tatil:not(.ht-gun--bugun) .ht-gun-no {
+  color: #102f5d !important;
+  font-weight: 900 !important;
+}
+.ht-gun--bugun .ht-gun-no {
+  color: #102f5d !important;
+  font-weight: 900 !important;
+}
+.ht-gun--secili:not(.ht-gun--bugun) {
+  box-shadow: inset 0 0 0 1px rgba(16,47,93,.12) !important;
+}
