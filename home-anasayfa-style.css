@@ -768,3 +768,145 @@ body.as-drawer-kilit { overflow: hidden; }
 
 /* Üst döviz paneli ile tarih bannerı arasında toplam boşluk 1mm olsun. */
 .as-panel-satir { padding-bottom:0!important; }
+
+
+/* ABDULLAH ONAYI — ANA SAYFA KURUMSAL RENK STANDARDI 14.11.2026 */
+:root {
+  --as-kurumsal-lacivert:#123B70;
+  --as-kurumsal-mavi:#1769C2;
+  --as-kurumsal-acik-mavi:#27A9D2;
+  --as-kurumsal-yesil:#20B96B;
+  --as-kurumsal-kirmizi:#E64B52;
+  --as-kurumsal-zemin:#F3F6FA;
+}
+body:has(.as-sayfa) { background:var(--as-kurumsal-zemin) !important; }
+body:has(.as-sayfa) .app-ust-sabit {
+  background:var(--as-kurumsal-zemin) !important;
+}
+body:has(.as-sayfa) .app-ust-sabit .ub-bar {
+  background:#fff !important;
+  border:1px solid #d9e3ef !important;
+  border-radius:15px !important;
+  box-shadow:0 2px 7px rgba(18,59,112,.09) !important;
+}
+body:has(.as-sayfa) .app-ust-sabit .ub-btn--menu {
+  background:var(--as-kurumsal-lacivert) !important;
+}
+body:has(.as-sayfa) .app-ust-sabit .ub-btn--geri {
+  background:var(--as-kurumsal-mavi) !important;
+}
+body:has(.as-sayfa) .app-ust-sabit .ub-btn--bekle {
+  background:var(--as-kurumsal-yesil) !important;
+}
+body:has(.as-sayfa) .app-ust-sabit .ub-btn--kapat {
+  background:var(--as-kurumsal-kirmizi) !important;
+}
+.as-sayfa {
+  background:var(--as-kurumsal-zemin) !important;
+  color:var(--as-kurumsal-lacivert) !important;
+}
+.as-sayfa .as-panel-satir { margin-bottom:6px !important; }
+.as-sayfa #dovizSabitPanel .dv-kart {
+  background:#fff !important;
+  border:1.5px solid var(--as-kurumsal-mavi) !important;
+  border-bottom:2px solid var(--as-kurumsal-lacivert) !important;
+  border-radius:13px !important;
+  box-shadow:0 2px 5px rgba(18,59,112,.07) !important;
+}
+.as-sayfa #dovizSabitPanel .dv-mobil-baslik {
+  background:var(--as-kurumsal-lacivert) !important;
+  color:#fff !important;
+}
+.as-sayfa #dovizSabitPanel .dv-kutu {
+  background:#fff !important;
+  color:var(--as-kurumsal-lacivert) !important;
+  border-bottom:0 !important;
+}
+.as-sayfa #dovizSabitPanel .dv-kutu+.dv-kutu {
+  border-left:1px solid #d9e3ef !important;
+}
+.as-sayfa #dovizSabitPanel .dv-kod,
+.as-sayfa #dovizSabitPanel .dv-kur { color:var(--as-kurumsal-lacivert) !important; }
+
+.as-sayfa .as-tarih-panel {
+  background:var(--as-kurumsal-mavi) !important;
+  border:1px solid #0f58a9 !important;
+  box-shadow:0 2px 5px rgba(18,59,112,.12) !important;
+}
+.as-sayfa .as-tarih-ikon {
+  background:rgba(255,255,255,.14) !important;
+  box-shadow:none !important;
+}
+.as-sayfa .as-hedef-kart {
+  background:var(--as-kurumsal-lacivert) !important;
+  border:1px solid #0d315d !important;
+  box-shadow:0 3px 8px rgba(18,59,112,.12) !important;
+}
+.as-sayfa .as-hedef-tutar,
+.as-sayfa .as-hedef-birim { color:#fff !important; opacity:1 !important; }
+.as-sayfa .as-satis-tut--tl { color:#8cc9ee !important; }
+.as-sayfa .as-satis-tut--eur { color:#fff !important; }
+.as-sayfa .as-hedef-bar-track { background:rgba(255,255,255,.22) !important; }
+.as-sayfa .as-hedef-bar-dolu { background:var(--as-kurumsal-yesil) !important; }
+.as-sayfa .as-hedef-daire {
+  background:var(--as-kurumsal-yesil) !important;
+  color:#fff !important;
+  border:2px solid #fff !important;
+}
+.as-sayfa .as-hedef-rozet {
+  background:rgba(255,255,255,.13) !important;
+  color:#fff !important;
+}
+.as-sayfa .as-kart {
+  border:1px solid rgba(18,59,112,.12) !important;
+  box-shadow:0 2px 5px rgba(18,59,112,.08) !important;
+}
+.as-sayfa .as-kart--satis { background:var(--as-kurumsal-mavi) !important; }
+.as-sayfa .as-kart--satis .as-kart-etiket,
+.as-sayfa .as-kart--satis .as-kart-deger { color:#fff !important; }
+.as-sayfa .as-kart--prim { background:var(--as-kurumsal-yesil) !important; }
+.as-sayfa .as-kart--prim .as-kart-etiket,
+.as-sayfa .as-kart--prim .as-kart-deger { color:#fff !important; }
+
+.as-sayfa .ht-ozet {
+  background:#fff !important;
+  border:1px solid #d8e2ee !important;
+  box-shadow:0 2px 5px rgba(18,59,112,.06) !important;
+}
+.as-sayfa .ht-ozet .ht-ozet-bugun {
+  background:#eaf2fb !important;
+  border:1px solid var(--as-kurumsal-mavi) !important;
+  color:var(--as-kurumsal-lacivert) !important;
+}
+.as-sayfa .ht-ozet-oge--islem,
+.as-sayfa .ht-ozet-oge--siparis,
+.as-sayfa .ht-ozet-oge--temas,
+.as-sayfa .ht-ozet-oge--isgunu {
+  background:#f7f9fc !important;
+  color:var(--as-kurumsal-lacivert) !important;
+  border:1px solid #dce5ef !important;
+}
+.as-sayfa .ht-ozet-oge--islem i { color:var(--as-kurumsal-mavi) !important; }
+.as-sayfa .ht-ozet-oge--siparis i { color:var(--as-kurumsal-acik-mavi) !important; }
+.as-sayfa .ht-ozet-oge--temas i { color:var(--as-kurumsal-yesil) !important; }
+.as-sayfa .ht-ozet-oge--isgunu i { color:var(--as-kurumsal-mavi) !important; }
+
+.as-sayfa .as-tak-btn {
+  background:var(--as-kurumsal-lacivert) !important;
+  border:1px solid #0c315f !important;
+  box-shadow:0 2px 6px rgba(18,59,112,.12) !important;
+}
+.as-sayfa .as-tak-rozet {
+  background:var(--as-kurumsal-kirmizi) !important;
+}
+.as-sayfa .as-tak-pop {
+  border-color:var(--as-kurumsal-lacivert) !important;
+}
+.as-sayfa .as-liste-panel {
+  background:#fff !important;
+  border:1px solid #dce5ef !important;
+}
+.as-sayfa .as-liste-satir--uyari { border-color:var(--as-kurumsal-kirmizi) !important; }
+@media (max-width:400px) {
+  .as-sayfa .as-tarih-panel { background:var(--as-kurumsal-mavi) !important; }
+}
