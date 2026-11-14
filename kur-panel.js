@@ -235,30 +235,37 @@ var KurPanel = (function(){
     var alan = document.getElementById("dovizSabitPanel");
     if(!alan) return;
     cssEkle();
+    // Tek satırlı panel iskeleti ilk çizimde hazır kur kutularıyla oluşturulur.
+    // Veri gelince yalnızca rakamlar güncellenir; ikinci satır / yükleniyor bandı eklenmez.
     alan.innerHTML =
       "<div class='dv-kart' role='group' aria-label='Günün döviz kurları'>" +
         "<div class='dv-mobil-baslik'><span class='dv-logo' aria-hidden='true'>💱</span><span>Günün Döviz<br>Kurları</span>" +
           "<button type='button' class='dv-btn' aria-label='TCMB sayfasını tarayıcıda aç'>↗</button>" +
         "</div>" +
-        "<div class='dv-kurlar'><div class='dv-durum'>Kurlar yükleniyor…</div></div>" +
+        "<div class='dv-kurlar'>" +
+          "<div class='dv-kutu'><span class='dv-kod'><span class='dv-bayrak'>🇪🇺</span>EUR</span><span class='dv-kur' id='hpKurDeger'>—</span></div>" +
+          "<div class='dv-kutu'><span class='dv-kod'><span class='dv-bayrak'>🇺🇸</span>USD</span><span class='dv-kur' id='hpUsdDeger'>—</span></div>" +
+        "</div>" +
       "</div>";
     alan.querySelector(".dv-btn").onclick = function(ev){ if(ev){ ev.stopPropagation(); } window.open(TCMB_SAYFA, "_blank"); };
 
     function ciz(v, onbellektenMi){
-      var iki = alan.querySelector(".dv-kurlar");
-      if(!iki) return;
-      if(!v){
-        iki.innerHTML = "<div class='dv-durum dv-durum--hata'>Kurlar şu an alınamadı. İnternet bağlantını kontrol et.</div>";
+      var eur = alan.querySelector("#hpKurDeger");
+      var usd = alan.querySelector("#hpUsdDeger");
+      if(!eur || !usd) return;
+      // Veri alınamazsa kutular ve panel ölçüsü korunur; yalnız rakam yerinde çizgi kalır.
+      if(!v || !v.satis){
+        eur.textContent = "—";
+        usd.textContent = "—";
         return;
       }
-      var html = "";
-      DOVIZLER.forEach(function(d){
-        if(d.kod !== "EUR" && d.kod !== "USD") return;
-        if(!(v.satis[d.kod] > 0)) return;
-        html += "<div class='dv-kutu'><span class='dv-kod'><span class='dv-bayrak'>" + d.bayrak + "</span>" + d.kod + "</span><span class='dv-kur'" + (d.kod === "EUR" ? " id='hpKurDeger'" : "") + ">" + sayiYaz(v.satis[d.kod]) + "</span></div>";
-      });
-      iki.innerHTML = html || "<div class='dv-durum dv-durum--hata'>Kur verisi bulunamadı.</div>";
+      eur.textContent = v.satis.EUR > 0 ? sayiYaz(v.satis.EUR) : "—";
+      usd.textContent = v.satis.USD > 0 ? sayiYaz(v.satis.USD) : "—";
     }
+    // Önce mevcut kayıtlı değerleri göster; ağdan gelen güncel değerler sonra aynı
+    // iki hücrenin rakamlarını günceller. İlk açılışta geniş / ikinci satırlı görünüm yok.
+    var ilkKayit = onbellekOku();
+    if(ilkKayit) ciz(ilkKayit, true);
     function yukle(){ veriGetir(ciz); }
     yukle();
     setInterval(yukle, TAZE_MS);
