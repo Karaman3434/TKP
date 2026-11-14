@@ -185,3 +185,35 @@
 /* eski emoji büyüteç (sağdaki) artık gereksiz — yerine soldaki gri çizgi büyüteç var */
 .arama-kutusu .arama-ikon,
 .ht-yaz--ara > span{ display:none !important; }
+
+
+/* ABDULLAH ONAYI — TÜM ARAMA ALANLARI 40PX
+   Ana sayfa açılır çekmecesindeki arama alanları bu ortak kurala dahil değildir. */
+.arama-kutusu,
+.arama-kutusu input,
+.musteri-sehir-filtre-kutu input,
+.gorev-arama-kutusu input,
+.islem-filtre-satiri input,
+.duzenle-urun-arama-input,
+#islemAra,
+#searchInput,
+.tarih-filtre-input,
+.ht-yaz--ara,
+input[placeholder*="ara" i]:not(.as-drawer input):not(.as-drawer-altmenu input){
+  box-sizing:border-box !important;
+  height:40px !important;
+  min-height:40px !important;
+}
+.arama-kutusu input,
+.musteri-sehir-filtre-kutu input,
+.gorev-arama-kutusu input,
+.islem-filtre-satiri input,
+.duzenle-urun-arama-input,
+#islemAra,
+#searchInput,
+.tarih-filtre-input,
+input[placeholder*="ara" i]:not(.as-drawer input):not(.as-drawer-altmenu input){
+  padding-top:1mm !important;
+  padding-bottom:1mm !important;
+}
+.ht-yaz--ara input{height:100% !important;min-height:0 !important;}
