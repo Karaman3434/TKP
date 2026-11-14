@@ -61,10 +61,8 @@ function hataGoster(mesaj){
 
 // SEPET ÜST TASARIMI: işlem türü etiketi ve beyaz tarih/saat paneli.
 function cartIslemEtiketiGuncelle(){
-  var el = document.getElementById("rotaSeridi");
-  if(el && typeof TipEtiket !== "undefined"){
-    el.textContent = TipEtiket.buyukAl(secilenTip) || "SİPARİŞ";
-  }
+  // Bu alan işlem türünü değil, kullanıcının bulunduğu sayfayı ve gezinme rotasını gösterir.
+  if(typeof RotaTakip !== "undefined") RotaTakip.ciz("rotaSeridi");
 }
 function cartTarihSaatGuncelle(){
   var d = new Date();
