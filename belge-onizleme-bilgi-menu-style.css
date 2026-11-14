@@ -26,3 +26,69 @@ body.belge-onizleme-sayfa #ayrintiAcilir::before {
     width: calc(100vw - 12px);
   }
 }
+
+
+/* ABDULLAH ONAYI — İ menüsünde iki kademeli işlem akışı.
+   İşlem Ayrıntı alt menüsü ilk bilgi penceresinin ÜSTÜNDE açılır. */
+body.belge-onizleme-sayfa #islemlerOverlay.acilir-menu-zemin {
+  z-index: 1210;
+  background: transparent;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir.acilir-menu {
+  width: 228px;
+  max-width: calc(100vw - 12px);
+  padding: 8px;
+  overflow: visible;
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.30);
+}
+body.belge-onizleme-sayfa #ayrintiAcilir::before {
+  display: none;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir::after {
+  content: "";
+  position: absolute;
+  left: var(--alt-ok-sol, 30px);
+  bottom: -8px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-right: 1px solid #d7dce3;
+  border-bottom: 1px solid #d7dce3;
+  transform: rotate(45deg);
+}
+body.belge-onizleme-sayfa #ayrintiAcilir .acilir-menu-oge {
+  min-height: 46px;
+  padding: 11px 7px;
+  margin-bottom: 6px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir .acilir-menu-oge:last-child {
+  margin-bottom: 0;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir #msDuzenle {
+  background: #edf4fc;
+  border: 1.5px solid #9bb9dc;
+  color: #174b83;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir #msIlerlet {
+  background: #e3f4ec;
+  border: 1.5px solid #20a36a;
+  color: #087b4a;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir #msIlerlet:disabled {
+  opacity: .48;
+  cursor: not-allowed;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir #msSil {
+  background: #fdeaea;
+  border: 1.5px solid #d64b4b;
+  color: #bd2525;
+}
+@media (max-width: 260px) {
+  body.belge-onizleme-sayfa #ayrintiAcilir.acilir-menu {
+    width: calc(100vw - 12px);
+  }
+}
