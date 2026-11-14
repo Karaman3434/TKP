@@ -58,6 +58,23 @@ function hataGoster(mesaj){
   setTimeout(function(){ kutu.remove(); }, 8000);
 }
 
+
+// SEPET ÜST TASARIMI: işlem türü etiketi ve beyaz tarih/saat paneli.
+function cartIslemEtiketiGuncelle(){
+  var el = document.getElementById("rotaSeridi");
+  if(el && typeof TipEtiket !== "undefined"){
+    el.textContent = TipEtiket.buyukAl(secilenTip) || "SİPARİŞ";
+  }
+}
+function cartTarihSaatGuncelle(){
+  var d = new Date();
+  var aylar = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+  var tarih = document.getElementById("cartTarihMetni");
+  var saat = document.getElementById("cartSaatMetni");
+  if(tarih) tarih.textContent = d.getDate() + " " + aylar[d.getMonth()] + " " + d.getFullYear();
+  if(saat) saat.textContent = String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+}
+
 function tarihiGuncelle(){
   try{
     var el = document.getElementById("gunTarihi");
@@ -195,7 +212,7 @@ function urunuHesaplamayaGonder(idx){
 // ama sepet tamam değilse buton görünür ama pasif/tıklanamaz kalır.
 function cariBilgiOzetiHtml(musteri, gonderDisabledMi){
   var izinVar = crIzinVarMi("sepetGonder");
-  return MusteriSeridi.html(musteri, {gecmisAsili: true, gonderButonu: izinVar, gonderDisabled: !!gonderDisabledMi});
+  return MusteriSeridi.html(musteri, {gonderButonu: izinVar, gonderDisabled: !!gonderDisabledMi});
 }
 
 // MÜŞTERİSİZ GÖNDER ŞERİDİ (01.11.2026, Abdullah onayı — mockup üzerinden):
@@ -223,15 +240,18 @@ function musterisizGonderSeridiHtml(tamamMi){
 // reports-data.js'te düzeltildi, bu popup da aynı düzeltilmiş veriyi
 // kullanıyor.
 var TIP_ETIKET_MUSTERI_GECMIS = TipEtiket.kisa;
-// Müşteri şeridine dokununca geçmiş alımlar açılır (05.11.2026, Abdullah onayı);
-// şeridin içindeki Gönder ikonu bundan ETKİLENMEZ.
-function musteriSeridiGecmisBagla(){
-  var serit = document.querySelector("#cariBilgiAlani .musteri-serit");
-  if(!serit) return;
-  serit.onclick = function(ev){
-    if(ev.target && ev.target.closest && ev.target.closest(".ms-gonder-btn")) return;
-    musteriGecmisiniAc();
-  };
+// Geçmiş ürün alımları yalnızca üst bardaki İ tuşundan açılır.
+function cartGecmisPopoverKonumla(){
+  var ov = document.getElementById("musteriGecmisOverlay");
+  var btn = document.getElementById("btnCartBilgi");
+  if(!ov || !btn) return;
+  var kutu = ov.querySelector(".tip-secim-kutu");
+  if(!kutu) return;
+  var r = btn.getBoundingClientRect();
+  var w = Math.min(window.innerWidth * 0.94, 440);
+  var left = Math.max(8, Math.min(r.left, window.innerWidth - w - 8));
+  kutu.style.left = left + "px";
+  kutu.style.top = (r.bottom + 7) + "px";
 }
 
 // İŞLEM GEÇMİŞİNDEN SEPETE EKLE (10.11.2026, Abdullah isteği): geçmiş tablosunda
@@ -344,6 +364,7 @@ function musteriGecmisiniAc(){
       }).join("");
     }
     document.getElementById("musteriGecmisOverlay").hidden = false;
+    cartGecmisPopoverKonumla();
   }catch(e){ hataGoster("İşlem geçmişi açılamadı: " + e.message); }
 }
 
@@ -403,6 +424,7 @@ function kodSeridiIptalEtkilesimBagla(container){
 function sayfayiCiz(){
   try{
     var liste = CartData.liste();
+    cartIslemEtiketiGuncelle();
     var bosMesaj = document.getElementById("sepetBosMesaj");
     var devamUyari = document.getElementById("devamUyari");
     var grupSariAlani = document.getElementById("grupSariAlani");
@@ -420,7 +442,6 @@ function sayfayiCiz(){
       // kutusunun altında görünür — ürün eklenmesi beklenmez.
       if(musteri){
         document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri, true);
-        musteriSeridiGecmisBagla();
       } else {
         document.getElementById("cariBilgiAlani").innerHTML = "";
       }
@@ -450,7 +471,6 @@ function sayfayiCiz(){
     // boştu).
     if(musteri){
       document.getElementById("cariBilgiAlani").innerHTML = cariBilgiOzetiHtml(musteri, !tamamMi);
-      musteriSeridiGecmisBagla();
       // EKLENDİ (27.10.2026, Abdullah onayı — "Yeni Rota" turu): isme
       // dokununca Cari Kart (fatura/teslimat/yetkili seçimi + not ekleme
       // için) AYRI bir sayfa olarak açılır — musteri-serit.js'e (11 sayfada
@@ -505,9 +525,6 @@ function sayfayiCiz(){
     // ETKİLENMEDİ, onlar hâlâ etiket geçiyor).
     grupSariAlani.innerHTML = bekleyenler.length === 0 ? "" : HareketTablo.grupHtml({
       tip: secilenTip,
-      seritEtiket: TIP_ETIKET_ROZET[secilenTip] || "",
-      seritTarih: kodTarihMetni,
-      seritKod: "(taslak)",
       urunler: bekleyenler,
       hesapla: function(){ return null; },
       zeminSinifi: "hareket-satir--sari"
@@ -1128,6 +1145,24 @@ document.addEventListener("DOMContentLoaded", function(){
   oncedenSecilenTipVarsaUygula();
   ilerletKaynagiVarsaSekmeAyarla();
   kurManuelOverlayBaglantilariKur();
+  cartIslemEtiketiGuncelle();
+  cartTarihSaatGuncelle();
+  setInterval(cartTarihSaatGuncelle, 15000);
+  var bilgiBtn = document.getElementById("btnCartBilgi");
+  if(bilgiBtn) bilgiBtn.addEventListener("click", function(){
+    if(!CustomerData.seciliyiOku()){
+      hataGoster("Geçmiş ürün alımlarını görmek için önce müşteri seçin.");
+      return;
+    }
+    var ov = document.getElementById("musteriGecmisOverlay");
+    if(ov && !ov.hidden){ ov.hidden = true; return; }
+    musteriGecmisiniAc();
+  });
+  var gecmisOv = document.getElementById("musteriGecmisOverlay");
+  if(gecmisOv) gecmisOv.addEventListener("click", function(ev){
+    if(ev.target === gecmisOv) gecmisOv.hidden = true;
+  });
+  window.addEventListener("resize", function(){ if(gecmisOv && !gecmisOv.hidden) cartGecmisPopoverKonumla(); });
   // NOT (01.11.2026): eski "btnMenu" id'si bugünkü üst-bar birleştirmesiyle
   // kaldırıldı (artık "btnAsMenuAc", menu-cekmece.js tarafından yönetiliyor)
   // — bu yüzden o bağlama burada artık YOK. "Kaydet"/"Gönder" statik
