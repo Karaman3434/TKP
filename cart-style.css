@@ -1684,7 +1684,7 @@ body.cart-sayfa #musteriGecmisOverlay .mg-urun .tablo-kod .kod-blok {
   outline-offset:2px;
 }
 .cart-sayfa .ub-sayfa-etiket.cart-islem-etiketi{
-  width:calc(100% - 16px);
-  margin:0 8px 1mm;
-  justify-content:center;
+  width:calc(100% - 16px) !important;
+  margin:0 8px 1mm !important;
+  justify-content:center !important;
 }
