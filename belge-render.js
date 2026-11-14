@@ -404,6 +404,9 @@ function belgeyiCiz(kayit, musteri){
         });
 
     document.getElementById("belgeIcerik").innerHTML = html;
+    if(window.RotaTakip && typeof RotaTakip.cizBelge === "function"){
+      RotaTakip.cizBelge("belgeRotaPaneli", kayit.musteri || (musteri && musteri.ad) || "");
+    }
     var beklemedeRozetBtn = document.getElementById("beklemedeRozetBtn");
     if(beklemedeRozetBtn){
       beklemedeRozetBtn.onclick = function(){ beklemedeNotAc(kayit); };
