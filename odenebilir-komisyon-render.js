@@ -1,5 +1,5 @@
 /*
-  odenebilir-komisyon-render.js — VERSİYON: TKP.14.11.26-21:51.1643
+  odenebilir-komisyon-render.js — VERSİYON: TKP.14.11.26-22:22.1644
   ================================================================
   04.11.2026 (Abdullah onayı — mockup üzerinden) YENİDEN TASARIM:
   1) FOTOĞRAF YÜKLEME / OCR KALDIRILDI (Tesseract, sıkıştırma, 1./2. Fotoğraf).
@@ -29,7 +29,15 @@ function hataGoster(mesaj){
 
 var AY_ADLARI = ["","Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
 
-function el(id){ return document.getElementById(id); }
+/* 14.11.2026: öğe sayfada yoksa (HTML ile JS farklı sürümde kalmışsa) sayfa çökmesin —
+   boş, ekranda görünmeyen bir yedek öğe döner ve eksik id konsola yazılır. */
+var __eksikIdler = {};
+function el(id){
+  var e = document.getElementById(id);
+  if(e) return e;
+  if(!__eksikIdler[id]){ __eksikIdler[id] = 1; try{ console.warn("odenebilir-komisyon: HTML'de öğe yok → " + id); }catch(_){} }
+  return document.createElement("div");
+}
 
 function fmtTL(n){
   return (n||0).toLocaleString("tr-TR", {minimumFractionDigits:2, maximumFractionDigits:2});
