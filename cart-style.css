@@ -1607,3 +1607,84 @@ body.cart-sayfa #musteriGecmisOverlay .mg-urun .tablo-kod .kod-blok {
   white-space:nowrap !important;
   font-size:11px !important;
 }
+
+
+/* İŞ TAKİP — SEPET HESAP ROTA TASARIMI (onaylı mobil tasarım)
+   Rota paneli, üst araç çubuğunun ALTINDA; sayfa etiketi ayrı satırdadır.
+   Yalnızca cart.html etkilenir. */
+.cart-sayfa #rotaPaneli.cart-rota-panel{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:1mm;
+  width:calc(100% - 16px);
+  min-width:0;
+  min-height:38px;
+  margin:0 8px 1mm;
+  padding:1mm;
+  box-sizing:border-box;
+  overflow-x:auto;
+  overflow-y:hidden;
+  white-space:nowrap;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  background:#e0730f;
+  border:1px solid #c5650c;
+  border-radius:12px;
+  color:#fff;
+}
+.cart-sayfa #rotaPaneli.cart-rota-panel::-webkit-scrollbar{display:none;}
+.cart-sayfa #rotaPaneli.cart-rota-panel .rota-panel-baslangic{
+  display:inline-flex;
+  flex:0 0 auto;
+  align-items:center;
+  margin:0 1mm 0 0;
+  padding:0;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1px;
+  line-height:1;
+}
+.cart-sayfa #rotaPaneli.cart-rota-panel .rota-panel-ayrac{
+  display:inline-block;
+  flex:0 0 1px;
+  width:1px;
+  height:13px;
+  margin:0 1mm;
+  padding:0;
+  background:rgba(255,255,255,.9);
+}
+.cart-sayfa #rotaPaneli.cart-rota-panel .rota-panel-durak{
+  display:inline-flex;
+  flex:0 0 auto;
+  align-items:center;
+  width:auto;
+  min-width:0;
+  max-width:none;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  line-height:1.2;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.cart-sayfa #rotaPaneli.cart-rota-panel .rota-panel-durak--aktif{
+  font-size:15px;
+  font-weight:900;
+}
+.cart-sayfa #rotaPaneli.cart-rota-panel .rota-panel-durak:focus-visible{
+  outline:2px solid #fff;
+  outline-offset:2px;
+}
+.cart-sayfa .ub-sayfa-etiket.cart-islem-etiketi{
+  width:calc(100% - 16px);
+  margin:0 8px 1mm;
+  justify-content:center;
+}
