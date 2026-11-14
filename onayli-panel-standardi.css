@@ -1,0 +1,196 @@
+/* onayli-panel-standardi.css — Abdullah onayı, 14.11.2026
+   Ortak kompakt panel standardı: yalnız görünüm; işlev/veri/hesaplama değişmez. */
+:root{
+  --onayli-panel-ic:1mm;
+  --onayli-panel-aralik:2mm;
+  --onayli-cari-yukseklik:38px;
+  --onayli-tarih-yukseklik:30px;
+  --onayli-islem-yazi:20px;
+  --onayli-cari-yazi:20px;
+  --onayli-sehir-yazi:14px;
+  --onayli-tarih-yazi:14px;
+}
+
+/* Müşteri cari şeridi */
+.musteri-serit{
+  box-sizing:border-box !important;
+  height:var(--onayli-cari-yukseklik) !important;
+  min-height:var(--onayli-cari-yukseklik) !important;
+  max-height:var(--onayli-cari-yukseklik) !important;
+  padding:var(--onayli-panel-ic) !important;
+  margin:0 0 var(--onayli-panel-aralik) !important;
+  gap:1mm !important;
+  align-items:center !important;
+}
+.musteri-serit .ms-ad{
+  font-size:var(--onayli-cari-yazi) !important;
+  line-height:1 !important;
+  min-width:0 !important;
+  padding:0 !important;
+}
+.musteri-serit .ms-sehir{
+  font-size:var(--onayli-sehir-yazi) !important;
+  line-height:1 !important;
+}
+.musteri-serit .ms-ayrac{font-size:var(--onayli-sehir-yazi) !important;}
+
+/* İşlem başlıkları — Sepet, Gönder/Mail ve Belge Önizleme */
+.cart-sayfa .ub-sayfa-etiket.cart-islem-etiketi,
+.belge-form-baslik,
+.belge-onizleme-sayfa .bo-teklif-baslik{
+  font-size:var(--onayli-islem-yazi) !important;
+  line-height:1.05 !important;
+  padding:var(--onayli-panel-ic) !important;
+  margin-bottom:var(--onayli-panel-aralik) !important;
+  box-sizing:border-box !important;
+}
+.cart-sayfa .ub-sayfa-etiket.cart-islem-etiketi{
+  height:var(--onayli-tarih-yukseklik) !important;
+  min-height:var(--onayli-tarih-yukseklik) !important;
+}
+.belge-form-baslik{
+  min-height:var(--onayli-tarih-yukseklik) !important;
+  height:var(--onayli-tarih-yukseklik) !important;
+  gap:1mm !important;
+}
+.belge-form-baslik-etiket{
+  font-size:var(--onayli-islem-yazi) !important;
+  line-height:1 !important;
+}
+
+/* Tarih / saat panelleri — bütün önizleme kanalları */
+.cart-sayfa .cart-tarih-paneli,
+#mailOnizlemeTablo .mail-onizleme-tarih-saat,
+#belgeGorselAlani .mail-onizleme-tarih-saat,
+.belge-onizleme-sayfa .bo-teklif-tarih-saat{
+  box-sizing:border-box !important;
+  height:var(--onayli-tarih-yukseklik) !important;
+  min-height:var(--onayli-tarih-yukseklik) !important;
+  max-height:var(--onayli-tarih-yukseklik) !important;
+  padding:var(--onayli-panel-ic) !important;
+  margin:0 0 var(--onayli-panel-aralik) !important;
+  gap:2mm !important;
+  font-size:var(--onayli-tarih-yazi) !important;
+  line-height:1 !important;
+}
+#mailOnizlemeTablo .mail-onizleme-tarih-grup,
+#mailOnizlemeTablo .mail-onizleme-saat-grup,
+#belgeGorselAlani .mail-onizleme-tarih-grup,
+#belgeGorselAlani .mail-onizleme-saat-grup{
+  gap:1mm !important;
+}
+#mailOnizlemeTablo .mail-onizleme-tarih-grup svg,
+#mailOnizlemeTablo .mail-onizleme-saat-grup svg,
+#belgeGorselAlani .mail-onizleme-tarih-grup svg,
+#belgeGorselAlani .mail-onizleme-saat-grup svg,
+.belge-onizleme-sayfa .bo-teklif-tarih-ikon svg,
+.belge-onizleme-sayfa .bo-teklif-saat-ikon svg{
+  width:16px !important;
+  height:16px !important;
+}
+#mailOnizlemeTablo .mail-onizleme-tarih-ayrac,
+#belgeGorselAlani .mail-onizleme-tarih-ayrac,
+.belge-onizleme-sayfa .bo-teklif-ayrac{
+  height:16px !important;
+  margin:0 1mm !important;
+}
+
+/* Başlık ile tarih satırı ve cari/ürün panelleri arasında tek 2mm aralık */
+#mailOnizlemeTablo .mail-onizleme-belge-baslik{
+  margin:0 0 var(--onayli-panel-aralik) !important;
+}
+#mailOnizlemeTablo .mail-onizleme-belge-baslik .belge-form-baslik,
+#belgeGorselAlani .mail-giden-belge-baslik .belge-form-baslik{
+  height:auto !important;
+  min-height:0 !important;
+  padding:0 !important;
+  margin:0 0 var(--onayli-panel-aralik) !important;
+  font-size:var(--onayli-islem-yazi) !important;
+  line-height:1.05 !important;
+}
+#mailOnizlemeTablo .mail-onizleme-belge-baslik .belge-form-baslik-etiket,
+#belgeGorselAlani .mail-giden-belge-baslik .belge-form-baslik-etiket{
+  font-size:var(--onayli-islem-yazi) !important;
+  line-height:1.05 !important;
+}
+.belge-onizleme-sayfa .bo-teklif-ust{
+  padding:1mm !important;
+}
+.belge-onizleme-sayfa .bo-teklif-baslik{
+  margin:0 0 var(--onayli-panel-aralik) !important;
+}
+
+/* Ürün arama kutuları: 40px. Ana sayfa açılır çekmece aramaları hariç tutulur. */
+body:not(.as-drawer) .arama-kutusu,
+body:not(.as-drawer) .arama-kutusu input,
+body:not(.as-drawer) .musteri-sehir-filtre-kutu input,
+body:not(.as-drawer) .gorev-arama-kutusu input,
+body:not(.as-drawer) .islem-filtre-satiri input,
+body:not(.as-drawer) .duzenle-urun-arama-input,
+body:not(.as-drawer) #islemAra,
+body:not(.as-drawer) #searchInput,
+body:not(.as-drawer) .tarih-filtre-input,
+body:not(.as-drawer) .ht-yaz--ara{
+  box-sizing:border-box !important;
+  height:40px !important;
+  min-height:40px !important;
+}
+body:not(.as-drawer) .arama-kutusu input,
+body:not(.as-drawer) .musteri-sehir-filtre-kutu input,
+body:not(.as-drawer) .gorev-arama-kutusu input,
+body:not(.as-drawer) .islem-filtre-satiri input,
+body:not(.as-drawer) .duzenle-urun-arama-input,
+body:not(.as-drawer) #islemAra,
+body:not(.as-drawer) #searchInput,
+body:not(.as-drawer) .tarih-filtre-input{
+  padding-top:1mm !important;
+  padding-bottom:1mm !important;
+}
+
+/* BERTA / ABAS kodları: ürün adının ÜSTÜNDE, alt alta, düz yazı.
+   BERTA mavi, ABAS kırmızı. Renkli zemin/etiket/kutu yok. */
+.tablo-kod,
+.belge-td-urun-kod{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  gap:0 !important;
+  margin:0 0 1px !important;
+  line-height:1.05 !important;
+  white-space:normal !important;
+}
+.tablo-kod .kod-blok,
+.belge-td-urun-kod .kod-blok{
+  display:block !important;
+  white-space:nowrap !important;
+  font-size:11px !important;
+  line-height:1.05 !important;
+  font-weight:800 !important;
+  background:transparent !important;
+  border:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+.tablo-kod .kod-blok--b,
+.belge-td-urun-kod .kod-blok--b{color:#1769d2 !important;}
+.tablo-kod .kod-blok--a,
+.belge-td-urun-kod .kod-blok--a{color:#c4161f !important;}
+.tablo-kod .kod-harf,
+.belge-td-urun-kod .kod-harf{
+  display:inline !important;
+  font-size:0 !important;
+  padding:0 !important;
+}
+.tablo-kod .kod-blok--b .kod-harf::after,
+.belge-td-urun-kod .kod-blok--b .kod-harf::after{
+  content:"BERTA ";
+  font-size:11px;
+}
+.tablo-kod .kod-blok--a .kod-harf::after,
+.belge-td-urun-kod .kod-blok--a .kod-harf::after{
+  content:"ABAS ";
+  font-size:11px;
+}
+.tablo-kod .kod-ayrac,
+.belge-td-urun-kod .kod-ayrac{display:none !important;}
