@@ -1385,3 +1385,78 @@ body.cart-sayfa .kur-sr-only {
   line-height: 1.12 !important;
   font-variant-numeric: tabular-nums;
 }
+
+
+/* ABDULLAH ONAYI — SEPET ÜST ALAN YENİ TASARIMI
+   Toolbar altında beyaz işlem etiketi; müşteri paneli altında beyaz tarih/saat;
+   geçmiş ürün alımları İ tuşunun altında açılır. */
+.cart-sayfa .ub-sayfa-etiket.cart-islem-etiketi {
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:38px;
+  box-sizing:border-box;
+  margin:0 !important;
+  padding:4px 8px !important;
+  background:#fff !important;
+  color:#173f7a !important;
+  border:1.5px solid #174b86 !important;
+  border-radius:11px !important;
+  font-size:22px !important;
+  font-weight:900 !important;
+  letter-spacing:.3px;
+}
+.cart-sayfa .cart-tarih-paneli {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  width:100%;
+  min-height:40px;
+  box-sizing:border-box;
+  margin:1mm 0 2mm;
+  padding:2px 7px;
+  background:#fff;
+  border:1.5px solid #174b86;
+  border-radius:11px;
+  color:#102f5d;
+  font-size:16px;
+  line-height:1.1;
+  white-space:nowrap;
+}
+.cart-sayfa .cart-tarih-paneli strong { font-weight:800; }
+.cart-sayfa .cart-tarih-takvim,
+.cart-sayfa .cart-tarih-saat-ikon { font-size:20px; color:#102f5d; }
+.cart-sayfa .cart-tarih-ayrac { width:1.5px; align-self:stretch; background:#174b86; margin:0 3px; }
+.cart-sayfa .cart-gecmis-popover {
+  position:fixed !important;
+  inset:0 !important;
+  z-index:100500 !important;
+  display:block;
+  background:transparent !important;
+  pointer-events:none;
+}
+.cart-sayfa .cart-gecmis-popover[hidden] { display:none !important; }
+.cart-sayfa .cart-gecmis-popover > .tip-secim-kutu {
+  position:absolute;
+  width:min(94vw,440px) !important;
+  max-width:min(94vw,440px) !important;
+  max-height:72vh !important;
+  overflow:auto !important;
+  margin:0 !important;
+  padding:10px 8px 12px !important;
+  background:#fff !important;
+  border:1.5px solid #174b86;
+  border-radius:12px !important;
+  box-shadow:0 8px 24px rgba(0,0,0,.24) !important;
+  pointer-events:auto;
+}
+.cart-sayfa .cart-gecmis-popover .data-table-container { overflow-x:auto; }
+.cart-sayfa #btnCartBilgi { flex:0 0 var(--ub-b,58.08px); }
+@media (max-width:390px) {
+  .cart-sayfa .cart-tarih-paneli { gap:6px; font-size:14px; }
+  .cart-sayfa .cart-tarih-takvim,
+  .cart-sayfa .cart-tarih-saat-ikon { font-size:18px; }
+  .cart-sayfa .ub-btn--bilgi { font-size:25px !important; }
+}
