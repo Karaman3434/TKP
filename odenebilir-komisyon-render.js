@@ -1,5 +1,5 @@
 /*
-  odenebilir-komisyon-render.js — VERSİYON: TKP.04.11.26-16:22.1471
+  odenebilir-komisyon-render.js — VERSİYON: TKP.14.11.26-21:51.1643
   ================================================================
   04.11.2026 (Abdullah onayı — mockup üzerinden) YENİDEN TASARIM:
   1) FOTOĞRAF YÜKLEME / OCR KALDIRILDI (Tesseract, sıkıştırma, 1./2. Fotoğraf).
@@ -193,6 +193,7 @@ function tumunuKaydetDene(){ slotKaydetDene("birinci"); slotKaydetDene("ikinci")
 function girisOlaylariniBagla(){
   ["birinci","ikinci"].forEach(function(slot){
     var tI = el(GIRISLER[slot].tarih), uI = el(GIRISLER[slot].tutar);
+    if(!tI || !uI) return;   /* 14.11.2026: öğe yoksa bu slotu atla, sayfa çökmesin */
     tI.addEventListener("input", function(){ tarihMaskele(tI); tI.classList.remove("ok-giris--hata"); tI.dataset.kirli = "1"; });
     uI.addEventListener("input", function(){ uI.classList.remove("ok-giris--hata"); uI.dataset.kirli = "1"; });
     uI.addEventListener("focus", function(){
@@ -425,13 +426,16 @@ window.addEventListener("error", function(ev){
 document.addEventListener("DOMContentLoaded", function(){
   var btnMenuEl = el("btnMenu");
   if(btnMenuEl) btnMenuEl.onclick = function(){ window.location.href = "menu.html"; };
-  el("btnBnEkstraEkle").onclick = ekstraEkleTiklandi;
+  /* 14.11.2026: bir öğe sayfada yoksa (eski/önbellekteki HTML) tüm sayfa çökmesin diye boş-güvenli bağlama */
+  function tikla(id, fn){ var e = el(id); if(e) e.onclick = fn; else try{ console.warn("odenebilir-komisyon: öğe yok → " + id); }catch(_){} }
+  tikla("btnBnEkstraEkle", ekstraEkleTiklandi);
   girisOlaylariniBagla();
 
-  el("okDonemOncekiBtn").onclick = function(){ okGezinmeOfset++; okGorunumCiz(); };
-  el("okDonemSonrakiBtn").onclick = function(){ okGezinmeOfset--; okGorunumCiz(); };
+  tikla("okDonemOncekiBtn", function(){ okGezinmeOfset++; okGorunumCiz(); });
+  tikla("okDonemSonrakiBtn", function(){ okGezinmeOfset--; okGorunumCiz(); });
   (function(){
     var bar = el("okUstEtiket");
+    if(!bar) return;
     var baslangicX = null, baslangicY = null;
     bar.addEventListener("touchstart", function(ev){
       var t = ev.touches[0];
