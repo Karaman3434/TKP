@@ -1549,7 +1549,7 @@ body.cart-sayfa .cart-tarih-paneli {
   gap:3mm !important;
   margin:1mm 0 !important;
 }
-body.cart-sayfa .cart-tarih-paneli strong { font-size:inherit !important; font-weight:800 !important; }
+body.cart-sayfa .cart-tarih-paneli strong { font-size:inherit !important; font-weight:var(--etiket-agirlik,700) !important; }
 body.cart-sayfa .cart-tarih-takvim,
 body.cart-sayfa .cart-tarih-saat-ikon { font-size:16px !important; }
 
