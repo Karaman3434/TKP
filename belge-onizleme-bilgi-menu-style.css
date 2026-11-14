@@ -1,0 +1,28 @@
+/* İŞ TAKİP — Belge Önizleme bilgi menüsü boyut/ok iyileştirmesi
+   Abdullah onayı: yatay +%20, dikey +%30; ok doğrudan üst bardaki İ tuşunu gösterir.
+   Yalnızca #ayrintiAcilir etkilenir; diğer açılır menüler korunur. */
+body.belge-onizleme-sayfa #ayrintiAcilir.acilir-menu {
+  width: 228px; /* 190px taban ölçünün %120'si */
+  max-width: calc(100vw - 12px);
+  padding: 8px;
+  box-sizing: border-box;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir .acilir-menu-oge {
+  min-height: 46px; /* üç işlem satırında yaklaşık %30 daha fazla dikey alan */
+  padding: 11px 6px;
+  margin-bottom: 6.5px;
+  box-sizing: border-box;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir .acilir-menu-ikon {
+  font-size: 16px;
+}
+/* Mevcut konumlandırma fonksiyonu oku İ tuşunun merkezine hizalar. */
+body.belge-onizleme-sayfa #ayrintiAcilir::before {
+  top: -7px;
+  left: var(--ok-sol, 20px);
+}
+@media (max-width: 260px) {
+  body.belge-onizleme-sayfa #ayrintiAcilir.acilir-menu {
+    width: calc(100vw - 12px);
+  }
+}
