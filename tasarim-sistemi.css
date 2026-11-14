@@ -371,3 +371,46 @@
   font-size: 26px !important;
   line-height: 1 !important;
 }
+
+
+/* ABDULLAH ONAYI — ÜRÜN BİLGİSİ TABLOLARI VE ÜRÜN LİSTELERİ %20
+   Yazı/rakamlar %20 büyütülür; tablo kolon genişliği ve dış ölçü korunur.
+   Dar hücrelerde taşmayı azaltmak için yalnız iç padding sıkılaştırılır. */
+.belge-urun-tablo th,
+.sepet-tablo th,
+.data-table th,
+.hit-urun-tablo th {
+  font-size: 1.2em !important;
+  padding: 3px 2px !important;
+}
+.belge-urun-tablo td,
+.sepet-tablo td,
+.data-table td,
+.hit-urun-tablo td {
+  font-size: 1.2em !important;
+  padding: 4px 2px !important;
+  font-variant-numeric: tabular-nums;
+}
+.belge-urun-tablo .belge-td-urun-kod,
+.belge-urun-tablo .belge-td-urun-kod .kod-harf {
+  font-size: 1.2em !important;
+}
+.belge-urun-tablo .belge-td-urun-ad,
+.sepet-tablo .sepet-urun-ad-tikla,
+.sepet-tablo .sepet-urun-ad,
+.hit-urun-tablo .hit-urun-sira-ad {
+  font-size: 1.2em !important;
+  line-height: 1.12 !important;
+}
+.belge-urun-tablo .belge-para-sayi,
+.belge-urun-tablo .belge-td-sayi,
+.sepet-tablo .sepet-net-deger,
+.data-table .tablo-fiyat,
+.hit-urun-tablo .hit-urun-adet {
+  font-size: 1.2em !important;
+  font-variant-numeric: tabular-nums;
+}
+.belge-urun-tablo .belge-para-birim,
+.belge-urun-tablo .belge-td-birim {
+  font-size: 1.2em !important;
+}
