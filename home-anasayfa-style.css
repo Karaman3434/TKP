@@ -910,3 +910,31 @@ body:has(.as-sayfa) .app-ust-sabit .ub-btn--kapat {
 @media (max-width:400px) {
   .as-sayfa .as-tarih-panel { background:var(--as-kurumsal-mavi) !important; }
 }
+
+
+/* ABDULLAH ONAYI — ANA SAYFA PANELLERİ DİKEYDE %10 DARALTILDI 14.11.2026 */
+/* Üst sabit Menü/Geri/Beklet/Kapat/İ tuşları bu düzenlemenin dışındadır.
+   Yalnızca panel yükseklikleri ve dikey iç boşluklar %10 azaltılır;
+   yatay ölçüler, yazı boyları ve işlevler korunur. */
+.as-sayfa #dovizSabitPanel .dv-mobil-baslik { padding-top:7.2px !important; padding-bottom:7.2px !important; }
+.as-sayfa #dovizSabitPanel .dv-kutu { padding-top:8.1px !important; padding-bottom:8.1px !important; }
+.as-sayfa .as-tarih-satir .as-tarih-panel {
+  min-height:57.6px !important;
+  padding-top:5.4px !important; padding-bottom:5.4px !important;
+}
+.as-sayfa .as-tarih-ikon { height:43.2px !important; }
+.as-sayfa .as-tarih-ikon svg { height:32.4px !important; }
+.as-sayfa .as-hedef-kart {
+  padding-top:9.9px !important; padding-bottom:9.9px !important;
+}
+.as-sayfa .as-hedef-deger-satir,
+.as-sayfa .as-hedef-bar-sarmal,
+.as-sayfa .as-hedef-ayrac-satir,
+.as-sayfa .as-prim-iki { margin-top:5.4px !important; }
+.as-sayfa .as-hedef-ayrac-satir { margin-bottom:4.5px !important; }
+.as-sayfa .as-kart { padding-top:9px !important; padding-bottom:9px !important; }
+.as-sayfa .ht-ozet { padding-top:3.6px !important; padding-bottom:3.6px !important; }
+.as-sayfa .ht-ozet > * { padding-top:4.5px !important; padding-bottom:4.5px !important; }
+.as-sayfa .as-tak-btn { height:41.4px !important; }
+.as-sayfa .as-liste-panel { padding-top:7.4px !important; padding-bottom:7.4px !important; }
+.as-sayfa .as-liste-satir { padding-top:9.2px !important; padding-bottom:9.2px !important; }
