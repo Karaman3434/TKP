@@ -1460,3 +1460,10 @@ body.cart-sayfa .kur-sr-only {
   .cart-sayfa .cart-tarih-saat-ikon { font-size:18px; }
   .cart-sayfa .ub-btn--bilgi { font-size:25px !important; }
 }
+
+/* Sepet üst barında 7 tuşun tek satırda kalması için telefon ölçüsü */
+@media (max-width: 479px) {
+  body.cart-sayfa .ub-bar:has(.ub-eylem .ub-btn:nth-child(2)) {
+    --ub-b: min(58.08px, calc((100vw - 5mm - 6px - 24px - 5px - 8px - 6px - 4px) / 7.2));
+  }
+}
