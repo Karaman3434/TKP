@@ -196,3 +196,92 @@
     document.addEventListener("DOMContentLoaded", function(){ tusBagla(); sistemGeriBagla(); });
   } else { tusBagla(); sistemGeriBagla(); }
 })();
+
+
+/* ROTA — ORTAK UYGULAMA STANDARDI (14.11.2026)
+   Bu ortak üst-bar dosyasını kullanan tüm ekranlarda, ayrıca sayfa bazlı
+   rota kodu eklenmemiş olsa bile ROTA şeridini otomatik hazırlar.
+   Sayfa bazlı rota-takip.js bulunan ekranların mevcut özel rotası korunur.
+   Yalnızca gezinme görünümüdür; veri ve işlem akışına müdahale etmez. */
+(function(){
+  try{
+    var rotaScriptVar = Array.prototype.some.call(document.scripts,function(s){
+      return /(?:^|\/)rota-takip\.js(?:\?|$)/i.test(s.getAttribute("src") || "");
+    });
+    if(rotaScriptVar) return;
+
+    var ANAHTAR = "weiconv2_rota_yigin";
+    function oku(){
+      try{
+        var a = JSON.parse(sessionStorage.getItem(ANAHTAR) || "[]");
+        return Array.isArray(a) ? a.filter(function(x){return x && x.href && x.etiket;}) : [];
+      }catch(e){return [];}
+    }
+    function yaz(a){try{sessionStorage.setItem(ANAHTAR,JSON.stringify(a));}catch(e){}}
+    function metinEtiketi(s){
+      s=String(s||"").trim();
+      var m=s.match(/^\S+\s+(.+)$/);
+      if(m && !/[A-Za-zÇĞİIÖŞÜçğıiöşü]/.test(s.split(/\s+/)[0])) s=m[1].trim();
+      if(s==="Müşteri Bul") s="Müşteri Ara";
+      return s;
+    }
+    function ciz(el,yigin){
+      if(!el || !yigin.length) return;
+      el.classList.add("rota-panel");
+      el.setAttribute("aria-label","Bulunduğunuz sayfa ve gezinme rotası");
+      el.replaceChildren();
+      var bas=document.createElement("span");
+      bas.className="rota-panel-baslangic"; bas.textContent="•••"; bas.setAttribute("aria-hidden","true"); el.appendChild(bas);
+      yigin.forEach(function(d,i){
+        if(i){
+          var sep=document.createElement("span"); sep.className="rota-panel-ayrac"; sep.setAttribute("aria-hidden","true"); el.appendChild(sep);
+        }
+        var label=metinEtiketi(d.etiket), uzak=yigin.length-1-i, fs=15*Math.pow(.8,uzak);
+        var a=document.createElement(i===yigin.length-1?"span":"a");
+        a.className="rota-panel-durak"+(i===yigin.length-1?" rota-panel-durak--aktif":"");
+        if(i===yigin.length-1) a.setAttribute("aria-current","page"); else a.href=d.href;
+        a.textContent=label; a.style.setProperty("font-size",fs.toFixed(1)+"px","important"); el.appendChild(a);
+      });
+      el.scrollLeft=el.scrollWidth;
+    }
+    function stil(){
+      if(document.getElementById("rotaOrtakStil")) return;
+      var s=document.createElement("style"); s.id="rotaOrtakStil";
+      s.textContent=[
+        ".ub-bar .ub-sayfa-etiket.rota-panel{order:5!important;flex:0 0 100%!important;width:100%!important;min-width:0!important;height:auto!important;min-height:30px!important;margin:0!important;padding:1mm!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:1mm!important;box-sizing:border-box!important;background:#e0730f!important;border:0!important;border-radius:0!important;overflow-x:auto!important;overflow-y:hidden!important;white-space:nowrap!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important;text-align:left!important;}",
+        ".ub-bar .ub-sayfa-etiket.rota-panel::-webkit-scrollbar{display:none!important;}",
+        ".ub-bar .ub-sayfa-etiket.rota-panel>.rota-panel-baslangic{display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;line-height:1!important;padding:0!important;margin:0 1mm 0 0!important;background:transparent!important;border:0!important;color:#fff!important;font-size:9px!important;font-weight:900!important;letter-spacing:1px!important;}",
+        ".ub-bar .ub-sayfa-etiket.rota-panel>.rota-panel-ayrac{display:inline-block!important;flex:0 0 1px!important;width:1px!important;height:13px!important;min-height:13px!important;margin:0 1mm!important;background:rgba(255,255,255,.9)!important;border:0!important;}",
+        ".ub-bar .ub-sayfa-etiket.rota-panel>.rota-panel-durak{display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;width:auto!important;max-width:none!important;min-width:0!important;height:auto!important;min-height:0!important;line-height:1.2!important;padding:0!important;margin:0!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;color:#fff!important;text-decoration:none!important;font-size:12px!important;font-weight:700!important;white-space:nowrap!important;}",
+        ".ub-bar .ub-sayfa-etiket.rota-panel>.rota-panel-durak--aktif{font-size:15px!important;font-weight:900!important;}",
+        ".ub-bar .ub-sayfa-etiket.rota-panel>.rota-panel-durak:focus-visible{outline:2px solid #fff!important;outline-offset:2px!important;}"
+      ].join("");
+      document.head.appendChild(s);
+    }
+    function baslat(){
+      var bar=document.querySelector(".ub-bar"); if(!bar) return;
+      stil();
+      var panel=bar.querySelector(".ub-sayfa-etiket");
+      if(!panel){
+        panel=document.createElement("div"); panel.className="ub-sayfa-etiket";
+        var grup=bar.querySelector(".ub-grup");
+        if(grup && grup.parentNode===bar) grup.insertAdjacentElement("afterend",panel); else bar.appendChild(panel);
+      }
+      var dosya=(location.pathname.split("/").pop()||"index.html");
+      var ana=dosya==="home.html" || dosya==="index.html";
+      var y=ana?[]:oku();
+      if(!ana){
+        var idx=-1;
+        for(var i=0;i<y.length;i++){if(y[i].href.split("?")[0]===dosya){idx=i;break;}}
+        if(idx>=0) y=y.slice(0,idx);
+        if(!y.length) y.push({href:"home.html",etiket:"Ana Sayfa"});
+      }
+      var mevcut=panel.textContent.trim();
+      var baslik=metinEtiketi(mevcut) || document.title.replace(/^İş Takip\s*[—-]\s*/i,"").trim() || dosya.replace(".html","");
+      y.push({href:dosya,etiket:ana?"Ana Sayfa":baslik});
+      yaz(y); ciz(panel,y);
+    }
+    if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",baslat,{once:true});
+    else baslat();
+  }catch(e){}
+})();
