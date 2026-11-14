@@ -100,7 +100,7 @@ var HareketTablo = (function(){
       var netTl = toplamVarMi ? netTlHtml(h.iskontoluFiyat, kur) : "";
       // DÜZELTME (15.10.2026, Abdullah onayı): harf (B/A) ile kod arasındaki
       // boşluk kaldırıldı — "B11550400 - A1000912233" gibi bitişik.
-      var urunHucre = "<td class='belge-td-urun'><div class='belge-td-urun-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span>" + htmlEsc(u.berta||"-") + "</span><span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span>" + htmlEsc(u.abas||"-") + "</span></div><div class='belge-td-urun-ad'>" + htmlEsc(u.ad) + "</div></td>";
+      var urunHucre = "<td class='belge-td-urun'><div class='belge-td-urun-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span>" + htmlEsc(u.berta||"-") + "</span><span class='kod-ayrac' aria-hidden='true'></span><span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span>" + htmlEsc(u.abas||"-") + "</span>" + "</div><div class='belge-td-urun-ad'>" + htmlEsc(u.ad) + "</div></td>";
       if(basit){
         return "<tr class='" + (zeminSinifi||"") + "'>"
           + urunHucre
