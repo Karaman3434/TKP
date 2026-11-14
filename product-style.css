@@ -590,3 +590,11 @@ button.ek-rozet { cursor: pointer; }
    ürün adı etiketleri arasındaki dikey boşluklar −%20: satır aralığı 1.3→1.04,
    hücre üst/alt dolgusu 6→4.8px (yukarıdaki td kuralı). */
 #uaAramaSonucAlani .tablo-kod { font-size: 12.67px; line-height: 1.04; letter-spacing: -.4px; }   /* 13.11.2026 (Abdullah): Berta/Abas kodu +%10 (11.52 → 12.67) */
+
+
+/* ABDULLAH ONAYI — ÜRÜN ARAMA/LİSTE SATIRLARI %20 YAZI BÜYÜTME.
+   Satır/kutu genişliği korunur; uzun kod ve fiyatlar için harf aralığı sıkı. */
+.urun-adi { font-size: 14.04px; line-height: 1.12; letter-spacing: -.25px; }
+.tablo-kod { font-size: 11.52px; line-height: 1.12; letter-spacing: -.25px; }
+.tablo-fiyat { font-size: 12.96px; font-variant-numeric: tabular-nums; letter-spacing: -.25px; }
+.tablo-fiyat--buyuk { font-size: 12.24px; font-variant-numeric: tabular-nums; letter-spacing: -.35px; }
