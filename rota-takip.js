@@ -52,22 +52,17 @@ var RotaTakip = (function(){
     ].join("");
     document.head.appendChild(css);
   }
-  function ciz(konteynerId){
-    var el = document.getElementById(konteynerId);
-    if(!el) return;
-    var yigin = yiginiOku();
-    if(!yigin.length) return;
+  function cizYigin(el,yigin){
+    if(!el || !yigin.length) return;
     stilEkle();
     el.classList.add("rota-panel");
     el.setAttribute("aria-label","Bulunduğunuz sayfa ve gezinme rotası");
     el.replaceChildren();
-
     var baslangic = document.createElement("span");
     baslangic.className = "rota-panel-baslangic";
     baslangic.textContent = "•••";
     baslangic.setAttribute("aria-hidden","true");
     el.appendChild(baslangic);
-
     yigin.forEach(function(durak,index){
       if(index > 0){
         var ayirac = document.createElement("span");
@@ -76,6 +71,7 @@ var RotaTakip = (function(){
         el.appendChild(ayirac);
       }
       var metin = gorunenEtiket(durak.etiket);
+      if(metin === "Müşteri Bul") metin = "Müşteri Ara";
       var uzaklik = yigin.length - 1 - index;
       var boyut = 15 * Math.pow(0.8,uzaklik);
       var oge;
@@ -94,5 +90,27 @@ var RotaTakip = (function(){
     });
     el.scrollLeft = el.scrollWidth;
   }
-  return {kaydet:kaydet,ciz:ciz,sifirla:sifirla};
+  function ciz(konteynerId){
+    var el = document.getElementById(konteynerId);
+    cizYigin(el,yiginiOku());
+  }
+  function cizBelge(konteynerId,musteriAdi){
+    var yigin = yiginiOku().filter(function(d){ return d.href !== "belge-onizleme.html"; });
+    if(!yigin.length || yigin[0].href !== "home.html"){
+      yigin.unshift({href:"home.html",etiket:"Ana Sayfa"});
+    }
+    var musteri = String(musteriAdi || "").trim();
+    if(musteri){
+      var son = yigin[yigin.length-1];
+      if(son && son.href === "customer-hub.html"){
+        son.etiket = musteri;
+      } else if(!son || son.etiket !== musteri){
+        yigin.push({href:"customer-hub.html",etiket:musteri});
+      }
+    }
+    yigin.push({href:"belge-onizleme.html",etiket:"İŞLEM ÖNİZLEME"});
+    yiginiYaz(yigin);
+    cizYigin(document.getElementById(konteynerId),yigin);
+  }
+  return {kaydet:kaydet,ciz:ciz,cizBelge:cizBelge,sifirla:sifirla};
 })();
