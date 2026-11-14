@@ -400,3 +400,16 @@
   font-size: 1.2em !important;
   font-variant-numeric: tabular-nums;
 }
+
+
+/* ABDULLAH ONAYI — 5 SAYFADA MENÜ MÜŞTERİ YAZISIYLA EŞİT 14.5px */
+/* Menü müşteri arama satırındaki 14.5px / 700 ağırlık referans alınmıştır. */
+body:has(.vt-grup) .vt-ad,
+#islemlerListesi .sr-firma-h,
+.as-drawer-mini-sonuc-panel .musteri-firma-h,
+.tg-cari-metin .cari-isim {
+  font-family: inherit !important;
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+}
