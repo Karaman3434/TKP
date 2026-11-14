@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.13.11.26-08:45.1588 — cart.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.15.11.26-00:01.1645 — cart.html -->
 <!--
   27.10.2026 PERFORMANS KAZANIMI: html2canvas'ın bu sayfada en baştan
   yüklenen statik <script> etiketi kaldırıldı — artık cart-render.js'teki
@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="calc-style.css?v=WG.011126.1022.1262">
 <link rel="stylesheet" href="belge-style.css?v=TKP.14.11.26-PRODUCT-CODES11-VALUES14">
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.14.11.26-NAME-26PX">
-<link rel="stylesheet" href="cart-style.css?v=ROTA-CART-01">
+<link rel="stylesheet" href="cart-style.css?v=TKP.15.11.26-00:01.1645">
 <link rel="stylesheet" href="detail-style.css?v=TKP.11.11.26-15:39.1570">
 <!-- YENİ (12.10.2026, Abdullah onayı) — Belge Önizleme'de onaylanan açık
      gri zemin + türe-özel rozet renk tasarımı Sepet tablosuna taşındı.
@@ -67,8 +67,7 @@
     <button type="button" class="ub-btn ub-btn--bilgi" id="btnCartBilgi" aria-label="Müşterinin geçmiş ürün alımları" title="Geçmiş ürün alımları">İ</button>
   </div>
 </div>
-<!-- ROTA PANELİ: gezinme yolu + ayrı sayfa etiketi -->
-<div id="rotaPaneli" class="cart-rota-panel" aria-label="Sayfa rotası"></div>
+<!-- 15.11.2026: Sepet'e özel ikinci rota paneli (#rotaPaneli) KALDIRILDI — rota, tüm sayfalarda ortak olan üst bardaki panelden (ust-bar-davranis.js) gelir. Altta yalnız sayfa etiketi var. -->
 <div class="ub-sayfa-etiket cart-islem-etiketi" id="rotaSeridi">SEPET HESAP</div>
 <!-- KUR SATIRI (08.11.2026, Abdullah onayı): Hesapla penceresinin içinden buraya,
      sabit üst şeridin en altına (arama kutusunun üstüne) taşındı. Aynı ID'ler —
@@ -482,7 +481,6 @@
 <script src="rota-takip.js?v=ROTA-MOBILE-03"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){
   RotaTakip.kaydet("cart.html", "SEPET HESAP");
-  RotaTakip.ciz("rotaPaneli");
   var arama = document.getElementById("uaAramaBolumu");
   var tarih = document.getElementById("cartTarihPaneli");
   if(arama && tarih && tarih.parentNode) tarih.parentNode.insertBefore(arama, tarih.nextSibling);

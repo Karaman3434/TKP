@@ -1,8 +1,8 @@
 /*
-  cart-style.css — TKP.10.11.26-14:48.1553
+  cart-style.css — TKP.15.11.26-00:01.1645
   GÜNCELLEME (04.11.2026, Abdullah onayı — mockup üzerinden): İşlem Geçmişi
   penceresi (#musteriGecmisOverlay) kenardan kenara + büyük okunaklı tablo.
-  (önceki: TKP.02.11.26-10:48.1376)
+  (önceki: TKP.15.11.26-00:01.1645)
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -1540,11 +1540,13 @@ body.cart-sayfa .cart-gecmis-popover .data-table-container { overflow-x:auto !im
    Sepet tarih yazısı Belge Önizleme'deki ortak şerit boyuna eşitlendi;
    geçmiş popup'ı artık İ tuşunun altında açılır. */
 body.cart-sayfa .cart-tarih-paneli {
-  height:40px !important;
-  min-height:40px !important;
+  /* 15.11.2026: boy ve yazı, Belge Önizleme'deki tarih/saat paneliyle aynı ortak değişkenlerden (onayli-panel-standardi.css) */
+  height:var(--onayli-tarih-yukseklik,30px) !important;
+  min-height:var(--onayli-tarih-yukseklik,30px) !important;
+  max-height:var(--onayli-tarih-yukseklik,30px) !important;
   padding:2px 10px !important;
-  font-size:var(--serit-yazi,14.04px) !important;
-  line-height:1.2 !important;
+  font-size:var(--onayli-tarih-yazi,14px) !important;
+  line-height:1 !important;
   font-weight:var(--etiket-agirlik,700) !important;
   gap:3mm !important;
   margin:1mm 0 !important;
@@ -1609,80 +1611,7 @@ body.cart-sayfa #musteriGecmisOverlay .mg-urun .tablo-kod .kod-blok {
 }
 
 
-/* İŞ TAKİP — SEPET HESAP ROTA TASARIMI (onaylı mobil tasarım)
-   Rota paneli, üst araç çubuğunun ALTINDA; sayfa etiketi ayrı satırdadır.
-   Yalnızca cart.html etkilenir. */
-.cart-sayfa #rotaPaneli.cart-rota-panel{
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-  gap:1mm;
-  width:calc(100% - 16px);
-  min-width:0;
-  min-height:38px;
-  margin:0 8px 1mm;
-  padding:1mm;
-  box-sizing:border-box;
-  overflow-x:auto;
-  overflow-y:hidden;
-  white-space:nowrap;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-  background:#e0730f;
-  border:1px solid #c5650c;
-  border-radius:12px;
-  color:#fff;
-}
-.cart-sayfa #rotaPaneli.cart-rota-panel::-webkit-scrollbar{display:none;}
-.cart-sayfa #rotaPaneli.cart-rota-panel .rota-panel-baslangic{
-  display:inline-flex;
-  flex:0 0 auto;
-  align-items:center;
-  margin:0 1mm 0 0;
-  padding:0;
-  color:#fff;
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:1px;
-  line-height:1;
-}
-.cart-sayfa #rotaPaneli.cart-rota-panel .rota-panel-ayrac{
-  display:inline-block;
-  flex:0 0 1px;
-  width:1px;
-  height:13px;
-  margin:0 1mm;
-  padding:0;
-  background:rgba(255,255,255,.9);
-}
-.cart-sayfa #rotaPaneli.cart-rota-panel .rota-panel-durak{
-  display:inline-flex;
-  flex:0 0 auto;
-  align-items:center;
-  width:auto;
-  min-width:0;
-  max-width:none;
-  margin:0;
-  padding:0;
-  border:0;
-  border-radius:0;
-  background:transparent;
-  box-shadow:none;
-  color:#fff;
-  font-size:12px;
-  font-weight:700;
-  line-height:1.2;
-  text-decoration:none;
-  white-space:nowrap;
-}
-.cart-sayfa #rotaPaneli.cart-rota-panel .rota-panel-durak--aktif{
-  font-size:15px;
-  font-weight:900;
-}
-.cart-sayfa #rotaPaneli.cart-rota-panel .rota-panel-durak:focus-visible{
-  outline:2px solid #fff;
-  outline-offset:2px;
-}
+/* 15.11.2026: #rotaPaneli kuralları kaldırıldı (rota artık yalnız üst bardaki ortak panelde). Sayfa etiketi: */
 .cart-sayfa .ub-sayfa-etiket.cart-islem-etiketi{
   width:calc(100% - 16px) !important;
   margin:0 8px 1mm !important;
