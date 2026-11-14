@@ -1360,3 +1360,28 @@ body.cart-sayfa .kur-sr-only {
 .belge-urun-tablo .belge-td-sira {
   font-size: 13.2px !important;
 }
+
+
+/* ABDULLAH ONAYI — ÜRÜN TABLOSU SON ÖLÇÜLERİ
+   BERTA/ABAS kodu 11px; miktar ve tüm fiyat rakamları 14px.
+   Ürün adı ve tablo dış ölçüleri korunur. */
+.belge-urun-tablo .belge-td-urun-kod,
+.belge-urun-tablo .belge-td-urun-kod *,
+.belge-urun-tablo .belge-td-kod {
+  font-size: 11px !important;
+}
+.belge-urun-tablo .belge-para-sayi,
+.belge-urun-tablo .belge-td-sayi,
+.belge-urun-tablo .belge-para-sayi--buyuk,
+.belge-urun-tablo .belge-td-sayi--buyuk,
+.belge-urun-tablo .belge-td-adet,
+.belge-urun-tablo .belge-td-fiyat,
+.belge-urun-tablo .belge-td-isk,
+.belge-urun-tablo .belge-td-net,
+.belge-urun-tablo .belge-td-toplam,
+.belge-urun-tablo .belge-td-prim,
+.belge-urun-tablo .belge-td-prim-tek {
+  font-size: 14px !important;
+  line-height: 1.12 !important;
+  font-variant-numeric: tabular-nums;
+}
