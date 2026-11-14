@@ -544,9 +544,6 @@ function sayfayiCiz(){
     hesaplananlar.forEach(function(u){ hesaplananToplam += hesapla(u).toplamEuro; });
     grupYesilAlani.innerHTML = hesaplananlar.length === 0 ? "" : HareketTablo.grupHtml({
       tip: secilenTip,
-      seritEtiket: TIP_ETIKET_ROZET[secilenTip] || "",
-      seritTarih: kodTarihMetni,
-      seritKod: "(taslak)",
       urunler: hesaplananlar,
       hesapla: hesapla,
       zeminSinifi: "hareket-satir--yesil",
