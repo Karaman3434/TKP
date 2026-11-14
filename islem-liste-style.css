@@ -1,4 +1,4 @@
-/* islem-liste-style.css — TKP.14.11.26-01:08.1641
+/* islem-liste-style.css — TKP.14.11.26-11:27.1642
    ORTAK İŞLEM LİSTESİ STİLİ (02.11.2026, Abdullah onayı): Son İşlemler,
    Satış Listesi, Ay Detay ve Kaçan Satışlar artık bu TEK dosyadan stillenir
    (islem-liste.js). Satır / gün bandı / rozet kuralları, onaylı "Son
@@ -133,9 +133,9 @@
 #islemlerListesi .sr-ust .sr-firma-h { flex: 0 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; }
 #islemlerListesi .sr-ust .sr-konum-h { flex: 1 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; font-size: 13.8px; }
 #islemlerListesi .sr-ust .sr-konum-h:not(:empty):before { content: "- "; color: #b5bcc7; }
-#islemlerListesi .sr-alt { grid-column: 1; grid-row: 2; display: flex; align-items: center; justify-content: space-between; gap: 5px; min-width: 0; flex-wrap: wrap; row-gap: 3px; white-space: nowrap; overflow: hidden; }  /* 14.11.2026: yazılar +%15 olunca en kalabalık satır (PRİM + 3 aşamalı rota + tutar) tek satıra sığmazsa tutar alta iner; rota artık kırpılmaz */
+#islemlerListesi .sr-alt { grid-column: 1; grid-row: 2; display: flex; align-items: center; justify-content: flex-end; gap: 4px; min-width: 0; flex-wrap: wrap; row-gap: 3px; white-space: nowrap; overflow: hidden; }  /* 14.11.2026: yazılar +%15 olunca en kalabalık satır (PRİM + 3 aşamalı rota + tutar) tek satıra sığmazsa tutar alta iner; rota artık kırpılmaz */
 #islemlerListesi .sr-ok-h { grid-column: 2; grid-row: 1 / span 2; }
-#islemlerListesi .sr-rota { display: flex; align-items: center; justify-content: center; gap: 3px; min-width: 0; flex: 1 1 auto; white-space: nowrap; overflow: hidden; }
+#islemlerListesi .sr-rota { display: flex; align-items: center; justify-content: flex-end; gap: 3px; min-width: 0; flex: 0 0 auto; white-space: nowrap; overflow: hidden; }
 #islemlerListesi .sr-as { display: inline-flex; align-items: center; gap: 2px; }
 #islemlerListesi .sr-as small { font-size: 11.27px; font-weight: 600; color: #8f98a6; letter-spacing: -.1px; }
 #islemlerListesi .sr-as--son small { font-size: 11.96px; font-weight: 700; color: #4a5565; }
@@ -145,7 +145,7 @@
 #islemlerListesi .sr-kd--rvz { padding: 0 !important; overflow: hidden; box-shadow: 0 0 0 1.5px #b7601f inset; }
 #islemlerListesi .sr-kd--rvz i { font-style: normal; padding: 3px 4px; }
 #islemlerListesi .sr-kd--rvz i.sr-kd-r { background: #b7601f; color: #fff; font-size: 11.5px; padding: 3px 3px; }
-#islemlerListesi .sr-tm { display: flex; align-items: center; gap: 4px; margin-left: auto; flex: 0 0 auto; min-width: 0; max-width: 100%; flex-wrap: nowrap; justify-content: flex-end; white-space: nowrap; }
+#islemlerListesi .sr-tm { display: flex; align-items: center; gap: 4px; margin-left: 0; flex: 0 0 auto; min-width: 0; max-width: 100%; flex-wrap: nowrap; justify-content: flex-end; white-space: nowrap; }
 #islemlerListesi .sr-tm .sr-kanal-harf { margin: 0; font-size: 13.22px; line-height: 1; }
 #islemlerListesi .sr-tutar-h { white-space: nowrap; flex: 0 0 auto; }
 
@@ -219,3 +219,11 @@
 .il-tarih-ozel { display:flex; align-items:center; gap:8px; margin-top:8px; }
 .il-tarih-ozel span { color:#6b7280; font-weight:700; }
 .il-tarih-ozel .tarih-filtre-input { flex:1; min-width:0; height:38px; box-sizing:border-box; padding:0 10px; font-size:13px; font-family:inherit; border-radius:999px; }
+
+/* 14.11.2026 (Abdullah isteği): 2. satır TEK SIRA, satırın SONUNDAN başlayıp başa doğru
+   dizilir: PRİM | işlem hareket kısa kodu (rota) | Euro toplam (KDV'li TL). Aralarında düz
+   dikey çizgi. Çok kalabalık satır dar ekrana sığmazsa kırpılmaz, alt satıra iner. */
+#islemlerListesi .sr-prim-satir::after,
+#islemlerListesi .sr-rota:not(:empty)::after { content: ""; flex: 0 0 auto; width: 1.5px; height: 15px; background: #b9c1cc; border-radius: 1px; }
+#islemlerListesi .sr-prim-satir::after { margin-left: 1px; }
+#islemlerListesi .sr-rota:not(:empty)::after { margin-left: 2px; }
