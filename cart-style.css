@@ -1534,3 +1534,76 @@ body.cart-sayfa .cart-gecmis-popover > .tip-secim-kutu {
   background:#fff !important;
 }
 body.cart-sayfa .cart-gecmis-popover .data-table-container { overflow-x:auto !important; }
+
+
+/* 14.11.2026 — Abdullah'ın son ekran kontrolüne göre:
+   Sepet tarih yazısı Belge Önizleme'deki ortak şerit boyuna eşitlendi;
+   geçmiş popup'ı artık İ tuşunun altında açılır. */
+body.cart-sayfa .cart-tarih-paneli {
+  height:40px !important;
+  min-height:40px !important;
+  padding:2px 10px !important;
+  font-size:var(--serit-yazi,14.04px) !important;
+  line-height:1.2 !important;
+  font-weight:var(--etiket-agirlik,700) !important;
+  gap:3mm !important;
+  margin:1mm 0 !important;
+}
+body.cart-sayfa .cart-tarih-paneli strong { font-size:inherit !important; font-weight:800 !important; }
+body.cart-sayfa .cart-tarih-takvim,
+body.cart-sayfa .cart-tarih-saat-ikon { font-size:16px !important; }
+
+/* Üst araç çubuğu ile işlem etiketi arasında 5mm. */
+body.cart-sayfa .ub-sayfa-etiket.cart-islem-etiketi {
+  margin-top:5mm !important;
+}
+
+/* Ürün kodları: kısa B/A harfi yerine tam BERTA/ABAS ibaresi. */
+body.cart-sayfa .belge-td-urun-kod .kod-harf { display:none !important; }
+body.cart-sayfa .belge-td-urun-kod .kod-blok--b::before {
+  content:"BERTA ";
+  font-weight:900;
+}
+body.cart-sayfa .belge-td-urun-kod .kod-blok--a::before {
+  content:"ABAS ";
+  font-weight:900;
+}
+
+/* Geçmiş alımları penceresi İ tuşunun altına, 3mm aralıkla sabitlenir. */
+body.cart-sayfa .cart-gecmis-popover:not([hidden]) {
+  position:fixed !important;
+  inset:0 !important;
+  display:block !important;
+  overflow:visible !important;
+  background:transparent !important;
+  pointer-events:none !important;
+}
+body.cart-sayfa .cart-gecmis-popover > .tip-secim-kutu {
+  position:fixed !important;
+  transform:none !important;
+  margin:0 !important;
+  width:94vw !important;
+  max-width:440px !important;
+  max-height:calc(100dvh - 150px) !important;
+  overflow:auto !important;
+  padding:10px 8px 12px !important;
+  border:1.5px solid #174b86 !important;
+  border-radius:12px !important;
+  box-shadow:0 8px 24px rgba(0,0,0,.24) !important;
+  background:#fff !important;
+  pointer-events:auto !important;
+}
+body.cart-sayfa #musteriGecmisOverlay .mg-urun .tablo-kod {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  gap:1px !important;
+  line-height:1.15 !important;
+  white-space:normal !important;
+  margin-bottom:2px !important;
+}
+body.cart-sayfa #musteriGecmisOverlay .mg-urun .tablo-kod .kod-blok {
+  display:block !important;
+  white-space:nowrap !important;
+  font-size:11px !important;
+}
