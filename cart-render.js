@@ -61,8 +61,9 @@ function hataGoster(mesaj){
 
 // SEPET ÜST TASARIMI: işlem türü etiketi ve beyaz tarih/saat paneli.
 function cartIslemEtiketiGuncelle(){
-  // Bu alan işlem türünü değil, kullanıcının bulunduğu sayfayı ve gezinme rotasını gösterir.
-  if(typeof RotaTakip !== "undefined") RotaTakip.ciz("rotaSeridi");
+  // Sayfa etiketi sabittir; işlem türü rota panelinin içine karışmaz.
+  var el = document.getElementById("rotaSeridi");
+  if(el) el.textContent = "SEPET HESAP";
 }
 function cartTarihSaatGuncelle(){
   var d = new Date();
