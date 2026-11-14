@@ -1187,22 +1187,41 @@ document.addEventListener("DOMContentLoaded", function(){
     if(t) t.classList.remove("ub-ayrinti-secili");
   }
   function ayrintiAcilirAc(){
-    // İlerlet satırı SADECE bu kayıt ilerletilebiliyorsa görünür (boş seçenek
-    // listesi/"sonrası yok" uyarısı olmasın).
+    // İkinci pencere, ilk İ menüsünü kapatmadan onun ÜSTÜNDE açılır.
     var sec = ReportsData.ilerletSecenekleri(sonCizilenKayit);
-    document.getElementById("msIlerlet").hidden = !sec.length;
-    // BEKLEYEN (08.11.2026): stok bekleyen / bakiyeli sipariş — "İlerlet" yerine
-    // "Bekleyeni İlerlet" + "Bekleyenden Çıkar" satırı.
+    var ilerletBtn = document.getElementById("msIlerlet");
+    // Üç ana işlem satırı her zaman görünür; sonraki aşama yoksa İlerlet pasif kalır.
+    ilerletBtn.hidden = false;
+    ilerletBtn.disabled = !sec.length;
+    ilerletBtn.setAttribute("aria-disabled", sec.length ? "false" : "true");
     var bekleyenMod = ReportsData.bekleyenModu(sonCizilenKayit);
-    document.getElementById("msIlerlet").lastChild.nodeValue = bekleyenMod ? "Bekleyeni İlerlet" : "İlerlet";
+    ilerletBtn.lastChild.nodeValue = bekleyenMod ? "Bekleyeni İlerlet" : "İlerlet";
     document.getElementById("msCikar").hidden = !bekleyenMod;
-    document.getElementById("islemlerOverlay").hidden = false;
-    acilirKonumla("ayrintiAcilir");
+
+    var z = document.getElementById("islemlerOverlay");
+    var p = document.getElementById("ayrintiAcilir");
+    var ilkMenu = document.getElementById("belgeBilgiMenu");
+    var ayrintiBtn = document.getElementById("btnIslemAyrintiBilgi");
+    z.hidden = false;
+    // Ölçüm, görünür olduktan sonra yapılır; mobil ekranda taşma güvenliği korunur.
+    var vw = window.innerWidth;
+    var mr = ilkMenu.getBoundingClientRect();
+    var ar = ayrintiBtn.getBoundingClientRect();
+    var w = p.offsetWidth || 228;
+    var h = p.offsetHeight || 170;
+    var left = Math.max(6, Math.min(mr.right - w, vw - w - 6));
+    var top = Math.max(8, mr.top - h - 8);
+    p.style.top = top + "px";
+    p.style.left = left + "px";
+    p.style.setProperty("--alt-ok-sol", Math.max(14, Math.min(w - 26, ar.left + ar.width / 2 - left - 8)) + "px");
     var t = document.getElementById("btnIslemlerAc");
     if(t) t.classList.add("ub-ayrinti-secili");
   }
   document.getElementById("islemlerOverlay").addEventListener("click", function(ev){
-    if(ev.target === this) acilirKapat("islemlerOverlay");
+    if(ev.target === this){
+      acilirKapat("islemlerOverlay");
+      belgeBilgiMenuKapat();
+    }
   });
   document.getElementById("ilerletSecOverlay").addEventListener("click", function(ev){
     if(ev.target === this) acilirKapat("ilerletSecOverlay");
@@ -1213,6 +1232,7 @@ document.addEventListener("DOMContentLoaded", function(){
   // dokunulmadı (başka bir yerde kullanılıyor olabilir).
   document.getElementById("msSil").onclick = function(){
     acilirKapat("islemlerOverlay");
+    belgeBilgiMenuKapat();
     if(!ref) return;
     var belgeAdi = (sonCizilenKayit ? ((TIP_ETIKET_BELGE[sonCizilenKayit.tip]||"belge") + (sonCizilenKayit.kod ? " · " + sonCizilenKayit.kod : "")) : "bu belge");
     if(!confirm("Sadece bu belge silinecek:\n\n" + belgeAdi + "\n\nMüşteri kartına, adreslere veya yetkili bilgilerine dokunulmayacak — sadece bu tek kayıt kalıcı olarak silinecek. Bu geri alınamaz.")) return;
@@ -1304,9 +1324,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
   function belgeBilgiMenuKapat(){
     var z = document.getElementById("belgeBilgiMenuOverlay");
+    var alt = document.getElementById("islemlerOverlay");
+    if(alt) alt.hidden = true;
     if(z) z.hidden = true;
     var t = document.getElementById("btnIslemlerAc");
-    if(t) t.classList.remove("ub-bilgi-secili");
+    if(t) t.classList.remove("ub-bilgi-secili", "ub-ayrinti-secili");
   }
   document.getElementById("belgeBilgiMenuOverlay").addEventListener("click", function(ev){
     if(ev.target === this) belgeBilgiMenuKapat();
@@ -1319,13 +1341,13 @@ document.addEventListener("DOMContentLoaded", function(){
     window.location.href = "customer-cari-kart.html";
   };
   document.getElementById("btnIslemAyrintiBilgi").onclick = function(){
-    belgeBilgiMenuKapat();
     if(sonCizilenKayit) ayrintiAcilirAc();
   };
 
   document.getElementById("msDuzenle").onclick = function(){
     if(!sonCizilenKayit) return;
     acilirKapat("islemlerOverlay");
+    belgeBilgiMenuKapat();
     document.getElementById("duzenleMenuOverlay").hidden = false;
   };
 
@@ -1432,7 +1454,9 @@ document.addEventListener("DOMContentLoaded", function(){
   // Teklifi / Proforma / Sipariş (fiyatlar geç gelen stok yüzünden değişmiş
   // olabilir), Numune hiçbir zaman yok.
   document.getElementById("msIlerlet").onclick = function(){
+    if(this.disabled) return;
     acilirKapat("islemlerOverlay");
+    belgeBilgiMenuKapat();
     try{
       if(!sonCizilenKayit) return;
       var secenekler = ReportsData.ilerletSecenekleri(sonCizilenKayit);
@@ -1465,6 +1489,7 @@ document.addEventListener("DOMContentLoaded", function(){
   //   Bakiye        : "Bakiyeyi kapat" (sevk edilen kısım satış olarak kalır)
   document.getElementById("msCikar").onclick = function(){
     acilirKapat("islemlerOverlay");
+    belgeBilgiMenuKapat();
     try{
       if(!sonCizilenKayit) return;
       var mod = ReportsData.bekleyenModu(sonCizilenKayit);
