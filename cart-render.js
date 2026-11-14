@@ -249,9 +249,13 @@ function cartGecmisPopoverKonumla(){
   if(!kutu) return;
   var r = btn.getBoundingClientRect();
   var w = Math.min(window.innerWidth * 0.94, 440);
-  var left = Math.max(8, Math.min(r.left, window.innerWidth - w - 8));
-  kutu.style.left = left + "px";
-  kutu.style.top = (r.bottom + 7) + "px";
+  var merkez = r.left + (r.width / 2);
+  var left = Math.max(8, Math.min(merkez - w / 2, window.innerWidth - w - 8));
+  kutu.style.setProperty("position", "fixed", "important");
+  kutu.style.setProperty("width", w + "px", "important");
+  kutu.style.setProperty("max-width", w + "px", "important");
+  kutu.style.setProperty("left", left + "px", "important");
+  kutu.style.setProperty("top", (r.bottom + 3 * 96 / 25.4) + "px", "important");
 }
 
 // İŞLEM GEÇMİŞİNDEN SEPETE EKLE (10.11.2026, Abdullah isteği): geçmiş tablosunda
@@ -353,7 +357,7 @@ function musteriGecmisiniAc(){
         return "<tr class='mg-satir' data-i='" + gi + "'>"
           + "<td class='mg-urun'>"
             // 10.11.2026 (Abdullah isteği): Ürün Bul tablosundaki gibi, ürün adının ÜSTÜNDE Berta (B) / Abas (A) kodu
-            + ((k.berta || k.abas) ? "<div class='tablo-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span> " + htmlEsc(k.berta||"-") + "</span><span class='kod-ayrac' aria-hidden='true'></span><span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span> " + htmlEsc(k.abas||"-") + "</span></div>" : "")
+            + ((k.berta || k.abas) ? "<div class='tablo-kod'><span class='kod-blok kod-blok--b'>BERTA " + htmlEsc(k.berta||"-") + "</span><span class='kod-blok kod-blok--a'>ABAS " + htmlEsc(k.abas||"-") + "</span></div>" : "")
             + htmlEsc(g.ad) + "</td>"
           + "<td class='mg-tarih'><b>" + tarihFormatli + "</b>" + (tipEtiket ? "<span class='mg-tip'>(" + tipEtiket + ")</span>" : "") + "</td>"
           + "<td>" + (k.adet||0) + "</td>"
