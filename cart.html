@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="calc-style.css?v=WG.011126.1022.1262">
 <link rel="stylesheet" href="belge-style.css?v=TKP.14.11.26-PRODUCT-CODES11-VALUES14">
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.14.11.26-NAME-26PX">
-<link rel="stylesheet" href="cart-style.css?v=TKP.14.11.26-CART-DATE-POPUP-0512">
+<link rel="stylesheet" href="cart-style.css?v=ROTA-CART-01">
 <link rel="stylesheet" href="detail-style.css?v=TKP.11.11.26-15:39.1570">
 <!-- YENİ (12.10.2026, Abdullah onayı) — Belge Önizleme'de onaylanan açık
      gri zemin + türe-özel rozet renk tasarımı Sepet tablosuna taşındı.
@@ -66,8 +66,10 @@
     <button type="button" class="ub-btn ub-btn--kapat" id="btnUstKapat" data-ozel-kapat="1" disabled aria-label="Kapat">✕</button>
     <button type="button" class="ub-btn ub-btn--bilgi" id="btnCartBilgi" aria-label="Müşterinin geçmiş ürün alımları" title="Geçmiş ürün alımları">İ</button>
   </div>
-  <div class="ub-sayfa-etiket cart-islem-etiketi" id="rotaSeridi">SİPARİŞ</div>
 </div>
+<!-- ROTA PANELİ: gezinme yolu + ayrı sayfa etiketi -->
+<div id="rotaPaneli" class="cart-rota-panel" aria-label="Sayfa rotası"></div>
+<div class="ub-sayfa-etiket cart-islem-etiketi" id="rotaSeridi">SEPET HESAP</div>
 <!-- KUR SATIRI (08.11.2026, Abdullah onayı): Hesapla penceresinin içinden buraya,
      sabit üst şeridin en altına (arama kutusunun üstüne) taşındı. Aynı ID'ler —
      hesapla-popup.js aynen çalışır. Pencere açıkken: bu işleme özel kur seçimi;
@@ -477,16 +479,16 @@
 <script src="reports-safety-fix.js?v=WG.020926.1338.87"></script>
 <script src="send-data.js?v=TKP.08.11.26-22:53.1517"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
-<script src="rota-takip.js?v=ROTA-MOBILE-02"></script>
+<script src="rota-takip.js?v=ROTA-MOBILE-03"></script>
 <script>document.addEventListener("DOMContentLoaded", function(){
   RotaTakip.kaydet("cart.html", "SEPET HESAP");
-  RotaTakip.ciz("rotaSeridi");
+  RotaTakip.ciz("rotaPaneli");
   var arama = document.getElementById("uaAramaBolumu");
   var tarih = document.getElementById("cartTarihPaneli");
   if(arama && tarih && tarih.parentNode) tarih.parentNode.insertBefore(arama, tarih.nextSibling);
 });</script>
 <script src="kur-panel.js?v=TKP.13.11.26-20:30.1613"></script>
-<script src="cart-render.js?v=TKP.14.11.26-CART-DATE-POPUP-0510"></script>
+<script src="cart-render.js?v=ROTA-CART-01"></script>
 <script src="urun-arama.js?v=TKP.13.11.26-20:30.1613"></script>
 <script src="hesapla-popup.js?v=TKP.13.11.26-20:30.1613"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026): bugünkü üst-bar birleştirmesiyle
