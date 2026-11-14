@@ -97,9 +97,12 @@
 
 /* Başlık ile tarih satırı ve cari/ürün panelleri arasında tek 2mm aralık */
 #mailOnizlemeTablo .mail-onizleme-belge-baslik{
-  margin:0 0 var(--onayli-panel-aralik) !important;
+  margin:0 !important;
 }
 #mailOnizlemeTablo .mail-onizleme-belge-baslik .belge-form-baslik,
+#belgeGorselAlani .mail-giden-belge-baslik{
+  margin:0 !important;
+}
 #belgeGorselAlani .mail-giden-belge-baslik .belge-form-baslik{
   height:auto !important;
   min-height:0 !important;
@@ -114,7 +117,7 @@
   line-height:1.05 !important;
 }
 .belge-onizleme-sayfa .bo-teklif-ust{
-  padding:1mm !important;
+  padding:0 !important;
 }
 .belge-onizleme-sayfa .bo-teklif-baslik{
   margin:0 0 var(--onayli-panel-aralik) !important;
