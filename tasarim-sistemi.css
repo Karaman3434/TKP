@@ -413,3 +413,23 @@ body:has(.vt-grup) .vt-ad,
   font-weight: 700 !important;
   line-height: 1.25 !important;
 }
+
+/* ABDULLAH ONAYI — SEPET VE ÜRÜN TABLOLARI SON ÖLÇÜLERİ */
+.sepet-tablo .belge-td-urun-kod,
+.sepet-tablo .belge-td-urun-kod *,
+.sepet-tablo .belge-td-kod { font-size:11px !important; }
+.sepet-tablo .belge-para-sayi,
+.sepet-tablo .belge-td-sayi,
+.sepet-tablo .belge-para-sayi--buyuk,
+.sepet-tablo .belge-td-sayi--buyuk,
+.sepet-tablo .belge-td-adet,
+.sepet-tablo .belge-td-fiyat,
+.sepet-tablo .belge-td-isk,
+.sepet-tablo .belge-td-net,
+.sepet-tablo .belge-td-toplam,
+.sepet-tablo .sepet-net-deger,
+.data-table .tablo-fiyat {
+ font-size:14px !important;
+ line-height:1.12 !important;
+ font-variant-numeric:tabular-nums;
+}
