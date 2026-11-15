@@ -1164,6 +1164,60 @@ document.addEventListener("DOMContentLoaded", function(){
     }catch(e){ console.error("Cari Kart açılamadı:", e); }
   });
 
+  // GÖNDER EKRANI ÜST BAR EYLEMLERİ (15.11.2026, Abdullah onayı).
+  // Kaydet mevcut ts/kod ile aynı arşiv kaydını günceller; silme ayrı onay ister.
+  window.sendIslemiKaydet = function(){
+    var btn = document.querySelector(".ub-eylem .ub-btn--kaydet");
+    try{
+      var g = gonderBaglam, kayit = sonKaydedilenBelge && sonKaydedilenBelge.kayit;
+      if(!g || !kayit || !kayit.ts){ alert("Kaydedilecek işlem bulunamadı."); return; }
+      if(btn && btn.disabled) return;
+      if(btn) btn.disabled = true;
+      var secim = {};
+      try{ secim = JSON.parse(localStorage.getItem("weiconv2_secili_iletisim")||"{}"); }catch(e){}
+      var kisiler = CustomerData.seciliYetkilileriCoz({iletisimler:g.musteri.iletisimler||[]}, secim);
+      var alanlar = {
+        faturaAdresi: seciliAdresler.faturaAdresi || null,
+        teslimatAdresi: seciliAdresler.teslimatAdresi || null,
+        gorunecekYetkililer: kisiler.length ? kisiler.map(function(k){ return k.isim; }).filter(Boolean) : null
+      };
+      SendData.islemiGuncelle(g.tip, kayit.ts, g.musteri, g.sepet, g.kur, g.kdv, alanlar, function(ok, err){
+        if(btn) btn.disabled = false;
+        if(!ok){ alert("İşlem kaydedilemedi: " + (err && err.message ? err.message : "Bilinmeyen hata")); return; }
+        bilgiGoster("İşlem tablosu güncellendi ve kaydedildi");
+      });
+    }catch(e){
+      if(btn) btn.disabled = false;
+      hataGoster("İşlem kaydedilemedi: "+e.message);
+    }
+  };
+
+  window.sendIslemiSil = function(){
+    var btn = document.querySelector(".ub-eylem .ub-btn--bilgi");
+    try{
+      var kayit = sonKaydedilenBelge && sonKaydedilenBelge.kayit;
+      var g = gonderBaglam;
+      if(!kayit || !kayit.ts || !g || !g.tip){ alert("Silinecek işlem bulunamadı."); return; }
+      var ad = (g.musteri && g.musteri.ad) ? g.musteri.ad : "bu müşteri";
+      var kod = kayit.kod || "";
+      if(!confirm("DİKKAT: " + ad + (kod ? " — " + kod : "") + " işlemi kalıcı olarak silinecek.\\n\\nBu işlem geri alınamaz. Silmek istediğinize emin misiniz?")) return;
+      if(btn) btn.disabled = true;
+      SendData.kaynakSil(g.tip, kayit.ts, function(ok, err){
+        if(!ok){
+          if(btn) btn.disabled = false;
+          alert("İşlem silinemedi: "+(err && err.message ? err.message : "Bilinmeyen hata"));
+          return;
+        }
+        try{ localStorage.removeItem("weiconv2_son_kaydedilen_belge"); }catch(e){}
+        bilgiGoster("İşlem silindi");
+        setTimeout(function(){ window.location.href = "home.html"; }, 450);
+      });
+    }catch(e){
+      if(btn) btn.disabled = false;
+      hataGoster("İşlem silinemedi: "+e.message);
+    }
+  };
+
   // ÜST BAR "GÖNDER" (03.11.2026): alttaki Gönder tuşları kalktı; üst barın
   // Gönder'i (bkz. ust-bar-eylem.js) açık önizlemenin Gönder'ini tetikler.
   // Önizleme yoksa İletişim seçimini açar. Başka bir pencere açıksa işlemez.
