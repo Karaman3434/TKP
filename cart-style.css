@@ -1730,3 +1730,127 @@ body.cart-sayfa #cartTarihPaneli { margin-bottom: 3mm !important; }
   filter:grayscale(1);
   cursor:not-allowed;
 }
+
+/* 16.11.2026 — SEPET sayfasına özel GÖNDER > İŞLEM HAREKET popup'ı.
+   Konum: üst bardaki Gönder tuşunun altı; konuşma balonu oku tuşa bağlanır.
+   Genişlik: ekranın %65'i (250–360px); seçenek tuşları önceki 42px kontrolün
+   yaklaşık %50 büyüğü: 63px. Başka sayfalardaki popup'lara uygulanmaz. */
+body.cart-sayfa #musterisizGonderOverlay:not([hidden]){
+  position:fixed !important;
+  inset:0 !important;
+  display:block !important;
+  padding:0 !important;
+  background:rgba(255,255,255,.16) !important;
+  z-index:100600 !important;
+  overflow:hidden !important;
+}
+body.cart-sayfa #musterisizGonderOverlay[hidden]{display:none !important;}
+body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-popup{
+  position:fixed !important;
+  box-sizing:border-box !important;
+  width:65vw;
+  min-width:250px;
+  max-width:360px;
+  max-height:calc(100dvh - 155px);
+  overflow-y:auto;
+  margin:0 !important;
+  padding:16px 13px 14px !important;
+  border:3px solid #174b86 !important;
+  border-radius:22px !important;
+  background:#fff !important;
+  box-shadow:0 10px 30px rgba(0,0,0,.28) !important;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-ok{
+  position:absolute;
+  top:-16px;
+  left:var(--hareket-ok-sol,calc(100% - 58px));
+  width:27px;
+  height:27px;
+  box-sizing:border-box;
+  background:#fff;
+  border-top:3px solid #174b86;
+  border-left:3px solid #174b86;
+  transform:rotate(45deg);
+  z-index:2;
+}
+body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-baslik{
+  min-height:54px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 0 2px;
+  padding:5px 4px;
+  border-radius:12px;
+  background:#083b78;
+  color:#fff;
+  font-size:clamp(17px,4.4vw,22px);
+  line-height:1.1;
+  font-weight:950;
+  text-align:center;
+  white-space:nowrap;
+}
+body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-secim{
+  width:100%;
+  min-height:63px;
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr);
+  align-items:center;
+  justify-items:center;
+  gap:5px;
+  padding:8px 9px;
+  border:2px solid currentColor;
+  border-radius:15px;
+  background:#f7f9ff;
+  font-family:inherit;
+  font-size:clamp(14px,3.7vw,18px);
+  line-height:1.1;
+  font-weight:950;
+  text-align:center;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-secim:active{
+  transform:scale(.985);
+  filter:brightness(.97);
+}
+body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-ikon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  font-size:27px;
+  line-height:1;
+}
+body.cart-sayfa #musterisizGonderOverlay .tip-siparis{color:#1747a5;background:#eaf1ff;}
+body.cart-sayfa #musterisizGonderOverlay .tip-teklif{color:#087a35;background:#e7f8ec;}
+body.cart-sayfa #musterisizGonderOverlay .tip-proforma{color:#c46a08;background:#fff2df;}
+body.cart-sayfa #musterisizGonderOverlay .tip-numune{color:#b51c70;background:#fff0f7;}
+body.cart-sayfa #musterisizOnizlemeTablo.musterisiz-gorsel-kaynak{
+  position:fixed !important;
+  left:-10000px !important;
+  top:0 !important;
+  display:block !important;
+  visibility:visible !important;
+  width:calc(100vw - 32px) !important;
+  max-width:520px !important;
+  box-sizing:border-box !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:#fff !important;
+  pointer-events:none !important;
+  z-index:-1 !important;
+}
+@media (max-width:380px){
+  body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-popup{
+    min-width:0;
+    width:calc(100vw - 56px) !important;
+  }
+  body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-secim{
+    grid-template-columns:34px minmax(0,1fr);
+    font-size:14px;
+  }
+}
