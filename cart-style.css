@@ -1715,7 +1715,9 @@ body.cart-sayfa #cartTarihPaneli { margin-bottom: 3mm !important; }
   border-radius:7px;
   background:#fff;
   color:#172b45;
-  font:700 14px inherit;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:700;
 }
 .musterisiz-whatsapp-tip-notu{
   margin-top:5px;
