@@ -197,3 +197,24 @@ body:not(:has(.as-sayfa)) .ub-bar .ub-grup .ub-btn{
   min-width:0!important;
   box-sizing:border-box!important;
 }
+
+
+/* YEDİ TUŞLU REFERANS TASARIM — SON ÜÇ EYLEM TUŞU (15.11.2026)
+   KM Takibi ekranındaki görünüm: BİM, Kaydet ve Gönder aynı gri ailede. */
+.ub-bar .ub-btn--bilgi,
+.ub-bar .ub-btn--kaydet,
+.ub-bar .ub-btn--gonder{
+  background:linear-gradient(180deg,#aeb8c5 0%,#8793a3 55%,#697586 100%)!important;
+  color:#fff!important;
+  border:1px solid #7d8998!important;
+  box-shadow:0 2px 0 rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.3)!important;
+}
+.ub-bar .ub-btn--bilgi{
+  text-transform:lowercase!important;
+}
+.ub-bar .ub-btn--bilgi[disabled],
+.ub-bar .ub-btn--kaydet[disabled],
+.ub-bar .ub-btn--gonder[disabled]{
+  filter:none!important;
+  opacity:1!important;
+}
