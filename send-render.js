@@ -1317,52 +1317,74 @@ document.addEventListener("DOMContentLoaded", function(){
     var bt = document.querySelectorAll(".ub-eylem button");
     return bt.length ? bt[bt.length - 1] : null;
   }
-  // İLETİŞİM POPUP KONUMU: Gönder tuşunun hemen altında, arada 2 mm (yaklaşık 8 px).
+  // GÖNDER POPUP'LARI — onaylı İŞ TAKİP tasarımı.
+  // İletişim popup'ı Gönder tuşunun 2 mm altında ve tuşun soluna açılır.
+  // Mail popup'ı ana popup'ın yarı yüksekliğinden, genişliğinin dörtte biri kadar
+  // sağa kaydırılarak üstüne bindirilir; iki pencere aynı genişliktedir.
   function iletisimPaneliKonumla(){
     var p = document.getElementById("iletisimAcilir");
     if(!p) return;
     var g = gonderUstTusu();
     var vw = window.innerWidth;
-    var r = g ? g.getBoundingClientRect() : { top:10, bottom:54, left:vw - 56, right:vw - 8, width:48 };
-    var w = p.offsetWidth || Math.min(390, vw - 20);
-    var sol = Math.max(10, Math.min(r.right - w, vw - w - 10));
+    var r = g ? g.getBoundingClientRect() : {top:10,bottom:54,left:vw-56,right:vw-8,width:48};
+    var w = p.getBoundingClientRect().width || Math.min(390, vw-16);
+    var sol = Math.max(8, Math.min(r.left - w, vw - w - 8));
     p.style.top = (r.bottom + 8) + "px";
     p.style.left = sol + "px";
-    p.style.setProperty("--ok-sol", Math.max(12, Math.min(w - 24, r.left + r.width / 2 - sol - 6)) + "px");
+    p.style.setProperty("--ok-sol", Math.max(12, Math.min(w - 24, r.left + r.width/2 - sol - 6)) + "px");
   }
-  // MAIL ALT POPUP: ana iletişim penceresinin dikey orta seviyesinden başlar;
-  // ana pencerenin alt-sağ bölümünün üzerine bindirilir, ekrandan taşmaz.
+
   function mailSecenekPaneliKonumla(){
     var pop = document.getElementById("mailSecenekPopover");
     var ana = document.getElementById("iletisimAcilir");
     if(!pop || !ana) return;
     var r = ana.getBoundingClientRect();
     var vw = window.innerWidth, vh = window.innerHeight;
-    var w = pop.offsetWidth || Math.min(320, vw - 24);
-    var h = pop.offsetHeight || 180;
+    var w = r.width || ana.getBoundingClientRect().width;
+    pop.style.width = w + "px";
+    var h = pop.getBoundingClientRect().height || 220;
     var sol = Math.max(8, Math.min(vw - w - 8, r.left + r.width * 0.25));
     var ust = r.top + r.height * 0.50;
     if(ust + h > vh - 8) ust = Math.max(8, vh - h - 8);
     pop.style.left = sol + "px";
     pop.style.top = ust + "px";
   }
+
+  function altKutuKonumla(pop, btn){
+    if(!pop || !btn) return;
+    var r = btn.getBoundingClientRect();
+    var w = Math.max(150, Math.min(210, r.left - 12));
+    pop.style.width = w + "px";
+    pop.style.top = r.top + "px";
+    pop.style.left = Math.max(8, r.left - 6 - w) + "px";
+  }
+
   function iletisimAcilirAc(){
-    document.getElementById("iletisimSheetOverlay").hidden = false;
+    var ov = document.getElementById("iletisimSheetOverlay");
+    if(!ov) return;
+    ov.hidden = false;
     document.body.classList.add("as-drawer-kilit");
     iletisimPaneliKonumla();
     var g = gonderUstTusu();
     if(g) g.classList.add("ub-eylem-secili");
   }
+
   function iletisimAcilirKapat(){
-    document.getElementById("iletisimSheetOverlay").hidden = true;
-    document.getElementById("mailSecenekPopover").hidden = true;
-    document.getElementById("pdfSecenekPopover").hidden = true;
+    var ov = document.getElementById("iletisimSheetOverlay");
+    var mail = document.getElementById("mailSecenekPopover");
+    var pdf = document.getElementById("pdfSecenekPopover");
+    if(ov) ov.hidden = true;
+    if(mail) mail.hidden = true;
+    if(pdf) pdf.hidden = true;
     document.body.classList.remove("as-drawer-kilit");
     var g = gonderUstTusu();
     if(g) g.classList.remove("ub-eylem-secili");
   }
-  // GERİ / KAPAT katman kapatıcısı (11.11.2026, ortak Nav — ust-bar-davranis.js): İletişim - Gönder
-  // paneli ve içindeki açılır kutular (Mail / PDF seçenekleri) tek adımda kapanır.
+
+  function iletisimSheetiniKapat(){
+    iletisimAcilirKapat();
+  }
+
   if(window.Nav) Nav.kapaticiEkle(function(){
     var ov = document.getElementById("iletisimSheetOverlay");
     if(ov && !ov.hidden){ iletisimAcilirKapat(); return true; }
@@ -1371,85 +1393,54 @@ document.addEventListener("DOMContentLoaded", function(){
 
   document.getElementById("btnIletisimAc").onclick = iletisimAcilirAc;
   document.getElementById("btnIletisimPopupKapat").onclick = function(ev){
-    ev.stopPropagation(); iletisimAcilirKapat();
+    ev.stopPropagation();
+    iletisimAcilirKapat();
   };
   document.getElementById("btnMailSecenekKapat").onclick = function(ev){
-    ev.stopPropagation(); document.getElementById("mailSecenekPopover").hidden = true;
+    ev.stopPropagation();
+    document.getElementById("mailSecenekPopover").hidden = true;
   };
   document.getElementById("btnPdfSecenekKapat").onclick = function(ev){
-    ev.stopPropagation(); document.getElementById("pdfSecenekPopover").hidden = true;
+    ev.stopPropagation();
+    document.getElementById("pdfSecenekPopover").hidden = true;
   };
+
   document.getElementById("iletisimSheetOverlay").addEventListener("click", function(ev){
     if(ev.target === this) iletisimAcilirKapat();
   });
+
   window.addEventListener("resize", function(){
     var ov = document.getElementById("iletisimSheetOverlay");
     if(ov && !ov.hidden){
       iletisimPaneliKonumla();
-      if(!document.getElementById("mailSecenekPopover").hidden) mailSecenekPaneliKonumla();
-      if(!document.getElementById("pdfSecenekPopover").hidden) altKutuKonumla(document.getElementById("pdfSecenekPopover"), document.getElementById("btnUstPdf"));
+      var mail = document.getElementById("mailSecenekPopover");
+      var pdf = document.getElementById("pdfSecenekPopover");
+      if(mail && !mail.hidden) mailSecenekPaneliKonumla();
+      if(pdf && !pdf.hidden) altKutuKonumla(pdf, document.getElementById("btnUstPdf"));
     }
   });
-  // Mail/WhatsApp/Tablo'dan biri seçilince kendi önizlemesi açılmadan önce
-  // İletişim sheet'i kapanır — iki alttan-açılan sayfa üst üste durmasın diye.
-  function iletisimSheetiniKapat(){
-    document.getElementById("iletisimSheetOverlay").hidden = true;
-    document.getElementById("mailSecenekPopover").hidden = true;
-    document.getElementById("pdfSecenekPopover").hidden = true;
-    document.body.classList.remove("as-drawer-kilit");
-    var g = gonderUstTusu();
-    if(g) g.classList.remove("ub-eylem-secili");
-  }
 
-  // MAİL SEÇENEK AÇILIR KUTUSU (01.10.2026, Abdullah'ın isteğiyle) — Mail
-  // tuşu artık direkt önizleme açmıyor, önce "Yeni Mail / Zinciri Cevapla"
-  // seçim kutusunu açıyor.
-  // DÜZELTME (04.10.2026): kutu artık "position:fixed" (bkz. send-style.css)
-  // — konumu burada, butona göre, her açılışta yeniden hesaplanıyor, böylece
-  // hiçbir ebeveynin kaydırma alanı tarafından kesilmiyor.
-  // Alt kutular (Mail: Yeni mail/Zinciri cevapla, PDF: Müşteriye giden/Kendi
-  // kopyam) açılır listenin ALTINA değil butonun SOLUNA açılır (04.11.2026) —
-  // aşağı açılsa altındaki WhatsApp/Tablo tuşlarını kapatırdı. Dar ekranda
-  // (S22) sığması için genişlik gerekirse 190px'ten küçülür.
-  function altKutuKonumla(pop, btn){
-    var r = btn.getBoundingClientRect();
-    var w = Math.max(140, Math.min(190, r.left - 12));
-    pop.style.width = w + "px";
-    pop.style.top = r.top + "px";
-    pop.style.left = Math.max(6, r.left - 6 - w) + "px";
-  }
   document.getElementById("btnUstMail").onclick = function(ev){
     ev.stopPropagation();
     var pop = document.getElementById("mailSecenekPopover");
     document.getElementById("pdfSecenekPopover").hidden = true;
-    var aciliyorMu = pop.hidden;
     pop.hidden = !pop.hidden;
-    if(aciliyorMu) mailSecenekPaneliKonumla();
+    if(!pop.hidden) mailSecenekPaneliKonumla();
   };
-  // GERİ ALINDI (26.10.2026, Abdullah onayı — "seçim yapıldıktan sonra
-  // otomatik önizleme açılsın" kesin kuralı): "Yeni mail" artık WhatsApp'la
-  // SİMETRİK — doğrudan mail uygulamasını açmak yerine önce "Mail Önizleme"
-  // ekranını (mailOnizlemeAc, bkz. yukarısı) açar, kullanıcı altındaki
-  // "✓ Gönder (yeni mail aç)" butonuna basınca devam eder (bkz.
-  // mailOnizlemeGonderBtn.onclick, o da gonderTiklandi("mail", konu)
-  // çağırıyor — konu panoya kopyalama güvenlik ağı ORADA zaten var, burada
-  // tekrarlamaya gerek yok). 04.10.2026'daki "doğrudan aç" kısayolu bu
-  // kuralla çakıştığı için kaldırıldı — btnUstWhatsapp.onclick ile BİREBİR
-  // aynı desen.
+
+  // Her iki mail tercihi de önce Mail Önizleme'yi açar.
+  // Önizlemedeki Gönder, mevcut cihaz paylaşım/mail uygulaması akışını kullanır.
   document.getElementById("mailSecenekYeniMail").onclick = function(ev){
     ev.stopPropagation();
-    document.getElementById("mailSecenekPopover").hidden = true;
     iletisimSheetiniKapat();
     mailOnizlemeAc();
   };
   document.getElementById("mailSecenekZincir").onclick = function(ev){
     ev.stopPropagation();
-    document.getElementById("mailSecenekPopover").hidden = true;
     iletisimSheetiniKapat();
-    // Yeni Mail ile aynı önizleme akışı; önizlemedeki Gönder cihazın
-    // sistem paylaşım/uygulama seçicisini açar.
     mailOnizlemeAc();
   };
+
   document.addEventListener("click", function(ev){
     var pop = document.getElementById("mailSecenekPopover");
     var btn = document.getElementById("btnUstMail");
@@ -1457,27 +1448,32 @@ document.addEventListener("DOMContentLoaded", function(){
       pop.hidden = true;
     }
   });
-  document.getElementById("btnUstWhatsapp").onclick = function(){ iletisimSheetiniKapat(); whatsappOnizlemeAc(); };
-  document.getElementById("btnUstTablo").onclick = function(){ iletisimSheetiniKapat(); tabloSadeceOnizlemeAc(); };
 
-  // PDF DÜĞMESİ (19.10.2026, Abdullah onayı — mockup_h) — Mail düğmesiyle
-  // BİREBİR AYNI açılır-kutu deseni (position:fixed, butona göre hesaplanan
-  // konum, dışarı tıklayınca kapanma) — sadece hedef kutu ve 2 seçeneğin
-  // davranışı farklı: PDF indirme, TeklifPdf.indir() ile (daha önce
-  // belge-onizleme.html'in "Yazdır"ı için yapılmış, onaylanmış, ama
-  // 18.10.2026'da o buton kaldırılınca bağlantısız kalmış modül —
-  // artık burada yeniden kullanılıyor). "Müşteriye giden" seçeneği
-  // musteriKoduGizli+primGizli:true (dışa giden belgelerle AYNI gizleme
-  // kuralı), "Kendi kopyam" hiçbir şeyi gizlemez (iç/program kopyası).
+  document.getElementById("btnUstWhatsapp").onclick = function(){
+    iletisimSheetiniKapat();
+    whatsappOnizlemeAc();
+  };
+  document.getElementById("btnUstTablo").onclick = function(){
+    iletisimSheetiniKapat();
+    tabloSadeceOnizlemeAc();
+  };
+
+  // PDF'nin mevcut iki seçenekli indirme işlevi korunur.
   document.getElementById("btnUstPdf").onclick = function(ev){
     ev.stopPropagation();
     var pop = document.getElementById("pdfSecenekPopover");
-    var aciliyorMu = pop.hidden;
+    document.getElementById("mailSecenekPopover").hidden = true;
     pop.hidden = !pop.hidden;
-    if(aciliyorMu){
-      altKutuKonumla(pop, this);
-    }
+    if(!pop.hidden) altKutuKonumla(pop, this);
   };
+  document.addEventListener("click", function(ev){
+    var pop = document.getElementById("pdfSecenekPopover");
+    var btn = document.getElementById("btnUstPdf");
+    if(pop && !pop.hidden && !pop.contains(ev.target) && ev.target !== btn && !btn.contains(ev.target)){
+      pop.hidden = true;
+    }
+  });
+
   function pdfIndirBaslat(secenekler){
     if(!sonKaydedilenBelge || !sonKaydedilenBelge.kayit){
       alert("PDF oluşturulamadı: kayıt bulunamadı.");
