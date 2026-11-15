@@ -1,5 +1,5 @@
 /*
-  cart-style.css — TKP.15.11.26-00:01.1645
+  cart-style.css — TKP.15.11.26-14:45.1648
   GÜNCELLEME (04.11.2026, Abdullah onayı — mockup üzerinden): İşlem Geçmişi
   penceresi (#musteriGecmisOverlay) kenardan kenara + büyük okunaklı tablo.
   (önceki: TKP.15.11.26-00:01.1645)
@@ -1617,3 +1617,16 @@ body.cart-sayfa #musteriGecmisOverlay .mg-urun .tablo-kod .kod-blok {
   margin:0 8px 1mm !important;
   justify-content:center !important;
 }
+
+/* 15.11.2026 (Abdullah isteği) — SEPET HESAP panel sırası ve boşlukları:
+   1) Günün döviz kurları  2) Ürün arama  [3 mm]  3) SEPET HESAP  4) Tarih-saat  5) Müşteri cari  6) Ürün tablosu.
+   Arama ile SEPET HESAP arası 3 mm, diğer tüm panel araları 1 mm (sıra cart.html'deki DOM sırasıyla verilir). */
+body.cart-sayfa .kur-ust-satir,
+body.cart-sayfa #hpKurRozetBtn.kur-ust-satir { margin-bottom: 0 !important; }
+body.cart-sayfa .sayfa { padding-top: 1mm !important; }
+body.cart-sayfa #uaAramaBolumu { margin: 0 !important; }
+body.cart-sayfa #uaAramaBolumu .yeni-arama-satiri { margin-bottom: 0 !important; }
+body.cart-sayfa #rotaSeridi.cart-islem-etiketi { margin: 3mm 8px 1mm !important; }
+body.cart-sayfa #cartTarihPaneli { margin-top: 1mm !important; margin-bottom: 1mm !important; }
+
+body.cart-sayfa #cariBilgiAlani .musteri-serit:not(.musteri-serit--asili) { margin-top: 0 !important; margin-bottom: 1mm !important; }
