@@ -1429,3 +1429,25 @@
   font-size: 14px !important;
   line-height: 1 !important;
 }
+
+
+/* ABDULLAH ONAYI — İSK/NET KARTLARI: +%5 DİKEY YÜKSEKLİK VE HAFİF YATAY AYRIM
+   Yalnızca renkli rozetlerin görsel ölçüsü; sütun genişliği/veri/işlev değişmez. */
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
+  min-height: 56.7px !important; /* mevcut 54px + %5 */
+  width: calc(100% - 10px) !important;
+  padding-top: 5.25px !important;
+  padding-bottom: 5.25px !important;
+}
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net {
+  min-height: 56.7px !important; /* mevcut 54px + %5 */
+  width: calc(100% - 10px) !important;
+  padding-top: 6.3px !important;
+  padding-bottom: 6.3px !important;
+}
+.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
+  min-height: 56.7px !important;
+  width: calc(100% - 10px) !important;
+  padding-top: 6.3px !important;
+  padding-bottom: 6.3px !important;
+}
