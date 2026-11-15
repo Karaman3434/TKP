@@ -1,4 +1,4 @@
-/* send-style.css — TKP.08.11.26-22:53.1517 — aynı kural: gradyan/gölge yığılması yok.
+/* send-style.css — TKP.15.11.26-22:39.1651 — aynı kural: gradyan/gölge yığılması yok.
    GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim açılır listesi + Mail/WhatsApp/Tablo
    önizleme pencereleri kenardan kenara (dosya sonundaki iki blok). */
 
@@ -694,146 +694,15 @@ body.as-drawer-kilit { overflow: hidden; }
   width:2px;height:26px;flex:0 0 2px;margin:0 4px;background:#17345d;opacity:.75;
 }
 
-
-/* GÖNDER / İLETİŞİM POPUP — yeni İŞ TAKİP ortak popup standardı (15.11.2026).
-   Yalnızca send.html içindeki iletişim ve alt seçenek pencereleri etkilenir. */
-#iletisimSheetOverlay { z-index:1100; background:rgba(7,25,55,.24); }
-#iletisimAcilir.iletisim-acilir {
-  z-index:1101;
-  width:min(390px, calc(100vw - 20px));
-  box-sizing:border-box;
-  padding:8px;
-  overflow:visible;
-  background:#fff;
-  border:2px solid #dce9ff;
-  border-radius:22px;
-  box-shadow:0 12px 30px rgba(4,31,75,.30);
-}
-#iletisimAcilir.iletisim-acilir::before {
-  top:-8px; left:var(--ok-sol, 20px);
-  width:14px; height:14px;
-  background:#073b86;
-  border:0;
-  border-radius:2px 0 0 0;
-  transform:rotate(45deg);
-}
-.iletisim-acilir-baslik {
-  min-height:50px;
-  display:flex; align-items:center; gap:10px;
-  margin:-1px -1px 10px;
-  padding:0 12px;
-  border-radius:15px;
-  color:#fff;
-  background:linear-gradient(115deg,#0754b5,#092e78);
-  box-shadow:0 3px 8px rgba(5,45,110,.20);
-}
-.iletisim-acilir-baslik-ikon { font-size:25px; line-height:1; }
-.iletisim-acilir-baslik strong {
-  flex:1; min-width:0;
-  font-size:clamp(14px,3.8vw,18px);
-  line-height:1.15; font-weight:900; letter-spacing:.1px;
-}
-.iletisim-acilir-baslik button,
-.mail-secenek-popover-ust button {
-  flex:0 0 34px; width:34px; height:34px;
-  display:flex; align-items:center; justify-content:center;
-  padding:0; border:0; border-radius:9px;
-  color:#fff; background:rgba(255,255,255,.12);
-  font-size:29px; line-height:1; font-weight:400; cursor:pointer;
-}
-#iletisimAcilir .iletisim-secenek-grid {
-  display:grid; grid-template-columns:1fr; gap:8px; margin:0;
-}
-#iletisimAcilir .iletisim-secenek-mail-sarmal { width:100%; position:static; }
-#iletisimAcilir .iletisim-secenek-btn {
-  width:100%; min-height:58px; box-sizing:border-box;
-  display:flex; flex-direction:row; align-items:center;
-  justify-content:flex-start; gap:14px;
-  padding:10px 15px; border-radius:15px;
-  text-align:left; box-shadow:inset 0 1px 0 rgba(255,255,255,.85);
-}
-#iletisimAcilir .iletisim-secenek-btn::after {
-  content:"›"; margin-left:auto; color:#082b70;
-  font-size:31px; line-height:1; font-weight:500;
-}
-#iletisimAcilir .iletisim-secenek-ikon { flex:0 0 36px; width:36px; font-size:29px; line-height:1; text-align:center; }
-#iletisimAcilir .iletisim-secenek-metin { font-size:18px; line-height:1.1; font-weight:900; }
-#iletisimAcilir .iletisim-secenek-btn--mail {
-  background:linear-gradient(110deg,#edf5ff,#dceaff);
-  border:1.5px solid #a8ccff;
-}
-#iletisimAcilir .iletisim-secenek-btn--mail .iletisim-secenek-metin { color:#092b70; }
-#iletisimAcilir .iletisim-secenek-btn--whatsapp {
-  background:linear-gradient(110deg,#edfff3,#ddf6e7);
-  border:1.5px solid #9cdbb3;
-}
-#iletisimAcilir .iletisim-secenek-btn--whatsapp .iletisim-secenek-metin { color:#075b2b; }
-#iletisimAcilir .iletisim-secenek-btn--kaydet {
-  background:linear-gradient(110deg,#f3f0ff,#e9e5ff);
-  border:1.5px solid #c5b8ff;
-}
-#iletisimAcilir .iletisim-secenek-btn--kaydet .iletisim-secenek-metin { color:#142d78; }
-#iletisimAcilir .iletisim-secenek-btn--pdf {
-  background:linear-gradient(110deg,#f4f7fb,#e8eef7);
-  border:1.5px solid #c4d0e0;
-}
-#iletisimAcilir .iletisim-secenek-btn--pdf .iletisim-secenek-metin { color:#243b5d; }
-
-/* Mail / PDF alt popup: Mail penceresi iletişim popup'ının orta seviyesinden
-   başlar ve ana pencerenin sağ-alt bölümünün üzerine bindirilir. */
-.mail-secenek-popover {
-  position:fixed; z-index:1205;
-  box-sizing:border-box;
-  width:min(320px, calc(100vw - 24px));
-  max-height:min(58vh, 420px); overflow:auto;
-  padding:8px;
-  background:#fff;
-  border:2px solid #dce9ff;
-  border-radius:22px;
-  box-shadow:0 14px 32px rgba(4,31,75,.34);
-}
-.mail-secenek-popover-ust {
-  min-height:48px;
-  display:flex; align-items:center; gap:8px;
-  margin:-1px -1px 9px; padding:0 10px 0 13px;
-  border-radius:14px;
-  color:#fff; background:linear-gradient(115deg,#0754b5,#092e78);
-  font-size:clamp(13px,3.6vw,16px); font-weight:900;
-}
-.mail-secenek-popover-ust span { flex:1; min-width:0; }
-.mail-secenek-popover-oge {
-  width:100%; min-height:66px; box-sizing:border-box;
-  display:flex; flex-direction:row; align-items:center; gap:10px;
-  padding:9px 11px; margin:0 0 8px;
-  border:1.5px solid #b6d3ff; border-radius:14px;
-  background:linear-gradient(110deg,#eef5ff,#deebff);
-  text-align:left; cursor:pointer;
-}
-.mail-secenek-popover-oge:last-child { margin-bottom:0; }
-.mail-secenek-popover-oge--zincir {
-  border-color:#a6dfbb;
-  background:linear-gradient(110deg,#effff4,#def6e7);
-}
-.mail-secenek-popover-ikon { flex:0 0 42px; width:42px; text-align:center; font-size:31px; line-height:1; color:#0865d5; }
-.mail-secenek-popover-oge--zincir .mail-secenek-popover-ikon { color:#087333; }
-.mail-secenek-popover-metin { flex:1; min-width:0; display:block; }
-.mail-secenek-popover-baslik {
-  display:block; color:#092b70;
-  font-size:17px; line-height:1.15; font-weight:900;
-}
-.mail-secenek-popover-alt {
-  display:block; margin-top:3px;
-  color:#26384f; font-size:12px; line-height:1.25; font-weight:500;
-}
-.mail-secenek-popover-ok { flex:0 0 18px; color:#092b70; font-size:29px; line-height:1; }
-.pdf-secenek-popover .mail-secenek-popover-oge { min-height:56px; }
-#iletisimAcilir .ub-eylem button.ub-eylem-secili { outline:3px solid #0ea5a4; outline-offset:1px; }
-
-@media(max-width:380px){
-  #iletisimAcilir.iletisim-acilir { width:calc(100vw - 16px); padding:7px; }
-  #iletisimAcilir .iletisim-secenek-btn { min-height:54px; padding:9px 11px; gap:10px; }
-  #iletisimAcilir .iletisim-secenek-metin { font-size:16px; }
-  .mail-secenek-popover { width:min(300px, calc(100vw - 16px)); padding:7px; }
-  .mail-secenek-popover-baslik { font-size:16px; }
-  .mail-secenek-popover-alt { font-size:11px; }
-}
+/* MAIL GÖRSELİ CARİ YAZILARI +%30 (15.11.2026, Abdullah isteği): e-postaya
+   eklenen görselde (#belgeGorselAlani) FATURA ADRESİ / TESLİMAT ADRESİ açık adres
+   metni, adres altındaki telefon/mail satırı ve YETKİLİ satırı (isim + telefon/mail)
+   %30 büyük. Taban değerler: adres/yetkili 12.5px → 16.25px, telefon/mail/görev
+   11px → 14.3px. Başlıklar (FATURA ADRESİ vb.), NOT ve ikonlar DEĞİŞMEDİ.
+   Yalnız bu görsel etkilenir; Cari Kart/Belge Önizleme/Gönder önizleme aynı kalır. */
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok-etiket--fatura + .ck-blok .ck-kart,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat + .ck-blok .ck-kart,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .belge-yetkili-satir { font-size: 16.25px; }
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-iletisim-parca,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .belge-yetkili-detay,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .belge-yetkili-gorev { font-size: 14.3px; }
