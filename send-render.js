@@ -1317,17 +1317,34 @@ document.addEventListener("DOMContentLoaded", function(){
     var bt = document.querySelectorAll(".ub-eylem button");
     return bt.length ? bt[bt.length - 1] : null;
   }
+  // İLETİŞİM POPUP KONUMU: Gönder tuşunun hemen altında, arada 2 mm (yaklaşık 8 px).
   function iletisimPaneliKonumla(){
     var p = document.getElementById("iletisimAcilir");
     if(!p) return;
     var g = gonderUstTusu();
     var vw = window.innerWidth;
     var r = g ? g.getBoundingClientRect() : { top:10, bottom:54, left:vw - 56, right:vw - 8, width:48 };
-    var w = p.offsetWidth;
-    var sol = Math.max(6, Math.min(r.right + 6 - w, vw - w - 6));
-    p.style.top = (r.bottom + 6) + "px";
+    var w = p.offsetWidth || Math.min(390, vw - 20);
+    var sol = Math.max(10, Math.min(r.right - w, vw - w - 10));
+    p.style.top = (r.bottom + 8) + "px";
     p.style.left = sol + "px";
-    p.style.setProperty("--ok-sol", Math.max(10, Math.min(w - 22, r.left + r.width / 2 - sol - 6)) + "px");
+    p.style.setProperty("--ok-sol", Math.max(12, Math.min(w - 24, r.left + r.width / 2 - sol - 6)) + "px");
+  }
+  // MAIL ALT POPUP: ana iletişim penceresinin dikey orta seviyesinden başlar;
+  // ana pencerenin alt-sağ bölümünün üzerine bindirilir, ekrandan taşmaz.
+  function mailSecenekPaneliKonumla(){
+    var pop = document.getElementById("mailSecenekPopover");
+    var ana = document.getElementById("iletisimAcilir");
+    if(!pop || !ana) return;
+    var r = ana.getBoundingClientRect();
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var w = pop.offsetWidth || Math.min(320, vw - 24);
+    var h = pop.offsetHeight || 180;
+    var sol = Math.max(8, Math.min(vw - w - 8, r.left + r.width * 0.25));
+    var ust = r.top + r.height * 0.50;
+    if(ust + h > vh - 8) ust = Math.max(8, vh - h - 8);
+    pop.style.left = sol + "px";
+    pop.style.top = ust + "px";
   }
   function iletisimAcilirAc(){
     document.getElementById("iletisimSheetOverlay").hidden = false;
@@ -1353,17 +1370,32 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 
   document.getElementById("btnIletisimAc").onclick = iletisimAcilirAc;
+  document.getElementById("btnIletisimPopupKapat").onclick = function(ev){
+    ev.stopPropagation(); iletisimAcilirKapat();
+  };
+  document.getElementById("btnMailSecenekKapat").onclick = function(ev){
+    ev.stopPropagation(); document.getElementById("mailSecenekPopover").hidden = true;
+  };
+  document.getElementById("btnPdfSecenekKapat").onclick = function(ev){
+    ev.stopPropagation(); document.getElementById("pdfSecenekPopover").hidden = true;
+  };
   document.getElementById("iletisimSheetOverlay").addEventListener("click", function(ev){
     if(ev.target === this) iletisimAcilirKapat();
   });
   window.addEventListener("resize", function(){
     var ov = document.getElementById("iletisimSheetOverlay");
-    if(ov && !ov.hidden) iletisimPaneliKonumla();
+    if(ov && !ov.hidden){
+      iletisimPaneliKonumla();
+      if(!document.getElementById("mailSecenekPopover").hidden) mailSecenekPaneliKonumla();
+      if(!document.getElementById("pdfSecenekPopover").hidden) altKutuKonumla(document.getElementById("pdfSecenekPopover"), document.getElementById("btnUstPdf"));
+    }
   });
   // Mail/WhatsApp/Tablo'dan biri seçilince kendi önizlemesi açılmadan önce
   // İletişim sheet'i kapanır — iki alttan-açılan sayfa üst üste durmasın diye.
   function iletisimSheetiniKapat(){
     document.getElementById("iletisimSheetOverlay").hidden = true;
+    document.getElementById("mailSecenekPopover").hidden = true;
+    document.getElementById("pdfSecenekPopover").hidden = true;
     document.body.classList.remove("as-drawer-kilit");
     var g = gonderUstTusu();
     if(g) g.classList.remove("ub-eylem-secili");
@@ -1389,11 +1421,10 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("btnUstMail").onclick = function(ev){
     ev.stopPropagation();
     var pop = document.getElementById("mailSecenekPopover");
+    document.getElementById("pdfSecenekPopover").hidden = true;
     var aciliyorMu = pop.hidden;
     pop.hidden = !pop.hidden;
-    if(aciliyorMu){
-      altKutuKonumla(pop, this);
-    }
+    if(aciliyorMu) mailSecenekPaneliKonumla();
   };
   // GERİ ALINDI (26.10.2026, Abdullah onayı — "seçim yapıldıktan sonra
   // otomatik önizleme açılsın" kesin kuralı): "Yeni mail" artık WhatsApp'la
@@ -1415,7 +1446,9 @@ document.addEventListener("DOMContentLoaded", function(){
     ev.stopPropagation();
     document.getElementById("mailSecenekPopover").hidden = true;
     iletisimSheetiniKapat();
-    zinciriCevaplaKopyala();
+    // Yeni Mail ile aynı önizleme akışı; önizlemedeki Gönder cihazın
+    // sistem paylaşım/uygulama seçicisini açar.
+    mailOnizlemeAc();
   };
   document.addEventListener("click", function(ev){
     var pop = document.getElementById("mailSecenekPopover");
