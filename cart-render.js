@@ -1017,6 +1017,22 @@ function musterisizTabloTarihiOlustur(){
   function iki(n){ return (n<10?"0":"")+n; }
   return iki(d.getDate()) + "." + iki(d.getMonth()+1) + "." + d.getFullYear();
 }
+// MÜŞTERİSİZ WHATSAPP GÖRSELİ — gerçek müşteri gönderimiyle aynı üst başlık.
+// İşlem türü mevcut Sepet akışındaki seçili türden alınır; saat ve tarih
+// görsel oluşturulduğu anda yerel cihaz saatinden üretilir.
+function musterisizIslemBaslikHtml(){
+  var tip = (secilenTipBelli && TipEtiket.uzun[secilenTip]) ? secilenTip : "siparis";
+  var d = new Date();
+  var tarih = d.toLocaleDateString("tr-TR", {day:"numeric", month:"long", year:"numeric"});
+  var saat = ("0"+d.getHours()).slice(-2) + ":" + ("0"+d.getMinutes()).slice(-2);
+  return "<div class='whatsapp-giden-hareket-baslik'>"
+    + "<div class='belge-form-baslik tip-" + tip + "'><span class='belge-form-baslik-etiket'>" + TipEtiket.buyukAl(tip) + "</span></div>"
+    + "<div class='whatsapp-giden-tarih-saat'>"
+    + "<span class='whatsapp-giden-tarih-grup'><svg viewBox='0 0 24 24' aria-hidden='true'><rect x='3' y='5' width='18' height='16' rx='2'></rect><path d='M16 3v4M8 3v4M3 10h18'></path></svg><span>Tarih: " + tarih + "</span></span>"
+    + "<span class='whatsapp-giden-tarih-ayrac' aria-hidden='true'></span>"
+    + "<span class='whatsapp-giden-saat-grup'><svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9'></circle><path d='M12 7v5l3 2'></path></svg><span>" + saat + "</span></span>"
+    + "</div></div>";
+}
 function musterisizOnizlemeAc(){
   try{
     var kur = aktifKuruOku();
@@ -1033,10 +1049,7 @@ function musterisizOnizlemeAc(){
     // HESAPLANACAK/HESAPLANDI gruplarının kendi kur/TL gösterimi (sayfayiCiz)
     // DEĞİŞMEDİ.
     document.getElementById("musterisizOnizlemeTablo").innerHTML =
-      "<div class='musterisiz-tablo-ust'>"
-      + "<span class='musterisiz-tablo-mesaj'>" + musterisizTabloMesajiOlustur() + "</span>"
-      + "<span class='musterisiz-tablo-tarih'>" + musterisizTabloTarihiOlustur() + "</span>"
-      + "</div>"
+      musterisizIslemBaslikHtml()
       + HareketTablo.grupHtml({
         urunler: CartData.liste(),
         hesapla: hesapla,
