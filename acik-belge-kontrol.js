@@ -215,11 +215,34 @@ var AcikBelgeKontrol = (function(){
     }catch(e){}
   }
 
-  function sepeteDevamEt(tip){
+  function sepeteDevamEt(tip, musteri){
+    // MÜŞTERİ AKTARIM GÜVENCESİ (15.11.2026): İşlem türü penceresinden
+    // Sepet'e geçerken müşteri nesnesini burada yeniden ve açıkça kaydet.
+    // Önceki akış, önceki ekranda seçilmiş olmasına güveniyordu; bazı giriş
+    // yollarında cart-render.js'in bağlantı kontrolü bu seçimi kaldırabiliyordu.
+    if(!musteri || !musteri.ad || typeof CustomerData === "undefined"){
+      if(typeof hataGoster === "function") hataGoster("Müşteri seçimi doğrulanamadı. Lütfen müşteriyi yeniden seçin.");
+      return;
+    }
+    try{
+      CustomerData.sec(musteri);
+      var kayitliMusteri = CustomerData.seciliyiOku();
+      var beklenenAd = String(musteri.ad).trim().toLocaleLowerCase("tr-TR");
+      var kayitliAd = kayitliMusteri && kayitliMusteri.ad
+        ? String(kayitliMusteri.ad).trim().toLocaleLowerCase("tr-TR") : "";
+      var idUyusmuyor = musteri.id && kayitliMusteri && kayitliMusteri.id
+        && musteri.id !== kayitliMusteri.id;
+      if(!kayitliAd || kayitliAd !== beklenenAd || idUyusmuyor){
+        if(typeof hataGoster === "function") hataGoster("Müşteri bilgisi Sepet'e aktarılamadı. Lütfen tekrar deneyin.");
+        return;
+      }
+    }catch(e){
+      if(typeof hataGoster === "function") hataGoster("Müşteri bilgisi kaydedilemedi. Lütfen tekrar deneyin.");
+      return;
+    }
     bayatIlerletTaslaginiTemizle();
     localStorage.setItem("weiconv2_onceden_secilen_tip", tip);
-    // MÜŞTERİ SIZINTISI DÜZELTMESİ (27.10.2026) ile AYNI bayrak — bkz.
-    // cart-render.js sepetMusteriBaglantisiniDogrula.
+    // cart-render.js bağlantı kontrolü bu bayrakla müşteri seçimini korur.
     localStorage.setItem("weiconv2_sepet_musteri_baglantisi", "1");
     window.location.href = "cart.html";
   }
@@ -227,7 +250,7 @@ var AcikBelgeKontrol = (function(){
   // musteri: {ad, id, sehir, ...} — en az "ad" dolu olmalı.
   function tipSeciminiBaslat(musteri, tip){
     if(tip !== "siparis" || typeof ReportsData === "undefined" || !musteri || !musteri.ad){
-      sepeteDevamEt(tip);
+      sepeteDevamEt(tip, musteri);
       return;
     }
     var acikBelge = ReportsData.musterininAcikBelgesi(musteri.ad);
@@ -236,7 +259,7 @@ var AcikBelgeKontrol = (function(){
       return;
     }
     kaynaklariYukle(function(){
-      uyariGoster(musteri, acikBelge, function(){ sepeteDevamEt(tip); });
+      uyariGoster(musteri, acikBelge, function(){ sepeteDevamEt(tip, musteri); });
     });
   }
 
