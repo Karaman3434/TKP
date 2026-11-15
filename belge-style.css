@@ -1379,3 +1379,29 @@
   margin: 1px auto !important;
   padding: 4px 2px !important;
 }
+
+
+/* A-STANDART TASARIM — DÜZELTME 2
+   Canlı HTML'de yüzde karakteri paraHtml() tarafından .belge-para-birim
+   sınıfıyla üretiliyor. Bu nedenle yüzdeyi doğrudan hedefle; 7.5px
+   önceki kuralı kaldır ve rakamla dengeli, alt satırda okunur göster. */
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-birim {
+  display: block !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  margin-top: 1px !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap !important;
+}
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-sayi {
+  font-size: 14.5px !important;
+  line-height: 1.05 !important;
+  font-weight: 900 !important;
+}
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
+  justify-content: center !important;
+  gap: 0 !important;
+  padding: 4px 1px !important;
+}
