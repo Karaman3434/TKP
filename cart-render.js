@@ -1048,13 +1048,14 @@ function musterisizHareketPopupKonumla(){
   var gonder = document.querySelector(".ub-btn--gonder");
   if(!overlay || !popup) return;
   var ekranGenisligi = document.documentElement.clientWidth || window.innerWidth;
-  var genislik = Math.min(Math.max(ekranGenisligi * 0.65, 250), 360);
+  // 16.11.2026: Abdullah isteğiyle popup genişliği önceki ölçüden %20 küçültüldü.
+  var genislik = Math.min(Math.max(ekranGenisligi * 0.52, 200), 288);
   popup.style.width = genislik + "px";
   var sol = 8, ust = 150, okSol = genislik - 58;
   if(gonder){
     var r = gonder.getBoundingClientRect();
     sol = Math.max(8, Math.min(r.left + r.width/2 - genislik/2, ekranGenisligi - genislik - 8));
-    ust = Math.min(r.bottom + 15, window.innerHeight - 330);
+    ust = Math.min(r.bottom + 12, window.innerHeight - 270);
     okSol = Math.max(24, Math.min(r.left + r.width/2 - sol - 14, genislik - 48));
   }
   popup.style.left = sol + "px";
