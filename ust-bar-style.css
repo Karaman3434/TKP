@@ -342,3 +342,18 @@
 }
 .ub-btn--bilgi { cursor: pointer; }
 .ub-btn--bilgi:disabled { opacity: .55; }
+
+/* 15.11.2026 — ORTAK ÜST BAR: KENAR VE PANEL ARALIK STANDARDI */
+/* Tüm ortak üst bar kullanan sayfalarda sol/sağ dış boşluk eşitlenir.
+   Rota şeridi, işlem tuş grubundan 2mm ve altındaki içerik panelinden
+   2mm ayrılır. Ana Sayfa logosu da dahil olmak üzere barın kenarları
+   aynı 6px ölçüyü kullanır; sayfa içeriği/işlevleri değişmez. */
+.app-ust-sabit .ub-bar {
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+}
+.app-ust-sabit .ub-bar .ub-sayfa-etiket.rota-panel {
+  margin-top: 2mm !important;
+  margin-bottom: 2mm !important;
+}
+
