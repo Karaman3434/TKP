@@ -1648,3 +1648,42 @@ body.cart-sayfa #rotaSeridi.cart-islem-etiketi[data-tip="teklif"]   { color: #0e
 body.cart-sayfa #rotaSeridi.cart-islem-etiketi[data-tip="proforma"] { color: #8e44ad !important; }
 body.cart-sayfa #rotaSeridi.cart-islem-etiketi[data-tip="numune"]   { color: #b7601f !important; }
 body.cart-sayfa #cartTarihPaneli { margin-bottom: 3mm !important; }
+
+/* WHATSAPP MÜŞTERİSİZ GÖRSELİ — send-style.css'teki onaylı başlıkla aynı
+   tipografi ve tarih-saat şeridi. Yalnızca #musterisizOnizlemeTablo alanı. */
+#musterisizOnizlemeTablo .whatsapp-giden-hareket-baslik{
+  width:100%; box-sizing:border-box; margin:0 0 8px; padding:0;
+}
+#musterisizOnizlemeTablo .whatsapp-giden-hareket-baslik .belge-form-baslik{
+  display:block; min-height:0; box-sizing:border-box; margin:0 0 7px; padding:0;
+  border:0; border-radius:0; background:transparent; text-align:center;
+  font-size:23px; line-height:1.12; font-weight:950; letter-spacing:.2px;
+}
+#musterisizOnizlemeTablo .whatsapp-giden-hareket-baslik .belge-form-baslik-etiket{
+  display:block; font:inherit; color:inherit;
+}
+#musterisizOnizlemeTablo .whatsapp-giden-tarih-saat{
+  width:100%; min-height:33px; box-sizing:border-box; display:flex;
+  align-items:center; justify-content:center; gap:10px; padding:3px 10px;
+  border:2px solid #1674c5; border-radius:12px; background:#fff;
+  color:#071d4d; font-size:16px; line-height:1.15; font-weight:850; white-space:nowrap;
+}
+#musterisizOnizlemeTablo .whatsapp-giden-tarih-grup,
+#musterisizOnizlemeTablo .whatsapp-giden-saat-grup{
+  min-width:0; display:flex; align-items:center; justify-content:center;
+  gap:6px; white-space:nowrap;
+}
+#musterisizOnizlemeTablo .whatsapp-giden-tarih-grup svg,
+#musterisizOnizlemeTablo .whatsapp-giden-saat-grup svg{
+  width:18px; height:18px; display:block; flex:0 0 auto; fill:none;
+  stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+}
+#musterisizOnizlemeTablo .whatsapp-giden-tarih-ayrac{
+  width:2px; height:22px; flex:0 0 2px; margin:0 2px;
+  background:#17345d; opacity:.75;
+}
+@media (max-width:420px){
+  #musterisizOnizlemeTablo .whatsapp-giden-tarih-saat{font-size:14px;gap:6px;padding-left:6px;padding-right:6px;}
+  #musterisizOnizlemeTablo .whatsapp-giden-tarih-grup,
+  #musterisizOnizlemeTablo .whatsapp-giden-saat-grup{gap:4px;}
+}
