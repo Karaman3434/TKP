@@ -97,3 +97,39 @@
 /* Günün sözü PIN ekranında ortalı (08.11.2026, Abdullah onayı — seçenek C); satırlar dengeli kırılır. */
 .hosg { text-align: center; }
 .hosg-soz { text-wrap: balance; }
+
+
+/* PIN TUŞLARI — DOKUNMA GERİ BİLDİRİMİ
+   Basılınca koyu mavi zemin/beyaz rakam; silme tuşunda koyu kırmızı.
+   Sadece görsel etkileşim, PIN işlevleri ve doğrulama akışı değişmez. */
+.pin-tus {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background-color 100ms ease, color 100ms ease,
+              transform 100ms ease, box-shadow 100ms ease;
+}
+.pin-tus:not(:disabled):active,
+.pin-tus.pin-tus--basili {
+  background: #174e91 !important;
+  color: #ffffff !important;
+  transform: scale(.96);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,.18);
+}
+.pin-tus--sil:not(:disabled):active,
+.pin-tus--sil.pin-tus--basili {
+  background: #b83232 !important;
+  border-color: #b83232 !important;
+  color: #ffffff !important;
+}
+.pin-giris-buton:not(:disabled):active,
+.pin-giris-buton.pin-tus--basili {
+  background: #002b55 !important;
+  border-color: #002b55 !important;
+  color: #ffffff !important;
+}
+.pin-giris-buton:disabled {
+  transform: none !important;
+  box-shadow: none !important;
+}
