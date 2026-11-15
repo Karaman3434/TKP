@@ -30,8 +30,8 @@
   min-width:0!important;
   box-sizing:border-box!important;
 }
-.ub-bar .ub-grup > .ub-tus-kutu:has(> .ub-btn--kapat),
-.ub-bar .ub-grup > .ub-tus-kutu--menu{
+body:not(:has(.ub-bar .ub-logo)) .ub-bar .ub-grup > .ub-tus-kutu:has(> .ub-btn--kapat),
+body:not(:has(.ub-bar .ub-logo)) .ub-bar .ub-grup > .ub-tus-kutu--menu{
   margin-right:2mm!important;
 }
 .ub-bar .ub-grup > .ub-tus-kutu--menu{
@@ -85,10 +85,10 @@
   background:linear-gradient(180deg,#2785ed 0%,#0d62c7 58%,#084a9b 100%)!important;
   color:#fff!important;
 }
-.ub-bar:has(.ub-eylem) .ub-grup{
+body:not(:has(.ub-bar .ub-logo)) .ub-bar:has(.ub-eylem) .ub-grup{
   --ub-b:min(58.08px,calc((100vw - 4mm - 2mm - 12mm - 4mm)/6.15));
 }
-.ub-bar .ub-grup:has(.ub-btn--bilgi):not(:has(.ub-eylem)){
+body:not(:has(.ub-bar .ub-logo)) .ub-bar .ub-grup:has(.ub-btn--bilgi):not(:has(.ub-eylem)){
   --ub-b:min(58.08px,calc((100vw - 4mm - 2mm - 12mm - 4mm)/6.15));
 }
 .ub-bar:has(.ub-logo) .ub-grup{
