@@ -30,7 +30,7 @@
   min-width:0!important;
   box-sizing:border-box!important;
 }
-.ub-bar .ub-grup > .ub-tus-kutu--kapat,
+.ub-bar .ub-grup > .ub-tus-kutu:has(> .ub-btn--kapat),
 .ub-bar .ub-grup > .ub-tus-kutu--menu{
   margin-right:2mm!important;
 }
