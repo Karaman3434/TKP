@@ -1202,7 +1202,7 @@ document.addEventListener("DOMContentLoaded", function(){
       var kod = kayit.kod || "";
       if(!confirm("DİKKAT: " + ad + (kod ? " — " + kod : "") + " işlemi kalıcı olarak silinecek.\\n\\nBu işlem geri alınamaz. Silmek istediğinize emin misiniz?")) return;
       if(btn) btn.disabled = true;
-      SendData.kaynakSil(g.tip, kayit.ts, function(ok, err){
+      SendData.islemiSil(g.tip, kayit.ts, function(ok, err){
         if(!ok){
           if(btn) btn.disabled = false;
           alert("İşlem silinemedi: "+(err && err.message ? err.message : "Bilinmeyen hata"));
