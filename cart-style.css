@@ -1,8 +1,8 @@
 /*
-  cart-style.css — TKP.15.11.26-14:45.1648
+  cart-style.css — TKP.15.11.26-15:05.1649
   GÜNCELLEME (04.11.2026, Abdullah onayı — mockup üzerinden): İşlem Geçmişi
   penceresi (#musteriGecmisOverlay) kenardan kenara + büyük okunaklı tablo.
-  (önceki: TKP.15.11.26-00:01.1645)
+  (önceki: TKP.15.11.26-14:45.1648)
   ==============
   home-style.css'in üzerine eklenir. Aynı kural: gradyan/gölge yığılması yok.
 */
@@ -1630,3 +1630,21 @@ body.cart-sayfa #rotaSeridi.cart-islem-etiketi { margin: 3mm 8px 1mm !important;
 body.cart-sayfa #cartTarihPaneli { margin-top: 1mm !important; margin-bottom: 1mm !important; }
 
 body.cart-sayfa #cariBilgiAlani .musteri-serit:not(.musteri-serit--asili) { margin-top: 0 !important; margin-bottom: 1mm !important; }
+
+/* 15.11.2026 (Abdullah isteği) — İŞLEM HAREKET paneli (eski "SEPET HESAP" etiketi, #rotaSeridi):
+   • metin seçilen işleme göre otomatik (cart-render.js cartIslemEtiketiGuncelle → data-tip)
+   • boy: Müşteri panelinden (38px) %20 yüksek = 46px; genişlik: Tarih-saat paneliyle aynı (kenardan kenara)
+   • harf boyu %10 büyük (22 → 24.2px); harf rengi işleme özel (İşlem Seç penceresindeki tip renkleriyle aynı)
+   • Tarih-saat paneli ile Müşteri paneli arası 3 mm. */
+body.cart-sayfa #rotaSeridi.cart-islem-etiketi {
+  width: 100% !important;
+  margin: 3mm 0 1mm !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  font-size: 24.2px !important;
+}
+body.cart-sayfa #rotaSeridi.cart-islem-etiketi[data-tip="siparis"]  { color: #3569b8 !important; }
+body.cart-sayfa #rotaSeridi.cart-islem-etiketi[data-tip="teklif"]   { color: #0e6b34 !important; }
+body.cart-sayfa #rotaSeridi.cart-islem-etiketi[data-tip="proforma"] { color: #8e44ad !important; }
+body.cart-sayfa #rotaSeridi.cart-islem-etiketi[data-tip="numune"]   { color: #b7601f !important; }
+body.cart-sayfa #cartTarihPaneli { margin-bottom: 3mm !important; }

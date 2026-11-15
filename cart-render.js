@@ -1,8 +1,8 @@
 /*
-  cart-render.js — TKP.13.11.26-00:15.1587
+  cart-render.js — TKP.15.11.26-15:05.1649
   GÜNCELLEME (04.11.2026, Abdullah onayı): İşlem Geçmişi penceresi satırları —
   tarih tek satır + altında (Tip), sayılar altında küçük EURO/% (cart-style.css).
-  (önceki: TKP.11.11.26-11:18.1564)
+  (önceki: TKP.13.11.26-00:15.1587)
   ==============
   02.11.2026: "primSatirIci" bayrağı kaldırıldı (PRİM artık tüm sayfalarda
   ortak GENEL TOPLAM kutusunun içinde — hareket-tablo.js genelToplamHtml);
@@ -61,9 +61,20 @@ function hataGoster(mesaj){
 
 // SEPET ÜST TASARIMI: işlem türü etiketi ve beyaz tarih/saat paneli.
 function cartIslemEtiketiGuncelle(){
-  // Sayfa etiketi sabittir; işlem türü rota panelinin içine karışmaz.
+  // 15.11.2026 (Abdullah isteği): panel artık "İŞLEM HAREKET" etiketi — seçilen işleme göre otomatik
+  // değişir (SİPARİŞ / FİYAT TEKLİFİ / PROFORMA FATURA / NUMUNE; tek kaynak: tip-etiketleri.js, renk: cart-style.css
+  // [data-tip]). İşlem türü henüz belli değilse (ör. Ana Sayfa > Ürün Bul girişi) eski "SEPET HESAP" yazar.
   var el = document.getElementById("rotaSeridi");
-  if(el) el.textContent = "SEPET HESAP";
+  if(!el) return;
+  var metin = "SEPET HESAP", tip = "";
+  try{
+    if(secilenTipBelli && typeof TipEtiket !== "undefined" && TipEtiket.uzun[secilenTip]){
+      metin = TipEtiket.buyukAl(secilenTip);
+      tip = secilenTip;
+    }
+  }catch(e){}
+  if(el.textContent !== metin) el.textContent = metin;
+  if(tip) el.setAttribute("data-tip", tip); else el.removeAttribute("data-tip");
 }
 function cartTarihSaatGuncelle(){
   var d = new Date();
@@ -101,6 +112,7 @@ function crIzinVarMi(anahtar){
 // TIP_ETIKET_BELGE (belge-render.js) ile BİREBİR aynı kısaltmalar.
 var TIP_ETIKET_ROZET = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
 var secilenTip = "siparis";
+var secilenTipBelli = false;   // 15.11.2026: işlem türü gerçekten seçildi mi? (İşlem Hareket etiketi buna bakar; seçilmediyse varsayılan "siparis" ekranda gösterilmez)
 var seciliAdresler = {};
 var revizeSecimBekleniyor = null;
 
@@ -724,6 +736,7 @@ function ilerletKaynagiVarsaSekmeAyarla(){
   uyari.className = "ilerlet-bilgi-kutu";
   if(secenekler.length === 1 || (oncedenSecilen && secenekler.indexOf(oncedenSecilen) !== -1)){
     secilenTip = (oncedenSecilen && secenekler.indexOf(oncedenSecilen) !== -1) ? oncedenSecilen : secenekler[0];
+    secilenTipBelli = true;
     uyari.textContent = kaynak.bekleyenMod
       ? "⏳ Bekleyen ürün ilerletiliyor — kayıt tamamlanınca gelen adetler bekleyenden düşülür. Adetleri ve fiyatları buradan düzenleyebilirsin."
       : "▶️ İlerletiliyor — kayıt tamamlanınca önceki aşamanın belgesi otomatik silinecek.";
@@ -756,6 +769,7 @@ function asamaSecimPopupunuAc(devamFn){
   kapsayici.querySelectorAll("[data-secim]").forEach(function(btn){
     btn.onclick = function(){
       secilenTip = this.getAttribute("data-secim");
+      secilenTipBelli = true;
       revizeSecimBekleniyor = null;
       overlay.hidden = true;
       sayfayiCiz();
@@ -801,7 +815,7 @@ function sepetMusteriBaglantisiniDogrula(){
 function oncedenSecilenTipVarsaUygula(){
   try{
     var tip = localStorage.getItem("weiconv2_onceden_secilen_tip");
-    if(tip) secilenTip = tip;
+    if(tip){ secilenTip = tip; secilenTipBelli = true; }
   }catch(e){}
 }
 
