@@ -1209,8 +1209,10 @@ document.addEventListener("DOMContentLoaded", function(){
     var ar = ayrintiBtn.getBoundingClientRect();
     var w = p.offsetWidth || 228;
     var h = p.offsetHeight || 170;
-    var left = Math.max(6, Math.min(mr.right - w, vw - w - 6));
-    var top = Math.max(8, mr.top - h - 8);
+    var left = Math.round(mr.left + mr.width * 0.75);
+    if(left + w > vw - 6) left = vw - w - 6;
+    if(left < 6) left = 6;
+    var top = Math.max(8, Math.round(mr.top));
     p.style.top = top + "px";
     p.style.left = left + "px";
     p.style.setProperty("--alt-ok-sol", Math.max(14, Math.min(w - 26, ar.left + ar.width / 2 - left - 8)) + "px");
@@ -1333,6 +1335,10 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("belgeBilgiMenuOverlay").addEventListener("click", function(ev){
     if(ev.target === this) belgeBilgiMenuKapat();
   });
+  var btnBilgiMenuKapat = document.getElementById("btnBelgeBilgiMenuKapat");
+  if(btnBilgiMenuKapat) btnBilgiMenuKapat.onclick = belgeBilgiMenuKapat;
+  var btnAyrintiPopupKapat = document.getElementById("btnAyrintiPopupKapat");
+  if(btnAyrintiPopupKapat) btnAyrintiPopupKapat.onclick = function(){ acilirKapat("islemlerOverlay"); };
   document.getElementById("btnCariDuzenleBilgi").onclick = function(){
     belgeBilgiMenuKapat();
     if(!sonCizilenMusteri) return;
