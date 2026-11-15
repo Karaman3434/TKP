@@ -113,6 +113,10 @@ jobs:
               problems.append("Cihaz okuma kuralında sahiplik kontrolü eksik")
           if "sonKullaniciUid" not in device.get(".write", ""):
               problems.append("Cihaz yazma kuralında sahiplik kontrolü eksik")
+          pin_rules = rules.get("pin", {})
+          for permission in (".read", ".write"):
+              if pin_rules.get(permission) == "auth != null":
+                  problems.append(f"PIN hash {permission} kuralı tüm oturum açmış kullanıcılara açık")
           secret_patterns = [
               re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
               re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}\b"),
