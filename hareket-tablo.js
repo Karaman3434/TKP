@@ -55,7 +55,7 @@ var HareketTablo = (function(){
   // sınıfı) — kopyalanan/gönderilen tabloda yalnızca EURO kalır.
   function netTlHtml(netEuro, kur){
     if(!kur) return "";
-    return "<div class='belge-net-tl'>≈ " + Math.round(netEuro*kur).toLocaleString("tr-TR") + " TL</div>";
+    return "<span class='belge-net-tl'>≈ " + Math.round(netEuro*kur).toLocaleString("tr-TR") + " TL</span>";
   }
 
   // BAKİYE NOTU (07.10.2026 → 21.10.2026 güncellemesi, Abdullah'ın isteğiyle)
