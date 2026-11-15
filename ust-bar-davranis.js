@@ -347,11 +347,11 @@
       if(!bar) return;
       var link=document.createElement("link");
       link.rel="stylesheet";
-      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-ISLEM-CUBUGU-04";
+      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-ISLEM-CUBUGU-05";
       document.head.appendChild(link);
       if((window.location.pathname.split("/").pop() || "index.html") !== "home.html"){
         var eylemScript=document.createElement("script");
-        eylemScript.src="ust-bar-eylem.js?v=TKP.15.11.26-ISLEM-CUBUGU-02";
+        eylemScript.src="ust-bar-eylem.js?v=TKP.15.11.26-ISLEM-CUBUGU-03";
         document.body.appendChild(eylemScript);
       }
       duzenle(bar);
