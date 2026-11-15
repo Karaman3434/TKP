@@ -155,7 +155,7 @@ var HareketTablo = (function(){
     // send-render.js'teki "belge-urun-tablo--giden" — table-layout:fixed —
     // giden görsel için) — tablo/sütun YAPISINI değiştirmez, sadece var
     // olan sayfa-özel bir görsel kuralın üstüne eklenmesini sağlar.
-    return "<div class='data-table-container'><table class='belge-urun-tablo" + (ekSinif ? " " + ekSinif : "") + "'>"
+    return "<div class='data-table-container'><table class='belge-urun-tablo" + (basit ? " belge-urun-tablo--basit" : "") + (ekSinif ? " " + ekSinif : "") + "'>"
       + "<thead><tr>" + basHucreler + "</tr></thead>"
       + "<tbody>" + satirlarHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur) + "</tbody></table></div>";
   }
