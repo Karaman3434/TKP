@@ -86,10 +86,10 @@
   color:#fff!important;
 }
 .ub-bar:has(.ub-eylem) .ub-grup{
-  --ub-b:min(58.08px,calc((100vw - 6px - 5mm - 4px - 4mm - 16mm)/6.2));
+  --ub-b:min(58.08px,calc((100vw - 4mm - 2mm - 12mm - 4mm)/6.15));
 }
 .ub-bar .ub-grup:has(.ub-btn--bilgi):not(:has(.ub-eylem)){
-  --ub-b:min(58.08px,calc((100vw - 6px - 5mm - 4px - 4mm - 12mm)/5.15));
+  --ub-b:min(58.08px,calc((100vw - 4mm - 2mm - 12mm - 4mm)/6.15));
 }
 .ub-bar:has(.ub-logo) .ub-grup{
   --ub-b:min(58.08px,calc((100vw - 5mm - 6px - 8px - 24px - 6mm - 4px - 105px)/4.15));
