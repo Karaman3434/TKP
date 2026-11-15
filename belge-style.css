@@ -1232,3 +1232,111 @@
   line-height: 1.12 !important;
   font-variant-numeric: tabular-nums;
 }
+
+
+/* ================================================================
+   ABDULLAH ONAYI — ORTAK İSK / NET ÜRÜN TABLOSU TASARIMI
+   15.11.2026
+   Ortak HareketTablo çıktısını kullanan Sepet, Belge Önizleme,
+   Gönder/Mail ve cari işlem tablolarında aynı görünüm:
+   kırmızı İSK kartı, koyu yeşil NET kartı, beyaz kalın başlıklar,
+   ayrı/yuvarlatılmış hücreler. Yalnızca görünüm; hesaplama/veri değişmez.
+   ================================================================ */
+:root {
+  --urun-isk-bg: #f04444;
+  --urun-net-bg: #07852b;
+}
+.belge-urun-tablo thead th:nth-child(5) {
+  background: var(--urun-isk-bg) !important;
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  border-radius: 9px !important;
+  border-bottom-color: var(--urun-isk-bg) !important;
+}
+.belge-urun-tablo thead th:nth-child(6) {
+  background: var(--urun-net-bg) !important;
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  border-radius: 9px !important;
+  border-bottom-color: var(--urun-net-bg) !important;
+}
+/* İSK: kırmızı, ayrı kart; rakam önceki onaylı ölçüden %20 büyük,
+   yüzde işareti kendi normal ölçüsünden %40 küçük. */
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: calc(100% - 6px) !important;
+  min-height: 54px;
+  margin: 3px auto !important;
+  padding: 5px 2px !important;
+  box-sizing: border-box !important;
+  border-radius: 12px !important;
+  background: var(--urun-isk-bg) !important;
+  color: #ffffff !important;
+}
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-sayi,
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-td-sayi {
+  color: #ffffff !important;
+  font-size: 16.8px !important;
+  line-height: 1.05 !important;
+  font-weight: 900 !important;
+}
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-birim,
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-td-birim {
+  color: #ffffff !important;
+  font-size: 5.76px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  margin-top: 2px !important;
+}
+/* NET: seçilen %10 daha koyu yeşil; beyaz tutar/birim ve beyaz TL alt satırı. */
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net {
+  display: block !important;
+  width: calc(100% - 6px) !important;
+  min-height: 54px;
+  margin: 3px auto !important;
+  padding: 6px 3px !important;
+  box-sizing: border-box !important;
+  border-radius: 12px !important;
+  background: var(--urun-net-bg) !important;
+  color: #ffffff !important;
+  text-align: center !important;
+}
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-para-sayi,
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-td-sayi,
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-para-birim,
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-td-birim,
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-net-tl {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+}
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-net-tl {
+  font-size: 9px !important;
+  line-height: 1.1 !important;
+  opacity: .96;
+  margin-top: 2px !important;
+}
+/* Müşteriye giden sade tabloda LİSTE/İSK bulunmaz; üçüncü sütun NET'tir.
+   Bu tabloda da NET başlığı ve tutar kartı aynı yeşil standardı taşır. */
+.belge-urun-tablo--basit thead th:nth-child(3) {
+  background: var(--urun-net-bg) !important;
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  border-radius: 9px !important;
+}
+.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
+  display: block !important;
+  width: calc(100% - 6px) !important;
+  margin: 3px auto !important;
+  padding: 6px 3px !important;
+  box-sizing: border-box !important;
+  border-radius: 12px !important;
+  background: var(--urun-net-bg) !important;
+  color: #ffffff !important;
+  text-align: center !important;
+}
+.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net * {
+  color: #ffffff !important;
+}
