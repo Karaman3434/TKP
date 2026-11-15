@@ -940,12 +940,13 @@ body:has(.as-sayfa) .app-ust-sabit .ub-btn--kapat {
 .as-sayfa .as-liste-satir { padding-top:9.2px !important; padding-bottom:9.2px !important; }
 
 /* 15.11.2026 — SADECE ANA SAYFA: İŞ TAKİP LOGOSU MAVİ ÇERÇEVE */
-/* Logo kutusu, soldaki .ub-grup dış çerçevesiyle aynı toplam yüksekliğe
-   (52.8px tuş + 8px grup dolgusu = 60.8px) eşitlenir.
-   Kural yalnızca home.html'de bulunan .as-sayfa işaretiyle etkinleşir. */
+/* Logo çerçevesi sabit piksel yüksekliğine bağlanmaz. .ub-bar içindeki
+   .ub-grup yüksekliğine esneyerek eşitlenir; tuş altı etiketleri de
+   dahil edilir. Böylece ölçü, gerçek sol dış çerçeveden alınır. */
 body:has(.as-sayfa) .app-ust-sabit .ub-logo {
-  height: 60.8px !important;
-  min-height: 60.8px;
+  align-self: stretch;
+  height: auto !important;
+  min-height: 0;
   box-sizing: border-box;
   padding: 4px 7px;
   border: 1.5px solid #75aef0;
@@ -961,4 +962,3 @@ body:has(.as-sayfa) .app-ust-sabit .ub-logo img {
   max-height: 44px;
   object-fit: contain;
 }
-
