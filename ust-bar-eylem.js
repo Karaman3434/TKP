@@ -28,6 +28,8 @@
   İZOLE dosya: tamamı try/catch içinde, hata sayfanın geri kalanını bozmaz.
 */
 (function(){
+  if(window.__tkpUstBarEylemKuruldu) return;
+  window.__tkpUstBarEylemKuruldu = true;
   function id(adi){ return function(){ return document.getElementById(adi); }; }
 
   var EYLEM_TABLOSU = {
@@ -106,10 +108,19 @@
   }
 
   function kur(){
-    var liste = EYLEM_TABLOSU[dosyaAdi()];
-    if(!liste || !liste.length) return;
+    if(dosyaAdi() === "home.html") return; // Ana Sayfa'da yalnızca onaylı dört tuş + logo kalır.
     var bar = document.querySelector(".ub-bar");
     if(!bar || bar.querySelector(".ub-eylem")) return;
+
+    // Her sayfada yedi konum sabit görünür. Sayfada gerçek bir işlem hedefi
+    // yoksa ilgili tuş gri/pasif kalır; mevcut sayfa işlevleri korunur.
+    var liste = (EYLEM_TABLOSU[dosyaAdi()] || []).slice();
+    ["bilgi","kaydet","gonder"].forEach(function(tur){
+      if(bar.querySelector(".ub-btn--" + tur)) return; // Örn. Sepet'teki mevcut BİM tuşu.
+      if(!liste.some(function(e){ return e.tur === tur; })){
+        liste.push({tur:tur, hedef:function(){ return null; }});
+      }
+    });
 
     var kutu = document.createElement("div");
     kutu.className = "ub-eylem";
@@ -147,8 +158,8 @@
           var var_ = !!h;
           if(var_ && e.gizleHedef) h.style.setProperty("display", "none", "important");
           butonlar[i].disabled = !(var_ && !h.disabled);
-          butonlar[i].hidden = (e.gerekli && !var_);
-          if(!butonlar[i].hidden) herhangiGorunur = true;
+          butonlar[i].hidden = false; // Yedi tuş tüm sayfalarda daima görünür.
+          herhangiGorunur = true;
         });
         kutu.hidden = !herhangiGorunur;
       }catch(x){}
