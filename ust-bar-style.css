@@ -347,11 +347,11 @@
 /* Tüm ortak üst bar kullanan sayfalarda telefon kenarlarından eşit 2mm
    güvenli boşluk. İşlem tuş grubu ile rota paneli ve rota paneli ile
    altındaki ilk içerik arasında ayrı ayrı 2mm dikey boşluk. */
-.app-ust-sabit .ub-bar {
+body:not(:has(.ub-logo)) .app-ust-sabit .ub-bar {
   padding-left: 2mm !important;
   padding-right: 2mm !important;
 }
-.app-ust-sabit .ub-bar .ub-sayfa-etiket.rota-panel {
+body:not(:has(.ub-logo)) .app-ust-sabit .ub-bar .ub-sayfa-etiket.rota-panel {
   margin-top: 2mm !important;
   margin-bottom: 2mm !important;
 }
