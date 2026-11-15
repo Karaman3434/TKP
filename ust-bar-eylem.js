@@ -45,6 +45,10 @@
     // kalktı — üst bar Gönder'i açık Mail/WhatsApp önizlemesinin Gönder'ini
     // tetikler (send-render.js ustGonderTiklandi); önizleme yoksa İletişim'i açar.
     "send.html": [
+      { tur:"bilgi", aktifMi:function(){ return typeof sendIslemiSil === "function" && !!(sonKaydedilenBelge && sonKaydedilenBelge.kayit); },
+        tikla:function(){ sendIslemiSil(); } },
+      { tur:"kaydet", aktifMi:function(){ return typeof sendIslemiKaydet === "function" && !!(sonKaydedilenBelge && sonKaydedilenBelge.kayit); },
+        tikla:function(){ sendIslemiKaydet(); } },
       { tur:"gonder",
         aktifMi:function(){ return typeof ustGonderTiklandi === "function"; },
         tikla:function(){ ustGonderTiklandi(); } }
@@ -91,6 +95,7 @@
   };
 
   var AYAR = {
+    bilgi: { etiket:"İşlemi Sil", ikon:"İ" },
     kaydet: { etiket:"Kaydet", ikon:"<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M5 3h11l4 4v14H5z'/><path d='M8 3v6h8V3'/><rect x='8' y='14' width='8' height='7'/></svg>" },
     gonder: { etiket:"Gönder", ikon:"<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M22 2 11 13'/><path d='M22 2 15 22l-4-9-9-4z'/></svg>" }
   };
