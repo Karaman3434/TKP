@@ -1340,3 +1340,42 @@
 .belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net * {
   color: #ffffff !important;
 }
+
+
+/* ABDULLAH ONAYI — İSKONTO YÜZDE İŞARETİ ALT SATIR / A-STANDART
+   15.11.2026: Yalnızca İSK ve NET rozetlerinin görsel yerleşimi.
+   Veri, hesaplama, sütun yapısı ve dışa aktarım filtreleri değişmez. */
+.belge-urun-tablo tbody td:nth-child(5),
+.belge-urun-tablo tbody td:nth-child(6) {
+  padding-left: 1px !important;
+  padding-right: 1px !important;
+}
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
+  width: calc(100% - 2px) !important;
+  margin: 1px auto !important;
+  padding: 3px 1px !important;
+  gap: 1px !important;
+}
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-sayi,
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-td-sayi {
+  font-size: 14.5px !important;
+  line-height: 1.05 !important;
+  white-space: nowrap !important;
+}
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-birim,
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-td-birim {
+  display: block !important;
+  font-size: 7.5px !important;
+  line-height: 1 !important;
+  margin-top: 1px !important;
+}
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net {
+  width: calc(100% - 2px) !important;
+  margin: 1px auto !important;
+  padding: 4px 2px !important;
+}
+.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
+  width: calc(100% - 2px) !important;
+  margin: 1px auto !important;
+  padding: 4px 2px !important;
+}
