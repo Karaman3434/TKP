@@ -1651,14 +1651,16 @@ body.cart-sayfa #cartTarihPaneli { margin-bottom: 3mm !important; }
 
 /* WHATSAPP MÜŞTERİSİZ GÖRSELİ — send-style.css'teki onaylı başlıkla aynı
    tipografi ve tarih-saat şeridi. Yalnızca #musterisizOnizlemeTablo alanı. */
+/* Müşterisiz WhatsApp görseli — onaylanan son tasarım:
+   işlem etiketi ayrı, açık yeşil çerçeveli bant; tarih/saat hemen altında. */
 #musterisizOnizlemeTablo .whatsapp-giden-hareket-baslik{
-  width:100%; box-sizing:border-box; margin:0 0 8px; padding:2px 0 0;
+  width:100%; box-sizing:border-box; margin:0 0 7px; padding:0;
   overflow:visible;
 }
 #musterisizOnizlemeTablo .whatsapp-giden-hareket-baslik .belge-form-baslik{
-  display:flex; min-height:30px; box-sizing:border-box; align-items:center; justify-content:center;
-  margin:0 0 2px; padding:3px 0 2px; overflow:visible;
-  border:0; border-radius:0; background:transparent; text-align:center;
+  display:flex; min-height:48px; box-sizing:border-box; align-items:center; justify-content:center;
+  margin:0 0 5px; padding:5px 8px; overflow:visible;
+  border:2px solid #087a35; border-radius:12px; background:#e7f8ec; text-align:center;
   font-size:23px; line-height:1.2; font-weight:950; letter-spacing:.2px;
 }
 #musterisizOnizlemeTablo .whatsapp-giden-hareket-baslik .belge-form-baslik-etiket{
