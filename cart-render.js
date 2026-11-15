@@ -1042,29 +1042,34 @@ function musterisizIslemBaslikHtml(tip){
     + "<span class='whatsapp-giden-saat-grup'><svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9'></circle><path d='M12 7v5l3 2'></path></svg><span>" + saat + "</span></span>"
     + "</div></div>";
 }
+function musterisizHareketPopupKonumla(){
+  var overlay = document.getElementById("musterisizGonderOverlay");
+  var popup = document.getElementById("musterisizHareketPopup");
+  var gonder = document.querySelector(".ub-btn--gonder");
+  if(!overlay || !popup) return;
+  var ekranGenisligi = document.documentElement.clientWidth || window.innerWidth;
+  var genislik = Math.min(Math.max(ekranGenisligi * 0.65, 250), 360);
+  popup.style.width = genislik + "px";
+  var sol = 8, ust = 150, okSol = genislik - 58;
+  if(gonder){
+    var r = gonder.getBoundingClientRect();
+    sol = Math.max(8, Math.min(r.left + r.width/2 - genislik/2, ekranGenisligi - genislik - 8));
+    ust = Math.min(r.bottom + 15, window.innerHeight - 330);
+    okSol = Math.max(24, Math.min(r.left + r.width/2 - sol - 14, genislik - 48));
+  }
+  popup.style.left = sol + "px";
+  popup.style.top = Math.max(8, ust) + "px";
+  popup.style.setProperty("--hareket-ok-sol", okSol + "px");
+}
 function musterisizOnizlemeAc(){
   try{
     var kur = aktifKuruOku();
     var kdv = CartData.kdvOku();
     var hesapla = function(u){ return CartData.hesapla(u, kur, kdv); };
     var toplamlar = CartData.genelToplam(kur, kdv);
-    // DÜZELTME (13.10.2026, Abdullah onayı — mockup üzerinden): mesaj artık
-    // tablonun ÜSTÜNDE (altında değil). HareketTablo.grupHtml'e kur/kurManuelMi
-    // BİLEREK geçilmiyor — bu, "Bu işlem kuru" kutusunu, satır altı ≈TL
-    // satırlarını ve GENEL TOPLAM'ın ≈TL alt satırını otomatik olarak
-    // kaldırır (bkz. hareket-tablo.js — bu alanlar sadece opts.kur varsa
-    // render edilir); gönderilen görselde SADECE EURO tutarları kalır. Bu
-    // SADECE bu önizleme/gönderim alanını etkiler — Sepet ekranındaki
-    // HESAPLANACAK/HESAPLANDI gruplarının kendi kur/TL gösterimi (sayfayiCiz)
-    // DEĞİŞMEDİ.
-    // Önizleme ilk açıldığında mevcut ortak içerik korunur. WhatsApp
-    // seçildiğinde yeni işlem başlığı yalnızca WhatsApp görseline uygulanır;
-    // müşterisiz Mail çıktısının mevcut tasarımı değiştirilmez.
-    var tipSecici = document.getElementById("musterisizWhatsappTipSec");
-    musterisizWhatsappTip = (secilenTipBelli && TipEtiket.uzun[secilenTip]) ? secilenTip : "";
-    if(tipSecici) tipSecici.value = musterisizWhatsappTip;
-    var whatsappBtn = document.getElementById("btnMusterisizWhatsapp");
-    if(whatsappBtn) whatsappBtn.disabled = !musterisizWhatsappTip;
+    // Müşterisiz hızlı gönderimde tek kanal WhatsApp'tır.
+    // İşlem türü önceki seçimden devralınmaz; her gönderimde kullanıcı seçer.
+    musterisizWhatsappTip = "";
     document.getElementById("musterisizOnizlemeTablo").innerHTML =
       "<div class='musterisiz-tablo-ust'>"
       + "<span class='musterisiz-tablo-mesaj'>" + musterisizTabloMesajiOlustur() + "</span>"
@@ -1077,8 +1082,20 @@ function musterisizOnizlemeAc(){
         primGizli: true,
         genelToplam: toplamlar.toplamEuro
       });
-    document.getElementById("musterisizGonderOverlay").hidden = false;
-  }catch(e){ hataGoster("Önizleme açılamadı: " + e.message); }
+    var overlay = document.getElementById("musterisizGonderOverlay");
+    overlay.hidden = false;
+    musterisizHareketPopupKonumla();
+  }catch(e){ hataGoster("İşlem hareketi penceresi açılamadı: " + e.message); }
+}
+function musterisizHareketSec(tip){
+  if(!tip || !TipEtiket.uzun[tip]){
+    hataGoster("Geçerli bir işlem hareketi seçin.");
+    return;
+  }
+  musterisizWhatsappTip = tip;
+  var overlay = document.getElementById("musterisizGonderOverlay");
+  if(overlay) overlay.hidden = true;
+  musterisizWhatsappGonder();
 }
 // SEPETİ SIFIRLA (13.10.2026, Abdullah'ın isteğiyle; DÜZELTME 13.10.2026
 // gece — Abdullah'ın bildirdiği Mail hatası): Müşterisiz Gönder'de WhatsApp/
@@ -1237,15 +1254,25 @@ document.addEventListener("DOMContentLoaded", function(){
   // — bu yüzden o bağlama burada artık YOK. "Kaydet"/"Gönder" statik
   // bağlaması da kaldırıldı — Gönder artık panelde dinamik üretiliyor,
   // bağlaması sayfayiCiz() içinde yapılıyor (bkz. gonderBtnEl).
-  var tipSecici = document.getElementById("musterisizWhatsappTipSec");
-  var whatsappBtn = document.getElementById("btnMusterisizWhatsapp");
-  if(tipSecici) tipSecici.onchange = function(){
-    musterisizWhatsappTip = this.value || "";
-    if(whatsappBtn) whatsappBtn.disabled = !musterisizWhatsappTip;
-  };
-  document.getElementById("btnMusterisizWhatsapp").onclick = musterisizWhatsappGonder;
-  document.getElementById("btnMusterisizMail").onclick = musterisizMailGonder;
-  document.getElementById("btnMusterisizVazgec").onclick = function(){ document.getElementById("musterisizGonderOverlay").hidden = true; };
+  var hareketOverlay = document.getElementById("musterisizGonderOverlay");
+  if(hareketOverlay){
+    hareketOverlay.querySelectorAll("[data-islem-tipi]").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        musterisizHareketSec(this.getAttribute("data-islem-tipi"));
+      });
+    });
+    hareketOverlay.addEventListener("click", function(ev){
+      if(ev.target === hareketOverlay) hareketOverlay.hidden = true;
+    });
+  }
+  window.addEventListener("resize", function(){
+    var ov = document.getElementById("musterisizGonderOverlay");
+    if(ov && !ov.hidden) musterisizHareketPopupKonumla();
+  });
+  window.addEventListener("scroll", function(){
+    var ov = document.getElementById("musterisizGonderOverlay");
+    if(ov && !ov.hidden) musterisizHareketPopupKonumla();
+  }, true);
   // İşlem Geçmişi penceresi (10.11.2026, Abdullah isteği): alttaki "Kapat" butonu
   // kaldırıldı; pencere AÇIKKEN üst bardaki ✕ yalnız pencereyi kapatır (işlemi
   // iptal etmez / sepeti boşaltmaz). Kapalıyken ✕ eskisi gibi çalışır.
