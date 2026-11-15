@@ -192,3 +192,45 @@ document.addEventListener("DOMContentLoaded", function(){
     for(var i=0;i<v.length;i++) rakamEkle(v[i]);
   });
 });
+
+
+// GÖRSEL GERİ BİLDİRİM (15.11.2026): PIN tuşuna dokunulduğunda
+// kısa süreli basılma efekti göster. PIN doğrulama akışına müdahale etmez.
+function pinTusGorselGeriBildiriminiKur(){
+  var grid = document.getElementById("pinTusGrid");
+  if(!grid || grid.dataset.geriBildirimKurulu === "1") return;
+  grid.dataset.geriBildirimKurulu = "1";
+  var zamanlayicilar = new WeakMap();
+
+  function basildi(btn){
+    if(!btn || btn.disabled || !btn.classList.contains("pin-tus")) return;
+    var eski = zamanlayicilar.get(btn);
+    if(eski) clearTimeout(eski);
+    btn.classList.add("pin-tus--basili");
+  }
+  function birakildi(btn){
+    if(!btn || !btn.classList.contains("pin-tus")) return;
+    var eski = zamanlayicilar.get(btn);
+    if(eski) clearTimeout(eski);
+    var id = setTimeout(function(){
+      btn.classList.remove("pin-tus--basili");
+      zamanlayicilar.delete(btn);
+    }, 150);
+    zamanlayicilar.set(btn,id);
+  }
+
+  grid.addEventListener("pointerdown",function(ev){
+    basildi(ev.target.closest(".pin-tus"));
+  });
+  ["pointerup","pointercancel","pointerleave"].forEach(function(olay){
+    grid.addEventListener(olay,function(ev){
+      birakildi(ev.target.closest(".pin-tus"));
+    });
+  });
+  grid.addEventListener("keydown",function(ev){
+    if(ev.key===" " || ev.key==="Enter") basildi(ev.target.closest(".pin-tus"));
+  });
+  grid.addEventListener("keyup",function(ev){
+    if(ev.key===" " || ev.key==="Enter") birakildi(ev.target.closest(".pin-tus"));
+  });
+}
