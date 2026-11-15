@@ -1048,8 +1048,14 @@ function musterisizOnizlemeAc(){
     // SADECE bu önizleme/gönderim alanını etkiler — Sepet ekranındaki
     // HESAPLANACAK/HESAPLANDI gruplarının kendi kur/TL gösterimi (sayfayiCiz)
     // DEĞİŞMEDİ.
+    // Önizleme ilk açıldığında mevcut ortak içerik korunur. WhatsApp
+    // seçildiğinde yeni işlem başlığı yalnızca WhatsApp görseline uygulanır;
+    // müşterisiz Mail çıktısının mevcut tasarımı değiştirilmez.
     document.getElementById("musterisizOnizlemeTablo").innerHTML =
-      musterisizIslemBaslikHtml()
+      "<div class='musterisiz-tablo-ust'>"
+      + "<span class='musterisiz-tablo-mesaj'>" + musterisizTabloMesajiOlustur() + "</span>"
+      + "<span class='musterisiz-tablo-tarih'>" + musterisizTabloTarihiOlustur() + "</span>"
+      + "</div>"
       + HareketTablo.grupHtml({
         urunler: CartData.liste(),
         hesapla: hesapla,
@@ -1126,6 +1132,18 @@ function musterisizTabloGonder(kanal){
         return;
       }
       var alan = document.getElementById("musterisizOnizlemeTablo");
+      if(kanal === "whatsapp"){
+        var kur = aktifKuruOku();
+        var kdv = CartData.kdvOku();
+        alan.innerHTML = musterisizIslemBaslikHtml()
+          + HareketTablo.grupHtml({
+            urunler: CartData.liste(),
+            hesapla: function(u){ return CartData.hesapla(u, kur, kdv); },
+            kanal: "whatsapp",
+            primGizli: true,
+            genelToplam: CartData.genelToplam(kur, kdv).toplamEuro
+          });
+      }
       html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
         canvas.toBlob(function(blob){
           if(!blob){ hataGoster("Görsel oluşturulamadı."); return; }
