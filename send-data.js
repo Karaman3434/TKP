@@ -307,6 +307,51 @@ var SendData = (function(){
     }
   }
 
+  // GÖNDER EKRANI KAYDET (15.11.2026, Abdullah onayı): mevcut işlem kodu/ts
+  // korunarak aynı arşiv kaydı güncellenir; yeni kayıt veya yeni belge numarası üretmez.
+  function islemiGuncelle(tip, ts, musteri, sepetUrunleri, kur, kdv, adresler, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      if(!tip || !ts || !musteri || !musteri.ad || !sepetUrunleri || !sepetUrunleri.length){
+        cb(false, new Error("İşlem bilgileri eksik.")); return;
+      }
+      var urunlerKaydi = sepetUrunleri.map(function(u){
+        var h = CartData.hesapla(u, kur || 0, kdv || 0);
+        return {
+          ad: u.ad || "İsimsiz Ürün", berta: u.berta || "", abas: u.abas || "",
+          listeFiyat: parseFloat(u.listeFiyat)||0, dipFiyat: parseFloat(u.dipFiyat)||0,
+          iskonto: parseFloat(u.iskonto)||0, adet: parseFloat(u.adet)||0,
+          iskBirim: h.iskontoluFiyat || 0, toplamEuro: h.toplamEuro || 0,
+          ozelEtiket: u.ozelEtiket || null,
+          bakiyeAdet: parseFloat(u.bakiyeAdet)||0, bakiyeNot: u.bakiyeNot || ""
+        };
+      });
+      var db = firebase.database(), hata = null, bulundu = false;
+      db.ref("arsiv/" + tip).transaction(function(mevcut){
+        bulundu = false; hata = null;
+        if(mevcut === null) return mevcut;
+        var liste = Array.isArray(mevcut) ? mevcut.filter(Boolean) : Object.values(mevcut);
+        var idx = liste.findIndex(function(k){ return k && Number(k.ts) === Number(ts); });
+        if(idx < 0){ hata = "Kayıt bulunamadı."; return; }
+        var k = liste[idx];
+        k.urunler = urunlerKaydi;
+        k.kur = kur || 0;
+        k.kdv = kdv || 0;
+        if(adresler){
+          k.faturaAdresi = adresler.faturaAdresi || null;
+          k.teslimatAdresi = adresler.teslimatAdresi || null;
+          if(adresler.gorunecekYetkililer) k.gorunecekYetkililer = adresler.gorunecekYetkililer;
+        }
+        k.revizeZamani = Date.now();
+        bulundu = true;
+        return liste;
+      }).then(function(result){
+        if(result && result.committed && bulundu){ cb(true); return; }
+        cb(false, new Error(hata || "Kayıt güncellenemedi."));
+      }).catch(function(err){ cb(false, err); });
+    }catch(e){ cb(false, e); }
+  }
+
   function kaynakSil(tip, ts, geriBildir){
     var cb = typeof geriBildir === "function" ? geriBildir : function(){};
     try{
@@ -386,7 +431,7 @@ var SendData = (function(){
     }catch(e){ cb(false, e); }
   }
 
-  return { baslat: baslat, kaydet: kaydet, kaynakSil: kaynakSil, fiyatGecmisiKontrolEt: fiyatGecmisiKontrolEt, kanalKaydet: kanalKaydet, alanlariGuncelle: alanlariGuncelle };
+  return { baslat: baslat, kaydet: kaydet, kaynakSil: kaynakSil, islemiGuncelle: islemiGuncelle, fiyatGecmisiKontrolEt: fiyatGecmisiKontrolEt, kanalKaydet: kanalKaydet, alanlariGuncelle: alanlariGuncelle };
 
 })();
 
