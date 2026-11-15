@@ -331,3 +331,14 @@
 .ck-ust-bilgi:focus-visible { outline: 3px solid #70b7ff; outline-offset: 2px; }
 .ub-btn--bilgi svg,
 .ck-ust-bilgi svg { display:none !important; }
+
+
+/* 15.11.2026 — GÖNDER EKRANI: üç eylem tuşu (İ / Kaydet / Gönder)
+   dar mobil ekranda tek satırda kalır; diğer sayfaların ölçüleri korunur. */
+.ub-bar:has(.ub-eylem .ub-btn:nth-child(3)) {
+  --ub-g: 5px;
+  --ub-g2: 4px;
+  --ub-b: min(58.08px, calc((100vw - 5mm - 6px - 24px - 5px - 8px - 6px - 4px) / 7.2));
+}
+.ub-btn--bilgi { cursor: pointer; }
+.ub-btn--bilgi:disabled { opacity: .55; }
