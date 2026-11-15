@@ -815,7 +815,13 @@ function mcMusteriHizliPencereGoster(musteri, panel){
         + "</button>";
     }).join("");
 
-    panel.innerHTML = baslikHtml + "<div id='mcMusteriHizliListe'>" + listeHtml + "</div>";
+    panel.innerHTML = "<div class='cm-altmenu-baslikbar'><span>Müşteri İşlemleri</span><button type='button' class='cm-altmenu-kapat' id='mcMusteriPopupKapat' aria-label='Müşteri işlemlerini kapat'>✕</button></div>"
+      + baslikHtml + "<div id='mcMusteriHizliListe'>" + listeHtml + "</div>";
+    var popupKapat = panel.querySelector("#mcMusteriPopupKapat");
+    if(popupKapat) popupKapat.onclick = function(ev){ ev.stopPropagation(); mcMiniSonucKapat(); };
+    panel.querySelectorAll("#mcMusteriHizliListe .cm-altmenu-oge").forEach(function(btn){
+      btn.insertAdjacentHTML("beforeend", "<span class='cm-altmenu-oge-ok' aria-hidden='true'>›</span>");
+    });
     var basEl = panel.querySelector("#mcMusteriBaslikCari");
     if(basEl) basEl.onclick = function(){ mcMusteriAksiyonuUygula("cari"); };
     panel.querySelectorAll("#mcMusteriHizliListe .cm-altmenu-oge").forEach(function(btn){
