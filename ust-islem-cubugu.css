@@ -153,3 +153,47 @@ body:not(:has(.ub-bar .ub-logo)) .ub-bar .ub-grup:has(.ub-btn--bilgi):not(:has(.
 @media(max-width:380px){
   .ub-bar:not(:has(.ub-logo)) .ub-grup{gap:0!important;}
 }
+
+
+/* SON ORTAK STANDART — ANA SAYFA HARİÇ TÜM SAYFALAR (15.11.2026)
+   Sayfa seçimi logo varlığına değil, Ana Sayfa'nın .as-sayfa köküne göre yapılır.
+   space-evenly: sol iç kenar, tuşlar arası ve sağ iç kenar boşluklarını eşitler. */
+body:not(:has(.as-sayfa)) .app-ust-sabit .ub-bar,
+body:not(:has(.as-sayfa)) .ub-bar{
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:100%!important;
+  padding-left:2mm!important;
+  padding-right:2mm!important;
+}
+body:not(:has(.as-sayfa)) .ub-bar .ub-grup{
+  display:flex!important;
+  flex:1 1 100%!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+  justify-content:space-evenly!important;
+  align-items:flex-start!important;
+  gap:0!important;
+  margin:0!important;
+  padding:1mm!important;
+  overflow:visible!important;
+}
+body:not(:has(.as-sayfa)) .ub-bar .ub-grup > .ub-tus-kutu{
+  flex:0 1 var(--ub-b,58.08px)!important;
+  min-width:0!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+}
+body:not(:has(.as-sayfa)) .ub-bar .ub-grup > .ub-tus-kutu--menu{
+  flex-basis:calc(var(--ub-b,58.08px) * 1.15)!important;
+}
+body:not(:has(.as-sayfa)) .ub-bar .ub-grup > .ub-eylem{
+  display:contents!important;
+}
+body:not(:has(.as-sayfa)) .ub-bar .ub-grup .ub-btn{
+  width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
