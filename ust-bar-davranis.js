@@ -347,7 +347,7 @@
       if(!bar) return;
       var link=document.createElement("link");
       link.rel="stylesheet";
-      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-ISLEM-CUBUGU-01";
+      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-ISLEM-CUBUGU-02";
       document.head.appendChild(link);
       duzenle(bar);
       var gozlem=new MutationObserver(function(){duzenle(bar);});
