@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- İŞ TAKİP V2 — VERSİYON: TKP.15.11.26-SEND-POPUP-01 — send.html -->
+<!-- İŞ TAKİP V2 — VERSİYON: TKP.13.11.26-00:15.1587 — send.html -->
 <!--
   27.10.2026 PERFORMANS KAZANIMI: html2canvas'ın bu sayfada en baştan
   yüklenen statik <script> etiketi kaldırıldı — artık send-render.js'teki
@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.11.11.26-20:38.1583">
 <link rel="stylesheet" href="cart-style.css?v=TKP.15.11.26-15:05.1649">
 <link rel="stylesheet" href="cari-kart-style.css?v=TKP.09.11.26-18:48.1530">
-<link rel="stylesheet" href="send-style.css?v=TKP.15.11.26-SEND-POPUP-01">
+<link rel="stylesheet" href="send-style.css?v=TKP.14.11.26-MAIL-WHITE-03">
 <link rel="stylesheet" href="belge-style.css?v=TKP.14.11.26-PRODUCT-CODES11-VALUES14">
 <link rel="stylesheet" href="detail-style.css?v=TKP.11.11.26-15:39.1570">
 <!-- YENİ (12.10.2026, Abdullah onayı) — ürün tablosuna da Sepet/Belge
@@ -44,8 +44,6 @@
 <link rel="stylesheet" href="home-anasayfa-style.css?v=TKP.11.11.26-23:29.1585">
 <link rel="stylesheet" href="menu-cekmece-style.css?v=TKP.12.11.26-11:20.1586">
 <link rel="stylesheet" href="ust-bar-style.css?v=TKP.11.11.26-09:13.1561">
-<link rel="stylesheet" href="arama-stili.css?v=TKP.14.11.26-SEARCH40-01">
-<link rel="stylesheet" href="onayli-panel-standardi.css?v=TKP.14.11.26-COMPACT-PANELS-04">
 </head>
 <body class="gonder-sayfa">
 
@@ -145,50 +143,49 @@
        alt yazı ve Kapat tuşu kalktı; dışarı dokununca ya da Gönder'e tekrar
        basınca kapanır, seçenek seçilince kendiliğinden kapanır. Butonların
        id'leri/işlevleri DEĞİŞMEDİ; konum send-render.js iletisimPaneliKonumla. -->
-  <div class="overlay gonder-iletisim-overlay" id="iletisimSheetOverlay" hidden>
-    <div class="gonder-popup gonder-iletisim-popup" id="iletisimAcilir" role="dialog" aria-label="İletişim seçenekleri">
-      <div class="gonder-popup-baslik">
-        <span class="gonder-popup-baslik-ikon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4z"/></svg>
-        </span>
-        <strong>İLETİŞİM SEÇENEKLERİ</strong>
-        <button type="button" class="gonder-popup-kapat" id="btnIletisimPopupKapat" aria-label="İletişim seçeneklerini kapat">×</button>
-      </div>
-      <div class="gonder-popup-liste">
-        <button type="button" class="gonder-popup-satir gonder-popup-satir--mail" id="btnUstMail">
-          <span class="gonder-popup-satir-ikon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
-          </span>
-          <span class="gonder-popup-satir-metin">Mail</span>
-          <span class="gonder-popup-satir-ok" aria-hidden="true">›</span>
-        </button>
-        <button type="button" class="gonder-popup-satir gonder-popup-satir--whatsapp" id="btnUstWhatsapp">
-          <span class="gonder-popup-satir-ikon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20l1.2-4.5A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="M8.2 8.1c.3-.6.6-.6 1-.6h.4c.2 0 .4.1.5.4l.7 1.6c.1.3.1.5-.1.7l-.5.6c-.2.2-.2.4 0 .7.5.8 1.2 1.5 2.1 1.9.3.1.5.1.7-.1l.7-.8c.2-.2.4-.2.7-.1l1.5.7c.3.1.4.3.4.5 0 .5-.2 1-.6 1.3-.5.4-1.1.6-1.8.5-1.1-.2-2.4-.8-3.7-2-1.2-1.1-2-2.5-2.2-3.5-.1-.7 0-1.3.3-1.8Z"/></svg>
-          </span>
-          <span class="gonder-popup-satir-metin">WhatsApp</span>
-          <span class="gonder-popup-satir-ok" aria-hidden="true">›</span>
-        </button>
-        <button type="button" class="gonder-popup-satir gonder-popup-satir--tablo" id="btnUstTablo">
-          <span class="gonder-popup-satir-ikon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><rect x="2.5" y="3.5" width="19" height="17" rx="1.5"/><path d="M2.5 9h19M2.5 14.5h19M9 3.5v17M15 3.5v17"/></svg>
-          </span>
-          <span class="gonder-popup-satir-metin">Tablo</span>
-          <span class="gonder-popup-satir-ok" aria-hidden="true">›</span>
-        </button>
-        <div class="gonder-popup-satir-sarmal">
-          <button type="button" class="gonder-popup-satir gonder-popup-satir--pdf" id="btnUstPdf">
-            <span class="gonder-popup-satir-ikon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M6 2.5h8l4 4v15H6z"/><path d="M14 2.5v4h4M8.5 12h7M8.5 15h7M8.5 18h5"/></svg>
-            </span>
-            <span class="gonder-popup-satir-metin">PDF</span>
-            <span class="gonder-popup-satir-ok" aria-hidden="true">›</span>
+  <div class="overlay" id="iletisimSheetOverlay" hidden>
+    <div class="iletisim-acilir" id="iletisimAcilir">
+      <div class="iletisim-secenek-grid">
+        <div class="iletisim-secenek-mail-sarmal">
+          <button class="iletisim-secenek-btn iletisim-secenek-btn--mail" id="btnUstMail">
+            <span class="iletisim-secenek-ikon">📧</span>
+            <span class="iletisim-secenek-metin">Mail</span>
           </button>
-          <div class="mail-secenek-popover gonder-pdf-popup" id="pdfSecenekPopover" hidden>
-            <div class="gonder-alt-popup-baslik">
-              <strong>PDF SEÇENEKLERİ</strong>
-              <button type="button" id="btnPdfSecenekKapat" aria-label="PDF seçeneklerini kapat">×</button>
-            </div>
+          <!-- MAİL SEÇENEK AÇILIR KUTUSU (01.10.2026, Abdullah'ın isteğiyle) —
+               Mail'e dokununca bu küçük kutu açılıyor: Yeni Mail (mevcut
+               otomatik akış) / Zinciri Cevapla (tek dokunuş, önizleme yok,
+               panoya kopyalar). -->
+          <div class="mail-secenek-popover" id="mailSecenekPopover" hidden>
+            <button type="button" class="mail-secenek-popover-oge" id="mailSecenekYeniMail">
+              <span class="mail-secenek-popover-baslik">Yeni mail</span>
+              <span class="mail-secenek-popover-alt">Her şeyi otomatik doldurur</span>
+            </button>
+            <button type="button" class="mail-secenek-popover-oge" id="mailSecenekZincir">
+              <span class="mail-secenek-popover-baslik">Zinciri cevapla</span>
+              <span class="mail-secenek-popover-alt">Kopyalar, sen yapıştırırsın</span>
+            </button>
+          </div>
+        </div>
+        <button class="iletisim-secenek-btn iletisim-secenek-btn--whatsapp" id="btnUstWhatsapp">
+          <span class="iletisim-secenek-ikon">💬</span>
+          <span class="iletisim-secenek-metin">WhatsApp</span>
+        </button>
+        <button class="iletisim-secenek-btn iletisim-secenek-btn--kaydet" id="btnUstTablo">
+          <span class="iletisim-secenek-ikon">📋</span>
+          <span class="iletisim-secenek-metin">Tablo</span>
+        </button>
+        <!-- PDF DÜĞMESİ (19.10.2026, Abdullah onayı — mockup_h üzerinden
+             onaylandı): cari bilgi + ürün tablosu PDF olarak indirilebilsin
+             diye eklendi. Mail/WhatsApp/Tablo HİÇ DEĞİŞMEDİ. Popover'ı
+             (mailSecenekPopover ile AYNI .mail-secenek-popover sınıfları)
+             açarken Mail'in sarmal/konumlama deseniyle BİREBİR aynı
+             yapı (.iletisim-secenek-mail-sarmal) kullanılıyor. -->
+        <div class="iletisim-secenek-mail-sarmal">
+          <button class="iletisim-secenek-btn iletisim-secenek-btn--pdf" id="btnUstPdf">
+            <span class="iletisim-secenek-ikon">📄</span>
+            <span class="iletisim-secenek-metin">PDF</span>
+          </button>
+          <div class="mail-secenek-popover" id="pdfSecenekPopover" hidden>
             <button type="button" class="mail-secenek-popover-oge" id="pdfSecenekMusteri">
               <span class="mail-secenek-popover-baslik">Müşteriye giden</span>
               <span class="mail-secenek-popover-alt">Cari kodu ve prim gizli</span>
@@ -199,38 +196,6 @@
             </button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="gonder-popup gonder-mail-popup" id="mailSecenekPopover" hidden role="dialog" aria-label="Mail seçenekleri">
-      <div class="gonder-popup-baslik">
-        <span class="gonder-popup-baslik-ikon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
-        </span>
-        <strong>MAİL SEÇENEKLERİ</strong>
-        <button type="button" class="gonder-popup-kapat" id="btnMailSecenekKapat" aria-label="Mail seçeneklerini kapat">×</button>
-      </div>
-      <div class="gonder-popup-liste">
-        <button type="button" class="gonder-popup-satir gonder-popup-satir--mail" id="mailSecenekYeniMail">
-          <span class="gonder-popup-satir-ikon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="18" height="15" rx="2"/><path d="m3 6 8 6 8-6"/><path d="M19 16v6M16 19h6"/></svg>
-          </span>
-          <span class="gonder-popup-satir-icerik">
-            <span class="gonder-popup-satir-metin">Yeni Mail</span>
-            <span class="gonder-popup-satir-aciklama">Her şey otomatik doldurulur.</span>
-          </span>
-          <span class="gonder-popup-satir-ok" aria-hidden="true">›</span>
-        </button>
-        <button type="button" class="gonder-popup-satir gonder-popup-satir--whatsapp" id="mailSecenekZincir">
-          <span class="gonder-popup-satir-ikon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M9 7 3 12l6 5"/><path d="M3 12h10a7 7 0 0 1 7 7"/></svg>
-          </span>
-          <span class="gonder-popup-satir-icerik">
-            <span class="gonder-popup-satir-metin">Zincir Mail</span>
-            <span class="gonder-popup-satir-aciklama">Mevcut mail yazışmasına cevap verilir.</span>
-          </span>
-          <span class="gonder-popup-satir-ok" aria-hidden="true">›</span>
-        </button>
       </div>
     </div>
   </div>
@@ -252,8 +217,12 @@
        konu başlığı + mesaj + sipariş tablosu birlikte gösterilir. -->
   <div class="overlay" id="mailOnizlemeOverlay" hidden>
     <div class="sheet mail-onizleme-sheet">
-      <!-- 15.11.2026 (Abdullah isteği): "📧 Mail Önizleme / Gönder / İ" üst paneli KALDIRILDI.
-           (İ menüsünün kodu send-render.js'te durur; düğme olmadığı için açılmaz — null-güvenli.) -->
+      <div class="sayfa-rota-serit mail-onizleme-ustbaslik">
+        <span class="sayfa-rota-serit-isim">📧 Mail Önizleme</span>
+        <span class="sayfa-rota-serit-rota">Gönder</span>
+        <button type="button" class="mail-onizleme-bilgi-btn" id="btnMailOnizlemeBilgi" aria-label="Cari ve işlem seçenekleri" title="Cari ve işlem seçenekleri">İ</button>
+      </div>
+
       <div class="mail-konu-kutu">
         <span class="mail-konu-etiket">KONU</span>
         <input type="text" class="mail-konu-input" id="mailOnizlemeKonu">
@@ -335,16 +304,16 @@
 <script src="ust-sabit-olcum.js?v=WG.271026.2238.1146"></script>
 <script src="cihaz-data.js?v=WG.271026.2238.1122"></script>
 <script src="cihaz-isim-zorunlu.js?v=TKP.01.11.26-22:45.1346"></script>
-<script src="ust-bar-davranis.js?v=ROTA-GLOBAL-01"></script>
+<script src="ust-bar-davranis.js?v=TKP.11.11.26-15:39.1570"></script>
 <script src="ust-bar-eylem.js?v=TKP.10.11.26-12:32.1545"></script>
 <script src="ayarlar-sync.js?v=WG.271026.2238.1132"></script>
 <script src="ikon-svg.js?v=TKP.01.11.26-17:06.1322"></script>
-<script src="hareket-tablo.js?v=TKP.14.11.26-SIRA-25"></script>
+<script src="hareket-tablo.js?v=TKP.11.11.26-19:45.1581"></script>
 <script src="cart-data.js?v=TKP.03.11.26-18:20.1457"></script>
 <script src="customer-data.js?v=TKP.13.11.26-00:15.1587"></script>
 <script src="send-data.js?v=TKP.08.11.26-22:53.1517"></script>
 <script src="hata-log.js?v=WG.271026.2238.1128"></script>
-<script src="rota-takip.js?v=ROTA-MOBILE-02"></script>
+<script src="rota-takip.js?v=TKP.01.11.26-16:07.1270"></script>
 <!-- EKLENDİ (15.10.2026) — hareket-tablo.js'in cariKutulariHtml()'i artık
      MusteriSeridi.html() çağırıyor, bu yüzden bu sayfada da yüklü olmalı. -->
 <script src="musteri-serit.js?v=TKP.05.11.26-13:08.1486"></script>
@@ -356,7 +325,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="teklif-pdf.js?v=WG.211026.1700.895"></script>
-<script src="send-render.js?v=TKP.15.11.26-SEND-POPUP-01"></script>
+<script src="send-render.js?v=TKP.14.11.26-MAIL-IMAGE-02"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026) — bkz. cart.html'deki aynı
      yorum: bugünkü üst-bar birleştirmesiyle kırıldı, yerine cart.html'deki
      10 dakikalık oto-sıfırlama geldi. -->
