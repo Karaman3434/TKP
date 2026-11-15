@@ -1561,3 +1561,12 @@
   padding: 2px !important;
   border-radius: 10px !important;
 }
+
+
+/* ABDULLAH — İSK/NET SAYISAL KARTLARININ ÜST VE ALT HÜCRE BOŞLUĞU 3px.
+   Yatay iç pay 2px, kart köşeleri 8px ve başlık etiketleri 2px/10px korunur. */
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net,
+.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
+  inset: 3px 2px !important;
+}
