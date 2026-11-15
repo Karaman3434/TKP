@@ -334,7 +334,7 @@
 
 /* ABDULLAH ONAYI — SADECE Ana Sayfa müşteri hızlı popup'ı ve onun işlem türü
    alt popup'ı. Çekmece, arama sonuç listesi ve diğer sayfalar etkilenmez. */
-.as-drawer-mini-sonuc-panel.as-drawer-mini-sonuc-panel--aksiyon {
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panelbody:has(.as-sayfa) .as-drawer-mini-sonuc-panel--aksiyon {
   width: min(300px,calc(100vw - 16px));
   max-height: calc(100vh - 16px);
   overflow-y: auto;
@@ -347,7 +347,7 @@
   box-shadow: 0 10px 28px rgba(0,0,0,.32);
   -webkit-overflow-scrolling: touch;
 }
-.as-drawer-mini-sonuc-panel .cm-altmenu-baslikbar {
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-baslikbar {
   min-height: 48px;
   margin: 0 -9px 8px;
   padding: 0 9px 0 14px;
@@ -360,7 +360,7 @@
   font-size: 15px;
   font-weight: 800;
 }
-.as-drawer-mini-sonuc-panel .cm-altmenu-kapat {
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-kapat {
   width: 38px;
   height: 38px;
   flex: 0 0 38px;
@@ -373,14 +373,14 @@
   cursor: pointer;
   touch-action: manipulation;
 }
-.as-drawer-mini-sonuc-panel .cm-altmenu-musteri-baslik {
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-musteri-baslik {
   margin: 0 0 7px;
   padding: 10px 12px;
   border: 1px solid #d5e1f0;
   border-radius: 11px;
   background: #eaf2fd;
 }
-.as-drawer-mini-sonuc-panel .cm-altmenu-oge {
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-oge {
   min-height: 58px;
   margin: 0 0 7px;
   padding: 9px 10px;
@@ -392,22 +392,22 @@
   font-weight: 750;
   touch-action: manipulation;
 }
-.as-drawer-mini-sonuc-panel .cm-altmenu-oge:active {
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-oge:active {
   background: #e4effd;
   border-color: #78a9e5;
 }
-.as-drawer-mini-sonuc-panel .cm-altmenu-oge-sol { min-width: 0; gap: 11px; }
-.as-drawer-mini-sonuc-panel .cm-altmenu-oge-ikon { width: 28px; font-size: 21px; }
-.as-drawer-mini-sonuc-panel .cm-altmenu-oge-ok {
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-oge-sol { min-width: 0; gap: 11px; }
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-oge-ikon { width: 28px; font-size: 21px; }
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-oge-ok {
   flex: 0 0 auto;
   color: #102b55;
   font-size: 25px;
   line-height: 1;
   font-weight: 700;
 }
-.as-drawer-mini-sonuc-panel .cm-altmenu-oge:last-child { margin-bottom: 0; }
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-oge:last-child { margin-bottom: 0; }
 
-.as-drawer-mini-tipmenu {
+body:has(.as-sayfa) .as-drawer-mini-tipmenu {
   z-index: 2210;
   width: min(236px,calc(100vw - 16px));
   padding: 0 8px 8px;
@@ -418,7 +418,7 @@
   background: #fff;
   box-shadow: 0 10px 28px rgba(0,0,0,.34);
 }
-.as-drawer-mini-tipmenu .cm-tipmenu-baslik {
+body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-baslik {
   margin: 0 -8px 8px;
   padding: 13px 12px;
   background: linear-gradient(135deg,#1765bd,#073b78);
@@ -426,7 +426,7 @@
   font-size: 14px;
   font-weight: 800;
 }
-.as-drawer-mini-tipmenu .cm-tipmenu-oge {
+body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   min-height: 62px;
   margin-bottom: 7px;
   padding: 11px 12px;
