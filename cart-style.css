@@ -1652,12 +1652,14 @@ body.cart-sayfa #cartTarihPaneli { margin-bottom: 3mm !important; }
 /* WHATSAPP MÜŞTERİSİZ GÖRSELİ — send-style.css'teki onaylı başlıkla aynı
    tipografi ve tarih-saat şeridi. Yalnızca #musterisizOnizlemeTablo alanı. */
 #musterisizOnizlemeTablo .whatsapp-giden-hareket-baslik{
-  width:100%; box-sizing:border-box; margin:0 0 8px; padding:0;
+  width:100%; box-sizing:border-box; margin:0 0 8px; padding:2px 0 0;
+  overflow:visible;
 }
 #musterisizOnizlemeTablo .whatsapp-giden-hareket-baslik .belge-form-baslik{
-  display:block; min-height:0; box-sizing:border-box; margin:0 0 7px; padding:0;
+  display:flex; min-height:30px; box-sizing:border-box; align-items:center; justify-content:center;
+  margin:0 0 2px; padding:3px 0 2px; overflow:visible;
   border:0; border-radius:0; background:transparent; text-align:center;
-  font-size:23px; line-height:1.12; font-weight:950; letter-spacing:.2px;
+  font-size:23px; line-height:1.2; font-weight:950; letter-spacing:.2px;
 }
 #musterisizOnizlemeTablo .whatsapp-giden-hareket-baslik .belge-form-baslik-etiket{
   display:block; font:inherit; color:inherit;
@@ -1733,7 +1735,7 @@ body.cart-sayfa #cartTarihPaneli { margin-bottom: 3mm !important; }
 
 /* 16.11.2026 — SEPET sayfasına özel GÖNDER > İŞLEM HAREKET popup'ı.
    Konum: üst bardaki Gönder tuşunun altı; konuşma balonu oku tuşa bağlanır.
-   Genişlik: ekranın %65'i (250–360px); seçenek tuşları önceki 42px kontrolün
+   Genişlik ve yükseklik: önceki popup ölçülerinden yaklaşık %20 küçültüldü.
    yaklaşık %50 büyüğü: 63px. Başka sayfalardaki popup'lara uygulanmaz. */
 body.cart-sayfa #musterisizGonderOverlay:not([hidden]){
   position:fixed !important;
@@ -1748,36 +1750,36 @@ body.cart-sayfa #musterisizGonderOverlay[hidden]{display:none !important;}
 body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-popup{
   position:fixed !important;
   box-sizing:border-box !important;
-  width:65vw;
-  min-width:250px;
-  max-width:360px;
-  max-height:calc(100dvh - 155px);
+  width:52vw;
+  min-width:200px;
+  max-width:288px;
+  max-height:calc(100dvh - 125px);
   overflow-y:auto;
   margin:0 !important;
-  padding:16px 13px 14px !important;
+  padding:13px 10px 11px !important;
   border:3px solid #174b86 !important;
-  border-radius:22px !important;
+  border-radius:18px !important;
   background:#fff !important;
   box-shadow:0 10px 30px rgba(0,0,0,.28) !important;
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:8px;
 }
 body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-ok{
   position:absolute;
-  top:-16px;
+  top:-13px;
   left:var(--hareket-ok-sol,calc(100% - 58px));
-  width:27px;
-  height:27px;
+  width:22px;
+  height:22px;
   box-sizing:border-box;
   background:#fff;
-  border-top:3px solid #174b86;
-  border-left:3px solid #174b86;
+  border-top:2.5px solid #174b86;
+  border-left:2.5px solid #174b86;
   transform:rotate(45deg);
   z-index:2;
 }
 body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-baslik{
-  min-height:54px;
+  min-height:43px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -1794,14 +1796,14 @@ body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-baslik{
 }
 body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-secim{
   width:100%;
-  min-height:63px;
+  min-height:50px;
   box-sizing:border-box;
   display:grid;
-  grid-template-columns:42px minmax(0,1fr);
+  grid-template-columns:36px minmax(0,1fr);
   align-items:center;
   justify-items:center;
-  gap:5px;
-  padding:8px 9px;
+  gap:4px;
+  padding:6px 7px;
   border:2px solid currentColor;
   border-radius:15px;
   background:#f7f9ff;
@@ -1821,8 +1823,8 @@ body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-ikon{
   display:flex;
   align-items:center;
   justify-content:center;
-  width:34px;
-  font-size:27px;
+  width:29px;
+  font-size:22px;
   line-height:1;
 }
 body.cart-sayfa #musterisizGonderOverlay .tip-siparis{color:#1747a5;background:#eaf1ff;}
@@ -1847,7 +1849,9 @@ body.cart-sayfa #musterisizOnizlemeTablo.musterisiz-gorsel-kaynak{
 @media (max-width:380px){
   body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-popup{
     min-width:0;
-    width:calc(100vw - 56px) !important;
+    width:52vw !important;
+    min-width:200px !important;
+    max-width:288px !important;
   }
   body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-secim{
     grid-template-columns:34px minmax(0,1fr);
