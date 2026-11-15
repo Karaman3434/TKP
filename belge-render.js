@@ -519,7 +519,7 @@ function bhpAcikBelgeKontrolIleDevamEt(musteri, tip){
   if(bhpAbkModulYukleniyor) return;
   bhpAbkModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "acik-belge-kontrol.js?v=TKP.05.11.26-12:12.1483";
+  s.src = "acik-belge-kontrol.js?v=TKP.15.11.26-22:45.1600";
   s.onload = function(){
     bhpAbkModulYukleniyor = false;
     bhpAbkModulBekleyenler.forEach(function(fn){ fn(); });
