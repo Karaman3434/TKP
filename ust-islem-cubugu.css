@@ -199,22 +199,36 @@ body:not(:has(.as-sayfa)) .ub-bar .ub-grup .ub-btn{
 }
 
 
-/* YEDİ TUŞLU REFERANS TASARIM — SON ÜÇ EYLEM TUŞU (15.11.2026)
-   KM Takibi ekranındaki görünüm: BİM, Kaydet ve Gönder aynı gri ailede. */
-.ub-bar .ub-btn--bilgi,
-.ub-bar .ub-btn--kaydet,
-.ub-bar .ub-btn--gonder{
-  background:linear-gradient(180deg,#aeb8c5 0%,#8793a3 55%,#697586 100%)!important;
+/* YEDİ TUŞLU STANDART — AKTİF/PASİF RENK DURUMU (15.11.2026)
+   Aktif: BİM mavi, Kaydet mor, Gönder turkuaz.
+   Pasif/disabled: Üçü de aynı gri. */
+.ub-bar .ub-btn--bilgi:not(:disabled){
+  background:linear-gradient(180deg,#2785ed 0%,#0d62c7 58%,#084a9b 100%)!important;
+  border:1px solid #0a4e9d!important;
   color:#fff!important;
-  border:1px solid #7d8998!important;
-  box-shadow:0 2px 0 rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.3)!important;
+  box-shadow:0 2px 0 rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.35)!important;
 }
-.ub-bar .ub-btn--bilgi{
-  text-transform:lowercase!important;
+.ub-bar .ub-btn--kaydet:not(:disabled){
+  background:linear-gradient(180deg,#9a6df0 0%,#7a45dc 55%,#5b2dba 100%)!important;
+  border:1px solid #6e3bc4!important;
+  color:#fff!important;
+  box-shadow:0 2px 0 rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.3)!important;
 }
-.ub-bar .ub-btn--bilgi[disabled],
-.ub-bar .ub-btn--kaydet[disabled],
-.ub-bar .ub-btn--gonder[disabled]{
+.ub-bar .ub-btn--gonder:not(:disabled){
+  background:linear-gradient(180deg,#27c3d6 0%,#0f9fb5 55%,#0a7487 100%)!important;
+  border:1px solid #0a879b!important;
+  color:#fff!important;
+  box-shadow:0 2px 0 rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.3)!important;
+}
+.ub-bar .ub-btn--bilgi:disabled,
+.ub-bar .ub-btn--kaydet:disabled,
+.ub-bar .ub-btn--gonder:disabled{
+  background:linear-gradient(180deg,#c9ced6 0%,#aab2bf 55%,#8d96a6 100%)!important;
+  border:1px solid #aab2bf!important;
+  color:#fff!important;
   filter:none!important;
   opacity:1!important;
+  box-shadow:0 2px 0 rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.3)!important;
+  cursor:not-allowed!important;
 }
+.ub-bar .ub-btn--bilgi{ text-transform:lowercase!important; }
