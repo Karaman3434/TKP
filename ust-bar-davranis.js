@@ -347,8 +347,13 @@
       if(!bar) return;
       var link=document.createElement("link");
       link.rel="stylesheet";
-      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-ISLEM-CUBUGU-02";
+      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-ISLEM-CUBUGU-04";
       document.head.appendChild(link);
+      if((window.location.pathname.split("/").pop() || "index.html") !== "home.html"){
+        var eylemScript=document.createElement("script");
+        eylemScript.src="ust-bar-eylem.js?v=TKP.15.11.26-ISLEM-CUBUGU-02";
+        document.body.appendChild(eylemScript);
+      }
       duzenle(bar);
       var gozlem=new MutationObserver(function(){duzenle(bar);});
       gozlem.observe(bar,{childList:true,subtree:true});
