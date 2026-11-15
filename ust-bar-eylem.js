@@ -121,6 +121,8 @@
         liste.push({tur:tur, hedef:function(){ return null; }});
       }
     });
+    var eylemSirasi = {bilgi:1, kaydet:2, gonder:3};
+    liste.sort(function(a,b){ return (eylemSirasi[a.tur] || 99) - (eylemSirasi[b.tur] || 99); });
 
     var kutu = document.createElement("div");
     kutu.className = "ub-eylem";
