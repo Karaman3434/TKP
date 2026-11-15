@@ -418,12 +418,13 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   // cariGovdeHtml + ...) BİLEREK aynı bırakıldı, sadece İÇERİKLERİ değişti.
   var cariBaslikHtml, cariGovdeHtml;
   if(basit){
-    cariBaslikHtml = "<div class='belge-kart'>"
-      + "<div class='belge-musteri-govde'>"
-      + "<div class='belge-musteri-ad belge-musteri-ad--sade'>" + htmlEsc(musteri.ad) + "</div>"
-      + (musteri.sehir ? "<div class='belge-musteri-sehir'>" + htmlEsc(musteri.sehir) + "</div>" : "")
-      + "</div>"
+    // WHATSAPP GÖRSELİ — ABDULLAH ONAYLI YENİ STANDART (15.11.2026):
+    // Müşteri adı/şehir bloğu kaldırıldı. Ürün tablosunun hemen üstünde
+    // yalnızca büyük, ortalı işlem türü etiketi ve tarih-saat şeridi bulunur.
+    // Mail kolu ve ürün tablosunun yapısı/hesaplamaları değiştirilmedi.
+    cariBaslikHtml = "<div class='whatsapp-giden-hareket-baslik'>"
       + formBaslikHtml(tip, null, null)
+      + whatsappGidenTarihSaatHtml(tarihStr)
       + "</div>";
     cariGovdeHtml = "";
   } else {
