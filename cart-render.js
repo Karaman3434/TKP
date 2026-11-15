@@ -809,6 +809,14 @@ function sepetMusteriBaglantisiniDogrula(){
     var baglantiliMi = localStorage.getItem("weiconv2_sepet_musteri_baglantisi") === "1";
     if(!baglantiliMi){
       CustomerData.secimiKaldir();
+      // BAĞIMSIZ ÜRÜN HESABI GÜVENCESİ (16.11.2026):
+      // Müşteri/işlem akışı olmadan Sepet'e gelindiyse önceki oturumdan
+      // kalan işlem türü yeni WhatsApp görseline taşınmamalı.
+      // Gerçek müşteri akışında geçerli işlem türü korunur.
+      localStorage.removeItem("weiconv2_onceden_secilen_tip");
+      secilenTip = "siparis";
+      secilenTipBelli = false;
+      musterisizWhatsappTip = "";
     }
   }catch(e){}
 }
