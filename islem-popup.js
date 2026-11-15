@@ -238,18 +238,30 @@ var IslemPopup = (function(){
     var tipler = el.querySelector("#ipTipler");
     function tiplerKapat(){ tipler.hidden = true; }
     function tiplerAc(){
-      // Liste popup'ın ÜSTÜNE biner: yarısı popup'ın üstünde, yarısı dışında; üst kenarı popup ile aynı hizada.
+      // Ana sayfa tasarımı: alt popup, ana popup'ın SAĞ-ÜST ÇEYREĞİNİ
+      // örtecek şekilde konumlanır. Yatayda ana pencerenin orta çizgisinden,
+      // dikeyde ana pencerenin üst yarısına taşacak biçimde yerleşir.
+      // Böylece ana popup alanının yaklaşık 1/4'ü alt popup'ın altında kalır.
       var pop = el.querySelector(".ip-pop").getBoundingClientRect();
       var TW = anaSayfaPopupMi ? Math.min(248, window.innerWidth - 12) : 223;
       tipler.hidden = false;
       tipler.style.width = TW + "px";
-      // Alt popup ana popup'ın sağ-üst köşesine yerleşir; yatay ve dikey
-      // eksende bindirilir, ana pencere açık ve etkileşilebilir kalır.
-      var left = Math.round(pop.left + pop.width - TW / 2);
+      tipler.style.position = "fixed";
+      tipler.style.left = "0px";
+      tipler.style.top = "0px";
+      var alt = tipler.getBoundingClientRect();
+      var left = anaSayfaPopupMi
+        ? Math.round(pop.left + pop.width * 0.5)
+        : Math.round(pop.left + pop.width - TW / 2);
+      var top = anaSayfaPopupMi
+        ? Math.round(pop.top + pop.height * 0.5 - alt.height)
+        : Math.round(pop.top);
       if(left + TW > window.innerWidth - 6) left = window.innerWidth - 6 - TW;
       if(left < 6) left = 6;
+      if(top + alt.height > window.innerHeight - 6) top = window.innerHeight - 6 - alt.height;
+      if(top < 6) top = 6;
       tipler.style.left = left + "px";
-      tipler.style.top = Math.max(8, Math.round(pop.top)) + "px";
+      tipler.style.top = top + "px";
       var ok = el.querySelector("#ipOk");
       if(ok) ok.style.display = "none";
     }
