@@ -351,7 +351,7 @@
       document.head.appendChild(link);
       if((window.location.pathname.split("/").pop() || "index.html") !== "home.html"){
         var eylemScript=document.createElement("script");
-        eylemScript.src="ust-bar-eylem.js?v=TKP.15.11.26-ISLEM-CUBUGU-03";
+        eylemScript.src="ust-bar-eylem.js?v=TKP.15.11.26-ISLEM-CUBUGU-04";
         document.body.appendChild(eylemScript);
       }
       duzenle(bar);
