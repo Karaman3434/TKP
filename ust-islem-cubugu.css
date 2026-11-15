@@ -1,0 +1,98 @@
+/* İŞ TAKİP — İŞLEM ÇUBUĞU / 15.11.2026
+   Onaylı tasarım: Geri, Beklet, Kapat, Menü, BİM, Kaydet, Gönder.
+   Etiketler tuşların altında; tüm tuşlar tek çerçeve içinde.
+*/
+.ub-bar .ub-grup{
+  display:flex!important;
+  flex-flow:row nowrap!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  gap:2mm!important;
+  width:max-content!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+  padding:1mm!important;
+  border:2px solid #286bc2!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  flex-shrink:0!important;
+  overflow:visible!important;
+}
+.ub-bar .ub-grup > .ub-tus-kutu,
+.ub-bar .ub-eylem .ub-tus-kutu{
+  display:flex!important;
+  flex:0 0 var(--ub-b,48px)!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  justify-content:flex-start!important;
+  gap:2px!important;
+  width:var(--ub-b,48px)!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+.ub-bar .ub-grup > .ub-tus-kutu--menu{
+  flex-basis:calc(var(--ub-b,48px) * 1.15)!important;
+  width:calc(var(--ub-b,48px) * 1.15)!important;
+}
+.ub-bar .ub-grup .ub-btn,
+.ub-bar .ub-eylem .ub-btn{
+  display:flex!important;
+  flex:0 0 auto!important;
+  width:100%!important;
+  min-width:0!important;
+  height:52.8px!important;
+  box-sizing:border-box!important;
+  border-radius:10px!important;
+  margin:0!important;
+}
+.ub-bar .ub-grup > .ub-tus-kutu--menu .ub-btn{
+  height:56.8px!important;
+}
+.ub-bar .ub-grup .ub-btn-etiket{
+  display:block!important;
+  width:100%!important;
+  min-height:13px!important;
+  color:#687587!important;
+  font-family:Arial,sans-serif!important;
+  font-size:11px!important;
+  font-weight:700!important;
+  line-height:13px!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+  letter-spacing:-.15px!important;
+}
+.ub-bar .ub-eylem{
+  display:contents!important;
+  order:initial!important;
+  gap:0!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  flex-shrink:0!important;
+}
+.ub-bar .ub-eylem[hidden]{display:none!important;}
+.ub-bar .ub-btn--kaydet{
+  background:linear-gradient(180deg,#aeb8c5 0%,#8793a3 55%,#697586 100%)!important;
+}
+.ub-bar .ub-btn--bilgi{
+  background:linear-gradient(180deg,#2785ed 0%,#0d62c7 58%,#084a9b 100%)!important;
+  color:#fff!important;
+}
+.ub-bar:has(.ub-eylem) .ub-grup{
+  --ub-b:min(58.08px,calc((100vw - 6px - 5mm - 4px - 4mm - 12mm)/6.2));
+}
+.ub-bar .ub-grup:has(.ub-btn--bilgi):not(:has(.ub-eylem)){
+  --ub-b:min(58.08px,calc((100vw - 6px - 5mm - 4px - 4mm - 8mm)/5.15));
+}
+.ub-bar:has(.ub-logo) .ub-grup{
+  --ub-b:min(58.08px,calc((100vw - 5mm - 6px - 8px - 24px - 6mm - 4px - 105px)/4.15));
+}
+@media(max-width:380px){
+  .ub-bar .ub-grup{gap:2mm!important;}
+  .ub-bar .ub-grup .ub-btn{height:48px!important;}
+  .ub-bar .ub-grup > .ub-tus-kutu--menu .ub-btn{height:52px!important;}
+  .ub-bar .ub-grup .ub-btn-etiket{font-size:10px!important;}
+}
