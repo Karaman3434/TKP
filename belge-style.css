@@ -1451,3 +1451,33 @@
   padding-top: 6.3px !important;
   padding-bottom: 6.3px !important;
 }
+
+
+/* ABDULLAH — ONAYLI REFERANS GÖRSELLE BİREBİR EŞLEŞTİRME
+   Canlı ekran ile onaylı sepet mockup'ı karşılaştırıldı.
+   Kart yüksekliği 56.7px kuralından 68px'e çıkarıldı; her kartta
+   hafif yatay nefes payı korunuyor. Sadece İSK ve NET rozetleri. */
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
+  min-height: 68px !important;
+  height: 68px !important;
+  width: calc(100% - 4px) !important;
+  margin: 1px auto !important;
+  padding: 5px 1px !important;
+  box-sizing: border-box !important;
+}
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net {
+  min-height: 68px !important;
+  height: 68px !important;
+  width: calc(100% - 4px) !important;
+  margin: 1px auto !important;
+  padding: 5px 2px !important;
+  box-sizing: border-box !important;
+}
+.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
+  min-height: 68px !important;
+  height: 68px !important;
+  width: calc(100% - 4px) !important;
+  margin: 1px auto !important;
+  padding: 5px 2px !important;
+  box-sizing: border-box !important;
+}
