@@ -411,6 +411,17 @@
        görseli gönderiliyor (bkz. cart-render.js musterisizTabloGonder). -->
   <div class="tip-secim-overlay" id="musterisizGonderOverlay" hidden>
     <div class="tip-secim-kutu musterisiz-onizleme-kutu">
+      <div class="musterisiz-whatsapp-tip-alani">
+        <label class="musterisiz-whatsapp-tip-etiket" for="musterisizWhatsappTipSec">İŞLEM HAREKETİ SEÇ</label>
+        <select id="musterisizWhatsappTipSec" class="musterisiz-whatsapp-tip-secici">
+          <option value="">İşlem hareketi seçin</option>
+          <option value="siparis">SİPARİŞ</option>
+          <option value="teklif">FİYAT TEKLİFİ</option>
+          <option value="proforma">PROFORMA FATURA</option>
+          <option value="numune">NUMUNE</option>
+        </select>
+        <div class="musterisiz-whatsapp-tip-notu">WhatsApp gönderiminde seçtiğiniz işlem etiketi kullanılır.</div>
+      </div>
       <div class="iletisim-secenek-grid iletisim-secenek-grid--iki" style="margin-top:0;">
         <button class="iletisim-secenek-btn iletisim-secenek-btn--whatsapp" id="btnMusterisizWhatsapp">
           <span class="iletisim-secenek-ikon">💬</span>
