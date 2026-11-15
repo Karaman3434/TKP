@@ -332,21 +332,21 @@
       if(eylem && eylem.parentElement!==grup) grup.appendChild(eylem);
       Array.prototype.slice.call(grup.querySelectorAll(":scope > .ub-btn")).forEach(sarmala);
       if(eylem){
-        // Eylem butonlarını kapsayıcı içinde bırakma: yedi tuşun tamamı
-        // aynı .ub-grup altında doğrudan kardeş olmalı. Böylece tüm
-        // sayfalarda aynı flex sırası, ölçüsü ve aralık hesabı uygulanır.
+        // Eylem kapsayıcısı korunur: send-render.js bu kapsayıcı içindeki
+        // Kaydet/BİM düğümlerini kullanır. display:contents sayesinde üç
+        // eylem düğmesi yine aynı flex satırında yer alır.
         Array.prototype.slice.call(eylem.querySelectorAll(":scope > .ub-btn")).forEach(sarmala);
-        Array.prototype.slice.call(eylem.querySelectorAll(":scope > .ub-tus-kutu")).forEach(function(k){
-          grup.insertBefore(k,eylem);
-        });
-        if(eylem.parentElement===grup) grup.removeChild(eylem);
+        eylem.hidden=false;
+        eylem.style.setProperty("display","contents","important");
+        Array.prototype.slice.call(eylem.querySelectorAll(".ub-btn")).forEach(function(b){b.hidden=false;});
       }
       var kutular=Array.prototype.slice.call(grup.querySelectorAll(":scope > .ub-tus-kutu"));
       var sirali=kutular.slice().sort(function(a,b){return sira(a.querySelector(".ub-btn"))-sira(b.querySelector(".ub-btn"));});
       var siraDegisti=sirali.some(function(k,i){return kutular[i]!==k;});
       if(siraDegisti){
-        sirali.forEach(function(k){grup.appendChild(k);});
+        sirali.forEach(function(k){grup.insertBefore(k,eylem||null);});
       }
+      if(eylem && (eylem.parentElement!==grup || grup.lastElementChild!==eylem)) grup.appendChild(eylem);
     }
     function baslat(){
       var bar=document.querySelector(".ub-bar");
