@@ -1183,7 +1183,8 @@ function musterisizTabloGonder(kanal){
             URL.revokeObjectURL(url);
             alert("Bu cihazda direkt paylaşım desteklenmiyor — tablo görseli indirildi. Şimdi " + (kanal==="whatsapp"?"WhatsApp":"Mail") + " açılacak, resmi elle ekleyebilirsin.");
             if(kanal === "whatsapp"){
-              window.open("https://wa.me/", "_blank");
+              var waMesaj = encodeURIComponent(musterisizTabloMesajiOlustur());
+              window.open("https://wa.me/?text=" + waMesaj, "_blank");
             } else {
               window.location.href = "mailto:?subject=" + encodeURIComponent("WEICON Fiyat Bilgisi");
             }
