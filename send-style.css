@@ -1,4 +1,4 @@
-/* send-style.css — TKP.15.11.26-22:39.1651 — aynı kural: gradyan/gölge yığılması yok.
+/* send-style.css — TKP.15.11.26-SEND-POPUP-01 — aynı kural: gradyan/gölge yığılması yok.
    GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim açılır listesi + Mail/WhatsApp/Tablo
    önizleme pencereleri kenardan kenara (dosya sonundaki iki blok). */
 
@@ -706,3 +706,244 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani .belge-adres-yetkili-cerceve .ck-iletisim-parca,
 #belgeGorselAlani .belge-adres-yetkili-cerceve .belge-yetkili-detay,
 #belgeGorselAlani .belge-adres-yetkili-cerceve .belge-yetkili-gorev { font-size: 14.3px; }
+
+
+
+/* GÖNDER POPUP TASARIMI — Abdullah onayı, 15.11.2026.
+   İletişim paneli Gönder tuşunun 2 mm altında, tuşun solunda açılır.
+   Mail paneli ana panelin yarı yüksekliğinde ve dörtte bir genişlik kaydırmasıyla
+   üstüne bindirilir. Bu kurallar yalnızca send.html Gönder popup'larını etkiler. */
+#iletisimSheetOverlay {
+  z-index: 1100;
+  overflow: visible;
+}
+#iletisimSheetOverlay[hidden] { display: none !important; }
+
+.gonder-popup {
+  position: fixed;
+  box-sizing: border-box;
+  width: clamp(250px, 54vw, 390px);
+  max-width: calc(100vw - 16px);
+  padding: 0;
+  overflow: visible;
+  border: 2px solid #2b78c8;
+  border-radius: 19px;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(7, 35, 78, .30), 0 3px 8px rgba(7, 35, 78, .14);
+  color: #08285b;
+}
+.gonder-iletisim-popup { z-index: 1102; }
+.gonder-iletisim-popup::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  right: 18px;
+  width: 16px;
+  height: 16px;
+  background: #0b4da5;
+  border-left: 2px solid #2b78c8;
+  border-top: 2px solid #2b78c8;
+  transform: rotate(45deg);
+  z-index: 0;
+}
+.gonder-popup-baslik {
+  position: relative;
+  z-index: 1;
+  min-height: 52px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 11px;
+  border-radius: 16px 16px 0 0;
+  background: linear-gradient(135deg, #176bc9 0%, #07377f 100%);
+  color: #fff;
+}
+.gonder-popup-baslik > strong {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(13px, 3.25vw, 16px);
+  line-height: 1.15;
+  font-weight: 950;
+  letter-spacing: .1px;
+}
+.gonder-popup-baslik-ikon {
+  width: 29px;
+  height: 29px;
+  flex: 0 0 29px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.gonder-popup-baslik-ikon svg {
+  width: 27px;
+  height: 27px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.gonder-popup-kapat,
+.gonder-alt-popup-baslik button {
+  width: 31px;
+  height: 31px;
+  flex: 0 0 31px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 2px;
+  border: 1px solid rgba(255,255,255,.30);
+  border-radius: 9px;
+  background: rgba(255,255,255,.16);
+  color: #fff;
+  font: 800 25px/1 Arial, sans-serif;
+  cursor: pointer;
+}
+.gonder-popup-liste {
+  display: grid;
+  gap: 8px;
+  padding: 11px;
+  background: #fff;
+  border-radius: 0 0 16px 16px;
+}
+.gonder-popup-satir,
+.gonder-popup-satir-sarmal > .gonder-popup-satir {
+  width: 100%;
+  min-height: 58px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 11px;
+  border: 1.5px solid #b7c9e7;
+  border-radius: 15px;
+  background: linear-gradient(110deg, #f2f6ff 0%, #dce9ff 100%);
+  color: #08285b;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+}
+.gonder-popup-satir:active { filter: brightness(.97); transform: translateY(1px); }
+.gonder-popup-satir--mail {
+  border-color: #9fc5ff;
+  background: linear-gradient(110deg, #eff5ff 0%, #d9e8ff 100%);
+}
+.gonder-popup-satir--whatsapp {
+  border-color: #9edbb6;
+  background: linear-gradient(110deg, #f0fbf4 0%, #d9f4e3 100%);
+}
+.gonder-popup-satir--tablo {
+  border-color: #c4b4ff;
+  background: linear-gradient(110deg, #f6f2ff 0%, #e9e1ff 100%);
+}
+.gonder-popup-satir--pdf {
+  border-color: #c6d3e3;
+  background: linear-gradient(110deg, #f6f9fc 0%, #e8eff7 100%);
+}
+.gonder-popup-satir-ikon {
+  width: 39px;
+  height: 39px;
+  flex: 0 0 39px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #126bd0;
+}
+.gonder-popup-satir-ikon svg {
+  width: 35px;
+  height: 35px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.gonder-popup-satir--whatsapp .gonder-popup-satir-ikon { color: #11833d; }
+.gonder-popup-satir--tablo .gonder-popup-satir-ikon { color: #176bd0; }
+.gonder-popup-satir--pdf .gonder-popup-satir-ikon { color: #47739f; }
+.gonder-popup-satir-metin {
+  flex: 1;
+  min-width: 0;
+  color: #071f55;
+  font-size: clamp(15px, 4vw, 18px);
+  font-weight: 950;
+  line-height: 1.15;
+}
+.gonder-popup-satir--whatsapp .gonder-popup-satir-metin { color: #075c2d; }
+.gonder-popup-satir-ok {
+  flex: 0 0 18px;
+  color: #08285b;
+  font-size: 31px;
+  line-height: .8;
+  font-weight: 500;
+  text-align: center;
+}
+.gonder-popup-satir-sarmal { position: relative; min-width: 0; }
+.gonder-popup-satir-icerik {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.gonder-popup-satir-aciklama {
+  color: #33445e;
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 550;
+}
+#mailSecenekPopover.gonder-mail-popup {
+  z-index: 1115;
+  width: clamp(250px, 54vw, 390px);
+  max-width: calc(100vw - 16px);
+}
+#mailSecenekPopover .gonder-popup-liste { gap: 8px; }
+#mailSecenekPopover .gonder-popup-satir { min-height: 68px; }
+#mailSecenekPopover .gonder-popup-satir-ikon { width: 43px; flex-basis: 43px; }
+#pdfSecenekPopover.gonder-pdf-popup {
+  z-index: 1112;
+  width: 205px;
+  max-width: calc(100vw - 16px);
+  padding: 0;
+  overflow: hidden;
+  border: 1.5px solid #2b78c8;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(7,35,78,.28);
+}
+.gonder-alt-popup-baslik {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  background: linear-gradient(135deg, #176bc9, #07377f);
+  color: #fff;
+}
+.gonder-alt-popup-baslik strong {
+  flex: 1;
+  font-size: 11px;
+  font-weight: 900;
+}
+.gonder-alt-popup-baslik button {
+  width: 25px;
+  height: 25px;
+  flex-basis: 25px;
+  font-size: 20px;
+}
+#pdfSecenekPopover[hidden],
+#mailSecenekPopover[hidden] { display: none !important; }
+.ub-eylem button.ub-eylem-secili {
+  outline: 3px solid #0ea5a4;
+  outline-offset: 1px;
+}
+@media (max-width: 380px) {
+  .gonder-popup {
+    width: min(270px, calc(100vw - 16px));
+  }
+  .gonder-popup-liste { padding: 9px; gap: 7px; }
+  .gonder-popup-satir { min-height: 54px; padding: 7px 9px; gap: 8px; }
+  .gonder-popup-satir-ikon { width: 34px; flex-basis: 34px; }
+  .gonder-popup-satir-ikon svg { width: 31px; height: 31px; }
+  #mailSecenekPopover .gonder-popup-satir { min-height: 64px; }
+}
