@@ -92,3 +92,91 @@ body.belge-onizleme-sayfa #ayrintiAcilir #msSil {
     width: calc(100vw - 12px);
   }
 }
+
+
+/* ABDULLAH ONAYI — yalnız Belge Önizleme'deki iki popup için ortak görünüm.
+   Başlık, kapatma alanı, geniş dokunma satırları ve katman sırası. */
+body.belge-onizleme-sayfa .bo-bilgi-menu {
+  padding: 0 10px 10px;
+  overflow: hidden;
+  border: 1.5px solid #b8c9df;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(13,35,70,.28);
+}
+body.belge-onizleme-sayfa .bo-popup-baslik {
+  min-height: 48px;
+  margin: 0 -10px 8px;
+  padding: 0 10px 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg,#1765bd,#073b78);
+  color: #fff;
+  border-radius: 14px 14px 0 0;
+  font-size: 15px;
+  font-weight: 800;
+}
+body.belge-onizleme-sayfa .bo-popup-baslik--alt {
+  margin: -8px -8px 8px;
+  padding-left: 13px;
+}
+body.belge-onizleme-sayfa .bo-popup-kapat {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,.14);
+  color: #fff;
+  font: 700 25px/1 inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+body.belge-onizleme-sayfa .bo-bilgi-menu-oge {
+  min-height: 64px;
+  margin: 0 0 7px;
+  padding: 8px 9px;
+  border: 1px solid #d5e1f0;
+  border-radius: 12px;
+  background: #f5f8fd;
+  box-sizing: border-box;
+}
+body.belge-onizleme-sayfa .bo-bilgi-menu-oge + .bo-bilgi-menu-oge {
+  border-top: 1px solid #d5e1f0;
+}
+body.belge-onizleme-sayfa .bo-bilgi-menu-oge:last-child { margin-bottom: 0; }
+body.belge-onizleme-sayfa #islemlerOverlay.acilir-menu-zemin {
+  z-index: 1210;
+  background: transparent;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir.acilir-menu {
+  padding: 8px;
+  overflow: hidden;
+  border: 1.5px solid #b8c9df;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(13,35,70,.32);
+}
+body.belge-onizleme-sayfa #ayrintiAcilir .bo-popup-baslik {
+  margin: -8px -8px 8px;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir .acilir-menu-oge {
+  min-height: 58px;
+  margin: 0 0 7px;
+  padding: 10px 9px;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 800;
+  box-sizing: border-box;
+  touch-action: manipulation;
+}
+body.belge-onizleme-sayfa #ayrintiAcilir .acilir-menu-oge:last-child { margin-bottom: 0; }
+body.belge-onizleme-sayfa #ayrintiAcilir::before,
+body.belge-onizleme-sayfa #ayrintiAcilir::after { display: none; }
+@media (max-width: 380px) {
+  body.belge-onizleme-sayfa .bo-bilgi-menu { width: min(300px,calc(100vw - 16px)); }
+  body.belge-onizleme-sayfa #ayrintiAcilir.acilir-menu { width: min(228px,calc(100vw - 16px)); }
+}
