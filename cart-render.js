@@ -806,7 +806,7 @@ function asamaSecimPopupunuAc(devamFn){
 // herSeyiSifirlaVeGit (bu dosyada) ve send-render.js anaSayfayaDonVeTemizle.
 function sepetMusteriBaglantisiniDogrula(){
   try{
-    var baglantiliMi = localStorage.getItem("weiconv2_sepet_musteri_baglantisi") === "1";
+    var baglantiliMi = localStorage.getItem("weiconv2_sepet_musteri_baglantisi") === "1" && !!CustomerData.seciliyiOku();
     if(!baglantiliMi){
       CustomerData.secimiKaldir();
       // BAĞIMSIZ ÜRÜN HESABI GÜVENCESİ (16.11.2026):
