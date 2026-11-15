@@ -1421,3 +1421,11 @@
   white-space: nowrap !important;
   transform: none !important;
 }
+
+
+/* ABDULLAH ONAYI — YÜZDE İŞARETİ %50 KÜÇÜLTÜLDÜ
+   28px canlı ölçünün yarısı: 14px. Yalnızca yüzde karakteri etkilenir. */
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-birim {
+  font-size: 14px !important;
+  line-height: 1 !important;
+}
