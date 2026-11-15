@@ -160,6 +160,7 @@ function tusTakiminiOlustur(){
 
 document.addEventListener("DOMContentLoaded", function(){
   tusTakiminiOlustur();
+  pinTusGorselGeriBildiriminiKur();
 
   document.getElementById("btnPinGiris").onclick = girisTusunaBasildi;
   girisTusunuGuncelle();
