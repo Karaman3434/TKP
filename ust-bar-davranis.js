@@ -1,5 +1,5 @@
 /*
-  ust-bar-davranis.js — TKP.15.11.26-7-TUS-STANDART-01 (YENİDEN YAZILDI, 11.11.2026)
+  ust-bar-davranis.js — TKP.15.11.26-7-TUS-AKTIF-RENK-02 (YENİDEN YAZILDI, 11.11.2026)
   ===========================================================================
   GERİ (‹) ve KAPAT (✕) için TEK, ORTAK davranış — TÜM sayfalarda aynı (Abdullah'ın
   11.11.2026 isteği + 3 onay: Kapat boşken Ana Sayfa / sistem Geri = ‹ / Geri geldiğin yol).
@@ -353,11 +353,11 @@
       if(!bar) return;
       var link=document.createElement("link");
       link.rel="stylesheet";
-      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-7-TUS-STANDART-01";
+      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-7-TUS-AKTIF-RENK-02";
       document.head.appendChild(link);
       if((window.location.pathname.split("/").pop() || "index.html") !== "home.html"){
         var eylemScript=document.createElement("script");
-        eylemScript.src="ust-bar-eylem.js?v=TKP.15.11.26-7-TUS-STANDART-01";
+        eylemScript.src="ust-bar-eylem.js?v=TKP.15.11.26-7-TUS-AKTIF-RENK-02";
         document.body.appendChild(eylemScript);
       }
       duzenle(bar);
