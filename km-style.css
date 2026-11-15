@@ -1,4 +1,4 @@
-/* km-style.css — TKP.08.11.26-08:14.1497 */
+/* km-style.css — TKP.15.11.26-09:45.1646 */
 /* km-style.css — aynı kural: gradyan/gölge yığılması yok. */
 
 .sayfa { padding: 4px 6px 16px; }
@@ -603,3 +603,19 @@
   padding: 5px 7px; font-size: 9.5px; font-weight: 800; cursor: pointer;
   white-space: nowrap;
 }
+
+/* 15.11.2026 (Abdullah isteği) — KM KAYITLARI tablosu (yalnız #kmKayitTablo; Avans/Yıllık KM etkilenmez):
+   • Güzergah + Ziyaret hücre yazıları %20, Başlangıç/Bitiş/İş/Özel KM hücre yazı ve sayıları %10 küçük
+     (tasarim-sistemi.css'teki .data-table td 14.58px !important kuralını aşmak için !important; eski: 14.58px → 11.66px ve 13.12px; bugünün başlangıç KM'si 16px → 14.4px).
+   • Başlık satırı (etiketler) en çok iki satır: sığmayan kelime alt satıra kayar; sütun genişlikleri
+     başlık kelimesine göre ayarlanır. Başlangıç KM = Bitiş KM, İş KM = Özel KM genişliğinde (küçük olan baz). */
+#kmKayitTablo td.km-td-metin { font-size: 11.66px !important; }
+#kmKayitTablo td.km-td-baslangic,
+#kmKayitTablo tbody td:nth-child(6),
+#kmKayitTablo td.km-td-is,
+#kmKayitTablo td.km-td-ozel { font-size: 13.12px !important; }
+#kmKayitTablo td.km-td-baslangic-bugun { font-size: 14.4px !important; }
+#kmKayitTablo th { white-space: normal; line-height: 1.15; }
+#kmKayitTablo th:nth-child(5), #kmKayitTablo th:nth-child(6) { width: 14%; min-width: var(--km-sutun-km, 72px); }
+#kmKayitTablo th:nth-child(7), #kmKayitTablo th:nth-child(8) { width: 8%; min-width: var(--km-sutun-is, 40px); }
+
