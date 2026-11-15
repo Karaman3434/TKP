@@ -1162,14 +1162,15 @@ function musterisizTabloGonder(kanal){
         canvas.toBlob(function(blob){
           if(!blob){ hataGoster("Görsel oluşturulamadı."); return; }
           var dosya = new File([blob], "WEICON_Fiyat_Bilgisi.png", {type:"image/png"});
-          // DÜZELTME (13.10.2026, Abdullah'ın isteğiyle): "Tablo Görseli"
-          // seçiliyken SADECE görsel gitmeli — MESAJ kutusundaki metin ayrıca
-          // caption/body olarak eklenmiyor (eskiden navigator.share'in "text"
-          // alanına ve mailto body'sine de konuyordu, bu da görselin ALTINA
-          // aynı bilgiyi tekrar eden ikinci bir metin mesajı/satırı olarak
-          // gidiyordu — ekran görüntüsüyle doğrulandı).
+          // WHATSAPP GÖNDERİMİ (16.11.2026): Tablo görseliyle birlikte
+          // kısa açıklama da paylaşım metni/caption olarak gönderilir.
+          // Mail akışında önceki davranış korunur; açıklama yalnızca WhatsApp'a eklenir.
           if(navigator.canShare && navigator.canShare({files:[dosya]})){
-            navigator.share({files:[dosya]}).then(function(){
+            var paylasimVerisi = {files:[dosya]};
+            if(kanal === "whatsapp"){
+              paylasimVerisi.text = musterisizTabloMesajiOlustur();
+            }
+            navigator.share(paylasimVerisi).then(function(){
               musterisizSepetiSifirla();
             }).catch(function(err){
               if(err && err.name!=="AbortError") hataGoster("Paylaşım penceresi kapatıldı.");
