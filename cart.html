@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="calc-style.css?v=WG.011126.1022.1262">
 <link rel="stylesheet" href="belge-style.css?v=TKP.14.11.26-PRODUCT-CODES11-VALUES14">
 <link rel="stylesheet" href="musteri-serit.css?v=TKP.14.11.26-NAME-26PX">
-<link rel="stylesheet" href="cart-style.css?v=TKP.16.11.26-WA-TIP-01">
+<link rel="stylesheet" href="cart-style.css?v=TKP.16.11.26-GONDER-POPUP-01">
 <link rel="stylesheet" href="detail-style.css?v=TKP.11.11.26-15:39.1570">
 <!-- YENİ (12.10.2026, Abdullah onayı) — Belge Önizleme'de onaylanan açık
      gri zemin + türe-özel rozet renk tasarımı Sepet tablosuna taşındı.
@@ -409,36 +409,29 @@
        olarak gönderiyor, "Metin" seçeneğini hiç kullanmıyordu. Artık panel
        doğrudan WhatsApp/Mail butonlarıyla başlıyor, basılınca DAİMA tablo
        görseli gönderiliyor (bkz. cart-render.js musterisizTabloGonder). -->
-  <div class="tip-secim-overlay" id="musterisizGonderOverlay" hidden>
-    <div class="tip-secim-kutu musterisiz-onizleme-kutu">
-      <div class="musterisiz-whatsapp-tip-alani">
-        <label class="musterisiz-whatsapp-tip-etiket" for="musterisizWhatsappTipSec">İŞLEM HAREKETİ SEÇ</label>
-        <select id="musterisizWhatsappTipSec" class="musterisiz-whatsapp-tip-secici">
-          <option value="">İşlem hareketi seçin</option>
-          <option value="siparis">SİPARİŞ</option>
-          <option value="teklif">FİYAT TEKLİFİ</option>
-          <option value="proforma">PROFORMA FATURA</option>
-          <option value="numune">NUMUNE</option>
-        </select>
-        <div class="musterisiz-whatsapp-tip-notu">WhatsApp gönderiminde seçtiğiniz işlem etiketi kullanılır.</div>
-      </div>
-      <div class="iletisim-secenek-grid iletisim-secenek-grid--iki" style="margin-top:0;">
-        <button class="iletisim-secenek-btn iletisim-secenek-btn--whatsapp" id="btnMusterisizWhatsapp">
-          <span class="iletisim-secenek-ikon">💬</span>
-          <span class="iletisim-secenek-metin">WhatsApp</span>
-        </button>
-        <button class="iletisim-secenek-btn iletisim-secenek-btn--mail" id="btnMusterisizMail">
-          <span class="iletisim-secenek-ikon">📧</span>
-          <span class="iletisim-secenek-metin">Mail</span>
-        </button>
-      </div>
-
-      <div class="musterisiz-onizleme-etiket">ÜRÜN TABLOSU</div>
-      <div id="musterisizOnizlemeTablo"></div>
-
-      <button class="sheet-secenek sheet-secenek--vazgec" id="btnMusterisizVazgec">‹ Geri — Listeye Dön ve Düzelt</button>
+  <div class="tip-secim-overlay musterisiz-hareket-overlay" id="musterisizGonderOverlay" hidden>
+    <div class="musterisiz-hareket-popup" id="musterisizHareketPopup" role="dialog" aria-modal="true" aria-label="İşlem Hareket">
+      <div class="musterisiz-hareket-ok" aria-hidden="true"></div>
+      <div class="musterisiz-hareket-baslik">İŞLEM HAREKET</div>
+      <button type="button" class="musterisiz-hareket-secim tip-siparis" data-islem-tipi="siparis">
+        <span class="musterisiz-hareket-ikon" aria-hidden="true">🛒</span>
+        <span>SİPARİŞ</span>
+      </button>
+      <button type="button" class="musterisiz-hareket-secim tip-teklif" data-islem-tipi="teklif">
+        <span class="musterisiz-hareket-ikon" aria-hidden="true">▤</span>
+        <span>FİYAT TEKLİFİ</span>
+      </button>
+      <button type="button" class="musterisiz-hareket-secim tip-proforma" data-islem-tipi="proforma">
+        <span class="musterisiz-hareket-ikon" aria-hidden="true">📄</span>
+        <span>PROFORMA FATURA</span>
+      </button>
+      <button type="button" class="musterisiz-hareket-secim tip-numune" data-islem-tipi="numune">
+        <span class="musterisiz-hareket-ikon" aria-hidden="true">□</span>
+        <span>NUMUNE</span>
+      </button>
     </div>
   </div>
+  <div id="musterisizOnizlemeTablo" class="musterisiz-gorsel-kaynak" aria-hidden="true"></div>
 
   <!-- İşlemi İptal Onay Popup — Geri basınca veya "İşlemi İptal Et"
        butonuna basınca (WG.080926.196) -->
@@ -499,7 +492,7 @@
      panel sırası artık doğrudan HTML sırasıyla belirleniyor (kur, arama, SEPET HESAP, tarih, müşteri, tablo). */
 });</script>
 <script src="kur-panel.js?v=TKP.13.11.26-20:30.1613"></script>
-<script src="cart-render.js?v=TKP.16.11.26-WA-CAPTION-04"></script>
+<script src="cart-render.js?v=TKP.16.11.26-GONDER-POPUP-01"></script>
 <script src="urun-arama.js?v=TKP.13.11.26-20:30.1613"></script>
 <script src="hesapla-popup.js?v=TKP.13.11.26-20:30.1613"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026): bugünkü üst-bar birleştirmesiyle
