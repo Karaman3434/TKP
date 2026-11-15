@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="bekleyen-islemler-style.css?v=TKP.11.11.26-20:38.1583">
 <link rel="stylesheet" href="cart-style.css?v=TKP.15.11.26-15:05.1649">
 <link rel="stylesheet" href="cari-kart-style.css?v=TKP.09.11.26-18:48.1530">
-<link rel="stylesheet" href="send-style.css?v=TKP.14.11.26-MAIL-WHITE-03">
+<link rel="stylesheet" href="send-style.css?v=TKP.15.11.26-SEND-POPUP-01">
 <link rel="stylesheet" href="belge-style.css?v=TKP.14.11.26-PRODUCT-CODES11-VALUES14">
 <link rel="stylesheet" href="detail-style.css?v=TKP.11.11.26-15:39.1570">
 <!-- YENİ (12.10.2026, Abdullah onayı) — ürün tablosuna da Sepet/Belge
@@ -147,24 +147,37 @@
        id'leri/işlevleri DEĞİŞMEDİ; konum send-render.js iletisimPaneliKonumla. -->
   <div class="overlay" id="iletisimSheetOverlay" hidden>
     <div class="iletisim-acilir" id="iletisimAcilir">
+      <div class="iletisim-acilir-baslik">
+        <span class="iletisim-acilir-baslik-ikon" aria-hidden="true">➤</span>
+        <strong>İLETİŞİM SEÇENEKLERİ</strong>
+        <button type="button" id="btnIletisimPopupKapat" aria-label="İletişim seçeneklerini kapat">×</button>
+      </div>
       <div class="iletisim-secenek-grid">
         <div class="iletisim-secenek-mail-sarmal">
           <button class="iletisim-secenek-btn iletisim-secenek-btn--mail" id="btnUstMail">
             <span class="iletisim-secenek-ikon">📧</span>
             <span class="iletisim-secenek-metin">Mail</span>
           </button>
-          <!-- MAİL SEÇENEK AÇILIR KUTUSU (01.10.2026, Abdullah'ın isteğiyle) —
-               Mail'e dokununca bu küçük kutu açılıyor: Yeni Mail (mevcut
-               otomatik akış) / Zinciri Cevapla (tek dokunuş, önizleme yok,
-               panoya kopyalar). -->
           <div class="mail-secenek-popover" id="mailSecenekPopover" hidden>
-            <button type="button" class="mail-secenek-popover-oge" id="mailSecenekYeniMail">
-              <span class="mail-secenek-popover-baslik">Yeni mail</span>
-              <span class="mail-secenek-popover-alt">Her şeyi otomatik doldurur</span>
+            <div class="mail-secenek-popover-ust">
+              <span>✉ MAIL SEÇENEKLERİ</span>
+              <button type="button" id="btnMailSecenekKapat" aria-label="Mail seçeneklerini kapat">×</button>
+            </div>
+            <button type="button" class="mail-secenek-popover-oge mail-secenek-popover-oge--yeni" id="mailSecenekYeniMail">
+              <span class="mail-secenek-popover-ikon">✉</span>
+              <span class="mail-secenek-popover-metin">
+                <span class="mail-secenek-popover-baslik">Yeni Mail</span>
+                <span class="mail-secenek-popover-alt">Her şey otomatik doldurulur.</span>
+              </span>
+              <span class="mail-secenek-popover-ok">›</span>
             </button>
-            <button type="button" class="mail-secenek-popover-oge" id="mailSecenekZincir">
-              <span class="mail-secenek-popover-baslik">Zinciri cevapla</span>
-              <span class="mail-secenek-popover-alt">Kopyalar, sen yapıştırırsın</span>
+            <button type="button" class="mail-secenek-popover-oge mail-secenek-popover-oge--zincir" id="mailSecenekZincir">
+              <span class="mail-secenek-popover-ikon">↶</span>
+              <span class="mail-secenek-popover-metin">
+                <span class="mail-secenek-popover-baslik">Zincir Mail</span>
+                <span class="mail-secenek-popover-alt">Mevcut mail yazışmasına cevap verilir.</span>
+              </span>
+              <span class="mail-secenek-popover-ok">›</span>
             </button>
           </div>
         </div>
@@ -173,28 +186,31 @@
           <span class="iletisim-secenek-metin">WhatsApp</span>
         </button>
         <button class="iletisim-secenek-btn iletisim-secenek-btn--kaydet" id="btnUstTablo">
-          <span class="iletisim-secenek-ikon">📋</span>
+          <span class="iletisim-secenek-ikon">▦</span>
           <span class="iletisim-secenek-metin">Tablo</span>
         </button>
-        <!-- PDF DÜĞMESİ (19.10.2026, Abdullah onayı — mockup_h üzerinden
-             onaylandı): cari bilgi + ürün tablosu PDF olarak indirilebilsin
-             diye eklendi. Mail/WhatsApp/Tablo HİÇ DEĞİŞMEDİ. Popover'ı
-             (mailSecenekPopover ile AYNI .mail-secenek-popover sınıfları)
-             açarken Mail'in sarmal/konumlama deseniyle BİREBİR aynı
-             yapı (.iletisim-secenek-mail-sarmal) kullanılıyor. -->
+        <!-- PDF işlevi korunur ve aynı yeni popup standardında sunulur. -->
         <div class="iletisim-secenek-mail-sarmal">
           <button class="iletisim-secenek-btn iletisim-secenek-btn--pdf" id="btnUstPdf">
             <span class="iletisim-secenek-ikon">📄</span>
             <span class="iletisim-secenek-metin">PDF</span>
           </button>
-          <div class="mail-secenek-popover" id="pdfSecenekPopover" hidden>
+          <div class="mail-secenek-popover pdf-secenek-popover" id="pdfSecenekPopover" hidden>
+            <div class="mail-secenek-popover-ust">
+              <span>PDF SEÇENEKLERİ</span>
+              <button type="button" id="btnPdfSecenekKapat" aria-label="PDF seçeneklerini kapat">×</button>
+            </div>
             <button type="button" class="mail-secenek-popover-oge" id="pdfSecenekMusteri">
-              <span class="mail-secenek-popover-baslik">Müşteriye giden</span>
-              <span class="mail-secenek-popover-alt">Cari kodu ve prim gizli</span>
+              <span class="mail-secenek-popover-metin">
+                <span class="mail-secenek-popover-baslik">Müşteriye giden</span>
+                <span class="mail-secenek-popover-alt">Cari kodu ve prim gizli</span>
+              </span>
             </button>
             <button type="button" class="mail-secenek-popover-oge" id="pdfSecenekKendi">
-              <span class="mail-secenek-popover-baslik">Kendi kopyam</span>
-              <span class="mail-secenek-popover-alt">Tüm detaylar görünür</span>
+              <span class="mail-secenek-popover-metin">
+                <span class="mail-secenek-popover-baslik">Kendi kopyam</span>
+                <span class="mail-secenek-popover-alt">Tüm detaylar görünür</span>
+              </span>
             </button>
           </div>
         </div>
@@ -323,7 +339,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="teklif-pdf.js?v=WG.211026.1700.895"></script>
-<script src="send-render.js?v=TKP.14.11.26-MAIL-IMAGE-02"></script>
+<script src="send-render.js?v=TKP.15.11.26-SEND-POPUP-01"></script>
 <!-- yarim-kalan-uyari.js KALDIRILDI (01.11.2026) — bkz. cart.html'deki aynı
      yorum: bugünkü üst-bar birleştirmesiyle kırıldı, yerine cart.html'deki
      10 dakikalık oto-sıfırlama geldi. -->
