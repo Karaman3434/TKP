@@ -1,5 +1,5 @@
 /*
-  ust-bar-davranis.js — TKP.11.11.26-15:39.1570 (YENİDEN YAZILDI, 11.11.2026)
+  ust-bar-davranis.js — TKP.15.11.26-7-TUS-STANDART-01 (YENİDEN YAZILDI, 11.11.2026)
   ===========================================================================
   GERİ (‹) ve KAPAT (✕) için TEK, ORTAK davranış — TÜM sayfalarda aynı (Abdullah'ın
   11.11.2026 isteği + 3 onay: Kapat boşken Ana Sayfa / sistem Geri = ‹ / Geri geldiğin yol).
@@ -332,26 +332,32 @@
       if(eylem && eylem.parentElement!==grup) grup.appendChild(eylem);
       Array.prototype.slice.call(grup.querySelectorAll(":scope > .ub-btn")).forEach(sarmala);
       if(eylem){
+        // Eylem butonlarını kapsayıcı içinde bırakma: yedi tuşun tamamı
+        // aynı .ub-grup altında doğrudan kardeş olmalı. Böylece tüm
+        // sayfalarda aynı flex sırası, ölçüsü ve aralık hesabı uygulanır.
         Array.prototype.slice.call(eylem.querySelectorAll(":scope > .ub-btn")).forEach(sarmala);
+        Array.prototype.slice.call(eylem.querySelectorAll(":scope > .ub-tus-kutu")).forEach(function(k){
+          grup.insertBefore(k,eylem);
+        });
+        if(eylem.parentElement===grup) grup.removeChild(eylem);
       }
       var kutular=Array.prototype.slice.call(grup.querySelectorAll(":scope > .ub-tus-kutu"));
       var sirali=kutular.slice().sort(function(a,b){return sira(a.querySelector(".ub-btn"))-sira(b.querySelector(".ub-btn"));});
       var siraDegisti=sirali.some(function(k,i){return kutular[i]!==k;});
       if(siraDegisti){
-        sirali.forEach(function(k){grup.insertBefore(k,eylem||null);});
+        sirali.forEach(function(k){grup.appendChild(k);});
       }
-      if(eylem && (eylem.parentElement!==grup || grup.lastElementChild!==eylem)) grup.appendChild(eylem);
     }
     function baslat(){
       var bar=document.querySelector(".ub-bar");
       if(!bar) return;
       var link=document.createElement("link");
       link.rel="stylesheet";
-      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-2MM-TUM-SAYFALAR-05";
+      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-7-TUS-STANDART-01";
       document.head.appendChild(link);
       if((window.location.pathname.split("/").pop() || "index.html") !== "home.html"){
         var eylemScript=document.createElement("script");
-        eylemScript.src="ust-bar-eylem.js?v=TKP.15.11.26-ISLEM-CUBUGU-04";
+        eylemScript.src="ust-bar-eylem.js?v=TKP.15.11.26-7-TUS-STANDART-01";
         document.body.appendChild(eylemScript);
       }
       duzenle(bar);
