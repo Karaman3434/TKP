@@ -372,6 +372,31 @@ var SendData = (function(){
     }catch(e){ cb(false, e); }
   }
 
+  // GÖNDER EKRANI SİL (15.11.2026): yalnızca tam ts eşleşen arşiv kaydını siler;
+  // kayıt bulunamadıysa başarı dönmez.
+  function islemiSil(tip, ts, geriBildir){
+    var cb = typeof geriBildir === "function" ? geriBildir : function(){};
+    try{
+      if(!tip || !ts){ cb(false, new Error("İşlem bilgisi eksik.")); return; }
+      var bulundu = false, db = firebase.database();
+      db.ref("arsiv/" + tip).transaction(function(mevcut){
+        bulundu = false;
+        if(mevcut === null) return mevcut;
+        var liste = Array.isArray(mevcut) ? mevcut.filter(Boolean) : Object.values(mevcut);
+        var yeni = liste.filter(function(k){
+          var eslesiyor = k && Number(k.ts) === Number(ts);
+          if(eslesiyor) bulundu = true;
+          return !eslesiyor;
+        });
+        if(!bulundu) return;
+        return yeni;
+      }).then(function(result){
+        if(result && result.committed && bulundu){ cb(true); return; }
+        cb(false, new Error("Silinecek kayıt bulunamadı veya işlem çakıştı."));
+      }).catch(function(err){ cb(false, err); });
+    }catch(e){ cb(false, e); }
+  }
+
   // GÖNDERİM KANALI KAYDI (02.11.2026, Abdullah'ın bildirdiği hata): kayıt
   // listelerindeki "W / M" harfleri arşiv kaydındaki `kanal` alanından
   // geliyor. Bu alanı eskiden send-render.js, send.html'de HİÇ YÜKLÜ OLMAYAN
@@ -431,7 +456,7 @@ var SendData = (function(){
     }catch(e){ cb(false, e); }
   }
 
-  return { baslat: baslat, kaydet: kaydet, kaynakSil: kaynakSil, islemiGuncelle: islemiGuncelle, fiyatGecmisiKontrolEt: fiyatGecmisiKontrolEt, kanalKaydet: kanalKaydet, alanlariGuncelle: alanlariGuncelle };
+  return { baslat: baslat, kaydet: kaydet, kaynakSil: kaynakSil, islemiSil: islemiSil, islemiGuncelle: islemiGuncelle, fiyatGecmisiKontrolEt: fiyatGecmisiKontrolEt, kanalKaydet: kanalKaydet, alanlariGuncelle: alanlariGuncelle };
 
 })();
 
