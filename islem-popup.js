@@ -56,18 +56,16 @@ var IslemPopup = (function(){
     st.id = "ipStil";
     st.textContent =
       ".ip-arka{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(10,25,50,.5);z-index:9500}"
-    + ".ip-pop{position:fixed;left:14px;width:300px;max-width:calc(100vw - 28px);top:84px;margin:0;max-height:calc(100vh - 16px);display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1.5px solid #b8c9df;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.35);z-index:9501;font-family:inherit}"
-    + ".ip-head{flex:none;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 10px 0 14px;background:linear-gradient(135deg,#1765bd,#073b78);color:#fff;font-size:15px;font-weight:800}"
-    + ".ip-close{width:38px;height:38px;flex:0 0 38px;border:0;border-radius:10px;background:rgba(255,255,255,.14);color:#fff;font:700 25px/1 inherit;cursor:pointer;touch-action:manipulation}"
-    + ".ip-baslik{flex:none;background:#eaf2fd;padding:10px 12px;border-bottom:1px solid #d5e1f0}"
+    + ".ip-pop{position:fixed;left:14px;width:300px;max-width:calc(100vw - 28px);top:84px;margin:0;max-height:calc(100vh - 110px);display:flex;flex-direction:column;background:#fff;border:2px solid #073B70;border-radius:14px;box-shadow:0 8px 26px rgba(0,0,0,.35);z-index:9501;font-family:inherit}"
+    + ".ip-baslik{flex:none;background:#e8eef7;border-radius:12px 12px 0 0;padding:9.6px 14.4px;border-bottom:1.5px solid #c9d6e8}"
     + ".ip-kod{color:#c0392b;font-weight:800;font-size:15.6px}"
     + ".ip-ad{color:#0a2f5c;font-weight:800;font-size:18px;line-height:1.25}"
     + ".ip-sehir{color:#556170;font-weight:600;font-size:14.4px}"
     + ".ip-icerik{flex:1 1 auto;min-height:0;overflow-y:auto;padding:2.4px 7.2px 0;-webkit-overflow-scrolling:touch}"
     + ".ip-etiket{display:flex;align-items:center;gap:9.6px;margin:9.6px 0 3.6px;color:#16a085;font-weight:800;font-size:14.4px;letter-spacing:.3px}"
     + ".ip-etiket small{font-weight:700;font-size:13.8px;color:#667085;letter-spacing:0}"
-    + ".ip-satir{display:flex;align-items:center;gap:10px;min-height:58px;padding:10px 10px;margin:0 0 7px;border:1px solid #d5e1f0;border-radius:11px;background:#f5f8fd;box-sizing:border-box;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}"
-    + ".ip-satir--on{background:#e6f0fb;border-color:#78a9e5}"
+    + ".ip-satir{display:flex;align-items:center;gap:8.4px;padding:6px 7.2px;border-radius:8px;cursor:pointer;-webkit-tap-highlight-color:transparent}"
+    + ".ip-satir--on{background:#e6f0fb}"
     + ".ip-isaret{flex:none;width:24px;height:24px;box-sizing:border-box;border:2px solid #9aa6b5;border-radius:50%;display:flex;align-items:center;justify-content:center}"
     + ".ip-isaret--kare{border-radius:6px}"
     + ".ip-satir--on .ip-isaret{border-color:#073B70}"
@@ -88,15 +86,24 @@ var IslemPopup = (function(){
     + ".ip-alt-alan{flex:none;padding:9.6px 7.2px 9.6px;position:relative}"
     + ".ip-islem{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;height:52.8px;border:0;border-radius:10px;background:#073B70;color:#fff;font-family:inherit;font-weight:800;font-size:18px;line-height:1;letter-spacing:.6px;cursor:pointer}"
     + ".ip-islem svg{width:21.6px;height:21.6px}"
-    + ".ip-tipler{position:fixed;z-index:9502;width:min(248px,calc(100vw - 12px));max-height:calc(100vh - 16px);overflow-y:auto;background:#fff;border:1.5px solid #b8c9df;border-radius:15px;padding:0 8px 8px;box-shadow:0 10px 28px rgba(0,30,70,.36);box-sizing:border-box}"
+    + ".ip-tipler{position:fixed;z-index:9502;background:#fff;border:1.5px solid #073B70;border-radius:12px;padding:9.6px;box-shadow:0 6px 18px rgba(0,30,70,.32);box-sizing:border-box}"
     + ".ip-tipler[hidden]{display:none}"
-    + ".ip-tipler-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;margin:0 -8px 8px;padding:0 8px 0 13px;background:linear-gradient(135deg,#1765bd,#073b78);color:#fff;border-radius:13px 13px 0 0}"
-    + ".ip-tipler-baslik{font-size:14px;font-weight:800;color:#fff;margin:0}"
-    + ".ip-tipler-aciklama{font-size:13px;font-weight:700;color:#10264c;margin:4px 3px 8px}"
-    + ".ip-tip{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;border:2px solid;border-radius:11px;padding:11px 12px;min-height:64px;margin:0 0 7px;font-family:inherit;font-weight:800;font-size:15px;line-height:1.2;cursor:pointer;text-align:left;touch-action:manipulation}"   // 12.11.2026: tüm tip kutuları PROFORMA FATURA (2 satır) kutusu boyunda — min-height 58.2px
+    + ".ip-tipler-baslik{font-size:13.8px;font-weight:800;color:#556170;margin:2.4px 4.8px 7.2px}"
+    + ".ip-tip{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;border:2px solid;border-radius:10px;padding:8.4px 12px;min-height:58.2px;margin:0 0 7.2px;font-family:inherit;font-weight:800;font-size:15.6px;line-height:1.2;cursor:pointer;text-align:left}"   // 12.11.2026: tüm tip kutuları PROFORMA FATURA (2 satır) kutusu boyunda — min-height 58.2px
     + ".ip-tip:last-child{margin-bottom:0}"
     + ".ip-tip:active{opacity:.8}"
-    + ".ip-ok{position:absolute;width:16.8px;height:16.8px;background:#fff;transform:rotate(45deg)}";
+    + ".ip-ok{position:absolute;width:16.8px;height:16.8px;background:#fff;transform:rotate(45deg)}"
+    + ".ip-kok--anasayfa .ip-pop{max-height:calc(100vh - 16px);overflow:hidden;border:1.5px solid #b8c9df;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.35)}"
+    + ".ip-kok--anasayfa .ip-head{flex:none;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 10px 0 14px;background:linear-gradient(135deg,#1765bd,#073b78);color:#fff;font-size:15px;font-weight:800}"
+    + ".ip-kok--anasayfa .ip-close{width:38px;height:38px;flex:0 0 38px;border:0;border-radius:10px;background:rgba(255,255,255,.14);color:#fff;font-size:25px;font-weight:700;cursor:pointer;touch-action:manipulation}"
+    + ".ip-kok--anasayfa .ip-baslik{background:#eaf2fd;border-radius:0;padding:10px 12px;border-bottom:1px solid #d5e1f0}"
+    + ".ip-kok--anasayfa .ip-satir{min-height:58px;padding:10px;margin:0 0 7px;border:1px solid #d5e1f0;border-radius:11px;background:#f5f8fd;box-sizing:border-box;touch-action:manipulation}"
+    + ".ip-kok--anasayfa .ip-satir--on{background:#e6f0fb;border-color:#78a9e5}"
+    + ".ip-kok--anasayfa .ip-tipler{width:min(248px,calc(100vw - 12px));max-height:calc(100vh - 16px);overflow-y:auto;border:1.5px solid #b8c9df;border-radius:15px;padding:0 8px 8px;box-shadow:0 10px 28px rgba(0,30,70,.36)}"
+    + ".ip-kok--anasayfa .ip-tipler-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;margin:0 -8px 8px;padding:0 8px 0 13px;background:linear-gradient(135deg,#1765bd,#073b78);color:#fff;border-radius:13px 13px 0 0}"
+    + ".ip-kok--anasayfa .ip-tipler-baslik{font-size:14px;font-weight:800;color:#fff;margin:0}"
+    + ".ip-kok--anasayfa .ip-tipler-aciklama{font-size:13px;font-weight:700;color:#10264c;margin:4px 3px 8px}"
+    + ".ip-kok--anasayfa .ip-tip{min-height:64px;padding:11px 12px;margin:0 0 7px;border-radius:11px;font-size:15px;touch-action:manipulation}";
     document.head.appendChild(st);
   }
 
@@ -146,6 +153,8 @@ var IslemPopup = (function(){
 
     var el = document.createElement("div");
     el.id = "ipKok";
+    var anaSayfaPopupMi = !!document.querySelector(".as-sayfa");
+    if(anaSayfaPopupMi) el.classList.add("ip-kok--anasayfa");
     var icerikHtml = bolumler.map(function(b){
       return "<div class='ip-etiket'>" + b.ikon + esc(b.etiket) + (b.ipucu ? " <small>(" + esc(b.ipucu) + ")</small>" : "") + "</div>"
         + b.liste.map(function(k, i){
@@ -167,8 +176,8 @@ var IslemPopup = (function(){
 
     el.innerHTML =
         "<div class='ip-arka'></div>"
-      + "<div class='ip-pop' role='dialog' aria-label='Müşteri ve yetkili seçimi'>"
-      +   "<div class='ip-head'><span>Müşteri / Yetkili Seçimi</span><button type='button' class='ip-close' id='ipKapat' aria-label='Pencereyi kapat'>✕</button></div>"
+      + "<div class='ip-pop' role='dialog' aria-label='İşlem'>"
+      +   (anaSayfaPopupMi ? "<div class='ip-head'><span>Müşteri / Yetkili Seçimi</span><button type='button' class='ip-close' id='ipKapat' aria-label='Pencereyi kapat'>✕</button></div>" : "")
       +   "<div class='ip-baslik'>"
       +     "<div class='ip-kod'>" + esc(m.id || "") + "</div>"
       +     "<div class='ip-ad'>" + esc(m.ad || "") + "</div>"
@@ -181,8 +190,7 @@ var IslemPopup = (function(){
       +   "</div>"
       + "</div>"
       + "<div class='ip-tipler' id='ipTipler' hidden>"
-      +   "<div class='ip-tipler-head'><span class='ip-tipler-baslik'>İşlem Türü Seçimi</span><button type='button' class='ip-close' id='ipTipKapat' aria-label='İşlem türü penceresini kapat'>✕</button></div>"
-      +   "<div class='ip-tipler-aciklama'>Ne için işlem yapmak istiyorsunuz?</div>"
+      +   (anaSayfaPopupMi ? "<div class='ip-tipler-head'><span class='ip-tipler-baslik'>İşlem Türü Seçimi</span><button type='button' class='ip-close' id='ipTipKapat' aria-label='İşlem türü penceresini kapat'>✕</button></div><div class='ip-tipler-aciklama'>Ne için işlem yapmak istiyorsunuz?</div>" : "<div class='ip-tipler-baslik'>Ne için ürün arıyorsun?</div>")
       +   TIPLER.map(function(t){
             var ad = (typeof TipEtiket !== "undefined") ? TipEtiket.buyukAl(t.tip) : t.tip.toUpperCase();
             return "<button type='button' class='ip-tip' data-tip='" + t.tip + "' style='color:" + t.renk + ";background:" + t.zemin + ";border-color:" + t.renk + "'><span>" + t.ikon + "</span><span>" + esc(ad) + "</span></button>";
@@ -232,7 +240,7 @@ var IslemPopup = (function(){
     function tiplerAc(){
       // Liste popup'ın ÜSTÜNE biner: yarısı popup'ın üstünde, yarısı dışında; üst kenarı popup ile aynı hizada.
       var pop = el.querySelector(".ip-pop").getBoundingClientRect();
-      var TW = Math.min(248, window.innerWidth - 12);
+      var TW = anaSayfaPopupMi ? Math.min(248, window.innerWidth - 12) : 223;
       tipler.hidden = false;
       tipler.style.width = TW + "px";
       // Alt popup ana popup'ın sağ-üst köşesine yerleşir; yatay ve dikey
@@ -258,8 +266,10 @@ var IslemPopup = (function(){
       }catch(e){}
       kapat();
     });
-    el.querySelector("#ipKapat").addEventListener("click", kapat);
-    el.querySelector("#ipTipKapat").addEventListener("click", tiplerKapat);
+    var ipKapatBtn = el.querySelector("#ipKapat");
+    var ipTipKapatBtn = el.querySelector("#ipTipKapat");
+    if(ipKapatBtn) ipKapatBtn.addEventListener("click", kapat);
+    if(ipTipKapatBtn) ipTipKapatBtn.addEventListener("click", tiplerKapat);
     el.querySelector("#ipIslemSec").addEventListener("click", function(){
       if(tipler.hidden) tiplerAc(); else tiplerKapat();
     });
