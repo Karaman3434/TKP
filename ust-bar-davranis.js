@@ -285,3 +285,72 @@
     else baslat();
   }catch(e){}
 })();
+
+
+/* İŞLEM ÇUBUĞU — ONAYLI ORTAK YERLEŞİM (15.11.2026)
+   Mevcut buton DOM düğümleri taşınır; click listener'ları, ID'ler ve
+   sayfa işlevleri korunur. Eylem butonları sonradan oluştuğunda da yakalanır. */
+(function(){
+  try{
+    function sira(btn){
+      if(btn.classList.contains("ub-btn--geri")) return 1;
+      if(btn.classList.contains("ub-btn--bekle")) return 2;
+      if(btn.classList.contains("ub-btn--kapat")) return 3;
+      if(btn.classList.contains("ub-btn--menu")) return 4;
+      if(btn.classList.contains("ub-btn--bilgi")) return 5;
+      if(btn.classList.contains("ub-btn--kaydet")) return 6;
+      if(btn.classList.contains("ub-btn--gonder")) return 7;
+      return 99;
+    }
+    function etiket(btn){
+      if(btn.classList.contains("ub-btn--geri")) return "Geri";
+      if(btn.classList.contains("ub-btn--bekle")) return "Beklet";
+      if(btn.classList.contains("ub-btn--kapat")) return "Kapat";
+      if(btn.classList.contains("ub-btn--menu")) return "Menü";
+      if(btn.classList.contains("ub-btn--bilgi")) return "BİM";
+      if(btn.classList.contains("ub-btn--kaydet")) return "Kaydet";
+      if(btn.classList.contains("ub-btn--gonder")) return "Gönder";
+      return "";
+    }
+    function sarmala(btn){
+      if(!btn || btn.parentElement.classList.contains("ub-tus-kutu")) return;
+      var host=btn.parentElement;
+      var kutu=document.createElement("div");
+      kutu.className="ub-tus-kutu"+(btn.classList.contains("ub-btn--menu")?" ub-tus-kutu--menu":"");
+      host.insertBefore(kutu,btn);
+      kutu.appendChild(btn);
+      var yazi=document.createElement("span");
+      yazi.className="ub-btn-etiket";
+      yazi.setAttribute("aria-hidden","true");
+      yazi.textContent=etiket(btn);
+      kutu.appendChild(yazi);
+    }
+    function duzenle(bar){
+      var grup=bar.querySelector(".ub-grup");
+      if(!grup) return;
+      var eylem=bar.querySelector(".ub-eylem");
+      if(eylem && eylem.parentElement!==grup) grup.appendChild(eylem);
+      Array.prototype.slice.call(grup.querySelectorAll(":scope > .ub-btn")).forEach(sarmala);
+      if(eylem){
+        Array.prototype.slice.call(eylem.querySelectorAll(":scope > .ub-btn")).forEach(sarmala);
+      }
+      var kutular=Array.prototype.slice.call(grup.querySelectorAll(":scope > .ub-tus-kutu"));
+      kutular.sort(function(a,b){return sira(a.querySelector(".ub-btn"))-sira(b.querySelector(".ub-btn"));});
+      kutular.forEach(function(k){grup.insertBefore(k,eylem||null);});
+      if(eylem) grup.appendChild(eylem);
+    }
+    function baslat(){
+      var bar=document.querySelector(".ub-bar");
+      if(!bar) return;
+      var link=document.createElement("link");
+      link.rel="stylesheet";
+      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-ISLEM-CUBUGU-01";
+      document.head.appendChild(link);
+      duzenle(bar);
+      var gozlem=new MutationObserver(function(){duzenle(bar);});
+      gozlem.observe(bar,{childList:true,subtree:true});
+    }
+    if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",baslat,{once:true});
+    else baslat();
+  }catch(e){}
+})();
