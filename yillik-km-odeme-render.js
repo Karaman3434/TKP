@@ -1,5 +1,5 @@
 /*
-  yillik-km-odeme-render.js
+  yillik-km-odeme-render.js — TKP.15.11.26-09:56.1647
   ==========================
   Araç KM alt menüsündeki "Yıllık KM Ödeme" (03.10.2026, Abdullah'ın
   isteğiyle; 03.10.2026 içinde birkaç kez güncellendi):
@@ -169,11 +169,15 @@ function tabloyuCiz(){
 
     var govde = document.getElementById("koTabloGovde");
 
-    govde.innerHTML = sonuc.aylar.map(function(s){
+    govde.innerHTML = sonuc.aylar.map(function(s, sira){
+      /* 15.11.2026: Tutar ile Ödeme Tarihi arasına 2mm'lik boş ayraç sütunu — tüm satırlar TEK hücrede
+         birleşik (rowspan), açık gri zemin. Yalnız görünüm; veri/hesap/Excel etkilenmez. */
+      var bosluk = (sira === 0) ? "<td class='ko-bosluk' rowspan='" + sonuc.aylar.length + "' aria-hidden='true'></td>" : "";
       return "<tr data-yilay='" + s.yilAy + "'>"
         + "<td class='ko-ay-hucre'><span class='ko-ay-ad'>" + s.ayAdi + "</span><span class='ko-ay-yil'>" + yil + "</span></td>"
         + "<td class='km-td-ozel' contenteditable='true' data-alan='ozelKm'>" + koKmFormat(s.ozelKm) + "</td>"
         + "<td class='km-td-tutar' contenteditable='true' data-alan='tutar'>" + koParaFormat(s.tutar) + "</td>"
+        + bosluk
         + "<td contenteditable='true' data-alan='odemeTarihi'>" + (s.odemeKaydi.odemeTarihi || "-") + "</td>"
         + "<td class='km-td-metin' contenteditable='true' data-alan='odemePlatformu'>" + (s.odemeKaydi.odemePlatformu || "-") + "</td>"
         + "<td contenteditable='true' data-alan='odeme'>" + (s.odeme!==""?koParaFormat(s.odeme):"-") + "</td>"
