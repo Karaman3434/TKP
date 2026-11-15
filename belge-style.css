@@ -1405,3 +1405,19 @@
   gap: 0 !important;
   padding: 4px 1px !important;
 }
+
+
+/* ABDULLAH ONAYI — YÜZDE İŞARETİ %100 BÜYÜTÜLDÜ
+   Son canlı ekran kontrolü: yalnızca İSKONTO hücresindeki yüzde işareti.
+   Önceki 14px değerin iki katı; oran rakamı ve diğer alanlar değişmez. */
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-birim {
+  display: block !important;
+  font-size: 28px !important;
+  line-height: .9 !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  margin-top: 0 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap !important;
+  transform: none !important;
+}
