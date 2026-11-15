@@ -808,20 +808,21 @@ function mcMusteriHizliPencereGoster(musteri, panel){
       {ikon:"📦", etiket:"Ürün Geçmişi", aksiyon:"urun", rozet:rozetler.urun},
       {ikon:"📦", etiket:"Bekleyen Ürünler", aksiyon:"bekleyen", rozet:rozetler.bekleyen}
     ];
+    var homePopupMi = !!document.querySelector(".as-sayfa");
     var listeHtml = ogeler.map(function(o){
       return "<button type='button' class='cm-altmenu-oge' data-aksiyon='" + o.aksiyon + "'>"
         + "<span class='cm-altmenu-oge-sol'><span class='cm-altmenu-oge-ikon' aria-hidden='true'>" + o.ikon + "</span><span>" + o.etiket + "</span></span>"
         + mcMusteriRozetHTML(o.rozet||0)
+        + (homePopupMi ? "<span class='cm-altmenu-oge-ok' aria-hidden='true'>›</span>" : "")
         + "</button>";
     }).join("");
 
-    panel.innerHTML = "<div class='cm-altmenu-baslikbar'><span>Müşteri İşlemleri</span><button type='button' class='cm-altmenu-kapat' id='mcMusteriPopupKapat' aria-label='Müşteri işlemlerini kapat'>✕</button></div>"
-      + baslikHtml + "<div id='mcMusteriHizliListe'>" + listeHtml + "</div>";
+    var popupBaslikHtml = homePopupMi
+      ? "<div class='cm-altmenu-baslikbar'><span>Müşteri İşlemleri</span><button type='button' class='cm-altmenu-kapat' id='mcMusteriPopupKapat' aria-label='Müşteri işlemlerini kapat'>✕</button></div>"
+      : "";
+    panel.innerHTML = popupBaslikHtml + baslikHtml + "<div id='mcMusteriHizliListe'>" + listeHtml + "</div>";
     var popupKapat = panel.querySelector("#mcMusteriPopupKapat");
     if(popupKapat) popupKapat.onclick = function(ev){ ev.stopPropagation(); mcMiniSonucKapat(); };
-    panel.querySelectorAll("#mcMusteriHizliListe .cm-altmenu-oge").forEach(function(btn){
-      btn.insertAdjacentHTML("beforeend", "<span class='cm-altmenu-oge-ok' aria-hidden='true'>›</span>");
-    });
     var basEl = panel.querySelector("#mcMusteriBaslikCari");
     if(basEl) basEl.onclick = function(){ mcMusteriAksiyonuUygula("cari"); };
     panel.querySelectorAll("#mcMusteriHizliListe .cm-altmenu-oge").forEach(function(btn){
