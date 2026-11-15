@@ -1,4 +1,4 @@
-/* send-style.css — TKP.08.11.26-22:53.1517 — aynı kural: gradyan/gölge yığılması yok.
+/* send-style.css — TKP.15.11.26-23:14.1652 — aynı kural: gradyan/gölge yığılması yok.
    GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim açılır listesi + Mail/WhatsApp/Tablo
    önizleme pencereleri kenardan kenara (dosya sonundaki iki blok). */
 
@@ -635,35 +635,35 @@ body.as-drawer-kilit { overflow: hidden; }
 
 
 /* ONAYLI MAIL ONIZLEME TASARIMI: belge basligi ve tarih/saat bandi. */
-#mailOnizlemeTablo .mail-onizleme-belge-baslik{width:100%;box-sizing:border-box;padding:0;margin:0 0 8px;}
-#mailOnizlemeTablo .mail-onizleme-belge-baslik .belge-form-baslik{
+#mailOnizlemeTablo .mail-onizleme-belge-baslik, #tamOnizlemeAlani .mail-onizleme-belge-baslik{width:100%;box-sizing:border-box;padding:0;margin:0 0 8px;}
+#mailOnizlemeTablo .mail-onizleme-belge-baslik .belge-form-baslik, #tamOnizlemeAlani .mail-onizleme-belge-baslik .belge-form-baslik{
   display:block;min-height:0;box-sizing:border-box;padding:0;margin:0 0 8px;
   border:0;border-radius:0;background:transparent;text-align:center;
   font-size:clamp(17.5px,4.9vw,23.8px);line-height:1.12;font-weight:950;letter-spacing:.2px;
 }
-#mailOnizlemeTablo .mail-onizleme-belge-baslik .belge-form-baslik-etiket{
+#mailOnizlemeTablo .mail-onizleme-belge-baslik .belge-form-baslik-etiket, #tamOnizlemeAlani .mail-onizleme-belge-baslik .belge-form-baslik-etiket{
   display:block;font-size:inherit;line-height:inherit;font-weight:inherit;color:inherit;
 }
-#mailOnizlemeTablo .mail-onizleme-tarih-saat{
+#mailOnizlemeTablo .mail-onizleme-tarih-saat, #tamOnizlemeAlani .mail-onizleme-tarih-saat{
   min-height:33px;box-sizing:border-box;width:100%;display:flex;align-items:center;justify-content:center;
   gap:10px;padding:2px 10px;border:2px solid #1674c5;border-radius:12px;
   background:#ffffff;
   color:#071d4d;font-size:clamp(14px,4vw,18px);line-height:1.1;white-space:nowrap;font-weight:850;
 }
-#mailOnizlemeTablo .mail-onizleme-tarih-grup,#mailOnizlemeTablo .mail-onizleme-saat-grup{
+#mailOnizlemeTablo .mail-onizleme-tarih-grup, #tamOnizlemeAlani .mail-onizleme-tarih-grup,#mailOnizlemeTablo .mail-onizleme-saat-grup, #tamOnizlemeAlani .mail-onizleme-saat-grup{
   min-width:0;display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;
 }
-#mailOnizlemeTablo .mail-onizleme-tarih-grup svg,#mailOnizlemeTablo .mail-onizleme-saat-grup svg{
+#mailOnizlemeTablo .mail-onizleme-tarih-grup svg, #tamOnizlemeAlani .mail-onizleme-tarih-grup svg,#mailOnizlemeTablo .mail-onizleme-saat-grup svg, #tamOnizlemeAlani .mail-onizleme-saat-grup svg{
   width:20px;height:20px;display:block;flex:0 0 auto;fill:none;stroke:currentColor;
   stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
 }
-#mailOnizlemeTablo .mail-onizleme-tarih-ayrac{
+#mailOnizlemeTablo .mail-onizleme-tarih-ayrac, #tamOnizlemeAlani .mail-onizleme-tarih-ayrac{
   width:2px;height:26px;flex:0 0 2px;margin:0 4px;background:#17345d;opacity:.75;
 }
 @media(max-width:380px){
-  #mailOnizlemeTablo .mail-onizleme-tarih-saat{gap:6px;padding-left:6px;padding-right:6px;font-size:13px;}
-  #mailOnizlemeTablo .mail-onizleme-tarih-grup svg,#mailOnizlemeTablo .mail-onizleme-saat-grup svg{width:18px;height:18px;}
-  #mailOnizlemeTablo .mail-onizleme-tarih-ayrac{margin:0 1px;}
+  #mailOnizlemeTablo .mail-onizleme-tarih-saat, #tamOnizlemeAlani .mail-onizleme-tarih-saat{gap:6px;padding-left:6px;padding-right:6px;font-size:13px;}
+  #mailOnizlemeTablo .mail-onizleme-tarih-grup svg, #tamOnizlemeAlani .mail-onizleme-tarih-grup svg,#mailOnizlemeTablo .mail-onizleme-saat-grup svg, #tamOnizlemeAlani .mail-onizleme-saat-grup svg{width:18px;height:18px;}
+  #mailOnizlemeTablo .mail-onizleme-tarih-ayrac, #tamOnizlemeAlani .mail-onizleme-tarih-ayrac{margin:0 1px;}
 }
 
 
@@ -693,3 +693,16 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani .mail-onizleme-tarih-ayrac{
   width:2px;height:26px;flex:0 0 2px;margin:0 4px;background:#17345d;opacity:.75;
 }
+
+/* MAIL GÖRSELİ CARİ YAZILARI +%30 (15.11.2026, Abdullah isteği): e-postaya
+   eklenen görselde (#belgeGorselAlani) FATURA ADRESİ / TESLİMAT ADRESİ açık adres
+   metni, adres altındaki telefon/mail satırı ve YETKİLİ satırı (isim + telefon/mail)
+   %30 büyük. Taban değerler: adres/yetkili 12.5px → 16.25px, telefon/mail/görev
+   11px → 14.3px. Başlıklar (FATURA ADRESİ vb.), NOT ve ikonlar DEĞİŞMEDİ.
+   Yalnız bu görsel etkilenir; Cari Kart/Belge Önizleme/Gönder önizleme aynı kalır. */
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok-etiket--fatura + .ck-blok .ck-kart,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat + .ck-blok .ck-kart,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .belge-yetkili-satir { font-size: 16.25px; }
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-iletisim-parca,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .belge-yetkili-detay,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .belge-yetkili-gorev { font-size: 14.3px; }

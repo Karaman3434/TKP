@@ -1,4 +1,4 @@
-/* onayli-panel-standardi.css — Abdullah onayı, 14.11.2026
+/* onayli-panel-standardi.css — TKP.15.11.26-23:14.1652 — Abdullah onayı, 14.11.2026
    Ortak kompakt panel standardı: yalnız görünüm; işlev/veri/hesaplama değişmez. */
 :root{
   --onayli-panel-ic:1mm;
@@ -60,7 +60,7 @@
 
 /* Tarih / saat panelleri — bütün önizleme kanalları */
 .cart-sayfa .cart-tarih-paneli,
-#mailOnizlemeTablo .mail-onizleme-tarih-saat,
+#mailOnizlemeTablo .mail-onizleme-tarih-saat, #tamOnizlemeAlani .mail-onizleme-tarih-saat,
 #belgeGorselAlani .mail-onizleme-tarih-saat,
 .belge-onizleme-sayfa .bo-teklif-tarih-saat{
   background:#ffffff !important;
@@ -74,14 +74,14 @@
   font-size:var(--onayli-tarih-yazi) !important;
   line-height:1 !important;
 }
-#mailOnizlemeTablo .mail-onizleme-tarih-grup,
-#mailOnizlemeTablo .mail-onizleme-saat-grup,
+#mailOnizlemeTablo .mail-onizleme-tarih-grup, #tamOnizlemeAlani .mail-onizleme-tarih-grup,
+#mailOnizlemeTablo .mail-onizleme-saat-grup, #tamOnizlemeAlani .mail-onizleme-saat-grup,
 #belgeGorselAlani .mail-onizleme-tarih-grup,
 #belgeGorselAlani .mail-onizleme-saat-grup{
   gap:1mm !important;
 }
-#mailOnizlemeTablo .mail-onizleme-tarih-grup svg,
-#mailOnizlemeTablo .mail-onizleme-saat-grup svg,
+#mailOnizlemeTablo .mail-onizleme-tarih-grup svg, #tamOnizlemeAlani .mail-onizleme-tarih-grup svg,
+#mailOnizlemeTablo .mail-onizleme-saat-grup svg, #tamOnizlemeAlani .mail-onizleme-saat-grup svg,
 #belgeGorselAlani .mail-onizleme-tarih-grup svg,
 #belgeGorselAlani .mail-onizleme-saat-grup svg,
 .belge-onizleme-sayfa .bo-teklif-tarih-ikon svg,
@@ -89,7 +89,7 @@
   width:16px !important;
   height:16px !important;
 }
-#mailOnizlemeTablo .mail-onizleme-tarih-ayrac,
+#mailOnizlemeTablo .mail-onizleme-tarih-ayrac, #tamOnizlemeAlani .mail-onizleme-tarih-ayrac,
 #belgeGorselAlani .mail-onizleme-tarih-ayrac,
 .belge-onizleme-sayfa .bo-teklif-ayrac{
   height:16px !important;
@@ -97,10 +97,10 @@
 }
 
 /* Başlık ile tarih satırı ve cari/ürün panelleri arasında tek 2mm aralık */
-#mailOnizlemeTablo .mail-onizleme-belge-baslik{
+#mailOnizlemeTablo .mail-onizleme-belge-baslik, #tamOnizlemeAlani .mail-onizleme-belge-baslik{
   margin:0 !important;
 }
-#mailOnizlemeTablo .mail-onizleme-belge-baslik .belge-form-baslik,
+#mailOnizlemeTablo .mail-onizleme-belge-baslik .belge-form-baslik, #tamOnizlemeAlani .mail-onizleme-belge-baslik .belge-form-baslik,
 #belgeGorselAlani .mail-giden-belge-baslik{
   margin:0 !important;
 }
@@ -112,7 +112,7 @@
   font-size:var(--onayli-islem-yazi) !important;
   line-height:1.05 !important;
 }
-#mailOnizlemeTablo .mail-onizleme-belge-baslik .belge-form-baslik-etiket,
+#mailOnizlemeTablo .mail-onizleme-belge-baslik .belge-form-baslik-etiket, #tamOnizlemeAlani .mail-onizleme-belge-baslik .belge-form-baslik-etiket,
 #belgeGorselAlani .mail-giden-belge-baslik .belge-form-baslik-etiket{
   font-size:var(--onayli-islem-yazi) !important;
   line-height:1.05 !important;

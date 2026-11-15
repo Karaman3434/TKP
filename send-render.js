@@ -1,5 +1,5 @@
 /*
-  send-render.js — TKP.13.11.26-00:15.1587
+  send-render.js — TKP.15.11.26-23:14.1652
   GÜNCELLEME (04.11.2026, Abdullah onayı): İletişim artık Gönder tuşunun altında açılan
   tek sıra liste (iletisimPaneliKonumla/iletisimAcilirAc/Kapat, altKutuKonumla).
   27.10.2026 PERFORMANS KAZANIMI: html2canvas artık sayfa açılışında değil,
@@ -243,21 +243,16 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     // adresi girilmemişse bu canlı önizlemede de bloğu hiç göstermez; cari
     // kodu (koduGizle=false) eskisi gibi görünmeye devam eder.
     musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, false, true, true);
-    if(kanal === "mail"){
-      html = "<div class='mail-onizleme-belge-baslik'>"
-        + formBaslikHtml(tip, null, null)
-        + mailOnizlemeTarihSaatHtml()
-        + "</div><div class='belge-kart-ayrac'></div>"
-        + musteriBlokHtml
-        + "<div class='belge-kart-ayrac'></div>"
-        + "<div class='belge-kart belge-kart--urun-cerceveli'>";
-    } else {
-      html = musteriBlokHtml
-        + "<div class='belge-kart-ayrac'></div>"
-        + "<div class='belge-kart'>" + formBaslikHtml(tip, null, null) + "</div>"
-        + "<div class='belge-kart-ayrac'></div>"
-        + "<div class='belge-kart belge-kart--urun-cerceveli'>";
-    }
+    // 15.11.2026 (Abdullah isteği): İşlem hareket etiketi + tarih/saat paneli
+    // artık Gönder canlı önizlemesinde de (kanal yok) Mail önizleme ve maile
+    // giden görselle AYNI: müşteri cari isminin ÜST satırında.
+    html = "<div class='mail-onizleme-belge-baslik'>"
+      + formBaslikHtml(tip, null, null)
+      + mailOnizlemeTarihSaatHtml()
+      + "</div><div class='belge-kart-ayrac'></div>"
+      + musteriBlokHtml
+      + "<div class='belge-kart-ayrac'></div>"
+      + "<div class='belge-kart belge-kart--urun-cerceveli'>";
   }
 
   // TEK RENK KURALI (12.10.2026, Abdullah onayı): üründe TÜR · TARİH SAAT
