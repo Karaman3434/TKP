@@ -291,7 +291,7 @@
 .ub-btn { width: var(--ub-b); height: 52.8px; font-size: 22.8px; }
 .ub-btn--menu { width: calc(var(--ub-b) * 1.2); }
 .ub-grup { gap: var(--ub-g); }
-.ub-eylem { gap: var(--ub-g2); }
+.ub-eylem { gap: var(--ub-g); } /* Üst bardaki tüm tuş grupları aynı aralığı kullanır. */
 .ub-btn svg { width: 26.4px; height: 26.4px; }
 
 /* =========================================================================
