@@ -131,7 +131,10 @@ body.belge-onizleme-sayfa .bo-popup-kapat {
   border-radius: 10px;
   background: rgba(255,255,255,.14);
   color: #fff;
-  font: 700 25px/1 inherit;
+  font-family: inherit;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1;
   cursor: pointer;
   touch-action: manipulation;
 }
