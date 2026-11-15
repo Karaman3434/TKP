@@ -200,6 +200,27 @@ function mailOnizlemeTarihSaatHtml(){
     + "</div>";
 }
 
+// WHATSAPP GÖRSELİ: işlem türü etiketi + kaydın gerçek tarih/saat bilgisi.
+function whatsappGidenTarihSaatHtml(tarihMetni){
+  var ham = String(tarihMetni || "").trim();
+  var tarih = ham, saat = "";
+  var iso = /^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}/.test(ham);
+  if(iso){
+    var d = new Date(ham);
+    if(!isNaN(d.getTime())){
+      tarih = d.toLocaleDateString("tr-TR", {day:"numeric", month:"long", year:"numeric"});
+      saat = ("0"+d.getHours()).slice(-2) + ":" + ("0"+d.getMinutes()).slice(-2);
+    }
+  } else {
+    var parca = /^(.*?)[\sT]+(\d{1,2}:\d{2})(?::\d{2})?$/.exec(ham);
+    if(parca){ tarih = parca[1].trim(); saat = parca[2]; }
+  }
+  return "<div class='whatsapp-giden-tarih-saat'>"
+    + "<span class='whatsapp-giden-tarih-grup'><svg viewBox='0 0 24 24' aria-hidden='true'><rect x='3' y='5' width='18' height='16' rx='2'></rect><path d='M16 3v4M8 3v4M3 10h18'></path></svg><span>Tarih: " + htmlEsc(tarih) + "</span></span>"
+    + (saat ? "<span class='whatsapp-giden-tarih-ayrac' aria-hidden='true'></span><span class='whatsapp-giden-saat-grup'><svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9'></circle><path d='M12 7v5l3 2'></path></svg><span>" + htmlEsc(saat) + "</span></span>" : "")
+    + "</div>";
+}
+
 function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   var basit = kanal === "whatsapp";
   var tarihStrOnizleme = tarihSaatStr();
@@ -429,7 +450,11 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
       cariGovdeHtml = "";
     } else {
       cariBaslikHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, true, true, true);
-      cariGovdeHtml = "<div class='belge-kart-ayrac'></div>" + "<div class='belge-kart'>" + formBaslikHtml(tip, null, null) + "</div>";
+      cariGovdeHtml = "<div class='belge-kart-ayrac'></div>"
+        + "<div class='whatsapp-giden-hareket-baslik'>"
+        + formBaslikHtml(tip, null, null)
+        + whatsappGidenTarihSaatHtml(tarihStr)
+        + "</div>";
     }
   }
 
@@ -481,11 +506,64 @@ function belgeGorseliniOlustur(kanal, callback){
         var kayitliTarih = (sonKaydedilenBelge&&sonKaydedilenBelge.kayit) ? sonKaydedilenBelge.kayit.tarih : "";
         alan.innerHTML = belgeGorselHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, kayitliKod, kanal, kayitliTarih);
         kosulSatirlariniSigdir(alan);
+
+        // DÜZELTME: kaynak alan ekranın -9999px dışında durduğu için Android
+        // html2canvas bazı cihazlarda alanın yalnızca kesişen bölümünü
+        // yakalayabiliyordu. Aynı HTML/CSS'yi geçici bir yakalama kopyasına
+        // alıp viewport içine taşıyoruz; gerçek sayfa ve kaynak alan kalıcı
+        // olarak değiştirilmez.
+        var kaynakId = alan.id;
+        var yakalama = alan.cloneNode(true);
+        alan.id = kaynakId + "-kaynak";
+        yakalama.id = kaynakId;
+        yakalama.style.position = "fixed";
+        yakalama.style.left = "0px";
+        yakalama.style.top = "0px";
+        yakalama.style.right = "auto";
+        yakalama.style.bottom = "auto";
+        yakalama.style.width = (alan.scrollWidth || 600) + "px";
+        yakalama.style.height = "auto";
+        yakalama.style.margin = "0";
+        yakalama.style.zIndex = "2147483647";
+        yakalama.style.opacity = "0.001";
+        yakalama.style.pointerEvents = "none";
+        yakalama.style.backgroundColor = "#ffffff";
+        document.body.appendChild(yakalama);
+
+        function yakalamayiTemizle(){
+          if(yakalama.parentNode) yakalama.parentNode.removeChild(yakalama);
+          alan.id = kaynakId;
+        }
         setTimeout(function(){
-          html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
+          var yakalamaGenislik = Math.max(yakalama.scrollWidth, yakalama.offsetWidth, 600);
+          var yakalamaYukseklik = Math.max(yakalama.scrollHeight, yakalama.offsetHeight, 1);
+          html2canvas(yakalama, {
+            backgroundColor:"#ffffff",
+            scale:2,
+            useCORS:true,
+            width:yakalamaGenislik,
+            height:yakalamaYukseklik,
+            windowWidth:Math.max(document.documentElement.clientWidth, yakalamaGenislik),
+            windowHeight:Math.max(document.documentElement.clientHeight, yakalamaYukseklik),
+            scrollX:0,
+            scrollY:0,
+            onclone:function(clonedDoc){
+              var clonedArea = clonedDoc.getElementById(kaynakId);
+              if(clonedArea){
+                clonedArea.style.left = "0px";
+                clonedArea.style.top = "0px";
+                clonedArea.style.opacity = "1";
+                clonedArea.style.position = "fixed";
+              }
+            }
+          }).then(function(canvas){
+            yakalamayiTemizle();
             callback(canvas);
-          }).catch(function(){ callback(null); });
-        }, 60);
+          }).catch(function(){
+            yakalamayiTemizle();
+            callback(null);
+          });
+        }, 120);
       }catch(e){ callback(null); }
     });
   }catch(e){ callback(null); }
