@@ -113,6 +113,7 @@ function crIzinVarMi(anahtar){
 var TIP_ETIKET_ROZET = TipEtiket.kisa; // 08.11.2026: tek kaynak (tip-etiketleri.js)
 var secilenTip = "siparis";
 var secilenTipBelli = false;   // 15.11.2026: işlem türü gerçekten seçildi mi? (İşlem Hareket etiketi buna bakar; seçilmediyse varsayılan "siparis" ekranda gösterilmez)
+var musterisizWhatsappTip = ""; // WhatsApp görseli için kullanıcı açıkça seçmeden boş kalır.
 var seciliAdresler = {};
 var revizeSecimBekleniyor = null;
 
@@ -1020,8 +1021,8 @@ function musterisizTabloTarihiOlustur(){
 // MÜŞTERİSİZ WHATSAPP GÖRSELİ — gerçek müşteri gönderimiyle aynı üst başlık.
 // İşlem türü mevcut Sepet akışındaki seçili türden alınır; saat ve tarih
 // görsel oluşturulduğu anda yerel cihaz saatinden üretilir.
-function musterisizIslemBaslikHtml(){
-  var tip = (secilenTipBelli && TipEtiket.uzun[secilenTip]) ? secilenTip : "siparis";
+function musterisizIslemBaslikHtml(tip){
+  if(!tip || !TipEtiket.uzun[tip]) return "";
   var d = new Date();
   var tarih = d.toLocaleDateString("tr-TR", {day:"numeric", month:"long", year:"numeric"});
   var saat = ("0"+d.getHours()).slice(-2) + ":" + ("0"+d.getMinutes()).slice(-2);
@@ -1051,6 +1052,11 @@ function musterisizOnizlemeAc(){
     // Önizleme ilk açıldığında mevcut ortak içerik korunur. WhatsApp
     // seçildiğinde yeni işlem başlığı yalnızca WhatsApp görseline uygulanır;
     // müşterisiz Mail çıktısının mevcut tasarımı değiştirilmez.
+    var tipSecici = document.getElementById("musterisizWhatsappTipSec");
+    musterisizWhatsappTip = (secilenTipBelli && TipEtiket.uzun[secilenTip]) ? secilenTip : "";
+    if(tipSecici) tipSecici.value = musterisizWhatsappTip;
+    var whatsappBtn = document.getElementById("btnMusterisizWhatsapp");
+    if(whatsappBtn) whatsappBtn.disabled = !musterisizWhatsappTip;
     document.getElementById("musterisizOnizlemeTablo").innerHTML =
       "<div class='musterisiz-tablo-ust'>"
       + "<span class='musterisiz-tablo-mesaj'>" + musterisizTabloMesajiOlustur() + "</span>"
@@ -1095,6 +1101,10 @@ function musterisizSepetiSifirla(){
 // bölüm başlığı yorumu: WhatsApp/Mail artık HER ZAMAN doğrudan tablo
 // görseli gönderiyor, eski "metin" dalı kaldırıldı.
 function musterisizWhatsappGonder(){
+  if(!musterisizWhatsappTip || !TipEtiket.uzun[musterisizWhatsappTip]){
+    hataGoster("WhatsApp görselini göndermeden önce İŞLEM HAREKETİ seçin.");
+    return;
+  }
   musterisizTabloGonder("whatsapp");
 }
 function musterisizMailGonder(){
@@ -1133,9 +1143,13 @@ function musterisizTabloGonder(kanal){
       }
       var alan = document.getElementById("musterisizOnizlemeTablo");
       if(kanal === "whatsapp"){
+        if(!musterisizWhatsappTip || !TipEtiket.uzun[musterisizWhatsappTip]){
+          hataGoster("WhatsApp görselini göndermeden önce İŞLEM HAREKETİ seçin.");
+          return;
+        }
         var kur = aktifKuruOku();
         var kdv = CartData.kdvOku();
-        alan.innerHTML = musterisizIslemBaslikHtml()
+        alan.innerHTML = musterisizIslemBaslikHtml(musterisizWhatsappTip)
           + HareketTablo.grupHtml({
             urunler: CartData.liste(),
             hesapla: function(u){ return CartData.hesapla(u, kur, kdv); },
@@ -1213,6 +1227,12 @@ document.addEventListener("DOMContentLoaded", function(){
   // — bu yüzden o bağlama burada artık YOK. "Kaydet"/"Gönder" statik
   // bağlaması da kaldırıldı — Gönder artık panelde dinamik üretiliyor,
   // bağlaması sayfayiCiz() içinde yapılıyor (bkz. gonderBtnEl).
+  var tipSecici = document.getElementById("musterisizWhatsappTipSec");
+  var whatsappBtn = document.getElementById("btnMusterisizWhatsapp");
+  if(tipSecici) tipSecici.onchange = function(){
+    musterisizWhatsappTip = this.value || "";
+    if(whatsappBtn) whatsappBtn.disabled = !musterisizWhatsappTip;
+  };
   document.getElementById("btnMusterisizWhatsapp").onclick = musterisizWhatsappGonder;
   document.getElementById("btnMusterisizMail").onclick = musterisizMailGonder;
   document.getElementById("btnMusterisizVazgec").onclick = function(){ document.getElementById("musterisizGonderOverlay").hidden = true; };
