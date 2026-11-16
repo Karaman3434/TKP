@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.13.11.26-00:15.1587
+  customer-data.js — TKP.17.11.26-01:38.1655
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 
@@ -151,7 +151,7 @@ var CustomerData = (function(){
   // şehir, bkz. sehirBul/reports-data.js) hep bunu kullanır. İl nesnede
   // yoksa (eski/kısa kayıt) müşteri ID'siyle güncel listeden alınır; ilçe
   // metni zaten ili içeriyorsa tekrarlanmaz; sadece biri varsa o gösterilir.
-  function konumMetni(m){
+  function konumMetni(m, ayrac){
     if(!m) return "";
     var sehir = String(m.sehir || "").trim();
     var il = String(m.il || "").trim();
@@ -162,7 +162,24 @@ var CustomerData = (function(){
     if(!il) return sehir;
     if(!sehir) return il;
     if(sehir.toLocaleLowerCase("tr-TR").indexOf(il.toLocaleLowerCase("tr-TR")) !== -1) return sehir;
-    return sehir + " / " + il;
+    return sehir + (ayrac || " / ") + il;
+  }
+  // TEK KUTU (16.11.2026, Abdullah isteği): formlardaki "İlçe - İL" tek kutusunun değeri.
+  // (İl, ilçe metninde AYRI KELİME olarak geçiyorsa tekrarlanmaz: "Yakutiye - ERZURUM" olduğu gibi kalır;
+  //  ama "Altınordu" + "Ordu" birleşir → "Altınordu - Ordu".)
+  function konumTekKutuMetni(m){
+    if(!m) return "";
+    var sehir = String(m.sehir || "").trim();
+    var il = String(m.il || "").trim();
+    if(!il && m.id){
+      var g = liste.find(function(x){ return x.id === m.id; });
+      if(g && g.il) il = String(g.il).trim();
+    }
+    if(!il) return sehir;
+    if(!sehir) return il;
+    var kelimeler = sehir.toLocaleLowerCase("tr-TR").split(/[^a-zçğıöşü0-9]+/i);
+    if(kelimeler.indexOf(il.toLocaleLowerCase("tr-TR")) !== -1) return sehir;
+    return sehir + " - " + il;
   }
   function musteriIdIleBul(id){
     if(!id) return null;
@@ -978,6 +995,7 @@ var CustomerData = (function(){
     kayitMusteriyeAitMi: kayitMusteriyeAitMi,
     sehirBul: sehirBul,
     konumMetni: konumMetni,
+    konumTekKutuMetni: konumTekKutuMetni,
     ziyaretHatirlatmalari: ziyaretHatirlatmalari,
     ziyaretEkle: ziyaretEkle,
     ziyaretSil: ziyaretSil,

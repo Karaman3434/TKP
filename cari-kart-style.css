@@ -1,4 +1,4 @@
-/* cari-kart-style.css — TKP.14.11.26-01:35.1592 */
+/* cari-kart-style.css — TKP.17.11.26-01:38.1655 */
 .cari-baslik-serit {
   background: #003a70;
   color: #ffffff;
@@ -675,6 +675,11 @@
 }
 .form-textarea { resize: vertical; }
 .form-satir-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+/* VADE / FATURA / KARGO tek satır (16.11.2026): vade dar, kargo geniş; min-width:0 taşmayı önler */
+.form-satir-3 { display: grid; grid-template-columns: .8fr 1fr 1.25fr; gap: 6px; }
+.form-satir-3 > div { min-width: 0; }
+.form-satir-3 .form-etiket { white-space: nowrap; font-size: 10px; }
+.form-satir-3 .form-input { padding: 10px 7px; font-size: 12.5px; text-overflow: ellipsis; }
 
 .sheet-buton-satir { display: flex; gap: 8px; margin-top: 16px; }
 .btn-kaydet, .btn-vazgec {

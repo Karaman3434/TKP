@@ -1,5 +1,5 @@
 /*
-  customer-add-render.js — TKP.09.11.26-18:48.1530
+  customer-add-render.js — TKP.17.11.26-01:38.1655
   =======================
   Sadece yeni müşteri ekleme formunun mantığı. customer-render.js'ten
   ayrı — o dosya artık sadece LİSTE ile ilgileniyor.
@@ -72,8 +72,7 @@ document.addEventListener("DOMContentLoaded", function(){
       // FotoDoldur.konumAyir ile ilçe ve il olarak ayrılıp ilgili iki kutuya
       // yazılır. Elle doldurulmuş kutunun üzerine yazılmaz (doldurBosIse).
       var konum = FotoDoldur.konumAyir(veri.sehir, veri.il);
-      doldurBosIse("yeniMusteriSehir", konum.ilce);
-      doldurBosIse("yeniMusteriIl", konum.il);
+      doldurBosIse("yeniMusteriSehir", [konum.ilce, konum.il].filter(Boolean).join(" - "));
       doldurBosIse("yeniMusteriAcikAdres", veri.acikAdres);
       doldurBosIse("yeniMusteriTelefon", veri.telefon);
       doldurBosIse("yeniMusteriEposta", veri.eposta);
@@ -115,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function(){
       kod: (document.getElementById("yeniMusteriKod")||{}).textContent,
       ad: document.getElementById("yeniMusteriAdi").value,
       sehir: document.getElementById("yeniMusteriSehir").value,
-      il: document.getElementById("yeniMusteriIl") ? document.getElementById("yeniMusteriIl").value : "",
+      il: "", // ilçe+il tek kutuda (yeniMusteriSehir)
       acikAdres: document.getElementById("yeniMusteriAcikAdres").value,
       vade: document.getElementById("yeniMusteriVade").value,
       fatura: document.getElementById("yeniMusteriFatura").value,

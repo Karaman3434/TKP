@@ -55,7 +55,7 @@ var AcikBelgeKontrol = (function(){
     if(kaynaklarYukleniyor) return;
     kaynaklarYukleniyor = true;
     cssEkle("detail-style.css?v=TKP.11.11.26-15:39.1570", ".tip-secim-overlay");
-    cssEkle("cari-kart-style.css?v=WG.011126.1022.1261", ".ck-sil-uyari-notu");
+    cssEkle("cari-kart-style.css?v=TKP.17.11.26-01:38.1655", ".ck-sil-uyari-notu");
     cssEkle("belge-style.css?v=TKP.11.11.26-19:45.1581", ".belge-urun-tablo");
     if(typeof HareketTablo !== "undefined"){
       kaynaklarHazir = true;
@@ -65,7 +65,7 @@ var AcikBelgeKontrol = (function(){
       return;
     }
     var s = document.createElement("script");
-    s.src = "hareket-tablo.js?v=TKP.16.11.26-MAIL-PRIM-KUR-CENTER-01";
+    s.src = "hareket-tablo.js?v=TKP.11.11.26-19:45.1581";
     s.onload = function(){
       kaynaklarHazir = true;
       kaynaklarYukleniyor = false;

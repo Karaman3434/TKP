@@ -1,5 +1,5 @@
 /*
-  cari-kart-render.js — TKP.13.11.26-00:15.1587
+  cari-kart-render.js — TKP.17.11.26-01:38.1655
   ====================
   Cari Kart v6 — ana sayfa TAMAMEN salt-görüntüleme (isim/şehir,
   Vade/Fatura/Kargo, Fatura Adresi/Yetkili Kişi/Teslimat Adresi/Not
@@ -500,8 +500,22 @@ function vadePlaceholder(v){
   var metin = (eski && !sayisalMi) ? ("örn. 45 (önceki: " + eski + ")") : "örn. 45";
   return escapeText(metin).replace(/'/g, "&#39;");
 }
-// İL KUTUSU (09.11.2026, Abdullah isteği): artık SEÇİM KUTUSU DEĞİL — ilçe
-// gibi elle yazılan metin kutusu (eski ilSecenekleriHtml/81 il listesi kaldırıldı).
+// İLÇE + İL TEK KUTU (16.11.2026, Abdullah isteği): ayrı İL kutusu kaldırıldı; ilçe ve il
+// tek kutuya "İlçe - İl" biçiminde birlikte yazılır (fotoğraf/kameradan okunan konum da
+// aynı kutuya birlikte yazılır). Kayıtta metnin tamamı sehir alanında tutulur, il alanı boşaltılır.
+// Eski müşteride ilçe ve il ayrı kayıtlıysa kutu ikisini birleştirip gösterir.
+function konumTekKutuHtml(m){
+  var deger = (typeof CustomerData !== "undefined" && CustomerData.konumTekKutuMetni) ? CustomerData.konumTekKutuMetni(m) : (m.sehir||"");
+  return "<div class='form-etiket'>İLÇE - İL</div><input class='form-input' id='fSehir' placeholder='örn. Yakutiye - Erzurum' autocomplete='off' value=\"" + escapeText(deger) + "\">";
+}
+// VADE / FATURA / KARGO (16.11.2026, Abdullah isteği): tek satırda yan yana.
+function vadeFaturaKargoSatiriHtml(m){
+  return "<div class='form-satir-3'>"
+    + "<div><div class='form-etiket'>VADE (gün)</div><input class='form-input' type='number' min='0' step='1' inputmode='numeric' id='fVade' placeholder='" + vadePlaceholder(m.vade) + "' value=\"" + escapeText(vadeSayisalDeger(m.vade)) + "\"></div>"
+    + "<div><div class='form-etiket'>FATURA</div><input class='form-input' id='fFatura' placeholder='örn. EURO' value=\"" + escapeText(m.fatura||"") + "\"></div>"
+    + "<div><div class='form-etiket'>KARGO</div><input class='form-input' id='fKargo' placeholder='örn. Ücretsiz' value=\"" + escapeText(m.kargo||"") + "\"></div>"
+    + "</div>";
+}
 function formAlanlariHtml(tip){
   if(tip === "cari-tam"){
     var m = musteriVerisi;
@@ -511,26 +525,13 @@ function formAlanlariHtml(tip){
     return "<div class='musteri-kod-serit'><span class='musteri-kod-serit__etiket'>Müşteri kodu</span><span class='musteri-kod-serit__kod'>" + escapeText(m.id||"—") + "</span></div>"
       + "<div class='form-etiket'>MÜŞTERİ (TİCARİ) İSMİ</div><input class='form-input' id='fAd' placeholder='Müşteri ismi' value=\"" + escapeText(m.ad||"") + "\">"
       + "<p class='ck-not-aciklama' style='margin:-6px 0 10px'>Bu ismi değiştirirsen, geçmiş sipariş/teklif/görev kayıtları da otomatik olarak yeni isme taşınır.</p>"
-      + "<div class='form-satir-2'>"
-      + "<div><div class='form-etiket'>ŞEHİR (İLÇE)</div><input class='form-input' id='fSehir' placeholder='Şehir' value=\"" + escapeText(m.sehir||"") + "\"></div>"
-      + "<div><div class='form-etiket'>İL</div><input class='form-input' id='fIl' placeholder='İl' autocomplete='off' value=\"" + escapeText(m.il||"") + "\"></div>"
-      + "</div>"
-      + "<div class='form-satir-2'>"
-      + "<div><div class='form-etiket'>VADE (gün)</div><input class='form-input' type='number' min='0' step='1' inputmode='numeric' id='fVade' placeholder='" + vadePlaceholder(m.vade) + "' value=\"" + escapeText(vadeSayisalDeger(m.vade)) + "\"></div>"
-      + "<div><div class='form-etiket'>FATURA</div><input class='form-input' id='fFatura' placeholder='örn. EURO fatura' value=\"" + escapeText(m.fatura||"") + "\"></div>"
-      + "</div>"
-      + "<div class='form-etiket'>KARGO</div><input class='form-input' id='fKargo' placeholder='örn. Ücretsiz' value=\"" + escapeText(m.kargo||"") + "\">"
+      + konumTekKutuHtml(m)
+      + vadeFaturaKargoSatiriHtml(m)
       + "<div class='form-etiket'>FATURA ADRESİ</div><textarea class='form-textarea' id='fDetay' rows='3' placeholder='Açık adres'>" + escapeText(ilkFatura.adres||"") + "</textarea>";
   }
   if(tip === "temel"){
     var m2 = musteriVerisi;
-    return "<div class='form-satir-2'>"
-      + "<div><div class='form-etiket'>ŞEHİR (İLÇE)</div><input class='form-input' id='fSehir' placeholder='Şehir' value=\"" + escapeText(m2.sehir||"") + "\"></div>"
-      + "<div><div class='form-etiket'>İL</div><input class='form-input' id='fIl' placeholder='İl' autocomplete='off' value=\"" + escapeText(m2.il||"") + "\"></div>"
-      + "</div>"
-      + "<div class='form-etiket'>VADE (gün)</div><input class='form-input' type='number' min='0' step='1' inputmode='numeric' id='fVade' placeholder='" + vadePlaceholder(m2.vade) + "' value=\"" + escapeText(vadeSayisalDeger(m2.vade)) + "\">"
-      + "<div class='form-etiket'>FATURA</div><input class='form-input' id='fFatura' placeholder='örn. EURO fatura' value=\"" + escapeText(m2.fatura||"") + "\">"
-      + "<div class='form-etiket'>KARGO</div><input class='form-input' id='fKargo' placeholder='örn. Ücretsiz' value=\"" + escapeText(m2.kargo||"") + "\">";
+    return konumTekKutuHtml(m2) + vadeFaturaKargoSatiriHtml(m2);
   }
   if(tip === "fatura" || tip === "teslimat"){
     // TELEFON/E-POSTA (19.10.2026, Abdullah onayı — "7 fotoğraf" turu):
@@ -658,7 +659,7 @@ function formKaydet(){
     var guncelBilgi2 = {
       ad: yeniAd,
       sehir: document.getElementById("fSehir").value.trim(),
-      il: document.getElementById("fIl").value,
+      il: "", // ilçe+il tek kutuda (fSehir) — bkz. konumTekKutuHtml
       vade: document.getElementById("fVade").value.trim(),
       fatura: document.getElementById("fFatura").value.trim(),
       kargo: document.getElementById("fKargo").value.trim()
@@ -699,7 +700,7 @@ function formKaydet(){
   if(tip === "temel"){
     var guncelBilgi = {
       sehir: document.getElementById("fSehir").value.trim(),
-      il: document.getElementById("fIl").value,
+      il: "", // ilçe+il tek kutuda (fSehir) — bkz. konumTekKutuHtml
       vade: document.getElementById("fVade").value.trim(),
       fatura: document.getElementById("fFatura").value.trim(),
       kargo: document.getElementById("fKargo").value.trim()

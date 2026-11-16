@@ -1,5 +1,5 @@
 /*
-  foto-doldur.js — TKP.09.11.26-18:31.1529
+  foto-doldur.js — TKP.17.11.26-01:38.1655
   =====================================
   "📷 Fotoğraf/Ekran Görüntüsünden Doldur" — TEK KAYNAK paylaşılan modül
   (15.10.2026, Abdullah'ın isteğiyle, eski tek-dosyalık v1 uygulamadaki
@@ -232,5 +232,11 @@ var FotoDoldur = (function(){
     return { ilce: t, il: "" };
   }
 
-  return { ac: ac, konumAyir: konumAyir };
+  // TEK KUTU (16.11.2026, Abdullah isteği): ilçe ve il artık formlarda TEK kutu —
+  // fotoğraf/kameradan okunan konum, ayrılıp "İlçe - İl" olarak birlikte yazılır.
+  function konumBirlestir(konum, aiIl){
+    var k = konumAyir(konum, aiIl);
+    return [k.ilce, k.il].filter(Boolean).join(" - ");
+  }
+  return { ac: ac, konumAyir: konumAyir, konumBirlestir: konumBirlestir };
 })();
