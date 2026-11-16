@@ -561,3 +561,113 @@
 .ht-bildirim { top:1.8px !important; }
 .ht-ozet { padding-top:3.6px !important; padding-bottom:3.6px !important; }
 .ht-ozet > * { padding-top:4.5px !important; padding-bottom:4.5px !important; }
+
+
+/* ABDULLAH ONAYI — ANA SAYFA TAKVİMİ / KOYU LACİVERT C TASARIMI
+   Ay-yıl metni kaldırıldı; yalnız takvim simgesi ve ay gezinme okları.
+   Mavi rozet = Temas, kırmızı rozet = Ajanda. */
+.ht-takvim-kutu {
+  --tk-zemin:#031a36; --tk-kirmizi:#ff344b; --tk-mavi:#1685ff; --tk-yesil:#12e879;
+  padding:0 10px 10px !important;
+  border:3px solid #55caff !important;
+  border-radius:22px !important;
+  background:radial-gradient(ellipse at 50% 0%,#092d57 0%,#031a36 58%,#011329 100%) !important;
+  box-shadow:0 0 0 1px rgba(110,220,255,.22),0 7px 18px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.12) !important;
+  overflow:visible !important;
+}
+.ht-ay-baslik {
+  display:flex !important; align-items:center; justify-content:space-between; gap:8px;
+  min-height:62px !important; margin:0 -10px 10px !important; padding:7px 13px !important;
+  border-radius:17px 17px 0 0 !important;
+  border-bottom:2px solid #1689df;
+  color:#fff !important;
+  background:linear-gradient(110deg,#06264c,#064b91 52%,#031d3e) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15) !important;
+}
+.ht-ay-baslik-orta {
+  display:flex; align-items:center; justify-content:center; flex:1; min-width:0;
+  color:#fff; line-height:1;
+}
+.ht-ay-baslik-orta svg {
+  display:block; width:37px; height:37px; fill:none; stroke:#fff; stroke-width:2.1;
+  stroke-linecap:round; stroke-linejoin:round; filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));
+}
+.ht-nav-btn {
+  width:48px !important; height:43px !important; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid rgba(160,225,255,.65) !important; border-radius:13px !important;
+  background:linear-gradient(180deg,#168cf2,#0753a6) !important; color:#fff !important;
+  font-family:inherit; font-size:32px !important; font-weight:900; line-height:1;
+  box-shadow:0 3px 8px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.32) !important;
+  cursor:pointer; padding:0;
+}
+.ht-gun-basliklari { gap:5px !important; margin:0 0 10px !important; }
+.ht-gun-basliklari > span {
+  min-height:35px !important; border:2px solid #1688d8 !important; border-radius:12px !important;
+  background:linear-gradient(180deg,#0b4b88,#05284e) !important; color:#fff !important;
+  font-size:clamp(12px,3.2vw,16px) !important; font-weight:950;
+  box-shadow:0 2px 5px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.13) !important;
+}
+.ht-gun-basliklari > .ht-tatil-baslik {
+  border-color:#ff5967 !important;
+  background:linear-gradient(180deg,#ff394f,#b90e2b) !important; color:#fff !important;
+}
+.ht-grid { gap:6px !important; }
+.ht-gun:not(.ht-gun--bos) {
+  position:relative; min-height:clamp(49px,10vw,67px) !important;
+  padding:16px 2px 4px !important; overflow:visible !important;
+  border-width:3px !important; border-style:solid !important; border-radius:14px !important;
+  background:linear-gradient(145deg,#061f3d,#02152c) !important;
+  color:#fff !important;
+  box-shadow:0 2px 7px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.09) !important;
+}
+.ht-gun--gecmis:not(.ht-gun--bugun) { border-color:#22baff !important; }
+.ht-gun--kalan:not(.ht-gun--bugun) {
+  border-color:#12e879 !important;
+  background:linear-gradient(145deg,#042b2c,#031c2a) !important;
+}
+.ht-gun--tatil:not(.ht-gun--bugun) {
+  border-color:#ff4056 !important;
+  background:linear-gradient(145deg,#301322,#1d1020) !important;
+}
+.ht-gun--bugun,.ht-gun--bugun.ht-gun--kalan,.ht-gun--bugun.ht-gun--tatil,.ht-gun--bugun.ht-gun--gecmis {
+  background:linear-gradient(145deg,#fff02b,#ffc900) !important;
+  color:#082b53 !important; border:3px solid #ffe34b !important;
+  box-shadow:0 0 0 1px #fff inset,0 3px 9px rgba(0,0,0,.3) !important;
+}
+.ht-gun:not(.ht-gun--bos) .ht-gun-no,
+.ht-gun--kalan:not(.ht-gun--bugun) .ht-gun-no,
+.ht-gun--gecmis:not(.ht-gun--bugun) .ht-gun-no,
+.ht-gun--tatil:not(.ht-gun--bugun) .ht-gun-no {
+  color:#fff !important; font-size:clamp(15px,4vw,22px) !important; font-weight:950 !important;
+}
+.ht-gun--bugun .ht-gun-no { color:#082b53 !important; font-size:clamp(16px,4.2vw,23px) !important; }
+.ht-bildirim {
+  position:absolute !important; top:0 !important; left:0 !important; right:0 !important;
+  height:0 !important; min-height:0 !important; margin:0 !important; padding:0 !important;
+  display:block !important; z-index:5 !important; pointer-events:none !important;
+}
+.ht-rozet {
+  position:absolute !important; top:-10px !important;
+  min-width:27px !important; height:25px !important; padding:0 5px !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  border:2px solid #fff !important; border-radius:9px !important;
+  color:#fff !important; font-size:13px !important; font-weight:950 !important; line-height:1 !important;
+  box-sizing:border-box !important; box-shadow:0 2px 5px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.3) !important;
+}
+.ht-rozet--temas { left:-9px !important; right:auto !important; background:linear-gradient(145deg,#168dff,#064cb5) !important; border-color:#a9e6ff !important; }
+.ht-rozet--ajanda { left:auto !important; right:-9px !important; background:linear-gradient(145deg,#ff5361,#c90020) !important; border-color:#ffc0c5 !important; }
+@media (max-width:400px) {
+  .ht-takvim-kutu { padding:0 7px 8px !important; border-radius:18px !important; }
+  .ht-ay-baslik { min-height:53px !important; margin:0 -7px 8px !important; padding:6px 9px !important; }
+  .ht-nav-btn { width:41px !important; height:38px !important; font-size:28px !important; }
+  .ht-ay-baslik-orta svg { width:32px; height:32px; }
+  .ht-gun-basliklari { gap:4px !important; margin-bottom:8px !important; }
+  .ht-gun-basliklari > span { min-height:30px !important; border-radius:10px !important; }
+  .ht-grid { gap:5px !important; }
+  .ht-gun:not(.ht-gun--bos) { min-height:49px !important; padding-top:15px !important; border-radius:12px !important; }
+  .ht-gun:not(.ht-gun--bos) .ht-gun-no { font-size:18px !important; }
+  .ht-rozet { min-width:24px !important; height:23px !important; top:-9px !important; font-size:12px !important; border-radius:8px !important; }
+  .ht-rozet--temas { left:-8px !important; }
+  .ht-rozet--ajanda { right:-8px !important; }
+}
