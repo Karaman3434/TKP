@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.11.11.26-23:29.1585
+// menu-cekmece.js — TKP.16.11.26-12:06.1653
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -632,7 +632,7 @@ function mcAcikBelgeKontrolIleDevamEt(musteri, tip){
   if(mcAbkModulYukleniyor) return;
   mcAbkModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "acik-belge-kontrol.js?v=TKP.15.11.26-22:45.1600";
+  s.src = "acik-belge-kontrol.js?v=TKP.16.11.26-12:06.1653";
   s.onload = function(){
     mcAbkModulYukleniyor = false;
     mcAbkModulBekleyenler.forEach(function(fn){ fn(); });

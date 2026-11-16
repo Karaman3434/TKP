@@ -1,5 +1,6 @@
 /*
-  acik-belge-kontrol.js — TKP.08.11.26-12:34.1504 (YENİ DOSYA, 27.10.2026)
+  acik-belge-kontrol.js — TKP.16.11.26-12:06.1653 (YENİ DOSYA, 27.10.2026)
+  (önceki: TKP.08.11.26-12:34.1504)
   ============================================================
   ROTA DEĞİŞİKLİĞİ (Abdullah onayı): "İşlem Yap" → tip seç akışı artık
   Cari Kart'a UĞRAMADAN direkt cart.html'e (Ürün Bul/Sepet) gidiyor. Bu
@@ -255,7 +256,9 @@ var AcikBelgeKontrol = (function(){
     }
     var acikBelge = ReportsData.musterininAcikBelgesi(musteri.ad);
     if(!acikBelge){
-      sepeteDevamEt(tip);
+      // DÜZELTME (16.11.2026): müşteri nesnesi eksik geçiliyordu → "Müşteri seçimi
+      // doğrulanamadı" hatası, YALNIZ Sipariş + açık belge yokken çıkıyordu.
+      sepeteDevamEt(tip, musteri);
       return;
     }
     kaynaklariYukle(function(){

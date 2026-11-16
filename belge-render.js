@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.11.11.26-17:44.1575
+  belge-render.js — TKP.16.11.26-12:06.1653
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -519,7 +519,7 @@ function bhpAcikBelgeKontrolIleDevamEt(musteri, tip){
   if(bhpAbkModulYukleniyor) return;
   bhpAbkModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "acik-belge-kontrol.js?v=TKP.15.11.26-22:45.1600";
+  s.src = "acik-belge-kontrol.js?v=TKP.16.11.26-12:06.1653";
   s.onload = function(){
     bhpAbkModulYukleniyor = false;
     bhpAbkModulBekleyenler.forEach(function(fn){ fn(); });
