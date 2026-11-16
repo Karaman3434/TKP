@@ -89,19 +89,27 @@
     try{ n = (typeof IsTakipData !== "undefined" && IsTakipData.gunlukIslemSayilari) ? (IsTakipData.gunlukIslemSayilari()[a] || 0) : 0; }catch(e){ n = 0; }
     return n + (odemeGunleri()[a] || []).length;
   }
-  // Gün başına rozet/“Temas” sayısı: temas (müşteri + defter) + işlem — Ziyaret Takvimi'ndeki mavi sayı gibi.
+  // Ana sayfa takvimindeki mavi rozet, Ziyaret Takvimi ile AYNI gerçek kayıtları sayar:
+  // müşteri temas/ziyaret kayıtları + arşivdeki işlemler. Veri kaynağı değiştirilmez.
   function temasSayilari(){
     var s = {};
     try{
-      var m = musteriTemaslari(), d = defterSayilari();
-      Object.keys(m).forEach(function(a){ TURLER.forEach(function(t){ s[a] = (s[a]||0) + (m[a][t] ? m[a][t].length : 0); }); });
-      Object.keys(d).forEach(function(a){ TURLER.forEach(function(t){ s[a] = (s[a]||0) + (d[a][t] || 0); }); });
-      if(typeof IsTakipData !== "undefined" && IsTakipData.gunlukIslemSayilari){
-        var is = IsTakipData.gunlukIslemSayilari();
-        Object.keys(is).forEach(function(a){ s[a] = (s[a] || 0) + is[a]; });
+      if(typeof CustomerData !== "undefined" && CustomerData.tumZiyaretTemaslar){
+        CustomerData.tumZiyaretTemaslar().forEach(function(k){
+          if(!k || !k.ts) return;
+          var d = new Date(k.ts);
+          var a = anahtar(d.getFullYear(), d.getMonth(), d.getDate());
+          s[a] = (s[a] || 0) + 1;
+        });
       }
-      var od = odemeGunleri();
-      Object.keys(od).forEach(function(a){ s[a] = (s[a] || 0) + od[a].length; });
+      if(typeof ReportsData !== "undefined" && ReportsData.sonIslemler){
+        ReportsData.sonIslemler().forEach(function(k){
+          if(!k || !k.ts) return;
+          var d = new Date(k.ts);
+          var a = anahtar(d.getFullYear(), d.getMonth(), d.getDate());
+          s[a] = (s[a] || 0) + 1;
+        });
+      }
     }catch(e){}
     return s;
   }
@@ -196,7 +204,7 @@
         if(a === bugunA) sinif += " ht-gun--bugun";
         if(a === seciliAnahtar) sinif += " ht-gun--secili";
         // Ayrı veri kaynakları: mavi = günlük işlem/ödeme, turuncu = müşteri teması/ziyaret.
-        var temasAdet = gunTurSayilari(a).toplam;
+        var temasAdet = temas[a] || 0;
         var ajandaAdet = ajanda[a] || 0;
         html += "<div class='" + sinif + "' data-a='" + a + "'>"
           + "<span class='ht-bildirim' aria-hidden='true'>"
@@ -659,6 +667,7 @@
     if(typeof AjandaData !== "undefined") AjandaData.degistiginde(function(){ takvimiCiz(); });
     if(typeof GunNotlariData !== "undefined") GunNotlariData.degistiginde(function(){ takvimiCiz(); });
     if(typeof IsTakipData !== "undefined" && IsTakipData.bildirimDegistiginde) IsTakipData.bildirimDegistiginde(function(){ takvimiCiz(); });
+    if(typeof ReportsData !== "undefined" && ReportsData.arsivDegistiginde) ReportsData.arsivDegistiginde(function(){ takvimiCiz(); });
     window.addEventListener("istakipAuthHazir", erisimUygula);
   });
 })();
