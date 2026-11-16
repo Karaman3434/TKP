@@ -35,6 +35,45 @@ var HareketTablo = (function(){
   function fmt(n){
     return (n||0).toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2});
   }
+
+  // ONAYLI İŞLEM TABLOSU — tek satır işlem etiketi + tarih + saat.
+  // Tarih kaydı varsa onu kullanır; taslak ekranlarda cihazın yerel saatini gösterir.
+  function islemHareketHtml(tip, tarihDegeri){
+    var izinli = {siparis:"SİPARİŞ", teklif:"FİYAT TEKLİFİ", proforma:"P.FATURA", numune:"NUMUNE"};
+    tip = izinli[tip] ? tip : "siparis";
+    var d = null;
+    if(tarihDegeri instanceof Date) d = tarihDegeri;
+    else if(typeof tarihDegeri === "number" && isFinite(tarihDegeri)) d = new Date(tarihDegeri);
+    else if(tarihDegeri){
+      var ham = String(tarihDegeri).trim();
+      var iso = new Date(ham);
+      if(!isNaN(iso.getTime())) d = iso;
+      if(!d){
+        var m = /^(\\d{1,2})[.\\/](\\d{1,2})[.\\/](\\d{2,4})(?:\\s+(\\d{1,2}):(\\d{2}))?$/.exec(ham);
+        if(m){ var yil = Number(m[3]); if(yil < 100) yil += 2000; d = new Date(yil, Number(m[2])-1, Number(m[1]), Number(m[4]||0), Number(m[5]||0)); }
+      }
+      if(!d){
+        var ay = {Oca:0,Şub:1,Mar:2,Nis:3,May:4,Haz:5,Tem:6,Ağu:7,Eyl:8,Eki:9,Kas:10,Ara:11};
+        var tr = /^(\\d{1,2})\\s+(Oca|Şub|Mar|Nis|May|Haz|Tem|Ağu|Eyl|Eki|Kas|Ara)\\s+(\\d{4})(?:\\s+(\\d{1,2}):(\\d{2}))?$/.exec(ham);
+        if(tr) d = new Date(Number(tr[3]), ay[tr[2]], Number(tr[1]), Number(tr[4]||0), Number(tr[5]||0));
+      }
+    }
+    if(!d || isNaN(d.getTime())) d = new Date();
+    function iki(n){ return String(n).padStart(2,"0"); }
+    var tarih = iki(d.getDate()) + "." + iki(d.getMonth()+1) + "." + String(d.getFullYear()).slice(-2);
+    var saat = iki(d.getHours()) + ":" + iki(d.getMinutes());
+    var ikon = tip === "siparis"
+      ? "<path d='M2 4h2l2.2 10.1a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L21 8H6'/><circle cx='9' cy='20' r='1.4'/><circle cx='18' cy='20' r='1.4'/>"
+      : tip === "numune"
+        ? "<path d='M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3'/><path d='M8 15h8'/>"
+        : "<path d='M6 3h12v18l-6-4-6 4z'/><path d='M9 8h6M9 12h6'/>";
+    return "<div class='islem-hareket-paneli tip-" + tip + "' aria-label='İşlem türü, tarih ve saat'>"
+      + "<span class='islem-hareket-etiket'><svg viewBox='0 0 24 24' aria-hidden='true'>" + ikon + "</svg><b>" + izinli[tip] + "</b></span>"
+      + "<span class='islem-hareket-ayrac' aria-hidden='true'></span>"
+      + "<span class='islem-hareket-tarih'><svg viewBox='0 0 24 24' aria-hidden='true'><rect x='3' y='5' width='18' height='16' rx='2'/><path d='M16 3v4M8 3v4M3 10h18'/></svg><b>" + tarih + "</b></span>"
+      + "<span class='islem-hareket-saat'><svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9'/><path d='M12 7v5l3 2'/></svg><b>" + saat + "</b></span>"
+      + "</div>";
+  }
   // Rakamın altına küçük birim satırı ekler (€ / TL) — sayı ile birim aynı
   // hücrede iki satıra ayrılır, sütun bu sayede daralabilir (07.09.2026).
   // KURAL (23.09.2026): 1000 ve üzeri sayılarda otomatik biraz küçük yazılır.
@@ -357,7 +396,7 @@ var HareketTablo = (function(){
   // TESLİMAT ADRESİ (boş/sadece boşluk) ve NOT (metni boş olan kayıtlar)
   // HİÇ basılmaz. SADECE send-render.js'in Mail/WhatsApp önizleme ve giden
   // görsel çağrıları geçer; Cari Kart/Sepet/Belge Önizleme etkilenmez.
-  function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi, koduGizle, teslimatBossaGizle, bosBlokGizle, ekKosulHtml){
+  function cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkiliListesi, koduGizle, teslimatBossaGizle, bosBlokGizle, ekKosulHtml, islemTablosu){
     if(bosBlokGizle){
       teslimatBossaGizle = true;
       if(teslimatAdr && !String(teslimatAdr).trim()) teslimatAdr = "";
@@ -380,7 +419,7 @@ var HareketTablo = (function(){
     // — bu fonksiyonu çağıran her sayfa (Gönder, Mail, Belge Önizleme) artık
     // musteri-serit.js/css'i de yüklüyor olmalı.
     var isimHtml = (typeof MusteriSeridi !== "undefined")
-      ? MusteriSeridi.html(musteri, {koduGizle: koduGizle})
+      ? MusteriSeridi.html(musteri, {koduGizle: koduGizle, islemTablosu: !!islemTablosu})
       : "<div class='ck-isim-satir'><b class='ck-isim-nokta'>•</b> " + htmlEsc(musteri.ad) + "</div>";
     // İKON SİSTEMİ (28.10.2026, Abdullah onayı): emoji yerine ikon-svg.js'teki
     // düz, tek-renk (müşteri ismiyle aynı lacivert) SVG ikonlar, %20 daha
@@ -465,7 +504,7 @@ var HareketTablo = (function(){
   }
 
   return {
-    satirlarHtml: satirlarHtml,
+    satirlarHtml: satirlarHtml,\n    islemHareketHtml: islemHareketHtml,
     urunTablosuHtml: urunTablosuHtml,
     grupHtml: grupHtml,
     genelToplamHtml: genelToplamHtml,
