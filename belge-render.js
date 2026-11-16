@@ -1,5 +1,5 @@
 /*
-  belge-render.js — TKP.16.11.26-13:58.1654
+  belge-render.js — TKP.16.11.26-PRIM-PREVIEW-01
   ===============
   GÜNCELLENDİ (02.11.2026, 10:22, Abdullah onayı — mockup üzerinden):
   GENEL TOPLAM kutusu artık burada elle yazılmıyor, ortak
@@ -194,7 +194,7 @@ function belgeyiCiz(kayit, musteri){
     // üretiliyor (Sepet/Gönder ile BİREBİR aynı kaynak) — basit:false,
     // primGizli:false (bu sayfa her zaman tam/iç görünüm, PRİM ve kodu
     // gösterir), zeminSinifi:"" (ana tablo renksiz zemin).
-    var satirlarHtml = HareketTablo.urunTablosuHtml(urunler, belgeHesaplaAdaptoru("adet", kaydinKuru), "", false, true, kaydinKuru);
+    var satirlarHtml = HareketTablo.urunTablosuHtml(urunler, belgeHesaplaAdaptoru("adet", kaydinKuru), "", false, false, kaydinKuru);
 
     // BAKİYE ÜRÜN BLOĞU (08.10.2026, Abdullah'ın isteğiyle) — bakiyede kalan
     // adedi olan ürünler, ana tabloyla BİREBİR aynı sütun/tasarımda, ayrı
@@ -215,7 +215,7 @@ function belgeyiCiz(kayit, musteri){
       kopya.adet = item.bakiyeAdet;
       return kopya;
     });
-    var bakiyeSatirlarHtml = HareketTablo.satirlarHtml(bakiyeUrunlerAdetli, belgeHesaplaAdaptoru("adet", kaydinKuru), "hareket-satir--sari", false, true, kaydinKuru);
+    var bakiyeSatirlarHtml = HareketTablo.satirlarHtml(bakiyeUrunlerAdetli, belgeHesaplaAdaptoru("adet", kaydinKuru), "hareket-satir--sari", false, false, kaydinKuru);
 
     var durum = kayit.durum;
     var sorunluMu = durum==="iptal" || durum==="iade" || durum==="kacan";
@@ -382,7 +382,8 @@ function belgeyiCiz(kayit, musteri){
       + HareketTablo.genelToplamHtml({
           genelToplam: netEuro,
           kur: kayit.kur,
-          kurManuelMi: !!kayit.kurManuel
+          kurManuelMi: !!kayit.kurManuel,
+          primTl: toplamPrimTl > 0 ? toplamPrimTl : null
         })
        + odemeGunuPaneliHtml;
 
