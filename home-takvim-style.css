@@ -713,3 +713,53 @@
   .ht-gun:not(.ht-gun--bos) .ht-gun-no { font-size:16px !important; }
   .ht-rozet { min-width:21px !important; height:19px !important; top:-7px !important; font-size:10px !important; }
 }
+
+
+/* ABDULLAH ONAYI — 16.11.2026
+   Sarı işaretli üst takvim şeridi tamamen kaldırıldı.
+   Takvim toplam dikey alanı yaklaşık %15 azaltıldı.
+   Gerçek Temas (mavi) ve Ajanda (kırmızı) rozet veri kaynakları korunur. */
+.ht-ay-baslik { display:none !important; }
+.ht-takvim-kutu {
+  padding:0 7px 7px !important;
+}
+.ht-gun-basliklari {
+  gap:3.4px !important;
+  margin:0 0 5.1px !important;
+}
+.ht-gun-basliklari > span {
+  min-height:23.8px !important;
+  padding-top:0 !important;
+  padding-bottom:0 !important;
+}
+.ht-grid { gap:3.4px !important; }
+.ht-gun:not(.ht-gun--bos) {
+  min-height:34px !important;
+  padding:11px 2px 2px !important;
+}
+.ht-bildirim { top:0 !important; }
+.ht-rozet {
+  top:-7px !important;
+  min-width:22px !important;
+  height:19px !important;
+  font-size:10.5px !important;
+}
+.ht-rozet--temas { left:-7px !important; }
+.ht-rozet--ajanda { right:-7px !important; }
+@media (max-width:400px) {
+  .ht-takvim-kutu { padding:0 6px 6px !important; }
+  .ht-gun-basliklari { gap:2.55px !important; margin-bottom:4.25px !important; }
+  .ht-gun-basliklari > span { min-height:21.25px !important; }
+  .ht-grid { gap:2.55px !important; }
+  .ht-gun:not(.ht-gun--bos) {
+    min-height:31.5px !important;
+    padding:10px 1px 1px !important;
+  }
+  .ht-gun:not(.ht-gun--bos) .ht-gun-no { font-size:16px !important; }
+  .ht-rozet {
+    top:-6px !important; min-width:20px !important;
+    height:18px !important; font-size:10px !important;
+  }
+  .ht-rozet--temas { left:-6px !important; }
+  .ht-rozet--ajanda { right:-6px !important; }
+}
