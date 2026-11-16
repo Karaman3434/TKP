@@ -56,6 +56,14 @@ var MusteriSeridi = (function(){
     var gecmisAsili = (opts && opts.gecmisAsili) ? "<span class='ms-gecmis-asili' aria-hidden='true'>🕓 geçmiş alımlar ▾</span>" : "";
     var gonderIkon = (typeof IkonSvg !== "undefined") ? IkonSvg.svg("gonder") : "";
     var gonderBtn = (opts && opts.gonderButonu) ? "<button type='button' class='ms-gonder-btn' id='btnMusteriGonder' title='Gönder' aria-label='Gönder'" + (opts.gonderDisabled ? " disabled" : "") + ">" + gonderIkon + "</button>" : "";
+    if(opts && opts.islemTablosu){
+      var binaIkon = "<svg viewBox='0 0 48 48' aria-hidden='true'><path d='M5 43V8a3 3 0 0 1 3-3h22a3 3 0 0 1 3 3v35M33 17h8a2 2 0 0 1 2 2v24M2 43h44M13 13h4v5h-4zM23 13h4v5h-4zM13 24h4v5h-4zM23 24h4v5h-4zM13 35h4v8h-4zM23 35h4v8h-4z'/></svg>";
+      return "<div class='musteri-serit musteri-serit--islem'>"
+        + "<span class='ms-islem-bina'>" + binaIkon + "</span>"
+        + "<span class='ms-islem-bilgi'><b class='ms-islem-ad'>" + esc(musteri.ad) + "</b>"
+        + (konum ? "<span class='ms-islem-konum'><svg viewBox='0 0 24 24' aria-hidden='true'><path d='M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z'/><circle cx='12' cy='10' r='2.5'/></svg>" + esc(konum) + "</span>" : "")
+        + "</span>" + (gecmisBtn || "") + (gonderBtn || "") + (opts && !opts.gonderButonu ? "<span class='ms-islem-ok' aria-hidden='true'>›</span>" : "") + gecmisAsili + "</div>";
+    }
     return "<div class='musteri-serit" + (gecmisAsili ? " musteri-serit--asili" : "") + "'>"
       + "<span class='ms-ad'>" + kod + esc(musteri.ad) + sehir + "</span>"
       + gecmisBtn
