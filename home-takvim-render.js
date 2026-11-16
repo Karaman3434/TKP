@@ -125,18 +125,11 @@
     kapsayici.innerHTML =
       // Onaylı yerleşim: tarih ve satış özetlerinin altında; günlük özet takvimden hemen önce, ayrı şeritte.
       "<div class='ht-takvim-kutu' id='htTakvimKutu'>"
-      +   "<div class='ht-ay-baslik' aria-label='Takvim gezinme'>"
-      +     "<button type='button' class='ht-nav-btn' id='htAyOnceki' aria-label='Önceki ay'>‹</button>"
-      +     "<div class='ht-ay-baslik-orta' aria-hidden='true'><svg viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2'></rect><path d='M7 3v4M17 3v4M3 10h18M8 14h3M8 18h3M15 14h2M15 18h2'></path></svg></div>"
-      +     "<button type='button' class='ht-nav-btn' id='htAySonraki' aria-label='Sonraki ay'>›</button>"
-      +   "</div>"
       +   "<span id='htAyBaslik' class='ht-sr-only' aria-hidden='true'></span>"
       +   "<div class='ht-gun-basliklari'><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span class='ht-tatil-baslik'>Cmt</span><span class='ht-tatil-baslik'>Paz</span></div>"
       +   "<div class='ht-grid' id='htGrid'></div>"
       + "</div>";
     grid = document.getElementById("htGrid");
-    document.getElementById("htAyOnceki").onclick = function(){ ayKaydir(-1); };
-    document.getElementById("htAySonraki").onclick = function(){ ayKaydir(1); };
     swipeKur(document.getElementById("htTakvimKutu"));
     // 08.11.2026 (Abdullah onayı): "Bugün" etiketine dokununca bugünün Not + Ajanda penceresi açılır.
     document.getElementById("htOzetBugun").onclick = function(){
