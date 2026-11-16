@@ -1,6 +1,6 @@
 /*
-  acik-belge-kontrol.js — TKP.16.11.26-12:06.1653 (YENİ DOSYA, 27.10.2026)
-  (önceki: TKP.08.11.26-12:34.1504)
+  acik-belge-kontrol.js — TKP.16.11.26-13:58.1654 (YENİ DOSYA, 27.10.2026)
+  (önceki: TKP.16.11.26-12:06.1653)
   ============================================================
   ROTA DEĞİŞİKLİĞİ (Abdullah onayı): "İşlem Yap" → tip seç akışı artık
   Cari Kart'a UĞRAMADAN direkt cart.html'e (Ürün Bul/Sepet) gidiyor. Bu
@@ -221,8 +221,16 @@ var AcikBelgeKontrol = (function(){
     // Sepet'e geçerken müşteri nesnesini burada yeniden ve açıkça kaydet.
     // Önceki akış, önceki ekranda seçilmiş olmasına güveniyordu; bazı giriş
     // yollarında cart-render.js'in bağlantı kontrolü bu seçimi kaldırabiliyordu.
-    if(!musteri || !musteri.ad || typeof CustomerData === "undefined"){
-      if(typeof hataGoster === "function") hataGoster("Müşteri seçimi doğrulanamadı. Lütfen müşteriyi yeniden seçin.");
+    // 16.11.2026 SAĞLAMLAŞTIRMA: çağıran yer müşteri nesnesini eksik/adsız geçerse
+    // (Sipariş akışında Abdullah'ın cihazında görülen hata) önce cihazda ZATEN
+    // seçili müşteri (İşlem Yap'a basılırken CustomerData.sec ile yazılmıştı) kullanılır;
+    // hata ancak o da yoksa verilir ve mesaj, NEDENİNİ gösteren [ABK 1654 ...] etiketi taşır.
+    if(typeof CustomerData !== "undefined" && (!musteri || !musteri.ad)){
+      try{ musteri = CustomerData.seciliyiOku() || musteri; }catch(e){}
+    }
+    var neden = !musteri ? "musteri-yok" : (!musteri.ad ? "ad-yok" : (typeof CustomerData === "undefined" ? "customerdata-yok" : ""));
+    if(neden){
+      if(typeof hataGoster === "function") hataGoster("Müşteri seçimi doğrulanamadı. Lütfen müşteriyi yeniden seçin. [ABK 1654 " + neden + "]");
       return;
     }
     try{
@@ -234,11 +242,11 @@ var AcikBelgeKontrol = (function(){
       var idUyusmuyor = musteri.id && kayitliMusteri && kayitliMusteri.id
         && musteri.id !== kayitliMusteri.id;
       if(!kayitliAd || kayitliAd !== beklenenAd || idUyusmuyor){
-        if(typeof hataGoster === "function") hataGoster("Müşteri bilgisi Sepet'e aktarılamadı. Lütfen tekrar deneyin.");
+        if(typeof hataGoster === "function") hataGoster("Müşteri bilgisi Sepet'e aktarılamadı. Lütfen tekrar deneyin. [ABK 1654 uyusmuyor]");
         return;
       }
     }catch(e){
-      if(typeof hataGoster === "function") hataGoster("Müşteri bilgisi kaydedilemedi. Lütfen tekrar deneyin.");
+      if(typeof hataGoster === "function") hataGoster("Müşteri bilgisi kaydedilemedi. Lütfen tekrar deneyin. [ABK 1654 istisna: " + (e && e.message) + "]");
       return;
     }
     bayatIlerletTaslaginiTemizle();
