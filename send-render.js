@@ -285,7 +285,8 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     genelToplam: tToplamEuro,
     kanal: kanal,
     primGizli: true,
-    kur: kur
+    kur: kur,
+    kurPanelGizli: true
   });
   // "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı): GENEL TOPLAM artık
   // tablo kartına yapışık değil, bağımsız/kendi köşeleri yuvarlak bir kutu
@@ -370,7 +371,9 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   // urunTablosuHtml() üzerinden — "belge-urun-tablo--giden" (table-layout:
   // fixed) sınıfı ekSinif parametresiyle korunuyor, sütun başlık/genişlik
   // çıktısı değişmedi.
-  var urunTablosuHtmlStr = HareketTablo.urunTablosuHtml(sepet, hesaplaFn, "", basit, true, null, "belge-urun-tablo--giden");
+  // Mail çıktısında NET altındaki TL karşılığı korunur; WhatsApp görünümü eski davranışını sürdürür.
+  var tabloKuru = kanal === "mail" ? kur : null;
+  var urunTablosuHtmlStr = HareketTablo.urunTablosuHtml(sepet, hesaplaFn, "", basit, true, tabloKuru, "belge-urun-tablo--giden");
   var netEuro = sepet.reduce(function(s, u){ var h = hesaplaFn(u); return s + (h.toplamEuro||0); }, 0);
 
   // Yeni kaydedilen bir belge gönderiliyorsa "şu an" doğrudur (kayıt az
@@ -461,6 +464,15 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   // ile BİREBİR aynı yapı: baslik-serit bağımsız, tablo kendi kartında,
   // GENEL TOPLAM bağımsız (margin'ler artık inline değil, paylaşılan
   // belge-style.css'ten geliyor).
+  // Mail çıktısında yalnızca genel toplam kalır; prim ve "Bu işlem kuru" paneli gösterilmez.
+  // TL/KDV karşılıkları, işlem kurundan hesaplanmaya devam eder.
+  var genelToplamGorselHtml = kanal === "mail"
+    ? HareketTablo.genelToplamHtml({genelToplam:netEuro, kur:kur, primTl:null, kurPanelGizli:true})
+    : "<div class='belge-genel-toplam-serit'>"
+      + "<span class='belge-gt-etiket-deger-grup'>"
+      + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
+      + "<span class='belge-gt-deger'>" + fmtG2(netEuro) + " EURO</span>"
+      + "</span></div>";
   return cariBaslikHtml
     + cariGovdeHtml
     + "<div class='belge-kart-ayrac'></div>"
@@ -468,11 +480,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     + urunTablosuHtmlStr
     + (typeof HareketTablo !== "undefined" ? HareketTablo.bakiyeNotuHtml(sepet) : "")
     + "</div>"
-    + "<div class='belge-genel-toplam-serit'>"
-    + "<span class='belge-gt-etiket-deger-grup'>"
-    + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
-    + "<span class='belge-gt-deger'>" + fmtG2(netEuro) + " EURO</span>"
-    + "</span></div>";
+    + genelToplamGorselHtml;
 }
 
 // PERFORMANS KAZANIMI (27.10.2026): html2canvas (büyük, nadiren kullanılan
@@ -645,7 +653,8 @@ function tabloSadeceOnizlemeAc(){
     var toplam = 0;
     (g.sepet||[]).forEach(function(u){ var h = hesapla(u); if(h && h.toplamEuro!=null) toplam += h.toplamEuro; });
     document.getElementById("tabloSadeceAlan").innerHTML = HareketTablo.grupHtml({
-      urunler: g.sepet, hesapla: hesapla, genelToplam: toplam, kur: g.kur
+      urunler: g.sepet, hesapla: hesapla, genelToplam: toplam, kur: g.kur,
+      primGizli: true, kurPanelGizli: true
     });
     document.getElementById("tabloSadeceOverlay").hidden = false;
   }catch(e){ hataGoster("Tablo önizleme açılamadı: " + e.message); }

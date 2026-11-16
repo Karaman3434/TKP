@@ -65,7 +65,7 @@ var AcikBelgeKontrol = (function(){
       return;
     }
     var s = document.createElement("script");
-    s.src = "hareket-tablo.js?v=TKP.11.11.26-19:45.1581";
+    s.src = "hareket-tablo.js?v=TKP.16.11.26-MAIL-PRIM-KUR-CENTER-01";
     s.onload = function(){
       kaynaklarHazir = true;
       kaynaklarYukleniyor = false;

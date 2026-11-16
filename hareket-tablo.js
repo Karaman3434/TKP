@@ -135,7 +135,7 @@ var HareketTablo = (function(){
       var netTl = toplamVarMi ? netTlHtml(h.iskontoluFiyat, kur) : "";
       // DÜZELTME (15.10.2026, Abdullah onayı): harf (B/A) ile kod arasındaki
       // boşluk kaldırıldı — "B11550400 - A1000912233" gibi bitişik.
-      var urunHucre = "<td class='belge-td-urun'><div class='belge-td-urun-kod'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span>" + htmlEsc(u.berta||"-") + "</span><span class='kod-ayrac' aria-hidden='true'></span><span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span>" + htmlEsc(u.abas||"-") + "</span>" + "</div><div class='belge-td-urun-ad'>" + htmlEsc(u.ad) + "</div></td>";
+      var urunHucre = "<td class='belge-td-urun'><div class='belge-td-urun-kod' style='text-align:center;'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span>" + htmlEsc(u.berta||"-") + "</span><span class='kod-ayrac' aria-hidden='true'></span><span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span>" + htmlEsc(u.abas||"-") + "</span>" + "</div><div class='belge-td-urun-ad'>" + htmlEsc(u.ad) + "</div></td>";
       if(basit){
         return "<tr class='" + (zeminSinifi||"") + "'>"
           + urunHucre
@@ -213,13 +213,14 @@ var HareketTablo = (function(){
   // çıkmaması, çağıranın primTl'yi vermemesiyle (primGizli) sağlanır.
   function genelToplamHtml(o){
     var primVar = (o.primTl != null) || !!o.primMetni;
+    var kurPanelVar = !!o.kur && !o.kurPanelGizli;
     var kurIcSinifi = "belge-gt-kur-ic" + (o.kurManuelMi ? " belge-gt-kur-ic--manuel" : "") + (o.kurTiklanabilir ? " belge-gt-kur-ic--tiklanabilir" : "");
     var kurEtiketMetni = "<span class='belge-gt-kur-etiket'>" + (o.kurManuelMi ? "✏️ Bu işlem kuru" : "Bu işlem kuru") + "</span><br><span class='belge-gt-kur-deger'>" + fmt(o.kur) + " EURO</span>";
     var primDeger = o.primMetni ? o.primMetni : (Math.round(o.primTl||0).toLocaleString("tr-TR") + " TL");
     return "<div class='belge-gt-kutu'>"
       + "<div class='belge-gt-satir" + (primVar ? " belge-gt-satir--uclu" : "") + (o.kur ? " belge-gt-satir--yeni" : "") + "'>"
       + (primVar ? "<span class='belge-gt-prim-ic'><span class='belge-gt-prim-etiket'>PRİM</span><br><span class='belge-gt-prim-deger'>" + primDeger + "</span></span>" : "")
-      + (o.kur ? "<span class='" + kurIcSinifi + "'>" + kurEtiketMetni + "</span>" : "")
+      + (kurPanelVar ? "<span class='" + kurIcSinifi + "'>" + kurEtiketMetni + "</span>" : "")
       // GENEL TOPLAM (11.11.2026, Abdullah onayı — mockup 4. tur): kur varsa etiket + 3 satır alt alta sağda:
       // 1) EURO toplam (en büyük) 2) ≈ TL toplam 3) KDV DAHİL <tutar> TL (hepsi beyaz). Etiket rakamların soluna,
       // dikeyde ortalı, aralarında 5 mm. Kur YOKSA (müşteriye giden görsel) eski düzen aynen korunur.
@@ -320,7 +321,8 @@ var HareketTablo = (function(){
         kur: opts.kur,
         kurManuelMi: opts.kurManuelMi,
         kurTiklanabilir: opts.kurTiklanabilir,
-        primTl: primToplamTL
+        primTl: primToplamTL,
+        kurPanelGizli: !!opts.kurPanelGizli
       });
     }
     return html;
