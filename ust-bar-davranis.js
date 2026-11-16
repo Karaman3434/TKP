@@ -293,13 +293,15 @@
 (function(){
   try{
     function sira(btn){
+      // 17.11.2026 — Abdullah onayı: Menü tüm ortak üst barlarda ilk sırada.
+      // Diğer tuşların mevcut kendi aralarındaki sırası ve işlevleri korunur.
+      if(btn.classList.contains("ub-btn--menu")) return 0;
       if(btn.classList.contains("ub-btn--geri")) return 1;
       if(btn.classList.contains("ub-btn--bekle")) return 2;
       if(btn.classList.contains("ub-btn--kapat")) return 3;
-      if(btn.classList.contains("ub-btn--menu")) return 4;
-      if(btn.classList.contains("ub-btn--bilgi")) return 5;
-      if(btn.classList.contains("ub-btn--kaydet")) return 6;
-      if(btn.classList.contains("ub-btn--gonder")) return 7;
+      if(btn.classList.contains("ub-btn--bilgi")) return 4;
+      if(btn.classList.contains("ub-btn--kaydet")) return 5;
+      if(btn.classList.contains("ub-btn--gonder")) return 6;
       return 99;
     }
     function etiket(btn){
