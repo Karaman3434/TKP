@@ -49,12 +49,12 @@ var HareketTablo = (function(){
       var iso = new Date(ham);
       if(!isNaN(iso.getTime())) d = iso;
       if(!d){
-        var m = /^(\\d{1,2})[.\\/](\\d{1,2})[.\\/](\\d{2,4})(?:\\s+(\\d{1,2}):(\\d{2}))?$/.exec(ham);
+        var m = /^(\d{1,2})[.\/](\d{1,2})[.\/](\d{2,4})(?:\s+(\d{1,2}):(\d{2}))?$/.exec(ham);
         if(m){ var yil = Number(m[3]); if(yil < 100) yil += 2000; d = new Date(yil, Number(m[2])-1, Number(m[1]), Number(m[4]||0), Number(m[5]||0)); }
       }
       if(!d){
         var ay = {Oca:0,Şub:1,Mar:2,Nis:3,May:4,Haz:5,Tem:6,Ağu:7,Eyl:8,Eki:9,Kas:10,Ara:11};
-        var tr = /^(\\d{1,2})\\s+(Oca|Şub|Mar|Nis|May|Haz|Tem|Ağu|Eyl|Eki|Kas|Ara)\\s+(\\d{4})(?:\\s+(\\d{1,2}):(\\d{2}))?$/.exec(ham);
+        var tr = /^(\d{1,2})\s+(Oca|Şub|Mar|Nis|May|Haz|Tem|Ağu|Eyl|Eki|Kas|Ara)\s+(\d{4})(?:\s+(\d{1,2}):(\d{2}))?$/.exec(ham);
         if(tr) d = new Date(Number(tr[3]), ay[tr[2]], Number(tr[1]), Number(tr[4]||0), Number(tr[5]||0));
       }
     }
