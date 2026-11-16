@@ -263,14 +263,12 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     // turu, mockup üzerinden onaylandı): son parametre (true) teslimat
     // adresi girilmemişse bu canlı önizlemede de bloğu hiç göstermez; cari
     // kodu (koduGizle=false) eskisi gibi görünmeye devam eder.
-    musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, false, true, true);
+    musteriBlokHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, false, true, true, null, true);
     // 15.11.2026 (Abdullah isteği): İşlem hareket etiketi + tarih/saat paneli
     // artık Gönder canlı önizlemesinde de (kanal yok) Mail önizleme ve maile
     // giden görselle AYNI: müşteri cari isminin ÜST satırında.
-    html = "<div class='mail-onizleme-belge-baslik'>"
-      + formBaslikHtml(tip, null, null)
-      + mailOnizlemeTarihSaatHtml()
-      + "</div><div class='belge-kart-ayrac'></div>"
+    html = HareketTablo.islemHareketHtml(tip, new Date())
+      + "<div class='belge-kart-ayrac'></div>"
       + musteriBlokHtml
       + "<div class='belge-kart-ayrac'></div>"
       + "<div class='belge-kart belge-kart--urun-cerceveli'>";
@@ -443,11 +441,9 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     if(kanal === "mail"){
       // E-postaya eklenen görselde de canlı Mail Önizleme ile aynı üst başlık.
       // Eski işlem paneli müşteri kartının altından kaldırılır.
-      cariBaslikHtml = "<div class='mail-giden-belge-baslik'>"
-        + formBaslikHtml(tip, null, null)
-        + mailOnizlemeTarihSaatHtml()
-        + "</div><div class='belge-kart-ayrac'></div>"
-        + HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, true, true, true);
+      cariBaslikHtml = HareketTablo.islemHareketHtml(tip, tarihStr)
+        + "<div class='belge-kart-ayrac'></div>"
+        + HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, true, true, true, null, true);
       cariGovdeHtml = "";
     } else {
       cariBaslikHtml = HareketTablo.cariKutulariHtml(musteri, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, seciliYetkiliDizi, true, true, true);
