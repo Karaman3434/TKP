@@ -381,7 +381,7 @@ function belgeyiCiz(kayit, musteri){
       // değil, kutunun içinde. Prim tutarı/"Prim yok" mantığı DEĞİŞMEDİ.
       + HareketTablo.genelToplamHtml({
           genelToplam: netEuro,
-          kur: kayit.kur,
+          kur: kaydinKuru,
           kurManuelMi: !!kayit.kurManuel,
           primTl: toplamPrimTl > 0 ? toplamPrimTl : null
         })

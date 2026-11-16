@@ -198,3 +198,12 @@ body:not(.as-drawer) .tarih-filtre-input{
 }
 .tablo-kod .kod-ayrac,
 .belge-td-urun-kod .kod-ayrac{display:none !important;}
+
+
+/* ABDULLAH ONAYI — İŞLEM TABLOSU KOD HİZALAMASI (16.11.2026)
+   BERTA ve ABAS kodları işlem tablosundaki kendi satırlarında hücre
+   merkezine hizalanır. Ürün arama/listelerindeki .tablo-kod düzeni değişmez. */
+.belge-urun-tablo .belge-td-urun-kod{
+  align-items:center !important;
+  text-align:center !important;
+}

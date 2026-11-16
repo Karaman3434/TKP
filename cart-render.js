@@ -547,7 +547,7 @@ function sayfayiCiz(){
       urunler: bekleyenler,
       hesapla: function(){ return null; },
       zeminSinifi: "hareket-satir--sari",
-      primGizli: true
+      primGizli: false
     });
 
     // KALDIRILDI (26.10.2026, Abdullah onayı — SEÇ butonu sadeleştirme):
@@ -567,7 +567,7 @@ function sayfayiCiz(){
       urunler: hesaplananlar,
       hesapla: hesapla,
       zeminSinifi: "hareket-satir--yesil",
-      primGizli: true,
+      primGizli: false,
       genelToplam: hesaplananToplam,
       kur: kur,
       kurManuelMi: aktifKurManuelMi(),
