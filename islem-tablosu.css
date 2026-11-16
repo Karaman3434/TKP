@@ -21,8 +21,8 @@
 /* Fotoğrafta onaylanan kompakt müşteri cari paneli.
    .musteri-serit'in eski !important ölçülerini aşmak için çift sınıf seçicisi kullanılır. */
 .musteri-serit.musteri-serit--islem{
-  display:flex;align-items:center;gap:7px;width:100%;height:40px;min-height:40px!important;
-  box-sizing:border-box;padding:1mm!important;margin:0 0 1mm!important;
+  display:flex;align-items:center;gap:7px;width:100%;height:auto;min-height:58px!important;
+  box-sizing:border-box;padding:2mm 1mm!important;margin:0 0 1mm!important;
   background:#073B70!important;color:#fff!important;
   border:1.5px solid #073B70!important;border-radius:12px!important;overflow:hidden;
 }
@@ -64,7 +64,7 @@
  .islem-hareket-tarih,.islem-hareket-saat{gap:3px;}
  .islem-hareket-tarih svg,.islem-hareket-saat svg{width:19px;height:19px;}
  .islem-hareket-tarih b,.islem-hareket-saat b{font-size:12px;}
- .musteri-serit.musteri-serit--islem{height:40px;min-height:40px!important;gap:6px;padding:1mm!important;}
+ .musteri-serit.musteri-serit--islem{height:auto;min-height:58px!important;gap:6px;padding:2mm 1mm!important;}
  .musteri-serit.musteri-serit--islem .ms-islem-bina{flex-basis:34px;width:34px;height:32px;padding-right:5px;}
  .musteri-serit.musteri-serit--islem .ms-islem-bina svg{width:29px;height:29px;}
  .musteri-serit.musteri-serit--islem .ms-islem-ad{font-size:24px!important;}
