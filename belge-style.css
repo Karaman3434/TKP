@@ -1570,3 +1570,21 @@
 .belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
   inset: 3px 2px !important;
 }
+
+
+/* ABDULLAH ONAYI — İSK / NET BAŞLIK RENKLERİ HÜCREYİ TAM DOLDURUR.
+   Yalnızca standart 7 sütunlu ürün tablosunun başlık satırını etkiler. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(5) {
+  background: var(--urun-isk-bg, #f04444) !important;
+  color: #fff !important;
+  border: 1px solid var(--urun-isk-bg, #f04444) !important;
+  border-radius: 0 !important;
+  background-clip: border-box !important;
+}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(6) {
+  background: var(--urun-net-bg, #07852b) !important;
+  color: #fff !important;
+  border: 1px solid var(--urun-net-bg, #07852b) !important;
+  border-radius: 0 !important;
+  background-clip: border-box !important;
+}
