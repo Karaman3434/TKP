@@ -293,10 +293,10 @@
 (function(){
   try{
     function sira(btn){
-      if(btn.classList.contains("ub-btn--geri")) return 1;
-      if(btn.classList.contains("ub-btn--bekle")) return 2;
-      if(btn.classList.contains("ub-btn--kapat")) return 3;
-      if(btn.classList.contains("ub-btn--menu")) return 4;
+      if(btn.classList.contains("ub-btn--menu")) return 1;
+      if(btn.classList.contains("ub-btn--geri")) return 2;
+      if(btn.classList.contains("ub-btn--bekle")) return 3;
+      if(btn.classList.contains("ub-btn--kapat")) return 4;
       if(btn.classList.contains("ub-btn--bilgi")) return 5;
       if(btn.classList.contains("ub-btn--kaydet")) return 6;
       if(btn.classList.contains("ub-btn--gonder")) return 7;
@@ -353,7 +353,7 @@
       if(!bar) return;
       var link=document.createElement("link");
       link.rel="stylesheet";
-      link.href="ust-islem-cubugu.css?v=TKP.15.11.26-7-TUS-AKTIF-RENK-02";
+      link.href="ust-islem-cubugu.css?v=TKP.17.11.26-MENU-FIRST-01";
       document.head.appendChild(link);
       if((window.location.pathname.split("/").pop() || "index.html") !== "home.html"){
         var eylemScript=document.createElement("script");
