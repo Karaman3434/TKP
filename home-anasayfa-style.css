@@ -962,3 +962,20 @@ body:has(.as-sayfa) .app-ust-sabit .ub-logo img {
   max-height: 44px;
   object-fit: contain;
 }
+
+
+/* 17.11.2026 — ABDULLAH ONAYI: ANA SAYFA ÜST BAR SADELEŞTİRME
+   Ana Sayfa'da yalnız Menü tuşu görünür; Geri/Beklet/Kapat yer tutucuları
+   gizlenir. Diğer sayfalara etki etmez. Logo mevcut geniş alanda ortalanır.
+   Tuşların DOM'u ve olay dinleyicileri korunur; yalnız görünüm değişir. */
+body:has(.as-sayfa) .app-ust-sabit .ub-grup > .ub-tus-kutu:has(> .ub-btn--geri),
+body:has(.as-sayfa) .app-ust-sabit .ub-grup > .ub-tus-kutu:has(> .ub-btn--bekle),
+body:has(.as-sayfa) .app-ust-sabit .ub-grup > .ub-tus-kutu:has(> .ub-btn--kapat) {
+  display:none!important;
+}
+body:has(.as-sayfa) .app-ust-sabit .ub-logo {
+  justify-content:center!important;
+}
+body:has(.as-sayfa) .app-ust-sabit .ub-logo img {
+  object-position:center!important;
+}
