@@ -671,3 +671,45 @@
   .ht-rozet--temas { left:-8px !important; }
   .ht-rozet--ajanda { right:-8px !important; }
 }
+
+
+/* ABDULLAH ONAYI — TAKVİM MOBİL DİKEY ALANINI AZALT / 16.11.2026
+   Gün kutuları, satır araları ve başlık daraltıldı; renk/rozet işlevi korunur. */
+.ht-takvim-kutu { padding:0 8px 8px !important; }
+.ht-ay-baslik {
+  min-height:48px !important;
+  margin:0 -8px 6px !important;
+  padding:5px 10px !important;
+}
+.ht-nav-btn { width:43px !important; height:38px !important; font-size:28px !important; }
+.ht-ay-baslik-orta svg { width:32px !important; height:32px !important; }
+.ht-gun-basliklari { gap:4px !important; margin:0 0 6px !important; }
+.ht-gun-basliklari > span { min-height:28px !important; border-radius:10px !important; }
+.ht-grid { gap:4px !important; }
+.ht-gun:not(.ht-gun--bos) {
+  box-sizing:border-box !important;
+  min-height:40px !important;
+  padding:13px 2px 2px !important;
+  border-radius:12px !important;
+}
+.ht-gun:not(.ht-gun--bos) .ht-gun-no { font-size:18px !important; line-height:1 !important; }
+.ht-gun--bugun .ht-gun-no { font-size:19px !important; }
+.ht-bildirim { top:0 !important; }
+.ht-rozet {
+  top:-8px !important; min-width:23px !important; height:21px !important;
+  padding:0 4px !important; font-size:11px !important; border-radius:8px !important;
+}
+.ht-rozet--temas { left:-7px !important; }
+.ht-rozet--ajanda { right:-7px !important; }
+@media (max-width:400px) {
+  .ht-takvim-kutu { padding:0 6px 6px !important; }
+  .ht-ay-baslik { min-height:44px !important; margin:0 -6px 5px !important; padding:4px 8px !important; }
+  .ht-nav-btn { width:39px !important; height:35px !important; font-size:26px !important; }
+  .ht-ay-baslik-orta svg { width:29px !important; height:29px !important; }
+  .ht-gun-basliklari { gap:3px !important; margin-bottom:5px !important; }
+  .ht-gun-basliklari > span { min-height:25px !important; }
+  .ht-grid { gap:3px !important; }
+  .ht-gun:not(.ht-gun--bos) { min-height:37px !important; padding-top:12px !important; border-radius:10px !important; }
+  .ht-gun:not(.ht-gun--bos) .ht-gun-no { font-size:16px !important; }
+  .ht-rozet { min-width:21px !important; height:19px !important; top:-7px !important; font-size:10px !important; }
+}
