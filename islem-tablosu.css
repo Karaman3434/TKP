@@ -19,7 +19,7 @@
 .islem-hareket-tarih svg,.islem-hareket-saat svg{width:24px;height:24px;fill:none;stroke:#111820;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .islem-hareket-tarih b,.islem-hareket-saat b{font-size:clamp(13px,3.5vw,17px);font-weight:750;line-height:1;}
 .musteri-serit--islem{
-  display:flex;align-items:center;gap:10px;width:100%;min-height:64px;box-sizing:border-box;
+  display:flex;align-items:center;gap:10px;width:100%;min-height:77px;box-sizing:border-box;
   padding:7px 10px!important;margin:0 0 1mm!important;background:#073B70!important;
   color:#fff!important;border:1.5px solid #073B70!important;border-radius:12px!important;
 }
@@ -44,7 +44,7 @@
  .islem-hareket-tarih,.islem-hareket-saat{gap:3px;}
  .islem-hareket-tarih svg,.islem-hareket-saat svg{width:19px;height:19px;}
  .islem-hareket-tarih b,.islem-hareket-saat b{font-size:12px;}
- .musteri-serit--islem{min-height:58px;gap:7px;padding:6px 8px!important;}
+ .musteri-serit--islem{min-height:70px;gap:7px;padding:6px 8px!important;}
  .musteri-serit--islem .ms-islem-bina{flex-basis:34px;width:34px;height:38px;padding-right:6px;}
  .musteri-serit--islem .ms-islem-bina svg{width:31px;height:31px;}
 }
