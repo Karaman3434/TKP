@@ -1,5 +1,5 @@
 /* İŞ TAKİP — İŞLEM ÇUBUĞU / 15.11.2026
-   Onaylı tasarım: Geri, Beklet, Kapat, Menü, BİM, Kaydet, Gönder.
+   Onaylı tasarım: Menü, Geri, Beklet, Kapat, BİM, Kaydet, Gönder.
    Etiketler tuşların altında; tüm tuşlar tek çerçeve içinde.
 */
 .ub-bar .ub-grup{
@@ -232,3 +232,16 @@ body:not(:has(.as-sayfa)) .ub-bar .ub-grup .ub-btn{
   cursor:not-allowed!important;
 }
 .ub-bar .ub-btn--bilgi{ text-transform:lowercase!important; }
+
+
+/* 17.11.2026 — ANA SAYFA ÖZEL ÜST PANELİ
+   Menü solda kalır; logo bildirim panelinin yatay merkezinde konumlanır.
+   Diğer sayfaların üst panel yerleşimine dokunulmaz. */
+body:has(.as-sayfa) .ub-bar{position:relative!important;justify-content:flex-start!important;}
+body:has(.as-sayfa) .ub-bar .ub-grup{margin-right:0!important;}
+body:has(.as-sayfa) .ub-bar .ub-logo{
+  position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;
+  width:52vw!important;max-width:220px!important;min-width:0!important;height:44px!important;
+  margin:0!important;justify-content:center!important;overflow:visible!important;z-index:1!important;
+}
+body:has(.as-sayfa) .ub-bar .ub-logo img{height:44px!important;width:auto!important;max-width:100%!important;object-fit:contain!important;}
