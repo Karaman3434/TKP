@@ -62,13 +62,9 @@ var HareketTablo = (function(){
     function iki(n){ return String(n).padStart(2,"0"); }
     var tarih = iki(d.getDate()) + "." + iki(d.getMonth()+1) + "." + String(d.getFullYear()).slice(-2);
     var saat = iki(d.getHours()) + ":" + iki(d.getMinutes());
-    var ikon = tip === "siparis"
-      ? "<path d='M2 4h2l2.2 10.1a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L21 8H6'/><circle cx='9' cy='20' r='1.4'/><circle cx='18' cy='20' r='1.4'/>"
-      : tip === "numune"
-        ? "<path d='M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3'/><path d='M8 15h8'/>"
-        : "<path d='M6 3h12v18l-6-4-6 4z'/><path d='M9 8h6M9 12h6'/>";
+    // İşlem etiketi yanında ikon kullanılmaz; yalnızca tarih ve saat ikonları korunur.
     return "<div class='islem-hareket-paneli tip-" + tip + "' aria-label='İşlem türü, tarih ve saat'>"
-      + "<span class='islem-hareket-etiket'><svg viewBox='0 0 24 24' aria-hidden='true'>" + ikon + "</svg><b>" + izinli[tip] + "</b></span>"
+      + "<span class='islem-hareket-etiket'><b>" + izinli[tip] + "</b></span>"
       + "<span class='islem-hareket-ayrac' aria-hidden='true'></span>"
       + "<span class='islem-hareket-tarih'><svg viewBox='0 0 24 24' aria-hidden='true'><rect x='3' y='5' width='18' height='16' rx='2'/><path d='M16 3v4M8 3v4M3 10h18'/></svg><b>" + tarih + "</b></span>"
       + "<span class='islem-hareket-saat'><svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9'/><path d='M12 7v5l3 2'/></svg><b>" + saat + "</b></span>"
