@@ -61,20 +61,19 @@ function hataGoster(mesaj){
 
 // SEPET ÜST TASARIMI: işlem türü etiketi ve beyaz tarih/saat paneli.
 function cartIslemEtiketiGuncelle(){
-  // 15.11.2026 (Abdullah isteği): panel artık "İŞLEM HAREKET" etiketi — seçilen işleme göre otomatik
-  // değişir (SİPARİŞ / FİYAT TEKLİFİ / PROFORMA FATURA / NUMUNE; tek kaynak: tip-etiketleri.js, renk: cart-style.css
-  // [data-tip]). İşlem türü henüz belli değilse (ör. Ana Sayfa > Ürün Bul girişi) eski "SEPET HESAP" yazar.
   var el = document.getElementById("rotaSeridi");
+  var eskiTarih = document.getElementById("cartTarihPaneli");
   if(!el) return;
-  var metin = "SEPET HESAP", tip = "";
-  try{
-    if(secilenTipBelli && typeof TipEtiket !== "undefined" && TipEtiket.uzun[secilenTip]){
-      metin = TipEtiket.buyukAl(secilenTip);
-      tip = secilenTip;
-    }
-  }catch(e){}
-  if(el.textContent !== metin) el.textContent = metin;
-  if(tip) el.setAttribute("data-tip", tip); else el.removeAttribute("data-tip");
+  if(secilenTipBelli && typeof HareketTablo !== "undefined" && HareketTablo.islemHareketHtml){
+    el.className = "cart-islem-hareket-host";
+    el.innerHTML = HareketTablo.islemHareketHtml(secilenTip, new Date());
+    if(eskiTarih) eskiTarih.hidden = true;
+  } else {
+    el.className = "ub-sayfa-etiket cart-islem-etiketi";
+    el.textContent = "SEPET HESAP";
+    el.removeAttribute("data-tip");
+    if(eskiTarih) eskiTarih.hidden = false;
+  }
 }
 function cartTarihSaatGuncelle(){
   var d = new Date();
@@ -83,6 +82,10 @@ function cartTarihSaatGuncelle(){
   var saat = document.getElementById("cartSaatMetni");
   if(tarih) tarih.textContent = d.getDate() + " " + aylar[d.getMonth()] + " " + d.getFullYear();
   if(saat) saat.textContent = String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+  var hareketAlani = document.getElementById("rotaSeridi");
+  if(secilenTipBelli && hareketAlani && typeof HareketTablo !== "undefined" && HareketTablo.islemHareketHtml){
+    hareketAlani.innerHTML = HareketTablo.islemHareketHtml(secilenTip, d);
+  }
 }
 
 function tarihiGuncelle(){
@@ -224,7 +227,7 @@ function urunuHesaplamayaGonder(idx){
 // ama sepet tamam değilse buton görünür ama pasif/tıklanamaz kalır.
 function cariBilgiOzetiHtml(musteri, gonderDisabledMi){
   var izinVar = crIzinVarMi("sepetGonder");
-  return MusteriSeridi.html(musteri, {gonderButonu: izinVar, gonderDisabled: !!gonderDisabledMi});
+  return MusteriSeridi.html(musteri, {gonderButonu: izinVar, gonderDisabled: !!gonderDisabledMi, islemTablosu: true});
 }
 
 // MÜŞTERİSİZ GÖNDER ŞERİDİ (01.11.2026, Abdullah onayı — mockup üzerinden):
@@ -543,7 +546,8 @@ function sayfayiCiz(){
       tip: secilenTip,
       urunler: bekleyenler,
       hesapla: function(){ return null; },
-      zeminSinifi: "hareket-satir--sari"
+      zeminSinifi: "hareket-satir--sari",
+      primGizli: true
     });
 
     // KALDIRILDI (26.10.2026, Abdullah onayı — SEÇ butonu sadeleştirme):
@@ -563,6 +567,7 @@ function sayfayiCiz(){
       urunler: hesaplananlar,
       hesapla: hesapla,
       zeminSinifi: "hareket-satir--yesil",
+      primGizli: true,
       genelToplam: hesaplananToplam,
       kur: kur,
       kurManuelMi: aktifKurManuelMi(),
