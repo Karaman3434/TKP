@@ -194,7 +194,7 @@ function belgeyiCiz(kayit, musteri){
     // üretiliyor (Sepet/Gönder ile BİREBİR aynı kaynak) — basit:false,
     // primGizli:false (bu sayfa her zaman tam/iç görünüm, PRİM ve kodu
     // gösterir), zeminSinifi:"" (ana tablo renksiz zemin).
-    var satirlarHtml = HareketTablo.urunTablosuHtml(urunler, belgeHesaplaAdaptoru("adet", kaydinKuru), "", false, false, kaydinKuru);
+    var satirlarHtml = HareketTablo.urunTablosuHtml(urunler, belgeHesaplaAdaptoru("adet", kaydinKuru), "", false, true, kaydinKuru);
 
     // BAKİYE ÜRÜN BLOĞU (08.10.2026, Abdullah'ın isteğiyle) — bakiyede kalan
     // adedi olan ürünler, ana tabloyla BİREBİR aynı sütun/tasarımda, ayrı
@@ -215,7 +215,7 @@ function belgeyiCiz(kayit, musteri){
       kopya.adet = item.bakiyeAdet;
       return kopya;
     });
-    var bakiyeSatirlarHtml = HareketTablo.satirlarHtml(bakiyeUrunlerAdetli, belgeHesaplaAdaptoru("adet", kaydinKuru), "hareket-satir--sari", false, false, kaydinKuru);
+    var bakiyeSatirlarHtml = HareketTablo.satirlarHtml(bakiyeUrunlerAdetli, belgeHesaplaAdaptoru("adet", kaydinKuru), "hareket-satir--sari", false, true, kaydinKuru);
 
     var durum = kayit.durum;
     var sorunluMu = durum==="iptal" || durum==="iade" || durum==="kacan";
@@ -296,7 +296,7 @@ function belgeyiCiz(kayit, musteri){
       // musteri.id doluysa basıyor (musteri-serit.js), koduGizle=false
       // olmasına rağmen kod bu yüzden hiç görünmüyordu. Artık gerçek
       // müşteri kaydındaki id (musteri.id) buraya da geçiriliyor.
-      + HareketTablo.cariKutulariHtml({id: (musteri&&musteri.id)||"", ad: kayit.musteri, sehir: sehir, telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true, false, odemeGunuPaneliHtml)
+      + HareketTablo.cariKutulariHtml({id: (musteri&&musteri.id)||"", ad: kayit.musteri, sehir: sehir, il: (musteri&&musteri.il)||"", telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true, false, odemeGunuPaneliHtml, true)
       + "</div>";
 
     // BAKİYE ÜRÜN BLOĞU — sadece bakiyede kalan ürün varsa gösterilir. Ana
@@ -307,7 +307,7 @@ function belgeyiCiz(kayit, musteri){
       + "<div class='belge-bakiye-kucuk-etiket'>📦 BAKİYE ÜRÜN</div>"
       + "<div class='belge-bakiye-blok'>"
       + "<div class='data-table-container'><table class='belge-urun-tablo'>"
-      + "<colgroup><col style='width:3.6%;'><col style='width:29.2%;'><col style='width:10%;'><col style='width:10%;'><col style='width:10%;'><col style='width:13%;'><col style='width:13%;'><col style='width:11.2%;'></colgroup>"
+      + "<colgroup><col style='width:3.6%;'><col style='width:29.2%;'><col style='width:10%;'><col style='width:10%;'><col style='width:10%;'><col style='width:13%;'><col style='width:24.2%;'></colgroup>"
       + "<tbody>" + bakiyeSatirlarHtml + "</tbody>"
       + "</table></div>"
       + "<div class='belge-bakiye-toplam-serit'>"
@@ -364,24 +364,8 @@ function belgeyiCiz(kayit, musteri){
     // tam yuvarlak köşesi VE çerçevesi var ("belge-kart--urun-cerceveli" —
     // Gönder'in giden görseliyle BİREBİR aynı çerçeve dili, 18.10.2026).
     // GENEL TOPLAM ve PRİM iki AYRI, bağımsız, tam yuvarlak köşeli kutu.
-    var simdi = new Date();
-    var aylarTeklif = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
-    var teklifTarih = "Tarih: " + simdi.getDate() + " " + aylarTeklif[simdi.getMonth()] + " " + simdi.getFullYear();
-    var teklifSaat = String(simdi.getHours()).padStart(2,"0") + ":" + String(simdi.getMinutes()).padStart(2,"0");
-    // Belge başlığı sabit "FİYAT TEKLİFİ" değildir; seçili işlem türünün
-    // tam adı kullanılır: SİPARİŞ / NUMUNE / PROFORMA FATURA / FİYAT TEKLİFİ.
-    var belgeBaslikMetni = (typeof TipEtiket !== "undefined" && TipEtiket.buyukAl)
-      ? (TipEtiket.buyukAl(kayit.tip) || "BELGE")
-      : "BELGE";
-    var teklifUstHtml = "<section class='bo-teklif-ust'>"
-      + "<h1 class='bo-teklif-baslik tip-" + htmlEsc(kayit.tip || "siparis") + "'>" + htmlEsc(belgeBaslikMetni) + "</h1>"
-      + "<div class='bo-teklif-tarih-saat'>"
-      + "<span class='bo-teklif-tarih-ikon' aria-hidden='true'><svg viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2'></rect><path d='M16 3v4M8 3v4M3 10h18M8 15l2 2 4-4'></path></svg></span>"
-      + "<strong>" + htmlEsc(teklifTarih) + "</strong>"
-      + "<span class='bo-teklif-ayrac' aria-hidden='true'></span>"
-      + "<span class='bo-teklif-saat-ikon' aria-hidden='true'><svg viewBox='0 0 24 24'><circle cx='12' cy='12' r='9'></circle><path d='M12 7v5l3 2'></path></svg></span>"
-      + "<strong>" + teklifSaat + "</strong>"
-      + "</div></section>";
+    // ONAYLI İŞLEM TABLOSU: işlem etiketi + tarih/saat tek ortak panelden.
+    var teklifUstHtml = HareketTablo.islemHareketHtml(kayit.tip || "siparis", kayit.tarih || kayit.ts || null);
     var html = teklifUstHtml + "<div class='belge-kart belge-kart--cari-ust tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
       + durumRozetHtml
       + musteriBlokHtml
@@ -398,9 +382,7 @@ function belgeyiCiz(kayit, musteri){
       + HareketTablo.genelToplamHtml({
           genelToplam: netEuro,
           kur: kayit.kur,
-          kurManuelMi: !!kayit.kurManuel,
-          primTl: toplamPrim<0 ? null : toplamPrimTl,
-          primMetni: toplamPrim<0 ? "Prim yok" : ""
+          kurManuelMi: !!kayit.kurManuel
         });
 
     document.getElementById("belgeIcerik").innerHTML = html;
