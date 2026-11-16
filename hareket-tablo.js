@@ -504,7 +504,8 @@ var HareketTablo = (function(){
   }
 
   return {
-    satirlarHtml: satirlarHtml,\n    islemHareketHtml: islemHareketHtml,
+    satirlarHtml: satirlarHtml,
+    islemHareketHtml: islemHareketHtml,
     urunTablosuHtml: urunTablosuHtml,
     grupHtml: grupHtml,
     genelToplamHtml: genelToplamHtml,
