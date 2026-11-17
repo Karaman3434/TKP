@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "product": "İŞ TAKİP",
+  "timezone": "Europe/Istanbul",
+  "current": {
+    "id": "TKP.17.11.26-13:31.1658",
+    "version": "TKP.17.11.26-13:31.1658",
+    "timestamp": "2026-11-17T13:31:33+03:00",
+    "dateTime": "17.11.2026 – 13:31 (Türkiye saati)",
+    "title": "Sürüm ve kodlama takip sistemi",
+    "summary": "Tek merkezli sürüm kaydı, menüde tıklanabilir sürüm geçmişi, sohbet–uygulama–GitHub eşleştirmesi ve test/yayın durumunun kaydı.",
+    "changedFiles": [
+      "surum-kaydi.json",
+      "surum-takip.js",
+      "surum-takip.css",
+      "menu-cekmece.js",
+      "manifest.json",
+      "ayarlar-render.js",
+      "home.html"
+    ],
+    "approval": "Kullanıcı tarafından 17.11.2026 tarihinde açıkça onaylandı.",
+    "branch": "feature/surum-kodlama-takip-20261117",
+    "pullRequestUrl": null,
+    "commitSha": null,
+    "commitUrl": null,
+    "deploymentStatus": "Test aşamasında"
+  },
+  "history": [
+    {
+      "id": "TKP.17.11.26-PRODUCT-SEARCH-01",
+      "timestamp": "2026-11-17T13:21:47+03:00",
+      "dateTime": "17.11.2026 – 13:21 (Türkiye saati)",
+      "title": "Ürün arama sonuç listelerini tek standarda getir",
+      "summary": "Menü ürün sonuçlarında ABAS kod rengi mavi yapıldı; tipografi ve ölçüler ürün listesiyle eşitlendi; HESAPLA etiketi standartlaştırıldı.",
+      "changedFiles": [
+        "product-style.css",
+        "menu-cekmece-style.css",
+        "menu-cekmece.js",
+        "home.html",
+        "cart.html",
+        "calc.html"
+      ],
+      "pullRequest": "PR #53",
+      "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/53",
+      "commitSha": "b5440a885e185659af832148629e413e9f124e4f",
+      "commitUrl": "https://github.com/Karaman3434/TKP/commit/b5440a885e185659af832148629e413e9f124e4f",
+      "deploymentStatus": "Birleştirildi; önceki dağıtım kontrol kaydı"
+    }
+  ]
+}
