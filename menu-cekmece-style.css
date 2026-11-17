@@ -630,3 +630,28 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
 .as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit:focus{border-color:#19b9ee;box-shadow:0 0 0 2px rgba(25,185,238,.18),0 2px 5px rgba(0,0,0,.16)}
 .as-drawer-overlay--home-search .as-drawer-mini-arama-ikon{position:absolute;right:15px;top:50%;transform:translateY(-53%);color:#123b70;font-size:29px;font-weight:700;line-height:1;pointer-events:none}
 @media(max-width:390px){.as-drawer-overlay--home-search .as-drawer-hizli-arama{padding-left:8px;padding-right:8px}.as-drawer-overlay--home-search .as-drawer-hizli-arama-baslik{min-width:68%;font-size:16px}.as-drawer-overlay--home-search .as-drawer-mini-etiket-metin{font-size:16px}.as-drawer-overlay--home-search .as-drawer-mini-islem{width:48px;min-width:48px}}
+
+
+/* ANA SAYFA — ONAYLI HIZLI ARAMA ÖLÇÜ EŞİTLEME (18.11.2026) */
+/* Etiket satırları ve arama kutuları dış çerçevenin iç genişliğini eşit kullanır. */
+.as-drawer-overlay--home-search .as-drawer-hizli-arama{
+  width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;
+}
+.as-drawer-overlay--home-search .as-drawer-hizli-arama-icerik{
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;
+}
+.as-drawer-overlay--home-search .as-drawer-oge--miniarama-yeni{
+  display:flex!important;flex:0 0 100%!important;width:100%!important;max-width:100%!important;
+  min-width:0!important;align-items:stretch!important;box-sizing:border-box!important;
+}
+.as-drawer-overlay--home-search .as-drawer-mini-etiket-satir,
+.as-drawer-overlay--home-search .as-drawer-mini-arama-kutu{
+  flex:0 0 100%!important;width:100%!important;max-width:100%!important;
+  min-width:0!important;box-sizing:border-box!important;
+}
+.as-drawer-overlay--home-search .as-drawer-mini-arama-kutu{display:block!important;}
+.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit{
+  display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;
+  flex:0 0 100%!important;box-sizing:border-box!important;
+}
