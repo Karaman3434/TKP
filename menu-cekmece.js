@@ -390,7 +390,7 @@ function mcUrunSonuclariniCiz(q, panel){
       + "</td>"
       + "<td class='urun-islem-hucre'><div class='urun-islem-grup'>"
       + "<span class='urun-fiyat-yazi'>" + bilgi.fiyat.toFixed(2) + " €</span>"
-      + (hesaplaVarMi ? "<button class='btn-hesapla-ac' data-idx='" + idx + "' title='Hesapla ve Sepete Ekle' aria-label='Hesapla ve Sepete Ekle'>HESAP</button>" : "")
+      + (hesaplaVarMi ? "<button class='btn-hesapla-ac' data-idx='" + idx + "' title='Hesapla ve Sepete Ekle' aria-label='Hesapla ve Sepete Ekle'>HESAPLA</button>" : "")
       + "</div></td>"
       + "</tr>";
   }
