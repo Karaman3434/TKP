@@ -3,36 +3,57 @@
   "product": "İŞ TAKİP",
   "timezone": "Europe/Istanbul",
   "current": {
-    "id": "TKP.17.11.26-13:31.1658",
-    "version": "TKP.17.11.26-13:31.1658",
-    "timestamp": "2026-11-17T13:31:33+03:00",
-    "dateTime": "17.11.2026 – 13:31 (Türkiye saati)",
-    "title": "Sürüm ve kodlama takip sistemi",
-    "summary": "Tek merkezli sürüm kaydı, menüde tıklanabilir sürüm geçmişi, sohbet–uygulama–GitHub eşleştirmesi ve test/yayın durumunun kaydı. Ortak menü betiğinin önbellek sürüm bağlantıları, menüyü kullanan mevcut sayfalarda yenilendi.",
+    "id": "TKP.17.11.26-17:38.1659",
+    "version": "TKP.17.11.26-17:38.1659",
+    "timestamp": "2026-11-17T17:38:13+03:00",
+    "dateTime": "17.11.2026 – 17:38 (Türkiye saati)",
+    "title": "Müşteri arama sonuç listesi — yazı ölçüsü ve renk standardı",
+    "summary": "Müşteri kodu, müşteri adı ve ilçe/il sıralaması korunarak müşteri adı ürün arama listesindeki 16,15 px ölçüsüne eşitlendi; ilçe/il mavi yapıldı; müşteri kodunun okunurluğu artırıldı.",
     "changedFiles": [
-      "surum-kaydi.json",
-      "surum-takip.js",
-      "surum-takip.css",
-      "menu-cekmece.js",
+      "menu-cekmece-style.css",
       "manifest.json",
-      "ayarlar-render.js",
       "home.html",
-      "menüyü kullanan HTML sayfalarındaki ortak betik sürüm bağlantıları"
+      "menü CSS önbellek sürümünü kullanan HTML sayfaları"
     ],
     "approval": "Kullanıcı tarafından 17.11.2026 tarihinde açıkça onaylandı.",
-    "branch": "main",
-    "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/54",
-    "commitSha": "0bafa331055f919431b09c4f013677c5576fdb4c",
-    "commitUrl": "https://github.com/Karaman3434/TKP/commit/0bafa331055f919431b09c4f013677c5576fdb4c",
-    "deploymentStatus": "GitHub Pages dağıtımı başarılı",
-    "validation": {
-      "json": "Başarılı",
-      "javascript": "Başarılı",
-      "siteHealth": "Başarılı — HTTP 200",
-      "securityRegression": "Başarısız — mevcut Firebase cihaz sahipliği kuralları; bu sürümde değiştirilmedi"
-    }
+    "branch": "feature/customer-search-format-20261117-1738",
+    "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/55",
+    "commitSha": null,
+    "commitUrl": null,
+    "deploymentStatus": "Test ve yayın kontrolü bekleniyor",
+    "validation": {}
   },
   "history": [
+    {
+      "id": "TKP.17.11.26-13:31.1658",
+      "version": "TKP.17.11.26-13:31.1658",
+      "timestamp": "2026-11-17T13:31:33+03:00",
+      "dateTime": "17.11.2026 – 13:31 (Türkiye saati)",
+      "title": "Sürüm ve kodlama takip sistemi",
+      "summary": "Tek merkezli sürüm kaydı, menüde tıklanabilir sürüm geçmişi, sohbet–uygulama–GitHub eşleştirmesi ve test/yayın durumunun kaydı. Ortak menü betiğinin önbellek sürüm bağlantıları, menüyü kullanan mevcut sayfalarda yenilendi.",
+      "changedFiles": [
+        "surum-kaydi.json",
+        "surum-takip.js",
+        "surum-takip.css",
+        "menu-cekmece.js",
+        "manifest.json",
+        "ayarlar-render.js",
+        "home.html",
+        "menüyü kullanan HTML sayfalarındaki ortak betik sürüm bağlantıları"
+      ],
+      "approval": "Kullanıcı tarafından 17.11.2026 tarihinde açıkça onaylandı.",
+      "branch": "main",
+      "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/54",
+      "commitSha": "0bafa331055f919431b09c4f013677c5576fdb4c",
+      "commitUrl": "https://github.com/Karaman3434/TKP/commit/0bafa331055f919431b09c4f013677c5576fdb4c",
+      "deploymentStatus": "GitHub Pages dağıtımı başarılı",
+      "validation": {
+        "json": "Başarılı",
+        "javascript": "Başarılı",
+        "siteHealth": "Başarılı — HTTP 200",
+        "securityRegression": "Başarısız — mevcut Firebase cihaz sahipliği kuralları; bu sürümde değiştirilmedi"
+      }
+    },
     {
       "id": "TKP.17.11.26-PRODUCT-SEARCH-01",
       "timestamp": "2026-11-17T13:21:47+03:00",
