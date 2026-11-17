@@ -16,11 +16,11 @@
       "menü CSS önbellek sürümünü kullanan HTML sayfaları"
     ],
     "approval": "Kullanıcı tarafından 17.11.2026 tarihinde açıkça onaylandı.",
-    "branch": "feature/customer-search-format-20261117-1738",
+    "branch": "main",
     "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/55",
-    "commitSha": null,
-    "commitUrl": null,
-    "deploymentStatus": "Test ve yayın kontrolü bekleniyor",
+    "commitSha": "f32733bd288fa0c2605831de5b286209f208c8d5",
+    "commitUrl": "https://github.com/Karaman3434/TKP/commit/f32733bd288fa0c2605831de5b286209f208c8d5",
+    "deploymentStatus": "Ana dala birleştirildi — GitHub Pages dağıtım kontrolü bekleniyor",
     "validation": {}
   },
   "history": [
