@@ -3,6 +3,8 @@ name: İş Takip Sağlık Kontrolü
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   schedule:
     - cron: "17 */6 * * *"
   workflow_dispatch:
@@ -23,24 +25,32 @@ jobs:
       - name: Kaynak kodu al
         uses: actions/checkout@v4
 
-      - name: JSON ve JavaScript kaynak kontrolleri
+      - name: Tüm JSON ve JavaScript kaynak kontrolleri
         run: |
           python3 - <<'PY'
           import json, pathlib, sys
-          files = ["manifest.json", "database.rules.json"]
+          root = pathlib.Path(".")
+          files = sorted(
+              p for p in root.rglob("*.json")
+              if ".git" not in p.parts and "node_modules" not in p.parts
+          )
+          if not files:
+              print("FAIL: JSON dosyası bulunamadı")
+              sys.exit(1)
           failed = False
-          for name in files:
+          for path in files:
               try:
-                  json.loads(pathlib.Path(name).read_text(encoding="utf-8"))
-                  print("OK JSON:", name)
+                  json.loads(path.read_text(encoding="utf-8-sig"))
+                  print("OK JSON:", path)
               except Exception as exc:
-                  print("FAIL JSON:", name, exc)
+                  print("FAIL JSON:", path, exc)
                   failed = True
+          print(f"JSON kontrolü: {len(files)} dosya")
           if failed:
               sys.exit(1)
           PY
-          set -e
-          find . -type f -name '*.js' -not -path './.git/*' -print0 | while IFS= read -r -d '' file; do
+          set -euo pipefail
+          find . -type f -name '*.js' -not -path './.git/*' -not -path '*/node_modules/*' -print0 | while IFS= read -r -d '' file; do
             node --check "$file" >/dev/null
             echo "OK JS: $file"
           done
@@ -51,6 +61,7 @@ jobs:
           import json, pathlib, re, sys
           rules = json.loads(pathlib.Path("database.rules.json").read_text(encoding="utf-8"))["rules"]
           problems = []
+          warnings = []
           if rules.get(".read") is not False or rules.get(".write") is not False:
               problems.append("Firebase kök okuma/yazma varsayılanı false olmalı")
           device = rules.get("cihazlar", {}).get("$cihazId", {})
@@ -58,6 +69,22 @@ jobs:
               problems.append("Cihaz okuma kuralında sahiplik kontrolü eksik")
           if "sonKullaniciUid" not in device.get(".write", ""):
               problems.append("Cihaz yazma kuralında sahiplik kontrolü eksik")
+
+          pin = rules.get("pin", {})
+          for permission in (".read", ".write"):
+              expression = str(pin.get(permission, ""))
+              if "auth != null" in expression and "auth.token.admin" not in expression:
+                  warnings.append(f"pin {permission}: tüm giriş yapmış kullanıcılar için erişim kuralı görünüyor")
+
+          missing_restriction = "!root.child('kisitliKullanicilar').child(auth.uid).exists()"
+          for path, node in rules.items():
+              if not isinstance(node, dict):
+                  continue
+              for permission in (".read", ".write"):
+                  expression = node.get(permission, "")
+                  if isinstance(expression, str) and missing_restriction in expression:
+                      warnings.append(f"{path} {permission}: kısıtlama kaydı bulunmaması erişime izin verebilir")
+
           secret_patterns = [
               re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
               re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}\b"),
@@ -76,12 +103,14 @@ jobs:
                   if pattern.search(content):
                       problems.append(f"Olası gizli anahtar/token bulundu: {path}")
                       break
+          for warning in sorted(set(warnings)):
+              print("WARN GÜVENLİK RİSKİ: " + warning)
           if problems:
               print("GÜVENLİK KONTROLÜ BAŞARISIZ:")
               for problem in problems:
                   print("- " + problem)
               sys.exit(1)
-          print("OK: kök Firebase kuralları kapalı, cihaz sahipliği denetleniyor, bilinen token kalıpları bulunmadı.")
+          print("OK: kök Firebase varsayılanları ve cihaz sahipliği statik olarak kontrol edildi; uyarılar canlı kuralların doğrulandığı anlamına gelmez.")
           PY
 
       - name: Site sağlık kontrolü
