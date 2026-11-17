@@ -20,14 +20,15 @@
     "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/57",
     "commitSha": "42b65b363ca69f97108c74f604bcf4006747beef",
     "commitUrl": "https://github.com/Karaman3434/TKP/commit/42b65b363ca69f97108c74f604bcf4006747beef",
-    "deploymentStatus": "Birleştirildi — GitHub Pages dağıtım kontrolü bekleniyor",
+    "deploymentStatus": "Ana dala birleştirildi — GitHub Pages dağıtımı bu oturumda doğrulanamadı",
     "validation": {
       "cssBaseFont": "Başarılı — 17,28 px",
       "cssEffectiveMobileFont": "Başarılı — 15,6 px (13 px'e göre +%20)",
       "cssStructure": "Başarılı — süslü parantez dengesi 0",
       "manifestJson": "Başarılı — sürüm bilgisi güncel",
       "htmlCacheReferences": "Başarılı — ortak CSS önbellek sürümleri yenilendi",
-      "scope": "Başarılı — arama kutusu yazı boyutu dışında tasarım/işlev değişikliği yok"
+      "scope": "Başarılı — arama kutusu yazı boyutu dışında tasarım/işlev değişikliği yok",
+      "pagesDeployment": "Beklemede — GitHub Actions dağıtım sonucu bu oturumda erişilebilir değildi; canlı yayın başarıyla doğrulanmış sayılmıyor"
     }
   },
   "history": [
