@@ -20,13 +20,17 @@
       "surum-kaydi.json"
     ],
     "approval": "Kullanıcı 17.11.2026 tarihinde işlem tablolarındaki ve hesaplama penceresindeki ürün adına dokunulduğunda WEİCON ürün sayfasının açılmasını açıkça onayladı.",
-    "branch": "feature/product-weicon-links-20261117",
+    "branch": "main",
     "validation": {
-      "sourceSyntax": "Bekleniyor",
-      "htmlReferences": "Güncellendi",
-      "json": "Bekleniyor",
+      "sourceSyntax": "JavaScript sözdizimi kontrolü başarılı",
+      "htmlReferences": "Belge Önizleme, Sepet ve Hızlı Hesapla önbellek sürümleri güncellendi",
+      "json": "manifest.json ve surum-kaydi.json JSON doğrulaması başarılı",
       "scope": "Yalnızca ürün adı bağlantıları; ürün arama, hesaplama, sepet, fiyatlar ve tasarımlar korunur."
-    }
+    },
+    "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/60",
+    "commitSha": "9c08ea8dae30e2182a0a4f11e151e11c17cc4082",
+    "commitUrl": "https://github.com/Karaman3434/TKP/commit/9c08ea8dae30e2182a0a4f11e151e11c17cc4082",
+    "deploymentStatus": "PR #60 birleştirildi; GitHub Pages dağıtımı çalışıyor."
   },
   "history": [
     {
