@@ -3,36 +3,59 @@
   "product": "İŞ TAKİP",
   "timezone": "Europe/Istanbul",
   "current": {
-    "id": "TKP.17.11.26-17:38.1659",
-    "version": "TKP.17.11.26-17:38.1659",
-    "timestamp": "2026-11-17T17:38:13+03:00",
-    "dateTime": "17.11.2026 – 17:38 (Türkiye saati)",
-    "title": "Müşteri arama sonuç listesi — yazı ölçüsü ve renk standardı",
-    "summary": "Müşteri kodu, müşteri adı ve ilçe/il sıralaması korunarak müşteri adı ürün arama listesindeki 16,15 px ölçüsüne eşitlendi; ilçe/il mavi yapıldı; müşteri kodunun okunurluğu artırıldı.",
+    "id": "TKP.17.11.26-18:20.1660",
+    "version": "TKP.17.11.26-18:20.1660",
+    "timestamp": "2026-11-17T18:20:00+03:00",
+    "dateTime": "17.11.2026 – 18:20 (Türkiye saati)",
+    "title": "Menü Ürün ve Müşteri arama kutuları — yazı boyutu +%20",
+    "summary": "Menüdeki Ürün ve Müşteri arama kutularında fiilen uygulanan yazı boyutu 13 px'ten 15,6 px'e çıkarıldı (+%20). Ortak CSS temel ölçüsü de 14,4 px'ten 17,28 px'e güncellendi; arama kutularının diğer ölçüleri, yerleşimi ve işlevleri değiştirilmedi.",
     "changedFiles": [
       "menu-cekmece-style.css",
       "manifest.json",
       "home.html",
-      "menü CSS önbellek sürümünü kullanan HTML sayfaları"
+      "menu-cekmece-style.css ortak önbellek sürümünü kullanan HTML sayfaları"
     ],
     "approval": "Kullanıcı tarafından 17.11.2026 tarihinde açıkça onaylandı.",
-    "branch": "main",
-    "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/55",
-    "commitSha": "f32733bd288fa0c2605831de5b286209f208c8d5",
-    "commitUrl": "https://github.com/Karaman3434/TKP/commit/f32733bd288fa0c2605831de5b286209f208c8d5",
-    "deploymentStatus": "GitHub Pages dağıtımı başarılı",
+    "branch": "feature/mini-search-font-plus20-20261117-1820",
+    "deploymentStatus": "PR incelemesi ve GitHub Pages dağıtım kontrolü bekleniyor",
     "validation": {
-      "manifestJson": "Başarılı",
-      "versionLedgerJson": "Başarılı",
-      "cssStructure": "Başarılı — süslü parantez dengesi 0",
-      "customerNameSize": "Başarılı — 16.15px, ürün arama ile aynı",
-      "locationColor": "Başarılı — #1769c2 mavi",
-      "customerCode": "Başarılı — kırmızı ve kalın",
-      "pagesDeployment": "Başarılı — GitHub Pages build ve deploy",
-      "securityRegression": "Ayrı mevcut Firebase cihaz sahipliği kontrolü başarısız; bu güncellemede Firebase kuralları değiştirilmedi"
+      "effectiveFontSize": "15.6px — önceki 13px değerine göre +%20",
+      "baseFontSize": "17.28px — önceki 14.4px değerine göre +%20",
+      "searchInputs": "Ürün ve Müşteri aynı ortak CSS sınıfını kullandığı için ikisine birlikte uygulanır",
+      "layoutAndBehavior": "Yükseklik, genişlik, padding, renk, arama mantığı ve sonuç listeleri değiştirilmedi"
     }
   },
   "history": [
+    {
+      "id": "TKP.17.11.26-17:38.1659",
+      "version": "TKP.17.11.26-17:38.1659",
+      "timestamp": "2026-11-17T17:38:13+03:00",
+      "dateTime": "17.11.2026 – 17:38 (Türkiye saati)",
+      "title": "Müşteri arama sonuç listesi — yazı ölçüsü ve renk standardı",
+      "summary": "Müşteri kodu, müşteri adı ve ilçe/il sıralaması korunarak müşteri adı ürün arama listesindeki 16,15 px ölçüsüne eşitlendi; ilçe/il mavi yapıldı; müşteri kodunun okunurluğu artırıldı.",
+      "changedFiles": [
+        "menu-cekmece-style.css",
+        "manifest.json",
+        "home.html",
+        "menü CSS önbellek sürümünü kullanan HTML sayfaları"
+      ],
+      "approval": "Kullanıcı tarafından 17.11.2026 tarihinde açıkça onaylandı.",
+      "branch": "main",
+      "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/55",
+      "commitSha": "f32733bd288fa0c2605831de5b286209f208c8d5",
+      "commitUrl": "https://github.com/Karaman3434/TKP/commit/f32733bd288fa0c2605831de5b286209f208c8d5",
+      "deploymentStatus": "GitHub Pages dağıtımı başarılı",
+      "validation": {
+        "manifestJson": "Başarılı",
+        "versionLedgerJson": "Başarılı",
+        "cssStructure": "Başarılı — süslü parantez dengesi 0",
+        "customerNameSize": "Başarılı — 16.15px, ürün arama ile aynı",
+        "locationColor": "Başarılı — #1769c2 mavi",
+        "customerCode": "Başarılı — kırmızı ve kalın",
+        "pagesDeployment": "Başarılı — GitHub Pages build ve deploy",
+        "securityRegression": "Ayrı mevcut Firebase cihaz sahipliği kontrolü başarısız; bu güncellemede Firebase kuralları değiştirilmedi"
+      }
+    },
     {
       "id": "TKP.17.11.26-13:31.1658",
       "version": "TKP.17.11.26-13:31.1658",
