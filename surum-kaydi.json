@@ -20,11 +20,11 @@
       "menüyü kullanan HTML sayfalarındaki ortak betik sürüm bağlantıları"
     ],
     "approval": "Kullanıcı tarafından 17.11.2026 tarihinde açıkça onaylandı.",
-    "branch": "feature/surum-kodlama-takip-20261117",
+    "branch": "main",
     "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/54",
-    "commitSha": null,
-    "commitUrl": null,
-    "deploymentStatus": "PR #54 — birleştirme ve dağıtım kontrolü bekleniyor"
+    "commitSha": "0bafa331055f919431b09c4f013677c5576fdb4c",
+    "commitUrl": "https://github.com/Karaman3434/TKP/commit/0bafa331055f919431b09c4f013677c5576fdb4c",
+    "deploymentStatus": "Ana dala birleştirildi — canlı dağıtım doğrulaması bekleniyor"
   },
   "history": [
     {
