@@ -13,7 +13,6 @@
       "menu-cekmece.js",
       "menu-cekmece-style.css",
       "home.html",
-      "manifest.json",
       "surum-kaydi.json"
     ],
     "approval": "Kullanıcı 18.11.2026 tarihinde son görsel tasarımı açıkça onayladı: artı işareti kaldırıldı, ortak mavi zeminli etiket satırında üç nokta kullanılacak.",
@@ -21,7 +20,7 @@
     "validation": {
       "javascriptSyntax": "Başarılı",
       "cssBraceBalance": "Başarılı",
-      "json": "Başarılı",
+      "json": "manifest.json değişmedi; surum-kaydi.json doğrulandı",
       "scope": "Yalnızca Ana Sayfa menü hızlı arama tasarımı; diğer sayfaların görünümü korunur.",
       "existingActions": "Mevcut ürün/müşteri alt menüleri ve arama davranışları korunur.",
       "pagesDeployment": "Bekleniyor"
