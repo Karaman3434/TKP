@@ -336,6 +336,19 @@ var HesaplaPopup = (function(){
     var kapatBtn = document.getElementById("hpBtnKapat");
     if(kapatBtn) kapatBtn.onclick = kapat;
     document.getElementById("hpBtnListeyeEkle").onclick = listeyeEkleTiklandi;
+    // ÜRÜN WEB SAYFASI (17.11.2026, Abdullah onayı): hesaplama penceresindeki
+    // ürün adına dokunulduğunda aynı ürünün WEİCON web araması yeni sekmede açılır.
+    var hpUrunAdEl = document.getElementById("hpUrunAd");
+    if(hpUrunAdEl){
+      hpUrunAdEl.style.cursor = "pointer";
+      hpUrunAdEl.title = "WEİCON ürün sayfasını açmak için dokunun";
+      hpUrunAdEl.addEventListener("click", function(){
+        if(!seciliUrunBilgi) return;
+        var aramaKodu = seciliUrunBilgi.abas || seciliUrunBilgi.berta || seciliUrunBilgi.ad;
+        if(!aramaKodu) return;
+        window.open("https://www.weicon.com.tr/search?search=" + encodeURIComponent(aramaKodu), "_blank");
+      });
+    }
     // 08.11.2026: kur satırı artık sayfada hep görünür — açılışta ve kur
     // Firebase'den/ayarlardan güncellenince değeri yaz.
     try{ kurDegeriniGoster(); }catch(e){}
