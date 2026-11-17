@@ -23,15 +23,15 @@
       "json": "manifest.json değişmedi; surum-kaydi.json doğrulandı",
       "scope": "Yalnızca Ana Sayfa menü hızlı arama tasarımı; diğer sayfaların görünümü korunur.",
       "existingActions": "Mevcut ürün/müşteri alt menüleri ve arama davranışları korunur.",
-      "pagesDeployment": "Bekleniyor",
+      "pagesDeployment": "Başarılı — GitHub Pages run #44187888916",
       "pwaManifestCheck": "Başarılı — PR #62 PWA Manifest Tutarlılık Kontrolü run #44187769725",
-      "siteHealth": "Bekleniyor",
-      "securityRegression": "Bekleniyor"
+      "siteHealth": "Başarılı — sağlık kontrolü run #44187889905 içinde Site sağlık kontrolü adımı geçti",
+      "securityRegression": "Başarısız — mevcut Firebase cihaz sahipliği güvenlik regresyonu; bu çalışmada Firebase kuralları değiştirilmedi"
     },
     "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/62",
     "commitSha": "7da1b3a7f458ecdeeb31aa73266c850aac8581c7",
     "commitUrl": "https://github.com/Karaman3434/TKP/commit/7da1b3a7f458ecdeeb31aa73266c850aac8581c7",
-    "deploymentStatus": "PR #62 birleştirildi; GitHub Pages dağıtımı çalışıyor."
+    "deploymentStatus": "GitHub Pages dağıtımı başarılı."
   },
   "history": [
     {
