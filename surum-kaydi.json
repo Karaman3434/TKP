@@ -16,15 +16,22 @@
       "surum-kaydi.json"
     ],
     "approval": "Kullanıcı 18.11.2026 tarihinde son görsel tasarımı açıkça onayladı: artı işareti kaldırıldı, ortak mavi zeminli etiket satırında üç nokta kullanılacak.",
-    "branch": "feature/drawer-search-labels-ellipsis-20261118-1300",
+    "branch": "main",
     "validation": {
       "javascriptSyntax": "Başarılı",
       "cssBraceBalance": "Başarılı",
       "json": "manifest.json değişmedi; surum-kaydi.json doğrulandı",
       "scope": "Yalnızca Ana Sayfa menü hızlı arama tasarımı; diğer sayfaların görünümü korunur.",
       "existingActions": "Mevcut ürün/müşteri alt menüleri ve arama davranışları korunur.",
-      "pagesDeployment": "Bekleniyor"
-    }
+      "pagesDeployment": "Bekleniyor",
+      "pwaManifestCheck": "Başarılı — PR #62 PWA Manifest Tutarlılık Kontrolü run #44187769725",
+      "siteHealth": "Bekleniyor",
+      "securityRegression": "Bekleniyor"
+    },
+    "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/62",
+    "commitSha": "7da1b3a7f458ecdeeb31aa73266c850aac8581c7",
+    "commitUrl": "https://github.com/Karaman3434/TKP/commit/7da1b3a7f458ecdeeb31aa73266c850aac8581c7",
+    "deploymentStatus": "PR #62 birleştirildi; GitHub Pages dağıtımı çalışıyor."
   },
   "history": [
     {
