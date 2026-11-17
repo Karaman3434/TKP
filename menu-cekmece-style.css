@@ -555,3 +555,10 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   .as-drawer-oge,.as-drawer-oge--miniarama{min-height:42px!important;padding-top:5px!important;padding-bottom:5px!important;}
   .as-drawer-cikis{min-height:43px!important;margin-bottom:8px!important;}
 }
+
+/* 17.11.2026 — Abdullah onayı: çekmece üstten ve alttan 2 mm içeride */
+.as-drawer{
+  top:2mm!important;
+  bottom:2mm!important;
+  border-radius:16px!important;
+}
