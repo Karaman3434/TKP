@@ -1173,3 +1173,15 @@ window.addEventListener("istakipAuthHazir", function(ev){
     if(el && ev.detail && ev.detail.user) el.textContent = ev.detail.user.email;
   }catch(e){}
 });
+
+/* SÜRÜM/KODLAMA GEÇMİŞİ (17.11.2026): ortak çekmece yüklendiğinde
+   sürüm geçmişi bileşenini de yükle. Bileşen DOM'da sürüm etiketi yoksa
+   sessizce devre dışı kalır; menü ve diğer işlevleri etkilemez. */
+(function(){
+  try{
+    var s = document.createElement("script");
+    s.src = "surum-takip.js?v=TKP.17.11.26-13:31.1658";
+    s.async = true;
+    document.head.appendChild(s);
+  }catch(e){ console.warn("Sürüm geçmişi bileşeni yüklenemedi:", e); }
+})();
