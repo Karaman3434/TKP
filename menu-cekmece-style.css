@@ -1,5 +1,5 @@
 /*
-  menu-cekmece-style.css — TKP.12.11.26-11:20.1586
+  menu-cekmece-style.css — TKP.17.11.26-18:20.1660
   ============================================================================
   "Menü her sayfada" (23.10.2026, Abdullah'ın isteğiyle — mockup onaylandı).
   Bu dosya SADECE net-yeni sınıfları içerir:
@@ -136,7 +136,7 @@
   padding: 0 16.8px;
   height: 33px; box-sizing: border-box;   /* 11.11.2026: tam sayı yükseklik (33.375px kesirliydi → alt çizgi kayıyordu); boyut pratikte aynı */
   color: #fff;
-  font-size: 14.4px;
+  font-size: 17.28px;
   font-weight: 600;
   outline: none;
 }
@@ -527,7 +527,7 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   height:36px!important;min-width:0!important;flex:1 1 auto!important;
   border:2px solid #e32636!important;border-radius:999px!important;
   background-color:#fff!important;color:#25354a!important;
-  font-size:13px!important;padding-left:35px!important;
+  font-size:15.6px!important;padding-left:35px!important;
   box-shadow:0 0 0 1px rgba(255,255,255,.12)!important;
 }
 .as-drawer-mini-arama-input-sabit::placeholder{color:#8793a1!important;}
