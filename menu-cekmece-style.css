@@ -562,3 +562,49 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   bottom:2mm!important;
   border-radius:16px!important;
 }
+
+
+/* 17.11.2026 — YENİ ONAYLI ÖLÇÜ: %20 DAR, %10 DAHA UZUN İÇ YERLEŞİM
+   Çekmece dış yüksekliği cihaz ekranında 2mm üst/alt payı korur.
+   Dikey bileşen ölçüleri %10 artırılır; dar ekranlarda liste kendi içinde kayar.
+   Ürün/Müşteri arama satırları mevcut genişliklerini koruyarak çekmece dışına taşabilir.
+*/
+.as-drawer{
+  width:min(60vw,304px)!important;
+  max-width:304px!important;
+  overflow:visible!important;
+}
+.as-drawer-liste{overflow-x:visible!important;gap:7px!important;}
+.as-drawer-profil{min-height:68px!important;}
+.as-drawer-anasayfa{min-height:57px!important;}
+.as-drawer-oge{min-height:52px!important;}
+.as-drawer-oge--miniarama{
+  width:calc(100% + 76px)!important;
+  max-width:none!important;
+  min-width:0!important;
+  min-height:53px!important;
+  flex:0 0 auto!important;
+  overflow:visible!important;
+  position:relative!important;
+  z-index:3!important;
+  background:linear-gradient(110deg,#0a376c 0%,#092951 100%)!important;
+}
+.as-drawer-oge--miniarama .as-drawer-ikon{flex:0 0 31px!important;}
+.as-drawer-oge--miniarama .as-drawer-mini-etiket{flex:0 0 58px!important;width:58px!important;}
+.as-drawer-oge--miniarama .as-drawer-mini-arama-input-sabit{
+  flex:0 0 168px!important;
+  width:168px!important;
+  min-width:168px!important;
+  height:36px!important;
+  background:#fff!important;
+  color:#25354a!important;
+}
+.as-drawer-oge--miniarama .as-drawer-mini-arama-input-sabit::placeholder{color:#8793a1!important;}
+.as-drawer-cikis{min-height:53px!important;}
+@media(max-height:720px){
+  .as-drawer-liste{gap:5px!important;}
+  .as-drawer-profil{min-height:59px!important;}
+  .as-drawer-anasayfa{min-height:50px!important;}
+  .as-drawer-oge,.as-drawer-oge--miniarama{min-height:46px!important;}
+  .as-drawer-cikis{min-height:47px!important;}
+}
