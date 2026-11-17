@@ -3,37 +3,38 @@
   "product": "İŞ TAKİP",
   "timezone": "Europe/Istanbul",
   "current": {
-    "id": "TKP.18.11.26-13:00.1663",
-    "version": "TKP.18.11.26-13:00.1663",
-    "timestamp": "2026-11-18T13:00:00+03:00",
-    "dateTime": "18.11.2026 – 13:00 (Türkiye saati)",
-    "title": "Ana Sayfa hızlı arama — birleşik etiket ve üç nokta tasarımı",
-    "summary": "Ana Sayfa menüsünde Ürün ve Müşteri aramaları ortak HIZLI ARAMA panelinde toplandı. Her arama için ikon, etiket ve beyaz üç nokta aynı mavi zeminli satırda; arama kutusu alt satırda. Üç nokta mevcut ürün/müşteri alt menülerini açar. Diğer sayfalardaki ortak çekmece görünümü, menü izinleri, arama ve mevcut ek işlem hedefleri korunur.",
+    "id": "TKP.18.11.26-13:15.1664",
+    "version": "TKP.18.11.26-13:15.1664",
+    "timestamp": "2026-11-18T13:15:00+03:00",
+    "dateTime": "18.11.2026 – 13:15 (Türkiye saati)",
+    "title": "Ana Sayfa hızlı arama — etiket ve arama alanlarını dış çerçeve genişliğine eşitleme",
+    "summary": "Onaylanan görsel tasarım birebir uygulandı: Ürün ve Müşteri etiket satırları ile beyaz arama kutuları HIZLI ARAMA dış çerçevesinin iç genişliğini eşit ve tam kullanır. Üç nokta, renkler, yükseklikler, arama davranışı ve alt menü hedefleri korunur.",
     "changedFiles": [
-      "menu-cekmece.js",
       "menu-cekmece-style.css",
       "home.html",
       "surum-kaydi.json"
     ],
-    "approval": "Kullanıcı 18.11.2026 tarihinde son görsel tasarımı açıkça onayladı: artı işareti kaldırıldı, ortak mavi zeminli etiket satırında üç nokta kullanılacak.",
-    "branch": "main",
-    "validation": {
-      "javascriptSyntax": "Başarılı",
-      "cssBraceBalance": "Başarılı",
-      "json": "manifest.json değişmedi; surum-kaydi.json doğrulandı",
-      "scope": "Yalnızca Ana Sayfa menü hızlı arama tasarımı; diğer sayfaların görünümü korunur.",
-      "existingActions": "Mevcut ürün/müşteri alt menüleri ve arama davranışları korunur.",
-      "pagesDeployment": "Başarılı — GitHub Pages run #44187888916",
-      "pwaManifestCheck": "Başarılı — PR #62 PWA Manifest Tutarlılık Kontrolü run #44187769725",
-      "siteHealth": "Başarılı — sağlık kontrolü run #44187889905 içinde Site sağlık kontrolü adımı geçti",
-      "securityRegression": "Başarısız — mevcut Firebase cihaz sahipliği güvenlik regresyonu; bu çalışmada Firebase kuralları değiştirilmedi"
-    },
-    "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/62",
-    "commitSha": "7da1b3a7f458ecdeeb31aa73266c850aac8581c7",
-    "commitUrl": "https://github.com/Karaman3434/TKP/commit/7da1b3a7f458ecdeeb31aa73266c850aac8581c7",
-    "deploymentStatus": "GitHub Pages dağıtımı başarılı."
+    "approval": "Kullanıcı 18.11.2026 tarihinde paylaşılan tasarımı birebir uygulamak ve canlıya almak için açık onay verdi.",
+    "branch": "feature/search-labels-match-input-size-20261118-1315",
+    "deploymentStatus": "Dağıtım bekliyor."
   },
   "history": [
+    {
+      "id": "TKP.18.11.26-13:15.1664",
+      "version": "TKP.18.11.26-13:15.1664",
+      "timestamp": "2026-11-18T13:15:00+03:00",
+      "dateTime": "18.11.2026 – 13:15 (Türkiye saati)",
+      "title": "Ana Sayfa hızlı arama — etiket ve arama alanlarını dış çerçeve genişliğine eşitleme",
+      "summary": "Onaylanan görsel tasarım birebir uygulandı: Ürün ve Müşteri etiket satırları ile beyaz arama kutuları HIZLI ARAMA dış çerçevesinin iç genişliğini eşit ve tam kullanır. Üç nokta, renkler, yükseklikler, arama davranışı ve alt menü hedefleri korunur.",
+      "changedFiles": [
+        "menu-cekmece-style.css",
+        "home.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı 18.11.2026 tarihinde paylaşılan tasarımı birebir uygulamak ve canlıya almak için açık onay verdi.",
+      "branch": "feature/search-labels-match-input-size-20261118-1315",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
     {
       "id": "TKP.17.11.26-20:20.1662",
       "version": "TKP.17.11.26-20:20.1662",
