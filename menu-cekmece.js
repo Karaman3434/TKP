@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.16.11.26-13:58.1654
+// menu-cekmece.js — TKP.18.11.26-13:00.1663
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -961,6 +961,20 @@ function mcOgeHtml(o){
   // satır) devam eder — yani bu özelliğin KENDİSİ hiçbir zaman ek bir
   // "kilitli" görünüm icat etmez, sadece var olan davranışa geri döner.
   if(o.miniArama && acik && (!o.miniAramaIzin || window.izinVarMi(o.miniAramaIzin))){
+    if(document.querySelector(".as-sayfa")){
+      return "<div class='as-drawer-oge as-drawer-oge--miniarama as-drawer-oge--miniarama-yeni'>"
+        + "<div class='as-drawer-mini-etiket-satir'>"
+        + ikHtml
+        + "<span class='as-drawer-mini-etiket-ayrac' aria-hidden='true'></span>"
+        + "<span class='as-drawer-mini-etiket-metin'>" + o.etiket + "</span>"
+        + "<button type='button' class='as-drawer-mini-islem' data-alt-menu='" + o.altMenu + "' aria-label='" + o.etiket + " ek işlemleri' aria-haspopup='true' aria-expanded='false'>•••</button>"
+        + "</div>"
+        + "<div class='as-drawer-mini-arama-kutu'>"
+        + "<input type='search' class='as-drawer-mini-arama-input-sabit' data-mini-arama='" + o.miniArama + "' placeholder='" + o.etiket + " ara...' autocomplete='off'>"
+        + "<span class='as-drawer-mini-arama-ikon' aria-hidden='true'>⌕</span>"
+        + "</div>"
+        + "</div>";
+    }
     return "<div class='as-drawer-oge as-drawer-oge--miniarama'>"
       + ikHtml
       + "<button type='button' class='as-drawer-mini-etiket' data-alt-menu='" + o.altMenu + "'>" + o.etiket + "</button>"
@@ -992,6 +1006,19 @@ function mcDrawerListesiOlustur(){
     var liste = document.getElementById("asDrawerListe");
     if(liste){
       liste.innerHTML = MC_OGELER.map(mcOgeHtml).join("");
+      if(document.querySelector(".as-sayfa")){
+        var miniSatirlar = Array.prototype.filter.call(liste.children, function(el){
+          return el.classList && el.classList.contains("as-drawer-oge--miniarama-yeni");
+        });
+        if(miniSatirlar.length){
+          var hizliArama = document.createElement("section");
+          hizliArama.className = "as-drawer-hizli-arama";
+          hizliArama.innerHTML = "<div class='as-drawer-hizli-arama-baslik'><span aria-hidden='true'>⌕</span><span>HIZLI ARAMA</span></div><div class='as-drawer-hizli-arama-icerik'></div>";
+          var hizliIcerik = hizliArama.querySelector(".as-drawer-hizli-arama-icerik");
+          liste.insertBefore(hizliArama, miniSatirlar[0]);
+          miniSatirlar.forEach(function(el){ hizliIcerik.appendChild(el); });
+        }
+      }
       // Yeni oluşturulan data-alt-menu düğmelerini bağla — asDrawerBagla
       // sayfa yüklenirken SADECE o anda DOM'da var olan düğmeleri
       // bağlamıştı; izinler çözüldükten SONRA burada yeniden
