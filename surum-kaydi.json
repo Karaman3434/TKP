@@ -24,7 +24,13 @@
     "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/54",
     "commitSha": "0bafa331055f919431b09c4f013677c5576fdb4c",
     "commitUrl": "https://github.com/Karaman3434/TKP/commit/0bafa331055f919431b09c4f013677c5576fdb4c",
-    "deploymentStatus": "Ana dala birleştirildi — canlı dağıtım doğrulaması bekleniyor"
+    "deploymentStatus": "GitHub Pages dağıtımı başarılı",
+    "validation": {
+      "json": "Başarılı",
+      "javascript": "Başarılı",
+      "siteHealth": "Başarılı — HTTP 200",
+      "securityRegression": "Başarısız — mevcut Firebase cihaz sahipliği kuralları; bu sürümde değiştirilmedi"
+    }
   },
   "history": [
     {
