@@ -1,6 +1,6 @@
-// Tek merkezi sürüm bilgisi — home.html içindeki #versiyonEtiketi ile
-// senkron tutulmalıdır. Format (01.11.2026'dan itibaren): TKP.GG.AA.YY-SS:DD.(sıra no)
-var APP_VERSION = "TKP.01.11.26-18:55.1337";
+// Sürüm bilgisi surum-kaydi.json dosyasından surum-takip.js tarafından yüklenir.
+// Bu değişken geriye dönük uyumluluk için korunur; tek kaynak JSON kayıt dosyasıdır.
+var APP_VERSION = null;
 
 var AY_ADLARI_AYARLAR = ["","Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
 
