@@ -25,12 +25,15 @@
       "sourceSyntax": "JavaScript sözdizimi kontrolü başarılı",
       "htmlReferences": "Belge Önizleme, Sepet ve Hızlı Hesapla önbellek sürümleri güncellendi",
       "json": "manifest.json ve surum-kaydi.json JSON doğrulaması başarılı",
-      "scope": "Yalnızca ürün adı bağlantıları; ürün arama, hesaplama, sepet, fiyatlar ve tasarımlar korunur."
+      "scope": "Yalnızca ürün adı bağlantıları; ürün arama, hesaplama, sepet, fiyatlar ve tasarımlar korunur.",
+      "pagesDeployment": "Başarılı — GitHub Pages run #44143995693",
+      "siteHealth": "Başarılı — sağlık kontrolünde Site sağlık kontrolü adımı geçti",
+      "securityRegression": "Başarısız — mevcut Firebase cihaz sahipliği güvenlik regresyonu; bu çalışmada Firebase kuralları değiştirilmedi"
     },
     "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/60",
     "commitSha": "9c08ea8dae30e2182a0a4f11e151e11c17cc4082",
     "commitUrl": "https://github.com/Karaman3434/TKP/commit/9c08ea8dae30e2182a0a4f11e151e11c17cc4082",
-    "deploymentStatus": "PR #60 birleştirildi; GitHub Pages dağıtımı çalışıyor."
+    "deploymentStatus": "PR #60 birleştirildi; GitHub Pages dağıtımı başarılı (run #44143995693)."
   },
   "history": [
     {
