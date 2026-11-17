@@ -17,9 +17,9 @@
     ],
     "approval": "Kullanıcı tarafından 17.11.2026 tarihinde görsel önizleme ve 16 px ölçü üzerinden açıkça onaylandı.",
     "branch": "main",
-    "pullRequestUrl": "",
-    "commitSha": "",
-    "deploymentStatus": "Dağıtım bekleniyor",
+    "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/59",
+    "commitSha": "6ee01fa4b3aaf4f10be9601c01040c330c62cfb3",
+    "deploymentStatus": "PR #59 birleştirildi; GitHub Pages dağıtım doğrulaması bekleniyor",
     "validation": {
       "versionLabelFont": "16 px — başarılı",
       "versionLabelWeight": "800 (bold) — başarılı",
@@ -29,7 +29,8 @@
       "manifestJson": "Başarılı",
       "cssStructure": "Başarılı — sürüm etiketi kuralı güncellendi",
       "pagesDeployment": "Bekleniyor"
-    }
+    },
+    "commitUrl": "https://github.com/Karaman3434/TKP/commit/6ee01fa4b3aaf4f10be9601c01040c330c62cfb3"
   },
   "history": [
     {
