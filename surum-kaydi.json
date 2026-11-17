@@ -20,7 +20,7 @@
     "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/57",
     "commitSha": "42b65b363ca69f97108c74f604bcf4006747beef",
     "commitUrl": "https://github.com/Karaman3434/TKP/commit/42b65b363ca69f97108c74f604bcf4006747beef",
-    "deploymentStatus": "Ana dala birleştirildi — GitHub Pages dağıtımı bu oturumda doğrulanamadı",
+    "deploymentStatus": "GitHub Pages dağıtımı başarılı",
     "validation": {
       "cssBaseFont": "Başarılı — 17,28 px",
       "cssEffectiveMobileFont": "Başarılı — 15,6 px (13 px'e göre +%20)",
@@ -28,7 +28,11 @@
       "manifestJson": "Başarılı — sürüm bilgisi güncel",
       "htmlCacheReferences": "Başarılı — ortak CSS önbellek sürümleri yenilendi",
       "scope": "Başarılı — arama kutusu yazı boyutu dışında tasarım/işlev değişikliği yok",
-      "pagesDeployment": "Beklemede — GitHub Actions dağıtım sonucu bu oturumda erişilebilir değildi; canlı yayın başarıyla doğrulanmış sayılmıyor"
+      "pagesDeployment": "Başarılı — GitHub Actions run 44114279315",
+      "siteHealth": "Başarılı — HTTP/site sağlık kontrolü",
+      "securityRegression": "Başarısız — mevcut Firebase cihaz sahipliği güvenlik regresyon kontrolü; bu güncellemede Firebase kuralları değiştirilmedi",
+      "securityWorkflowUrl": "https://github.com/Karaman3434/TKP/actions/runs/44114280090",
+      "pagesWorkflowUrl": "https://github.com/Karaman3434/TKP/actions/runs/44114279315"
     }
   },
   "history": [
