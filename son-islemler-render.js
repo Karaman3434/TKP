@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function(){
     tlKdvDahil: false, // Euro tutarının yanındaki TL karşılığı KDV hariçtir.
     tlGosterimEtiketi: false, // TOPLAM etiketi ve parantez olmadan yalnızca tutar gösterilir.
     euroTutarRengi: "#0d3d8c", // Satırdaki Euro tutarı koyu lacivert gösterilir.
+    hareketleriTutaraYasla: true, // M logosu, prim ve işlem kısa kodları Euro tutarının solunda gruplanır.
     tlParaBirimi: "TL",
     limit: 100,
     musteriId: p.get("musteriId") || "",

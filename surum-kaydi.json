@@ -3,22 +3,40 @@
   "product": "İŞ TAKİP",
   "timezone": "Europe/Istanbul",
   "current": {
-    "id": "TKP.19.11.26-SON-TL-RENK.1669",
-    "version": "TKP.19.11.26-SON-TL-RENK.1669",
+    "id": "TKP.19.11.26-HAREKET-TUTAR-YANI.1670",
+    "version": "TKP.19.11.26-HAREKET-TUTAR-YANI.1670",
     "date": "2026-11-19",
-    "title": "Son İşlemler TL metni ve Euro tutar rengi",
-    "summary": "Son İşlemler ekranında Euro tutarının yanındaki KDV hariç TL karşılığı artık etiketsiz ve parantezsiz olarak yalnızca '89.518 TL' biçiminde kırmızı gösterilir. Satırdaki Euro tutarının rakam rengi koyu lacivert (#0d3d8c) olur. Gün başlığı toplamları, diğer sayfaların TL gösterimleri, kayıtlar, hesaplamalar, primler ve tasarımlar korunur.",
+    "title": "Son İşlemler hareket rozetlerini Euro tutarına yaklaştır",
+    "summary": "Son İşlemler satırlarında M kanal logosu, PRİM bilgisi ve işlem hareket kısa kodları Euro tutarının hemen solunda tek grupta gösterilir. Grup ile Euro tutarı arasında dikey ayraç; Euro ile KDV hariç TL tutarı arasında da dikey ayraç bulunur. Yalnızca Son İşlemler sayfasında etkinleştirilir; ortak listeyi kullanan diğer sayfaların mevcut yerleşimi korunur.",
     "changedFiles": [
       "islem-liste.js",
+      "islem-liste-style.css",
       "son-islemler-render.js",
       "son-islemler.html",
       "surum-kaydi.json"
     ],
-    "approval": "Kullanıcı TOPLAM etiketinin kaldırılmasını, TL tutarının kırmızı '89.518 TL' biçiminde görünmesini ve Euro tutarının koyu lacivert olmasını açıkça onayladı.",
-    "branch": "fix/son-islemler-tl-format-20261119",
+    "approval": "Kullanıcı yeni görsel yerleşimi açıkça onayladı ve canlıya kodlama talimatı verdi.",
+    "branch": "fix/son-islemler-hareket-rozetleri-20261119",
     "deploymentStatus": "Dağıtım bekliyor."
   },
   "history": [
+    {
+      "id": "TKP.19.11.26-HAREKET-TUTAR-YANI.1670",
+      "version": "TKP.19.11.26-HAREKET-TUTAR-YANI.1670",
+      "date": "2026-11-19",
+      "title": "Son İşlemler hareket rozetlerini Euro tutarına yaklaştır",
+      "summary": "Son İşlemler satırlarında M kanal logosu, PRİM bilgisi ve işlem hareket kısa kodları Euro tutarının hemen solunda tek grupta gösterilir. Grup ile Euro tutarı arasında dikey ayraç; Euro ile KDV hariç TL tutarı arasında da dikey ayraç bulunur. Yalnızca Son İşlemler sayfasında etkinleştirilir; ortak listeyi kullanan diğer sayfaların mevcut yerleşimi korunur.",
+      "changedFiles": [
+        "islem-liste.js",
+        "islem-liste-style.css",
+        "son-islemler-render.js",
+        "son-islemler.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı yeni görsel yerleşimi açıkça onayladı ve canlıya kodlama talimatı verdi.",
+      "branch": "fix/son-islemler-hareket-rozetleri-20261119",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
     {
       "id": "TKP.19.11.26-SON-TL-RENK.1669",
       "version": "TKP.19.11.26-SON-TL-RENK.1669",
