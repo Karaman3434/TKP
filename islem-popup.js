@@ -147,7 +147,7 @@ var IslemPopup = (function(){
       ana:function(k){ return k.adres || k.etiket || "(adres yok)"; }, alt:function(k){ return k.adres ? (k.etiket || "") : ""; }});
     if(tes.length > 1) bolumler.push({alan:"teslimat", etiket:"TESLİMAT ADRESİ", ikon:IKON.teslimat, kare:false, liste:tes,
       ana:function(k){ return k.adres || k.etiket || "(adres yok)"; }, alt:function(k){ return k.adres ? (k.etiket || "") : ""; }});
-    if(yet.length > 1) bolumler.push({alan:"yetkili", etiket:"YETKİLİ KİŞİ", ipucu:"çoklu", ikon:IKON.yetkili, kare:true, liste:yet,
+    if(yet.length >= 1) bolumler.push({alan:"yetkili", etiket:"YETKİLİ KİŞİ", ipucu: yet.length > 1 ? "çoklu" : "otomatik seçili", ikon:IKON.yetkili, kare:true, liste:yet,
       ana:function(k){ return k.isim || "(isimsiz)"; }, alt:function(k){ return k.gorev || ""; },
       iletisim:function(k){ return {tel: k.telefon || "", mail: k.eposta || ""}; }});
 
@@ -172,7 +172,14 @@ var IslemPopup = (function(){
             + "<span class='ip-metin'>" + metinHtml + "</span></div>";
         }).join("");
     }).join("");
-    if(!bolumler.length) icerikHtml = "<div class='ip-not'>Seçilecek ek bilgi yok — tek adres ve tek yetkili otomatik kullanılır.</div>";
+    if(!bolumler.length){
+      var otomatikAlanlar = [];
+      if(fat.length === 1) otomatikAlanlar.push("tek fatura adresi");
+      if(tes.length === 1) otomatikAlanlar.push("tek teslimat adresi");
+      icerikHtml = otomatikAlanlar.length
+        ? "<div class='ip-not'>" + esc(otomatikAlanlar.join(" ve ")) + " otomatik kullanılır.</div>"
+        : "<div class='ip-not'>Kayıtlı ek adres veya yetkili bilgisi bulunmuyor.</div>";
+    }
 
     el.innerHTML =
         "<div class='ip-arka'></div>"
