@@ -18,6 +18,9 @@ document.addEventListener("DOMContentLoaded", function(){
     hazir: ["son","bugun","bu_ay","bu_yil","bekleyen"],   // "Kaçanlar" hazır tuşu → TÜR satırındaki KÇS (11.11.2026)
     baslangicHazir: "son",
     primSatiriGoster: true, // Son İşlemler listesinde sipariş primi yeniden gösterilir
+    tlKdvDahil: false, // Euro tutarının yanındaki TL karşılığı KDV hariçtir.
+    tlGosterimEtiketi: "TOPLAM",
+    tlParaBirimi: "TL",
     limit: 100,
     musteriId: p.get("musteriId") || "",
     musteriAd: p.get("musteri") || "",
