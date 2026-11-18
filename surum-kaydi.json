@@ -3,21 +3,38 @@
   "product": "İŞ TAKİP",
   "timezone": "Europe/Istanbul",
   "current": {
-    "id": "TKP.18.11.26-ARAMA.1665",
-    "version": "TKP.18.11.26-ARAMA.1665",
+    "id": "TKP.18.11.26-14:30.1666",
+    "version": "TKP.18.11.26-14:30.1666",
     "date": "2026-11-18",
-    "title": "Hızlı arama — müşteri cari kodu ve çoklu karakter araması",
-    "summary": "Müşteri hızlı araması artık cari kodu (CustomerData kayıtlarındaki id), firma adı ve şehir alanlarında arama yapar. Karakter uzunluğu kısıtı yoktur; harf ve rakamlar, birden fazla boşlukla ayrılmış arama parçası birlikte desteklenir. Ürün araması zaten ürün adı, BERTA ve ABAS kodlarında tüm yazılan karakterleri ve sayısal kodları desteklediğinden değiştirilmedi. Sonuç görünümü ve 8 kayıtlık mevcut panel sınırı korunmuştur.",
+    "title": "Ana Sayfa müşteri seçim penceresinde tek yetkiliyi gösterme",
+    "summary": "İşlem Yap müşteri seçim popup'ında kayıtlı tek yetkili de artık YETKİLİ KİŞİ bölümünde adı, görevi, telefonu ve e-postasıyla görünür. Tek kişi varsayılan seçili gelir; çoklu yetkili seçimi değişmeden kalır. Seçim bölümü yoksa bilgi mesajı, mevcut tek adres durumuna göre doğru açıklama verir.",
     "changedFiles": [
-      "customer-data.js",
+      "islem-popup.js",
+      "menu-cekmece.js",
       "home.html",
       "surum-kaydi.json"
     ],
-    "approval": "Kullanıcı açıkça onayladı: ürün ve müşteri aramasında daha fazla harf/rakam; müşteri cari kodu dahil.",
-    "branch": "feature/customer-product-search-extended-20261118-1400",
+    "approval": "Kullanıcı 18.11.2026 tarihinde müşteri seçim penceresinde tek yetkili bilgisinin görünmemesi hatasının düzeltilmesini ve canlıya alınmasını açıkça onayladı.",
+    "branch": "fix/single-contact-popup-visibility-20261118-1430",
     "deploymentStatus": "Dağıtım bekliyor."
   },
   "history": [
+    {
+      "id": "TKP.18.11.26-14:30.1666",
+      "version": "TKP.18.11.26-14:30.1666",
+      "date": "2026-11-18",
+      "title": "Ana Sayfa müşteri seçim penceresinde tek yetkiliyi gösterme",
+      "summary": "İşlem Yap müşteri seçim popup'ında kayıtlı tek yetkili de artık YETKİLİ KİŞİ bölümünde adı, görevi, telefonu ve e-postasıyla görünür. Tek kişi varsayılan seçili gelir; çoklu yetkili seçimi değişmeden kalır. Seçim bölümü yoksa bilgi mesajı, mevcut tek adres durumuna göre doğru açıklama verir.",
+      "changedFiles": [
+        "islem-popup.js",
+        "menu-cekmece.js",
+        "home.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı 18.11.2026 tarihinde müşteri seçim penceresinde tek yetkili bilgisinin görünmemesi hatasının düzeltilmesini ve canlıya alınmasını açıkça onayladı.",
+      "branch": "fix/single-contact-popup-visibility-20261118-1430",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
     {
       "id": "TKP.18.11.26-ARAMA.1665",
       "version": "TKP.18.11.26-ARAMA.1665",
