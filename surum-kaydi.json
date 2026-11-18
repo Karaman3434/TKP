@@ -3,22 +3,38 @@
   "product": "İŞ TAKİP",
   "timezone": "Europe/Istanbul",
   "current": {
-    "id": "TKP.18.11.26-14:30.1666",
-    "version": "TKP.18.11.26-14:30.1666",
+    "id": "TKP.18.11.26-KDVSIZ.1667",
+    "version": "TKP.18.11.26-KDVSIZ.1667",
     "date": "2026-11-18",
-    "title": "Ana Sayfa müşteri seçim penceresinde tek yetkiliyi gösterme",
-    "summary": "İşlem Yap müşteri seçim popup'ında kayıtlı tek yetkili de artık YETKİLİ KİŞİ bölümünde adı, görevi, telefonu ve e-postasıyla görünür. Tek kişi varsayılan seçili gelir; çoklu yetkili seçimi değişmeden kalır. Seçim bölümü yoksa bilgi mesajı, mevcut tek adres durumuna göre doğru açıklama verir.",
+    "title": "Satışlarım listesinde KDV hariç TL karşılığı",
+    "summary": "Satışlarım listesindeki Euro tutarının yanında parantez içinde gösterilen TL karşılığı artık KDV eklenmeden, kaydın kendi kuru ile hesaplanan net TL olarak gösterilir ve KDV'SİZ etiketi taşır. Yalnızca Satışlarım sayfasına uygulanır; ortak işlem listesi kullanan diğer sayfalarda mevcut KDV'Lİ gösterim korunur. Euro tutarları, grup toplamları, primler, kayıtlar ve diğer tasarım/işlevler değişmez.",
     "changedFiles": [
-      "islem-popup.js",
-      "menu-cekmece.js",
-      "home.html",
+      "islem-liste.js",
+      "satis-listesi-render.js",
+      "satis-listesi.html",
       "surum-kaydi.json"
     ],
-    "approval": "Kullanıcı 18.11.2026 tarihinde müşteri seçim penceresinde tek yetkili bilgisinin görünmemesi hatasının düzeltilmesini ve canlıya alınmasını açıkça onayladı.",
-    "branch": "fix/single-contact-popup-visibility-20261118-1430",
+    "approval": "Kullanıcı Satışlarım listesindeki parantez içi KDV dahil TL toplamının KDV hariç TL tutarıyla değiştirilmesini açıkça istedi.",
+    "branch": "fix/sales-list-vat-exclusive-tl-20261118",
     "deploymentStatus": "Dağıtım bekliyor."
   },
   "history": [
+    {
+      "id": "TKP.18.11.26-KDVSIZ.1667",
+      "version": "TKP.18.11.26-KDVSIZ.1667",
+      "date": "2026-11-18",
+      "title": "Satışlarım listesinde KDV hariç TL karşılığı",
+      "summary": "Satışlarım listesindeki Euro tutarının yanında parantez içinde gösterilen TL karşılığı artık KDV eklenmeden, kaydın kendi kuru ile hesaplanan net TL olarak gösterilir ve KDV'SİZ etiketi taşır. Yalnızca Satışlarım sayfasına uygulanır; ortak işlem listesi kullanan diğer sayfalarda mevcut KDV'Lİ gösterim korunur. Euro tutarları, grup toplamları, primler, kayıtlar ve diğer tasarım/işlevler değişmez.",
+      "changedFiles": [
+        "islem-liste.js",
+        "satis-listesi-render.js",
+        "satis-listesi.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı Satışlarım listesindeki parantez içi KDV dahil TL toplamının KDV hariç TL tutarıyla değiştirilmesini açıkça istedi.",
+      "branch": "fix/sales-list-vat-exclusive-tl-20261118",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
     {
       "id": "TKP.18.11.26-14:30.1666",
       "version": "TKP.18.11.26-14:30.1666",
