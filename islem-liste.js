@@ -183,7 +183,7 @@ var IslemListesi = (function(){
     var v = parseFloat(k.kdv);
     return isNaN(v) ? 20 : v;
   }
-  function tlHucreHTML(k, kdvDahilGoster, ozelEtiket, ozelParaBirimi){
+  function tlHucreHTML(k, kdvDahilGoster, ozelEtiket, ozelParaBirimi, parantezli){
     if(k._beklemede || !(k._tutar > 0) || !(k._tl > 0)) return "";
     // _tl, kaydın kendi kuru ile hesaplanan KDV hariç net TL karşılığıdır.
     var tutarTl = kdvDahilGoster === false ? k._tl : k._tl * (1 + kdvOrani(k) / 100);
@@ -192,9 +192,9 @@ var IslemListesi = (function(){
     var icerik = ozelEtiket
       ? etiket + " " + Math.round(tutarTl).toLocaleString("tr-TR") + " " + paraBirimi
       : Math.round(tutarTl).toLocaleString("tr-TR") + " " + paraBirimi + " <small class='sr-tl-kdv-et'>" + etiket + "</small>";
-    return "<span class='sr-tl-kdv'>(" + icerik + ")</span>";
+    return "<span class='sr-tl-kdv'>" + (parantezli === false ? icerik : "(" + icerik + ")") + "</span>";
   }
-  function satirHTML(k, i, primSatiriGoster, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi){
+  function satirHTML(k, i, primSatiriGoster, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi, tlParantezli){
     var m = rozetMeta(k);
     return "<div class='sr-satir" + (k._beklemede ? " sr-satir--beklemede" : "") + "' data-i='" + i + "' style='border-left-color:" + m.serit + ";'>"
       + "<div class='sr-ust'>"
@@ -204,17 +204,17 @@ var IslemListesi = (function(){
       + "<div class='sr-alt'>"
       +   (primSatiriGoster ? primSatiriHTML(k) : "")
       +   "<div class='sr-rota'>" + rotaHTML(k) + "</div>"
-      +   "<div class='sr-tm'>" + kanalHarfHTML(k.kanal) + "<div class='sr-tutar-h'>" + tutarHucreHTML(k) + "</div>" + tlHucreHTML(k, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi) + "</div>"
+      +   "<div class='sr-tm'>" + kanalHarfHTML(k.kanal) + "<div class='sr-tutar-h'>" + tutarHucreHTML(k) + "</div>" + tlHucreHTML(k, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi, tlParantezli) + "</div>"
       + "</div>"
       + "<div class='sr-ok-h'>&#8250;</div>"
       + "</div>";
   }
-  function gruplaHTML(kayitlar, toplamaBeklemedeDahil, primSatiriGoster, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi){
+  function gruplaHTML(kayitlar, toplamaBeklemedeDahil, primSatiriGoster, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi, tlParantezli){
     var gruplar = [], harita = {};
     kayitlar.forEach(function(k, i){
       var a = gunAnahtari(k.ts);
       if(!harita[a]){ harita[a] = {ts:k.ts, satirlar:[], toplam:0}; gruplar.push(harita[a]); }
-      harita[a].satirlar.push(satirHTML(k, i, primSatiriGoster, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi));
+      harita[a].satirlar.push(satirHTML(k, i, primSatiriGoster, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi, tlParantezli));
       if(!k._beklemede || toplamaBeklemedeDahil) harita[a].toplam += k._tutar;
     });
     return gruplar.map(function(g){
@@ -323,7 +323,7 @@ var IslemListesi = (function(){
           bosEl.hidden = false;
         } else {
           bosEl.hidden = true;
-          listeEl.innerHTML = gruplaHTML(kayitlar, s.beklemedeToplamaDahil, !!opts.primSatiriGoster, opts.tlKdvDahil, opts.tlGosterimEtiketi, opts.tlParaBirimi);
+          listeEl.innerHTML = gruplaHTML(kayitlar, s.beklemedeToplamaDahil, !!opts.primSatiriGoster, opts.tlKdvDahil, opts.tlGosterimEtiketi, opts.tlParaBirimi, opts.tlParantezli);
           listeEl.querySelectorAll(".sr-satir").forEach(function(el){
             el.onclick = function(){
               var k = kayitlar[parseInt(this.getAttribute("data-i"), 10)];
