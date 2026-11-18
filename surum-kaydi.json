@@ -3,22 +3,38 @@
   "product": "İŞ TAKİP",
   "timezone": "Europe/Istanbul",
   "current": {
-    "id": "TKP.18.11.26-KDVSIZ.1667",
-    "version": "TKP.18.11.26-KDVSIZ.1667",
+    "id": "TKP.18.11.26-SON-TOPLAM-TL.1668",
+    "version": "TKP.18.11.26-SON-TOPLAM-TL.1668",
     "date": "2026-11-18",
-    "title": "Satışlarım listesinde KDV hariç TL karşılığı",
-    "summary": "Satışlarım listesindeki Euro tutarının yanında parantez içinde gösterilen TL karşılığı artık KDV eklenmeden, kaydın kendi kuru ile hesaplanan net TL olarak gösterilir ve KDV'SİZ etiketi taşır. Yalnızca Satışlarım sayfasına uygulanır; ortak işlem listesi kullanan diğer sayfalarda mevcut KDV'Lİ gösterim korunur. Euro tutarları, grup toplamları, primler, kayıtlar ve diğer tasarım/işlevler değişmez.",
+    "title": "Son İşlemler listesinde KDV hariç TOPLAM TL",
+    "summary": "Son İşlemler ekranında Euro toplamının hemen yanında tek bir TL tutarı gösterilir. Bu tutar kaydın kendi kuru üzerinden KDV hariç hesaplanır ve (TOPLAM 89.518 TL) biçiminde yazılır. KDV dahil TL tutarı bu ekranda gösterilmez. Satışlarım ekranının mevcut KDV'SİZ gösterimi ve ortak listeyi kullanan diğer ekranların varsayılan davranışı korunur.",
     "changedFiles": [
       "islem-liste.js",
-      "satis-listesi-render.js",
-      "satis-listesi.html",
+      "son-islemler-render.js",
+      "son-islemler.html",
       "surum-kaydi.json"
     ],
-    "approval": "Kullanıcı Satışlarım listesindeki parantez içi KDV dahil TL toplamının KDV hariç TL tutarıyla değiştirilmesini açıkça istedi.",
-    "branch": "fix/sales-list-vat-exclusive-tl-20261118",
+    "approval": "Kullanıcı Euro toplamının ardından tek bir KDV hariç TOPLAM TL tutarı gösterilmesini açıkça onayladı.",
+    "branch": "fix/son-islemler-toplam-tl-kdvsiz-20261118",
     "deploymentStatus": "Dağıtım bekliyor."
   },
   "history": [
+    {
+      "id": "TKP.18.11.26-SON-TOPLAM-TL.1668",
+      "version": "TKP.18.11.26-SON-TOPLAM-TL.1668",
+      "date": "2026-11-18",
+      "title": "Son İşlemler listesinde KDV hariç TOPLAM TL",
+      "summary": "Son İşlemler ekranında Euro toplamının hemen yanında tek bir TL tutarı gösterilir. Bu tutar kaydın kendi kuru üzerinden KDV hariç hesaplanır ve (TOPLAM 89.518 TL) biçiminde yazılır. KDV dahil TL tutarı bu ekranda gösterilmez. Satışlarım ekranının mevcut KDV'SİZ gösterimi ve ortak listeyi kullanan diğer ekranların varsayılan davranışı korunur.",
+      "changedFiles": [
+        "islem-liste.js",
+        "son-islemler-render.js",
+        "son-islemler.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı Euro toplamının ardından tek bir KDV hariç TOPLAM TL tutarı gösterilmesini açıkça onayladı.",
+      "branch": "fix/son-islemler-toplam-tl-kdvsiz-20261118",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
     {
       "id": "TKP.18.11.26-KDVSIZ.1667",
       "version": "TKP.18.11.26-KDVSIZ.1667",
