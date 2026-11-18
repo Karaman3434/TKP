@@ -3,22 +3,38 @@
   "product": "İŞ TAKİP",
   "timezone": "Europe/Istanbul",
   "current": {
-    "id": "TKP.18.11.26-SON-TOPLAM-TL.1668",
-    "version": "TKP.18.11.26-SON-TOPLAM-TL.1668",
-    "date": "2026-11-18",
-    "title": "Son İşlemler listesinde KDV hariç TOPLAM TL",
-    "summary": "Son İşlemler ekranında Euro toplamının hemen yanında tek bir TL tutarı gösterilir. Bu tutar kaydın kendi kuru üzerinden KDV hariç hesaplanır ve (TOPLAM 89.518 TL) biçiminde yazılır. KDV dahil TL tutarı bu ekranda gösterilmez. Satışlarım ekranının mevcut KDV'SİZ gösterimi ve ortak listeyi kullanan diğer ekranların varsayılan davranışı korunur.",
+    "id": "TKP.19.11.26-SON-TL-RENK.1669",
+    "version": "TKP.19.11.26-SON-TL-RENK.1669",
+    "date": "2026-11-19",
+    "title": "Son İşlemler TL metni ve Euro tutar rengi",
+    "summary": "Son İşlemler ekranında Euro tutarının yanındaki KDV hariç TL karşılığı artık etiketsiz ve parantezsiz olarak yalnızca '89.518 TL' biçiminde kırmızı gösterilir. Satırdaki Euro tutarının rakam rengi koyu lacivert (#0d3d8c) olur. Gün başlığı toplamları, diğer sayfaların TL gösterimleri, kayıtlar, hesaplamalar, primler ve tasarımlar korunur.",
     "changedFiles": [
       "islem-liste.js",
       "son-islemler-render.js",
       "son-islemler.html",
       "surum-kaydi.json"
     ],
-    "approval": "Kullanıcı Euro toplamının ardından tek bir KDV hariç TOPLAM TL tutarı gösterilmesini açıkça onayladı.",
-    "branch": "fix/son-islemler-toplam-tl-kdvsiz-20261118",
+    "approval": "Kullanıcı TOPLAM etiketinin kaldırılmasını, TL tutarının kırmızı '89.518 TL' biçiminde görünmesini ve Euro tutarının koyu lacivert olmasını açıkça onayladı.",
+    "branch": "fix/son-islemler-tl-format-20261119",
     "deploymentStatus": "Dağıtım bekliyor."
   },
   "history": [
+    {
+      "id": "TKP.19.11.26-SON-TL-RENK.1669",
+      "version": "TKP.19.11.26-SON-TL-RENK.1669",
+      "date": "2026-11-19",
+      "title": "Son İşlemler TL metni ve Euro tutar rengi",
+      "summary": "Son İşlemler ekranında Euro tutarının yanındaki KDV hariç TL karşılığı artık etiketsiz ve parantezsiz olarak yalnızca '89.518 TL' biçiminde kırmızı gösterilir. Satırdaki Euro tutarının rakam rengi koyu lacivert (#0d3d8c) olur. Gün başlığı toplamları, diğer sayfaların TL gösterimleri, kayıtlar, hesaplamalar, primler ve tasarımlar korunur.",
+      "changedFiles": [
+        "islem-liste.js",
+        "son-islemler-render.js",
+        "son-islemler.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı TOPLAM etiketinin kaldırılmasını, TL tutarının kırmızı '89.518 TL' biçiminde görünmesini ve Euro tutarının koyu lacivert olmasını açıkça onayladı.",
+      "branch": "fix/son-islemler-tl-format-20261119",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
     {
       "id": "TKP.18.11.26-SON-TOPLAM-TL.1668",
       "version": "TKP.18.11.26-SON-TOPLAM-TL.1668",
