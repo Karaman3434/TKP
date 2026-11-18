@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", function(){
     baslangicHazir: "son",
     primSatiriGoster: true, // Son İşlemler listesinde sipariş primi yeniden gösterilir
     tlKdvDahil: false, // Euro tutarının yanındaki TL karşılığı KDV hariçtir.
-    tlGosterimEtiketi: "TOPLAM",
+    tlGosterimEtiketi: false, // TOPLAM etiketi ve parantez olmadan yalnızca tutar gösterilir.
+    euroTutarRengi: "#0d3d8c", // Satırdaki Euro tutarı koyu lacivert gösterilir.
     tlParaBirimi: "TL",
     limit: 100,
     musteriId: p.get("musteriId") || "",
