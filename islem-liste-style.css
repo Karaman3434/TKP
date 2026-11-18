@@ -227,3 +227,30 @@
 #islemlerListesi .sr-rota:not(:empty)::after { content: ""; flex: 0 0 auto; width: 1.5px; height: 15px; background: #b9c1cc; border-radius: 1px; }
 #islemlerListesi .sr-prim-satir::after { margin-left: 1px; }
 #islemlerListesi .sr-rota:not(:empty)::after { margin-left: 2px; }
+
+
+/* SON İŞLEMLER — onaylı yeni yerleşim (19.11.2026):
+   kanal logosu, prim ve işlem hareket kısa kodları Euro toplamının hemen
+   solunda tek grupta toplanır; grup ile Euro arasına tek ayraç konur.
+   Euro ve KDV hariç TL arasında da ayrı bir ayraç bulunur.
+   Yalnızca bu sayfanın data-hareket-tutara-yasla seçeneği etkin satırları. */
+#islemlerListesi .sr-alt[data-hareket-tutara-yasla="1"] .sr-hareket-grup {
+  display: inline-flex; align-items: center; justify-content: flex-end;
+  gap: 4px; min-width: 0; flex: 0 1 auto; white-space: nowrap;
+}
+#islemlerListesi .sr-alt[data-hareket-tutara-yasla="1"] .sr-hareket-grup::after {
+  content: ""; flex: 0 0 auto; width: 1.5px; height: 15px;
+  background: #b9c1cc; border-radius: 1px; margin-left: 2px;
+}
+#islemlerListesi .sr-alt[data-hareket-tutara-yasla="1"] .sr-prim-satir::after,
+#islemlerListesi .sr-alt[data-hareket-tutara-yasla="1"] .sr-rota:not(:empty)::after {
+  content: none;
+}
+#islemlerListesi .sr-alt[data-hareket-tutara-yasla="1"] .sr-tm { gap: 5px; }
+#islemlerListesi .sr-alt[data-hareket-tutara-yasla="1"] .sr-tl-kdv {
+  display: inline-flex; align-items: center; gap: 6px; margin-left: 1px;
+}
+#islemlerListesi .sr-alt[data-hareket-tutara-yasla="1"] .sr-tl-kdv::before {
+  content: ""; display: inline-block; flex: 0 0 auto;
+  width: 1.5px; height: 15px; background: #b9c1cc; border-radius: 1px;
+}
