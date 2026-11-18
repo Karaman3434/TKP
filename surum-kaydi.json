@@ -17,7 +17,9 @@
     ],
     "approval": "Kullanıcı yeni görsel yerleşimi açıkça onayladı ve canlıya kodlama talimatı verdi.",
     "branch": "fix/son-islemler-hareket-rozetleri-20261119",
-    "deploymentStatus": "Dağıtım bekliyor."
+    "deploymentStatus": "GitHub Pages dağıtımı başarılı.",
+    "pullRequest": 69,
+    "mergeCommit": "62457c10ad0af9652e51da98fb4e4520bdd55cca"
   },
   "history": [
     {
