@@ -3,22 +3,36 @@
   "product": "İŞ TAKİP",
   "timezone": "Europe/Istanbul",
   "current": {
-    "id": "TKP.18.11.26-13:15.1664",
-    "version": "TKP.18.11.26-13:15.1664",
-    "timestamp": "2026-11-18T13:15:00+03:00",
-    "dateTime": "18.11.2026 – 13:15 (Türkiye saati)",
-    "title": "Ana Sayfa hızlı arama — etiket ve arama alanlarını dış çerçeve genişliğine eşitleme",
-    "summary": "Onaylanan görsel tasarım birebir uygulandı: Ürün ve Müşteri etiket satırları ile beyaz arama kutuları HIZLI ARAMA dış çerçevesinin iç genişliğini eşit ve tam kullanır. Üç nokta, renkler, yükseklikler, arama davranışı ve alt menü hedefleri korunur.",
+    "id": "TKP.18.11.26-ARAMA.1665",
+    "version": "TKP.18.11.26-ARAMA.1665",
+    "date": "2026-11-18",
+    "title": "Hızlı arama — müşteri cari kodu ve çoklu karakter araması",
+    "summary": "Müşteri hızlı araması artık cari kodu (CustomerData kayıtlarındaki id), firma adı ve şehir alanlarında arama yapar. Karakter uzunluğu kısıtı yoktur; harf ve rakamlar, birden fazla boşlukla ayrılmış arama parçası birlikte desteklenir. Ürün araması zaten ürün adı, BERTA ve ABAS kodlarında tüm yazılan karakterleri ve sayısal kodları desteklediğinden değiştirilmedi. Sonuç görünümü ve 8 kayıtlık mevcut panel sınırı korunmuştur.",
     "changedFiles": [
-      "menu-cekmece-style.css",
+      "customer-data.js",
       "home.html",
       "surum-kaydi.json"
     ],
-    "approval": "Kullanıcı 18.11.2026 tarihinde paylaşılan tasarımı birebir uygulamak ve canlıya almak için açık onay verdi.",
-    "branch": "feature/search-labels-match-input-size-20261118-1315",
+    "approval": "Kullanıcı açıkça onayladı: ürün ve müşteri aramasında daha fazla harf/rakam; müşteri cari kodu dahil.",
+    "branch": "feature/customer-product-search-extended-20261118-1400",
     "deploymentStatus": "Dağıtım bekliyor."
   },
   "history": [
+    {
+      "id": "TKP.18.11.26-ARAMA.1665",
+      "version": "TKP.18.11.26-ARAMA.1665",
+      "date": "2026-11-18",
+      "title": "Hızlı arama — müşteri cari kodu ve çoklu karakter araması",
+      "summary": "Müşteri hızlı araması artık cari kodu (CustomerData kayıtlarındaki id), firma adı ve şehir alanlarında arama yapar. Karakter uzunluğu kısıtı yoktur; harf ve rakamlar, birden fazla boşlukla ayrılmış arama parçası birlikte desteklenir. Ürün araması zaten ürün adı, BERTA ve ABAS kodlarında tüm yazılan karakterleri ve sayısal kodları desteklediğinden değiştirilmedi. Sonuç görünümü ve 8 kayıtlık mevcut panel sınırı korunmuştur.",
+      "changedFiles": [
+        "customer-data.js",
+        "home.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı açıkça onayladı: ürün ve müşteri aramasında daha fazla harf/rakam; müşteri cari kodu dahil.",
+      "branch": "feature/customer-product-search-extended-20261118-1400",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
     {
       "id": "TKP.18.11.26-13:15.1664",
       "version": "TKP.18.11.26-13:15.1664",
