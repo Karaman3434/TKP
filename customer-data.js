@@ -69,10 +69,19 @@ var CustomerData = (function(){
   function ara(sorgu){
     var q = (sorgu||"").trim().toLocaleLowerCase("tr-TR");
     if(!q) return liste;
+    // Hızlı arama: karakter uzunluğu sınırı yoktur. Cari kodu (id),
+    // firma adı ve şehir aynı arama havuzunda aranır. Birden fazla
+    // kelime/harf-rakam parçası girilirse tüm parçalar eşleşmelidir.
+    var kelimeler = q.split(/\s+/).filter(function(k){ return k.length>0; });
     return liste.filter(function(m){
-      var ad = (m.ad||"").toLocaleLowerCase("tr-TR");
-      var sehir = (m.sehir||"").toLocaleLowerCase("tr-TR");
-      return ad.indexOf(q)>=0 || sehir.indexOf(q)>=0;
+      var ad = (m.ad||"").toString().toLocaleLowerCase("tr-TR");
+      var sehir = (m.sehir||"").toString().toLocaleLowerCase("tr-TR");
+      var cariKod = (m.id||"").toString().toLocaleLowerCase("tr-TR");
+      var araMetin = cariKod+" "+ad+" "+sehir;
+      for(var i=0;i<kelimeler.length;i++){
+        if(araMetin.indexOf(kelimeler[i])<0) return false;
+      }
+      return true;
     });
   }
 

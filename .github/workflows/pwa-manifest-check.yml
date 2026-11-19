@@ -1,0 +1,97 @@
+name: PWA Manifest Tutarlılık Kontrolü
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pwa-manifest:
+    name: PWA, JSON ve JavaScript kontrolleri
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Kaynak kodu al
+        uses: actions/checkout@v5
+
+      - name: Tüm JSON dosyalarını doğrula
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, sys
+          files = sorted(p for p in pathlib.Path(".").rglob("*.json") if ".git" not in p.parts)
+          errors = []
+          for path in files:
+              try:
+                  json.loads(path.read_text(encoding="utf-8-sig"))
+              except Exception as exc:
+                  errors.append(f"{path}: {exc}")
+          if errors:
+              print("JSON kontrolü başarısız:")
+              print("\n".join(errors))
+              sys.exit(1)
+          print(f"OK: {len(files)} JSON dosyası geçerli.")
+          PY
+
+      - name: Manifest bağlantı sürümlerini doğrula
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, sys
+          from html.parser import HTMLParser
+          from urllib.parse import urlsplit, parse_qs
+
+          manifest = json.loads(pathlib.Path("manifest.json").read_text(encoding="utf-8-sig"))
+          version = manifest.get("_version")
+          if not isinstance(version, str) or not version:
+              sys.exit("manifest.json içinde geçerli _version bulunamadı")
+
+          class ManifestParser(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.hrefs = []
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  if tag.lower() == "link" and "manifest" in attrs.get("rel", "").lower().split():
+                      self.hrefs.append(attrs.get("href", ""))
+
+          checked = 0
+          failures = []
+          for path in sorted(p for p in pathlib.Path(".").rglob("*.html") if ".git" not in p.parts):
+              parser = ManifestParser()
+              parser.feed(path.read_text(encoding="utf-8-sig"))
+              if not parser.hrefs:
+                  continue
+              checked += 1
+              if len(parser.hrefs) != 1:
+                  failures.append(f"{path}: {len(parser.hrefs)} manifest bağlantısı var")
+                  continue
+              href = parser.hrefs[0]
+              parts = urlsplit(href)
+              if not parts.path.endswith("manifest.json"):
+                  failures.append(f"{path}: manifest hedefi geçersiz ({href})")
+                  continue
+              if parse_qs(parts.query).get("v") != [version]:
+                  failures.append(f"{path}: manifest sürümü _version ile eşleşmiyor ({href})")
+          for required in ("home.html", "pin.html"):
+              parser = ManifestParser()
+              parser.feed(pathlib.Path(required).read_text(encoding="utf-8-sig"))
+              if len(parser.hrefs) != 1:
+                  failures.append(f"{required}: tam olarak bir manifest bağlantısı olmalı")
+          if failures:
+              print("Manifest kontrolü başarısız:")
+              print("\n".join(failures))
+              sys.exit(1)
+          print(f"OK: {checked} HTML sayfasındaki manifest bağlantısı {version} ile eşleşiyor.")
+          PY
+
+      - name: Tüm JavaScript dosyalarının sözdizimini doğrula
+        run: |
+          set -e
+          count=0
+          while IFS= read -r -d '' file; do
+            node --check "$file" >/dev/null
+            count=$((count + 1))
+          done < <(find . -type f -name '*.js' -not -path './.git/*' -print0)
+          echo "OK: $count JavaScript dosyası."

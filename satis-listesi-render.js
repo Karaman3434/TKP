@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function(){
     baslangicHazir: kapsam === "ay" ? "bu_ay" : "bugun",
     primFiltresi: true,
     primSatiriGoster: true,
+    tlKdvDahil: false, // Parantez içindeki TL tutarı KDV hariç gösterilir.
     baslangicPrimli: primli,
     bosMesaj: primli ? "Bu ay primli satış yok." : "Bu kapsamda satış kaydı yok."
   });

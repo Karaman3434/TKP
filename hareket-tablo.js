@@ -118,7 +118,7 @@ var HareketTablo = (function(){
     return "<div class='belge-siparis-bakiye-not'>" + parcalar.join(" · ") + "</div>";
   }
 
-  function satirlarHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur){
+  function satirlarHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur, weiconLink){
     return (urunler||[]).map(function(u, i){
       var h = hesapla(u);
       var toplamVarMi = h && h.toplamEuro != null;
@@ -135,7 +135,10 @@ var HareketTablo = (function(){
       var netTl = toplamVarMi ? netTlHtml(h.iskontoluFiyat, kur) : "";
       // DÜZELTME (15.10.2026, Abdullah onayı): harf (B/A) ile kod arasındaki
       // boşluk kaldırıldı — "B11550400 - A1000912233" gibi bitişik.
-      var urunHucre = "<td class='belge-td-urun'><div class='belge-td-urun-kod' style='text-align:center;'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span>" + htmlEsc(u.berta||"-") + "</span><span class='kod-ayrac' aria-hidden='true'></span><span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span>" + htmlEsc(u.abas||"-") + "</span>" + "</div><div class='belge-td-urun-ad'>" + htmlEsc(u.ad) + "</div></td>";
+      var urunAdiHtml = weiconLink
+        ? "<a class='belge-td-urun-ad' href='https://www.weicon.com.tr/search?search=" + encodeURIComponent(u.abas || u.berta || u.ad || "") + "' target='_blank' rel='noopener noreferrer' title='WEİCON ürün sayfasını aç' style='color:inherit;text-decoration:none;cursor:pointer;'>" + htmlEsc(u.ad) + "</a>"
+        : "<div class='belge-td-urun-ad'>" + htmlEsc(u.ad) + "</div>";
+      var urunHucre = "<td class='belge-td-urun'><div class='belge-td-urun-kod' style='text-align:center;'><span class='kod-blok kod-blok--b'><span class='kod-harf'>B</span>" + htmlEsc(u.berta||"-") + "</span><span class='kod-ayrac' aria-hidden='true'></span><span class='kod-blok kod-blok--a'><span class='kod-harf'>A</span>" + htmlEsc(u.abas||"-") + "</span>" + "</div>" + urunAdiHtml + "</td>";
       if(basit){
         return "<tr class='" + (zeminSinifi||"") + "'>"
           + urunHucre
@@ -180,7 +183,7 @@ var HareketTablo = (function(){
   // kendi stilleri (sayfaya göre meşru şekilde farklı, bkz. belge-style.css
   // .belge-gt-kutu vs .belge-genel-toplam-serit / .belge-prim-serit vs
   // .belge-prim-toplam-serit) buna DAHİL DEĞİL — sadece bu adı geçen tablo.
-  function urunTablosuHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur, ekSinif){
+  function urunTablosuHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur, ekSinif, weiconLink){
     var basHucreler = basit
       ? "<th style='width:46%;'>ÜRÜN BİLGİSİ</th><th style='width:12%;'>ADET</th><th style='width:19%;'>NET</th><th style='width:23%;'>TOPLAM</th>"
       : (primGizli
@@ -192,7 +195,7 @@ var HareketTablo = (function(){
     // olan sayfa-özel bir görsel kuralın üstüne eklenmesini sağlar.
     return "<div class='data-table-container'><table class='belge-urun-tablo" + (basit ? " belge-urun-tablo--basit" : "") + (ekSinif ? " " + ekSinif : "") + "'>"
       + "<thead><tr>" + basHucreler + "</tr></thead>"
-      + "<tbody>" + satirlarHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur) + "</tbody></table></div>";
+      + "<tbody>" + satirlarHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur, weiconLink) + "</tbody></table></div>";
   }
 
   // ORTAK GENEL TOPLAM KUTUSU (02.11.2026, Abdullah onayı — mockup üzerinden):

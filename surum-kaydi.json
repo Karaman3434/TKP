@@ -3,36 +3,293 @@
   "product": "İŞ TAKİP",
   "timezone": "Europe/Istanbul",
   "current": {
-    "id": "TKP.17.11.26-13:31.1658",
-    "version": "TKP.17.11.26-13:31.1658",
-    "timestamp": "2026-11-17T13:31:33+03:00",
-    "dateTime": "17.11.2026 – 13:31 (Türkiye saati)",
-    "title": "Sürüm ve kodlama takip sistemi",
-    "summary": "Tek merkezli sürüm kaydı, menüde tıklanabilir sürüm geçmişi, sohbet–uygulama–GitHub eşleştirmesi ve test/yayın durumunun kaydı. Ortak menü betiğinin önbellek sürüm bağlantıları, menüyü kullanan mevcut sayfalarda yenilendi.",
+    "id": "TKP.19.11.26-HAREKET-TUTAR-YANI.1670",
+    "version": "TKP.19.11.26-HAREKET-TUTAR-YANI.1670",
+    "date": "2026-11-19",
+    "title": "Son İşlemler hareket rozetlerini Euro tutarına yaklaştır",
+    "summary": "Son İşlemler satırlarında M kanal logosu, PRİM bilgisi ve işlem hareket kısa kodları Euro tutarının hemen solunda tek grupta gösterilir. Grup ile Euro tutarı arasında dikey ayraç; Euro ile KDV hariç TL tutarı arasında da dikey ayraç bulunur. Yalnızca Son İşlemler sayfasında etkinleştirilir; ortak listeyi kullanan diğer sayfaların mevcut yerleşimi korunur.",
     "changedFiles": [
-      "surum-kaydi.json",
-      "surum-takip.js",
-      "surum-takip.css",
-      "menu-cekmece.js",
-      "manifest.json",
-      "ayarlar-render.js",
-      "home.html",
-      "menüyü kullanan HTML sayfalarındaki ortak betik sürüm bağlantıları"
+      "islem-liste.js",
+      "islem-liste-style.css",
+      "son-islemler-render.js",
+      "son-islemler.html",
+      "surum-kaydi.json"
     ],
-    "approval": "Kullanıcı tarafından 17.11.2026 tarihinde açıkça onaylandı.",
-    "branch": "main",
-    "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/54",
-    "commitSha": "0bafa331055f919431b09c4f013677c5576fdb4c",
-    "commitUrl": "https://github.com/Karaman3434/TKP/commit/0bafa331055f919431b09c4f013677c5576fdb4c",
-    "deploymentStatus": "GitHub Pages dağıtımı başarılı",
-    "validation": {
-      "json": "Başarılı",
-      "javascript": "Başarılı",
-      "siteHealth": "Başarılı — HTTP 200",
-      "securityRegression": "Başarısız — mevcut Firebase cihaz sahipliği kuralları; bu sürümde değiştirilmedi"
-    }
+    "approval": "Kullanıcı yeni görsel yerleşimi açıkça onayladı ve canlıya kodlama talimatı verdi.",
+    "branch": "fix/son-islemler-hareket-rozetleri-20261119",
+    "deploymentStatus": "GitHub Pages dağıtımı başarılı.",
+    "pullRequest": 69,
+    "mergeCommit": "62457c10ad0af9652e51da98fb4e4520bdd55cca"
   },
   "history": [
+    {
+      "id": "TKP.19.11.26-HAREKET-TUTAR-YANI.1670",
+      "version": "TKP.19.11.26-HAREKET-TUTAR-YANI.1670",
+      "date": "2026-11-19",
+      "title": "Son İşlemler hareket rozetlerini Euro tutarına yaklaştır",
+      "summary": "Son İşlemler satırlarında M kanal logosu, PRİM bilgisi ve işlem hareket kısa kodları Euro tutarının hemen solunda tek grupta gösterilir. Grup ile Euro tutarı arasında dikey ayraç; Euro ile KDV hariç TL tutarı arasında da dikey ayraç bulunur. Yalnızca Son İşlemler sayfasında etkinleştirilir; ortak listeyi kullanan diğer sayfaların mevcut yerleşimi korunur.",
+      "changedFiles": [
+        "islem-liste.js",
+        "islem-liste-style.css",
+        "son-islemler-render.js",
+        "son-islemler.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı yeni görsel yerleşimi açıkça onayladı ve canlıya kodlama talimatı verdi.",
+      "branch": "fix/son-islemler-hareket-rozetleri-20261119",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
+    {
+      "id": "TKP.19.11.26-SON-TL-RENK.1669",
+      "version": "TKP.19.11.26-SON-TL-RENK.1669",
+      "date": "2026-11-19",
+      "title": "Son İşlemler TL metni ve Euro tutar rengi",
+      "summary": "Son İşlemler ekranında Euro tutarının yanındaki KDV hariç TL karşılığı artık etiketsiz ve parantezsiz olarak yalnızca '89.518 TL' biçiminde kırmızı gösterilir. Satırdaki Euro tutarının rakam rengi koyu lacivert (#0d3d8c) olur. Gün başlığı toplamları, diğer sayfaların TL gösterimleri, kayıtlar, hesaplamalar, primler ve tasarımlar korunur.",
+      "changedFiles": [
+        "islem-liste.js",
+        "son-islemler-render.js",
+        "son-islemler.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı TOPLAM etiketinin kaldırılmasını, TL tutarının kırmızı '89.518 TL' biçiminde görünmesini ve Euro tutarının koyu lacivert olmasını açıkça onayladı.",
+      "branch": "fix/son-islemler-tl-format-20261119",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
+    {
+      "id": "TKP.18.11.26-SON-TOPLAM-TL.1668",
+      "version": "TKP.18.11.26-SON-TOPLAM-TL.1668",
+      "date": "2026-11-18",
+      "title": "Son İşlemler listesinde KDV hariç TOPLAM TL",
+      "summary": "Son İşlemler ekranında Euro toplamının hemen yanında tek bir TL tutarı gösterilir. Bu tutar kaydın kendi kuru üzerinden KDV hariç hesaplanır ve (TOPLAM 89.518 TL) biçiminde yazılır. KDV dahil TL tutarı bu ekranda gösterilmez. Satışlarım ekranının mevcut KDV'SİZ gösterimi ve ortak listeyi kullanan diğer ekranların varsayılan davranışı korunur.",
+      "changedFiles": [
+        "islem-liste.js",
+        "son-islemler-render.js",
+        "son-islemler.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı Euro toplamının ardından tek bir KDV hariç TOPLAM TL tutarı gösterilmesini açıkça onayladı.",
+      "branch": "fix/son-islemler-toplam-tl-kdvsiz-20261118",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
+    {
+      "id": "TKP.18.11.26-KDVSIZ.1667",
+      "version": "TKP.18.11.26-KDVSIZ.1667",
+      "date": "2026-11-18",
+      "title": "Satışlarım listesinde KDV hariç TL karşılığı",
+      "summary": "Satışlarım listesindeki Euro tutarının yanında parantez içinde gösterilen TL karşılığı artık KDV eklenmeden, kaydın kendi kuru ile hesaplanan net TL olarak gösterilir ve KDV'SİZ etiketi taşır. Yalnızca Satışlarım sayfasına uygulanır; ortak işlem listesi kullanan diğer sayfalarda mevcut KDV'Lİ gösterim korunur. Euro tutarları, grup toplamları, primler, kayıtlar ve diğer tasarım/işlevler değişmez.",
+      "changedFiles": [
+        "islem-liste.js",
+        "satis-listesi-render.js",
+        "satis-listesi.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı Satışlarım listesindeki parantez içi KDV dahil TL toplamının KDV hariç TL tutarıyla değiştirilmesini açıkça istedi.",
+      "branch": "fix/sales-list-vat-exclusive-tl-20261118",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
+    {
+      "id": "TKP.18.11.26-14:30.1666",
+      "version": "TKP.18.11.26-14:30.1666",
+      "date": "2026-11-18",
+      "title": "Ana Sayfa müşteri seçim penceresinde tek yetkiliyi gösterme",
+      "summary": "İşlem Yap müşteri seçim popup'ında kayıtlı tek yetkili de artık YETKİLİ KİŞİ bölümünde adı, görevi, telefonu ve e-postasıyla görünür. Tek kişi varsayılan seçili gelir; çoklu yetkili seçimi değişmeden kalır. Seçim bölümü yoksa bilgi mesajı, mevcut tek adres durumuna göre doğru açıklama verir.",
+      "changedFiles": [
+        "islem-popup.js",
+        "menu-cekmece.js",
+        "home.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı 18.11.2026 tarihinde müşteri seçim penceresinde tek yetkili bilgisinin görünmemesi hatasının düzeltilmesini ve canlıya alınmasını açıkça onayladı.",
+      "branch": "fix/single-contact-popup-visibility-20261118-1430",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
+    {
+      "id": "TKP.18.11.26-ARAMA.1665",
+      "version": "TKP.18.11.26-ARAMA.1665",
+      "date": "2026-11-18",
+      "title": "Hızlı arama — müşteri cari kodu ve çoklu karakter araması",
+      "summary": "Müşteri hızlı araması artık cari kodu (CustomerData kayıtlarındaki id), firma adı ve şehir alanlarında arama yapar. Karakter uzunluğu kısıtı yoktur; harf ve rakamlar, birden fazla boşlukla ayrılmış arama parçası birlikte desteklenir. Ürün araması zaten ürün adı, BERTA ve ABAS kodlarında tüm yazılan karakterleri ve sayısal kodları desteklediğinden değiştirilmedi. Sonuç görünümü ve 8 kayıtlık mevcut panel sınırı korunmuştur.",
+      "changedFiles": [
+        "customer-data.js",
+        "home.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı açıkça onayladı: ürün ve müşteri aramasında daha fazla harf/rakam; müşteri cari kodu dahil.",
+      "branch": "feature/customer-product-search-extended-20261118-1400",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
+    {
+      "id": "TKP.18.11.26-13:15.1664",
+      "version": "TKP.18.11.26-13:15.1664",
+      "timestamp": "2026-11-18T13:15:00+03:00",
+      "dateTime": "18.11.2026 – 13:15 (Türkiye saati)",
+      "title": "Ana Sayfa hızlı arama — etiket ve arama alanlarını dış çerçeve genişliğine eşitleme",
+      "summary": "Onaylanan görsel tasarım birebir uygulandı: Ürün ve Müşteri etiket satırları ile beyaz arama kutuları HIZLI ARAMA dış çerçevesinin iç genişliğini eşit ve tam kullanır. Üç nokta, renkler, yükseklikler, arama davranışı ve alt menü hedefleri korunur.",
+      "changedFiles": [
+        "menu-cekmece-style.css",
+        "home.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı 18.11.2026 tarihinde paylaşılan tasarımı birebir uygulamak ve canlıya almak için açık onay verdi.",
+      "branch": "feature/search-labels-match-input-size-20261118-1315",
+      "deploymentStatus": "Dağıtım bekliyor."
+    },
+    {
+      "id": "TKP.17.11.26-20:20.1662",
+      "version": "TKP.17.11.26-20:20.1662",
+      "timestamp": "2026-11-17T20:20:00+03:00",
+      "dateTime": "17.11.2026 – 20:20 (Türkiye saati)",
+      "title": "İşlem ürün adlarından WEİCON ürün sayfasına geçiş",
+      "summary": "Belge Önizleme ana ve bakiye ürün tablolarındaki ürün adları WEİCON ürün aramasını yeni sekmede açar. Ortak Hesapla popup'ındaki ürün adına dokunulduğunda da aynı WEİCON ürün araması açılır. Ana Sayfa mini arama, Ürün Bul ve Hızlı Hesapla arama sonuçlarındaki mevcut bağlantı davranışları korundu; hesaplama, sepet, fiyat ve tablo tasarımları değiştirilmedi.",
+      "changedFiles": [
+        "hareket-tablo.js",
+        "belge-render.js",
+        "hesapla-popup.js",
+        "belge-onizleme.html",
+        "cart.html",
+        "calc.html",
+        "manifest.json",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı 17.11.2026 tarihinde işlem tablolarındaki ve hesaplama penceresindeki ürün adına dokunulduğunda WEİCON ürün sayfasının açılmasını açıkça onayladı.",
+      "branch": "main",
+      "validation": {
+        "sourceSyntax": "JavaScript sözdizimi kontrolü başarılı",
+        "htmlReferences": "Belge Önizleme, Sepet ve Hızlı Hesapla önbellek sürümleri güncellendi",
+        "json": "manifest.json ve surum-kaydi.json JSON doğrulaması başarılı",
+        "scope": "Yalnızca ürün adı bağlantıları; ürün arama, hesaplama, sepet, fiyatlar ve tasarımlar korunur.",
+        "pagesDeployment": "Başarılı — GitHub Pages run #44143995693",
+        "siteHealth": "Başarılı — sağlık kontrolünde Site sağlık kontrolü adımı geçti",
+        "securityRegression": "Başarısız — mevcut Firebase cihaz sahipliği güvenlik regresyonu; bu çalışmada Firebase kuralları değiştirilmedi"
+      },
+      "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/60",
+      "commitSha": "9c08ea8dae30e2182a0a4f11e151e11c17cc4082",
+      "commitUrl": "https://github.com/Karaman3434/TKP/commit/9c08ea8dae30e2182a0a4f11e151e11c17cc4082",
+      "deploymentStatus": "PR #60 birleştirildi; GitHub Pages dağıtımı başarılı (run #44143995693)."
+    },
+    {
+      "id": "TKP.17.11.26-20:19.1661",
+      "version": "TKP.17.11.26-20:19.1661",
+      "timestamp": "2026-11-17T20:19:00+03:00",
+      "dateTime": "17.11.2026 – 20:19 (Türkiye saati)",
+      "title": "Ana sayfa menü program sürüm etiketi — 16 px",
+      "summary": "Ana sayfa açılır menüsündeki İŞ TAKİP program sürüm etiketi 16 px, kalın ve beyaz yapıldı. Etiketin üst çizgisi kaldırıldı; alt çizgi ve menünün diğer tüm tasarım/işlevleri korundu.",
+      "changedFiles": [
+        "home-anasayfa-style.css",
+        "home.html",
+        "manifest.json",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı tarafından 17.11.2026 tarihinde görsel önizleme ve 16 px ölçü üzerinden açıkça onaylandı.",
+      "branch": "main",
+      "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/59",
+      "commitSha": "6ee01fa4b3aaf4f10be9601c01040c330c62cfb3",
+      "deploymentStatus": "PR #59 birleştirildi; GitHub Pages dağıtım doğrulaması bekleniyor",
+      "validation": {
+        "versionLabelFont": "16 px — başarılı",
+        "versionLabelWeight": "800 (bold) — başarılı",
+        "upperDivider": "Sürüm etiketi üst çizgisi kaldırıldı — başarılı",
+        "lowerDivider": "Alt çizgi ve Ayarlar ayıracı korundu — başarılı",
+        "scope": "Yalnızca ana sayfa menü sürüm etiketi; diğer tasarım ve işlevlere dokunulmadı",
+        "manifestJson": "Başarılı",
+        "cssStructure": "Başarılı — sürüm etiketi kuralı güncellendi",
+        "pagesDeployment": "Bekleniyor"
+      },
+      "commitUrl": "https://github.com/Karaman3434/TKP/commit/6ee01fa4b3aaf4f10be9601c01040c330c62cfb3"
+    },
+    {
+      "id": "TKP.17.11.26-18:20.1660",
+      "version": "TKP.17.11.26-18:20.1660",
+      "timestamp": "2026-11-17T18:20:03+03:00",
+      "dateTime": "17.11.2026 – 18:20 (Türkiye saati)",
+      "title": "Ürün ve müşteri arama kutusu yazı boyutu +%20",
+      "summary": "Menüdeki Ürün ve Müşteri mini arama kutularının etkin yazı boyutu 13 px'ten 15,6 px'e çıkarıldı (+%20). Temel CSS 14,4 px'ten 17,28 px'e güncellendi. Kutu ölçüleri, renkler, konumlar, sonuç listeleri ve diğer işlevler korunarak ortak CSS önbellek sürümleri yenilendi.",
+      "changedFiles": [
+        "menu-cekmece-style.css",
+        "manifest.json",
+        "home.html",
+        "ortak menü CSS önbellek sürümünü kullanan HTML sayfaları"
+      ],
+      "approval": "Kullanıcı tarafından 17.11.2026 tarihinde açıkça onaylandı.",
+      "branch": "main",
+      "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/57",
+      "commitSha": "42b65b363ca69f97108c74f604bcf4006747beef",
+      "commitUrl": "https://github.com/Karaman3434/TKP/commit/42b65b363ca69f97108c74f604bcf4006747beef",
+      "deploymentStatus": "GitHub Pages dağıtımı başarılı",
+      "validation": {
+        "cssBaseFont": "Başarılı — 17,28 px",
+        "cssEffectiveMobileFont": "Başarılı — 15,6 px (13 px'e göre +%20)",
+        "cssStructure": "Başarılı — süslü parantez dengesi 0",
+        "manifestJson": "Başarılı — sürüm bilgisi güncel",
+        "htmlCacheReferences": "Başarılı — ortak CSS önbellek sürümleri yenilendi",
+        "scope": "Başarılı — arama kutusu yazı boyutu dışında tasarım/işlev değişikliği yok",
+        "pagesDeployment": "Başarılı — GitHub Actions run 44114279315",
+        "siteHealth": "Başarılı — HTTP/site sağlık kontrolü",
+        "securityRegression": "Başarısız — mevcut Firebase cihaz sahipliği güvenlik regresyon kontrolü; bu güncellemede Firebase kuralları değiştirilmedi",
+        "securityWorkflowUrl": "https://github.com/Karaman3434/TKP/actions/runs/44114280090",
+        "pagesWorkflowUrl": "https://github.com/Karaman3434/TKP/actions/runs/44114279315"
+      }
+    },
+    {
+      "id": "TKP.17.11.26-17:38.1659",
+      "version": "TKP.17.11.26-17:38.1659",
+      "timestamp": "2026-11-17T17:38:13+03:00",
+      "dateTime": "17.11.2026 – 17:38 (Türkiye saati)",
+      "title": "Müşteri arama sonuç listesi — yazı ölçüsü ve renk standardı",
+      "summary": "Müşteri kodu, müşteri adı ve ilçe/il sıralaması korunarak müşteri adı ürün arama listesindeki 16,15 px ölçüsüne eşitlendi; ilçe/il mavi yapıldı; müşteri kodunun okunurluğu artırıldı.",
+      "changedFiles": [
+        "menu-cekmece-style.css",
+        "manifest.json",
+        "home.html",
+        "menü CSS önbellek sürümünü kullanan HTML sayfaları"
+      ],
+      "approval": "Kullanıcı tarafından 17.11.2026 tarihinde açıkça onaylandı.",
+      "branch": "main",
+      "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/55",
+      "commitSha": "f32733bd288fa0c2605831de5b286209f208c8d5",
+      "commitUrl": "https://github.com/Karaman3434/TKP/commit/f32733bd288fa0c2605831de5b286209f208c8d5",
+      "deploymentStatus": "GitHub Pages dağıtımı başarılı",
+      "validation": {
+        "manifestJson": "Başarılı",
+        "versionLedgerJson": "Başarılı",
+        "cssStructure": "Başarılı — süslü parantez dengesi 0",
+        "customerNameSize": "Başarılı — 16.15px, ürün arama ile aynı",
+        "locationColor": "Başarılı — #1769c2 mavi",
+        "customerCode": "Başarılı — kırmızı ve kalın",
+        "pagesDeployment": "Başarılı — GitHub Pages build ve deploy",
+        "securityRegression": "Ayrı mevcut Firebase cihaz sahipliği kontrolü başarısız; bu güncellemede Firebase kuralları değiştirilmedi"
+      }
+    },
+    {
+      "id": "TKP.17.11.26-13:31.1658",
+      "version": "TKP.17.11.26-13:31.1658",
+      "timestamp": "2026-11-17T13:31:33+03:00",
+      "dateTime": "17.11.2026 – 13:31 (Türkiye saati)",
+      "title": "Sürüm ve kodlama takip sistemi",
+      "summary": "Tek merkezli sürüm kaydı, menüde tıklanabilir sürüm geçmişi, sohbet–uygulama–GitHub eşleştirmesi ve test/yayın durumunun kaydı. Ortak menü betiğinin önbellek sürüm bağlantıları, menüyü kullanan mevcut sayfalarda yenilendi.",
+      "changedFiles": [
+        "surum-kaydi.json",
+        "surum-takip.js",
+        "surum-takip.css",
+        "menu-cekmece.js",
+        "manifest.json",
+        "ayarlar-render.js",
+        "home.html",
+        "menüyü kullanan HTML sayfalarındaki ortak betik sürüm bağlantıları"
+      ],
+      "approval": "Kullanıcı tarafından 17.11.2026 tarihinde açıkça onaylandı.",
+      "branch": "main",
+      "pullRequestUrl": "https://github.com/Karaman3434/TKP/pull/54",
+      "commitSha": "0bafa331055f919431b09c4f013677c5576fdb4c",
+      "commitUrl": "https://github.com/Karaman3434/TKP/commit/0bafa331055f919431b09c4f013677c5576fdb4c",
+      "deploymentStatus": "GitHub Pages dağıtımı başarılı",
+      "validation": {
+        "json": "Başarılı",
+        "javascript": "Başarılı",
+        "siteHealth": "Başarılı — HTTP 200",
+        "securityRegression": "Başarısız — mevcut Firebase cihaz sahipliği kuralları; bu sürümde değiştirilmedi"
+      }
+    },
     {
       "id": "TKP.17.11.26-PRODUCT-SEARCH-01",
       "timestamp": "2026-11-17T13:21:47+03:00",

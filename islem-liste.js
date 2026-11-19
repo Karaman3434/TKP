@@ -183,32 +183,41 @@ var IslemListesi = (function(){
     var v = parseFloat(k.kdv);
     return isNaN(v) ? 20 : v;
   }
-  function tlHucreHTML(k){
+  function tlHucreHTML(k, kdvDahilGoster, ozelEtiket, ozelParaBirimi){
     if(k._beklemede || !(k._tutar > 0) || !(k._tl > 0)) return "";
-    var kdvDahil = k._tl * (1 + kdvOrani(k) / 100);
-    return "<span class='sr-tl-kdv'>(" + Math.round(kdvDahil).toLocaleString("tr-TR") + " ₺ <small class='sr-tl-kdv-et'>KDV'Lİ</small>)</span>";
+    // _tl, kaydın kendi kuru ile hesaplanan KDV hariç net TL karşılığıdır.
+    var tutarTl = kdvDahilGoster === false ? k._tl : k._tl * (1 + kdvOrani(k) / 100);
+    var etiketsizOzelGosterim = ozelEtiket === false;
+    var etiket = etiketsizOzelGosterim ? "" : (ozelEtiket || (kdvDahilGoster === false ? "KDV'SİZ" : "KDV'Lİ"));
+    var paraBirimi = ozelParaBirimi || "₺";
+    var sayiVeBirim = Math.round(tutarTl).toLocaleString("tr-TR") + " " + paraBirimi;
+    var icerik = etiketsizOzelGosterim
+      ? sayiVeBirim
+      : (ozelEtiket ? etiket + " " + sayiVeBirim : sayiVeBirim + " <small class='sr-tl-kdv-et'>" + etiket + "</small>");
+    return "<span class='sr-tl-kdv'>" + (etiketsizOzelGosterim ? icerik : "(" + icerik + ")") + "</span>";
   }
-  function satirHTML(k, i, primSatiriGoster){
+  function satirHTML(k, i, primSatiriGoster, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi, euroTutarRengi, hareketleriTutaraYasla){
     var m = rozetMeta(k);
     return "<div class='sr-satir" + (k._beklemede ? " sr-satir--beklemede" : "") + "' data-i='" + i + "' style='border-left-color:" + m.serit + ";'>"
       + "<div class='sr-ust'>"
       +   "<div class='sr-firma-h'>" + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml ? CustomerData.kodAdHtml(k.musteriId, k.musteri) : htmlEsc(k.musteri||"")) + "</div>"
       +   "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
       + "</div>"
-      + "<div class='sr-alt'>"
-      +   (primSatiriGoster ? primSatiriHTML(k) : "")
-      +   "<div class='sr-rota'>" + rotaHTML(k) + "</div>"
-      +   "<div class='sr-tm'>" + kanalHarfHTML(k.kanal) + "<div class='sr-tutar-h'>" + tutarHucreHTML(k) + "</div>" + tlHucreHTML(k) + "</div>"
+      + "<div class='sr-alt'" + (hareketleriTutaraYasla ? " data-hareket-tutara-yasla='1'" : "") + ">"
+      +   (hareketleriTutaraYasla
+          ? "<div class='sr-hareket-grup'>" + kanalHarfHTML(k.kanal) + (primSatiriGoster ? primSatiriHTML(k) : "") + "<div class='sr-rota'>" + rotaHTML(k) + "</div></div>"
+          : (primSatiriGoster ? primSatiriHTML(k) : "") + "<div class='sr-rota'>" + rotaHTML(k) + "</div>")
+      +   "<div class='sr-tm'>" + (hareketleriTutaraYasla ? "" : kanalHarfHTML(k.kanal)) + "<div class='sr-tutar-h'" + (euroTutarRengi ? " style='color:" + euroTutarRengi + ";'" : "") + ">" + tutarHucreHTML(k) + "</div>" + tlHucreHTML(k, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi) + "</div>"
       + "</div>"
       + "<div class='sr-ok-h'>&#8250;</div>"
       + "</div>";
   }
-  function gruplaHTML(kayitlar, toplamaBeklemedeDahil, primSatiriGoster){
+  function gruplaHTML(kayitlar, toplamaBeklemedeDahil, primSatiriGoster, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi, euroTutarRengi, hareketleriTutaraYasla){
     var gruplar = [], harita = {};
     kayitlar.forEach(function(k, i){
       var a = gunAnahtari(k.ts);
       if(!harita[a]){ harita[a] = {ts:k.ts, satirlar:[], toplam:0}; gruplar.push(harita[a]); }
-      harita[a].satirlar.push(satirHTML(k, i, primSatiriGoster));
+      harita[a].satirlar.push(satirHTML(k, i, primSatiriGoster, kdvDahilGoster, tlGosterimEtiketi, tlParaBirimi, euroTutarRengi, hareketleriTutaraYasla));
       if(!k._beklemede || toplamaBeklemedeDahil) harita[a].toplam += k._tutar;
     });
     return gruplar.map(function(g){
@@ -317,7 +326,7 @@ var IslemListesi = (function(){
           bosEl.hidden = false;
         } else {
           bosEl.hidden = true;
-          listeEl.innerHTML = gruplaHTML(kayitlar, s.beklemedeToplamaDahil, !!opts.primSatiriGoster);
+          listeEl.innerHTML = gruplaHTML(kayitlar, s.beklemedeToplamaDahil, !!opts.primSatiriGoster, opts.tlKdvDahil, opts.tlGosterimEtiketi, opts.tlParaBirimi, opts.euroTutarRengi, !!opts.hareketleriTutaraYasla);
           listeEl.querySelectorAll(".sr-satir").forEach(function(el){
             el.onclick = function(){
               var k = kayitlar[parseInt(this.getAttribute("data-i"), 10)];
