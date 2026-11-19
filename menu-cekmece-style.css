@@ -774,3 +774,14 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   .as-drawer-overlay--home-search .as-drawer-mini-etiket-satir{left:12px!important;right:12px!important;}
   .as-drawer-overlay--home-search .as-drawer-mini-islem{width:44px!important;min-width:44px!important;}
 }
+
+
+/* ABDULLAH ONAYI — HIZLI ARAMA ALANLARI %20 YÜKSELTİLDİ; BAŞLIK-ÜRÜN ETİKETİ ARASI 2 mm.
+   Yalnızca Ana Sayfa çekmecesindeki Ürün ve Müşteri arama alanları etkilenir. */
+.as-drawer-overlay--home-search .as-drawer-oge--miniarama-yeni:first-child{
+  margin-top:14px!important; /* 2 mm görsel boşluk: HIZLI ARAMA başlığı ile Ürün etiketi */
+}
+.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit,
+.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit:focus{
+  height:58px!important; /* mevcut 48 px yüksekliğin yaklaşık %20 artırılmış hali */
+}
