@@ -1,6 +1,8 @@
 name: PWA Manifest Tutarlılık Kontrolü
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
