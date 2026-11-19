@@ -183,3 +183,23 @@ body.belge-onizleme-sayfa #ayrintiAcilir::after { display: none; }
   body.belge-onizleme-sayfa .bo-bilgi-menu { width: min(300px,calc(100vw - 16px)); }
   body.belge-onizleme-sayfa #ayrintiAcilir.acilir-menu { width: min(228px,calc(100vw - 16px)); }
 }
+
+
+/* TEST DALİ — Abdullah onayıyla: İlerlet seçenekleri, ana ayrıntı
+   penceresinin sağ kenarında yaklaşık %25 örtüşerek açılır.
+   Ana pencere arkada görünür kalır; ikinci popup üst katmandadır. */
+body.belge-onizleme-sayfa #ilerletSecOverlay.acilir-menu-zemin {
+  z-index: 1220;
+  background: transparent;
+}
+body.belge-onizleme-sayfa #ilerletAcilir.acilir-menu {
+  width: 190px;
+  max-width: calc(100vw - 12px);
+  z-index: 1221;
+  box-sizing: border-box;
+}
+@media (max-width: 380px) {
+  body.belge-onizleme-sayfa #ilerletAcilir.acilir-menu {
+    width: min(190px,calc(100vw - 12px));
+  }
+}
