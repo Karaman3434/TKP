@@ -194,7 +194,7 @@ function belgeyiCiz(kayit, musteri){
     // üretiliyor (Sepet/Gönder ile BİREBİR aynı kaynak) — basit:false,
     // primGizli:false (bu sayfa her zaman tam/iç görünüm, PRİM ve kodu
     // gösterir), zeminSinifi:"" (ana tablo renksiz zemin).
-    var satirlarHtml = HareketTablo.urunTablosuHtml(urunler, belgeHesaplaAdaptoru("adet", kaydinKuru), "", false, false, kaydinKuru);
+    var satirlarHtml = HareketTablo.urunTablosuHtml(urunler, belgeHesaplaAdaptoru("adet", kaydinKuru), "", false, false, kaydinKuru, null, true);
 
     // BAKİYE ÜRÜN BLOĞU (08.10.2026, Abdullah'ın isteğiyle) — bakiyede kalan
     // adedi olan ürünler, ana tabloyla BİREBİR aynı sütun/tasarımda, ayrı
@@ -215,7 +215,7 @@ function belgeyiCiz(kayit, musteri){
       kopya.adet = item.bakiyeAdet;
       return kopya;
     });
-    var bakiyeSatirlarHtml = HareketTablo.satirlarHtml(bakiyeUrunlerAdetli, belgeHesaplaAdaptoru("adet", kaydinKuru), "hareket-satir--sari", false, false, kaydinKuru);
+    var bakiyeSatirlarHtml = HareketTablo.satirlarHtml(bakiyeUrunlerAdetli, belgeHesaplaAdaptoru("adet", kaydinKuru), "hareket-satir--sari", false, false, kaydinKuru, true);
 
     var durum = kayit.durum;
     var sorunluMu = durum==="iptal" || durum==="iade" || durum==="kacan";
@@ -1466,8 +1466,7 @@ document.addEventListener("DOMContentLoaded", function(){
           }catch(e){ hataGoster("İlerletilemedi: " + e.message); }
         };
       });
-      // Üst pencere açık kalır; işlem seçenekleri onun sağ kenarına,
-      // genişliğinin yaklaşık dörtte biri üst üste binecek şekilde açılır.
+      // Ana pencere açık kalır; seçenekler sağ kenarında yaklaşık %25 örtüşür.
       var z = document.getElementById("ilerletSecOverlay");
       var p = document.getElementById("ilerletAcilir");
       var parent = document.getElementById("ayrintiAcilir");
