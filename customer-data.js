@@ -20,6 +20,7 @@ var CustomerData = (function(){
 
   var liste = [];
   var dinleyiciler = [];
+  var hazir = false;
 
   function baslat(){
     try{
@@ -28,6 +29,7 @@ var CustomerData = (function(){
       db.ref("musteriler").on("value", function(snap){
         var data = snap.val();
         liste = data ? (Array.isArray(data) ? data.filter(Boolean) : Object.values(data)) : [];
+        hazir = true;
         // CANLI MÜŞTERİ BİLGİSİ (02.11.2026, Abdullah onayı): müşteri kartında
         // şehir/ilçe değişince, işlem kayıtlarının eski kopyası yerine GÜNCEL
         // değer tüm listelerde görünsün diye ReportsData bilgilendirilir
@@ -990,6 +992,7 @@ var CustomerData = (function(){
   return {
     baslat: baslat,
     listeDegistiginde: listeDegistiginde,
+    hazirMi: function(){ return hazir; },
     ara: ara,
     sec: sec,
     secimiKaldir: secimiKaldir,
