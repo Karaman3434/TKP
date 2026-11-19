@@ -113,16 +113,28 @@ var IslemPopup = (function(){
     yetkili: "<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='#16a085' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='4'/><path d='M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7'/></svg>"
   };
 
-  // Hızlı pencereden gelen kayıt eksikse (yalnızca {ad,sehir,id}) tam müşteriyi bul.
+  // Müşteri kaydını mümkün olduğunda daima CustomerData'nın güncel listesinden,
+  // öncelikle kalıcı cari ID ile çöz. Boş [] dizileri JavaScript'te truthy
+  // olduğundan, yalnızca alanın varlığına bakarak kaydı "tam" kabul etme.
   function tamMusteri(m){
     if(!m) return {};
-    if(m.faturaAdresleri || m.teslimatAdresleri || m.iletisimler) return m;
     try{
       if(typeof CustomerData !== "undefined" && CustomerData.ara){
-        var l = CustomerData.ara("");
-        for(var i=0;i<l.length;i++){ if((m.id && l[i].id === m.id) || (!m.id && l[i].ad === m.ad)) return l[i]; }
+        var l = CustomerData.ara("") || [];
+        if(m.id){
+          var idli = (typeof CustomerData.musteriIdIleBul === "function")
+            ? CustomerData.musteriIdIleBul(m.id)
+            : l.filter(function(x){ return x && x.id === m.id; })[0];
+          if(idli) return idli;
+        }else if(m.ad){
+          var ad = String(m.ad).trim().toLocaleLowerCase("tr-TR");
+          var eslesenler = l.filter(function(x){
+            return x && String(x.ad || "").trim().toLocaleLowerCase("tr-TR") === ad;
+          });
+          if(eslesenler.length === 1) return eslesenler[0];
+        }
       }
-    }catch(e){}
+    }catch(e){ console.warn("Müşteri kaydı güncel listeden çözülemedi:", e); }
     return m;
   }
 
