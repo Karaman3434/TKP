@@ -24,11 +24,19 @@
 // bkz. islem-popup.js. Modül gerektiğinde yüklenir; yüklenemezse eski yan panel açılır.
 function cmIslemPopupAc(musteri, devam, yedek){
   var kart = document.getElementById("cmAltMenu");
-  if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam, {kart: kart}); return; }
+  function popupAc(){
+    if(typeof IslemPopup === "undefined" || !IslemPopup || typeof IslemPopup.ac !== "function"){
+      hataGoster("Müşteri işlem penceresi yüklenemedi. Eski işlem ekranına geçilmedi. Sayfayı yenileyip tekrar deneyin.");
+      return;
+    }
+    try{ IslemPopup.ac(musteri, devam, {kart: kart}); }
+    catch(e){ hataGoster("Müşteri işlem penceresi açılamadı: " + (e && e.message ? e.message : e)); }
+  }
+  if(typeof IslemPopup !== "undefined"){ popupAc(); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.13.11.26-00:15.1587";
-  s.onload = function(){ IslemPopup.ac(musteri, devam, {kart: kart}); };
-  s.onerror = function(){ if(typeof yedek === "function") yedek(); };
+  s.src = "islem-popup.js?v=TKP.19.11.26-ISLEM-POPUP-01";
+  s.onload = popupAc;
+  s.onerror = function(){ hataGoster("İşlem penceresi dosyası yüklenemedi. Eski tasarıma geçiş engellendi."); };
   document.body.appendChild(s);
 }
 
