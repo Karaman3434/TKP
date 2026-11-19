@@ -185,9 +185,8 @@ body.belge-onizleme-sayfa #ayrintiAcilir::after { display: none; }
 }
 
 
-/* TEST DALİ — Abdullah onayıyla: İlerlet seçenekleri, ana ayrıntı
-   penceresinin sağ kenarında yaklaşık %25 örtüşerek açılır.
-   Ana pencere arkada görünür kalır; ikinci popup üst katmandadır. */
+/* ABDULLAH ONAYI — İlerlet seçenekleri, ana ayrıntı penceresinin
+   sağ kenarında yaklaşık %25 örtüşerek açılır; ana pencere görünür kalır. */
 body.belge-onizleme-sayfa #ilerletSecOverlay.acilir-menu-zemin {
   z-index: 1220;
   background: transparent;
