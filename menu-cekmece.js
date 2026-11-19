@@ -614,13 +614,31 @@ function mcMusteriTipMenuOlustur(){
 // "İŞLEM YAP" YENİ ROTA (08.11.2026, Abdullah onayı): İşlem Yap'a dokununca eski yan tip
 // paneli yerine cari kart POPUP'ı açılır (fatura/teslimat/yetkili seçimi + İŞLEM SEÇ) —
 // bkz. islem-popup.js. Modül gerektiğinde yüklenir; yüklenemezse eski yan panel açılır.
+function mcIslemPopupYuklemeHatasi(mesaj){
+  console.error(mesaj);
+  if(typeof hataGoster === "function"){ hataGoster(mesaj); return; }
+  var kutu = document.createElement("div");
+  kutu.setAttribute("role", "alert");
+  kutu.textContent = "⚠️ " + mesaj;
+  kutu.style.cssText = "position:fixed;top:8px;left:8px;right:8px;background:#c0392b;color:#fff;padding:12px;border-radius:8px;font-size:14px;z-index:2147483647;";
+  document.body.appendChild(kutu);
+  setTimeout(function(){ if(kutu.parentNode) kutu.parentNode.removeChild(kutu); }, 8000);
+}
 function mcIslemPopupAc(musteri, devam, yedek){
   var kart = (typeof mcMiniAramaPanel !== "undefined") ? mcMiniAramaPanel : null;
-  if(typeof IslemPopup !== "undefined"){ IslemPopup.ac(musteri, devam, {kart: kart}); return; }
+  function popupAc(){
+    if(typeof IslemPopup === "undefined" || !IslemPopup || typeof IslemPopup.ac !== "function"){
+      mcIslemPopupYuklemeHatasi("Müşteri işlem penceresi yüklenemedi. Eski işlem ekranına geçilmedi. Sayfayı yenileyip tekrar deneyin.");
+      return;
+    }
+    try{ IslemPopup.ac(musteri, devam, {kart: kart}); }
+    catch(e){ mcIslemPopupYuklemeHatasi("Müşteri işlem penceresi açılamadı: " + (e && e.message ? e.message : e)); }
+  }
+  if(typeof IslemPopup !== "undefined"){ popupAc(); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.18.11.26-14:30.1666";
-  s.onload = function(){ IslemPopup.ac(musteri, devam, {kart: kart}); };
-  s.onerror = function(){ if(typeof yedek === "function") yedek(); };
+  s.src = "islem-popup.js?v=TKP.19.11.26-ISLEM-POPUP-01";
+  s.onload = popupAc;
+  s.onerror = function(){ mcIslemPopupYuklemeHatasi("İşlem penceresi dosyası yüklenemedi. Eski tasarıma geçiş engellendi."); };
   document.body.appendChild(s);
 }
 
