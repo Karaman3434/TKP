@@ -81,6 +81,9 @@
   try{
     if(typeof CustomerData !== "undefined" && typeof CustomerData.listeDegistiginde === "function"){
       CustomerData.listeDegistiginde(function(){ mark("customers_ready"); });
+      if(typeof CustomerData.hazirMi === "function" && CustomerData.hazirMi()){
+        mark("customers_ready", "already_ready_at_measurement_install");
+      }
     }else{
       mark("customers_observer_unavailable");
     }
