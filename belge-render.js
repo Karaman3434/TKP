@@ -1445,8 +1445,6 @@ document.addEventListener("DOMContentLoaded", function(){
   // olabilir), Numune hiçbir zaman yok.
   document.getElementById("msIlerlet").onclick = function(){
     if(this.disabled) return;
-    acilirKapat("islemlerOverlay");
-    belgeBilgiMenuKapat();
     try{
       if(!sonCizilenKayit) return;
       var secenekler = ReportsData.ilerletSecenekleri(sonCizilenKayit);
@@ -1461,13 +1459,27 @@ document.addEventListener("DOMContentLoaded", function(){
           var tip = this.getAttribute("data-tip");
           try{
             acilirKapat("ilerletSecOverlay");
+            acilirKapat("islemlerOverlay");
+            belgeBilgiMenuKapat();
             if(!sonCizilenKayit) return;
             ReportsData.revizeBaslat(sonCizilenKayit, tip);
           }catch(e){ hataGoster("İlerletilemedi: " + e.message); }
         };
       });
-      document.getElementById("ilerletSecOverlay").hidden = false;
-      acilirKonumla("ilerletAcilir");
+      // Üst pencere açık kalır; işlem seçenekleri onun sağ kenarına,
+      // genişliğinin yaklaşık dörtte biri üst üste binecek şekilde açılır.
+      var z = document.getElementById("ilerletSecOverlay");
+      var p = document.getElementById("ilerletAcilir");
+      var parent = document.getElementById("ayrintiAcilir");
+      z.hidden = false;
+      var pr = parent.getBoundingClientRect();
+      var vw = window.innerWidth, vh = window.innerHeight;
+      var w = p.offsetWidth || 190, h = p.offsetHeight || 120;
+      var left = Math.round(pr.right - w * 0.25);
+      left = Math.max(6, Math.min(left, vw - w - 6));
+      var top = Math.max(8, Math.min(Math.round(pr.top), vh - h - 8));
+      p.style.top = top + "px";
+      p.style.left = left + "px";
       var t = document.getElementById("btnIslemlerAc");
       if(t) t.classList.add("ub-ayrinti-secili");
     }catch(e){ hataGoster("İlerlet seçenekleri açılamadı: " + e.message); }
