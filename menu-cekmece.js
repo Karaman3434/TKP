@@ -979,8 +979,7 @@ function mcOgeHtml(o){
   // satır) devam eder — yani bu özelliğin KENDİSİ hiçbir zaman ek bir
   // "kilitli" görünüm icat etmez, sadece var olan davranışa geri döner.
   if(o.miniArama && acik && (!o.miniAramaIzin || window.izinVarMi(o.miniAramaIzin))){
-    if(document.getElementById("asDrawerOverlay") && document.getElementById("asDrawerOverlay").classList.contains("as-drawer-overlay--home-search")){
-      return "<div class='as-drawer-oge as-drawer-oge--miniarama as-drawer-oge--miniarama-yeni'>"
+    return "<div class='as-drawer-oge as-drawer-oge--miniarama as-drawer-oge--miniarama-yeni'>"
         + "<div class='as-drawer-mini-etiket-satir'>"
         + ikHtml
         + "<span class='as-drawer-mini-etiket-ayrac' aria-hidden='true'></span>"
@@ -992,8 +991,6 @@ function mcOgeHtml(o){
         + "<span class='as-drawer-mini-arama-ikon' aria-hidden='true'>⌕</span>"
         + "</div>"
         + "</div>";
-    }
-    return "<div class='as-drawer-oge as-drawer-oge--miniarama'>"
       + ikHtml
       + "<button type='button' class='as-drawer-mini-etiket' data-alt-menu='" + o.altMenu + "'>" + o.etiket + "</button>"
       + "<input type='search' class='as-drawer-mini-arama-input-sabit' data-mini-arama='" + o.miniArama + "' placeholder='" + o.etiket + " ara' autocomplete='off'>"
@@ -1024,7 +1021,7 @@ function mcDrawerListesiOlustur(){
     var liste = document.getElementById("asDrawerListe");
     if(liste){
       liste.innerHTML = MC_OGELER.map(mcOgeHtml).join("");
-      if(document.getElementById("asDrawerOverlay") && document.getElementById("asDrawerOverlay").classList.contains("as-drawer-overlay--home-search")){
+      {
         var miniSatirlar = Array.prototype.filter.call(liste.children, function(el){
           return el.classList && el.classList.contains("as-drawer-oge--miniarama-yeni");
         });
