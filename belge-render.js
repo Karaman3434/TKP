@@ -226,20 +226,25 @@ function belgeyiCiz(kayit, musteri){
           : "<div class='belge-durum-rozet' style='background:" + DURUM_ETIKET[durum].bg + ";color:" + DURUM_ETIKET[durum].renk + ";'>" + DURUM_ETIKET[durum].ikon + " BU KAYIT " + DURUM_ETIKET[durum].ad + (durum==="kacan" && kayit.kacanRakip ? " — → "+htmlEsc(kayit.kacanRakip) : "") + "</div>")
       : "";
 
+    // Snapshot varsa Cari alanlarının tarihsel kaynağıdır; master kaydın sonradan değişmesi belgeyi değiştirmez.
+    var cariSnapshot = kayit.transactionCustomerInfo || null;
     var vade = (function(v){
       var s = String(v||"").trim();
       if(s === "") return "";
       var n = parseInt(s, 10);
       return (!isNaN(n) && n >= 0 && String(n) === s) ? (n + " gün") : s;
-    })(musteri && musteri.vade);
-    var faturaTuru = (musteri && musteri.fatura) || "";
-    var kargo = (musteri && musteri.kargo) || "";
-    var faturaAdr = kayit.faturaAdresi ? (kayit.faturaAdresi.adres || "") : "";
-    var teslimatAdr = kayit.teslimatAdresi ? (kayit.teslimatAdresi.adres || "") : "";
+    })(cariSnapshot ? cariSnapshot.vade : (musteri && musteri.vade));
+    var faturaTuru = cariSnapshot ? (cariSnapshot.fatura||"") : ((musteri && musteri.fatura) || "");
+    var kargo = cariSnapshot ? (cariSnapshot.kargo||"") : ((musteri && musteri.kargo) || "");
+    var adresMetni = function(v){ return v && typeof v==="object" ? (v.adres||"") : (v||""); };
+    var faturaAdr = cariSnapshot ? adresMetni(cariSnapshot.faturaAdresi) : adresMetni(kayit.faturaAdresi);
+    var teslimatAdr = cariSnapshot ? adresMetni(cariSnapshot.teslimatAdresi) : adresMetni(kayit.teslimatAdresi);
     var tumYetkililer = (musteri && musteri.iletisimler) || [];
-    var yetkililer = kayit.gorunecekYetkililer
-      ? tumYetkililer.filter(function(k){ return kayit.gorunecekYetkililer.indexOf(k.isim) !== -1; })
-      : tumYetkililer;
+    var yetkililer = cariSnapshot && Array.isArray(cariSnapshot.yetkililer) && cariSnapshot.yetkililer.length
+      ? cariSnapshot.yetkililer
+      : (kayit.gorunecekYetkililer
+        ? tumYetkililer.filter(function(k){ return kayit.gorunecekYetkililer.indexOf(k.isim) !== -1; })
+        : tumYetkililer);
     // Cari'deki tek "ŞEHİR" alanı SADECE fatura adresine eklenir — teslimat
     // çoğu zaman bambaşka bir ilçe/ildedir, ona hiç eklenmez (29.09.2026).
     var sehir = (musteri && musteri.sehir) || "";
