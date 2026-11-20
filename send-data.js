@@ -246,6 +246,7 @@ var SendData = (function(){
 
             if(eslesenIdx >= 0){
               var eskiKayit = liste[eslesenIdx];
+              // Snapshot tarihsel Cari verisidir: revize sırasında master'dan yeniden alınmaz.
               // Mevcut snapshot varsa revize sırasında aynen korunur. Legacy kayıtlar snapshot ile geriye dönük doldurulmaz.
               var eskiToplam = (eskiKayit.urunler||[]).reduce(function(s,u){ return s+(u.toplamEuro||0); }, 0);
               if(!eskiKayit.revizeGecmisi) eskiKayit.revizeGecmisi = [];
@@ -268,7 +269,8 @@ var SendData = (function(){
                 mod: tip, urunler: urunlerKaydi, kur: kur, kurManuel: !!kurManuelMi, kdv: kdv || 0,
                 faturaAdresi: (adresler && adresler.faturaAdresi) || null,
                 teslimatAdresi: (adresler && adresler.teslimatAdresi) || null,
-                gorunecekYetkililer: yetkiliIsimleri(adresler)
+                gorunecekYetkililer: yetkiliIsimleri(adresler),
+                transactionCustomerInfo: cariSnapshotOlustur(musteri, adresler)
               };
               if(devralinanKod){
                 kaydedilenKayit.oncekiKod = devralinanKod;
@@ -346,6 +348,7 @@ var SendData = (function(){
         var idx = liste.findIndex(function(k){ return k && Number(k.ts) === Number(ts); });
         if(idx < 0){ hata = "Kayıt bulunamadı."; return; }
         var k = liste[idx];
+        // Güncelleme, tarihsel snapshot'ı değiştirmez ve legacy kayıtları geriye dönük doldurmaz.
         k.urunler = urunlerKaydi;
         k.kur = kur || 0;
         k.kdv = kdv || 0;
