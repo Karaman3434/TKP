@@ -677,7 +677,10 @@ function formKaydet(){
       CustomerData.musteriGuncelle(seciliMusteriAdi, guncelBilgi2, function(basarili3, err3){
         if(!basarili3){ tamamla(false, err3); return; }
         seciliMusteriAdi = yeniAd; // artık kayıtları bu isimle arayacağız
-        var ilkFaturaVarMi = kayitlariGetir(musteriVerisi, "fatura").length > 0;
+        // Yalnızca gerçek faturaAdresleri dizisi varsa mevcut adresi güncelle.
+        // kayitlariGetir() eski acikAdres alanını da sanal kayıt olarak gösterdiğinden,
+        // eski kayıtlar için index 0 güncellemesi "Adres bulunamadı" hatası verebilir.
+        var ilkFaturaVarMi = Array.isArray(musteriVerisi.faturaAdresleri) && musteriVerisi.faturaAdresleri.length > 0;
         if(ilkFaturaVarMi){
           CustomerData.musteriAdresGuncelle(yeniAd, "fatura", 0, "Fatura Adresi", adres, tamamla, musteriVerisi.id);
         } else if(adres){
