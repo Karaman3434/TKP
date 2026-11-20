@@ -161,6 +161,23 @@ var SendData = (function(){
     return d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate();
   }
 
+
+  // Snapshot: her yeni işlem için Cari bilgilerini bağımsız kayda sabitle.
+  function cariSnapshotOlustur(musteri, adresler, ekSecenek){
+    // Aşama ilerlet/tekrar akışında kaynak snapshot varsa yeni aşamada tarihsel Cari bilgisi korunur.
+    var kaynakSnapshot = ekSecenek && ekSecenek.transactionCustomerInfo;
+    if(kaynakSnapshot && typeof IslemCariSnapshot !== "undefined"){
+      var kopya = IslemCariSnapshot.kayittanOku({transactionCustomerInfo:kaynakSnapshot});
+      if(kopya) return kopya;
+    }
+    if(typeof IslemCariSnapshot === "undefined") return null;
+    var secilen = adresler || {};
+    var ek = {teslimatSecildi:!!secilen.teslimatAdresi,yetkililerSecildi:!!(secilen.yetkililer&&secilen.yetkililer.length),notSecildi:false};
+    var r = IslemCariSnapshot.musteridenOlustur(musteri,secilen,ek);
+    if(!r || !r.gecerli) throw new Error("İşlem Cari snapshot eksik: "+((r&&r.eksik)||[]).join(", "));
+    return r.snapshot;
+  }
+
   function kaydet(tip, musteri, sepetUrunleri, kur, kdv, adresler, devralinanKod, devralinanTarih, devralinanRota, geriBildir, kurManuelMi, ekSecenek){
     var cb = typeof geriBildir === "function" ? geriBildir : function(){};
     try{
@@ -235,6 +252,8 @@ var SendData = (function(){
 
             if(eslesenIdx >= 0){
               var eskiKayit = liste[eslesenIdx];
+              // Snapshot tarihsel Cari verisidir: revize sırasında master'dan yeniden alınmaz.
+              // Mevcut snapshot varsa revize sırasında aynen korunur. Legacy kayıtlar snapshot ile geriye dönük doldurulmaz.
               var eskiToplam = (eskiKayit.urunler||[]).reduce(function(s,u){ return s+(u.toplamEuro||0); }, 0);
               if(!eskiKayit.revizeGecmisi) eskiKayit.revizeGecmisi = [];
               eskiKayit.revizeGecmisi.push({ts: eskiKayit.revizeZamani||eskiKayit.ts, toplamEuro:eskiToplam, urunSayisi:(eskiKayit.urunler||[]).length});
@@ -256,7 +275,8 @@ var SendData = (function(){
                 mod: tip, urunler: urunlerKaydi, kur: kur, kurManuel: !!kurManuelMi, kdv: kdv || 0,
                 faturaAdresi: (adresler && adresler.faturaAdresi) || null,
                 teslimatAdresi: (adresler && adresler.teslimatAdresi) || null,
-                gorunecekYetkililer: yetkiliIsimleri(adresler)
+                gorunecekYetkililer: yetkiliIsimleri(adresler),
+                transactionCustomerInfo: cariSnapshotOlustur(musteri, adresler, ekSecenek)
               };
               if(devralinanKod){
                 kaydedilenKayit.oncekiKod = devralinanKod;
@@ -334,6 +354,7 @@ var SendData = (function(){
         var idx = liste.findIndex(function(k){ return k && Number(k.ts) === Number(ts); });
         if(idx < 0){ hata = "Kayıt bulunamadı."; return; }
         var k = liste[idx];
+        // Güncelleme, tarihsel snapshot'ı değiştirmez ve legacy kayıtları geriye dönük doldurmaz.
         k.urunler = urunlerKaydi;
         k.kur = kur || 0;
         k.kdv = kdv || 0;
@@ -356,15 +377,18 @@ var SendData = (function(){
     var cb = typeof geriBildir === "function" ? geriBildir : function(){};
     try{
       var db = firebase.database();
-      var mutateHatasi = null;
+      var mutateHatasi = null, bulundu = false;
       db.ref("arsiv/" + tip).transaction(function(currentData){
         try{
+          bulundu = false;
           var liste = currentData ? (Array.isArray(currentData) ? currentData.filter(Boolean) : Object.values(currentData)) : [];
-          return liste.filter(function(k){ return k.ts !== ts; });
+          var yeniListe = liste.filter(function(k){ var eslesiyor = k && Number(k.ts) === Number(ts); if(eslesiyor) bulundu = true; return !eslesiyor; });
+          if(!bulundu) return;
+          return yeniListe;
         }catch(e){ mutateHatasi = e; return; }
       }).then(function(result){
         if(mutateHatasi){ cb(false, mutateHatasi); return; }
-        if(!result || !result.committed){ cb(false, new Error("Silme işlemi çakıştı, lütfen tekrar dene.")); return; }
+        if(!result || !result.committed || !bulundu){ cb(false, new Error("Kaynak kayıt bulunamadı veya silme işlemi çakıştı.")); return; }
         cb(true);
       }).catch(function(err){
         cb(false, err);

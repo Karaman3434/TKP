@@ -226,23 +226,28 @@ function belgeyiCiz(kayit, musteri){
           : "<div class='belge-durum-rozet' style='background:" + DURUM_ETIKET[durum].bg + ";color:" + DURUM_ETIKET[durum].renk + ";'>" + DURUM_ETIKET[durum].ikon + " BU KAYIT " + DURUM_ETIKET[durum].ad + (durum==="kacan" && kayit.kacanRakip ? " — → "+htmlEsc(kayit.kacanRakip) : "") + "</div>")
       : "";
 
+    // Snapshot varsa Cari alanlarının tarihsel kaynağıdır; master kaydın sonradan değişmesi belgeyi değiştirmez.
+    var cariSnapshot = kayit.transactionCustomerInfo || null;
     var vade = (function(v){
       var s = String(v||"").trim();
       if(s === "") return "";
       var n = parseInt(s, 10);
       return (!isNaN(n) && n >= 0 && String(n) === s) ? (n + " gün") : s;
-    })(musteri && musteri.vade);
-    var faturaTuru = (musteri && musteri.fatura) || "";
-    var kargo = (musteri && musteri.kargo) || "";
-    var faturaAdr = kayit.faturaAdresi ? (kayit.faturaAdresi.adres || "") : "";
-    var teslimatAdr = kayit.teslimatAdresi ? (kayit.teslimatAdresi.adres || "") : "";
+    })(cariSnapshot ? cariSnapshot.vade : (musteri && musteri.vade));
+    var faturaTuru = cariSnapshot ? (cariSnapshot.fatura||"") : ((musteri && musteri.fatura) || "");
+    var kargo = cariSnapshot ? (cariSnapshot.kargo||"") : ((musteri && musteri.kargo) || "");
+    var adresMetni = function(v){ return v && typeof v==="object" ? (v.adres||"") : (v||""); };
+    var faturaAdr = cariSnapshot ? adresMetni(cariSnapshot.faturaAdresi) : adresMetni(kayit.faturaAdresi);
+    var teslimatAdr = cariSnapshot ? adresMetni(cariSnapshot.teslimatAdresi) : adresMetni(kayit.teslimatAdresi);
     var tumYetkililer = (musteri && musteri.iletisimler) || [];
-    var yetkililer = kayit.gorunecekYetkililer
-      ? tumYetkililer.filter(function(k){ return kayit.gorunecekYetkililer.indexOf(k.isim) !== -1; })
-      : tumYetkililer;
+    var yetkililer = cariSnapshot && Array.isArray(cariSnapshot.yetkililer)
+      ? cariSnapshot.yetkililer
+      : (kayit.gorunecekYetkililer
+        ? tumYetkililer.filter(function(k){ return kayit.gorunecekYetkililer.indexOf(k.isim) !== -1; })
+        : tumYetkililer);
     // Cari'deki tek "ŞEHİR" alanı SADECE fatura adresine eklenir — teslimat
     // çoğu zaman bambaşka bir ilçe/ildedir, ona hiç eklenmez (29.09.2026).
-    var sehir = (musteri && musteri.sehir) || "";
+    var sehir = cariSnapshot ? (cariSnapshot.sehir || "") : ((musteri && musteri.sehir) || "");
     // TEK CARİ KUTUSU (14.10.2026, Abdullah'ın isteğiyle — "cari ve ürün
     // tablosu tek yerden yönetilebilse"): bu kutu eskiden burada kendi
     // ayrı/eski ".belge-adres-blok" kodunu üretiyordu — artık Gönder ve
@@ -296,7 +301,7 @@ function belgeyiCiz(kayit, musteri){
       // musteri.id doluysa basıyor (musteri-serit.js), koduGizle=false
       // olmasına rağmen kod bu yüzden hiç görünmüyordu. Artık gerçek
       // müşteri kaydındaki id (musteri.id) buraya da geçiriliyor.
-      + HareketTablo.cariKutulariHtml({id: (musteri&&musteri.id)||"", ad: kayit.musteri, sehir: sehir, il: (musteri&&musteri.il)||"", telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true, false, null, true)
+      + HareketTablo.cariKutulariHtml({id: (cariSnapshot&&cariSnapshot.musteriKodu)||((musteri&&musteri.id)||""), ad: (cariSnapshot&&cariSnapshot.musteriAdi)||kayit.musteri, sehir: (cariSnapshot&&cariSnapshot.ilce)||sehir, il: (cariSnapshot&&cariSnapshot.sehir)||((musteri&&musteri.il)||""), telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (cariSnapshot&&cariSnapshot.not)||((musteri&&musteri.not)||"")}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true, false, null, true)
       + "</div>";
 
     // BAKİYE ÜRÜN BLOĞU — sadece bakiyede kalan ürün varsa gösterilir. Ana

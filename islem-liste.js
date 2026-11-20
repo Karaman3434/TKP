@@ -200,8 +200,8 @@ var IslemListesi = (function(){
     var m = rozetMeta(k);
     return "<div class='sr-satir" + (k._beklemede ? " sr-satir--beklemede" : "") + "' data-i='" + i + "' style='border-left-color:" + m.serit + ";'>"
       + "<div class='sr-ust'>"
-      +   "<div class='sr-firma-h'>" + (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml ? CustomerData.kodAdHtml(k.musteriId, k.musteri) : htmlEsc(k.musteri||"")) + "</div>"
-      +   "<div class='sr-konum-h'>" + htmlEsc(k.sehir||"") + "</div>"
+      +   "<div class='sr-firma-h'>" + (k.transactionCustomerInfo && k.transactionCustomerInfo.musteriAdi ? (htmlEsc(k.transactionCustomerInfo.musteriKodu||k.musteriId||"") + " " + htmlEsc(k.transactionCustomerInfo.musteriAdi)) : (typeof CustomerData !== "undefined" && CustomerData.kodAdHtml ? CustomerData.kodAdHtml(k.musteriId, k.musteri) : htmlEsc(k.musteri||""))) + "</div>"
+      +   "<div class='sr-konum-h'>" + htmlEsc(k.transactionCustomerInfo ? [k.transactionCustomerInfo.ilce,k.transactionCustomerInfo.sehir].filter(Boolean).join(" / ") : (k.sehir||"")) + "</div>"
       + "</div>"
       + "<div class='sr-alt'" + (hareketleriTutaraYasla ? " data-hareket-tutara-yasla='1'" : "") + ">"
       +   (hareketleriTutaraYasla

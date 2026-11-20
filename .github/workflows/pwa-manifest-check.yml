@@ -88,6 +88,9 @@ jobs:
           print(f"OK: {checked} HTML sayfasındaki manifest bağlantısı {version} ile eşleşiyor.")
           PY
 
+      - name: İşlem Cari snapshot izole regresyon testini çalıştır
+        run: node tests/islem-cari-snapshot.test.js
+
       - name: Tüm JavaScript dosyalarının sözdizimini doğrula
         run: |
           set -e

@@ -426,7 +426,7 @@ var ReportsData = (function(){
     return (k.urunler||[]).some(function(u){ return (u.bakiyeAdet||0) > 0; }) ? "bakiye" : null;
   }
   // Satır eşleştirme anahtarı (sepet satırı <-> arşiv satırı)
-  function bekleyenSatirAnahtari(u){ return ((u && (u.abas || u.berta)) || (u && u.ad) || "").toString(); }
+  function bekleyenSatirAnahtari(u){ var kod=(u && (u.abas || u.berta)) || (u && u.ad) || ""; return String(kod).replace(/\\s+/g," ").trim().toLocaleLowerCase("tr-TR"); }
   function bekleyenGunMetni(){
     var d = new Date();
     return ("0"+d.getDate()).slice(-2) + "." + ("0"+(d.getMonth()+1)).slice(-2) + "." + d.getFullYear();
@@ -462,6 +462,9 @@ var ReportsData = (function(){
     arsivSiparisDegistir(hedef.ts, function(k){
       var mod = bekleyenModuHam(k) || hedef.mod;
       var gecmis = k.bekleyenGecmisi ? (Array.isArray(k.bekleyenGecmisi) ? k.bekleyenGecmisi.slice() : Object.values(k.bekleyenGecmisi)) : [];
+      // Aynı arşiv siparişi tekrar işlenirse bekleyen miktarı ikinci kez düşürme.
+      var yeniTs = Number(yeniKayit.ts);
+      if(yeniTs && gecmis.some(function(h){ return h && h.olay === "geldi" && Number(h.yeniTs) === yeniTs; })) return "guncelle";
       (yeniKayit.urunler||[]).forEach(function(y){
         var gelen = parseFloat(y.adet)||0;
         if(gelen <= 0) return;
@@ -478,7 +481,7 @@ var ReportsData = (function(){
           }
           if(dusen > 0){
             gelen -= dusen;
-            gecmis.push({ts:Date.now(), tarih:gun, olay:"geldi", ad:s.ad||"", adet:dusen, yeniKod:yeniKayit.kod||"", yeniTip:yeniKayit.tip||"siparis"});
+            gecmis.push({ts:Date.now(), tarih:gun, olay:"geldi", ad:s.ad||"", adet:dusen, yeniKod:yeniKayit.kod||"", yeniTip:yeniKayit.tip||"siparis", yeniTs:Number(yeniKayit.ts)||null});
           }
         });
       });
@@ -757,7 +760,7 @@ var ReportsData = (function(){
     // listenin SONUNA şimdiki aşama eklenir — eski aşama kaydı silindiğinde
     // (bkz. kaynakSil) tüm geçmiş tarihleri kaybolmasın diye.
     var rotaSonrakineTasinacak = (kayit.rota || []).concat([{tip:kayit.tip, kod:kayit.kod||null, tarih:kayit.tarih||null}]);
-    var kaynakNesnesi = {tip:kayit.tip, ts:kayit.ts, kod:kayit.kod||null, tarih:kayit.tarih||null, rota:rotaSonrakineTasinacak, sonrakiAsamaSecenekleri:secenekler};
+    var kaynakNesnesi = {tip:kayit.tip, ts:kayit.ts, kod:kayit.kod||null, tarih:kayit.tarih||null, rota:rotaSonrakineTasinacak, sonrakiAsamaSecenekleri:secenekler, transactionCustomerInfo:kayit.transactionCustomerInfo||null};
     if(bekleyenMod){ kaynakNesnesi.bekleyenMod = bekleyenMod; kaynakNesnesi.eskiFiyatlar = eskiFiyatlar; }
     // bekleyenden verilmiş teklif/proforma ilerletiliyorsa bekleyen bağı zincirde taşınır
     if(kayit.bakiyeKaynak && !bekleyenMod){ kaynakNesnesi.bakiyeKaynak = kayit.bakiyeKaynak; }
@@ -809,7 +812,7 @@ var ReportsData = (function(){
     localStorage.setItem("weiconv2_sepet", JSON.stringify(sepet));
     localStorage.setItem("weiconv2_sepet_baslangic_zamani", String(Date.now()));   // 10 dk oto-sil sayacı (03.11.2026)
     localStorage.setItem("weicon_secili_musteri", JSON.stringify({ad:kayit.musteri, sehir:kayit.sehir||"", id:kayit.musteriId||null}));
-    localStorage.removeItem("weiconv2_ilerlet_kaynak");
+    localStorage.setItem("weiconv2_ilerlet_kaynak", JSON.stringify({tip:kayit.tip,ts:kayit.ts,kod:kayit.kod||null,tarih:kayit.tarih||null,transactionCustomerInfo:kayit.transactionCustomerInfo||null}));
     localStorage.setItem("weiconv2_onceden_secilen_tip", kayit.tip);
     // MÜŞTERİ SIZINTISI DÜZELTMESİ (27.10.2026) — bkz. revizeBaslat'taki
     // aynı yorum / cart-render.js sepetMusteriBaglantisiniDogrula.

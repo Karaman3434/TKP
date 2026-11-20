@@ -1,0 +1,58 @@
+# İşlem Bazlı Cari Snapshot — Entegrasyon Ön İncelemesi
+
+Bu belge yalnızca test dalındaki inceleme çıktısıdır. Canlı kod/Firebase verisine yazma veya değişiklik yapmaz.
+
+## Kaynak alanları (GitHub test dalındaki mevcut uygulama kodundan)
+- Cari kod: müşteri nesnesi `id`.
+- Cari adı: `ad`.
+- İlçe: `sehir` alanı (uygulamada ilçe metni olarak kullanılıyor).
+- İl: `il` alanı; bazı eski kayıtlarda eksik olabileceği için mevcut konum yardımcıları ID ile master listeden yedek arıyor.
+- Vade: `vade`.
+- Fatura tipi: `fatura`.
+- Kargo: `kargo`.
+- Fatura adresi: `faturaAdresleri[index]`; seçim yoksa legacy fallback `acikAdres` ilk adres olarak kullanılıyor.
+- Teslimat adresi: `teslimatAdresleri[index]` (seçim opsiyonel).
+- Yetkili: `iletisimler[index]`; çoklu seçim indeksleri ve adları `weiconv2_secili_iletisim` anahtarında tutuluyor.
+- Not: işlem snapshot'ı için henüz kesin kaynak/ekran belirlenmedi; entegrasyonda açık seçim/kullanıcı girdisi gerekecek.
+
+## Kayıt yolları ve korunması gereken davranışlar
+- Sepet kaydı: `cart-render.js -> SendData.kaydet(..., seciliAdresler,...)`.
+- `SendData.kaydet` arşiv yolunda transaction ile mevcut kayıtları revize edebiliyor; revize durumunda snapshot'ın önceki değerini koruma veya kullanıcı yeni seçimi açıkça yaptıysa güncelleme politikası belirlenmeli.
+- Gönder ekranında kayıt güncelleme: `SendData.islemiGuncelle` ürün/kur/KDV/adres bilgilerini güncelliyor; snapshot alanını ezmeden korumalı.
+- Bekleyen/ilerlet akışı, kaynak kayıt silme/bağlama ve rota zincirleri snapshot'ı yeni kayda kopyalamalı.
+- Legacy kayıtlarda snapshot yoksa, mevcut ekranların çalışması devam etmeli; geriye dönük otomatik dönüşüm yok.
+
+## Entegrasyon öncesi açık risk / kararlar
+1. Vade, fatura tipi, kargo ve fatura adresi yeni işlemde master kayıttan başlangıç değeri olarak okunacak; kullanıcı işlem bazında değiştirebilecek mi, yoksa sadece seçme mi yapacak? (Kullanıcı gereksinimi: işlem başına bağımsız kayıt.)
+2. Revize: eski snapshot, yeni işlem seçimi açıkça yapılmadıkça korunmalı.
+3. Müşteri kartı güncellenmesi veya listelerin canlı şehir gösterimi, snapshot ekranlarında snapshot'ın yerine geçmemeli.
+4. Snapshot mail/rapor/son işlemler render'larında tek kaynak olacak şekilde yayılmadan önce izole fixture testleri gerekir.
+5. Test dalında uygulama akışına bağlantı, Firebase emülasyonu veya cihaz testi henüz yapılmadı.
+
+## Güvenli sıra
+Alan eşleme ve UI seçim modeli -> snapshot oluşturma/validation -> arşiv kayıt transaction'ına minimal entegrasyon -> revize ve ilerlet/ bekleyen akışlarına koruma -> render/ mail/rapor okuyucularına snapshot önceliği -> eski kayıt fixture testleri -> cihaz testi -> ayrı kullanıcı onayıyla canlıya taşıma.
+
+## Test dalındaki mevcut entegrasyon durumu (20.11.2026)
+- `islem-cari-snapshot.js`: snapshot eşleme ve validation helper.
+- `send-data.js`: yeni kayıt snapshot'ı oluşturup `transactionCustomerInfo` alanında kayda ekler; eksik zorunlu alanlarda kaydı durdurur.
+- `reports-data.js`: revize/ilerlet/tekrar başlatma kaynak aktarımına snapshot koruma eklendi.
+- `belge-render.js`: snapshot alanlarını belge görünümünde master alanlara göre önceliklendirir.
+- `send-render.js`: gönderim/önizleme müşteri görünümü snapshot alanlarına göre oluşturulur.
+- `islem-liste.js`: ortak işlem listesindeki müşteri adı/kodu ve konum snapshot'tan okunur; snapshot yoksa legacy görünüm korunur.
+- JavaScript syntax checks bu dosyalar için başarılı; GitHub Actions PWA manifest kontrolü de son committe başarılı.
+- İzole Node test dosyası, Firebase uçtan uca, gerçek mobil cihaz, mail gönderimi ve legacy kayıt fixture'ları henüz çalıştırılarak doğrulanmadı. Bu nedenle canlıya geçiş için yeterli doğrulama tamamlanmış sayılmaz.
+
+
+## 20.11.2026 devam incelemesi — aşama aktarım koruması
+- `cart-render.js`, ilerlet/tekrar kaynak kaydındaki `transactionCustomerInfo` varsa kaydetme seçeneklerine aktarır.
+- `send-data.js`, bu kaynak snapshot'ı bağımsız kopya olarak yeni aşama kaydına taşır; snapshot yoksa legacy kaynak için mevcut müşteri/adres eşlemesiyle snapshot üretimi devam eder.
+- Bekleyen akışın `yeniKayitZorla` seçeneği korunacak şekilde seçenekler birleştirildi.
+- Snapshot aktarımı için kod değişiklikleri test dalında commit edildi; PR açık/draft, merge veya canlı dağıtım yok.
+- GitHub Actions sonuçları bu son commitler için henüz doğrulanmadı; syntax ve Firebase/mobile E2E testleri tamamlanmış sayılmaz.
+
+
+## 21.11.2026 devam incelemesi — gönderim ve belge görünümü
+- `send-render.js`: snapshot'taki yetkililer dizisi boş olsa dahi master Cari yetkilileriyle doldurulmaz; boş seçimin tarihsel anlamı korunur.
+- `belge-render.js`: snapshot mevcut olduğunda şehir ve yetkililer snapshot üzerinden okunur; boş yetkililer listesi master'a geri düşmez.
+- Not alanının yeni işlem UI/selection akışında kayda hangi kullanıcı girdisiyle aktarılacağı henüz bulunamadı; mevcut `send-data.js` snapshot oluşturucusu not alanını bilerek boş bırakıyor. Bu alanı UI'dan doğrulamadan otomatik bağlamamak güvenli kabul edildi.
+- Son değişiklik commitleri için CI sonuçları bekleniyor; canlı veriye, ana dala veya production dağıtımına müdahale yok.
