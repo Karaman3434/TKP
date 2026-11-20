@@ -161,6 +161,17 @@ var SendData = (function(){
     return d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate();
   }
 
+
+  // Snapshot: her yeni işlem için Cari bilgilerini bağımsız kayda sabitle.
+  function cariSnapshotOlustur(musteri, adresler){
+    if(typeof IslemCariSnapshot === "undefined") return null;
+    var secilen = adresler || {};
+    var ek = {teslimatSecildi:!!secilen.teslimatAdresi,yetkililerSecildi:!!(secilen.yetkililer&&secilen.yetkililer.length),notSecildi:false};
+    var r = IslemCariSnapshot.musteridenOlustur(musteri,secilen,ek);
+    if(!r || !r.gecerli) throw new Error("İşlem Cari snapshot eksik: "+((r&&r.eksik)||[]).join(", "));
+    return r.snapshot;
+  }
+
   function kaydet(tip, musteri, sepetUrunleri, kur, kdv, adresler, devralinanKod, devralinanTarih, devralinanRota, geriBildir, kurManuelMi, ekSecenek){
     var cb = typeof geriBildir === "function" ? geriBildir : function(){};
     try{
@@ -234,7 +245,7 @@ var SendData = (function(){
             }
 
             if(eslesenIdx >= 0){
-              var eskiKayit = liste[eslesenIdx];
+              var eskiKayit = liste[eslesenIdx];\n              // Mevcut snapshot varsa revize sırasında aynen korunur. Legacy kayıtlar snapshot ile geriye dönük doldurulmaz.
               var eskiToplam = (eskiKayit.urunler||[]).reduce(function(s,u){ return s+(u.toplamEuro||0); }, 0);
               if(!eskiKayit.revizeGecmisi) eskiKayit.revizeGecmisi = [];
               eskiKayit.revizeGecmisi.push({ts: eskiKayit.revizeZamani||eskiKayit.ts, toplamEuro:eskiToplam, urunSayisi:(eskiKayit.urunler||[]).length});
