@@ -41,3 +41,11 @@ Alan eşleme ve UI seçim modeli -> snapshot oluşturma/validation -> arşiv kay
 - `islem-liste.js`: ortak işlem listesindeki müşteri adı/kodu ve konum snapshot'tan okunur; snapshot yoksa legacy görünüm korunur.
 - JavaScript syntax checks bu dosyalar için başarılı; GitHub Actions PWA manifest kontrolü de son committe başarılı.
 - İzole Node test dosyası, Firebase uçtan uca, gerçek mobil cihaz, mail gönderimi ve legacy kayıt fixture'ları henüz çalıştırılarak doğrulanmadı. Bu nedenle canlıya geçiş için yeterli doğrulama tamamlanmış sayılmaz.
+
+
+## 20.11.2026 devam incelemesi — aşama aktarım koruması
+- `cart-render.js`, ilerlet/tekrar kaynak kaydındaki `transactionCustomerInfo` varsa kaydetme seçeneklerine aktarır.
+- `send-data.js`, bu kaynak snapshot'ı bağımsız kopya olarak yeni aşama kaydına taşır; snapshot yoksa legacy kaynak için mevcut müşteri/adres eşlemesiyle snapshot üretimi devam eder.
+- Bekleyen akışın `yeniKayitZorla` seçeneği korunacak şekilde seçenekler birleştirildi.
+- Snapshot aktarımı için kod değişiklikleri test dalında commit edildi; PR açık/draft, merge veya canlı dağıtım yok.
+- GitHub Actions sonuçları bu son commitler için henüz doğrulanmadı; syntax ve Firebase/mobile E2E testleri tamamlanmış sayılmaz.
