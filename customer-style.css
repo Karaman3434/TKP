@@ -300,6 +300,11 @@
 .cm-altmenu-musteri-baslik .ms-kod { color: #c0392b; font-weight: 800; font-size: 13px; }
 .cm-altmenu-musteri-baslik .ms-ad { color: #0a2f5c; font-weight: 800; font-size: 14px; }
 .cm-altmenu-musteri-baslik .ms-sehir { color: #556170; font-weight: 600; font-size: 11.5px; }
+.cm-altmenu-musteri-baslik .ms-cari-ozet { display:flex; gap:5px; margin-top:8px; }
+.cm-altmenu-musteri-baslik .ms-cari-ozet span { flex:1; min-width:0; padding:5px 6px; border:1px solid #234f7b; border-radius:7px; background:#fff; color:#183b62; font-size:11px; }
+.cm-altmenu-musteri-baslik .ms-cari-ozet b { display:block; color:#0a2f5c; font-size:10px; }
+.cm-altmenu-musteri-baslik .ms-cari-adres { margin-top:8px; padding:8px 9px; border:1px solid #234f7b; border-radius:8px; background:#fff; color:#253545; font-size:12px; line-height:1.4; overflow-wrap:anywhere; }
+.cm-altmenu-musteri-baslik .ms-cari-adres b { display:block; color:#0a2f5c; font-size:10.5px; margin-bottom:4px; }
 .cm-altmenu-oge {
   display: flex;
   align-items: center;

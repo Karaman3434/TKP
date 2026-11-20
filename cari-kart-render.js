@@ -126,7 +126,14 @@ var silTip = null, silIndex = null;
 function escapeText(s){ var d = document.createElement("div"); d.textContent = s||""; return d.innerHTML; }
 
 function kayitlariGetir(musteri, tip){
-  if(tip === "fatura") return musteri.faturaAdresleri || [];
+  if(tip === "fatura"){
+    var faturaListesi = Array.isArray(musteri.faturaAdresleri) ? musteri.faturaAdresleri : [];
+    // Geriye uyumluluk: fatura listesi boşsa ilk kayıt sırasında yazılmış acikAdres alanını görüntüleme için kullan.
+    if(!faturaListesi.length && musteri.acikAdres && String(musteri.acikAdres).trim()){
+      return [{etiket:"Fatura Adresi", adres:String(musteri.acikAdres).trim()}];
+    }
+    return faturaListesi;
+  }
   if(tip === "teslimat") return musteri.teslimatAdresleri || [];
   if(tip === "yetkili") return musteri.iletisimler || [];
   // not: yeni "notlar" dizisi varsa onu kullan; yoksa eski tekil "not"
