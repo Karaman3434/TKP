@@ -1065,7 +1065,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
     if(s.faturaAdresi) gorunum.faturaAdresleri = [{etiket:"Fatura Adresi", adres:s.faturaAdresi}];
     if(s.teslimatAdresi) gorunum.teslimatAdresleri = [{etiket:"Teslimat Adresi", adres:s.teslimatAdresi}];
-    if(Array.isArray(s.yetkililer) && s.yetkililer.length) gorunum.iletisimler = s.yetkililer;
+    if(Array.isArray(s.yetkililer)) gorunum.iletisimler = s.yetkililer;
     return gorunum;
   }
   function musteriyleDevamEt(musteri){
