@@ -163,7 +163,13 @@ var SendData = (function(){
 
 
   // Snapshot: her yeni işlem için Cari bilgilerini bağımsız kayda sabitle.
-  function cariSnapshotOlustur(musteri, adresler){
+  function cariSnapshotOlustur(musteri, adresler, ekSecenek){
+    // Aşama ilerlet/tekrar akışında kaynak snapshot varsa yeni aşamada tarihsel Cari bilgisi korunur.
+    var kaynakSnapshot = ekSecenek && ekSecenek.transactionCustomerInfo;
+    if(kaynakSnapshot && typeof IslemCariSnapshot !== "undefined"){
+      var kopya = IslemCariSnapshot.kayittanOku({transactionCustomerInfo:kaynakSnapshot});
+      if(kopya) return kopya;
+    }
     if(typeof IslemCariSnapshot === "undefined") return null;
     var secilen = adresler || {};
     var ek = {teslimatSecildi:!!secilen.teslimatAdresi,yetkililerSecildi:!!(secilen.yetkililer&&secilen.yetkililer.length),notSecildi:false};
@@ -270,7 +276,7 @@ var SendData = (function(){
                 faturaAdresi: (adresler && adresler.faturaAdresi) || null,
                 teslimatAdresi: (adresler && adresler.teslimatAdresi) || null,
                 gorunecekYetkililer: yetkiliIsimleri(adresler),
-                transactionCustomerInfo: cariSnapshotOlustur(musteri, adresler)
+                transactionCustomerInfo: cariSnapshotOlustur(musteri, adresler, ekSecenek)
               };
               if(devralinanKod){
                 kaydedilenKayit.oncekiKod = devralinanKod;
