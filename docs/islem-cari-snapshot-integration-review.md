@@ -31,3 +31,13 @@ Bu belge yalnızca test dalındaki inceleme çıktısıdır. Canlı kod/Firebase
 
 ## Güvenli sıra
 Alan eşleme ve UI seçim modeli -> snapshot oluşturma/validation -> arşiv kayıt transaction'ına minimal entegrasyon -> revize ve ilerlet/ bekleyen akışlarına koruma -> render/ mail/rapor okuyucularına snapshot önceliği -> eski kayıt fixture testleri -> cihaz testi -> ayrı kullanıcı onayıyla canlıya taşıma.
+
+## Test dalındaki mevcut entegrasyon durumu (20.11.2026)
+- `islem-cari-snapshot.js`: snapshot eşleme ve validation helper.
+- `send-data.js`: yeni kayıt snapshot'ı oluşturup `transactionCustomerInfo` alanında kayda ekler; eksik zorunlu alanlarda kaydı durdurur.
+- `reports-data.js`: revize/ilerlet/tekrar başlatma kaynak aktarımına snapshot koruma eklendi.
+- `belge-render.js`: snapshot alanlarını belge görünümünde master alanlara göre önceliklendirir.
+- `send-render.js`: gönderim/önizleme müşteri görünümü snapshot alanlarına göre oluşturulur.
+- `islem-liste.js`: ortak işlem listesindeki müşteri adı/kodu ve konum snapshot'tan okunur; snapshot yoksa legacy görünüm korunur.
+- JavaScript syntax checks bu dosyalar için başarılı; GitHub Actions PWA manifest kontrolü de son committe başarılı.
+- İzole Node test dosyası, Firebase uçtan uca, gerçek mobil cihaz, mail gönderimi ve legacy kayıt fixture'ları henüz çalıştırılarak doğrulanmadı. Bu nedenle canlıya geçiş için yeterli doğrulama tamamlanmış sayılmaz.
