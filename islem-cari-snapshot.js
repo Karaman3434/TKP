@@ -16,7 +16,9 @@ var IslemCariSnapshot = (function(){
   // Master alanları ve açık seçimleri eşler; send-data.js yeni işlem snapshot'ı için kullanır.
   function musteridenOlustur(m,secilen,ek){
     if(!m)return olustur({});secilen=secilen||{};ek=ek||{};
-    return olustur({musteriKodu:m.id,musteriAdi:m.ad,ilce:m.sehir,sehir:m.il,vade:m.vade,fatura:m.fatura,kargo:m.kargo,faturaAdresi:secilen.faturaAdresi||m.acikAdres||"",teslimatAdresi:ek.teslimatSecildi?(secilen.teslimatAdresi||""):"",yetkililer:ek.yetkililerSecildi&&Array.isArray(secilen.yetkililer)?secilen.yetkililer:[],not:ek.notSecildi?ek.not:""});
+    // Fatura adresi: işlemde seçilen adres > Cari Kart fatura adresleri > eski Açık Adres.
+    var fatura = secilen.faturaAdresi || (Array.isArray(m.faturaAdresleri) && m.faturaAdresleri.length ? m.faturaAdresleri[0] : null) || m.acikAdres || "";
+    return olustur({musteriKodu:m.id,musteriAdi:m.ad,ilce:m.sehir,sehir:m.il,vade:m.vade,fatura:m.fatura,kargo:m.kargo,faturaAdresi:fatura,teslimatAdresi:ek.teslimatSecildi?(secilen.teslimatAdresi||""):"",yetkililer:ek.yetkililerSecildi&&Array.isArray(secilen.yetkililer)?secilen.yetkililer:[],not:ek.notSecildi?ek.not:""});
   }
   function kayittanOku(kayit){return kayit&&kayit.transactionCustomerInfo?kopyala(kayit.transactionCustomerInfo):null;}
   return {olustur:olustur,musteridenOlustur:musteridenOlustur,kayittanOku:kayittanOku,zorunluAlanlar:ZORUNLU.slice()};
