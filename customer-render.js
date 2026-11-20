@@ -356,10 +356,19 @@ function hizliPencereyiAc(musteri){
     var panel = document.getElementById("cmAltMenu");
     var rozetler = cmRozetSayilariniHesapla(musteri);
 
+    // Ortak cari bilgi başlığı: müşteri seridi + fatura adresi fallback (legacy acikAdres).
+    var cmFaturaAdres = (musteri.faturaAdresleri && musteri.faturaAdresleri.length && musteri.faturaAdresleri[0].adres)
+      ? musteri.faturaAdresleri[0].adres : (musteri.acikAdres || "");
     document.getElementById("cmAltMenuBaslik").innerHTML =
       "<span><span class='ms-kod'>" + htmlEsc(musteri.id||"—") + "</span></span>"
       + "<span class='ms-ad'>" + htmlEsc(musteri.ad||"") + "</span>"
-      + ((CustomerData.konumMetni(musteri)) ? "<span class='ms-sehir'>" + htmlEsc(CustomerData.konumMetni(musteri)) + "</span>" : "");
+      + ((CustomerData.konumMetni(musteri)) ? "<span class='ms-sehir'>" + htmlEsc(CustomerData.konumMetni(musteri)) + "</span>" : "")
+      + "<div class='ms-cari-ozet'>"
+      + "<span><b>VADE</b> " + htmlEsc(musteri.vade||"—") + "</span>"
+      + "<span><b>FATURA</b> " + htmlEsc(musteri.fatura||"—") + "</span>"
+      + "<span><b>KARGO</b> " + htmlEsc(musteri.kargo||"—") + "</span>"
+      + "</div>"
+      + "<div class='ms-cari-adres'><b>FATURA ADRESİ</b><div>" + htmlEsc(cmFaturaAdres||"Girilmemiş") + "</div></div>";
 
     var ogeler = [
       {ikon:"🏢", etiket:"Cari", aksiyon:"cari"},
