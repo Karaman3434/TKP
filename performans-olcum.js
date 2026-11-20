@@ -78,20 +78,20 @@
     }
   }catch(e){ mark("home_archive_observer_unavailable"); }
 
+  // CustomerData exposes listeDegistiginde, but no hazirMi() getter.
+  // Its Firebase value callback dispatches this listener after the customer list loads.
   try{
     if(typeof CustomerData !== "undefined" && typeof CustomerData.listeDegistiginde === "function"){
-      CustomerData.listeDegistiginde(function(){ mark("customers_ready"); });
-      if(typeof CustomerData.hazirMi === "function" && CustomerData.hazirMi()){
-        mark("customers_ready", "already_ready_at_measurement_install");
-      }
+      CustomerData.listeDegistiginde(function(){ mark("customers_ready", "customer_list_listener_callback"); });
     }else{
       mark("customers_observer_unavailable");
     }
   }catch(e){ mark("customers_observer_unavailable"); }
 
+  // ReportsData listener callback is fired from its archive Firebase value handler.
   try{
     if(typeof ReportsData !== "undefined" && typeof ReportsData.arsivDegistiginde === "function"){
-      ReportsData.arsivDegistiginde(function(){ mark("reports_archive_ready"); });
+      ReportsData.arsivDegistiginde(function(){ mark("reports_archive_ready", "reports_archive_listener_callback"); });
     }else{
       mark("reports_archive_observer_unavailable");
     }
