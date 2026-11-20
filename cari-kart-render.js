@@ -116,7 +116,7 @@ var TIP_META = {
 // kadar kayıt eklenebilir; varsayılan olarak sadece ilk VARSAYILAN_GORUNUR
 // kadarı görünür, fazlası etiketin yanındaki "N kayıt" rozetine
 // dokununca açılır (bkz. anaSayfayiRenderEt / rozetTiklariniBagla).
-var KAYIT_LIMIT = { fatura: 3, teslimat: 3, yetkili: 3 };
+var KAYIT_LIMIT = { fatura: 3, teslimat: 3, yetkili: null };
 var VARSAYILAN_GORUNUR = 2;
 var genisletilmis = { fatura: false, teslimat: false, yetkili: false };
 
@@ -427,7 +427,7 @@ function eylemBaslat(bolumId, eylem){
   aktifTip = bolumId;
   aktifEylem = eylem;
   if(eylem === "ekle"){
-    if(KAYIT_LIMIT[bolumId] !== undefined){
+    if(Number.isFinite(KAYIT_LIMIT[bolumId])){
       var mevcut = kayitlariGetir(musteriVerisi, bolumId);
       if(mevcut.length >= KAYIT_LIMIT[bolumId]){ toastGoster("En fazla " + KAYIT_LIMIT[bolumId] + " " + TIP_META[bolumId].tekil + " eklenebilir."); return; }
     }
