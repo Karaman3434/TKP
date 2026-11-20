@@ -613,45 +613,45 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
 }
 
 /* ANA SAYFA — HIZLI ARAMA YENİ TASARIMI (18.11.2026, onaylı) */
-.as-drawer-overlay--home-search .as-drawer-hizli-arama{position:relative;box-sizing:border-box;margin:22px 0 14px;padding:29px 10px 10px;border:2px solid #08b9e8;border-radius:20px;background:linear-gradient(160deg,rgba(3,52,103,.82),rgba(2,31,70,.92));box-shadow:inset 0 1px 5px rgba(52,190,255,.12);flex:0 0 auto}
-.as-drawer-overlay--home-search .as-drawer-hizli-arama-baslik{position:absolute;top:-21px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:9px;min-width:64%;height:42px;padding:0 20px;box-sizing:border-box;border:1.5px solid #25c8f2;border-radius:999px;background:linear-gradient(105deg,#05aeea 0%,#0876dc 100%);color:#fff;font-size:18px;font-weight:900;letter-spacing:.25px;white-space:nowrap;box-shadow:0 3px 9px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.28)}
-.as-drawer-overlay--home-search .as-drawer-hizli-arama-baslik span:first-child{font-size:25px;line-height:1}
-.as-drawer-overlay--home-search .as-drawer-hizli-arama-icerik{display:flex;flex-direction:column;gap:12px}
-.as-drawer-overlay--home-search .as-drawer-oge--miniarama-yeni{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%;margin:0;padding:0;background:none;border:0}
-.as-drawer-overlay--home-search .as-drawer-mini-etiket-satir{display:flex;align-items:center;min-height:46px;width:100%;padding:0 8px 0 10px;box-sizing:border-box;border:1.5px solid #168ce6;border-radius:999px;background:linear-gradient(105deg,#0878d8 0%,#06418c 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 2px 5px rgba(0,0,0,.2)}
-.as-drawer-overlay--home-search .as-drawer-mini-etiket-satir .as-drawer-ikon{width:34px;flex:0 0 34px;margin:0;font-size:24px;transform:none}
-.as-drawer-overlay--home-search .as-drawer-mini-etiket-ayrac{width:1.5px;height:27px;flex:0 0 1.5px;background:rgba(255,255,255,.58);margin:0 11px 0 4px}
-.as-drawer-overlay--home-search .as-drawer-mini-etiket-metin{flex:1;min-width:0;color:#fff;font-size:17px;font-weight:900;line-height:1}
-.as-drawer-overlay--home-search .as-drawer-mini-islem{display:flex;align-items:center;justify-content:center;width:54px;min-width:54px;height:42px;margin:0;padding:0;border:0;border-left:1px solid rgba(255,255,255,.42);border-radius:0 999px 999px 0;background:transparent;color:#fff;font-family:inherit;font-size:25px;font-weight:900;letter-spacing:2px;line-height:1;cursor:pointer}
-.as-drawer-overlay--home-search .as-drawer-mini-islem:active,.as-drawer-overlay--home-search .as-drawer-mini-islem.as-drawer-oge--acik{background:rgba(255,255,255,.14)}
-.as-drawer-overlay--home-search .as-drawer-mini-arama-kutu{position:relative;width:100%}
-.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit{display:block;width:100%;height:42px;padding:0 46px 0 16px;box-sizing:border-box;border:1.5px solid #3c8fdc;border-radius:999px;background:#fff;color:#173b68;font-size:17.28px;font-weight:650;outline:none;box-shadow:0 2px 5px rgba(0,0,0,.16)}
-.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit::placeholder{color:#8492a4;font-weight:650}
-.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit:focus{border-color:#19b9ee;box-shadow:0 0 0 2px rgba(25,185,238,.18),0 2px 5px rgba(0,0,0,.16)}
-.as-drawer-overlay--home-search .as-drawer-mini-arama-ikon{position:absolute;right:15px;top:50%;transform:translateY(-53%);color:#123b70;font-size:29px;font-weight:700;line-height:1;pointer-events:none}
-@media(max-width:390px){.as-drawer-overlay--home-search .as-drawer-hizli-arama{padding-left:8px;padding-right:8px}.as-drawer-overlay--home-search .as-drawer-hizli-arama-baslik{min-width:68%;font-size:16px}.as-drawer-overlay--home-search .as-drawer-mini-etiket-metin{font-size:16px}.as-drawer-overlay--home-search .as-drawer-mini-islem{width:48px;min-width:48px}}
+.as-drawer-overlay .as-drawer-hizli-arama{position:relative;box-sizing:border-box;margin:22px 0 14px;padding:29px 10px 10px;border:2px solid #08b9e8;border-radius:20px;background:linear-gradient(160deg,rgba(3,52,103,.82),rgba(2,31,70,.92));box-shadow:inset 0 1px 5px rgba(52,190,255,.12);flex:0 0 auto}
+.as-drawer-overlay .as-drawer-hizli-arama-baslik{position:absolute;top:-21px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:9px;min-width:64%;height:42px;padding:0 20px;box-sizing:border-box;border:1.5px solid #25c8f2;border-radius:999px;background:linear-gradient(105deg,#05aeea 0%,#0876dc 100%);color:#fff;font-size:18px;font-weight:900;letter-spacing:.25px;white-space:nowrap;box-shadow:0 3px 9px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.28)}
+.as-drawer-overlay .as-drawer-hizli-arama-baslik span:first-child{font-size:25px;line-height:1}
+.as-drawer-overlay .as-drawer-hizli-arama-icerik{display:flex;flex-direction:column;gap:12px}
+.as-drawer-overlay .as-drawer-oge--miniarama-yeni{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%;margin:0;padding:0;background:none;border:0}
+.as-drawer-overlay .as-drawer-mini-etiket-satir{display:flex;align-items:center;min-height:46px;width:100%;padding:0 8px 0 10px;box-sizing:border-box;border:1.5px solid #168ce6;border-radius:999px;background:linear-gradient(105deg,#0878d8 0%,#06418c 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 2px 5px rgba(0,0,0,.2)}
+.as-drawer-overlay .as-drawer-mini-etiket-satir .as-drawer-ikon{width:34px;flex:0 0 34px;margin:0;font-size:24px;transform:none}
+.as-drawer-overlay .as-drawer-mini-etiket-ayrac{width:1.5px;height:27px;flex:0 0 1.5px;background:rgba(255,255,255,.58);margin:0 11px 0 4px}
+.as-drawer-overlay .as-drawer-mini-etiket-metin{flex:1;min-width:0;color:#fff;font-size:17px;font-weight:900;line-height:1}
+.as-drawer-overlay .as-drawer-mini-islem{display:flex;align-items:center;justify-content:center;width:54px;min-width:54px;height:42px;margin:0;padding:0;border:0;border-left:1px solid rgba(255,255,255,.42);border-radius:0 999px 999px 0;background:transparent;color:#fff;font-family:inherit;font-size:25px;font-weight:900;letter-spacing:2px;line-height:1;cursor:pointer}
+.as-drawer-overlay .as-drawer-mini-islem:active,.as-drawer-overlay .as-drawer-mini-islem.as-drawer-oge--acik{background:rgba(255,255,255,.14)}
+.as-drawer-overlay .as-drawer-mini-arama-kutu{position:relative;width:100%}
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit{display:block;width:100%;height:42px;padding:0 46px 0 16px;box-sizing:border-box;border:1.5px solid #3c8fdc;border-radius:999px;background:#fff;color:#173b68;font-size:17.28px;font-weight:650;outline:none;box-shadow:0 2px 5px rgba(0,0,0,.16)}
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit::placeholder{color:#8492a4;font-weight:650}
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{border-color:#19b9ee;box-shadow:0 0 0 2px rgba(25,185,238,.18),0 2px 5px rgba(0,0,0,.16)}
+.as-drawer-overlay .as-drawer-mini-arama-ikon{position:absolute;right:15px;top:50%;transform:translateY(-53%);color:#123b70;font-size:29px;font-weight:700;line-height:1;pointer-events:none}
+@media(max-width:390px){.as-drawer-overlay .as-drawer-hizli-arama{padding-left:8px;padding-right:8px}.as-drawer-overlay .as-drawer-hizli-arama-baslik{min-width:68%;font-size:16px}.as-drawer-overlay .as-drawer-mini-etiket-metin{font-size:16px}.as-drawer-overlay .as-drawer-mini-islem{width:48px;min-width:48px}}
 
 
 /* ANA SAYFA — ONAYLI HIZLI ARAMA ÖLÇÜ EŞİTLEME (18.11.2026) */
 /* Etiket satırları ve arama kutuları dış çerçevenin iç genişliğini eşit kullanır. */
-.as-drawer-overlay--home-search .as-drawer-hizli-arama{
+.as-drawer-overlay .as-drawer-hizli-arama{
   width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;
 }
-.as-drawer-overlay--home-search .as-drawer-hizli-arama-icerik{
+.as-drawer-overlay .as-drawer-hizli-arama-icerik{
   display:flex!important;flex-direction:column!important;align-items:stretch!important;
   width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;
 }
-.as-drawer-overlay--home-search .as-drawer-oge--miniarama-yeni{
+.as-drawer-overlay .as-drawer-oge--miniarama-yeni{
   display:flex!important;flex:0 0 100%!important;width:100%!important;max-width:100%!important;
   min-width:0!important;align-items:stretch!important;box-sizing:border-box!important;
 }
-.as-drawer-overlay--home-search .as-drawer-mini-etiket-satir,
-.as-drawer-overlay--home-search .as-drawer-mini-arama-kutu{
+.as-drawer-overlay .as-drawer-mini-etiket-satir,
+.as-drawer-overlay .as-drawer-mini-arama-kutu{
   flex:0 0 100%!important;width:100%!important;max-width:100%!important;
   min-width:0!important;box-sizing:border-box!important;
 }
-.as-drawer-overlay--home-search .as-drawer-mini-arama-kutu{display:block!important;}
-.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit{
+.as-drawer-overlay .as-drawer-mini-arama-kutu{display:block!important;}
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit{
   display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;
   flex:0 0 100%!important;box-sizing:border-box!important;
 }
@@ -660,7 +660,7 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
 /* ABDULLAH ONAYI — HIZLI ARAMA ETİKETLERİ KIRMIZI ARAMA ÇERÇEVESİNİN ÜST ÇİZGİSİNE BİNDİRİLDİ.
    Tek kırmızı kontur yalnızca arama alanındadır; etiket ve üç nokta kendi kırmızı çerçevesini çizmez.
    Kapsam: yalnızca Ana Sayfa çekmecesindeki hızlı arama satırları. */
-.as-drawer-overlay--home-search .as-drawer-oge--miniarama-yeni{
+.as-drawer-overlay .as-drawer-oge--miniarama-yeni{
   position:relative!important;
   display:block!important;
   flex:0 0 100%!important;
@@ -671,7 +671,7 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   background:transparent!important;
   border:0!important;
 }
-.as-drawer-overlay--home-search .as-drawer-mini-etiket-satir{
+.as-drawer-overlay .as-drawer-mini-etiket-satir{
   position:absolute!important;
   z-index:5!important;
   top:-14px!important;
@@ -690,7 +690,7 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   box-shadow:none!important;
   pointer-events:none!important;
 }
-.as-drawer-overlay--home-search .as-drawer-mini-etiket-satir .as-drawer-ikon{
+.as-drawer-overlay .as-drawer-mini-etiket-satir .as-drawer-ikon{
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
@@ -705,8 +705,8 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   font-size:22px!important;
   transform:none!important;
 }
-.as-drawer-overlay--home-search .as-drawer-mini-etiket-ayrac{display:none!important;}
-.as-drawer-overlay--home-search .as-drawer-mini-etiket-metin{
+.as-drawer-overlay .as-drawer-mini-etiket-ayrac{display:none!important;}
+.as-drawer-overlay .as-drawer-mini-etiket-metin{
   display:flex!important;
   align-items:center!important;
   align-self:stretch!important;
@@ -723,7 +723,7 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   line-height:1!important;
   white-space:nowrap!important;
 }
-.as-drawer-overlay--home-search .as-drawer-mini-islem{
+.as-drawer-overlay .as-drawer-mini-islem{
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
@@ -741,7 +741,7 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   letter-spacing:2px!important;
   pointer-events:auto!important;
 }
-.as-drawer-overlay--home-search .as-drawer-mini-arama-kutu{
+.as-drawer-overlay .as-drawer-mini-arama-kutu{
   position:relative!important;
   display:block!important;
   width:100%!important;
@@ -750,8 +750,8 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   border:0!important;
   background:transparent!important;
 }
-.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit,
-.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit:focus{
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit,
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{
   display:block!important;
   width:100%!important;
   height:48px!important;
@@ -763,25 +763,25 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   box-shadow:none!important;
   outline:none!important;
 }
-.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit::placeholder{
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit::placeholder{
   color:#8492a4!important;
   font-weight:650!important;
 }
-.as-drawer-overlay--home-search .as-drawer-mini-arama-ikon{
+.as-drawer-overlay .as-drawer-mini-arama-ikon{
   z-index:2!important;
 }
 @media(max-width:390px){
-  .as-drawer-overlay--home-search .as-drawer-mini-etiket-satir{left:12px!important;right:12px!important;}
-  .as-drawer-overlay--home-search .as-drawer-mini-islem{width:44px!important;min-width:44px!important;}
+  .as-drawer-overlay .as-drawer-mini-etiket-satir{left:12px!important;right:12px!important;}
+  .as-drawer-overlay .as-drawer-mini-islem{width:44px!important;min-width:44px!important;}
 }
 
 
 /* ABDULLAH ONAYI — HIZLI ARAMA ALANLARI %20 YÜKSELTİLDİ; BAŞLIK-ÜRÜN ETİKETİ ARASI 2 mm.
    Yalnızca Ana Sayfa çekmecesindeki Ürün ve Müşteri arama alanları etkilenir. */
-.as-drawer-overlay--home-search .as-drawer-oge--miniarama-yeni:first-child{
+.as-drawer-overlay .as-drawer-oge--miniarama-yeni:first-child{
   margin-top:14px!important; /* 2 mm görsel boşluk: HIZLI ARAMA başlığı ile Ürün etiketi */
 }
-.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit,
-.as-drawer-overlay--home-search .as-drawer-mini-arama-input-sabit:focus{
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit,
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{
   height:58px!important; /* mevcut 48 px yüksekliğin yaklaşık %20 artırılmış hali */
 }
