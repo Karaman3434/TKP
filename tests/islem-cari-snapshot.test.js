@@ -12,4 +12,21 @@ const master={id:'M-2',ad:'Firma 2',sehir:'Temelli',il:'Ankara',vade:'30',fatura
 const mapped=api.musteridenOlustur(master,{faturaAdresi:'İşlem adresi',teslimatAdresi:'Teslim adresi',yetkililer:[{isim:'Yetkili'}]},{teslimatSecildi:true,yetkililerSecildi:true,notSecildi:true,not:'İşlem notu'});
 assert.strictEqual(mapped.gecerli,true);assert.strictEqual(mapped.snapshot.faturaAdresi,'İşlem adresi');assert.strictEqual(mapped.snapshot.teslimatAdresi,'Teslim adresi');assert.strictEqual(mapped.snapshot.not,'İşlem notu');
 const noOptional=api.musteridenOlustur(master,{},{});assert.strictEqual(noOptional.snapshot.teslimatAdresi,'');assert.deepStrictEqual(Array.from(noOptional.snapshot.yetkililer),[]);assert.strictEqual(noOptional.snapshot.not,'');
-console.log('PASS: snapshot helper ve eşleme kontrolleri');
+
+// Tarih sabitleme ve biçim normalizasyonu: kayıt tarihi girdiden gelirse aynen korunur.
+const dated=api.olustur({musteriKodu:'D-1',musteriAdi:'Tarih Firma',ilce:'İlçe',sehir:'Şehir',vade:'30',fatura:'Fatura',kargo:'Kargo',faturaAdresi:'Adres',capturedAt:1700000000000});
+assert.strictEqual(dated.snapshot.capturedAt,1700000000000);
+// Adres nesnesi kullanılıyorsa adres alanı normal biçimde snapshot'a alınır.
+const addressObject=api.olustur({musteriKodu:'A-1',musteriAdi:'Adres Firma',ilce:'İlçe',sehir:'Şehir',vade:'30',fatura:'Fatura',kargo:'Kargo',faturaAdresi:{adres:'  Nesne adres  '}});
+assert.strictEqual(addressObject.snapshot.faturaAdresi,'Nesne adres');
+// Master Cari'deki genel adres, seçim adresi yoksa güvenli fallback olarak kullanılabilir.
+assert.strictEqual(noOptional.snapshot.faturaAdresi,'Master adres');
+// Seçilmemiş teslimat adresi ve yetkililer master verisinden kendiliğinden alınmamalı.
+const masterWithContacts=Object.assign({},master,{yetkililer:[{isim:'Master Yetkili'}],teslimatAdresi:'Master teslim'});
+const noneSelected=api.musteridenOlustur(masterWithContacts,{}, {yetkililerSecildi:false,teslimatSecildi:false});
+assert.strictEqual(noneSelected.snapshot.teslimatAdresi,'');
+assert.deepStrictEqual(Array.from(noneSelected.snapshot.yetkililer),[]);
+// Boş ama açıkça seçilmiş yetkili listesi de boş snapshot olarak korunmalı.
+const emptySelection=api.musteridenOlustur(masterWithContacts,{yetkililer:[]},{yetkililerSecildi:true});
+assert.deepStrictEqual(Array.from(emptySelection.snapshot.yetkililer),[]);
+console.log('PASS: snapshot helper ve genişletilmiş regresyon kontrolleri');
