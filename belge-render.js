@@ -301,7 +301,7 @@ function belgeyiCiz(kayit, musteri){
       // musteri.id doluysa basıyor (musteri-serit.js), koduGizle=false
       // olmasına rağmen kod bu yüzden hiç görünmüyordu. Artık gerçek
       // müşteri kaydındaki id (musteri.id) buraya da geçiriliyor.
-      + HareketTablo.cariKutulariHtml({id: (musteri&&musteri.id)||"", ad: kayit.musteri, sehir: sehir, il: (musteri&&musteri.il)||"", telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (musteri&&musteri.not)||""}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true, false, null, true)
+      + HareketTablo.cariKutulariHtml({id: (cariSnapshot&&cariSnapshot.musteriKodu)||((musteri&&musteri.id)||""), ad: (cariSnapshot&&cariSnapshot.musteriAdi)||kayit.musteri, sehir: (cariSnapshot&&cariSnapshot.ilce)||sehir, il: (cariSnapshot&&cariSnapshot.sehir)||((musteri&&musteri.il)||""), telefon: (musteri&&musteri.telefon)||"", eposta: (musteri&&musteri.eposta)||"", notlar: (musteri&&musteri.notlar)||[], not: (cariSnapshot&&cariSnapshot.not)||((musteri&&musteri.not)||"")}, vade, faturaTuru, kargo, faturaAdr, teslimatAdr, yetkililer, false, true, false, null, true)
       + "</div>";
 
     // BAKİYE ÜRÜN BLOĞU — sadece bakiyede kalan ürün varsa gösterilir. Ana
