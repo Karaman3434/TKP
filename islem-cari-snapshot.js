@@ -6,7 +6,7 @@
 var IslemCariSnapshot = (function(){
   "use strict";
   var ZORUNLU = ["musteriKodu","musteriAdi","ilce","sehir","vade","fatura","kargo","faturaAdresi"];
-  function temiz(v){ return v == null ? "" : String(v).trim(); }
+  function temiz(v){ if(v && typeof v==="object" && v.adres!=null) v=v.adres; return v == null ? "" : String(v).trim(); }
   function kopyala(v){ return v == null ? null : JSON.parse(JSON.stringify(v)); }
   function olustur(alanlar){
     alanlar = alanlar || {};
