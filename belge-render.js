@@ -240,14 +240,14 @@ function belgeyiCiz(kayit, musteri){
     var faturaAdr = cariSnapshot ? adresMetni(cariSnapshot.faturaAdresi) : adresMetni(kayit.faturaAdresi);
     var teslimatAdr = cariSnapshot ? adresMetni(cariSnapshot.teslimatAdresi) : adresMetni(kayit.teslimatAdresi);
     var tumYetkililer = (musteri && musteri.iletisimler) || [];
-    var yetkililer = cariSnapshot && Array.isArray(cariSnapshot.yetkililer) && cariSnapshot.yetkililer.length
+    var yetkililer = cariSnapshot && Array.isArray(cariSnapshot.yetkililer)
       ? cariSnapshot.yetkililer
       : (kayit.gorunecekYetkililer
         ? tumYetkililer.filter(function(k){ return kayit.gorunecekYetkililer.indexOf(k.isim) !== -1; })
         : tumYetkililer);
     // Cari'deki tek "ŞEHİR" alanı SADECE fatura adresine eklenir — teslimat
     // çoğu zaman bambaşka bir ilçe/ildedir, ona hiç eklenmez (29.09.2026).
-    var sehir = (musteri && musteri.sehir) || "";
+    var sehir = cariSnapshot ? (cariSnapshot.sehir || "") : ((musteri && musteri.sehir) || "");
     // TEK CARİ KUTUSU (14.10.2026, Abdullah'ın isteğiyle — "cari ve ürün
     // tablosu tek yerden yönetilebilse"): bu kutu eskiden burada kendi
     // ayrı/eski ".belge-adres-blok" kodunu üretiyordu — artık Gönder ve
