@@ -245,7 +245,8 @@ var SendData = (function(){
             }
 
             if(eslesenIdx >= 0){
-              var eskiKayit = liste[eslesenIdx];\n              // Mevcut snapshot varsa revize sırasında aynen korunur. Legacy kayıtlar snapshot ile geriye dönük doldurulmaz.
+              var eskiKayit = liste[eslesenIdx];
+              // Mevcut snapshot varsa revize sırasında aynen korunur. Legacy kayıtlar snapshot ile geriye dönük doldurulmaz.
               var eskiToplam = (eskiKayit.urunler||[]).reduce(function(s,u){ return s+(u.toplamEuro||0); }, 0);
               if(!eskiKayit.revizeGecmisi) eskiKayit.revizeGecmisi = [];
               eskiKayit.revizeGecmisi.push({ts: eskiKayit.revizeZamani||eskiKayit.ts, toplamEuro:eskiToplam, urunSayisi:(eskiKayit.urunler||[]).length});
