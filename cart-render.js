@@ -980,7 +980,7 @@ function kaydetGercekIslem(niyet){
         if(btn) btn.disabled = false;
         hataGoster("Kaydetme başarısız: " + (sonuc && sonuc.message ? sonuc.message : "bilinmeyen hata"));
       }
-    }, aktifKurManuelMi(), (kaynak && (kaynak.bekleyenMod || kaynak.bakiyeKaynak)) ? {yeniKayitZorla:true} : undefined);
+    }, aktifKurManuelMi(), Object.assign({}, (kaynak && (kaynak.bekleyenMod || kaynak.bakiyeKaynak)) ? {yeniKayitZorla:true} : {}, kayitSecenekleri || {}));
   }catch(e){ hataGoster("Kaydet işlemi başarısız: " + e.message); }
 }
 
