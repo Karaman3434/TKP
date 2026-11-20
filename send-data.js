@@ -377,15 +377,18 @@ var SendData = (function(){
     var cb = typeof geriBildir === "function" ? geriBildir : function(){};
     try{
       var db = firebase.database();
-      var mutateHatasi = null;
+      var mutateHatasi = null, bulundu = false;
       db.ref("arsiv/" + tip).transaction(function(currentData){
         try{
+          bulundu = false;
           var liste = currentData ? (Array.isArray(currentData) ? currentData.filter(Boolean) : Object.values(currentData)) : [];
-          return liste.filter(function(k){ return k.ts !== ts; });
+          var yeniListe = liste.filter(function(k){ var eslesiyor = k && Number(k.ts) === Number(ts); if(eslesiyor) bulundu = true; return !eslesiyor; });
+          if(!bulundu) return;
+          return yeniListe;
         }catch(e){ mutateHatasi = e; return; }
       }).then(function(result){
         if(mutateHatasi){ cb(false, mutateHatasi); return; }
-        if(!result || !result.committed){ cb(false, new Error("Silme işlemi çakıştı, lütfen tekrar dene.")); return; }
+        if(!result || !result.committed || !bulundu){ cb(false, new Error("Kaynak kayıt bulunamadı veya silme işlemi çakıştı.")); return; }
         cb(true);
       }).catch(function(err){
         cb(false, err);
