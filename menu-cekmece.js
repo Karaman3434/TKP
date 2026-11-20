@@ -974,26 +974,19 @@ function mcOgeHtml(o){
   var ikonStil = o.renk ? " style='color:" + o.renk + ";'" : "";
   var ikHtml = "<span class='as-drawer-ikon'" + ikonStil + " aria-hidden='true'>" + o.ikon + "</span>";
 
-  // MİNİ ARAMA SATIRI — sadece temel izin (acik) VE (varsa) ince taneli
-  // miniAramaIzin açıkken. Değilse aşağıdaki normal akışa (locked/normal
-  // satır) devam eder — yani bu özelliğin KENDİSİ hiçbir zaman ek bir
-  // "kilitli" görünüm icat etmez, sadece var olan davranışa geri döner.
+  // MİNİ ARAMA SATIRI — ortak tasarım tüm menü sayfalarında standarttır.
   if(o.miniArama && acik && (!o.miniAramaIzin || window.izinVarMi(o.miniAramaIzin))){
     return "<div class='as-drawer-oge as-drawer-oge--miniarama as-drawer-oge--miniarama-yeni'>"
-        + "<div class='as-drawer-mini-etiket-satir'>"
-        + ikHtml
-        + "<span class='as-drawer-mini-etiket-ayrac' aria-hidden='true'></span>"
-        + "<span class='as-drawer-mini-etiket-metin'>" + o.etiket + "</span>"
-        + "<button type='button' class='as-drawer-mini-islem' data-alt-menu='" + o.altMenu + "' aria-label='" + o.etiket + " ek işlemleri' aria-haspopup='true' aria-expanded='false'>•••</button>"
-        + "</div>"
-        + "<div class='as-drawer-mini-arama-kutu'>"
-        + "<input type='search' class='as-drawer-mini-arama-input-sabit' data-mini-arama='" + o.miniArama + "' placeholder='" + o.etiket + " ara...' autocomplete='off'>"
-        + "<span class='as-drawer-mini-arama-ikon' aria-hidden='true'>⌕</span>"
-        + "</div>"
-        + "</div>";
+      + "<div class='as-drawer-mini-etiket-satir'>"
       + ikHtml
-      + "<button type='button' class='as-drawer-mini-etiket' data-alt-menu='" + o.altMenu + "'>" + o.etiket + "</button>"
-      + "<input type='search' class='as-drawer-mini-arama-input-sabit' data-mini-arama='" + o.miniArama + "' placeholder='" + o.etiket + " ara' autocomplete='off'>"
+      + "<span class='as-drawer-mini-etiket-ayrac' aria-hidden='true'></span>"
+      + "<span class='as-drawer-mini-etiket-metin'>" + o.etiket + "</span>"
+      + "<button type='button' class='as-drawer-mini-islem' data-alt-menu='" + o.altMenu + "' aria-label='" + o.etiket + " ek işlemleri' aria-haspopup='true' aria-expanded='false'>•••</button>"
+      + "</div>"
+      + "<div class='as-drawer-mini-arama-kutu'>"
+      + "<input type='search' class='as-drawer-mini-arama-input-sabit' data-mini-arama='" + o.miniArama + "' placeholder='" + o.etiket + " ara...' autocomplete='off'>"
+      + "<span class='as-drawer-mini-arama-ikon' aria-hidden='true'>⌕</span>"
+      + "</div>"
       + "</div>";
   }
 
