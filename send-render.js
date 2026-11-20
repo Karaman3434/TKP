@@ -1049,8 +1049,29 @@ document.addEventListener("DOMContentLoaded", function(){
   // kaydı ID'siyle Firebase'den bir kez tazelenir. Tek seferlik — sonradan
   // kullanıcının MESAJ kutusuna yazdıklarını ezmez.
   var musteriTazelendiMi = false;
+  function musteriSnapshotGorunumuneUygula(musteri, kayit){
+    var s = kayit && kayit.transactionCustomerInfo;
+    if(!s || !musteri) return musteri;
+    // İşlem kaydındaki Cari snapshot, gönderim/önizleme için master veriden önceliklidir.
+    var gorunum = Object.assign({}, musteri, {
+      id: s.musteriKodu || musteri.id,
+      ad: s.musteriAdi || musteri.ad,
+      sehir: s.ilce || musteri.sehir,
+      il: s.sehir || musteri.il,
+      vade: s.vade,
+      fatura: s.fatura,
+      kargo: s.kargo,
+      acikAdres: s.faturaAdresi || musteri.acikAdres
+    });
+    if(s.faturaAdresi) gorunum.faturaAdresleri = [{etiket:"Fatura Adresi", adres:s.faturaAdresi}];
+    if(s.teslimatAdresi) gorunum.teslimatAdresleri = [{etiket:"Teslimat Adresi", adres:s.teslimatAdresi}];
+    if(Array.isArray(s.yetkililer) && s.yetkililer.length) gorunum.iletisimler = s.yetkililer;
+    return gorunum;
+  }
   function musteriyleDevamEt(musteri){
+    musteri = musteriSnapshotGorunumuneUygula(musteri, kayitliBaglam.kayit);
     sonKaydedilenBelge.musteri = musteri;
+    kayitliBaglam.musteri = musteri;
     adresleriBelirle(musteri);
     // "Kaydedildi" başlığı (#gonderBaslikYazi) 19.10.2026'da Abdullah onayıyla
     // kaldırıldı — eleman artık DOM'da yok, bu yüzden var/null kontrolüyle
