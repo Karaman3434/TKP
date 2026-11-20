@@ -49,3 +49,10 @@ Alan eşleme ve UI seçim modeli -> snapshot oluşturma/validation -> arşiv kay
 - Bekleyen akışın `yeniKayitZorla` seçeneği korunacak şekilde seçenekler birleştirildi.
 - Snapshot aktarımı için kod değişiklikleri test dalında commit edildi; PR açık/draft, merge veya canlı dağıtım yok.
 - GitHub Actions sonuçları bu son commitler için henüz doğrulanmadı; syntax ve Firebase/mobile E2E testleri tamamlanmış sayılmaz.
+
+
+## 21.11.2026 devam incelemesi — gönderim ve belge görünümü
+- `send-render.js`: snapshot'taki yetkililer dizisi boş olsa dahi master Cari yetkilileriyle doldurulmaz; boş seçimin tarihsel anlamı korunur.
+- `belge-render.js`: snapshot mevcut olduğunda şehir ve yetkililer snapshot üzerinden okunur; boş yetkililer listesi master'a geri düşmez.
+- Not alanının yeni işlem UI/selection akışında kayda hangi kullanıcı girdisiyle aktarılacağı henüz bulunamadı; mevcut `send-data.js` snapshot oluşturucusu not alanını bilerek boş bırakıyor. Bu alanı UI'dan doğrulamadan otomatik bağlamamak güvenli kabul edildi.
+- Son değişiklik commitleri için CI sonuçları bekleniyor; canlı veriye, ana dala veya production dağıtımına müdahale yok.
