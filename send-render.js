@@ -1063,8 +1063,10 @@ document.addEventListener("DOMContentLoaded", function(){
       kargo: s.kargo,
       acikAdres: s.faturaAdresi || musteri.acikAdres
     });
-    if(s.faturaAdresi) gorunum.faturaAdresleri = [{etiket:"Fatura Adresi", adres:s.faturaAdresi}];
-    if(s.teslimatAdresi) gorunum.teslimatAdresleri = [{etiket:"Teslimat Adresi", adres:s.teslimatAdresi}];
+    // Snapshot mevcutsa adres listeleri de snapshot\u0027a kilitlenir. Boş teslimat
+    // adresi master Cari\u0027deki sonradan eklenen adreslerden doldurulamaz.
+    gorunum.faturaAdresleri = s.faturaAdresi ? [{etiket:"Fatura Adresi", adres:s.faturaAdresi}] : [];
+    gorunum.teslimatAdresleri = s.teslimatAdresi ? [{etiket:"Teslimat Adresi", adres:s.teslimatAdresi}] : [];
     if(Array.isArray(s.yetkililer)) gorunum.iletisimler = s.yetkililer;
     return gorunum;
   }
