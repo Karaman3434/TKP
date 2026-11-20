@@ -757,7 +757,7 @@ var ReportsData = (function(){
     // listenin SONUNA şimdiki aşama eklenir — eski aşama kaydı silindiğinde
     // (bkz. kaynakSil) tüm geçmiş tarihleri kaybolmasın diye.
     var rotaSonrakineTasinacak = (kayit.rota || []).concat([{tip:kayit.tip, kod:kayit.kod||null, tarih:kayit.tarih||null}]);
-    var kaynakNesnesi = {tip:kayit.tip, ts:kayit.ts, kod:kayit.kod||null, tarih:kayit.tarih||null, rota:rotaSonrakineTasinacak, sonrakiAsamaSecenekleri:secenekler};
+    var kaynakNesnesi = {tip:kayit.tip, ts:kayit.ts, kod:kayit.kod||null, tarih:kayit.tarih||null, rota:rotaSonrakineTasinacak, sonrakiAsamaSecenekleri:secenekler, transactionCustomerInfo:kayit.transactionCustomerInfo||null};
     if(bekleyenMod){ kaynakNesnesi.bekleyenMod = bekleyenMod; kaynakNesnesi.eskiFiyatlar = eskiFiyatlar; }
     // bekleyenden verilmiş teklif/proforma ilerletiliyorsa bekleyen bağı zincirde taşınır
     if(kayit.bakiyeKaynak && !bekleyenMod){ kaynakNesnesi.bakiyeKaynak = kayit.bakiyeKaynak; }
@@ -809,7 +809,7 @@ var ReportsData = (function(){
     localStorage.setItem("weiconv2_sepet", JSON.stringify(sepet));
     localStorage.setItem("weiconv2_sepet_baslangic_zamani", String(Date.now()));   // 10 dk oto-sil sayacı (03.11.2026)
     localStorage.setItem("weicon_secili_musteri", JSON.stringify({ad:kayit.musteri, sehir:kayit.sehir||"", id:kayit.musteriId||null}));
-    localStorage.removeItem("weiconv2_ilerlet_kaynak");
+    localStorage.setItem("weiconv2_ilerlet_kaynak", JSON.stringify({tip:kayit.tip,ts:kayit.ts,kod:kayit.kod||null,tarih:kayit.tarih||null,transactionCustomerInfo:kayit.transactionCustomerInfo||null}));
     localStorage.setItem("weiconv2_onceden_secilen_tip", kayit.tip);
     // MÜŞTERİ SIZINTISI DÜZELTMESİ (27.10.2026) — bkz. revizeBaslat'taki
     // aynı yorum / cart-render.js sepetMusteriBaglantisiniDogrula.
