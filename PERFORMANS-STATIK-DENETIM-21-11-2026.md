@@ -179,3 +179,32 @@ Dosyalar: ayarlar-sync.js, km-data.js, auth.js, firebase-config.js. Statik kayna
 3. P2 dış servis ve açılış deneyimi: kur fetch timeout/fallback, XLSX başlangıç yükü — davranış eşdeğerliği ve mobil ağ senaryoları test edilerek değerlendirilebilir.
 
 Bu turda sadece denetim raporu güncellenmiştir; uygulama kodu, canlı branch, canlı Firebase, UI veya deployment değiştirilmemiştir.
+
+
+## Ürün, sepet ve kayıt gönderme akışı — statik risk incelemesi (21.11.2026)
+
+İncelenen: product-data.js, cart-data.js, send-data.js, reports-safety-fix.js. Statik inceleme; izolasyon projesinde runtime testi yapılmadı.
+
+### Ürün kataloğu (product-data.js)
+- localStorage katalog cache'i (wemosa_v8_catalog) varsa başlangıçta okunuyor; Firebase katalog ve ekstraUrunler dinleme/kurulum akışı var.
+- Ayrıca yedek JSON `urunler-21092026.json` fetch ile yükleniyor; tamamlanınca katalog kurulum ve listener bildirimleri tetikleniyor.
+- Bu, katalog başlangıç yükünde cache/Firebase/JSON üçlü kaynak akışının zamanlamasının profillenmesi için aday. Ürün arama/katalog sonuçlarının kapsamı veya önceliği değiştirilmemeli.
+- ekstraUrunler için ayrı ekleme/güncelleme/silme yazma yolları görülüyor; ana katalogla ayrım korunmalı.
+
+### Sepet (cart-data.js)
+- Sepet localStorage üzerinden anlık kaynak olarak çalışıyor; oturum UID'si üzerinden `sepetTaslak/{uid}` Firebase yedeği okuma/yazma akışı bulunuyor.
+- Yedek geri yükleme yalnızca yerel sepet boşken, temizleme zaman damgası kontrolüyle uygulanıyor. Kaydetme/temizleme/yedek geri yükleme ve gezinme sırası veri bütünlüğü açısından kritik.
+- Fire-and-forget yazma ile sıfırlama/navigation bekleme davranışlarının ayrımı korunmalı; optimizasyon adayı ancak senaryolarla test edilmeli.
+
+### SendData (send-data.js)
+- Belge sıra numarası `gunlukKodSayaci/{YYYYAAGG}` transaction ile artırılıyor; çakışma önlemek için atomik mekanizma. Başarısızlıkta bir kez 700 ms gecikmeli retry var.
+- Arşive kayıt, işlem ve belge türü iş kurallarına bağlı. Bu mekanizma veya retry performans amacıyla azaltılmamalı.
+
+### reports-safety-fix.js
+- Arşiv altındaki kayıt silme/güncelleme/kacan işaretleme/müşteri birleştirme işlemlerinde transaction kullanılıyor.
+- Transaction ile mutasyon ve hata geri bildirimi veri bütünlüğü için kritik. Bu yapılar değişiklik öncesi izole eşzamanlılık/işlem regression testleri gerektirir.
+
+### Aday ve güvenli sınırlar
+- P1 profil adayı: katalog cache, Firebase katalog ve JSON yedek yükleme süreleri; tekrar render/bildirim sayısı.
+- P0: sepet yedek restore, temizleme zaman damgası, günlük sayaç transaction, arşiv transaction'ları. Bunlara performans amaçlı değişiklik yapılmamalı, önce test ve açık onay gerekir.
+- Bu tur yalnızca rapor güncellemesi; uygulama kodu, canlı branch/Firebase, UI ve deployment değişmedi.
