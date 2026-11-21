@@ -804,3 +804,7 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
 .as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-oge-ikon{width:28px;font-size:21px;flex-shrink:0;text-align:center;}
 .as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-oge-ok{flex:0 0 auto;color:#102b55;font-size:25px;line-height:1;font-weight:700;}
 .as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-oge:last-child{margin-bottom:0;}
+
+
+/* 22.11.2026 — Onaylı Müşteri İşlemleri popup genişliği %25 daraltıldı; yüksekliği/konumu korunur. */
+.as-drawer-mini-sonuc-panel.as-drawer-mini-sonuc-panel--aksiyon{width:min(56.25vw,285px)!important;max-width:calc(100vw - 16px)!important;}
