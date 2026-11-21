@@ -208,3 +208,16 @@ Bu turda sadece denetim raporu güncellenmiştir; uygulama kodu, canlı branch, 
 - P1 profil adayı: katalog cache, Firebase katalog ve JSON yedek yükleme süreleri; tekrar render/bildirim sayısı.
 - P0: sepet yedek restore, temizleme zaman damgası, günlük sayaç transaction, arşiv transaction'ları. Bunlara performans amaçlı değişiklik yapılmamalı, önce test ve açık onay gerekir.
 - Bu tur yalnızca rapor güncellemesi; uygulama kodu, canlı branch/Firebase, UI ve deployment değişmedi.
+
+
+## Render katmanı statik inceleme (21.11.2026 — devam)
+
+İncelenen dosyalar: home-render.js, reports-render.js, cart-render.js (ilk bölümler ve lazy-load notları), customer-render.js (harita hazırlama ve lazy-load akışları), km-render.js.
+
+- `home-render.js`: satış rakamını ekran genişliğine uydurmak için resize ve document.fonts.ready ile yeniden ölçüm yapıyor; kart güncellemeleri satış/prim/hedef/komisyon fonksiyonlarını bir arada çağırıyor. Resize ölçümü ve kart render süresi profilleme adayı; görünüm davranışı korunmalı.
+- `reports-render.js`: aylık 12 dönem özeti oluşturup DOM'a map/join ile yazıyor ve satır olaylarını bağlıyor; küçük liste için tek başına belirgin performans sorunu kanıtı değil.
+- `cart-render.js`: kaynak notlarında html2canvas yüklemesinin kullanıcı gerçekten tablo görseli gönderirken lazy-load edildiği belirtiliyor. Bu yaklaşım başlangıç yükü açısından olumlu; gönderim davranışı regression test olmadan değiştirilmemeli. Dosya büyük ve çok işlevli, ancak büyüklük tek başına performans kanıtı değildir.
+- `customer-render.js`: son işlem/temas haritalarının ReportsData son işlemlerinden hazırlanması ve kimlik yoksa isim bazlı fallback haritaları bulunuyor; müşteri listesi sıralama/haritalama hesapları profilleme adayı. Lazy-load edilen işlem popup ve açık belge kontrol modüllerinde yükleme sırasında bekleyen çağrılar biriktirilip modül hazır olunca yürütülüyor; eşzamanlılık davranışı korunmalı.
+- `km-render.js`: aylık kayıtları alıp iş/özel kilometre toplamlarını hesaplıyor; zamanlama ve render ölçümü adayı, mevcut iş kuralları korunmalı.
+
+Bu bulgular statik gözlem ve aday profilleme noktalarıdır; çalışma anı performans ölçümü veya hata kanıtı değildir. Uygulama/üretim koduna müdahale edilmedi.
