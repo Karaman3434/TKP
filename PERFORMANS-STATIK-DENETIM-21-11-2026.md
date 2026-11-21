@@ -149,3 +149,33 @@ Bu turda home.html, reports.html, customer.html, km.html ve cart.html sayfaları
 ### Risk ve güvenlik sınırları
 - Arşiv ve müşteri listener'ları ile otomatik kod atama davranışları kullanıcı verisi ve iş akışına etki edebilir. Bu alanlarda değişiklik yalnızca izole test Firebase, veri senaryoları, eşzamanlı cihaz testi ve açık değişiklik onayı sonrasında değerlendirilmelidir.
 - Bu bölüm yalnızca statik denetim bulgularını rapora ekler; uygulama kodu, canlı Firebase, canlı branch, tasarım veya dağıtım değiştirilmemiştir.
+
+
+## Firebase erişim yolları ve kritik ortak modüller incelemesi (21.11.2026)
+
+Dosyalar: ayarlar-sync.js, km-data.js, auth.js, firebase-config.js. Statik kaynak incelemesi; test Firebase runtime doğrulaması yok.
+
+### Ayarlar ve kur senkronu
+- ayarlar-sync.js sürekli `ayarlar` listener'ı açıyor; gelen kur/KDV/hedef/kur zamanı/kaynak/brüt maaş/matrah verilerini localStorage'a yansıtıyor ve dinleyicileri çağırıyor.
+- Kur otomatik yenileme zinciri TCMB XML, Frankfurter ve yedek kaynak olarak raporun önceki bölümlerinde belirtilen sıralamayı takip ediyor. Her kaynak denemesine 5 saniye timeout uygulanması AbortController varlığına bağlı; AbortController bulunmayan ortamda bu timeout fetch'i kesmiyor.
+- Kur yenileme tazelik koşulu (2 saat) ve manuel kurun ezilmemesi kritik iş kuralıdır. Herhangi bir değişiklik için kur kaynakları, hata fallback, bayat kur ve manuel kur regression testleri gerekir.
+
+### KM veri listener'ları
+- km-data.js içinde sürekli listener: kmTakip, kmOdemeleri, kmCarpanlari, kmSirketHakki, kmHatirlatmaNotu.
+- Bu beş alan farklı işlevsel verileri takip ediyor. Salt listener sayısını azaltmak hedefiyle birleştirme veya kaldırma yapılmamalı; veri değişimi, sayfa render ve erişim etkisi doğrulanmalıdır.
+- KM yazma ve geçmiş kilometre ilişkilendirme işlevleri hassas; değişiklik önerisi yok.
+
+### Auth ve cihaz güvenliği
+- auth.js, Service Worker kaydı, Firebase persistence LOCAL, PIN 5 dakika, tam giriş 2 saat, ekran sıfırlama 30 dakika ve cihaz engel/onay kontrolleri gibi güvenlik/oturum davranışlarını içeriyor.
+- Cihaz kontrolü ve auth içindeki Firebase okumaları/yazmaları erişim güvenliği ve admin kilitlenmesi/çalışan erişimi riskleri taşıdığından performans amacıyla azaltılmayacak veya yeniden sıralanmayacak; önce izolasyon ve test gerekir.
+
+### Test yapılandırmasının mevcut sınırı
+- firebase-config.js test projesi için placeholder değerler içeriyor. Test Firebase gerçek konfigürasyonunun doğrulanmış olduğu söylenemez.
+- Bu nedenle auth, KM, ayarlar ve müşteri/arşiv veri akışlarında runtime, yük, eşzamanlılık veya gerçek hız testi yapılamaz.
+
+### Önceliklendirme (yalnızca inceleme önerisi)
+1. P0 güvenlik/iş verisi koruması: auth, cihaz, müşteri otomatik kod yazması, işlem/sipariş yazma ve kur iş kuralları — performans değişikliği yapılmamalı; izolasyon testleri şart.
+2. P1 ölçülebilir yük adayları: arşiv listener tekrarları, sayfa bazlı modül yükleri, hesaplama/yeniden render tekrarları — test ortamı ve ölçüm altyapısı kurulduktan sonra profillenmeli.
+3. P2 dış servis ve açılış deneyimi: kur fetch timeout/fallback, XLSX başlangıç yükü — davranış eşdeğerliği ve mobil ağ senaryoları test edilerek değerlendirilebilir.
+
+Bu turda sadece denetim raporu güncellenmiştir; uygulama kodu, canlı branch, canlı Firebase, UI veya deployment değiştirilmemiştir.
