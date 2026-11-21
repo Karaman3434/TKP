@@ -51,6 +51,9 @@ var IsTakipData = (function(){
   function veriDegistiginde(fn){
     if(typeof fn !== "function") return;
     if(dinleyiciler.indexOf(fn) === -1) dinleyiciler.push(fn);
+    // Firebase ilk snapshot'ı daha önce geldiyse yeni kayıtlı dinleyici
+    // güncel veri için bir sonraki değişikliği beklemesin.
+    if(hazir){ try{ fn(); }catch(e){ console.error("Arşiv dinleyicisi hatası:", e); } }
   }
 
   function buGununIsGunuTarihi(){
@@ -71,9 +74,11 @@ var IsTakipData = (function(){
     var gunAyAd = isGunu ? AYLAR[isGunu.getMonth()] : "", gunYil = isGunu ? isGunu.getFullYear().toString() : "";
     var ay = {ayAd:buAyAd, yil:buYil, toplamEuro:0, toplamEuroTl:0, toplamPrim:0};
     var bugun = {toplamEuro:0, toplamEuroTl:0, toplamPrim:0, aktifMi:!!isGunu};
-    var siparisler = arsivData.siparis || [];
+    var siparisKaynak = arsivData.siparis || [];
+    var siparisler = Array.isArray(siparisKaynak) ? siparisKaynak : Object.values(siparisKaynak);
     for(var i=0;i<siparisler.length;i++){
       var k = siparisler[i];
+      if(!k || typeof k !== "object") continue;
       if(!k.tarih || k.durum === "beklemede") continue;
       var parca = k.tarih.split(" "), kayitGun = parca[0]||"", kayitAy = parca[1]||"", kayitYil = parca[2]||"";
       var ayEslesir = kayitAy===buAyAd && kayitYil===buYil;
@@ -81,8 +86,12 @@ var IsTakipData = (function(){
       if(!ayEslesir && !gunEslesir) continue;
       var kur = k.kur || guncelKurYedek();
       if(!k.urunler) continue;
-      for(var j=0;j<k.urunler.length;j++){
-        var u = k.urunler[j], euro = u.toplamEuro||0, euroTl = euro*kur;
+      var urunKaynak = k.urunler;
+      var urunler = Array.isArray(urunKaynak) ? urunKaynak : Object.values(urunKaynak);
+      for(var j=0;j<urunler.length;j++){
+        var u = urunler[j];
+        if(!u || typeof u !== "object") continue;
+        var euro = u.toplamEuro||0, euroTl = euro*kur;
         var mk = (u.iskBirim||0)-(u.dipFiyat||0);
         var satirPrimi = ((u.iskonto||0)>60) ? 0 : mk*(u.adet||1)*0.22;
         var primTl = satirPrimi>0 ? satirPrimi*kur : 0;
@@ -191,6 +200,8 @@ var IsTakipData = (function(){
   function bildirimDegistiginde(fn){
     if(typeof fn !== "function") return;
     if(bildirimDinleyicileri.indexOf(fn) === -1) bildirimDinleyicileri.push(fn);
+    // İlk arşiv snapshot'ı alındıysa bildirimi anında yeniden hesaplat.
+    if(hazir){ try{ fn(); }catch(e){ console.error("Bildirim dinleyicisi hatası:", e); } }
   }
 
   return {
