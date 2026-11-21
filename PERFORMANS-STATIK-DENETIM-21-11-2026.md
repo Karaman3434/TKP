@@ -20,3 +20,12 @@ Bu statik inceleme, test branch'inin Firebase projesi gercekten izole oldugunu v
 3. Tum sabit Firebase / Cloud Function / Pages URL'lerinin kapsamli taramasi.
 4. Test Firebase projesi olusturulup kimlik, database, rules ve endpointler dogrulanmadan runtime test yapma.
 5. Test ortaminda sentetik data kullan, canli musteri verisi kullanma.
+
+
+## HTML script-order incelemesi — ek bulgular
+
+- Daldaki HTML dosyasi envanteri 58 sayfa/yonlendirme dosyasi.
+- Ana uygulama sayfalarindan home.html, pin.html, login.html, reports.html, cart.html, send.html, menu.html, customer.html, km.html dahil incelenenlerde firebase-config.js, auth.js'den once yukleniyor.
+- Ajanda, ayarlar, customer-add, customer-detail, customer-hub, customer-temas, hata-kayitlari, kacan-satislar, raporlar, satis-listesi, urun-yukle, veri ve ziyaret sayfalarinda da script referanslarinin statik sirasi config oncesinde auth olacak sekilde incelendi; ziyaret.html'de config/auth indeksleri 6/7.
+- cihazlar.html, calisan-erisim.html ve product.html eski sayfa/bridge dosyalari; Firebase SDK veya auth scripti yuklemiyor, eski URL'leri ilgili yeni sayfalara yonlendiriyor.
+- Bu kontrol browser/runtime testi degildir. Kalan sayfalar, inline script davranislari, URL'ler, script order ve yonlendirme zincirleri kapsamli otomatik tarama ile ek kontrol gerektirir.
