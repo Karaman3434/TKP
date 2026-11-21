@@ -1,7 +1,7 @@
 /*
   firebase-config.js
   ===================
-  TEK gerçek Firebase config kaynağı. Önceden bu 7 satırlık config bloğu
+  PERFORMANS TEST DALINDA: canlı Firebase yapılandırması kaldırıldı; test proje placeholder'ı. Önceden bu 7 satırlık config bloğu
   14 ayrı dosyada (auth.js, customer-data.js, reports-data.js, home-data.js,
   km-data.js, cihaz-data.js, ayarlar-sync.js, send-data.js, hata-log.js,
   hata-kayitlari-render.js, maas-kayit-data.js, avans-kayit-data.js,
@@ -18,13 +18,14 @@
   bırakılmış bir güvenlik ağıdır.
 */
 var ISTAKIP_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyC08Oe1LE7TdQl8gG2H9raZQek211Dxd60",
-  authDomain: "weicon-asist.firebaseapp.com",
-  databaseURL: "https://weicon-asist-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "weicon-asist",
-  storageBucket: "weicon-asist.firebasestorage.app",
-  messagingSenderId: "673730415323",
-  appId: "1:673730415323:web:29c817e05a281261a61afe"
+  // TEST-ONLY PLACEHOLDERS: replace only after a dedicated Firebase test project exists.
+  apiKey: "TEST_PROJECT_API_KEY_NOT_CONFIGURED",
+  authDomain: "istakip-performans-test.firebaseapp.com",
+  databaseURL: "https://istakip-performans-test-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "istakip-performans-test",
+  storageBucket: "istakip-performans-test.firebasestorage.app",
+  messagingSenderId: "TEST_PROJECT_MESSAGING_ID_NOT_CONFIGURED",
+  appId: "TEST_PROJECT_APP_ID_NOT_CONFIGURED"
 };
 
 if(typeof firebase !== "undefined" && !firebase.apps.length){
