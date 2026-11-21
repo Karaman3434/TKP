@@ -104,3 +104,32 @@
 
   persist();
 })();
+
+// Tanılama verisini kullanıcı tetiklemeli dışa aktarma (Firebase / ağ erişimi yok).
+// Sadece ölçüm verisini panoya kopyalamaya yönelik küçük geçici kontrol.
+(function(){
+  function addExportControl(){
+    if(document.getElementById("tkp-perf-export")) return;
+    var btn=document.createElement("button");
+    btn.id="tkp-perf-export";
+    btn.type="button";
+    btn.textContent="ÖLÇÜMÜ KOPYALA";
+    btn.setAttribute("aria-label","Performans ölçüm verisini kopyala");
+    btn.style.cssText="position:fixed;right:10px;bottom:10px;z-index:2147483647;padding:10px 12px;border:1px solid #555;border-radius:8px;background:#222;color:#fff;font:12px sans-serif;opacity:.88;";
+    btn.addEventListener("click",function(){
+      var data;
+      try{data=JSON.stringify(window.__TKP_PERF_DIAG__||JSON.parse(sessionStorage.getItem("tkp_perf_diag_v1")||"{}"),null,2);}catch(e){data="Ölçüm verisi okunamadı.";}
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(data).then(function(){btn.textContent="KOPYALANDI";},function(){fallback(data,btn);});
+      }else fallback(data,btn);
+    });
+    document.body.appendChild(btn);
+  }
+  function fallback(data,btn){
+    var ta=document.createElement("textarea");ta.value=data;ta.setAttribute("readonly","");ta.style.cssText="position:fixed;left:-9999px;top:0;";
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand("copy");btn.textContent="KOPYALANDI";}catch(e){btn.textContent="KOPYALAMA HATASI";}
+    ta.remove();
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",addExportControl,{once:true});else addExportControl();
+})();
