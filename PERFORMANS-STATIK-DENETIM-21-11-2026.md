@@ -118,3 +118,34 @@ Bu turda home.html, reports.html, customer.html, km.html ve cart.html sayfaları
 3. Ortak script yükleme sırası güvenlik ve sayfa davranışları için kritik; herhangi bir script sırası değişikliği yapılmadı.
 4. Matris kısmi kapsamlıdır; 58 HTML dosyasının tamamı incelenmiş değildir.
 5. Bu turda yalnızca denetim raporu güncellendi. Uygulama kodu, canlı dal, canlı Firebase, tasarım ve dağıtım değişmedi.
+
+
+## Ortak veri modülleri — derin statik inceleme (21.11.2026)
+
+İncelenen dosyalar: home-data.js, reports-data.js, customer-data.js, vade-takip-data.js, takip-ozet-data.js. Yalnızca kaynak kodu incelemesi; runtime davranışı doğrulanmadı.
+
+### 1) Arşiv verisi için ayrı listener yapıları
+- home-data.js içinde baslat() db.ref("arsiv").on("value") ile arşiv verisini yükleyip dinleyicilere haber veriyor.
+- reports-data.js içinde ayrıca db.ref("arsiv").on("value") arşiv verisini yükleyip normalize ediyor, şehir/kanal düzeltmelerini bellek üzerinde uyguluyor ve sonIslemler önbelleğini temizliyor.
+- home-data.js içindeki bildirim verisi dinleme işlevi ayrıca arşiv listener'ı açıyor (önceki denetimde belgelenmiş).
+- Bu, modül başına listener tekrarı açısından bir **inceleme adayı**; listener'ların aynı sayfada gerçekten aktive olması, erişim/izin ve başlatma koşulları runtime ile teyit edilmeden toplam Firebase yükü veya maliyet iddiası yapılamaz.
+
+### 2) Müşteri listener'ı ve otomatik kod atama yazma davranışı
+- customer-data.js baslat() sürekli "musteriler" listener'ı açıyor.
+- Callback içinden kodsuz müşteriler bulunursa kodsuzMusterilereKodAta() çağrılıyor; bu fonksiyon güvenliYaz/transaction tabanlı yol ile kod atama yazma denemesi yapıyor.
+- kodAtamaDenendi bayrağı denemeden önce true oluyor. Deneme başarısız olursa aynı sayfa oturumunda otomatik yeniden deneme davranışı kaynakta görünmüyor. Bu **hata kurtarma/yeniden deneme inceleme adayıdır**, değiştirilmemiştir. Kod atama yazması kullanıcı verisini etkileyebileceği için test Firebase üzerinde kontrollü doğrulama gerektirir.
+- Listener callback ayrıca ReportsData.musteriBilgisiDegisti() çağrısını yapıyor; arşiv şehir kopyalarının güncel müşteri şehirleriyle uyumlandırılmasını sağlayan çapraz modül bağımlılığıdır.
+
+### 3) ReportsData önbellek ve arşiv callback davranışı
+- sonIslemler() arşiv düzleştirme/sıralama sonucunu önbelleğe alıyor; arşiv listener'ı ve müşteri şehir değişikliği sonrası cache invalidate ediliyor.
+- Arşiv listener callback'i eski kanal adını bellek üzerinde düzeltme ve müşteri şehir bilgisi eşleştirmesi yapıyor. Bu dönüşümlerin işlem kayıtları, sıralama, liste çıktısı ve performans üzerindeki etkisi runtime testte ölçülmeli; Firebase'e yazdığı varsayılmamalıdır.
+- Cache invalidation, şehir eşleştirme ve callback zinciri davranış doğruluğu açısından kritik; optimizasyon öncesi regression senaryoları gerektirir.
+
+### 4) VadeTakip / TakipOzet hesaplama
+- VadeTakip.tumOgeler() her çağrıda müşteri haritası oluşturuyor ve ReportsData.tumSiparisler() üzerinden siparişleri tarıyor; vade hesaplama, müşteri eşleştirme ve sıralama/gösterim davranışları için aday profil noktası.
+- TakipOzet.sonIslemHaritasi() ReportsData.sonIslemler() çağrısını yapıp müşteri ID bazlı harita oluşturuyor. ziyaretBekleyenler() bunu tek çağrıda kullanıyor; sonAktiviteZamani() harita parametresi verilirse tekrarlı harita oluşturmayı önlüyor.
+- VadeTakip ve TakipOzet için hesaplama süresi, tekrar sayısı, veri hacmi ve ekran render tetiklenmesi ölçülmedi. Şimdilik kod değişikliği veya kesin darboğaz iddiası yok.
+
+### Risk ve güvenlik sınırları
+- Arşiv ve müşteri listener'ları ile otomatik kod atama davranışları kullanıcı verisi ve iş akışına etki edebilir. Bu alanlarda değişiklik yalnızca izole test Firebase, veri senaryoları, eşzamanlı cihaz testi ve açık değişiklik onayı sonrasında değerlendirilmelidir.
+- Bu bölüm yalnızca statik denetim bulgularını rapora ekler; uygulama kodu, canlı Firebase, canlı branch, tasarım veya dağıtım değiştirilmemiştir.
