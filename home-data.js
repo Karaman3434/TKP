@@ -31,8 +31,15 @@ var IsTakipData = (function(){
         }else{
           arsivData = {siparis:[], proforma:[], teklif:[], numune:[]};
         }
+        // Aynı "arsiv" ağacı artık tek Firebase value dinleyicisiyle
+        // hem ana sayfa satış kartlarını hem takvim/bildirim verisini besler.
+        ["numune","teklif","proforma","siparis"].forEach(function(t){
+          var liste = data && data[t];
+          arsivHamData[t] = liste ? (Array.isArray(liste) ? liste.filter(Boolean) : Object.values(liste)) : [];
+        });
         hazir = true;
-        dinleyiciler.forEach(function(fn){ fn(); });
+        dinleyiciler.forEach(function(fn){ try{ fn(); }catch(e){ console.error("Arşiv dinleyicisi hatası:", e); } });
+        bildirimDinleyicileri.forEach(function(fn){ try{ fn(); }catch(e){ console.error("Bildirim dinleyicisi hatası:", e); } });
       }, function(err){
         console.error("Firebase okuma hatası:", err);
       });
@@ -44,6 +51,9 @@ var IsTakipData = (function(){
   function veriDegistiginde(fn){
     if(typeof fn !== "function") return;
     if(dinleyiciler.indexOf(fn) === -1) dinleyiciler.push(fn);
+    // Firebase ilk snapshot'ı daha önce geldiyse yeni kayıtlı dinleyici
+    // güncel veri için bir sonraki değişikliği beklemesin.
+    if(hazir){ try{ fn(); }catch(e){ console.error("Arşiv dinleyicisi hatası:", e); } }
   }
 
   function buGununIsGunuTarihi(){
@@ -56,62 +66,43 @@ var IsTakipData = (function(){
     return gun;
   }
 
-  function buAyinVerisi(){
-    var now = new Date();
-    var buAyAd = AYLAR[now.getMonth()];
-    var buYil = now.getFullYear().toString();
-    var siparisler = arsivData.siparis || [];
-    var toplamEuro = 0, toplamEuroTl = 0, toplamPrim = 0;
+  // Aylık ve günlük satış/prim kartları için arşiv siparişlerini tek taramada hesaplar.
+  // Aynı arşiv ve ürün satırlarının ayrı ayrı taranması önlenir.
+  function satisOzetleriniHesapla(){
+    var now = new Date(), buAyAd = AYLAR[now.getMonth()], buYil = now.getFullYear().toString();
+    var isGunu = buGununIsGunuTarihi(), gunNo = isGunu ? isGunu.getDate().toString() : "";
+    var gunAyAd = isGunu ? AYLAR[isGunu.getMonth()] : "", gunYil = isGunu ? isGunu.getFullYear().toString() : "";
+    var ay = {ayAd:buAyAd, yil:buYil, toplamEuro:0, toplamEuroTl:0, toplamPrim:0};
+    var bugun = {toplamEuro:0, toplamEuroTl:0, toplamPrim:0, aktifMi:!!isGunu};
+    var siparisKaynak = arsivData.siparis || [];
+    var siparisler = Array.isArray(siparisKaynak) ? siparisKaynak : Object.values(siparisKaynak);
     for(var i=0;i<siparisler.length;i++){
       var k = siparisler[i];
-      if(!k.tarih) continue;
-      if(k.durum === "beklemede") continue; // Beklemede sipariş hiçbir toplama dahil edilmez
-      var parca = k.tarih.split(" ");
-      var ayAd = parca[1]||"", yil = parca[2]||"";
-      if(ayAd!==buAyAd || yil!==buYil) continue;
-      var kKuru0 = k.kur || guncelKurYedek();
-      if(k.urunler) for(var j=0;j<k.urunler.length;j++){
-        var u = k.urunler[j];
-        toplamEuro += u.toplamEuro||0;
-        toplamEuroTl += (u.toplamEuro||0) * kKuru0; // satış tutarı işlemin YAPILDIĞI günün kuruyla TL'ye çevrilir
+      if(!k || typeof k !== "object") continue;
+      if(!k.tarih || k.durum === "beklemede") continue;
+      var parca = k.tarih.split(" "), kayitGun = parca[0]||"", kayitAy = parca[1]||"", kayitYil = parca[2]||"";
+      var ayEslesir = kayitAy===buAyAd && kayitYil===buYil;
+      var gunEslesir = bugun.aktifMi && kayitGun===gunNo && kayitAy===gunAyAd && kayitYil===gunYil;
+      if(!ayEslesir && !gunEslesir) continue;
+      var kur = k.kur || guncelKurYedek();
+      if(!k.urunler) continue;
+      var urunKaynak = k.urunler;
+      var urunler = Array.isArray(urunKaynak) ? urunKaynak : Object.values(urunKaynak);
+      for(var j=0;j<urunler.length;j++){
+        var u = urunler[j];
+        if(!u || typeof u !== "object") continue;
+        var euro = u.toplamEuro||0, euroTl = euro*kur;
         var mk = (u.iskBirim||0)-(u.dipFiyat||0);
-        var satirPrimi = ((u.iskonto||0) > 60) ? 0 : mk*(u.adet||1)*0.22;
-        // Müdür primi işlemin YAPILDIĞI günün kuruyla TL'ye çevrilir —
-        // kayıtta kur yoksa (çok eski kayıt) o anki güncel kur yedek olarak kullanılır.
-        var kKuru = k.kur || guncelKurYedek();
-        if(satirPrimi>0) toplamPrim += satirPrimi*kKuru;
+        var satirPrimi = ((u.iskonto||0)>60) ? 0 : mk*(u.adet||1)*0.22;
+        var primTl = satirPrimi>0 ? satirPrimi*kur : 0;
+        if(ayEslesir){ ay.toplamEuro+=euro; ay.toplamEuroTl+=euroTl; ay.toplamPrim+=primTl; }
+        if(gunEslesir){ bugun.toplamEuro+=euro; bugun.toplamEuroTl+=euroTl; bugun.toplamPrim+=primTl; }
       }
     }
-    return {ayAd:buAyAd, yil:buYil, toplamEuro:toplamEuro, toplamEuroTl:toplamEuroTl, toplamPrim:toplamPrim};
+    return {ay:ay, bugun:bugun};
   }
-
-  function bugununVerisi(){
-    var isGunu = buGununIsGunuTarihi();
-    if(!isGunu) return {toplamEuro:0, toplamPrim:0, aktifMi:false};
-    var gunNo = isGunu.getDate().toString();
-    var ayAd = AYLAR[isGunu.getMonth()];
-    var yil = isGunu.getFullYear().toString();
-    var siparisler = arsivData.siparis || [];
-    var toplamEuro = 0, toplamEuroTl = 0, toplamPrim = 0;
-    for(var i=0;i<siparisler.length;i++){
-      var k = siparisler[i];
-      if(!k.tarih) continue;
-      if(k.durum === "beklemede") continue; // Beklemede sipariş hiçbir toplama dahil edilmez
-      var parca = k.tarih.split(" ");
-      if((parca[0]||"")!==gunNo || (parca[1]||"")!==ayAd || (parca[2]||"")!==yil) continue;
-      var kKuru0 = k.kur || guncelKurYedek();
-      if(k.urunler) for(var j=0;j<k.urunler.length;j++){
-        var u = k.urunler[j];
-        toplamEuro += u.toplamEuro||0;
-        toplamEuroTl += (u.toplamEuro||0) * kKuru0;
-        var mk = (u.iskBirim||0)-(u.dipFiyat||0);
-        var satirPrimi = ((u.iskonto||0) > 60) ? 0 : mk*(u.adet||1)*0.22;
-        var kKuru = k.kur || guncelKurYedek();
-        if(satirPrimi>0) toplamPrim += satirPrimi*kKuru;
-      }
-    }
-    return {toplamEuro:toplamEuro, toplamEuroTl:toplamEuroTl, toplamPrim:toplamPrim, aktifMi:true};
-  }
+  function buAyinVerisi(){ return satisOzetleriniHesapla().ay; }
+  function bugununVerisi(){ return satisOzetleriniHesapla().bugun; }
 
   function gununIslemOzeti(){
     var isGunu = buGununIsGunuTarihi();
@@ -187,32 +178,10 @@ var IsTakipData = (function(){
   var arsivHamData = {numune:[], teklif:[], proforma:[], siparis:[]};
   var bildirimDinleyicileri = [];
 
+  // "arsiv" verisi baslat() içindeki ortak dinleyiciden gelir; ikinci
+  // Firebase aboneliği açılmaz. Fonksiyon API'si geriye uyumluluk için korunur.
   function bildirimVerisiDinlemeyeBasla(){
-    if(bildirimDinlemeBasladi) return;
     bildirimDinlemeBasladi = true;
-    try{
-      var db = firebase.database();
-      db.ref("arsiv").on("value", function(snap){
-        var data = snap.val() || {};
-        // KÖK NEDEN DÜZELTMESİ (15.09.2026): bu liste "siparis"i dışarıda
-        // bırakıyordu — arsivHamData.siparis hiç dolmuyor, bu yüzden
-        // gununIslemOzeti() (Ana Sayfa'daki "Günün Özeti" kutusu) bugün
-        // girilen SİPARİŞLERİ asla saymıyordu ("0 İşlem" görünüyordu),
-        // oysa aynı gün BUGÜN SATIŞ tutarı (ayrı bir veri kaynağından
-        // okunuyor) doğru gösteriliyordu — ikisi arasındaki tutarsızlık
-        // buradan geliyordu. bildirimOzetiHesapla()'nın "açık süreç"
-        // sayımı kasıtlı olarak sadece numune/teklif/proforma'ya bakıyor
-        // (kendi ayrı döngüsünde), ona dokunulmadı.
-        ["numune","teklif","proforma","siparis"].forEach(function(t){
-          var liste = data[t];
-          arsivHamData[t] = liste ? (Array.isArray(liste) ? liste.filter(Boolean) : Object.values(liste)) : [];
-        });
-        bildirimDinleyicileri.forEach(function(fn){ fn(); });
-      });
-    }catch(e){
-      bildirimDinlemeBasladi = false;
-      console.error("Bildirim verisi dinlenemedi:", e);
-    }
   }
 
   function bildirimOzetiHesapla(){
@@ -231,11 +200,14 @@ var IsTakipData = (function(){
   function bildirimDegistiginde(fn){
     if(typeof fn !== "function") return;
     if(bildirimDinleyicileri.indexOf(fn) === -1) bildirimDinleyicileri.push(fn);
+    // İlk arşiv snapshot'ı alındıysa bildirimi anında yeniden hesaplat.
+    if(hazir){ try{ fn(); }catch(e){ console.error("Bildirim dinleyicisi hatası:", e); } }
   }
 
   return {
     baslat: baslat,
     veriDegistiginde: veriDegistiginde,
+    satisOzetleriniHesapla: satisOzetleriniHesapla,
     buAyinVerisi: buAyinVerisi,
     bugununVerisi: bugununVerisi,
     gununIslemOzeti: gununIslemOzeti,

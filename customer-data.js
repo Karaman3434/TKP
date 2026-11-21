@@ -20,6 +20,20 @@ var CustomerData = (function(){
 
   var liste = [];
   var dinleyiciler = [];
+  // Performans: ID ve tam müşteri adı eşleştirmelerini tek taramada indeksle.
+  // İndeksler yalnızca Firebase müşteri listesi yenilendiğinde yeniden kurulur.
+  var musteriIdIndeksi = Object.create(null);
+  var musteriAdIndeksi = Object.create(null);
+  function musteriIndeksleriniKur(){
+    musteriIdIndeksi = Object.create(null);
+    musteriAdIndeksi = Object.create(null);
+    liste.forEach(function(m){
+      if(!m) return;
+      if(m.id && !musteriIdIndeksi[m.id]) musteriIdIndeksi[m.id] = m;
+      var ad = (m.ad||"").toLocaleLowerCase("tr-TR");
+      if(ad && !musteriAdIndeksi[ad]) musteriAdIndeksi[ad] = m;
+    });
+  }
 
   function baslat(){
     try{
@@ -28,6 +42,7 @@ var CustomerData = (function(){
       db.ref("musteriler").on("value", function(snap){
         var data = snap.val();
         liste = data ? (Array.isArray(data) ? data.filter(Boolean) : Object.values(data)) : [];
+        musteriIndeksleriniKur();
         // CANLI MÜŞTERİ BİLGİSİ (02.11.2026, Abdullah onayı): müşteri kartında
         // şehir/ilçe değişince, işlem kayıtlarının eski kopyası yerine GÜNCEL
         // değer tüm listelerde görünsün diye ReportsData bilgilendirilir
@@ -136,7 +151,8 @@ var CustomerData = (function(){
   }
 
   function musteriBul(ad){
-    return liste.find(function(m){ return (m.ad||"").toLocaleLowerCase("tr-TR")===(ad||"").toLocaleLowerCase("tr-TR"); }) || null;
+    var anahtar = (ad||"").toLocaleLowerCase("tr-TR");
+    return musteriAdIndeksi[anahtar] || null;
   }
   // Kalıcı ID ile arama — isim değişse/yazım farklı olsa bile doğru
   // müşteriyi bulur. musteriId kayıtlı olan her yerde isim aramasından
@@ -148,7 +164,7 @@ var CustomerData = (function(){
   // önce kalıcı ID ile, yoksa isimle bulur. Müşteri bulunamazsa (veya liste
   // henüz yüklenmediyse) yedek değeri (kayıttaki kopya) döner.
   function sehirBul(musteriId, musteriAd, yedek){
-    var m = musteriId ? liste.find(function(x){ return x.id === musteriId; }) : null;
+    var m = musteriId ? (musteriIdIndeksi[musteriId] || null) : null;
     if(!m && musteriAd) m = musteriBul(musteriAd);
     return m ? konumMetni(m) : (yedek === undefined ? null : yedek);
   }

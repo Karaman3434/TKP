@@ -25,6 +25,7 @@ var ReportsData = (function(){
 
   var arsiv = {numune:[], teklif:[], proforma:[], siparis:[]};
   var arsivDinleyicileri = [];
+  var arsivHazir = false;
   // PERFORMANS KAZANIMI (27.10.2026): sonIslemler() ESKİDEN her çağrıda
   // arşivin TÜMÜNÜ (numune+teklif+proforma+siparis) yeniden düzleştirip
   // yeniden sıralıyordu — bu fonksiyon kod genelinde çok sık (bir sayfada
@@ -43,18 +44,18 @@ var ReportsData = (function(){
 
       db.ref("arsiv").on("value", function(snap){
         var data = snap.val();
-        if(data){
-          arsiv = data;
-          ["numune","teklif","proforma","siparis"].forEach(function(t){
-            if(!arsiv[t]) arsiv[t] = [];
-            else if(!Array.isArray(arsiv[t])) arsiv[t] = Object.values(arsiv[t]);
-          });
-        }
+        // Bos snapshot da guncellemedir; stale data memoryde tutulmasin.
+        arsiv = data && typeof data === "object" ? data : {};
+        ["numune","teklif","proforma","siparis"].forEach(function(t){
+          var liste = arsiv[t];
+          arsiv[t] = liste ? (Array.isArray(liste) ? liste.filter(Boolean) : Object.values(liste).filter(Boolean)) : [];
+        });
         eskiKanalAdlariniDuzelt();
         canliSehirUygula();
         sonIslemlerOnbellek = null;
-        arsivDinleyicileri.forEach(function(fn){ fn(); });
-      });
+        arsivHazir = true;
+        arsivDinleyicileri.forEach(function(fn){ try{ fn(); }catch(e){ console.error("ReportsData arşiv dinleyicisi:", e); } });
+      }, function(err){ console.error("ReportsData arşiv okuma hatası:", err); });
 
     }catch(e){
       console.error("Firebase başlatma hatası:", e);
@@ -100,7 +101,11 @@ var ReportsData = (function(){
     }
   }
 
-  function arsivDegistiginde(fn){ arsivDinleyicileri.push(fn); }
+  function arsivDegistiginde(fn){
+    if(typeof fn !== "function") return;
+    if(arsivDinleyicileri.indexOf(fn) === -1) arsivDinleyicileri.push(fn);
+    if(arsivHazir){ try{ fn(); }catch(e){ console.error("ReportsData arşiv dinleyicisi:", e); } }
+  }
 
   function sonIslemler(limit){
     if(!sonIslemlerOnbellek){

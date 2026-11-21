@@ -55,13 +55,23 @@ function satisRakamlariniSigdir(){
     }
   }catch(e){}
 }
-window.addEventListener("resize", function(){ satisRakamlariniSigdir(); });
+// Yeniden boyutlandırma sırasında tekrarlayan ölçüm/layout işlemlerini azaltmak için
+// kısa debounce; son ölçüm ekran boyutu değişimi tamamlandıktan sonra yapılır.
+var satisSigdirResizeTimer = null;
+window.addEventListener("resize", function(){
+  if(satisSigdirResizeTimer) clearTimeout(satisSigdirResizeTimer);
+  satisSigdirResizeTimer = setTimeout(function(){
+    satisSigdirResizeTimer = null;
+    satisRakamlariniSigdir();
+  }, 120);
+});
 try{ if(document.fonts && document.fonts.ready) document.fonts.ready.then(satisRakamlariniSigdir); }catch(e){}
 
 function kartlariGuncelle(){
   try{
-    var ay = IsTakipData.buAyinVerisi();
-    var bugun = IsTakipData.bugununVerisi();
+    var ozetler = IsTakipData.satisOzetleriniHesapla();
+    var ay = ozetler.ay;
+    var bugun = ozetler.bugun;
 
     setText("anaSayfaSatisToplam", IsTakipData.fmt(ay.toplamEuro));
     setText("anaSayfaSatisToplamTl", IsTakipData.fmt(ay.toplamEuroTl)); // (05.11.2026) birim artık HTML'de küçük "TL" etiketi
@@ -184,11 +194,13 @@ function isGunuKutusunuGuncelle(){
 // hata-kayitlari-render.js). Burada "hatalar" düğümünü dinleyip, bu zaman
 // damgasından SONRA oluşmuş kayıt sayısını buluyoruz — 0 ise rozet gizli,
 // 1+ ise "Ayarlar" etiketinin yanında kırmızı rozette sayı görünür.
+var hataRozetiDinlemeBasladi = false;
 function hataRozetiGuncelle(){
   try{
     var rozet = document.getElementById("asAyarlarHataRozeti");
-    if(!rozet) return;
+    if(!rozet || hataRozetiDinlemeBasladi) return;
     if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
+    hataRozetiDinlemeBasladi = true;
     firebase.database().ref("hatalar").on("value", function(snap){
       try{
         var veri = snap.val();
