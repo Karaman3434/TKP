@@ -43,3 +43,12 @@ Bu statik inceleme, test branch'inin Firebase projesi gercekten izole oldugunu v
 
 ### Öncelikli performans adayı (henüz değişiklik yapılmadı)
 Ana sayfada arşiv verisinin tek bir dinleyici üzerinden paylaşılması/dağıtılması değerlendirilebilir. Ancak bildirim özeti, satış/prim hesapları ve ReportsData bağımlılıkları karşılaştırılmadan, davranış eşdeğerliği ve izolasyon testleri olmadan kod değişikliği yapılmayacaktır.
+## Workflow tetikleme kapsamı incelemesi — devam
+
+- `.github/workflows/health-check.yml` içindeki `push` tetikleyicisi yalnızca `main` branch'ini kapsıyor; test branch push'larında workflow otomatik çalışmıyor.
+- `schedule` tetikleyicisi varsayılan branch üzerinde çalışır; test branch'i özel olarak schedule kapsamına alınmış görünmüyor.
+- `workflow_dispatch` (manuel tetikleme) branch seçimine izin verebildiğinden, bu workflow test branch'inde elle çalıştırılırsa `https://karaman3434.github.io/TKP/` production Pages URL'sini salt HTTP kontrolleriyle ziyaret eder. Bu işlem deploy veya Firebase yazımı değildir, fakat test izolasyonu açısından test branch'inde manuel çalıştırılmamalıdır.
+- Workflow kodu test branch'inde statik olarak okundu; herhangi bir değişiklik yapılmadı. Canlı siteye HTTP istekleri bu denetim sırasında tarafımızca gönderilmedi.
+
+### Kapsam sınırlaması
+- Bu bulgu yalnızca workflow dosyasının statik incelemesine dayanır; GitHub Actions geçmişi/gerçek tetiklenme davranışı doğrulanmadı.
