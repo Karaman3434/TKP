@@ -31,8 +31,15 @@ var IsTakipData = (function(){
         }else{
           arsivData = {siparis:[], proforma:[], teklif:[], numune:[]};
         }
+        // Aynı "arsiv" ağacı artık tek Firebase value dinleyicisiyle
+        // hem ana sayfa satış kartlarını hem takvim/bildirim verisini besler.
+        ["numune","teklif","proforma","siparis"].forEach(function(t){
+          var liste = data && data[t];
+          arsivHamData[t] = liste ? (Array.isArray(liste) ? liste.filter(Boolean) : Object.values(liste)) : [];
+        });
         hazir = true;
-        dinleyiciler.forEach(function(fn){ fn(); });
+        dinleyiciler.forEach(function(fn){ try{ fn(); }catch(e){ console.error("Arşiv dinleyicisi hatası:", e); } });
+        bildirimDinleyicileri.forEach(function(fn){ try{ fn(); }catch(e){ console.error("Bildirim dinleyicisi hatası:", e); } });
       }, function(err){
         console.error("Firebase okuma hatası:", err);
       });
@@ -162,32 +169,10 @@ var IsTakipData = (function(){
   var arsivHamData = {numune:[], teklif:[], proforma:[], siparis:[]};
   var bildirimDinleyicileri = [];
 
+  // "arsiv" verisi baslat() içindeki ortak dinleyiciden gelir; ikinci
+  // Firebase aboneliği açılmaz. Fonksiyon API'si geriye uyumluluk için korunur.
   function bildirimVerisiDinlemeyeBasla(){
-    if(bildirimDinlemeBasladi) return;
     bildirimDinlemeBasladi = true;
-    try{
-      var db = firebase.database();
-      db.ref("arsiv").on("value", function(snap){
-        var data = snap.val() || {};
-        // KÖK NEDEN DÜZELTMESİ (15.09.2026): bu liste "siparis"i dışarıda
-        // bırakıyordu — arsivHamData.siparis hiç dolmuyor, bu yüzden
-        // gununIslemOzeti() (Ana Sayfa'daki "Günün Özeti" kutusu) bugün
-        // girilen SİPARİŞLERİ asla saymıyordu ("0 İşlem" görünüyordu),
-        // oysa aynı gün BUGÜN SATIŞ tutarı (ayrı bir veri kaynağından
-        // okunuyor) doğru gösteriliyordu — ikisi arasındaki tutarsızlık
-        // buradan geliyordu. bildirimOzetiHesapla()'nın "açık süreç"
-        // sayımı kasıtlı olarak sadece numune/teklif/proforma'ya bakıyor
-        // (kendi ayrı döngüsünde), ona dokunulmadı.
-        ["numune","teklif","proforma","siparis"].forEach(function(t){
-          var liste = data[t];
-          arsivHamData[t] = liste ? (Array.isArray(liste) ? liste.filter(Boolean) : Object.values(liste)) : [];
-        });
-        bildirimDinleyicileri.forEach(function(fn){ fn(); });
-      });
-    }catch(e){
-      bildirimDinlemeBasladi = false;
-      console.error("Bildirim verisi dinlenemedi:", e);
-    }
   }
 
   function bildirimOzetiHesapla(){
