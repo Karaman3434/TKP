@@ -184,11 +184,13 @@ function isGunuKutusunuGuncelle(){
 // hata-kayitlari-render.js). Burada "hatalar" düğümünü dinleyip, bu zaman
 // damgasından SONRA oluşmuş kayıt sayısını buluyoruz — 0 ise rozet gizli,
 // 1+ ise "Ayarlar" etiketinin yanında kırmızı rozette sayı görünür.
+var hataRozetiDinlemeBasladi = false;
 function hataRozetiGuncelle(){
   try{
     var rozet = document.getElementById("asAyarlarHataRozeti");
-    if(!rozet) return;
+    if(!rozet || hataRozetiDinlemeBasladi) return;
     if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
+    hataRozetiDinlemeBasladi = true;
     firebase.database().ref("hatalar").on("value", function(snap){
       try{
         var veri = snap.val();
