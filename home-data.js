@@ -24,15 +24,17 @@ var IsTakipData = (function(){
       if(!firebase.apps.length){ firebase.initializeApp(ISTAKIP_FIREBASE_CONFIG); }
       var db = firebase.database();
       db.ref("arsiv").on("value", function(snap){
-        var data = snap.val();
-        if(data){
-          arsivData = data;
-          if(!arsivData.siparis) arsivData.siparis = [];
-        }else{
-          arsivData = {siparis:[], proforma:[], teklif:[], numune:[]};
-        }
+        var data = snap.val() || {};
+        var tipler = ["numune","teklif","proforma","siparis"];
+        arsivData = {};
+        tipler.forEach(function(t){
+          var liste = data[t];
+          arsivData[t] = liste ? (Array.isArray(liste) ? liste.filter(Boolean) : Object.values(liste)) : [];
+          arsivHamData[t] = arsivData[t];
+        });
         hazir = true;
         dinleyiciler.forEach(function(fn){ fn(); });
+        if(bildirimDinlemeBasladi) bildirimDinleyicileri.forEach(function(fn){ fn(); });
       }, function(err){
         console.error("Firebase okuma hatası:", err);
       });
@@ -187,32 +189,12 @@ var IsTakipData = (function(){
   var arsivHamData = {numune:[], teklif:[], proforma:[], siparis:[]};
   var bildirimDinleyicileri = [];
 
+  // Bildirimler ve ana sayfa özetleri aynı "arsiv" snapshot'ını kullanır.
+  // Bildirim akışı için ikinci Firebase value dinleyicisi açılmaz.
   function bildirimVerisiDinlemeyeBasla(){
     if(bildirimDinlemeBasladi) return;
     bildirimDinlemeBasladi = true;
-    try{
-      var db = firebase.database();
-      db.ref("arsiv").on("value", function(snap){
-        var data = snap.val() || {};
-        // KÖK NEDEN DÜZELTMESİ (15.09.2026): bu liste "siparis"i dışarıda
-        // bırakıyordu — arsivHamData.siparis hiç dolmuyor, bu yüzden
-        // gununIslemOzeti() (Ana Sayfa'daki "Günün Özeti" kutusu) bugün
-        // girilen SİPARİŞLERİ asla saymıyordu ("0 İşlem" görünüyordu),
-        // oysa aynı gün BUGÜN SATIŞ tutarı (ayrı bir veri kaynağından
-        // okunuyor) doğru gösteriliyordu — ikisi arasındaki tutarsızlık
-        // buradan geliyordu. bildirimOzetiHesapla()'nın "açık süreç"
-        // sayımı kasıtlı olarak sadece numune/teklif/proforma'ya bakıyor
-        // (kendi ayrı döngüsünde), ona dokunulmadı.
-        ["numune","teklif","proforma","siparis"].forEach(function(t){
-          var liste = data[t];
-          arsivHamData[t] = liste ? (Array.isArray(liste) ? liste.filter(Boolean) : Object.values(liste)) : [];
-        });
-        bildirimDinleyicileri.forEach(function(fn){ fn(); });
-      });
-    }catch(e){
-      bildirimDinlemeBasladi = false;
-      console.error("Bildirim verisi dinlenemedi:", e);
-    }
+    if(hazir) bildirimDinleyicileri.forEach(function(fn){ fn(); });
   }
 
   function bildirimOzetiHesapla(){
@@ -230,7 +212,10 @@ var IsTakipData = (function(){
 
   function bildirimDegistiginde(fn){
     if(typeof fn !== "function") return;
-    if(bildirimDinleyicileri.indexOf(fn) === -1) bildirimDinleyicileri.push(fn);
+    if(bildirimDinleyicileri.indexOf(fn) === -1){
+      bildirimDinleyicileri.push(fn);
+      if(hazir) fn();
+    }
   }
 
   return {
