@@ -785,3 +785,22 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
 .as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{
   height:58px!important; /* mevcut 48 px yüksekliğin yaklaşık %20 artırılmış hali */
 }
+
+
+/* 22.11.2026 — Müşteri İşlemleri hızlı popup: bütün sayfalarda ortak tasarım/konum.
+   Menü çekmecesinin üzerine bindirilir; çekmecenin yaklaşık yarısı popup altında kalır. */
+.as-drawer-mini-sonuc-panel.as-drawer-mini-sonuc-panel--aksiyon{
+ position:fixed!important;z-index:2205!important;width:min(75vw,380px)!important;max-width:calc(100vw - 16px)!important;
+ max-height:calc(100vh - 24px)!important;overflow-y:auto!important;overflow-x:hidden!important;padding:0 9px 9px!important;
+ box-sizing:border-box!important;border:1.5px solid #b8c9df!important;border-radius:16px!important;background:#fff!important;
+ box-shadow:0 10px 28px rgba(0,0,0,.34)!important;transform:translateY(-50%)!important;-webkit-overflow-scrolling:touch!important;
+}
+.as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-baslikbar{min-height:48px;margin:0 -9px 8px;padding:0 9px 0 14px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#1765bd,#073b78);color:#fff;border-radius:14px 14px 0 0;font-size:15px;font-weight:800;}
+.as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-kapat{width:38px;height:38px;flex:0 0 38px;border:0;border-radius:10px;background:rgba(255,255,255,.14);color:#fff;font-size:25px;font-weight:700;cursor:pointer;touch-action:manipulation;}
+.as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-musteri-baslik{margin:0 0 7px;padding:10px 12px;border:1px solid #d5e1f0;border-radius:11px;background:#eaf2fd;}
+.as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-oge{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:58px;margin:0 0 7px;padding:9px 10px;border:1px solid #d5e1f0;border-radius:11px;background:#f5f8fd;box-sizing:border-box;font-size:15px;font-weight:750;text-align:left;cursor:pointer;touch-action:manipulation;}
+.as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-oge:active{background:#e4effd;border-color:#78a9e5;}
+.as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-oge-sol{min-width:0;display:flex;align-items:center;gap:11px;}
+.as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-oge-ikon{width:28px;font-size:21px;flex-shrink:0;text-align:center;}
+.as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-oge-ok{flex:0 0 auto;color:#102b55;font-size:25px;line-height:1;font-weight:700;}
+.as-drawer-mini-sonuc-panel--aksiyon .cm-altmenu-oge:last-child{margin-bottom:0;}
