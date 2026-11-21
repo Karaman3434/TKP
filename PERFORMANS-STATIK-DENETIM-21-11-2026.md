@@ -221,3 +221,25 @@ Bu turda sadece denetim raporu güncellenmiştir; uygulama kodu, canlı branch, 
 - `km-render.js`: aylık kayıtları alıp iş/özel kilometre toplamlarını hesaplıyor; zamanlama ve render ölçümü adayı, mevcut iş kuralları korunmalı.
 
 Bu bulgular statik gözlem ve aday profilleme noktalarıdır; çalışma anı performans ölçümü veya hata kanıtı değildir. Uygulama/üretim koduna müdahale edilmedi.
+
+
+## 21.11.2026 — Ortak modül ve menü/iş bekleme katmanı incelemesi (devam)
+
+İncelenen dosyalar: `menu-cekmece.js`, `bekleyen-islemler.js`, `home-data.js`, `reports-data.js`, `customer-data.js`. Bu bölüm statik kaynak incelemesidir; çalışma zamanı ölçümü değildir.
+
+### Bulgular ve profil adayları
+- **Arşiv dinleyici tekrarları (profil önceliği yüksek):** `home-data.js` içinde ana arşiv verisi için `arsiv` value listener'ı ile bildirim verisi başlatma yolunda ikinci bir `arsiv` listener'ı görülüyor. `reports-data.js` de kendi `arsiv` value listener'ını açıyor. Sayfada bu modüllerin birlikte yüklenmesi durumunda aynı kök verinin birden fazla sürekli dinleyicisi bulunabilir. Gerçek eşzamanlılık, indirme/read miktarı ve maliyet ancak izole Firebase profilinde ölçülebilir. **Öneri: ölç, birleştirme/azaltma yapma.**
+- **Müşteri verisi üzerinde yoğun türetim (profil adayı):** `customer-data.js` ziyaret geçmişi, şehir/il kodu ve müşteri birleştirme gibi işlemler için müşteri listesi üzerinde tekrar tekrar tarama/sıralama yapıyor. Firebase transaction tabanlı yazma çekirdeği korunmalı; büyük listelerde CPU ve render maliyeti ölçülmeli.
+- **Çekmece mini müşteri araması:** `menu-cekmece.js` sonuç üretirken `ReportsData.sonIslemler()` verisini filtreliyor ve DOM'u `innerHTML` ile yeniden oluşturup satır event handler'ları bağlıyor. Arama input'u/focus ve tekrar çizim davranışının debounce, sıklık ve DOM maliyeti izole ölçümle incelenmesi uygun. Kod değişikliği önerisi ancak ölçüm ve regresyon testi sonrası.
+- **Mini ürün araması:** aynı çekmece ProductData/CustomerData liste değişim callback'leri ile yeniden çizim tetikliyor; veri hazır olma sırası ve tekrar çizim sayısı profillenmeli.
+- **Bekleyen işlem katmanı:** `bekleyen-islemler.js` localStorage'da en fazla iki bekleyen işlemi saklıyor, resume anahtarıyla geri yükleme/temizleme yapıyor. Bekleyen işlem geri yükleme ve izin uygulama davranışı kritik kullanıcı akışıdır; mevcut sınır ve veri modeli değiştirilmemeli, test senaryosu hazırlanmalı.
+- **Geri/ileri navigasyon:** `menu-cekmece.js` pageshow/bfcache dönüşünde mini arama alanlarını temizliyor. Bu davranış navigasyon regresyon testine eklenmeli.
+- **Kaynak dosya erişimi:** `device-data.js` yolu bu test branch'te bulunamadı (404); bu nedenle inceleme yapılmadı. Dosya adı/konumu doğrulanmadan çıkarım yapılmamalı.
+
+### Test öncelikleri
+1. İzole Firebase test projesinde aynı sayfa açılışında `arsiv` listener sayısı, callback sıklığı, payload boyutu ve ilk render süresi ölçümü.
+2. 500+ müşteri ve büyük arşiv örnek verisiyle çekmece müşteri/ürün arama tekrarlı çizim ve gecikme profili.
+3. Bekleyen işlem: kaydet, sayfa dönüşü, geri yükle, iptal ve izin değişimi regresyonları; localStorage verisinin kaybolmadığını doğrula.
+4. bfcache/pageshow dönüşünde mini arama temizleme davranışı.
+
+**Güvenlik ve kapsam:** Bu bulgularla uygulama kodu değiştirilmedi. Canlı Firebase, main/production, yayınlama ve tasarım değişikliği yapılmadı. İzole test Firebase henüz doğrulanmadığından gerçek çalışma zamanı performansı veya iyileşme iddiası yoktur.
