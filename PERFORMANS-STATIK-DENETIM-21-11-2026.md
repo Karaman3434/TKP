@@ -243,3 +243,136 @@ Bu bulgular statik gözlem ve aday profilleme noktalarıdır; çalışma anı pe
 4. bfcache/pageshow dönüşünde mini arama temizleme davranışı.
 
 **Güvenlik ve kapsam:** Bu bulgularla uygulama kodu değiştirilmedi. Canlı Firebase, main/production, yayınlama ve tasarım değişikliği yapılmadı. İzole test Firebase henüz doğrulanmadığından gerçek çalışma zamanı performansı veya iyileşme iddiası yoktur.
+
+
+## 22.11.2026 — 58 HTML sayfası modül yükleme haritası ve statik performans denetimi
+
+**Denetim sınırı:** Yalnızca `test/firebase-isolation-prep-20261121` dalındaki kaynaklar. Bu turda uygulama çalıştırılmadı; Firebase, canlı Pages, canlı veri, deployment veya runtime performans ölçümü yapılmadı. Bu bölüm statik HTML/JavaScript incelemesidir.
+
+### Sayfa-modül haritası (58/58 HTML)
+
+Aşağıdaki tablo, HTML'deki modül referanslarını kısaltılmış biçimde gösterir. Query-string sürüm etiketleri çıkarılmıştır. **A**: Firebase SDK/config/auth çekirdeği. **P**: korumalı sayfalarda kullanılan ortak shell modülleri (sayfaya göre cihaz/üst-bar/hata/bekleyen/çekmece bileşenleri; her sayfada aynı tam set değildir). **R**: bridge/redirect/statik/diagnostic sayfa. Tabloda ortak shell dışındaki sayfa-modülleri ve belirgin üçüncü taraf kütüphaneler listelenmiştir; bu bir çalışma zamanı aktivasyon kanıtı değildir.
+
+| HTML | Çekirdek | Sayfa-modülleri / kütüphaneler |
+|---|---|---|
+| ajanda.html | A/P | ajanda-data, ajanda-render |
+| avans-takibi.html | A/P | tip-etiketleri, avans-kayit-data, maas-kayit-data, avans-ortak, avans-takibi-render |
+| avans-toplam.html | A/P | tip-etiketleri, xlsx-js-style, avans-kayit-data, maas-kayit-data, avans-ortak, avans-toplam-render |
+| ay-detay.html | A/P | xlsx, ayarlar-sync, customer-data, reports-data, vade-takip-data, reports-safety-fix, tarih-filtre, islem-liste, ay-detay-render |
+| ayarlar.html | A/P | ayarlar-sync, yonetim-penceresi, ayarlar-render |
+| bakiye-urunler.html | A/P | customer-data, reports-data, vade-takip-data, reports-safety-fix, tarih-filtre, bakiye-urunler-render |
+| belge-onizleme.html | A/P | customer-data, reports-data, reports-safety-fix, product-data, ikon-svg, hareket-tablo, musteri-serit, jsPDF/autotable, teklif-pdf, vade-takip-data/ui, tarih-secici, odeme-vade-ui, rota-takip, belge-render, ust-bar-eylem |
+| bildirimler.html | A/P | customer-data, reports-data, vade-takip-data, reports-safety-fix, bildirimler-render |
+| calc.html | A/P | ayarlar-sync, product-data, cart-data, hesapla-popup, calc-render |
+| calisan-erisim.html | R | inline bridge |
+| cart.html | A/P | ayarlar-sync, ikon-svg, hareket-tablo, cart-data, product-data, customer-data, musteri-serit, reports-data, vade-takip-data, reports-safety-fix, send-data, rota-takip, kur-panel, cart-render, urun-arama, hesapla-popup |
+| cihaz-engelli.html | A | Firebase auth/config |
+| cihaz-kullanici.html | A/P | pin-utils, cihaz-data, cihaz-kullanici-render |
+| cihaz-onay-bekliyor.html | A | Firebase auth/config |
+| cihazlar.html | R | inline bridge/redirect |
+| customer-add.html | A/P | customer-data, ai-config, foto-doldur, customer-add-render |
+| customer-cari-kart.html | A/P | customer-data, musteri-serit, reports-data, reports-safety-fix, vade-takip-data/ui, tarih-secici, odeme-vade-ui, rota-takip, ikon-svg, hareket-tablo, cari-kart-render |
+| customer-detail.html | A/P | customer-data, musteri-serit, reports-data, reports-safety-fix, vade-takip-data/ui, tarih-secici, odeme-vade-ui, rota-takip, detail-render |
+| customer-hub.html | A/P | customer-data, musteri-serit, rota-takip, customer-hub-render |
+| customer-temas.html | A/P | customer-data, rota-takip, customer-temas-render |
+| customer.html | A/P | customer-data, reports-data, vade-takip-data, rota-takip, customer-render |
+| erisim-reddedildi.html | A | Firebase auth/config |
+| gecmis.html | A/P | customer-data, reports-data, reports-safety-fix, vade-takip-data/ui, odeme-vade-ui, rota-takip, tarih-filtre, gecmis-render |
+| gonderim-basarili.html | A | cihaz-data, cihaz-isim-zorunlu, gonderim-basarili-render |
+| gorevler.html | A/P | customer-data, reports-data, vade-takip-data, reports-safety-fix, gorevler-render |
+| hareketler.html | A/P | inline hareket davranışı |
+| hata-kayitlari.html | A/P | hata-kayitlari-render |
+| home.html | A/P | ayarlar-sync, home-data, customer-data, reports-data, vade-takip-data, takip-ozet-data, rota-takip, komisyon-donem-data, ajanda-data, gun-notlari-data, ajanda-foto, home-takvim-render, home-takip-buton, home-render, kur-panel, performans-olcum |
+| index.html | R | inline redirect |
+| kacan-satislar.html | A/P | customer-data, reports-data, vade-takip-data, reports-safety-fix, tarih-filtre, islem-liste, kacan-satislar-render |
+| kisisel.html | R | inline redirect |
+| km-kayitlar.html | A/P | xlsx-js-style, km-data, km-kayitlar-render |
+| km.html | A/P | km-data, km-render |
+| login.html | A | karsilama, login-render |
+| maas-hesaplama.html | A/P | ayarlar-sync, komisyon-donem-data, avans-kayit-data, maas-kayit-data, maas-hesaplama-data, maas-ortak-hesap, net-maas-panel, maas-hesaplama-render |
+| maas-menu.html | R | inline redirect |
+| marka-karsilastirma.html | A/P | marka-karsilastirma-render |
+| menu.html | A/P | customer-data, reports-data, vade-takip-data, reports-safety-fix, menu-render |
+| mesaj-sablonlari.html | A/P | mesaj-data, mesaj-sablonlari-render |
+| net-maas-hesaplama.html | R | inline redirect |
+| odenebilir-komisyon.html | A/P | komisyon-donem-data, maas-kayit-data, maas-hesaplama-data, maas-ortak-hesap, odenebilir-komisyon-render |
+| pin.html | A | pin-utils, karsilama, pin-render |
+| product.html | R | inline redirect/bridge |
+| pwa-tani.html | R | inline PWA diagnostics |
+| raporlar.html | A/P | reports-data, reports-safety-fix, inline |
+| reports.html | A/P | xlsx, ayarlar-sync, customer-data, reports-data, vade-takip-data, reports-safety-fix, reports-render |
+| satis-listesi.html | A/P | customer-data, reports-data, vade-takip-data, reports-safety-fix, tarih-filtre, islem-liste, satis-listesi-render |
+| sehir-plaka-kodlari.html | A/P | customer-data, sehir-plaka-kodlari-render |
+| send.html | A/P | ayarlar-sync, ikon-svg, hareket-tablo, cart-data, customer-data, send-data, rota-takip, musteri-serit, mesaj-data, jsPDF/autotable, teklif-pdf, send-render |
+| son-islemler.html | A/P | customer-data, reports-data, vade-takip-data, reports-safety-fix, tarih-filtre, islem-liste, son-islemler-render |
+| takip-gerekenler.html | A/P | customer-data, reports-data, vade-takip-data, takip-ozet-data, takip-gerekenler-render |
+| urun-medya-eslestir.html | A | Firebase Storage SDK, product-data, urun-medya-eslestir-render |
+| urun-yukle.html | A/P | urun-yukle-render |
+| vade-takip.html | A/P | customer-data, reports-data, reports-safety-fix, vade-takip-data/ui, tarih-secici, odeme-vade-ui, vade-takip-render |
+| veri.html | A/P | ayarlar-sync, veri-render |
+| yazi_boyutu_rehberi.html | R | statik içerik; script yok |
+| yillik-km-odeme.html | A/P | xlsx-js-style, km-data, yillik-km-odeme-render |
+| ziyaret.html | A/P | customer-data, reports-data, vade-takip-data, ajanda-data, ajanda-foto, heic2any, ziyaret-render |
+
+### Firebase listener/read envanteri — statik doğrulama
+
+- **Ana sayfa arşiv tekrarı:** `home-data.js` içinde ana `arsiv` value listener'ı; aynı modülde bildirimler için ikinci `arsiv` listener'ı; `reports-data.js` içinde üçüncü `arsiv` listener'ı. `home.html` bu modülleri birlikte referanslıyor. Kod düzeyinde aynı kök için 3 listener yolu vardır; gerçek aktif listener/read miktarı ve payload runtime olmadan ölçülmedi.
+- **ReportsData:** `arsiv` value listener'ı; arşiv değişiminde `sonIslemler` cache'i invalidated ediliyor. Bu cache mevcut bir performans önlemi. ReportsData'yı yükleyen her açık sayfa/sekme kendi listener'ını kurabilir.
+- **CustomerData:** `musteriler` value listener'ı. Callback, ReportsData şehir eşleştirmesini bildiriyor ve kodsuz müşteri kontrolü/transaction yazma yolunu çağırıyor. Listener callback'inin otomatik yazma davranışı iş-verisi riski nedeniyle değişiklik adayı değil; test Firebase gerekir.
+- **KM:** `km-data.js` baslat() içinde 5 sürekli listener: `kmTakip`, `kmOdemeleri`, `kmCarpanlari`, `kmSirketHakki`, `kmHatirlatmaNotu`; ayrıca `kmTakipAyarlari` için once read. `km.html`, `km-kayitlar.html` ve `yillik-km-odeme.html` bu modülü yükler. Her sayfa açılışındaki listener seti ayrı olabilir.
+- **Avans/maaş tekrarı:** `avans-kayit-data.js` 3 listener (`avansKayitlari`, `avansTaslak`, `maasKayitlari`) açıyor. `maas-kayit-data.js` de `maasKayitlari` listener'ı açıyor. `avans-takibi.html`, `avans-toplam.html` ve `maas-hesaplama.html` iki modülü birlikte yüklediğinden aynı `maasKayitlari` path'i için iki listener yolu statik olarak doğrulandı.
+- **ProductData:** `urunler` için önce once read ile doluluk kontrolü, sonra `urunler` value listener; `ekstraUrunler` için ayrı value listener; ayrıca `urunler-21092026.json` yedek fetch (`cache:no-cache`). İlk once read ve listener'ın ilk snapshot'ı aynı katalog için tekrar okuma adayıdır; davranış ve yük ölçülmedi.
+- **Ayarlar:** `ayarlar-sync.js` `ayarlar` listener'ı, localStorage eşlemesi ve 2 saatlik kur yenileme timer'ı. TCMB/Frankfurter/fallback HTTP kaynakları ve timeout davranışı önceki statik incelemede görüldü.
+- **Ajanda:** `ajanda-data.js` `ajanda` listener'ı; home/ajanda/ziyaret modüllerinde referans var. Home ayrıca `gun-notlari-data.js` ile `ajanda/_temasNotlari` yolunu dinliyor.
+- **Cihaz:** `cihaz-data.js` içinde cihazların tüm ağacı için once read (isim çakışma kontrolü), admin/list kullanımında tüm `cihazlar` value listener'ı ve `cihazManuelGruplari` listener'ı; manuel grup işlemlerinde child once read. Fonksiyonların her sayfada aktif olması varsayılmadı.
+- **Auth:** `auth.js` kısıtlı kullanıcı, cihaz engel/onay ve günlük KM/badge için once read yolları içeriyor; görünürlük/pageshow/focus geri dönüşleri KM kontrolünü yeniden çağırabilir. Güvenlik kararları etkilenebileceği için performans amacıyla azaltılmayacak.
+- **Drawer KM:** `menu-cekmece.js` içinde `kmTakip` kök once read, drawer araç durumunu hazırlama yolunda bulunuyor. Bu yolun sayfa açılışında veya drawer açılışında etkinliği runtime ile doğrulanmadı.
+- **Hata kaydı:** `hata-log.js` hata başına push; yaklaşık %5 rastgele kırpma kontrolünde `hatalar` once read ve update. `home-render.js` ayrıca `hatalar` için value listener açıyor. Hata yoğunluğu yüksek olursa bu yol ek network/write üretir.
+- **Sepet:** `cart-data.js` auth hazır olayından sonra `sepetTaslak/{uid}` once read ve Firebase backup yazma yolu; localStorage ana/anlık kaynak.
+- **SendData:** `send-data.js` fiyat geçmişi kontrolü kullanıcı akışında `arsiv` once read; günlük sayaç ve arşiv mutasyonları transaction ile. Bu read'in her açılışta mı yoksa ilgili aksiyonda mı tetiklendiği statik çağrı zinciri/runtime ile ayrılmalı.
+- **Mesaj:** `mesaj-data.js` mesaj şablonu yolunda once read ve yazma; `send`/şablon sayfalarında modül referansı.
+- **Transactions:** `reports-safety-fix.js` ve `reports-data.js` arşiv mutasyonlarında transaction kullanıyor; data-integrity kritik, performans için değiştirilmemeli.
+
+### Auth/startup sıralaması ve yükleme
+
+- Protected HTML'lerde Firebase compat SDK → `firebase-config.js` → `auth.js` → sayfa veri/render modülleri sırası statik olarak gözlemlendi. Redirect/bridge sayfalar bunun dışında.
+- `auth.js` document visibility'yi erken gizleme, Service Worker kaydı ve LOCAL persistence çağrısını yapıyor; auth-state/cihaz/kısıtlı kullanıcı kontrolü daha sonra çözülüyor.
+- Bazı data modülleri script yüklenir yüklenmez `baslat()` çağırıp listener kuruyor. Dolayısıyla listener başlangıcı, auth-state/device approval/permission UI kontrolünün çözülmesinden önce gerçekleşebilir. Firebase rules'un sunucu tarafı koruması zorunludur; bu bir runtime veri sızıntısı kanıtı değildir.
+- `setPersistence` çağrısı promise olarak beklenmiyor (statik kod). Başlangıç yarışının davranışı runtime olmadan hükme bağlanamaz.
+- Scriptler çoğunlukla klasik, sıralı script tag'leri; async/defer veya bundle optimizasyonu uygulanmadı. Script order güvenlik/bağımlılık riski olduğundan değiştirilmedi.
+
+### DOM/render tekrarları — profil adayları
+
+- `customer-render.js`: müşteri arama input'u ve şehir filtresi liste çizimini tetikliyor; kart listesi `innerHTML` ile yeniden oluşturulup event bağları yenileniyor. Debounce statik olarak görülmedi.
+- `product-render.js`: ürün arama input'u sonuç çizimini tekrar çağırıyor; liste/özel liste DOM'u `innerHTML` ile kurulur ve event bağları yapılır.
+- `menu-cekmece.js`: mini müşteri/ürün arama sonuçları `innerHTML` ile yeniden çiziliyor ve event bağları ekleniyor; input handler'larında debounce statik olarak görünmedi.
+- `home-render.js`: resize ve font-ready sonrası satış rakamı ölçümü; timer/interval ve auth/storage event'leri ile ek güncelleme yolları.
+- `cart-render.js` ve `send-render.js`: müşteri geçmişi, hareket tablosu, popup/işlem akışları için çok sayıda DOM güncellemesi. Çizim sayısı/timing ölçülmedi.
+- `reports-render.js`: 12 dönem özeti map/join ile çizilip satır event'leri bağlanıyor; küçük liste tek başına darboğaz kanıtı değil.
+- `km-render.js`: aylık/iş-özel KM hesaplama ve DOM güncelleme. CPU/render süreleri ölçülmedi.
+- `customer-data` listener callback'inin ReportsData şehir/cache bildirimleri çapraz render/hesaplama tetikleyebilir. Tekrar sayısı runtime ölçümü gerektirir.
+
+### Ağ, cache ve startup darboğaz adayları
+
+- Firebase compat SDK app/database/auth (bazı sayfalarda Storage) ayrı dış script'ler halinde gstatic üzerinden yükleniyor; çoğu klasik script olarak sıralı.
+- XLSX kütüphanesi `avans-toplam`, `ay-detay`, `km-kayitlar`, `reports`, `yillik-km-odeme` sayfalarında startup script'i olarak bulunuyor. jsPDF/autotable `send` ve `belge-onizleme` sayfalarında; HEIC dönüştürücü `ziyaret` sayfasında. Lazy-load/ilk açılış süreleri ölçülmedi.
+- `product-data.js` no-cache yedek JSON fetch ve Firebase read/listener zinciri kuruyor. Cache hit, HTTP fetch ve Firebase snapshot timing'i ölçülmedi.
+- `sw.js` yalnızca navigation isteklerini fetch ile geçiriyor; static JS/CSS/images/Firebase için cache stratejisi yok. Activate aşamasında **origin'deki tüm Cache Storage cache adlarını** silmeye çalışıyor (app cache adıyla sınırlandırılmamış). Aynı origin'de başka cache kullanan bir uygulama varsa etkilenme riski; bu test branch statik bulgusu, değişiklik yapılmadı.
+- `ayarlar-sync.js` kur stale/eksik olduğunda dış HTTP fetch ve 5 saniyelik AbortController timeout (Controller olmayan ortamda kesme garantisi yok) içeriyor; kaynak/fallback sayısı ve sayfa başına tekrar ölçülmedi.
+- `ai-config.js` ve `ai-urun-asistani.js` test branch'inde `.invalid` placeholder endpoint kullanıyor; gerçek test endpoint doğrulanmadan bu özelliklerin çalışır kabul edilmemesi gerekir.
+
+### İzolasyon, branch farkı ve sınırlar
+
+- Test branch SHA: `c1304a2d95c6aaf2f43ccd6b8452119d621536f7`. Ana dal SHA (bu denetimde): `8ce3699712251b5eca5d53a3e645c4fca747734a`.
+- Branch'ler diverged; GitHub compare test branch ile main arasında 51 main-ahead ve 38 test-only/branch-ahead commit farkı raporluyor. Test branch'te izolasyon/performance hazırlık dosyaları var; main'de `islem-cari-snapshot.js` ve `tests/islem-cari-snapshot.test.js` gibi snapshot entegrasyonu dosyaları bulunuyor, test branch'te yok. Bu nedenle bu statik rapor yalnızca test branch snapshot'ını temsil eder; güncel main için aynılık iddiası değildir.
+- `firebase-config.js` test `projectId` ve placeholder key içeriyor; test Firebase Auth/Realtime Database/Rules gerçekten kurulup doğrulanmadı. Runtime, load, network veya gerçek hız testi **atlandı**.
+- Bu turda yalnızca rapor dosyası güncellenecek. Uygulama JS/HTML/CSS/config/workflow, main, canlı Firebase, production data, tasarım, deployment ve runtime test değiştirilmedi/yapılmadı.
+
+### Öncelik (değişiklik değil, sonraki ölçüm planı)
+
+1. P0: auth/cihaz/kısıtlı kullanıcı/PIN ve müşteri otomatik kod yazma — güvenlik/veri bütünlüğü; performans optimizasyonu yok, izole test Firebase ve davranış eşdeğerliği şart.
+2. P1: home `arsiv` 3 listener yolu, product `urunler` once+on ve ekstra listener, avans/maaş `maasKayitlari` çift listener, KM 5 listener seti — payload, callback sıklığı, read count ve başlangıç süreleri test ortamında ölç.
+3. P1: 58-page module dependency map üzerinden ortak data module yükleme gereksinimini sayfa bazında doğrula; modül kaldırma/birleştirme yapma.
+4. P2: search/render debounce, DOM rebuild, XLSX/PDF/HEIC library startup, SW cache kapsamı, kur fetch fallback — yalnızca profiler ve regression testleri sonrası değerlendir.
+5. Test Firebase kurulumu doğrulanmadan runtime test, deployment veya kod optimizasyonu yapılmamalı.
+
