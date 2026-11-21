@@ -63,7 +63,11 @@ var AjandaData = (function(){
   }
 
   function degistiginde(fn){
-    if(typeof fn === "function" && dinleyiciler.indexOf(fn)===-1) dinleyiciler.push(fn);
+    if(typeof fn !== "function") return;
+    if(dinleyiciler.indexOf(fn)===-1) dinleyiciler.push(fn);
+    // İlk Firebase snapshot'ı alındıktan sonra kayıt olan dinleyiciye
+    // mevcut ajanda durumu hemen aktarılır.
+    if(yuklendi){ try{ fn(); }catch(e){ console.error("Ajanda dinleyici hatası:", e); } }
   }
 
   function yuklendiMi(){ return yuklendi; }
@@ -73,7 +77,7 @@ var AjandaData = (function(){
     var sonuc = {};
     Object.keys(veri).forEach(function(tarih){
       if(!TARIH_ANAHTARI.test(tarih)) return; // "_temasNotlari" gibi tarih olmayan anahtarlar (05.11.2026)
-      sonuc[tarih] = Object.keys(veri[tarih] || {}).length;
+      sonuc[tarih] = Object.keys(veri[tarih] || {}).filter(function(id){ return !!veri[tarih][id]; }).length;
     });
     return sonuc;
   }
@@ -83,8 +87,9 @@ var AjandaData = (function(){
     var gun = veri[tarih] || {};
     return Object.keys(gun).map(function(id){
       var kayit = gun[id];
+      if(!kayit || typeof kayit !== "object") return null;
       return {id: id, tarih: tarih, yol: kayit.yol, url: kayit.url, zaman: kayit.zaman};
-    }).sort(function(a, b){ return a.zaman - b.zaman; });
+    }).filter(Boolean).sort(function(a, b){ return (a.zaman||0) - (b.zaman||0); });
   }
 
   // TÜM fotoğrafları kronolojik sırayla tek dizi halinde döndürür — tam
