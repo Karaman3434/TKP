@@ -84,3 +84,19 @@ Ana sayfada arşiv verisinin tek bir dinleyici üzerinden paylaşılması/dağı
 - KM sayfasındaki 5 sürekli listener ve ana sayfadaki arşiv dinleyicileri, sayfa/modül ihtiyaç matrisi ile birlikte değerlendirilmek üzere performans inceleme adaylarıdır.
 - Auth/cihaz erişim kontrolleri güvenlik kritik olduğundan, performans adına değiştirilmesi ancak ayrı test Firebase, davranış eşdeğerliği testleri ve açık kullanıcı onayıyla ele alınabilir.
 - Bu turda yalnızca rapor güncellendi; uygulama kaynak kodları, tasarım, canlı sistem ve Firebase üzerinde değişiklik yapılmadı; runtime test/deploy gerçekleştirilmedi.
+
+
+## Endpoint ve yapılandırma taraması — 21.11.2026 devam
+
+- İncelenen `firebase-config.js` dosyasında gerçek anahtarlar yerine TEST placeholder değerleri bulunuyor; `projectId` `istakip-performans-test` olarak tanımlı. Ancak test projesinin gerçekten oluşturulduğu/doğrulandığı kanıtlanmadı.
+- `ai-config.js` içinde `ISTAKIP_AI_WORKER_URL` `.invalid` placeholder endpoint olarak ayarlı. Bu test dalındaki kart/fotoğraf analiz özelliği endpoint doğrulanmadan çalışabilir kabul edilmemelidir.
+- `ai-urun-asistani.js` içinde `AI_FONKSIYON_URL` de `.invalid` placeholder. Ürün AI açıklama isteği gerçek test Cloud Function endpointi doğrulanana kadar işlevsel değildir.
+- `ai-urun-asistani.js` kodunda ürün açıklama cache'i `localStorage` ile ürün kodu anahtarı üzerinden kullanılıyor; cache hit olduğunda HTTP çağrısı atlanıyor. Cache davranışının hız etkisi/validasyonu runtime test gerektirir.
+- `pin.html` ve `login.html` statik incelemesinde Firebase compat SDK, config ve auth yükleme sırası gözlemlendi. Bu sayfalar test config ile çalıştırılmadan izolasyon doğrulanmış sayılmaz.
+- GitHub kod arama dizini bu sorgularda sonuç vermedi; bu nedenle tüm repository genelinde URL/endpoint taramasının tamamlandığı iddia edilmemektedir. Bu bölüm, yalnızca bu turda doğrudan fetch edilip incelenen dosyalara dayanır.
+
+### Güvenlik ve test engeli
+Test Firebase projesi, Auth/Realtime Database/Rules ve test Cloud Function endpointleri doğrulanmadan uygulama çalıştırma, Firebase yazma testi veya performans ölçümü yapılmamalıdır. Bu turda kaynak kod, canlı branch, canlı Firebase, tasarım ve deployment üzerinde değişiklik yapılmadı.
+
+### Bir sonraki statik inceleme
+Sayfa-modül matrisi, URL referansları ve veri okuma/yazma kapsamını dosya bazında genişlet; bulguları yalnızca denetim raporuna kaydet. Kod optimizasyonu için ayrı test ortamı ve davranış eşdeğerliği kanıtı gereklidir.
