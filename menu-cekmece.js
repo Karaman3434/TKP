@@ -354,18 +354,9 @@ function mcMiniSonucKapat(){
 
 // altMenuAc'daki kenar-taşma kontrolüyle AYNI formül (hem yatay hem dikey).
 function mcMiniSonucKonumla(input){
-  var panel = mcMiniAramaPanel;
-  var rect = input.getBoundingClientRect();
-  var panelGenislik = panel.offsetWidth;
-  var sol = rect.left;
-  if(sol + panelGenislik > window.innerWidth - 8){ sol = window.innerWidth - panelGenislik - 8; }
-  if(sol < 8) sol = 8;
-  var ust = rect.bottom + 4;
-  var panelYukseklik = panel.offsetHeight;
-  if(ust + panelYukseklik > window.innerHeight - 8){ ust = window.innerHeight - panelYukseklik - 8; }
-  if(ust < 8) ust = 8;
-  panel.style.left = sol + "px";
-  panel.style.top = ust + "px";
+  var panel=mcMiniAramaPanel;if(!panel||!input)return;
+  if(panel.classList.contains("as-drawer-mini-sonuc-panel--aksiyon")){var drawer=document.querySelector(".as-drawer"),dr=drawer?drawer.getBoundingClientRect():null,w=Math.min(window.innerWidth*.75,380,window.innerWidth-16),left=dr?(dr.left+dr.width*.5):Math.max(8,(window.innerWidth-w)/2);if(left+w>window.innerWidth-8)left=window.innerWidth-w-8;if(left<8)left=8;panel.style.width=w+"px";panel.style.left=left+"px";panel.style.top="50%";panel.style.transform="translateY(-50%)";panel.style.maxHeight="calc(100vh - 24px)";return;}
+  panel.style.transform="none";var rect=input.getBoundingClientRect(),pw=panel.offsetWidth,sol=rect.left;if(sol+pw>window.innerWidth-8)sol=window.innerWidth-pw-8;if(sol<8)sol=8;var ust=rect.bottom+4,ph=panel.offsetHeight;if(ust+ph>window.innerHeight-8)ust=window.innerHeight-ph-8;if(ust<8)ust=8;panel.style.left=sol+"px";panel.style.top=ust+"px";
 }
 
 // ---- Ürün sonuçları: urun-arama.js uaSonuclariCiz ile AYNI satır/izin
@@ -802,53 +793,22 @@ function mcMusteriAksiyonuUygula(aksiyon){
 
 function mcMusteriHizliPencereGoster(musteri, panel){
   try{
-    mcMusteriAcikKisi = musteri;
-    mcMusteriAksiyonGosteriliyorMu = true;
-    var tipMenu = document.getElementById("mcMusteriTipMenu");
-    if(tipMenu) tipMenu.hidden = true;
-    // Standart/dar hızlı pencere boyutu — arama sonuç listesinin geniş/
-    // kaydırmalı kutusundan FARKLI (bkz. menu-cekmece-style.css).
+    mcMusteriAcikKisi = musteri; mcMusteriAksiyonGosteriliyorMu = true;
+    var tipMenu = document.getElementById("mcMusteriTipMenu"); if(tipMenu) tipMenu.hidden = true;
     panel.classList.add("as-drawer-mini-sonuc-panel--aksiyon");
-
     var rozetler = mcMusteriRozetSayilariniHesapla(musteri);
-    // 11.11.2026 (Abdullah): "Cari" satırı kaldırıldı — başlıktaki müşteri adına/kartına dokununca cari kart açılır.
     var baslikHtml = "<div class='cm-altmenu-musteri-baslik' id='mcMusteriBaslikCari' role='button' tabindex='0' aria-label='Cari kartı aç'>"
-      + "<span><span class='ms-kod'>" + mcHtmlEsc(musteri.id||"—") + "</span></span>"
-      + "<span class='ms-ad'>" + mcHtmlEsc(musteri.ad||"") + "</span>"
-      + (mcKonum(musteri) ? "<span class='ms-sehir'>" + mcHtmlEsc(mcKonum(musteri)) + "</span>" : "")
-      + "</div>";
-
-    var ogeler = [
-      {ikon:"📍", etiket:"Temas", aksiyon:"temas", rozet:rozetler.temas},
-      {ikon:"🔍", etiket:"İşlem Yap", aksiyon:"islemyap"},
-      {ikon:"📄", etiket:"Fatura ve Ödeme Takip", aksiyon:"fatura", rozet:rozetler.fatura},
-      {ikon:"🕐", etiket:"İşlem Geçmişi", aksiyon:"gecmis", rozet:rozetler.gecmis},
-      {ikon:"📦", etiket:"Ürün Geçmişi", aksiyon:"urun", rozet:rozetler.urun},
-      {ikon:"📦", etiket:"Bekleyen Ürünler", aksiyon:"bekleyen", rozet:rozetler.bekleyen}
-    ];
-    var homePopupMi = !!document.querySelector(".as-sayfa");
-    var listeHtml = ogeler.map(function(o){
-      return "<button type='button' class='cm-altmenu-oge' data-aksiyon='" + o.aksiyon + "'>"
-        + "<span class='cm-altmenu-oge-sol'><span class='cm-altmenu-oge-ikon' aria-hidden='true'>" + o.ikon + "</span><span>" + o.etiket + "</span></span>"
-        + mcMusteriRozetHTML(o.rozet||0)
-        + (homePopupMi ? "<span class='cm-altmenu-oge-ok' aria-hidden='true'>›</span>" : "")
-        + "</button>";
-    }).join("");
-
-    var popupBaslikHtml = homePopupMi
-      ? "<div class='cm-altmenu-baslikbar'><span>Müşteri İşlemleri</span><button type='button' class='cm-altmenu-kapat' id='mcMusteriPopupKapat' aria-label='Müşteri işlemlerini kapat'>✕</button></div>"
-      : "";
-    panel.innerHTML = popupBaslikHtml + baslikHtml + "<div id='mcMusteriHizliListe'>" + listeHtml + "</div>";
-    var popupKapat = panel.querySelector("#mcMusteriPopupKapat");
-    if(popupKapat) popupKapat.onclick = function(ev){ ev.stopPropagation(); mcMiniSonucKapat(); };
-    var basEl = panel.querySelector("#mcMusteriBaslikCari");
-    if(basEl) basEl.onclick = function(){ mcMusteriAksiyonuUygula("cari"); };
-    panel.querySelectorAll("#mcMusteriHizliListe .cm-altmenu-oge").forEach(function(btn){
-      btn.onclick = function(){ mcMusteriAksiyonuUygula(this.getAttribute("data-aksiyon")); };
-    });
-
-    if(mcMiniAramaAktifInput) mcMiniSonucKonumla(mcMiniAramaAktifInput);
-  }catch(e){ if(typeof hataGoster === "function") hataGoster("Hızlı pencere açılamadı: " + e.message); }
+      + "<span><span class='ms-kod'>" + mcHtmlEsc(musteri.id||"—") + "</span></span>" + "<span class='ms-ad'>" + mcHtmlEsc(musteri.ad||"") + "</span>"
+      + (mcKonum(musteri) ? "<span class='ms-sehir'>" + mcHtmlEsc(mcKonum(musteri)) + "</span>" : "") + "</div>";
+    var ogeler = [{ikon:"📍",etiket:"Temas",aksiyon:"temas",rozet:rozetler.temas},{ikon:"🔍",etiket:"İşlem Yap",aksiyon:"islemyap"},{ikon:"📄",etiket:"Fatura ve Ödeme Takip",aksiyon:"fatura",rozet:rozetler.fatura},{ikon:"🕐",etiket:"İşlem Geçmişi",aksiyon:"gecmis",rozet:rozetler.gecmis},{ikon:"📦",etiket:"Ürün Geçmişi",aksiyon:"urun",rozet:rozetler.urun},{ikon:"📦",etiket:"Bekleyen Ürünler",aksiyon:"bekleyen",rozet:rozetler.bekleyen}];
+    var listeHtml = ogeler.map(function(o){return "<button type='button' class='cm-altmenu-oge' data-aksiyon='"+o.aksiyon+"'><span class='cm-altmenu-oge-sol'><span class='cm-altmenu-oge-ikon' aria-hidden='true'>"+o.ikon+"</span><span>"+o.etiket+"</span></span>"+mcMusteriRozetHTML(o.rozet||0)+"<span class='cm-altmenu-oge-ok' aria-hidden='true'>›</span></button>";}).join("");
+    var popupBaslikHtml = "<div class='cm-altmenu-baslikbar'><span>Müşteri İşlemleri</span><button type='button' class='cm-altmenu-kapat' id='mcMusteriPopupKapat' aria-label='Müşteri işlemlerini kapat'>✕</button></div>";
+    panel.innerHTML = popupBaslikHtml + baslikHtml + "<div id='mcMusteriHizliListe'>"+listeHtml+"</div>";
+    var popupKapat=panel.querySelector("#mcMusteriPopupKapat");if(popupKapat)popupKapat.onclick=function(ev){ev.stopPropagation();mcMiniSonucKapat();};
+    var basEl=panel.querySelector("#mcMusteriBaslikCari");if(basEl)basEl.onclick=function(){mcMusteriAksiyonuUygula("cari");};
+    panel.querySelectorAll("#mcMusteriHizliListe .cm-altmenu-oge").forEach(function(btn){btn.onclick=function(){mcMusteriAksiyonuUygula(this.getAttribute("data-aksiyon"));};});
+    if(mcMiniAramaAktifInput)mcMiniSonucKonumla(mcMiniAramaAktifInput);
+  }catch(e){if(typeof hataGoster==="function")hataGoster("Hızlı pencere açılamadı: "+e.message);}
 }
 
 function mcMiniAramaBagla(inp){
