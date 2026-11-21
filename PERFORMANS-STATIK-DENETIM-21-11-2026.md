@@ -52,3 +52,35 @@ Ana sayfada arşiv verisinin tek bir dinleyici üzerinden paylaşılması/dağı
 
 ### Kapsam sınırlaması
 - Bu bulgu yalnızca workflow dosyasının statik incelemesine dayanır; GitHub Actions geçmişi/gerçek tetiklenme davranışı doğrulanmadı.
+
+
+## KM, ayarlar, auth ve service worker statik incelemesi — devam
+
+### KM modülü (km-data.js)
+- `baslat()` içinde beş sürekli `.on("value")` listener açılıyor: `kmTakip`, `kmOdemeleri`, `kmCarpanlari`, `kmSirketHakki`, `kmHatirlatmaNotu`.
+- Ayrıca `kmTakipAyarlari` için `.once("value")` kullanımı mevcut.
+- KM sayfasında bu verilerin tümünün ilk açılışta gerekli olup olmadığı, başka sayfalarda modülün yüklenip yüklenmediği ve transfer hacmi runtime/page matrix olmadan kanıtlanamaz. Listener sayısı tek başına sorun hükmü değildir.
+
+### Ayarlar senkronu (ayarlar-sync.js)
+- `ayarlar` node'u için sürekli listener, yerel kur/KDV/hedef/maaş-parametreleri alanlarını localStorage'a yazıyor ve dinleyicileri çağırıyor.
+- Kur güncellemesi kur 2 saatten eski/eksik olduğunda devreye giriyor; kaynak zinciri TCMB → Frankfurter → yedek olarak belgelenmiş.
+- Her kaynak isteği için 5 saniye AbortController timeout uygulanmış. AbortController olmayan ortamlarda timeout davranışı ayrıca sınırlı olabilir (kodda controller yoksa timeout signal gönderilmiyor).
+- Bu dış kur çağrılarının sayfa açılışına etkisi, hangi sayfalarda modülün yüklendiği ve cache durumu ölçülmedi.
+
+### Auth akışı (auth.js)
+- Statik kodda cihaz engel, cihaz onay, kısıtlı kullanıcı ve KM günlük kontrol yollarında birden fazla `.once("value")` okuması görülüyor.
+- Örnekler: cihaz engel kontrolü, cihaz kaydı/onay kontrolü, `kisitliKullanicilar/<uid>`, günlük KM kontrolü.
+- Bu kontroller güvenlik/erişim kararlarını etkilediği için azaltma/birleştirme önerisi henüz yapılmıyor. Sıralama ve toplam gecikme ölçümü test ortamı gerektirir.
+
+### Service worker (sw.js)
+- Install sırasında `skipWaiting()`; activate sırasında mevcut cache adlarını silme ve `clients.claim()`; yalnızca navigation isteklerini `fetch(event.request)` ile ağdan geçiriyor.
+- Statik kaynaklar/Firebase istekleri için SW fetch müdahalesi yok. Cache silme davranışının diğer cache kullanımını etkileyip etkilemediği, mevcut cache adlarının envanteriyle ayrıca kontrol edilmelidir; runtime test yapılmadı.
+
+### Ana sayfa script yükleme envanteri — ek
+- home.html; Firebase compat SDK, firebase-config.js, auth.js, ayarlar-sync.js, cihaz-data.js, home-data.js, customer-data.js, reports-data.js, vade-takip-data.js, takip-ozet-data.js, komisyon-donem-data.js, ajanda-data.js ve gun-notlari-data.js dahil birden fazla modülü aynı sayfada yüklemektedir.
+- Bu liste statik HTML sırasıdır; modüllerin tümünün aynı anda Firebase bağlantısı/okuma başlatıp başlatmadığı veya dinleyicilerin etkili olup olmadığı runtime olmadan kesinleştirilemez.
+
+### Öncelik ve karar
+- KM sayfasındaki 5 sürekli listener ve ana sayfadaki arşiv dinleyicileri, sayfa/modül ihtiyaç matrisi ile birlikte değerlendirilmek üzere performans inceleme adaylarıdır.
+- Auth/cihaz erişim kontrolleri güvenlik kritik olduğundan, performans adına değiştirilmesi ancak ayrı test Firebase, davranış eşdeğerliği testleri ve açık kullanıcı onayıyla ele alınabilir.
+- Bu turda yalnızca rapor güncellendi; uygulama kaynak kodları, tasarım, canlı sistem ve Firebase üzerinde değişiklik yapılmadı; runtime test/deploy gerçekleştirilmedi.
