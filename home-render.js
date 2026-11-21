@@ -55,7 +55,16 @@ function satisRakamlariniSigdir(){
     }
   }catch(e){}
 }
-window.addEventListener("resize", function(){ satisRakamlariniSigdir(); });
+// Yeniden boyutlandırma sırasında tekrarlayan ölçüm/layout işlemlerini azaltmak için
+// kısa debounce; son ölçüm ekran boyutu değişimi tamamlandıktan sonra yapılır.
+var satisSigdirResizeTimer = null;
+window.addEventListener("resize", function(){
+  if(satisSigdirResizeTimer) clearTimeout(satisSigdirResizeTimer);
+  satisSigdirResizeTimer = setTimeout(function(){
+    satisSigdirResizeTimer = null;
+    satisRakamlariniSigdir();
+  }, 120);
+});
 try{ if(document.fonts && document.fonts.ready) document.fonts.ready.then(satisRakamlariniSigdir); }catch(e){}
 
 function kartlariGuncelle(){
