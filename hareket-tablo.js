@@ -1,5 +1,5 @@
 /*
-  hareket-tablo.js — TKP.11.11.26-19:45.1581
+  hareket-tablo.js — TKP.21.11.26-21:35.1671
   =================
   GÜNCELLEME (04.11.2026, 14:35, Abdullah onayı — mockup üzerinden): BEDELSİZ
   satır gösterimi. TOPLAM sütunu "NUMUNE" yerine "BEDELSİZ" (kırmızı); LİSTE,

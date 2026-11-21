@@ -110,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function(){
   document.getElementById("gorevTarih").value = bugun.toISOString().slice(0,10);
 
   document.getElementById("gorevAra").addEventListener("input", gorevleriCiz);
-  ReportsData.gorevDegistiginde(gorevleriCiz);
+  // 21.11.2026 inceleme düzeltmesi: ReportsData'da bu fonksiyon yok — varsa bağla, yoksa hata verme
+  if(typeof ReportsData.gorevDegistiginde === "function") ReportsData.gorevDegistiginde(gorevleriCiz);
   gorevleriCiz();
 });

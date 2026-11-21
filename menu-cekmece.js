@@ -1,4 +1,4 @@
-// menu-cekmece.js — TKP.18.11.26-13:00.1663
+// menu-cekmece.js — TKP.21.11.26-21:35.1671
 // GÜNCELLEME (27.10.2026, Abdullah onayı — mockup7b üzerinden, 2 tur geri
 // bildirim sonrası: "Okey tamamdır çok güzel olmuş onaylıyorum"): Müşteri
 // mini arama sonucuna dokununca ARTIK customer.html'e hiç GİTMİYOR — bunun
@@ -294,7 +294,7 @@ function mcUrunModulunuYukle(hazirOlunca){
   if(mcUrunModulYukleniyor) return;
   mcUrunModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "product-data.js?v=WG.271026.2238.1130";
+  s.src = "product-data.js?v=TKP.21.11.26-21:35.1671";
   s.onload = function(){
     mcUrunDinleyiciyiBagla();
     mcUrunModulBekleyenler.forEach(function(fn){ fn(); });
@@ -314,7 +314,7 @@ function mcMusteriModulunuYukle(hazirOlunca){
   if(mcMusteriModulYukleniyor) return;
   mcMusteriModulYukleniyor = true;
   var s = document.createElement("script");
-  s.src = "customer-data.js?v=TKP.17.11.26-01:38.1655";
+  s.src = "customer-data.js?v=TKP.21.11.26-21:35.1671";
   s.onload = function(){
     mcMusteriDinleyiciyiBagla();
     mcMusteriModulBekleyenler.forEach(function(fn){ fn(); });
@@ -636,7 +636,7 @@ function mcIslemPopupAc(musteri, devam, yedek){
   }
   if(typeof IslemPopup !== "undefined"){ popupAc(); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.19.11.26-ISLEM-POPUP-01";
+  s.src = "islem-popup.js?v=TKP.21.11.26-21:35.1671";
   s.onload = popupAc;
   s.onerror = function(){ mcIslemPopupYuklemeHatasi("İşlem penceresi dosyası yüklenemedi. Eski tasarıma geçiş engellendi."); };
   document.body.appendChild(s);

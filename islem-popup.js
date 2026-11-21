@@ -1,5 +1,5 @@
 /*
-  islem-popup.js — TKP.13.11.26-00:15.1587 (YENİ DOSYA, 08.11.2026)
+  islem-popup.js — TKP.21.11.26-21:35.1671 (YENİ DOSYA, 08.11.2026)
   ============================================================
   "İŞLEM YAP" YENİ ROTASI (Abdullah'ın yazdığı ve onayladığı rota):
     1) Müşteri ara, bul, seç          2) Müşteri işlem kartı (hızlı pencere) açılır

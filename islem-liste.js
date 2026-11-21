@@ -1,5 +1,5 @@
 /*
-  islem-liste.js — TKP.13.11.26-08:45.1588
+  islem-liste.js — TKP.21.11.26-21:35.1671
   ==========================================================================
   ORTAK İŞLEM LİSTESİ (02.11.2026, Abdullah onayı — "tek tablo, tuş = hazır
   filtre" turu; mockup: Son İşlemler satır tasarımı + arama kutusu yanında

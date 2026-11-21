@@ -359,7 +359,7 @@
       document.head.appendChild(link);
       if((window.location.pathname.split("/").pop() || "index.html") !== "home.html"){
         var eylemScript=document.createElement("script");
-        eylemScript.src="ust-bar-eylem.js?v=TKP.15.11.26-7-TUS-AKTIF-RENK-02";
+        eylemScript.src="ust-bar-eylem.js?v=TKP.21.11.26-21:35.1671";
         document.body.appendChild(eylemScript);
       }
       duzenle(bar);

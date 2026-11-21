@@ -34,7 +34,7 @@ function cmIslemPopupAc(musteri, devam, yedek){
   }
   if(typeof IslemPopup !== "undefined"){ popupAc(); return; }
   var s = document.createElement("script");
-  s.src = "islem-popup.js?v=TKP.19.11.26-ISLEM-POPUP-01";
+  s.src = "islem-popup.js?v=TKP.21.11.26-21:35.1671";
   s.onload = popupAc;
   s.onerror = function(){ hataGoster("İşlem penceresi dosyası yüklenemedi. Eski tasarıma geçiş engellendi."); };
   document.body.appendChild(s);

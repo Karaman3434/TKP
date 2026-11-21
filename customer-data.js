@@ -1,5 +1,5 @@
 /*
-  customer-data.js — TKP.17.11.26-01:38.1655
+  customer-data.js — TKP.21.11.26-21:35.1671
   ================
   Müşteri listesini Firebase'in "musteriler" yolundan okur/yazar.
 

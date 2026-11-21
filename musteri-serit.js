@@ -1,5 +1,5 @@
 /*
-  musteri-serit.js — TKP.01.11.26-17:06.1326
+  musteri-serit.js — TKP.21.11.26-21:35.1671
   ========================================
   TEK KURAL (22.09.2026): Müşteri adının göründüğü hiçbir sayfa kendi
   HTML'ini elle yazmaz — hepsi MusteriSeridi.html(musteri) çağırır. Yeni
