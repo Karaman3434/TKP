@@ -355,7 +355,12 @@ function mcMiniSonucKapat(){
 // altMenuAc'daki kenar-taşma kontrolüyle AYNI formül (hem yatay hem dikey).
 function mcMiniSonucKonumla(input){
   var panel=mcMiniAramaPanel;if(!panel||!input)return;
-  if(panel.classList.contains("as-drawer-mini-sonuc-panel--aksiyon")){var drawer=document.querySelector(".as-drawer"),dr=drawer?drawer.getBoundingClientRect():null,w=Math.min(window.innerWidth*.5625,285,window.innerWidth-16),left=dr?(dr.left+dr.width*.5):Math.max(8,(window.innerWidth-w)/2);if(left+w>window.innerWidth-8)left=window.innerWidth-w-8;if(left<8)left=8;panel.style.width=w+"px";panel.style.left=left+"px";panel.style.top="50%";panel.style.transform="translateY(-50%)";panel.style.maxHeight="calc(100vh - 24px)";return;}
+  if(panel.classList.contains("as-drawer-mini-sonuc-panel--aksiyon")){var drawer=document.querySelector(".as-drawer"),dr=drawer?drawer.getBoundingClientRect():null,w=Math.min(window.innerWidth*.5625,285,window.innerWidth-16),left=dr?(dr.left+dr.width*.5):Math.max(8,(window.innerWidth-w)/2);if(left+w>window.innerWidth-8)left=window.innerWidth-w-8;if(left<8)left=8;panel.style.width=w+"px";panel.style.left=left+"px";
+    /* Aksiyon paneli müşteri arama kutusunun altından başlar (ürün arama kutusu değil). */
+    var musteriInput=document.querySelector("#mcMusteriAra, #mcMusteriArama, input[data-mc-musteri], .mc-musteri-arama input, [data-mc-role='musteri-search'] input");
+    var musteriAlan=musteriInput?musteriInput.closest(".mc-musteri-arama, .mc-arama-grup, .mc-hizli-arama-musteri, [data-mc-role='musteri-search']")||musteriInput:musteriInput;
+    var mr=musteriAlan?musteriAlan.getBoundingClientRect():null;
+    panel.style.top=mr?(mr.bottom+6)+"px":"50%";panel.style.transform=mr?"none":"translateY(-50%)";panel.style.maxHeight=mr?Math.max(120,window.innerHeight-mr.bottom-12)+"px":"calc(100vh - 24px)";return;}
   panel.style.transform="none";var rect=input.getBoundingClientRect(),pw=panel.offsetWidth,sol=rect.left;if(sol+pw>window.innerWidth-8)sol=window.innerWidth-pw-8;if(sol<8)sol=8;var ust=rect.bottom+4,ph=panel.offsetHeight;if(ust+ph>window.innerHeight-8)ust=window.innerHeight-ph-8;if(ust<8)ust=8;panel.style.left=sol+"px";panel.style.top=ust+"px";
 }
 
