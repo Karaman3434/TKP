@@ -29,3 +29,17 @@ Bu statik inceleme, test branch'inin Firebase projesi gercekten izole oldugunu v
 - Ajanda, ayarlar, customer-add, customer-detail, customer-hub, customer-temas, hata-kayitlari, kacan-satislar, raporlar, satis-listesi, urun-yukle, veri ve ziyaret sayfalarinda da script referanslarinin statik sirasi config oncesinde auth olacak sekilde incelendi; ziyaret.html'de config/auth indeksleri 6/7.
 - cihazlar.html, calisan-erisim.html ve product.html eski sayfa/bridge dosyalari; Firebase SDK veya auth scripti yuklemiyor, eski URL'leri ilgili yeni sayfalara yonlendiriyor.
 - Bu kontrol browser/runtime testi degildir. Kalan sayfalar, inline script davranislari, URL'ler, script order ve yonlendirme zincirleri kapsamli otomatik tarama ile ek kontrol gerektirir.
+
+
+## Firebase dinleyici envanteri — 21.11.2026 devam incelemesi
+
+- `home-data.js` içinde `IsTakipData.baslat()` ile `arsiv` yolu için bir `.on("value")` dinleyicisi açılıyor.
+- Aynı `home-data.js` içinde `bildirimVerisiDinlemeyeBasla()` fonksiyonu ayrıca `arsiv` için ikinci `.on("value")` dinleyicisi açıyor. `home-render.js` bu fonksiyonu çağırıyor (statik kod incelemesi).
+- `reports-data.js` modülü de `arsiv` için ayrı bir `.on("value")` dinleyicisi açıyor ve modül başlatma çağrısı dosya sonunda mevcut.
+- Böylece ana sayfa modüllerinde arşiv kaynağı için mükerrer dinleme yapısı, kod düzeyinde doğrulandı. Üç dinleyicinin aynı oturum/sayfada etkinliği ve veri transferine etkisi runtime test gerektirir.
+- `customer-data.js` `musteriler` için sürekli `.on("value")` dinler. Dinleyici callback'inde `kodsuzMusterilereKodAta()` çağrısı bulunur; bu, müşteri listesinde ID'siz kayıt bulunursa transaction tabanlı yazma girişimi başlatabilir. Runtime test yapılmadı.
+- `km-data.js` başlangıçta `kmTakip`, `kmOdemeleri`, `kmCarpanlari`, `kmSirketHakki` ve `kmHatirlatmaNotu` için beş sürekli dinleyici açıyor. Bu sayfa/modül bazında veri kapsamı ve ihtiyaç kontrolü ayrıca yapılmalı.
+- `ayarlar-sync.js` `ayarlar` için sürekli dinleyici açmanın yanı sıra kur güncelleme zincirini başlatır; sayfa yükleme koşulları ve HTTP isteklerinin kapsamı ayrıca incelenmeli.
+
+### Öncelikli performans adayı (henüz değişiklik yapılmadı)
+Ana sayfada arşiv verisinin tek bir dinleyici üzerinden paylaşılması/dağıtılması değerlendirilebilir. Ancak bildirim özeti, satış/prim hesapları ve ReportsData bağımlılıkları karşılaştırılmadan, davranış eşdeğerliği ve izolasyon testleri olmadan kod değişikliği yapılmayacaktır.
