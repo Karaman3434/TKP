@@ -34,7 +34,7 @@ var IsTakipData = (function(){
         });
         hazir = true;
         dinleyiciler.forEach(function(fn){ fn(); });
-        bildirimDinleyicileri.forEach(function(fn){ fn(); });
+        if(bildirimDinlemeBasladi) bildirimDinleyicileri.forEach(function(fn){ fn(); });
       }, function(err){
         console.error("Firebase okuma hatası:", err);
       });
