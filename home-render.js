@@ -60,8 +60,9 @@ try{ if(document.fonts && document.fonts.ready) document.fonts.ready.then(satisR
 
 function kartlariGuncelle(){
   try{
-    var ay = IsTakipData.buAyinVerisi();
-    var bugun = IsTakipData.bugununVerisi();
+    var ozetler = IsTakipData.satisOzetleriniHesapla();
+    var ay = ozetler.ay;
+    var bugun = ozetler.bugun;
 
     setText("anaSayfaSatisToplam", IsTakipData.fmt(ay.toplamEuro));
     setText("anaSayfaSatisToplamTl", IsTakipData.fmt(ay.toplamEuroTl)); // (05.11.2026) birim artık HTML'de küçük "TL" etiketi
