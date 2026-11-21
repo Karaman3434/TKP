@@ -56,62 +56,37 @@ var IsTakipData = (function(){
     return gun;
   }
 
-  function buAyinVerisi(){
-    var now = new Date();
-    var buAyAd = AYLAR[now.getMonth()];
-    var buYil = now.getFullYear().toString();
+  // Aylık ve günlük satış/prim kartları için arşiv siparişlerini tek taramada hesaplar.
+  // Aynı arşiv ve ürün satırlarının ayrı ayrı taranması önlenir.
+  function satisOzetleriniHesapla(){
+    var now = new Date(), buAyAd = AYLAR[now.getMonth()], buYil = now.getFullYear().toString();
+    var isGunu = buGununIsGunuTarihi(), gunNo = isGunu ? isGunu.getDate().toString() : "";
+    var gunAyAd = isGunu ? AYLAR[isGunu.getMonth()] : "", gunYil = isGunu ? isGunu.getFullYear().toString() : "";
+    var ay = {ayAd:buAyAd, yil:buYil, toplamEuro:0, toplamEuroTl:0, toplamPrim:0};
+    var bugun = {toplamEuro:0, toplamEuroTl:0, toplamPrim:0, aktifMi:!!isGunu};
     var siparisler = arsivData.siparis || [];
-    var toplamEuro = 0, toplamEuroTl = 0, toplamPrim = 0;
     for(var i=0;i<siparisler.length;i++){
       var k = siparisler[i];
-      if(!k.tarih) continue;
-      if(k.durum === "beklemede") continue; // Beklemede sipariş hiçbir toplama dahil edilmez
-      var parca = k.tarih.split(" ");
-      var ayAd = parca[1]||"", yil = parca[2]||"";
-      if(ayAd!==buAyAd || yil!==buYil) continue;
-      var kKuru0 = k.kur || guncelKurYedek();
-      if(k.urunler) for(var j=0;j<k.urunler.length;j++){
-        var u = k.urunler[j];
-        toplamEuro += u.toplamEuro||0;
-        toplamEuroTl += (u.toplamEuro||0) * kKuru0; // satış tutarı işlemin YAPILDIĞI günün kuruyla TL'ye çevrilir
+      if(!k.tarih || k.durum === "beklemede") continue;
+      var parca = k.tarih.split(" "), kayitGun = parca[0]||"", kayitAy = parca[1]||"", kayitYil = parca[2]||"";
+      var ayEslesir = kayitAy===buAyAd && kayitYil===buYil;
+      var gunEslesir = bugun.aktifMi && kayitGun===gunNo && kayitAy===gunAyAd && kayitYil===gunYil;
+      if(!ayEslesir && !gunEslesir) continue;
+      var kur = k.kur || guncelKurYedek();
+      if(!k.urunler) continue;
+      for(var j=0;j<k.urunler.length;j++){
+        var u = k.urunler[j], euro = u.toplamEuro||0, euroTl = euro*kur;
         var mk = (u.iskBirim||0)-(u.dipFiyat||0);
-        var satirPrimi = ((u.iskonto||0) > 60) ? 0 : mk*(u.adet||1)*0.22;
-        // Müdür primi işlemin YAPILDIĞI günün kuruyla TL'ye çevrilir —
-        // kayıtta kur yoksa (çok eski kayıt) o anki güncel kur yedek olarak kullanılır.
-        var kKuru = k.kur || guncelKurYedek();
-        if(satirPrimi>0) toplamPrim += satirPrimi*kKuru;
+        var satirPrimi = ((u.iskonto||0)>60) ? 0 : mk*(u.adet||1)*0.22;
+        var primTl = satirPrimi>0 ? satirPrimi*kur : 0;
+        if(ayEslesir){ ay.toplamEuro+=euro; ay.toplamEuroTl+=euroTl; ay.toplamPrim+=primTl; }
+        if(gunEslesir){ bugun.toplamEuro+=euro; bugun.toplamEuroTl+=euroTl; bugun.toplamPrim+=primTl; }
       }
     }
-    return {ayAd:buAyAd, yil:buYil, toplamEuro:toplamEuro, toplamEuroTl:toplamEuroTl, toplamPrim:toplamPrim};
+    return {ay:ay, bugun:bugun};
   }
-
-  function bugununVerisi(){
-    var isGunu = buGununIsGunuTarihi();
-    if(!isGunu) return {toplamEuro:0, toplamPrim:0, aktifMi:false};
-    var gunNo = isGunu.getDate().toString();
-    var ayAd = AYLAR[isGunu.getMonth()];
-    var yil = isGunu.getFullYear().toString();
-    var siparisler = arsivData.siparis || [];
-    var toplamEuro = 0, toplamEuroTl = 0, toplamPrim = 0;
-    for(var i=0;i<siparisler.length;i++){
-      var k = siparisler[i];
-      if(!k.tarih) continue;
-      if(k.durum === "beklemede") continue; // Beklemede sipariş hiçbir toplama dahil edilmez
-      var parca = k.tarih.split(" ");
-      if((parca[0]||"")!==gunNo || (parca[1]||"")!==ayAd || (parca[2]||"")!==yil) continue;
-      var kKuru0 = k.kur || guncelKurYedek();
-      if(k.urunler) for(var j=0;j<k.urunler.length;j++){
-        var u = k.urunler[j];
-        toplamEuro += u.toplamEuro||0;
-        toplamEuroTl += (u.toplamEuro||0) * kKuru0;
-        var mk = (u.iskBirim||0)-(u.dipFiyat||0);
-        var satirPrimi = ((u.iskonto||0) > 60) ? 0 : mk*(u.adet||1)*0.22;
-        var kKuru = k.kur || guncelKurYedek();
-        if(satirPrimi>0) toplamPrim += satirPrimi*kKuru;
-      }
-    }
-    return {toplamEuro:toplamEuro, toplamEuroTl:toplamEuroTl, toplamPrim:toplamPrim, aktifMi:true};
-  }
+  function buAyinVerisi(){ return satisOzetleriniHesapla().ay; }
+  function bugununVerisi(){ return satisOzetleriniHesapla().bugun; }
 
   function gununIslemOzeti(){
     var isGunu = buGununIsGunuTarihi();
