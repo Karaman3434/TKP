@@ -28,7 +28,7 @@
 // ve Realtime Database ile aynı bölge (europe-west1) kullanılarak
 // hazırlanmıştır. Fonksiyon deploy edildikten sonra bu adres otomatik
 // doğru çalışır, başka bir değişiklik gerekmez.
-var AI_FONKSIYON_URL = "https://europe-west1-weicon-asist.cloudfunctions.net/aiUrunAcikla";
+var AI_FONKSIYON_URL = "https://TEST_FUNCTION_ENDPOINT_NOT_CONFIGURED.invalid";
 
 // Önbellek — aynı ürün için AI açıklaması bir kez oluşturulduktan sonra
 // tekrar sorulmaz (dokümandaki 14. madde: gereksiz API çağrısı yapma).
