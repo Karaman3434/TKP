@@ -376,3 +376,23 @@ Aşağıdaki tablo, HTML'deki modül referanslarını kısaltılmış biçimde g
 4. P2: search/render debounce, DOM rebuild, XLSX/PDF/HEIC library startup, SW cache kapsamı, kur fetch fallback — yalnızca profiler ve regression testleri sonrası değerlendir.
 5. Test Firebase kurulumu doğrulanmadan runtime test, deployment veya kod optimizasyonu yapılmamalı.
 
+
+
+## 22.11.2026 00:48 — GitHub erişim ve statik denetim yenilemesi
+
+- GitHub repo bağlantısı yeniden çalışır durumda; branch, tree, workflow run, job-step ve job-log kayıtları bu turda okunabildi. Erişim bağlantısının yeniden kullanılabilir olduğu bu tur için doğrulandı.
+- Denetim branch'i mevcut: `test/firebase-isolation-prep-20261121`. Raporun mevcut commit'i `dfbab442aec232575c16bb39d4f1100fd5ffb0ee`. Branch tree statik sayımı: **58 HTML, 113 JavaScript, 58 CSS** dosyası (tree toplam 266 öğe; diğer öğeler/varlıklar dahil).
+- Önceki 58 sayfalık modül haritası ve envanter bölümü bu branch snapshot'ında mevcut; bu turda 17 ortak/performance modülü kaynak düzeyinde tekrar kontrol edildi. Aşağıdaki listener/read örüntüleri kod içinde doğrulandı; gerçek runtime aktivasyonu, payload ve callback sayısı ölçülmedi:
+  - `home-data.js`: `arsiv` için 2 value-listener yolu; `reports-data.js`: ayrıca 1 `arsiv` value listener. Home sayfası bu modülleri birlikte referanslıyor.
+  - `customer-data.js`: `musteriler` value listener; callback içinde kodsuz müşteri kontrolü transaction yolu bulunuyor.
+  - `km-data.js`: 5 value listener ve `kmTakipAyarlari` için once read.
+  - `avans-kayit-data.js`: 3 listener; `maasKayitlari` path'i ayrıca `maas-kayit-data.js` içinde listener ile izleniyor. İlgili sayfalarda birlikte yüklenmeleri çift dinleme adayı.
+  - `product-data.js`: `urunler` için önce once-read, ardından value listener; `ekstraUrunler` listener ve no-cache yedek JSON fetch.
+  - `ayarlar-sync.js`: `ayarlar` listener, localStorage aktarımı ve iki saatlik kur refresh timer/fetch zinciri.
+  - `auth.js`: cihaz/kısıtlı kullanıcı kontrolleri once-read yolları; güvenlik kararları olduğu için optimizasyon kapsamına alınmamalı.
+  - `sw.js`: activate aşamasında origin Cache Storage cache adlarını genel olarak silme yolu; yalnızca app cache adlarıyla sınırlı statik bir kapsam görünmüyor. Aynı origin'de diğer uygulama cache'leri için risk adayı.
+- Main branch güncel SHA: `5c7d38a28b64fa8ec257b294505c4ec455f4e36b`; test branch report commit SHA: `dfbab442aec232575c16bb39d4f1100fd5ffb0ee`. GitHub compare sonucu diverged: main tarafı 52 commit ileride, test branch tarafı 39 commit farklı/önde; compare 77 dosya farkı döndürdü (48 HTML, 20 JS, 6 CSS, 2 workflow, 1 Markdown). Bu test branch'i güncel main ile eşit kabul edilmemeli; rebase/merge yapılmadı.
+- Main'in son commit mesajı `Ana sayfadan ölçümü kopyala kontrolünü kaldır` (SHA `5c7d38a`). Test branch snapshot'ının bu ve diğer main değişikliklerini içermediği varsayılmalı; ana dala aktarım yapılmadı.
+- Main branch son Actions run'ları (21.11.2026 21:47 UTC): PWA Manifest kontrolü #74 başarılı; Pages build/deploy başarılı; Sağlık kontrolü #1515 başarısız. Sağlık kontrolünde yalnızca cihaz read/write sahiplik regresyon maddeleri başarısız; site-health HTTP kontrolü başarılı. PWA job 8 JSON, 50 manifest bağlantısı, snapshot regression test ve 115 JS syntax check başarılı. Bu sonuçlar main'e aittir, test branch runtime/performans testi değildir.
+- Test Firebase kurulumu doğrulanmadığından runtime, network, profiler, Firebase read/payload sayımı ve cihaz testleri **atlanmıştır**. Canlı Pages/Firebase/data/deployment üzerinde bu turda performans testi veya yazma işlemi yapılmadı.
+- Bu ek bölümde yalnızca statik rapor güncellendi. Uygulama kaynak kodu, HTML/CSS/JS, config, workflow, main ve canlı Firebase değiştirilmedi.
