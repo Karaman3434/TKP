@@ -100,3 +100,21 @@ Test Firebase projesi, Auth/Realtime Database/Rules ve test Cloud Function endpo
 
 ### Bir sonraki statik inceleme
 Sayfa-modül matrisi, URL referansları ve veri okuma/yazma kapsamını dosya bazında genişlet; bulguları yalnızca denetim raporuna kaydet. Kod optimizasyonu için ayrı test ortamı ve davranış eşdeğerliği kanıtı gereklidir.
+
+
+## Sayfa-modül yükleme matrisi (kısmi, statik) — 21.11.2026
+
+Bu turda home.html, reports.html, customer.html, km.html ve cart.html sayfalarının script kaynak listeleri test dalında doğrudan incelendi. Bu matris yalnızca HTML'de bulunan script src sırasını yansıtır; scriptlerin çalışıp çalışmadığı, Firebase çağrıları veya runtime eşzamanlılığı ölçülmedi.
+
+- **home.html:** Firebase SDK (app/database/auth compat), firebase-config, auth, üst-bar ölçüm, ayarlar-sync, cihaz-data, cihaz-isim-zorunlu, home-data, customer-data, reports-data, vade-takip-data, takip-ozet-data, hata-log, rota-takip, komisyon-dönem-data, ajanda-data, gün-notları-data, üst-bar davranış, menu-çekmece, ajanda-foto, home-takvim-render, home-takip-buton, home-render, kur-panel, bekleyen-islemler, performans-ölçüm. Ana sayfa script zinciri geniş; modüllerin gereksiz yüklenip yüklenmediği ayrıca fonksiyon/izin kullanımına göre doğrulanmalıdır.
+- **reports.html:** Firebase SDK/config/auth; cihaz/üst-bar/ayarlar; customer-data; reports-data; vade-takip-data; reports-safety-fix; hata-log; reports-render; bekleyen-islemler; menu-cekmece. Ayrıca XLSX (cdnjs) dış kütüphanesi yükleniyor. XLSX'in ilk açılışta mı yoksa export için mi gerekli olduğu runtime/işlev incelemesi ile doğrulanmalı; yükleme gecikmesi veya dinamik yükleme önerisi henüz uygulanmıyor.
+- **customer.html:** Firebase SDK/config/auth; cihaz ve üst-bar; customer-data; reports-data; vade-takip-data; hata-log; rota-takip; customer-render; bekleyen-islemler; menu-cekmece. Müşteri sayfası rapor ve vade veri modüllerini de yüklediğinden bunların müşteri ekranında gerçekten gerekli olup olmadığı sonraki statik fonksiyon referansı incelemesinde belirlenmeli.
+- **km.html:** Firebase SDK/config/auth; auth; cihaz/üst-bar; km-data; hata-log; km-render; bekleyen-islemler; menu-çekmece. Diğer bazı sayfalardaki customer/reports/vade modüllerinden farklı, daha dar bir data zinciri gözlemlendi.
+- **cart.html:** Firebase SDK/config/auth; config/auth; cihaz/üst-bar; ayarlar-sync; ikon-svg; hareket-tablo; cart-data; product-data; customer-data; müşteri-şerit; reports-data; vade-takip-data; reports-safety-fix; send-data; hata-log; rota-takip; kur-panel; cart-render; urun-arama; hesapla-popup; bekleyen-islemler; menu-çekmece. İşlem ekranı modül zinciri geniş ve modüller arası bağımlılık analizi gerektiriyor; kaldırma veya değiştirme önerisi ancak kullanım referansları ve testle değerlendirilebilir.
+
+### Ön değerlendirme (henüz optimizasyon kararı değil)
+1. Ana sayfa, müşteri ve işlem ekranlarında reports-data/vade-takip-data gibi ortak veri modüllerinin yüklenmesi, kullanım ve izin kontrolleriyle karşılaştırılarak incelenmeli.
+2. XLSX kütüphanesinin reports sayfasında başlangıçta yüklenmesi, export işleviyle ilişkilendirilmeli; gecikmeli yükleme ancak mevcut davranış ve desteklenen tarayıcılar test edilirse aday olabilir.
+3. Ortak script yükleme sırası güvenlik ve sayfa davranışları için kritik; herhangi bir script sırası değişikliği yapılmadı.
+4. Matris kısmi kapsamlıdır; 58 HTML dosyasının tamamı incelenmiş değildir.
+5. Bu turda yalnızca denetim raporu güncellendi. Uygulama kodu, canlı dal, canlı Firebase, tasarım ve dağıtım değişmedi.
