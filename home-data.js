@@ -211,7 +211,7 @@ var IsTakipData = (function(){
   return {
     baslat: baslat,
     veriDegistiginde: veriDegistiginde,
-    buAyinVerisi: buAyinVerisi,
+    satisOzetleriniHesapla: satisOzetleriniHesapla,\n    buAyinVerisi: buAyinVerisi,
     bugununVerisi: bugununVerisi,
     gununIslemOzeti: gununIslemOzeti,
     gunlukIslemSayilari: gunlukIslemSayilari,
