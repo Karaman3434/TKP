@@ -30,3 +30,10 @@
 - Test projesi kimliği veya credential belirsizse dur.
 - Herhangi bir canlı Firebase URL / projectId saptanırsa çalıştırmayı durdur.
 - Canlıya deployment, merge, veri yazımı veya UI değişikliği yapılmaz.
+
+
+## Ek izolasyon önlemi — Cloud Function uç noktaları
+- `ai-config.js` içindeki canlı kartOku Cloud Function adresi test placeholder ile değiştirildi.
+- `ai-urun-asistani.js` içindeki canlı aiUrunAcikla Cloud Function adresi test placeholder ile değiştirildi.
+- Bu özellikler test dalında test endpoint'i kurulana kadar kullanılamaz; canlı WEİCON Cloud Functions'a çağrı yapılmaması amaçlandı.
+- Bu değişiklikler test dalıyla sınırlıdır; ana/production dalına taşınmadı.
