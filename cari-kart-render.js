@@ -847,8 +847,10 @@ document.addEventListener("DOMContentLoaded", function(){
       if(!bilgiOverlay.hidden){ cariBilgiMenuKapat(); return; }
       bilgiOverlay.hidden = false;
       var r = bilgiBtn.getBoundingClientRect(), w = bilgiMenu.offsetWidth || 300;
+      var left = Math.max(8, Math.min(r.right - w, window.innerWidth - w - 8));
       bilgiMenu.style.top = (r.bottom + 8) + "px";
-      bilgiMenu.style.left = Math.max(8, Math.min(r.right - w, window.innerWidth - w - 8)) + "px";
+      bilgiMenu.style.left = left + "px";
+      bilgiMenu.style.setProperty("--ck-bilgi-ok-x", Math.max(18, Math.min(w - 18, (r.left + r.width/2) - left)) + "px");
       bilgiBtn.classList.add("ub-bilgi-secili");
     };
     bilgiOverlay.addEventListener("click", function(ev){ if(ev.target === bilgiOverlay) cariBilgiMenuKapat(); });
