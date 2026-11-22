@@ -471,10 +471,13 @@ var HareketTablo = (function(){
     // veriyordu. Artık Fatura ile BİREBİR aynı kural: her zaman basılır,
     // boşsa "Girilmemiş" yazar.
     if(teslimatAdr || !teslimatBossaGizle){
-      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>" + etIk("kargo","🚚") + "TESLİMAT ADRESİ</span></div>"
+      var teslimatVurgulu = !!(teslimatAdr && String(teslimatAdr).trim());
+      adresYetkiliIcHtml += (teslimatVurgulu ? "<div class='teslimat-adres-vurgulu'>" : "")
+        + "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>" + etIk("kargo","🚚") + "TESLİMAT ADRESİ</span></div>"
         + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
         +   (teslimatAdr ? htmlEsc(teslimatAdr) : "<span class='belge-adres-bos'>Girilmemiş</span>")
-        + "</div></div></div>";
+        + "</div></div></div>"
+        + (teslimatVurgulu ? "</div>" : "");
     }
     var yetkiliIcHtml = (yetkiliListesi||[]).map(function(k){ return yetkiliSatiriHtml(k.isim, k.telefon, k.eposta); }).join("");
     if(yetkiliIcHtml){
