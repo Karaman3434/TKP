@@ -49,6 +49,33 @@ function bilgiGoster(mesaj){
   setTimeout(function(){ kutu.remove(); }, 3000);
 }
 
+
+// 23.11.2026 — İşlemle birlikte arşivlenen özel mail notu.
+var mailIslemNotu = "";
+function mailNotHtml(metin){
+  var t = String(metin||"").trim();
+  if(!t) return "";
+  return "<div class='mail-not-giden' style=\"background:#fff8dc;border:1px solid #e7c34a;border-radius:12px;padding:10px 12px;margin:0 0 8px;color:#101820;font-family:Arial,sans-serif;font-size:15px;line-height:1.35;\"><div class='mail-not-giden-baslik' style=\"font-weight:800;color:#173a78;margin-bottom:3px;\">📝 NOT</div>" + htmlEsc(t).replace(/\n/g,"<br>") + "</div>";
+}
+function mailNotPaneliniAc(){
+  var o=document.getElementById("mailNotOverlay"), ta=document.getElementById("mailNotMetni");
+  if(!o||!ta||!sonKaydedilenBelge||!sonKaydedilenBelge.kayit) return;
+  ta.value=mailIslemNotu||sonKaydedilenBelge.kayit.mailNot||""; o.hidden=false;
+}
+function mailNotPaneliniKapat(){var o=document.getElementById("mailNotOverlay");if(o)o.hidden=true;}
+function mailNotunuKaydet(){
+  if(!sonKaydedilenBelge||!sonKaydedilenBelge.kayit){hataGoster("İşlem kaydı bulunamadı.");return;}
+  var ta=document.getElementById("mailNotMetni"), btn=document.getElementById("mailNotKaydetBtn");
+  var metin=ta?ta.value.trim():""; if(btn){btn.disabled=true;btn.textContent="Kaydediliyor...";}
+  SendData.alanlariGuncelle(gonderBaglam.tip,sonKaydedilenBelge.kayit.ts,{mailNot:metin||null},function(ok,err){
+    if(btn){btn.disabled=false;btn.textContent="Notu Kaydet";}
+    if(!ok){hataGoster("İşlem notu kaydedilemedi: "+(err&&err.message||""));return;}
+    mailIslemNotu=metin; sonKaydedilenBelge.kayit.mailNot=metin||null;
+    try{var b=JSON.parse(localStorage.getItem("weiconv2_son_kaydedilen_belge")||"null");if(b&&b.kayit){b.kayit.mailNot=metin||null;localStorage.setItem("weiconv2_son_kaydedilen_belge",JSON.stringify(b));}}catch(e){}
+    mailNotPaneliniKapat(); bilgiGoster(metin?"İşlem notu kaydedildi":"İşlem notu kaldırıldı");
+  });
+}
+
 function tarihiGuncelle(){
   try{
     var el = document.getElementById("gunTarihi");
@@ -299,6 +326,10 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   var tabloKismiHtml = gtIndex === -1 ? grupSonucHtml : grupSonucHtml.slice(0, gtIndex);
   var gtKismiHtml = gtIndex === -1 ? "" : grupSonucHtml.slice(gtIndex);
   html += tabloKismiHtml + "</div>" + gtKismiHtml;
+  if(kanal === "mail" && mailIslemNotu){
+    var urunKartIndex=html.indexOf("<div class='belge-kart belge-kart--urun-cerceveli'>");
+    if(urunKartIndex!==-1) html=html.slice(0,urunKartIndex)+mailNotHtml(mailIslemNotu)+html.slice(urunKartIndex);
+  }
   return html;
 }
 
@@ -475,6 +506,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
       + "</span></div>";
   return cariBaslikHtml
     + cariGovdeHtml
+    + (kanal === "mail" ? mailNotHtml(mailIslemNotu) : "")
     + "<div class='belge-kart-ayrac'></div>"
     + "<div class='belge-kart belge-kart--urun-cerceveli'>"
     + urunTablosuHtmlStr
@@ -1042,6 +1074,7 @@ document.addEventListener("DOMContentLoaded", function(){
     return;
   }
   sonKaydedilenBelge = {kayit: kayitliBaglam.kayit, musteri: kayitliBaglam.musteri};
+  mailIslemNotu=String((kayitliBaglam.kayit&&kayitliBaglam.kayit.mailNot)||"");
 
   // GÜNCEL MÜŞTERİ VERİSİ (WG.090926.196): sipariş kaydedildikten SONRA
   // Cari Kart'a eklenen/değiştirilen yetkili kişi, fatura/teslimat adresi
@@ -1280,6 +1313,12 @@ document.addEventListener("DOMContentLoaded", function(){
   };
 
   document.getElementById("mailOnizlemeVazgecBtn").onclick = function(){ document.getElementById("mailOnizlemeOverlay").hidden = true; };
+  var mailNotOverlay=document.getElementById("mailNotOverlay");
+  if(mailNotOverlay){
+    document.getElementById("mailNotVazgecBtn").onclick=mailNotPaneliniKapat;
+    document.getElementById("mailNotKaydetBtn").onclick=mailNotunuKaydet;
+    mailNotOverlay.addEventListener("click",function(ev){if(ev.target===mailNotOverlay)mailNotPaneliniKapat();});
+  }
   // KONU alanı bazı mail uygulamalarında (Outlook Android vb.) resim ekiyle
   // birlikte otomatik dolmuyor — platform kısıtı, koddan düzeltilemiyor.
   // Bu buton en azından tek dokunuşla metni panoya alıp elle yapıştırmayı

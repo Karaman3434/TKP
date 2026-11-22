@@ -374,6 +374,7 @@ function belgeyiCiz(kayit, musteri){
     var html = teklifUstHtml + "<div class='belge-kart belge-kart--cari-ust tip-" + (kayit.tip||"siparis") + (sorunluMu?" belge-kutu--sorunlu":"") + "'>"
       + durumRozetHtml
       + musteriBlokHtml
+      + (kayit.mailNot && String(kayit.mailNot).trim() ? "<div class='mail-not-giden' style=\"background:#fff8dc;border:1px solid #e7c34a;border-radius:12px;padding:10px 12px;margin:8px 0;color:#101820;font-family:Arial,sans-serif;font-size:15px;line-height:1.35;\"><div style=\"font-weight:800;color:#173a78;margin-bottom:3px;\">📝 NOT</div>" + String(kayit.mailNot).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>") + "</div>" : "")
       + "</div>"
       + "<div class='belge-kart belge-kart--urun-cerceveli'>"
       + satirlarHtml
