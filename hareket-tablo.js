@@ -492,15 +492,18 @@ var HareketTablo = (function(){
     if(bosBlokGizle){
       notListesi = notListesi.filter(function(n){ return n && n.metin && String(n.metin).trim(); });
     }
+    // GÖRSEL DÜZEN (onaylı tasarım): adresler ve yetkili bilgileri tek çerçevede;
+    // NOT bölümü ayrı bir çerçevede tutulur. Veri/filtreleme kuralları değişmez.
+    var notHtml = "";
     if(notListesi.length){
-      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--not'><span>📝 NOT</span></div>"
+      notHtml = "<div class='belge-not-cerceve'><div class='ck-blok-etiket ck-blok-etiket--not'><span>📝 NOT</span></div>"
         + "<div class='ck-blok'><div class='ck-kart-liste'>" + notListesi.map(function(n){
             // cari-kart-render.js'teki kayitBaslik("not",...) ile BİREBİR aynı
             // varsayılan: başlık boşsa "Not" yazısı (escapeText == htmlEsc).
             return "<div class='ck-kart'><div class='ck-kart-ust'>" + htmlEsc(n.baslik||"Not") + "</div><div class='ck-kart-alt'>" + htmlEsc(n.metin||"") + "</div></div>";
-          }).join("") + "</div></div>";
+          }).join("") + "</div></div></div>";
     }
-    html += "<div class='belge-adres-yetkili-cerceve'>" + adresYetkiliIcHtml + "</div>";
+    html += "<div class='belge-adres-yetkili-cerceve'>" + adresYetkiliIcHtml + "</div>" + notHtml;
     return html;
   }
 
