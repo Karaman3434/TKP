@@ -406,3 +406,12 @@ Aşağıdaki tablo, HTML'deki modül referanslarını kısaltılmış biçimde g
 - `belge-onizleme-style-v2.css`, `cart-tablo-style-v2.css` ve `gonder-tablo-style-v2.css` sayfa-scope'lu kurallar içeriyor; mail/giden görsel ayrıca `#belgeGorselAlani` ve `send-render.js` yolu üzerinden üretiliyor. Dolayısıyla program ekranı, mail görseli ve PDF çıktısı tek CSS dosyasına bağlı varsayılamaz.
 - **Kodlama ön koşulu:** izole test Firebase henüz kurulup doğrulanmadığı için bu turda canlı uygulama kaynak koduna yazma/deployment yapılmadı. Sıradaki güvenli teknik adım, ilgili HTML/render/CSS dosyalarının tüm kapsamını ve mevcut branch/main farklarını karşılaştırıp sadece görsel dosyaları için küçük, geri alınabilir bir değişiklik planı çıkarmaktır. Test izolasyonu doğrulanmadan üretime yazılmayacaktır.
 - Bu bölüm kaynak incelemesidir; herhangi bir uygulama tasarımı, HTML/CSS/JS, hesaplama, kayıt veya canlı deployment değiştirilmedi.
+
+## 22.11.2026 — Ana branch belge/önizleme görsel yolları karşılaştırması (salt okunur)
+
+- Main branch'te (SHA snapshot'ı bu turda GitHub üzerinden okunmuştur) `cart.html`, `cart-render.js`, `send-render.js`, `belge-render.js`, `hareket-tablo.js` ve dört ilgili CSS dosyası tekrar kontrol edildi.
+- `HareketTablo` ortak tablo/cari blokları ve genel toplam render'ı için ortak kaynak; `belge-render.js` geçmiş işlem önizlemesi, `send-render.js` Gönder/Mail/WhatsApp önizleme ve giden görseli, `cart-render.js` ise sepet ekranı render akışını çağırıyor.
+- CSS ortak tabanı `belge-style.css` ve `onayli-panel-standardi.css`; sayfa kapsamlı ek stiller `cart-tablo-style-v2.css` (cart) ve `belge-onizleme-style-v2.css` (geçmiş/Belge Önizleme) ile `gonder-tablo-style-v2.css` (Gönder/Mail) şeklinde ayrılmış.
+- Statik dosyalarda ortak tablo üretimi olsa da cari panelinin sarmalanması, belge başlık/tarih satırı, PRİM görünürlüğü ve sayfa-scope CSS override'ları farklı çağrı seçenekleriyle yönetiliyor. Görsel güncellemenin yalnız CSS/HTML render sunumu kapsamına alınması; `primGizli`, adres/yetkili seçimleri, hesaplama çağrıları, kayıt/gönderme, işlem tarih/kod ve bakiye/BEDELSİZ mantığına dokunulmaması gerektiği teyit edildi.
+- **Risk/ön koşul:** bu statik karşılaştırma görsel eşdeğerliği, gerçek mobil cihaz render'ı, Mail/WhatsApp çıktısı veya PDF doğrulaması değildir. Test Firebase ve ayrı doğrulama ortamı kurulmadan uygulama kodu/deployment değişikliği yapılmadı.
+- Rapor-only ilerleme: main kaynaklarını salt okunur inceleme; main, canlı Pages, Firebase, veri, CSS/HTML/JS ve deployment üzerinde değişiklik yok.
