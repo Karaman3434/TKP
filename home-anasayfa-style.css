@@ -981,3 +981,14 @@ body:has(.as-sayfa) .app-ust-sabit .ub-logo {
 body:has(.as-sayfa) .app-ust-sabit .ub-logo img {
   object-position:center!important;
 }
+
+
+/* MODÜL 1 — 22.11.2026: Yalnızca onaylanan tipografi standardı.
+   Logo/ikon, yerleşim, ölçüler, işlev ve dinamik cihaz adı yapısı değiştirilmez. */
+.as-drawer-logo { font-size: 22px; font-weight: 900; text-transform: uppercase; }
+.as-drawer-isim { font-size: 18px; font-weight: 700; }
+.as-drawer-eposta { font-size: 14px; font-weight: 400; }
+.as-drawer-anasayfa span.as-drawer-etiket { font-size: 18px; font-weight: 700; }
+.as-drawer-liste .as-drawer-oge { font-size: 18px; font-weight: 600; }
+.as-drawer-hata-rozet { font-size: 14px; font-weight: 700; }
+.as-drawer-cikis { font-size: 18px; font-weight: 700; }
