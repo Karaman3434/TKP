@@ -796,3 +796,12 @@
 .ck-bilgi-menu-metin strong { font-size:13px; font-weight:800; }
 .ck-bilgi-menu-metin small { font-size:11px; color:#718096; line-height:1.25; }
 .ck-bilgi-menu-ok { color:#64748b; font-size:22px; font-weight:700; }
+/* NOT paneli, adres/yetkili çerçevesinden bağımsız tutulur. */
+.belge-not-cerceve {
+  border: 1.5px solid #073B70;
+  border-radius: 12px;
+  padding: 2px 10px 8px;
+  margin-bottom: 1mm;
+}
+.belge-not-cerceve .ck-blok-etiket { margin-top: 0; }
+.belge-not-cerceve .ck-blok { margin-bottom: 0; border-bottom: none; }

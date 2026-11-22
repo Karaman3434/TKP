@@ -481,26 +481,20 @@ var HareketTablo = (function(){
       adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--yetkili'><span>" + etIk("kisi","👤") + "YETKİLİ</span></div>"
         + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>" + yetkiliIcHtml + "</div></div></div>";
     }
-    // NOT (19.10.2026, Abdullah onayı — "cari kart çerçeve" turu): Cari
-    // Kart'ta yazılan not artık bu PAYLAŞILAN kutuda da gösteriliyor, yani
-    // Belge Önizleme/Gönder/Mail-WhatsApp metninde de görünüyor — ayrı ayrı
-    // taşımak yerine tek yerden (cari-kart-render.js'teki ".ck-kart"
-    // görünümüyle BİREBİR aynı). Yeni "notlar" dizisi varsa onu, yoksa eski
-    // tekil "not" alanını kullanır (customer-data.js ikisini senkron tutuyor).
+    // NOT AYRI ÇERÇEVE: adres/teslimat/yetkili çerçevesinden ayrılır.
+    var notHtml = "";
     var notListesi = (musteri.notlar && musteri.notlar.length) ? musteri.notlar
       : ((musteri.not && musteri.not.trim()) ? [{baslik:"", metin: musteri.not.trim()}] : []);
     if(bosBlokGizle){
       notListesi = notListesi.filter(function(n){ return n && n.metin && String(n.metin).trim(); });
     }
     if(notListesi.length){
-      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--not'><span>📝 NOT</span></div>"
+      notHtml = "<div class='belge-not-cerceve'><div class='ck-blok-etiket ck-blok-etiket--not'><span>📝 NOT</span></div>"
         + "<div class='ck-blok'><div class='ck-kart-liste'>" + notListesi.map(function(n){
-            // cari-kart-render.js'teki kayitBaslik("not",...) ile BİREBİR aynı
-            // varsayılan: başlık boşsa "Not" yazısı (escapeText == htmlEsc).
             return "<div class='ck-kart'><div class='ck-kart-ust'>" + htmlEsc(n.baslik||"Not") + "</div><div class='ck-kart-alt'>" + htmlEsc(n.metin||"") + "</div></div>";
-          }).join("") + "</div></div>";
+          }).join("") + "</div></div></div>";
     }
-    html += "<div class='belge-adres-yetkili-cerceve'>" + adresYetkiliIcHtml + "</div>";
+    html += "<div class='belge-adres-yetkili-cerceve'>" + adresYetkiliIcHtml + "</div>" + notHtml;
     return html;
   }
 
