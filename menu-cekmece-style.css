@@ -808,3 +808,21 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
 
 /* 22.11.2026 — Onaylı Müşteri İşlemleri popup genişliği %25 daraltıldı; yüksekliği/konumu korunur. */
 .as-drawer-mini-sonuc-panel.as-drawer-mini-sonuc-panel--aksiyon{width:min(56.25vw,285px)!important;max-width:calc(100vw - 16px)!important;}
+
+
+/* MODÜL 2 — 22.11.2026: Müşteri İşlemleri Popup tipografi standardı.
+   Yalnızca popup başlığı ve öğe metinlerinin font/harf/renk katmanı.
+   Ölçüler, satır yapısı, konum, ikonlar ve davranış korunur. */
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-baslikbar {
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-oge {
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  color: #123B70;
+  text-transform: capitalize;
+}
