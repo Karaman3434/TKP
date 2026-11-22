@@ -855,3 +855,52 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani .belge-adres-yetkili-cerceve .belge-yetkili-satir:last-child {
   border-bottom:0;
 }
+
+/* MAIL ONIZLEME — referans tasarimin renk ve vurgu standardi.
+   Yalniz #mailOnizlemeTablo kapsaminda; giden mail/gorsel, WhatsApp,
+   Belge Onizleme ve Sepet tasarim/hesaplamalarina uygulanmaz. */
+#mailOnizlemeTablo .belge-form-baslik {
+  background:#fff !important;
+  border:2px solid #cbd7e5 !important;
+  border-radius:12px !important;
+  box-shadow:none !important;
+}
+#mailOnizlemeTablo .belge-form-baslik-etiket {
+  font-weight:900 !important;
+}
+#mailOnizlemeTablo .belge-kart--urun-cerceveli {
+  border:2px solid #073b70 !important;
+  border-radius:14px !important;
+  overflow:hidden !important;
+}
+#mailOnizlemeTablo .belge-urun-tablo thead th {
+  background:#e7eef7 !important;
+  color:#17447c !important;
+  font-weight:900 !important;
+}
+/* Mail onizlemesinde iskonto/net hucre vurgusu referanstaki kirmizi/yesil. */
+#mailOnizlemeTablo .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
+  display:block !important;
+  margin:3px auto !important;
+  padding:7px 3px !important;
+  border-radius:10px !important;
+  background:#f0444b !important;
+  color:#fff !important;
+  text-align:center !important;
+}
+#mailOnizlemeTablo .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin * {
+  color:#fff !important;
+}
+#mailOnizlemeTablo .belge-urun-tablo tbody td:nth-child(6) .rozet-net {
+  background:#07852e !important;
+  border-radius:11px !important;
+  color:#fff !important;
+}
+#mailOnizlemeTablo .belge-urun-tablo tbody td:nth-child(6) .rozet-net * {
+  color:#fff !important;
+}
+#mailOnizlemeTablo .belge-gt-kutu,
+#mailOnizlemeTablo .belge-genel-toplam-serit {
+  background:#073b70 !important;
+  border-radius:12px !important;
+}
