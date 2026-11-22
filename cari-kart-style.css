@@ -785,6 +785,7 @@
 .ck-bilgi-menu-zemin { position:fixed; inset:0; z-index:10020; background:transparent; }
 .ck-bilgi-menu-zemin[hidden] { display:none !important; }
 .ck-bilgi-menu { position:fixed; width:min(300px,calc(100vw - 16px)); padding:7px; background:#fff; border:1.5px solid #cbd5e1; border-radius:12px; box-shadow:0 8px 24px rgba(15,23,42,.22); }
+.ck-bilgi-menu::before { content:""; position:absolute; top:-9px; left:var(--ck-bilgi-ok-x,50%); width:16px; height:16px; transform:translateX(-50%) rotate(45deg); background:#fff; border-top:1.5px solid #cbd5e1; border-left:1.5px solid #cbd5e1; border-radius:2px 0 0 0; }
 .ck-bilgi-menu-oge { width:100%; min-height:58px; display:flex; align-items:center; gap:10px; padding:9px 10px; border:0; border-radius:8px; background:#fff; color:#263548; text-align:left; cursor:pointer; font:inherit; }
 .ck-bilgi-menu-oge + .ck-bilgi-menu-oge { border-top:1px solid #e8edf3; }
 .ck-bilgi-menu-oge:active { background:#f1f5f9; }
