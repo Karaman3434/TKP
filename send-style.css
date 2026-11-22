@@ -780,3 +780,78 @@ body.as-drawer-kilit { overflow: hidden; }
   text-transform: none;
   letter-spacing: 0;
 }
+
+
+/* ISLEM FORMU — ADRES / TESLIMAT / YETKILI / NOT kart standardi
+   22.11.2026, Abdullah onayi. Yalniz Gonder/Belge onizleme alanlari.
+   Bolumler dikey sirada, her biri ayri kart; veri/HTML islevi degismez. */
+#mailOnizlemeTablo .belge-adres-yetkili-cerceve,
+#whatsappOnizlemeTablo .belge-adres-yetkili-cerceve,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve,
+#belgeGorselAlani .belge-adres-yetkili-cerceve {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:8px;
+  border:0;
+  background:transparent;
+  border-radius:14px;
+  box-sizing:border-box;
+}
+#mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok-etiket,
+#whatsappOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok-etiket,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-blok-etiket,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok-etiket {
+  margin:0;
+  padding:8px 10px 0;
+  color:#073B70;
+  font-size:14px;
+  font-weight:850;
+}
+#mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok,
+#whatsappOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-blok,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok {
+  margin:0;
+  padding:0 8px 8px;
+}
+#mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok-etiket + .ck-blok,
+#whatsappOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok-etiket + .ck-blok,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-blok-etiket + .ck-blok,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok-etiket + .ck-blok {
+  background:#f4f7fc;
+  border:1px solid #d3dfef;
+  border-radius:12px;
+  box-sizing:border-box;
+}
+#mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-kart-liste,
+#whatsappOnizlemeTablo .belge-adres-yetkili-cerceve .ck-kart-liste,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-kart-liste,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-kart-liste {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+#mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-kart,
+#whatsappOnizlemeTablo .belge-adres-yetkili-cerceve .ck-kart,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-kart,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-kart {
+  background:transparent;
+  border:0;
+  border-radius:0;
+  padding:6px 4px;
+  box-shadow:none;
+}
+#mailOnizlemeTablo .belge-adres-yetkili-cerceve .belge-yetkili-satir,
+#whatsappOnizlemeTablo .belge-adres-yetkili-cerceve .belge-yetkili-satir,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .belge-yetkili-satir,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .belge-yetkili-satir {
+  padding:6px 4px;
+  border-bottom:1px solid #d3dfef;
+}
+#mailOnizlemeTablo .belge-adres-yetkili-cerceve .belge-yetkili-satir:last-child,
+#whatsappOnizlemeTablo .belge-adres-yetkili-cerceve .belge-yetkili-satir:last-child,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .belge-yetkili-satir:last-child,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .belge-yetkili-satir:last-child {
+  border-bottom:0;
+}
