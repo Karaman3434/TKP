@@ -211,7 +211,7 @@ var IslemPopup = (function(){
       + "<div class='ip-tipler' id='ipTipler' hidden>"
       +   (anaSayfaPopupMi ? "<div class='ip-tipler-head'><span class='ip-tipler-baslik'>İşlem Türü Seçimi</span><button type='button' class='ip-close' id='ipTipKapat' aria-label='İşlem türü penceresini kapat'>✕</button></div><div class='ip-tipler-aciklama'>Ne için işlem yapmak istiyorsunuz?</div>" : "<div class='ip-tipler-baslik'>Ne için ürün arıyorsun?</div>")
       +   TIPLER.map(function(t){
-            var ad = (typeof TipEtiket !== "undefined") ? TipEtiket.buyukAl(t.tip) : t.tip.toUpperCase();
+            var ad = (typeof TipEtiket !== "undefined" && TipEtiket.uzun) ? TipEtiket.uzun[t.tip] : ({numune:"Numune",teklif:"Fiyat Teklifi",proforma:"Proforma Fatura",siparis:"Sipariş"}[t.tip] || t.tip);
             return "<button type='button' class='ip-tip' data-tip='" + t.tip + "' style='color:" + t.renk + ";background:" + t.zemin + ";border-color:" + t.renk + "'><span>" + t.ikon + "</span><span>" + esc(ad) + "</span></button>";
           }).join("")
       +   "<div class='ip-ok' id='ipOk'></div>"
