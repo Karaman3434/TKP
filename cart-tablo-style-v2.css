@@ -137,3 +137,54 @@ body.cart-sayfa .hareket-grup-etiket {
 /* TAŞINDI (02.11.2026, Abdullah onayı): PRİM-GENEL TOPLAM kutusu kuralları
    (.belge-gt-satir--uclu / .belge-gt-prim-*) artık sayfaya bağlı değil —
    belge-style.css'te, tüm sayfalarda ortak. */
+
+/* REFERANS TASARIM UYARLAMASI — SEPET/HESAPLA (23.11.2026)
+   Kullanıcının paylaştığı referanstaki renk ve vurgular, yalnızca cart.html
+   sayfasında uygulanır. Veri/hesaplama/işlev kodlarına dokunulmaz. */
+body.cart-sayfa .belge-urun-tablo {
+  border: 1.5px solid #073b70 !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+body.cart-sayfa .belge-urun-tablo thead th {
+  background: #e7eef8 !important;
+  color: #174b86 !important;
+  border-color: #cbd7e4 !important;
+  font-weight: 800 !important;
+}
+body.cart-sayfa .belge-urun-tablo thead th:nth-child(5) {
+  background: #ef454d !important;
+  color: #fff !important;
+}
+body.cart-sayfa .belge-urun-tablo thead th:nth-child(6) {
+  background: #07843d !important;
+  color: #fff !important;
+}
+body.cart-sayfa .belge-urun-tablo tbody td {
+  border-color: #d6e0ea !important;
+  color: #14243a;
+}
+body.cart-sayfa .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
+  background: #ef454d !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+}
+body.cart-sayfa .belge-urun-tablo tbody td:nth-child(6) .rozet-net {
+  background: #07843d !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+}
+body.cart-sayfa .belge-gt-kutu {
+  background: linear-gradient(180deg,#0d477e 0%,#073b70 65%,#062d58 100%) !important;
+  border: 1.5px solid #073b70 !important;
+  border-radius: 14px !important;
+}
+body.cart-sayfa .belge-gt-prim-ic {
+  background: #0a9a49 !important;
+  border-color: rgba(255,255,255,.7) !important;
+}
+body.cart-sayfa .cart-tarih-paneli {
+  border-color: #cbd7e4 !important;
+  background: #fff !important;
+  color: #14243a !important;
+}
