@@ -1588,3 +1588,9 @@
   border-radius: 0 !important;
   background-clip: border-box !important;
 }
+
+/* TESLİMAT ADRESİ VURGUSU (23.11.2026): teslimat mevcutsa başlık ve adres kırmızı çerçeve. */
+.teslimat-adres-vurgulu{border:2px solid #d62828!important;border-radius:12px!important;padding:7px 8px 8px!important;margin:4px 0!important;box-sizing:border-box!important;background:#fff!important;}
+.teslimat-adres-vurgulu .ck-blok-etiket--teslimat{color:#c62828!important;}
+.teslimat-adres-vurgulu .ck-blok{background:transparent!important;border:0!important;padding:0 2px 2px!important;}
+.teslimat-adres-vurgulu .ck-kart-liste,.teslimat-adres-vurgulu .ck-kart{background:transparent!important;border:0!important;border-radius:0!important;}
