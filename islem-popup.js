@@ -103,7 +103,15 @@ var IslemPopup = (function(){
     + ".ip-kok--anasayfa .ip-tipler-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;margin:0 -8px 8px;padding:0 8px 0 13px;background:linear-gradient(135deg,#1765bd,#073b78);color:#fff;border-radius:13px 13px 0 0}"
     + ".ip-kok--anasayfa .ip-tipler-baslik{font-size:14px;font-weight:800;color:#fff;margin:0}"
     + ".ip-kok--anasayfa .ip-tipler-aciklama{font-size:13px;font-weight:700;color:#10264c;margin:4px 3px 8px}"
-    + ".ip-kok--anasayfa .ip-tip{min-height:64px;padding:11px 12px;margin:0 0 7px;border-radius:11px;font-size:15px;touch-action:manipulation}";
+    + ".ip-kok--anasayfa .ip-tip{min-height:64px;padding:11px 12px;margin:0 0 7px;border-radius:11px;font-size:15px;touch-action:manipulation}"
+    + ".ip-teslimat-wrap{border:2px solid #dc2626;border-radius:12px;background:#fff5f5;padding:6px;margin:8px 0 10px}"
+    + ".ip-teslimat-wrap .ip-etiket{color:#dc2626;margin:3px 0 7px;font-size:15px}"
+    + ".ip-teslimat-wrap .ip-satir{border:1px solid #f2a3a3;border-radius:10px;background:#fff;padding:10px;margin:0 0 6px;min-height:60px}"
+    + ".ip-teslimat-wrap .ip-satir--on{background:#fee2e2;border-color:#dc2626}"
+    + ".ip-teslimat-wrap .ip-isaret{border-color:#9ca3af}"
+    + ".ip-teslimat-wrap .ip-satir--on .ip-isaret{background:#073B70;border-color:#073B70}"
+    + ".ip-teslimat-wrap .ip-ana{font-size:15px;font-weight:700;color:#17365d}"
+    + ".ip-teslimat-wrap .ip-alt{font-size:14px;color:#26364b}";
     document.head.appendChild(st);
   }
 
@@ -157,8 +165,8 @@ var IslemPopup = (function(){
     var bolumler = [];
     if(fat.length > 1) bolumler.push({alan:"fatura", etiket:"FATURA ADRESİ", ikon:IKON.fatura, kare:false, liste:fat,
       ana:function(k){ return k.adres || k.etiket || "(adres yok)"; }, alt:function(k){ return k.adres ? (k.etiket || "") : ""; }});
-    if(tes.length > 1) bolumler.push({alan:"teslimat", etiket:"TESLİMAT ADRESİ", ikon:IKON.teslimat, kare:false, liste:tes,
-      ana:function(k){ return k.adres || k.etiket || "(adres yok)"; }, alt:function(k){ return k.adres ? (k.etiket || "") : ""; }});
+    if(tes.length >= 1) bolumler.push({alan:"teslimat", etiket:"TESLİMAT ADRESİ", ikon:"<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='#dc2626' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 6h13v10H1zM14 9h5l3 3v4h-8'/><circle cx='6' cy='18' r='2'/><circle cx='17' cy='18' r='2'/></svg>", kare:true, liste:tes,
+      ana:function(k){ return k.etiket || "Teslimat Adresi"; }, alt:function(k){ return k.adres || ""; }});
     if(yet.length >= 1) bolumler.push({alan:"yetkili", etiket:"YETKİLİ KİŞİ", ipucu: yet.length > 1 ? "çoklu" : "otomatik seçili", ikon:IKON.yetkili, kare:true, liste:yet,
       ana:function(k){ return k.isim || "(isimsiz)"; }, alt:function(k){ return k.gorev || ""; },
       iletisim:function(k){ return {tel: k.telefon || "", mail: k.eposta || ""}; }});
@@ -168,8 +176,7 @@ var IslemPopup = (function(){
     var anaSayfaPopupMi = !!document.querySelector(".as-sayfa");
     if(anaSayfaPopupMi) el.classList.add("ip-kok--anasayfa");
     var icerikHtml = bolumler.map(function(b){
-      return "<div class='ip-etiket'>" + b.ikon + esc(b.etiket) + (b.ipucu ? " <small>(" + esc(b.ipucu) + ")</small>" : "") + "</div>"
-        + b.liste.map(function(k, i){
+      var satirlarHtml = b.liste.map(function(k, i){
           var alt = b.alt(k);
           var ilt = b.iletisim ? b.iletisim(k) : null;
           var iltHtml = (ilt && (ilt.tel || ilt.mail))
@@ -183,6 +190,8 @@ var IslemPopup = (function(){
             + "<span class='ip-isaret " + (b.kare ? "ip-isaret--kare" : "ip-isaret--daire") + "'></span>"
             + "<span class='ip-metin'>" + metinHtml + "</span></div>";
         }).join("");
+      var etiketHtml = "<div class='ip-etiket'>" + b.ikon + esc(b.etiket) + (b.ipucu ? " <small>(" + esc(b.ipucu) + ")</small>" : "") + "</div>";
+      return b.alan === "teslimat" ? "<div class='ip-teslimat-wrap'>" + etiketHtml + satirlarHtml + "</div>" : etiketHtml + satirlarHtml;
     }).join("");
     if(!bolumler.length){
       var otomatikAlanlar = [];
