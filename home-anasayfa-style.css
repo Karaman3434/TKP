@@ -992,3 +992,24 @@ body:has(.as-sayfa) .app-ust-sabit .ub-logo img {
 .as-drawer-liste .as-drawer-oge { font-size: 18px; font-weight: 600; }
 .as-drawer-hata-rozet { font-size: 14px; font-weight: 700; }
 .as-drawer-cikis { font-size: 18px; font-weight: 700; }
+
+/* ONAYLI ANA SAYFA TASARIMI — 22.11.2026 (Abdurrahman onayı)
+   Referans görsel: yalnız Ana Sayfa gösterge panelleri. */
+.as-sayfa .as-tarih-panel {
+  background:#0b315e !important; border-color:#0b315e !important;
+}
+.as-sayfa .as-tarih-gun-sayi,
+.as-sayfa .as-tarih-gun-yeni,
+.as-sayfa .as-tarih-ayyil { color:#fff !important; }
+.as-sayfa .as-hedef-kart { background:#0b315e !important; }
+.as-sayfa .as-satis-tut--tl { color:#8cc9ee !important; }
+.as-sayfa .as-satis-tut--eur { color:#00e64d !important; }
+.as-sayfa .as-hedef-rozet {
+  background:#ff172b !important; color:#fff !important;
+  border:2px solid #fff !important; border-radius:999px !important;
+  padding:5px 12px !important;
+}
+.as-sayfa .as-hedef-ayrac-satir { gap:8px !important; }
+.as-sayfa .as-hedef-cizgi { border-color:rgba(255,255,255,.28) !important; }
+.as-sayfa .as-kart--satis { background:#0b315e !important; }
+.as-sayfa .as-kart--prim { background:#00bd55 !important; }
