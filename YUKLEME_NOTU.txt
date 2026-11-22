@@ -1,0 +1,26 @@
+İŞ TAKİP — TABLO TASARIMI GÜNCELLEME PAKETİ
+23.11.2026
+
+Paketteki 8 dosya, kullanıcının yüklediği TKP-main.zip içinden çıkarılmıştır.
+Bu dosyaların cart.html/send.html içinde TABLE-REFRESH-02 sürüm çağrıları zaten bulunuyordu.
+Bu paket, ilgili dosyaları tek yerde toplar; yeni kod değişikliği veya Firebase/production işlemi yapmaz.
+
+GitHub yükleme:
+1) GitHub repo ana dizininde bu 8 dosyanın mevcut karşılıklarını açın.
+2) Paketteki dosyaları aynı isimlerle tek tek değiştirin.
+3) Değişiklikleri commit edin.
+4) Canlıda açılış sonrası Chrome önbelleği/PWA cache etkisi varsa sayfayı yeniden yükleyin.
+
+Paket içeriği:
+- cart.html
+- send.html
+- belge-style.css
+- cart-tablo-style-v2.css
+- gonder-tablo-style-v2.css
+- hareket-tablo.js
+- cart-render.js
+- send-render.js
+
+ÖNEMLİ:
+Paket yüklenmeden önce GitHub'daki mevcut sürümlerle karşılaştırmanız tavsiye edilir.
+Bu paket tek başına canlıya yükleme veya Firebase değişikliği yapmaz.
