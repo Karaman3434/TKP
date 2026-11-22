@@ -1594,3 +1594,7 @@
 .teslimat-adres-vurgulu .ck-blok-etiket--teslimat{color:#c62828!important;}
 .teslimat-adres-vurgulu .ck-blok{background:transparent!important;border:0!important;padding:0 2px 2px!important;}
 .teslimat-adres-vurgulu .ck-kart-liste,.teslimat-adres-vurgulu .ck-kart{background:transparent!important;border:0!important;border-radius:0!important;}
+
+/* Gönder/mail canvas alanlarında ortak panel override'larına karşı vurgulu teslimat kutusunu sade tut. */
+#mailOnizlemeTablo .teslimat-adres-vurgulu .ck-blok,#whatsappOnizlemeTablo .teslimat-adres-vurgulu .ck-blok,#tamOnizlemeAlani .teslimat-adres-vurgulu .ck-blok,#belgeGorselAlani .teslimat-adres-vurgulu .ck-blok{background:transparent!important;border:0!important;padding:0 2px 2px!important;}
+#mailOnizlemeTablo .teslimat-adres-vurgulu .ck-kart,#whatsappOnizlemeTablo .teslimat-adres-vurgulu .ck-kart,#tamOnizlemeAlani .teslimat-adres-vurgulu .ck-kart,#belgeGorselAlani .teslimat-adres-vurgulu .ck-kart{background:transparent!important;border:0!important;border-radius:0!important;}
