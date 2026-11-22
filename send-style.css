@@ -745,3 +745,38 @@ body.as-drawer-kilit { overflow: hidden; }
   #belgeGorselAlani .whatsapp-giden-tarih-grup,
   #belgeGorselAlani .whatsapp-giden-saat-grup{gap:4px;}
 }
+
+
+/* 4 NO'LU MODÜL — GÖNDER MENÜSÜ (Abdurrahman onayı, 22.11.2026)
+   Onaylı mockup birebir renk standardı: Mail mavi, WhatsApp yeşil,
+   Tablo/PDF gri. Konum, yerleşim, ölçü ve davranışa müdahale edilmez. */
+#iletisimAcilir .iletisim-secenek-btn--mail {
+  background: #eaf2fc;
+  border: 1.5px solid #3569b8;
+}
+#iletisimAcilir .iletisim-secenek-btn--mail .iletisim-secenek-metin {
+  color: #003a70;
+}
+#iletisimAcilir .iletisim-secenek-btn--whatsapp {
+  background: #eafaf0;
+  border: 1.5px solid #0e6b34;
+}
+#iletisimAcilir .iletisim-secenek-btn--whatsapp .iletisim-secenek-metin {
+  color: #0e6b34;
+}
+#iletisimAcilir .iletisim-secenek-btn--kaydet,
+#iletisimAcilir .iletisim-secenek-btn--pdf {
+  background: #f4f6f9;
+  border: 1.5px solid #cbd5e1;
+}
+#iletisimAcilir .iletisim-secenek-btn--kaydet .iletisim-secenek-metin,
+#iletisimAcilir .iletisim-secenek-btn--pdf .iletisim-secenek-metin {
+  color: #2d3540;
+}
+#iletisimAcilir .iletisim-secenek-metin {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: none;
+  letter-spacing: 0;
+}
