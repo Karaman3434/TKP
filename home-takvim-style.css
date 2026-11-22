@@ -763,3 +763,26 @@
   .ht-rozet--temas { left:-6px !important; }
   .ht-rozet--ajanda { right:-6px !important; }
 }
+
+/* ONAYLI ANA SAYFA TAKVİM TASARIMI — 22.11.2026 */
+.as-sayfa .ht-takvim-kutu {
+  background:#062c54 !important; border:2px solid #2db9ff !important;
+  border-radius:20px !important; color:#fff !important;
+}
+.as-sayfa .ht-gun-basliklari > span {
+  background:#062c54 !important; color:#fff !important;
+  border:2px solid #1399ed !important; border-radius:999px !important;
+}
+.as-sayfa .ht-tatil-baslik { color:#fff !important; }
+.as-sayfa .ht-gun--kalan {
+  background:#062c54 !important; border-color:#20a8ff !important; color:#fff !important;
+}
+.as-sayfa .ht-gun--gecmis {
+  background:#260d20 !important; border-color:#f22d50 !important; color:#fff !important;
+}
+.as-sayfa .ht-gun--tatil {
+  background:#062c54 !important; border-color:#00d76a !important; color:#fff !important;
+}
+.as-sayfa .ht-gun--bugun, .as-sayfa .ht-gun--bugun .ht-gun-no {
+  background:#ffe600 !important; color:#062c54 !important; border-color:#fff !important;
+}
