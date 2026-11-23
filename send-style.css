@@ -1343,7 +1343,7 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani table.belge-urun-tablo th:nth-child(4),
 #belgeGorselAlani table.belge-urun-tablo td:nth-child(4),
 .mail-giden-yeni-form-tasarim table.belge-urun-tablo th:nth-child(4),
-.mail-giden-yeni-form-tasarbo table.belge-urun-tablo td:nth-child(4){width:10%!important;}
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo td:nth-child(4){width:10%!important;}
 #mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo th:nth-child(5),
 #mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo td:nth-child(5),
 #belgeGorselAlani table.belge-urun-tablo th:nth-child(5),
