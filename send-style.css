@@ -1157,3 +1157,80 @@ body.as-drawer-kilit { overflow: hidden; }
 #tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat,
 #belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat,
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat{color:#c62828!important;}
+
+
+/* 23.11.2026 — Mail gövdesi müşteri adı/ilçe satırlarının kırpılma düzeltmesi.
+   Sadece Mail/Gönder çıktıları: islem-tablosu.css'teki mutlak konumlandırma
+   ve overflow:hidden mail gövdesinde çok satırlı müşteri adını kesiyordu.
+   İç bilgi bloğu artık normal akışta, dikey boşlukları kendi yüksekliği belirler. */
+#mailOnizlemeTablo .musteri-serit.musteri-serit--islem,
+#tamOnizlemeAlani .musteri-serit.musteri-serit--islem,
+#belgeGorselAlani .musteri-serit.musteri-serit--islem,
+.mail-giden-yeni-form-tasarim .musteri-serit.musteri-serit--islem{
+  position:relative!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:64px!important;
+  max-height:none!important;
+  box-sizing:border-box!important;
+  padding:7px 8px!important;
+  overflow:visible!important;
+}
+#mailOnizlemeTablo .musteri-serit.musteri-serit--islem .ms-islem-bilgi,
+#tamOnizlemeAlani .musteri-serit.musteri-serit--islem .ms-islem-bilgi,
+#belgeGorselAlani .musteri-serit.musteri-serit--islem .ms-islem-bilgi,
+.mail-giden-yeni-form-tasarim .musteri-serit.musteri-serit--islem .ms-islem-bilgi{
+  position:static!important;
+  left:auto!important;
+  top:auto!important;
+  transform:none!important;
+  display:flex!important;
+  flex:0 1 auto!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+  box-sizing:border-box!important;
+  text-align:center!important;
+}
+#mailOnizlemeTablo .musteri-serit.musteri-serit--islem .ms-islem-ad,
+#tamOnizlemeAlani .musteri-serit.musteri-serit--islem .ms-islem-ad,
+#belgeGorselAlani .musteri-serit.musteri-serit--islem .ms-islem-ad,
+.mail-giden-yeni-form-tasarim .musteri-serit.musteri-serit--islem .ms-islem-ad{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  line-height:1.2!important;
+  overflow:visible!important;
+  white-space:normal!important;
+  text-overflow:clip!important;
+  text-align:center!important;
+}
+#mailOnizlemeTablo .musteri-serit.musteri-serit--islem .ms-islem-konum,
+#tamOnizlemeAlani .musteri-serit.musteri-serit--islem .ms-islem-konum,
+#belgeGorselAlani .musteri-serit.musteri-serit--islem .ms-islem-konum,
+.mail-giden-yeni-form-tasarim .musteri-serit.musteri-serit--islem .ms-islem-konum{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:1px 0 0!important;
+  padding:0!important;
+  line-height:1.15!important;
+  overflow:visible!important;
+  white-space:normal!important;
+  text-overflow:clip!important;
+  text-align:center!important;
+}
