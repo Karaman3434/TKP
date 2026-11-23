@@ -525,7 +525,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   return (kanal === "mail" ? "<div class='mail-giden-yeni-form-tasarim'>" : "")
     + cariBaslikHtml
     + cariGovdeHtml
-    + (kanal === "mail" ? mailNotHtml(mailIslemNotu) : "")
+    + (kanal === "mail" ? mailNotHtml(mailOnizlemeBimNotu !== null ? mailOnizlemeBimNotu : mailIslemNotu) : "")
     + "<div class='belge-kart-ayrac'></div>"
     + "<div class='belge-kart belge-kart--urun-cerceveli'>"
     + urunTablosuHtmlStr
