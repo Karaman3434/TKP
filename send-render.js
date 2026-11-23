@@ -74,9 +74,17 @@ function mailNotPaneliniAc(){
   var ta=document.getElementById("mailBimNotPopupText");ta.value=mailOnizlemeBimNotu||"";
   document.getElementById("mailBimNotPopupClose").onclick=function(){popup.remove();};
   document.getElementById("mailBimNotMaileEkle").onclick=function(){
-    mailOnizlemeBimNotu=ta.value.trim();var g=gonderBaglam;
-    if(g&&tablo){var prev=mailIslemNotu;mailIslemNotu=mailOnizlemeBimNotu;tablo.innerHTML=tamOnizlemeHtmlOlustur(g.musteri,g.sepet,g.tip,g.kur,g.kdv,"mail",g.kod);mailIslemNotu=prev;kosulSatirlariniSigdir(tablo);}
-    popup.remove();bilgiGoster(mailOnizlemeBimNotu?"Not mail tablosuna eklendi":"Not kaldırıldı");
+    var metin=ta.value.trim(),g=gonderBaglam;
+    if(!g||!sonKaydedilenBelge||!sonKaydedilenBelge.kayit){hataGoster("İşlem kaydı bulunamadı; not arşive kaydedilemedi.");return;}
+    var btn=this;btn.disabled=true;btn.textContent="Kaydediliyor...";
+    SendData.alanlariGuncelle(g.tip,sonKaydedilenBelge.kayit.ts,{mailNot:metin||null},function(ok,err){
+      btn.disabled=false;btn.textContent="＋ Maile Ekle";
+      if(!ok){hataGoster("Not arşive kaydedilemedi: "+(err&&err.message||""));return;}
+      mailOnizlemeBimNotu=metin;mailIslemNotu=metin;sonKaydedilenBelge.kayit.mailNot=metin||null;
+      try{var b=JSON.parse(localStorage.getItem("weiconv2_son_kaydedilen_belge")||"null");if(b&&b.kayit){b.kayit.mailNot=metin||null;localStorage.setItem("weiconv2_son_kaydedilen_belge",JSON.stringify(b));}}catch(e){}
+      if(tablo){tablo.innerHTML=tamOnizlemeHtmlOlustur(g.musteri,g.sepet,g.tip,g.kur,g.kdv,"mail",g.kod);kosulSatirlariniSigdir(tablo);}
+      popup.remove();bilgiGoster(metin?"Not arşive kaydedildi ve mail tablosuna eklendi":"İşlem notu kaldırıldı");
+    });
   };
 }
 function mailNotPaneliniKapat(){var o=document.getElementById("mailNotOverlay");if(o)o.hidden=true;}
