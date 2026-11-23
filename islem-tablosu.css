@@ -79,3 +79,9 @@ body.cart-sayfa #cariBilgiAlani .musteri-serit--islem{margin-top:0!important;mar
 .islem-hareket-ayrac{height:25.6px!important;}
 .islem-hareket-tarih svg,.islem-hareket-saat svg{width:19.2px!important;height:19.2px!important;}
 .musteri-serit.musteri-serit--islem{min-height:46.4px!important;padding:1mm .5mm!important;}
+
+
+/* 23.11.2026 — Müşteri adı panelinde kırpılmayı gider: üst/alt boşluk +1mm, isim/şehir tam ortalı. */
+.musteri-serit.musteri-serit--islem{height:auto!important;min-height:58px!important;padding:2mm 1mm!important;overflow:hidden!important;}
+.musteri-serit.musteri-serit--islem .ms-islem-bilgi{top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;align-items:center!important;justify-content:center!important;text-align:center!important;}
+.musteri-serit.musteri-serit--islem .ms-islem-ad,.musteri-serit.musteri-serit--islem .ms-islem-konum{text-align:center!important;}
