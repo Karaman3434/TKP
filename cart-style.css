@@ -1960,3 +1960,39 @@ body.cart-sayfa .cart-cari-panel .cart-cari-konum{
   body.cart-sayfa .cart-cari-panel .cart-cari-bilgi{grid-template-columns:70px minmax(0,1fr)!important;}
   body.cart-sayfa .cart-cari-panel .cart-cari-kod{width:70px!important;font-size:15.36px!important;}
 }
+
+/* 23.11.2026 — Sepet cari paneli onaylı yeni tasarım:
+   Geçmiş kontrolü ve cari kodu gizlenir; müşteri adı/konum ortalanır;
+   panel yüksekliği önceki 78px ölçüsünden yaklaşık %20 azaltılır.
+   Yalnız cart.html (body.cart-sayfa) etkilenir. */
+body.cart-sayfa .cart-cari-panel .cart-cari-kod,
+body.cart-sayfa .cart-cari-panel .ms-gecmis-btn{
+  display:none!important;
+}
+body.cart-sayfa .musteri-serit.cart-cari-panel{
+  min-height:62px!important;
+  height:62px!important;
+  padding:4px 8px!important;
+  box-sizing:border-box!important;
+  align-items:center!important;
+  overflow:hidden!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-bilgi{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  width:100%!important;
+  flex:1 1 auto!important;
+  min-width:0!important;
+  gap:1px!important;
+  overflow:hidden!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-ad,
+body.cart-sayfa .cart-cari-panel .cart-cari-konum{
+  width:100%!important;
+  text-align:center!important;
+  margin:0!important;
+  padding:0!important;
+}
