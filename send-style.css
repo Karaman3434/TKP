@@ -1275,3 +1275,96 @@ body.as-drawer-kilit { overflow: hidden; }
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu{
   padding:1.25mm!important; margin:.5mm 0!important;
 }
+
+
+/* 23.11.2026 — Abdullah'ın talebi: Mail önizleme ve mail gövdesi ürün tablosunda YATAY KAYDIRMA YOK.
+   Sekiz sütun telefon genişliğine sabit tablo düzeniyle sığdırılır; sağdaki TOPLAM/PRİM kesilmez. */
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli .data-table-container,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-kart--urun-cerceveli .data-table-container,
+.mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli .data-table-container,
+#belgeGorselAlani .belge-kart--urun-cerceveli .data-table-container{
+  overflow-x:hidden!important;
+  overflow-y:visible!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo,
+#belgeGorselAlani table.belge-urun-tablo,
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  table-layout:fixed!important;
+  box-sizing:border-box!important;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo th,
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo td,
+#belgeGorselAlani table.belge-urun-tablo th,
+#belgeGorselAlani table.belge-urun-tablo td,
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo th,
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo td{
+  min-width:0!important;
+  padding:2px 1px!important;
+  font-size:clamp(7px,2.1vw,10px)!important;
+  line-height:1.12!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+  word-break:break-word!important;
+  box-sizing:border-box!important;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo th,
+#belgeGorselAlani table.belge-urun-tablo th,
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo th{
+  font-size:clamp(7px,1.9vw,9px)!important;
+}
+/* Sütun dağılımı: SR / ürün / adet / liste / isk / net / toplam / prim */
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo th:nth-child(1),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo td:nth-child(1),
+#belgeGorselAlani table.belge-urun-tablo th:nth-child(1),
+#belgeGorselAlani table.belge-urun-tablo td:nth-child(1),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo th:nth-child(1),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo td:nth-child(1){width:5%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo th:nth-child(2),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo td:nth-child(2),
+#belgeGorselAlani table.belge-urun-tablo th:nth-child(2),
+#belgeGorselAlani table.belge-urun-tablo td:nth-child(2),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo th:nth-child(2),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo td:nth-child(2){width:31%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo th:nth-child(3),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo td:nth-child(3),
+#belgeGorselAlani table.belge-urun-tablo th:nth-child(3),
+#belgeGorselAlani table.belge-urun-tablo td:nth-child(3),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo th:nth-child(3),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo td:nth-child(3){width:8%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo th:nth-child(4),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo td:nth-child(4),
+#belgeGorselAlani table.belge-urun-tablo th:nth-child(4),
+#belgeGorselAlani table.belge-urun-tablo td:nth-child(4),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo th:nth-child(4),
+.mail-giden-yeni-form-tasarbo table.belge-urun-tablo td:nth-child(4){width:10%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo th:nth-child(5),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo td:nth-child(5),
+#belgeGorselAlani table.belge-urun-tablo th:nth-child(5),
+#belgeGorselAlani table.belge-urun-tablo td:nth-child(5),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo th:nth-child(5),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo td:nth-child(5){width:10%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo th:nth-child(6),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo td:nth-child(6),
+#belgeGorselAlani table.belge-urun-tablo th:nth-child(6),
+#belgeGorselAlani table.belge-urun-tablo td:nth-child(6),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo th:nth-child(6),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo td:nth-child(6){width:12%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo th:nth-child(7),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo td:nth-child(7),
+#belgeGorselAlani table.belge-urun-tablo th:nth-child(7),
+#belgeGorselAlani table.belge-urun-tablo td:nth-child(7),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo th:nth-child(7),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo td:nth-child(7){width:12%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo th:nth-child(8),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo td:nth-child(8),
+#belgeGorselAlani table.belge-urun-tablo th:nth-child(8),
+#belgeGorselAlani table.belge-urun-tablo td:nth-child(8),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo th:nth-child(8),
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo td:nth-child(8){width:12%!important;}
