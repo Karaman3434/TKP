@@ -1014,3 +1014,51 @@
 .belge-onizleme-sayfa .musteri-serit.musteri-serit--islem{height:auto!important;min-height:58px!important;padding:2mm 1mm!important;box-sizing:border-box!important;overflow:hidden!important;}
 .belge-onizleme-sayfa .musteri-serit.musteri-serit--islem .ms-islem-bilgi{position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;width:calc(100% - 24px)!important;max-width:calc(100% - 24px)!important;}
 .belge-onizleme-sayfa .musteri-serit.musteri-serit--islem .ms-islem-ad,.belge-onizleme-sayfa .musteri-serit.musteri-serit--islem .ms-islem-konum{width:100%!important;text-align:center!important;}
+
+
+/* 24.11.2026 — Abdullah onayı: BELGE ÖNİZLEME sayfasında referans işlem formu tablosu.
+   Yalnızca belge-onizleme-sayfa kapsamında; prim/kuru gösteren iç ekranlar ve diğer
+   sayfalar korunur. Mail önizlemesindeki referans görünümü: adres, not, ürün tablosu,
+   genel toplam. */
+.belge-onizleme-sayfa .belge-kart--cari-ust .belge-adres-yetkili-cerceve{
+  padding:5px 9px!important;margin:3px 0 5px!important;box-sizing:border-box!important;
+}
+.belge-onizleme-sayfa .belge-kart--cari-ust .ck-blok{
+  margin:0!important;padding:5px 0!important;border-bottom:1px solid #9db9dc!important;
+}
+.belge-onizleme-sayfa .belge-kart--cari-ust .ck-blok:last-child{border-bottom:0!important;}
+.belge-onizleme-sayfa .belge-kart--cari-ust .teslimat-adres-vurgulu{
+  border:2px solid #c62828!important;border-radius:12px!important;background:#fff!important;
+  padding:6px 8px!important;margin:4px 0!important;
+}
+.belge-onizleme-sayfa .belge-kart--cari-ust .ck-blok-etiket--teslimat{color:#c62828!important;}
+.belge-onizleme-sayfa .mail-not-giden{
+  background:#fff8df!important;border:1.5px solid #e7bd39!important;
+  border-radius:13px!important;padding:8px 10px!important;margin:5px 0 7px!important;
+}
+.belge-onizleme-sayfa .belge-kart--urun-cerceveli{
+  border:2px solid #073b70!important;border-radius:14px!important;overflow:hidden!important;
+  background:#fff!important;margin:5px 0!important;
+}
+.belge-onizleme-sayfa .belge-urun-tablo{
+  width:100%!important;border-collapse:collapse!important;table-layout:fixed!important;
+}
+.belge-onizleme-sayfa .belge-urun-tablo th:last-child,
+.belge-onizleme-sayfa .belge-urun-tablo td:last-child{display:none!important;}
+.belge-onizleme-sayfa .belge-urun-tablo thead th{
+  background:#073b70!important;color:#fff!important;font-weight:900!important;
+}
+.belge-onizleme-sayfa .belge-urun-tablo tbody td{
+  border-color:#cbd7e4!important;padding:3px!important;
+}
+.belge-onizleme-sayfa .belge-gt-prim-ic,
+.belge-onizleme-sayfa .belge-gt-kur-ic{display:none!important;}
+.belge-onizleme-sayfa .belge-gt-kutu{
+  background:linear-gradient(180deg,#0d477e 0%,#073b70 65%,#062d58 100%)!important;
+  border:1.5px solid #073b70!important;border-radius:14px!important;margin:5px 0!important;
+}
+.belge-onizleme-sayfa .belge-gt-satir{
+  justify-content:flex-end!important;gap:8px!important;
+}
+.belge-onizleme-sayfa .belge-gt-grup2,
+.belge-onizleme-sayfa .belge-gt-etiket-deger-grup{margin-left:auto!important;}
