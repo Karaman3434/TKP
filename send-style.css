@@ -1058,3 +1058,24 @@ body.as-drawer-kilit { overflow: hidden; }
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu { padding:1mm!important; margin:1mm 0!important; border:2px solid #d62828!important; border-radius:10px!important; background:#fff!important; }
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-kart--urun-cerceveli,
 .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli { margin:1mm 0!important; }
+
+
+/* 23.11.2026 — Onaylanan kompakt cari mockup: mail önizleme ve mail çıktısı SADECE. */
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve { padding:2mm!important; background:#fff!important; border:2px solid #073B70!important; border-radius:14px!important; box-sizing:border-box!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket { margin:0!important; padding:0 1mm!important; line-height:1.15!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok { margin:0!important; padding:0 1mm 1mm!important; background:#fff!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-kart-liste,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-kart-liste { margin:0!important; padding:0!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-kart,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-kart { padding:0 1mm!important; margin:0!important; border:0!important; border-radius:0!important; box-shadow:none!important; background:#fff!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat { color:#c62828!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .teslimat-adres-vurgulu,
+.mail-giden-yeni-form-tasarim .teslimat-adres-vurgulu { margin:1mm 0!important; padding:1mm!important; border:2px solid #d62828!important; border-radius:11px!important; background:#fff!important; box-sizing:border-box!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve > .ck-blok-etiket--fatura,
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve > .ck-blok-etiket--yetkili,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve > .ck-blok-etiket--fatura,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve > .ck-blok-etiket--yetkili { border-top:1px solid #7fa5d4!important; padding-top:1mm!important; margin-top:1mm!important; }
