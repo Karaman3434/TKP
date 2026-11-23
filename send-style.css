@@ -1384,3 +1384,23 @@ body.as-drawer-kilit { overflow: hidden; }
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum--yetkili .ck-blok-etiket{
   margin-bottom:.35mm!important;
 }
+
+
+/* 24.11.2026 — Abdullah onayı: GÖNDER sayfası sipariş tablosu panelinde
+   fatura/teslimat/yetkili bölümleri birbirine yaklaştırıldı. */
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum {
+  margin:0!important; padding:0!important; display:block!important;
+}
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-ayrac {
+  margin:1mm 0!important;
+}
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok-etiket {
+  margin:0 0 1px!important; padding:0!important; display:block!important;
+}
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum .ck-kart {
+  margin:0!important; padding:0!important;
+}
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu {
+  margin:1mm 0!important; padding:1mm!important;
+}
