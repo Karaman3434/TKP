@@ -227,7 +227,21 @@ function urunuHesaplamayaGonder(idx){
 // ama sepet tamam değilse buton görünür ama pasif/tıklanamaz kalır.
 function cariBilgiOzetiHtml(musteri, gonderDisabledMi){
   var izinVar = crIzinVarMi("sepetGonder");
-  return MusteriSeridi.html(musteri, {gonderButonu: izinVar, gonderDisabled: !!gonderDisabledMi, islemTablosu: true});
+  var kod = musteri && musteri.id ? String(musteri.id) : "";
+  var konum = (typeof CustomerData !== "undefined" && CustomerData.konumMetni)
+    ? CustomerData.konumMetni(musteri)
+    : [musteri && musteri.sehir, musteri && musteri.il].filter(Boolean).join(" / ");
+  var esc = (typeof HareketTablo !== "undefined" && HareketTablo.htmlEsc) ? HareketTablo.htmlEsc : function(s){return String(s||"").replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});};
+  var kodHtml = kod ? "<span class='cart-cari-kod'>" + esc(kod) + "</span>" : "";
+  var ikonGonder = (typeof IkonSvg !== "undefined") ? IkonSvg.svg("gonder") : "";
+  return "<div class='musteri-serit musteri-serit--islem cart-cari-panel'>"
+    + "<span class='cart-cari-bilgi'>" + kodHtml
+    + "<b class='cart-cari-ad'>" + esc(musteri.ad||"") + "</b>"
+    + (konum ? "<span class='cart-cari-konum'>" + esc(konum) + "</span>" : "")
+    + "</span>"
+    + (izinVar ? "<button type='button' class='ms-gonder-btn' id='btnMusteriGonder' title='Gönder' aria-label='Gönder'" + (gonderDisabledMi ? " disabled" : "") + ">" + ikonGonder + "</button>" : "")
+    + "<button type='button' class='ms-gecmis-btn' id='btnMusteriGecmis' title='İşlem Geçmişi' aria-label='İşlem Geçmişi'>🕓<span class='ms-gecmis-etiket'>GEÇMİŞ</span></button>"
+    + "</div>";
 }
 
 // MÜŞTERİSİZ GÖNDER ŞERİDİ (01.11.2026, Abdullah onayı — mockup üzerinden):
