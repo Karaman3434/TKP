@@ -188,7 +188,7 @@ function adresleriBelirle(musteri){
     var fi = (secim.fatura!=null && musteri.faturaAdresleri[secim.fatura]) ? secim.fatura : 0;
     seciliAdresler.faturaAdresi = musteri.faturaAdresleri[fi];
   }
-  if(musteri.teslimatAdresleri && musteri.teslimatAdresleri.length){
+  if(musteri.teslimatAdresleri && musteri.teslimatAdresleri.length && secim.teslimat !== -1){
     var ti = (secim.teslimat!=null && musteri.teslimatAdresleri[secim.teslimat]) ? secim.teslimat : 0;
     seciliAdresler.teslimatAdresi = musteri.teslimatAdresleri[ti];
   }
