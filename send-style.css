@@ -1079,3 +1079,10 @@ body.as-drawer-kilit { overflow: hidden; }
 #mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve > .ck-blok-etiket--yetkili,
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve > .ck-blok-etiket--fatura,
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve > .ck-blok-etiket--yetkili { border-top:1px solid #7fa5d4!important; padding-top:1mm!important; margin-top:1mm!important; }
+
+
+/* 23.11.2026 — ABDULLAH ONAYI: Mail önizleme ve mail gövdesine kopyalanan form, iPad/telefon ekranında kenarlara 1mm yaklaşsın. Yalnız Mail formu kapsamı. */
+.mail-giden-yeni-form-tasarim { width:100%!important; max-width:none!important; margin:0!important; padding-left:1mm!important; padding-right:1mm!important; box-sizing:border-box!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim { width:100%!important; max-width:none!important; margin:0!important; padding-left:1mm!important; padding-right:1mm!important; box-sizing:border-box!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo { width:100%!important; max-width:none!important; box-sizing:border-box!important; }
+#belgeGorselAlani .mail-giden-yeni-form-tasarim { width:100%!important; max-width:none!important; margin:0!important; padding-left:1mm!important; padding-right:1mm!important; box-sizing:border-box!important; }
