@@ -1598,3 +1598,12 @@
 /* Gönder/mail canvas alanlarında ortak panel override'larına karşı vurgulu teslimat kutusunu sade tut. */
 #mailOnizlemeTablo .teslimat-adres-vurgulu .ck-blok,#whatsappOnizlemeTablo .teslimat-adres-vurgulu .ck-blok,#tamOnizlemeAlani .teslimat-adres-vurgulu .ck-blok,#belgeGorselAlani .teslimat-adres-vurgulu .ck-blok{background:transparent!important;border:0!important;padding:0 2px 2px!important;}
 #mailOnizlemeTablo .teslimat-adres-vurgulu .ck-kart,#whatsappOnizlemeTablo .teslimat-adres-vurgulu .ck-kart,#tamOnizlemeAlani .teslimat-adres-vurgulu .ck-kart,#belgeGorselAlani .teslimat-adres-vurgulu .ck-kart{background:transparent!important;border:0!important;border-radius:0!important;}
+
+
+/* 23.11.2026 — ABDULLAH ONAYI: Cari formu tek dış çerçeve, Fatura/Teslimat/Yetkili bölümleri arasında yalnız yatay çizgi. Belge Önizleme (Son İşlemler) kapsamı. */
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-bolum { display:block!important; width:100%!important; box-sizing:border-box!important; }
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-ayrac { display:block!important; width:100%!important; height:1px!important; min-height:1px!important; background:#073B70!important; margin:2mm 0!important; border:0!important; }
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok-etiket { margin:0 0 1mm!important; }
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok,
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-bolum .ck-kart { border:0!important; box-shadow:none!important; border-radius:0!important; background:transparent!important; }
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu { border:2px solid #d62828!important; border-radius:10px!important; padding:2mm!important; margin:0!important; box-sizing:border-box!important; background:#fff!important; }
