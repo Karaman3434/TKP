@@ -346,6 +346,8 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     var urunKartIndex=html.indexOf("<div class='belge-kart belge-kart--urun-cerceveli'>");
     if(urunKartIndex!==-1) html=html.slice(0,urunKartIndex)+mailNotHtml(mailIslemNotu)+html.slice(urunKartIndex);
   }
+  // Mail kanalında onaylanan yeni form CSS'sinin kullandığı wrapper, canlı önizleme HTML'sinde de olmalı.
+  if(kanal === "mail") html="<div class='mail-giden-yeni-form-tasarim'>"+html+"</div>";
   return html;
 }
 
@@ -827,7 +829,9 @@ function zinciriCevaplaKopyala(){
         // aldığı için metin zincire resmin içinde (okunaksız/istenmeyen) geliyordu.
         // Kopyalanan görselde SADECE müşteri cari kartı + işlem (ürün) tablosu var;
         // zincir mailin metnini kendisi yazıyor.
+        var mailCopyNotOnceki=mailIslemNotu; if(mailOnizlemeBimNotu!==null) mailIslemNotu=mailOnizlemeBimNotu;
         alan.innerHTML = belgeGorselHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, kayitliKod, "mail", kayitliTarih);
+        mailIslemNotu=mailCopyNotOnceki;
         kosulSatirlariniSigdir(alan);
         setTimeout(function(){
           html2canvas(alan, {backgroundColor:"#ffffff", scale:2}).then(function(canvas){
