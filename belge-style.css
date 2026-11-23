@@ -1635,3 +1635,24 @@
 .belge-onizleme-sayfa .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu {
   padding:1.5mm!important; margin:0!important;
 }
+
+
+/* 24.11.2026 — ABDULLAH ONAYI: Gönder ekranındaki tam işlem önizlemesinde
+   Fatura/Teslimat/Yetkili blokları kompaktlaştırıldı. Yalnız #tamOnizlemeAlani. */
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .cari-form-bolum {
+  display:block!important; width:100%!important; box-sizing:border-box!important;
+  margin:0!important; padding:0!important;
+}
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .cari-form-ayrac {
+  margin:1mm 0!important;
+}
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok-etiket {
+  display:block!important; margin:0 0 1px!important; padding:0!important;
+}
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .cari-form-bolum .ck-kart {
+  display:block!important; padding:0!important; margin:0!important;
+}
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu {
+  padding:1.5mm!important; margin:0!important;
+}
