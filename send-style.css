@@ -1101,3 +1101,18 @@ body.as-drawer-kilit { overflow: hidden; }
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum .ck-kart { border:0!important; box-shadow:none!important; border-radius:0!important; background:transparent!important; }
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu,
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu { border:2px solid #d62828!important; border-radius:10px!important; padding:2mm!important; margin:0!important; box-sizing:border-box!important; background:#fff!important; }
+
+
+/* 23.11.2026 — Abdullah onaylı kompakt işlem/cari paneli; mail önizleme ve gönderilen mail formu kapsamı. */
+#mailOnizlemeTablo .belge-form-baslik,
+#tamOnizlemeAlani .belge-form-baslik,
+#belgeGorselAlani .mail-giden-belge-baslik .belge-form-baslik,
+.mail-giden-yeni-form-tasarim .belge-form-baslik{min-height:32px!important;padding:1px 8px!important;box-sizing:border-box!important;}
+#mailOnizlemeTablo .belge-form-baslik-etiket,
+#tamOnizlemeAlani .belge-form-baslik-etiket,
+#belgeGorselAlani .mail-giden-belge-baslik .belge-form-baslik-etiket,
+.mail-giden-yeni-form-tasarim .belge-form-baslik-etiket{line-height:1.05!important;padding:0!important;}
+#mailOnizlemeTablo .musteri-serit,
+#tamOnizlemeAlani .musteri-serit,
+#belgeGorselAlani .musteri-serit,
+.mail-giden-yeni-form-tasarim .musteri-serit{min-height:32px!important;padding:1.5px 6px!important;box-sizing:border-box!important;}
