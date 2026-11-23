@@ -1897,3 +1897,27 @@ body.cart-sayfa .cart-cari-panel .ms-gecmis-btn{position:relative!important;flex
  body.cart-sayfa .cart-cari-panel .cart-cari-ad{font-size:22px!important;}
  body.cart-sayfa .cart-cari-panel .cart-cari-kod{font-size:19.2px!important;}
 }
+
+
+/* 23.11.2026 — Sepet cari panelinde müşteri kodunun üstten kırpılması:
+   3 satırlı (kod/ad/konum) içeriğe yeterli yükseklik ve görünür taşma alanı. */
+body.cart-sayfa .musteri-serit.cart-cari-panel{
+  min-height:78px!important;
+  height:auto!important;
+  padding:7px 8px 8px!important;
+  overflow:visible!important;
+  align-items:center!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-bilgi{
+  overflow:visible!important;
+  align-self:center!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-kod{
+  line-height:1.15!important;
+  padding-top:1px!important;
+  overflow:visible!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-ad,
+body.cart-sayfa .cart-cari-panel .cart-cari-konum{
+  overflow:visible!important;
+}
