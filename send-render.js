@@ -677,6 +677,20 @@ function mailKonuOlustur(){
   return "*** " + TIP_ETIKET5[g.tip] + " *** " + g.musteri.ad + sehirEk;
 }
 
+// Mail önizlemesindeki Kaydet: Sepet aşamasında arşive kaydedilmiş belgeyi
+// mail göndermeden tamamlar; geçici gönderim bağlamını temizleyip Ana Sayfa'ya döner.
+function sendIslemiKaydet(){
+  try{
+    if(!sonKaydedilenBelge || !sonKaydedilenBelge.kayit){
+      hataGoster("Kaydedilmiş işlem kaydı bulunamadı. Sepet aşamasındaki kayıt kontrol edilmeli.");return;
+    }
+    var overlay=document.getElementById("mailOnizlemeOverlay");
+    if(overlay) overlay.hidden=true;
+    bilgiGoster("İşlem kaydedildi. Mail gönderilmedi.");
+    anaSayfayaDonVeTemizle();
+  }catch(e){hataGoster("Mail göndermeden kayıt tamamlanamadı: "+e.message);}
+}
+
 function mailOnizlemeAc(){
   try{
     var g = gonderBaglam;
@@ -1370,6 +1384,7 @@ document.addEventListener("DOMContentLoaded", function(){
       }catch(e){ alert("Kopyalanamadı — metni elle seçip kopyalayabilirsin."); }
     }
   };
+  document.getElementById("mailOnizlemeKaydetBtn").onclick = function(){ sendIslemiKaydet(); };
   document.getElementById("mailOnizlemeGonderBtn").onclick = function(){
     var konu = document.getElementById("mailOnizlemeKonu").value.trim() || "WEICON";
     // GÜVENLİK AĞI (28.09.2026, Abdullah'ın bildirdiği hata): bazı mail
