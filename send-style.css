@@ -1086,3 +1086,18 @@ body.as-drawer-kilit { overflow: hidden; }
 #mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim { width:100%!important; max-width:none!important; margin:0!important; padding-left:1mm!important; padding-right:1mm!important; box-sizing:border-box!important; }
 #mailOnizlemeOverlay #mailOnizlemeTablo { width:100%!important; max-width:none!important; box-sizing:border-box!important; }
 #belgeGorselAlani .mail-giden-yeni-form-tasarim { width:100%!important; max-width:none!important; margin:0!important; padding-left:1mm!important; padding-right:1mm!important; box-sizing:border-box!important; }
+
+
+/* 23.11.2026 — ABDULLAH ONAYI: Mail önizleme + mail gövdesine kopyalanan form, cari alanlar tek dış çerçeve içinde yatay ayraçlı. */
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .cari-form-bolum,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum { display:block!important; width:100%!important; box-sizing:border-box!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .cari-form-ayrac,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-ayrac { display:block!important; width:100%!important; height:1px!important; min-height:1px!important; background:#073B70!important; margin:2mm 0!important; border:0!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok-etiket,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok-etiket { margin:0 0 1mm!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .cari-form-bolum .ck-kart,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum .ck-kart { border:0!important; box-shadow:none!important; border-radius:0!important; background:transparent!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu { border:2px solid #d62828!important; border-radius:10px!important; padding:2mm!important; margin:0!important; box-sizing:border-box!important; background:#fff!important; }
