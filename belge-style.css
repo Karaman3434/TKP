@@ -1607,3 +1607,31 @@
 .belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok,
 .belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-bolum .ck-kart { border:0!important; box-shadow:none!important; border-radius:0!important; background:transparent!important; }
 .belge-onizleme-sayfa .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu { border:2px solid #d62828!important; border-radius:10px!important; padding:2mm!important; margin:0!important; box-sizing:border-box!important; background:#fff!important; }
+
+
+/* 24.11.2026 — ABDULLAH ONAYI: Belge Önizleme/Son İşlemler cari panelinde
+   Fatura, Teslimat ve Yetkili etiketleri üst satırda; değerler alt satırda
+   panelin sol başlangıcından. Etiket zeminleri yok, Teslimat etiketi kırmızı.
+   Yalnız belge-onizleme-sayfa kapsamı. */
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-bolum {
+  display:block!important; width:100%!important; box-sizing:border-box!important;
+  margin:0!important; padding:0!important;
+}
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-ayrac {
+  margin:1mm 0!important;
+}
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok-etiket {
+  display:block!important; background:transparent!important; border:0!important;
+  box-shadow:none!important; padding:0!important; margin:0 0 1px!important;
+}
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok,
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .cari-form-bolum .ck-kart {
+  display:block!important; padding:0!important; margin:0!important;
+  background:transparent!important; border:0!important; box-shadow:none!important;
+}
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat {
+  color:#d62828!important; background:transparent!important;
+}
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu {
+  padding:1.5mm!important; margin:0!important;
+}
