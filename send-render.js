@@ -687,7 +687,8 @@ function sendIslemiKaydet(){
     var overlay=document.getElementById("mailOnizlemeOverlay");
     if(overlay) overlay.hidden=true;
     bilgiGoster("İşlem kaydedildi. Mail gönderilmedi.");
-    anaSayfayaDonVeTemizle();
+    try{localStorage.setItem("weiconv2_sepet","[]");localStorage.setItem("weiconv2_sepet_temizlendi_zamani",String(Date.now()));localStorage.removeItem("weiconv2_sepet_kur_override");localStorage.removeItem("weicon_secili_musteri");localStorage.removeItem("weiconv2_secili_iletisim");localStorage.removeItem("weiconv2_onceden_secilen_tip");localStorage.removeItem("weiconv2_son_kaydedilen_belge");localStorage.removeItem("weiconv2_sepet_musteri_baglantisi");}catch(e){}
+    window.location.href="home.html";
   }catch(e){hataGoster("Mail göndermeden kayıt tamamlanamadı: "+e.message);}
 }
 
