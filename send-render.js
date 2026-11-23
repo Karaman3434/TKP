@@ -61,19 +61,18 @@ function mailNotHtml(metin){
   return "<div class='mail-not-giden' style=\"background:#fff8dc;border:1px solid #e7c34a;border-radius:12px;padding:10px 12px;margin:0 0 8px;color:#101820;font-family:Arial,sans-serif;font-size:15px;line-height:1.35;\"><div class='mail-not-giden-baslik' style=\"font-weight:800;color:#173a78;margin-bottom:3px;\">📝 NOT</div>" + htmlEsc(t).replace(/\n/g,"<br>") + "</div>";
 }
 function mailNotPaneliniAc(){
-  var preview=document.getElementById("mailOnizlemeOverlay"), tablo=document.getElementById("mailOnizlemeTablo");
+  var preview=document.getElementById("mailOnizlemeOverlay"),tablo=document.getElementById("mailOnizlemeTablo");
   if(!preview||preview.hidden||!tablo)return;
-  var existing=document.getElementById("mailInlineNotEditor");
-  if(existing){existing.remove();return;}
-  var html="<div id='mailInlineNotEditor' style='margin:8px 0;padding:12px;border:2px solid #315f91;border-radius:12px;background:#f2f6fb;'><label style='display:block;font-weight:700;color:#173a78;margin-bottom:6px;'>📝 Mail gövdesine eklenecek not</label><textarea id='mailInlineNotText' rows='3' placeholder='Yetkili kişinin altında görünecek not...' style='width:100%;box-sizing:border-box;'></textarea><div style='display:flex;gap:8px;margin-top:8px;'><button type='button' id='mailInlineNotCancel'>Vazgeç</button><button type='button' id='mailInlineNotApply'>Notu Ekle</button></div></div>";
-  var product=tablo.querySelector(".belge-kart--urun-cerceveli");
-  if(product) product.insertAdjacentHTML("beforebegin",html); else tablo.insertAdjacentHTML("beforeend",html);
-  var ta=document.getElementById("mailInlineNotText");ta.value=mailOnizlemeBimNotu||"";
-  document.getElementById("mailInlineNotCancel").onclick=function(){document.getElementById("mailInlineNotEditor").remove();};
-  document.getElementById("mailInlineNotApply").onclick=function(){
+  var old=document.getElementById("mailBimNotPopup");if(old){old.remove();return;}
+  var popup=document.createElement("div");popup.id="mailBimNotPopup";
+  popup.style.cssText="position:relative;z-index:20;margin:8px auto;padding:12px;background:#fff8df;border:1.5px solid #e7bd39;border-radius:13px;box-shadow:0 4px 12px rgba(0,0,0,.15);box-sizing:border-box;width:min(94%,520px);";
+  popup.innerHTML="<div style='font-weight:800;color:#173a78;margin-bottom:6px;'>📝 Mail gövdesine eklenecek not</div><textarea id='mailBimNotPopupText' rows='3' placeholder='Notunuzu yazın...' style='display:block;width:100%;box-sizing:border-box;padding:10px;border:1px solid #d7b94c;border-radius:9px;background:#fff;font:inherit;resize:vertical;'></textarea><button type='button' id='mailBimNotMaileEkle' style='display:block;width:100%;margin-top:9px;padding:11px;border:0;border-radius:10px;background:#e8c64b;color:#173a78;font-weight:800;font-size:16px;'>✉ Maile Ekle</button>";
+  var sheet=preview.querySelector(".mail-onizleme-sheet");if(sheet)sheet.insertBefore(popup,sheet.querySelector(".sheet-buton-satir"));else preview.appendChild(popup);
+  var ta=document.getElementById("mailBimNotPopupText");ta.value=mailOnizlemeBimNotu||"";
+  document.getElementById("mailBimNotMaileEkle").onclick=function(){
     mailOnizlemeBimNotu=ta.value.trim();var g=gonderBaglam;
     if(g&&tablo){var prev=mailIslemNotu;mailIslemNotu=mailOnizlemeBimNotu;tablo.innerHTML=tamOnizlemeHtmlOlustur(g.musteri,g.sepet,g.tip,g.kur,g.kdv,"mail",g.kod);mailIslemNotu=prev;kosulSatirlariniSigdir(tablo);}
-    bilgiGoster(mailOnizlemeBimNotu?"Not mail tablosuna eklendi":"Not kaldırıldı");
+    popup.remove();bilgiGoster(mailOnizlemeBimNotu?"Not mail tablosuna eklendi":"Not kaldırıldı");
   };
 }
 function mailNotPaneliniKapat(){var o=document.getElementById("mailNotOverlay");if(o)o.hidden=true;}
