@@ -71,3 +71,11 @@ body.cart-sayfa #rotaSeridi.cart-islem-hareket-host{
 }
 body.cart-sayfa #cartTarihPaneli[hidden]{display:none!important;}
 body.cart-sayfa #cariBilgiAlani .musteri-serit--islem{margin-top:0!important;margin-bottom:1mm!important;}
+
+
+/* 23.11.2026 — Abdullah onaylı kompakt başlık panelleri (%20 yükseklik, %50 iç boşluk azaltma). */
+.islem-hareket-paneli{min-height:38.4px!important;padding:2.5px 5px!important;box-sizing:border-box!important;}
+.islem-hareket-etiket svg{width:27.2px!important;height:27.2px!important;}
+.islem-hareket-ayrac{height:25.6px!important;}
+.islem-hareket-tarih svg,.islem-hareket-saat svg{width:19.2px!important;height:19.2px!important;}
+.musteri-serit.musteri-serit--islem{min-height:46.4px!important;padding:1mm .5mm!important;}
