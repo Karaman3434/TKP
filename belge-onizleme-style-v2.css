@@ -996,3 +996,9 @@
   border-radius: 12px !important;
   color: #13243a !important;
 }
+
+
+/* 23.11.2026 — Abdullah onaylı kompakt panel tasarımı: işlem başlığı ve cari isim paneli %20 kısa, çizgi/etiket iç boşlukları %50 dar. */
+.belge-onizleme-sayfa .belge-musteri-baslik{min-height:32px!important;padding:1px 10px!important;box-sizing:border-box!important;}
+.belge-onizleme-sayfa .belge-musteri-baslik .bmb-sol{gap:1.5mm!important;}
+.belge-onizleme-sayfa .musteri-serit{min-height:32px!important;padding:1.5px 6px!important;box-sizing:border-box!important;}
