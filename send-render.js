@@ -89,10 +89,21 @@ function mailNotPaneliniAc(){
 }
 function mailNotPaneliniKapat(){var o=document.getElementById("mailNotOverlay");if(o)o.hidden=true;}
 function mailNotunuKaydet(){
-  if(mailOnizlemeBimModu){ var ta0=document.getElementById("mailNotMetni"); mailOnizlemeBimNotu=ta0?ta0.value.trim():""; mailNotPaneliniKapat();
-    var g0=gonderBaglam,tablo0=document.getElementById("mailOnizlemeTablo"); if(g0&&tablo0){var onceki=mailIslemNotu;mailIslemNotu=mailOnizlemeBimNotu;
-      tablo0.innerHTML=tamOnizlemeHtmlOlustur(g0.musteri,g0.sepet,g0.tip,g0.kur,g0.kdv,"mail",g0.kod);mailIslemNotu=onceki;kosulSatirlariniSigdir(tablo0);}
-    bilgiGoster(mailOnizlemeBimNotu?"Not mail önizlemesine eklendi":"Mail önizleme notu kaldırıldı");mailOnizlemeBimModu=false;return; }
+  if(mailOnizlemeBimModu){
+    var ta0=document.getElementById("mailNotMetni"),metin0=ta0?ta0.value.trim():"";
+    var g0=gonderBaglam, kayit0=sonKaydedilenBelge&&sonKaydedilenBelge.kayit;
+    if(!g0||!kayit0){hataGoster("İşlem kaydı bulunamadı; not arşive kaydedilemedi.");return;}
+    var btn0=document.getElementById("mailNotKaydetBtn");if(btn0){btn0.disabled=true;btn0.textContent="Kaydediliyor...";}
+    SendData.alanlariGuncelle(g0.tip,kayit0.ts,{mailNot:metin0||null},function(ok,err){
+      if(btn0){btn0.disabled=false;btn0.textContent="Notu Kaydet";}
+      if(!ok){hataGoster("İşlem notu kaydedilemedi: "+(err&&err.message||""));return;}
+      mailOnizlemeBimNotu=metin0;mailIslemNotu=metin0;kayit0.mailNot=metin0||null;
+      try{var b=JSON.parse(localStorage.getItem("weiconv2_son_kaydedilen_belge")||"null");if(b&&b.kayit){b.kayit.mailNot=metin0||null;localStorage.setItem("weiconv2_son_kaydedilen_belge",JSON.stringify(b));}}catch(e){}
+      mailNotPaneliniKapat();var tablo0=document.getElementById("mailOnizlemeTablo");
+      if(tablo0){tablo0.innerHTML=tamOnizlemeHtmlOlustur(g0.musteri,g0.sepet,g0.tip,g0.kur,g0.kdv,"mail",g0.kod);kosulSatirlariniSigdir(tablo0);}
+      bilgiGoster(metin0?"Not arşive kaydedildi ve mail önizlemesine eklendi":"İşlem notu kaldırıldı");mailOnizlemeBimModu=false;
+    });return;
+  }
   if(!sonKaydedilenBelge||!sonKaydedilenBelge.kayit){hataGoster("İşlem kaydı bulunamadı.");return;}
   var ta=document.getElementById("mailNotMetni"), btn=document.getElementById("mailNotKaydetBtn");
   var metin=ta?ta.value.trim():""; if(btn){btn.disabled=true;btn.textContent="Kaydediliyor...";}
