@@ -1368,3 +1368,19 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani table.belge-urun-tablo td:nth-child(8),
 .mail-giden-yeni-form-tasarim table.belge-urun-tablo th:nth-child(8),
 .mail-giden-yeni-form-tasarim table.belge-urun-tablo td:nth-child(8){width:12%!important;}
+
+
+/* 23.11.2026 — Abdullah onaylı son düzenleme: mail önizleme ve mail gövdesi.
+   Teslimat kırmızı çerçevesi/dış boşlukları 1mm; YETKİLİ etiketi ile kişi satırı arası %30 daraltıldı. */
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu{
+  padding:1mm!important;
+  margin:1mm 0!important;
+  box-sizing:border-box!important;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .cari-form-bolum--yetkili .ck-blok-etiket,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .cari-form-bolum--yetkili .ck-blok-etiket,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum--yetkili .ck-blok-etiket{
+  margin-bottom:.35mm!important;
+}
