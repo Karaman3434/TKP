@@ -527,7 +527,11 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
       + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
       + "<span class='belge-gt-deger'>" + fmtG2(netEuro) + " EURO</span>"
       + "</span></div>";
-  return (kanal === "mail" ? "<div class='mail-giden-yeni-form-tasarim'>" : "")
+  // Mail'e kopyalanan görselde Mail Önizleme'nin aynı CSS hedefi/yerleşimi
+  // kullanılsın diye içerik aynı #mailOnizlemeTablo sarmalayıcısına alınır.
+  // Bilgi/mahremiyet kuralları (cari kodu gizleme, boş teslimatı gizleme vb.)
+  // ve giden görselin içerik üretimi aynen korunur.
+  return (kanal === "mail" ? "<div class='mail-giden-yeni-form-tasarim'><div id='mailOnizlemeTablo'>" : "")
     + cariBaslikHtml
     + cariGovdeHtml
     + (kanal === "mail" ? mailNotHtml(mailOnizlemeBimNotu !== null ? mailOnizlemeBimNotu : mailIslemNotu) : "")
@@ -537,7 +541,7 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     + (typeof HareketTablo !== "undefined" ? HareketTablo.bakiyeNotuHtml(sepet) : "")
     + "</div>"
     + genelToplamGorselHtml
-    + (kanal === "mail" ? "</div>" : "");
+    + (kanal === "mail" ? "</div></div>" : "");
 }
 
 // PERFORMANS KAZANIMI (27.10.2026): html2canvas (büyük, nadiren kullanılan
