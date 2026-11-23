@@ -132,7 +132,7 @@ function adresleriBelirle(musteri){
     // müşteri kayıtları için de "Girilmemiş" görünmesin diye.
     seciliAdresler.faturaAdresi = {etiket:"Fatura Adresi", adres: musteri.acikAdres.trim()};
   }
-  if(musteri.teslimatAdresleri && musteri.teslimatAdresleri.length){
+  if(musteri.teslimatAdresleri && musteri.teslimatAdresleri.length && secim.teslimat !== -1){
     var ti = (secim.teslimat!=null && musteri.teslimatAdresleri[secim.teslimat]) ? secim.teslimat : 0;
     seciliAdresler.teslimatAdresi = musteri.teslimatAdresleri[ti];
   }
