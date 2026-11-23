@@ -1010,3 +1010,14 @@ body.as-drawer-kilit { overflow: hidden; }
 #mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli .data-table-container { margin:0!important; border:0!important; border-radius:0!important; overflow-x:auto!important; }
 #mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-gt-kutu { border-radius:13px!important; margin-top:5px!important; }
 #mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-kart-ayrac { height:0!important; margin:0!important; }
+
+
+/* 23.11.2026 — ABDULLAH ONAYI: Mail önizleme + mail gövdesi cari blok tek çerçeve; ürün tablosu başlıkları lacivert (İSK/NET hariç). */
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve { border:2px solid #073B70!important; border-radius:14px!important; box-sizing:border-box!important; background:#fff!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .teslimat-adres-vurgulu,
+.mail-giden-yeni-form-tasarim .teslimat-adres-vurgulu { border:2px solid #d62828!important; border-radius:12px!important; padding:7px 8px 8px!important; margin:4px 0!important; box-sizing:border-box!important; background:#fff!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .teslimat-adres-vurgulu .ck-blok-etiket--teslimat,
+.mail-giden-yeni-form-tasarim .teslimat-adres-vurgulu .ck-blok-etiket--teslimat { color:#c62828!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:not(:nth-child(5)):not(:nth-child(6)),
+.mail-giden-yeni-form-tasarim .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:not(:nth-child(5)):not(:nth-child(6)) { background:#073B70!important; color:#fff!important; }
