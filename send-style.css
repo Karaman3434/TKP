@@ -996,3 +996,17 @@ body.as-drawer-kilit { overflow: hidden; }
 .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli .data-table-container { margin:0; border:0; border-radius:0; overflow-x:auto; }
 .mail-giden-yeni-form-tasarim .belge-gt-kutu { border-radius:13px; margin-top:5px; }
 .mail-giden-yeni-form-tasarim .belge-kart-ayrac { height:0; margin:0; }
+
+
+/* 23.11.2026 — MAIL PREVIEW FORM STYLE ENFORCEMENT (isolated to mail preview) */
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim { width:100%; max-width:900px; margin:0 auto; padding:4px 2mm 10px!important; box-sizing:border-box!important; background:#fff!important; font-family:Arial,sans-serif!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve { border:2px solid #073B70!important; border-radius:14px!important; padding:4px 10px 8px!important; margin:4px 0 6px!important; box-sizing:border-box!important; background:#fff!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok { border-bottom:1px solid #9db9dc!important; padding:6px 0!important; margin:0!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok:last-child { border-bottom:0!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket { color:#073B70!important; font-weight:800!important; margin:4px 0 3px!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-not-cerceve,
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .mail-not-giden { border:1.5px solid #e7bd39!important; background:#fff8df!important; border-radius:13px!important; padding:8px 10px!important; margin:6px 0 8px!important; box-sizing:border-box!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli { border:2px solid #073B70!important; border-radius:14px!important; overflow:hidden!important; box-sizing:border-box!important; margin:4px 0!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli .data-table-container { margin:0!important; border:0!important; border-radius:0!important; overflow-x:auto!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-gt-kutu { border-radius:13px!important; margin-top:5px!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim .belge-kart-ayrac { height:0!important; margin:0!important; }
