@@ -1404,3 +1404,21 @@ body.as-drawer-kilit { overflow: hidden; }
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu {
   margin:1mm 0!important; padding:1mm!important;
 }
+
+
+/* 24.11.2026 — ABDULLAH ONAYI: Mail uygulamasına kopyalanan işlem formu
+   görselindeki Fatura/Teslimat/Yetkili bölümleri daha kompakt.
+   Yalnız belgeGorselAlani (panoya kopyalanan PNG) kapsamı. */
+#belgeGorselAlani .belge-adres-yetkili-cerceve .cari-form-ayrac{
+  margin:.5mm 0!important;
+}
+#belgeGorselAlani .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok-etiket{
+  margin:0 0 .5mm!important; padding:0!important;
+}
+#belgeGorselAlani .belge-adres-yetkili-cerceve .cari-form-bolum .ck-blok,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .cari-form-bolum .ck-kart{
+  padding:0!important; margin:0!important;
+}
+#belgeGorselAlani .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu{
+  padding:1mm!important; margin:.5mm 0!important;
+}
