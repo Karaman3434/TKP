@@ -52,6 +52,9 @@ function bilgiGoster(mesaj){
 
 // 23.11.2026 — İşlemle birlikte arşivlenen özel mail notu.
 var mailIslemNotu = "";
+// Mail önizleme açıkken BİM ile girilen geçici not; kayıt/Firebase'e yazılmaz.
+var mailOnizlemeBimNotu = null;
+var mailOnizlemeBimModu = false;
 function mailNotHtml(metin){
   var t = String(metin||"").trim();
   if(!t) return "";
@@ -59,11 +62,24 @@ function mailNotHtml(metin){
 }
 function mailNotPaneliniAc(){
   var o=document.getElementById("mailNotOverlay"), ta=document.getElementById("mailNotMetni");
-  if(!o||!ta||!sonKaydedilenBelge||!sonKaydedilenBelge.kayit) return;
-  ta.value=mailIslemNotu||sonKaydedilenBelge.kayit.mailNot||""; o.hidden=false;
+  if(!o||!ta) return;
+  var preview=document.getElementById("mailOnizlemeOverlay"); mailOnizlemeBimModu=!!(preview && !preview.hidden);
+  if(mailOnizlemeBimModu){ ta.value=mailOnizlemeBimNotu==null?(mailIslemNotu||""):mailOnizlemeBimNotu;
+    var ac=document.querySelector("#mailNotOverlay .sheet-baslik"); if(ac) ac.textContent="📝 Mail Önizlemeye Özel Not";
+    var p=document.querySelector("#mailNotOverlay .mail-not-aciklama"); if(p) p.textContent="Bu not yalnız açık Mail Önizleme tablosuna eklenir. İşlem kaydına veya diğer gönderim türlerine kaydedilmez.";
+    var kb=document.getElementById("mailNotKaydetBtn"); if(kb) kb.textContent="Önizlemeye Ekle"; o.hidden=false; return; }
+  if(!sonKaydedilenBelge||!sonKaydedilenBelge.kayit) return;
+  ta.value=mailIslemNotu||sonKaydedilenBelge.kayit.mailNot||"";
+  var ac2=document.querySelector("#mailNotOverlay .sheet-baslik"); if(ac2) ac2.textContent="📝 İşleme Özel Not";
+  var p2=document.querySelector("#mailNotOverlay .mail-not-aciklama"); if(p2) p2.textContent="Bu not ilgili işlem kaydına kalıcı olarak eklenir. Mail işlem tablosunda sarı NOT paneli olarak görünür; boş bırakılırsa panel gönderilmez.";
+  var kb2=document.getElementById("mailNotKaydetBtn"); if(kb2) kb2.textContent="Notu Kaydet"; o.hidden=false;
 }
 function mailNotPaneliniKapat(){var o=document.getElementById("mailNotOverlay");if(o)o.hidden=true;}
 function mailNotunuKaydet(){
+  if(mailOnizlemeBimModu){ var ta0=document.getElementById("mailNotMetni"); mailOnizlemeBimNotu=ta0?ta0.value.trim():""; mailNotPaneliniKapat();
+    var g0=gonderBaglam,tablo0=document.getElementById("mailOnizlemeTablo"); if(g0&&tablo0){var onceki=mailIslemNotu;mailIslemNotu=mailOnizlemeBimNotu;
+      tablo0.innerHTML=tamOnizlemeHtmlOlustur(g0.musteri,g0.sepet,g0.tip,g0.kur,g0.kdv,"mail",g0.kod);mailIslemNotu=onceki;kosulSatirlariniSigdir(tablo0);}
+    bilgiGoster(mailOnizlemeBimNotu?"Not mail önizlemesine eklendi":"Mail önizleme notu kaldırıldı");mailOnizlemeBimModu=false;return; }
   if(!sonKaydedilenBelge||!sonKaydedilenBelge.kayit){hataGoster("İşlem kaydı bulunamadı.");return;}
   var ta=document.getElementById("mailNotMetni"), btn=document.getElementById("mailNotKaydetBtn");
   var metin=ta?ta.value.trim():""; if(btn){btn.disabled=true;btn.textContent="Kaydediliyor...";}
@@ -660,7 +676,9 @@ function mailOnizlemeAc(){
     var konu = mailKonuOlustur();
     document.getElementById("mailOnizlemeKonu").value = konu;
     document.getElementById("mailOnizlemeMetin").textContent = document.getElementById("gonderMetin").value;
+    var mailNotOnceki = mailIslemNotu; if(mailOnizlemeBimNotu!==null) mailIslemNotu=mailOnizlemeBimNotu;
     document.getElementById("mailOnizlemeTablo").innerHTML = tamOnizlemeHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, "mail", g.kod);
+    mailIslemNotu=mailNotOnceki;
     document.getElementById("mailOnizlemeOverlay").hidden = false;
     kosulSatirlariniSigdir(document.getElementById("mailOnizlemeTablo"));
   }catch(e){ hataGoster("Mail önizleme açılamadı: " + e.message); }
