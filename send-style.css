@@ -953,3 +953,31 @@ body.as-drawer-kilit { overflow: hidden; }
 #mailOnizlemeOverlay #mailOnizlemeTablo .mail-not-giden-baslik {
   display:block; margin:0 0 5px!important; color:#173a78!important; font-weight:900!important;
 }
+
+
+/* 23.11.2026 — MAIL ÖNİZLEME: onaylanan yeni sipariş formu görünümü.
+   Sadece Mail önizleme alanına kapsamlıdır; diğer sayfalara/çıktılara taşınmaz. */
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve {
+  background:#fff; border:2px solid #073B70; border-radius:14px;
+  padding:8px 10px; margin:4px 0 8px; box-sizing:border-box;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok {
+  border-bottom:1px solid #9db9dc; margin:0; padding:5px 0;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok:last-child {border-bottom:0;padding-bottom:2px;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok-etiket {margin:5px 0 2px;color:#073B70;font-weight:800;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-kart {background:#f3f7fc;border:0;border-radius:8px;padding:6px 8px;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok-etiket:first-child {margin-top:0;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-not-cerceve {
+  border:1.5px solid #e7bd39; background:#fff8df; border-radius:13px;
+  padding:7px 10px; margin:6px 0 8px; box-sizing:border-box;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-not-cerceve .ck-kart {background:transparent;border:0;padding:2px 0;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-not-cerceve .ck-blok-etiket {color:#173a78;font-weight:900;margin:0 0 4px;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .ozet-satir-3--birlesik {display:flex;gap:5px;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .ozet-alan {min-width:0;flex:1;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-kart--urun-cerceveli {border:2px solid #073B70;border-radius:14px;overflow:hidden;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-kart--urun-cerceveli .data-table-container {overflow-x:auto;max-width:100%;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-gt-kutu {border-radius:13px;margin-top:5px;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-kart {margin-bottom:4px;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-kart-ayrac {height:0;margin:0;}
