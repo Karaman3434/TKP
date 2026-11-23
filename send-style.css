@@ -1028,3 +1028,16 @@ body.as-drawer-kilit { overflow: hidden; }
 #mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(6){background:#07852e!important;color:#fff!important;}
 #mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin{background:#f0444b!important;color:#fff!important;}
 #mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo tbody td:nth-child(6) .rozet-net{background:#07852e!important;color:#fff!important;}
+
+
+/* 23.11.2026 — Kullanıcının açık onayı: Mail önizleme + mail çıktısı, onaylanan mockup'taki beyaz cari alanları ve ölçülü ortak çerçeve. */
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve { background:#fff!important; border:2px solid #073B70!important; border-radius:14px!important; padding:8px 10px!important; box-sizing:border-box!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok { background:#fff!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-kart,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-kart { background:#fff!important; border:0!important; border-radius:0!important; box-shadow:none!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu { background:#fff!important; border:2px solid #d62828!important; border-radius:12px!important; padding:7px 8px!important; margin:4px 0!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat { color:#c62828!important; }
