@@ -64,11 +64,15 @@ function mailNotPaneliniAc(){
   var preview=document.getElementById("mailOnizlemeOverlay"),tablo=document.getElementById("mailOnizlemeTablo");
   if(!preview||preview.hidden||!tablo)return;
   var old=document.getElementById("mailBimNotPopup");if(old){old.remove();return;}
+  var bimBtn=document.querySelector(".ub-bar .ub-btn--bilgi");
+  if(!bimBtn)return;
+  var rect=bimBtn.getBoundingClientRect();
   var popup=document.createElement("div");popup.id="mailBimNotPopup";
-  popup.style.cssText="position:relative;z-index:20;margin:8px auto;padding:12px;background:#fff8df;border:1.5px solid #e7bd39;border-radius:13px;box-shadow:0 4px 12px rgba(0,0,0,.15);box-sizing:border-box;width:min(94%,520px);";
-  popup.innerHTML="<div style='font-weight:800;color:#173a78;margin-bottom:6px;'>📝 Mail gövdesine eklenecek not</div><textarea id='mailBimNotPopupText' rows='3' placeholder='Notunuzu yazın...' style='display:block;width:100%;box-sizing:border-box;padding:10px;border:1px solid #d7b94c;border-radius:9px;background:#fff;font:inherit;resize:vertical;'></textarea><button type='button' id='mailBimNotMaileEkle' style='display:block;width:100%;margin-top:9px;padding:11px;border:0;border-radius:10px;background:#e8c64b;color:#173a78;font-weight:800;font-size:16px;'>✉ Maile Ekle</button>";
-  var sheet=preview.querySelector(".mail-onizleme-sheet");if(sheet)sheet.insertBefore(popup,sheet.querySelector(".sheet-buton-satir"));else preview.appendChild(popup);
+  popup.style.cssText="position:fixed;z-index:100000;left:12px;right:12px;top:"+(Math.round(rect.bottom+8))+"px;margin:0;padding:12px;background:linear-gradient(180deg,#fffbe9 0%,#fff4cf 100%);border:2px solid #e7bd39;border-radius:15px;box-shadow:0 5px 18px rgba(0,0,0,.22);box-sizing:border-box;color:#142f59;font-family:Arial,sans-serif;";
+  popup.innerHTML="<div style='display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;'><div style='font-weight:800;font-size:17px;color:#173a78;'>📝 NOT EKLE <span style='font-weight:500;font-size:14px;'>(Maile eklenecek not)</span></div><button type='button' id='mailBimNotPopupClose' aria-label='Kapat' style='border:0;background:transparent;color:#173a78;font-size:26px;font-weight:700;padding:0 5px;'>×</button></div><textarea id='mailBimNotPopupText' rows='3' placeholder='Maile eklenecek notu yazınız...' style='display:block;width:100%;min-height:76px;box-sizing:border-box;padding:10px;border:1.5px solid #9bb5d7;border-radius:11px;background:#fff;color:#17212c;font:16px Arial,sans-serif;resize:vertical;'></textarea><button type='button' id='mailBimNotMaileEkle' style='display:block;margin:9px 0 0 auto;min-width:160px;padding:12px 18px;border:0;border-radius:11px;background:linear-gradient(180deg,#2785ed 0%,#0d62c7 58%,#084a9b 100%);color:#fff;font-weight:800;font-size:16px;box-shadow:0 2px 4px rgba(0,0,0,.18);'>＋ Maile Ekle</button><div style='position:absolute;top:-11px;left:"+Math.max(16,Math.min(rect.left+rect.width/2-12,window.innerWidth-40))+"px;width:20px;height:20px;background:#fff8df;border-top:2px solid #e7bd39;border-left:2px solid #e7bd39;transform:rotate(45deg);'></div>";
+  document.body.appendChild(popup);
   var ta=document.getElementById("mailBimNotPopupText");ta.value=mailOnizlemeBimNotu||"";
+  document.getElementById("mailBimNotPopupClose").onclick=function(){popup.remove();};
   document.getElementById("mailBimNotMaileEkle").onclick=function(){
     mailOnizlemeBimNotu=ta.value.trim();var g=gonderBaglam;
     if(g&&tablo){var prev=mailIslemNotu;mailIslemNotu=mailOnizlemeBimNotu;tablo.innerHTML=tamOnizlemeHtmlOlustur(g.musteri,g.sepet,g.tip,g.kur,g.kdv,"mail",g.kod);mailIslemNotu=prev;kosulSatirlariniSigdir(tablo);}
