@@ -1008,3 +1008,9 @@
 .belge-onizleme-sayfa .musteri-serit{height:auto!important;min-height:58px!important;padding:5.3px 6px!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;}
 .belge-onizleme-sayfa .musteri-serit .ms-islem-bilgi{align-items:center!important;justify-content:center!important;text-align:center!important;}
 .belge-onizleme-sayfa .musteri-serit .ms-islem-ad,.belge-onizleme-sayfa .musteri-serit .ms-islem-konum{width:100%!important;text-align:center!important;}
+
+
+/* 23.11.2026 — Son İşlemler müşteri paneli ölçüsü referans alınarak belge önizlemesi eşitlendi. */
+.belge-onizleme-sayfa .musteri-serit.musteri-serit--islem{height:auto!important;min-height:58px!important;padding:2mm 1mm!important;box-sizing:border-box!important;overflow:hidden!important;}
+.belge-onizleme-sayfa .musteri-serit.musteri-serit--islem .ms-islem-bilgi{position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;width:calc(100% - 24px)!important;max-width:calc(100% - 24px)!important;}
+.belge-onizleme-sayfa .musteri-serit.musteri-serit--islem .ms-islem-ad,.belge-onizleme-sayfa .musteri-serit.musteri-serit--islem .ms-islem-konum{width:100%!important;text-align:center!important;}
