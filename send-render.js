@@ -504,7 +504,8 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
       + "<span class='belge-gt-etiket'>GENEL TOPLAM</span>"
       + "<span class='belge-gt-deger'>" + fmtG2(netEuro) + " EURO</span>"
       + "</span></div>";
-  return cariBaslikHtml
+  return (kanal === "mail" ? "<div class='mail-giden-yeni-form-tasarim'>" : "")
+    + cariBaslikHtml
     + cariGovdeHtml
     + (kanal === "mail" ? mailNotHtml(mailIslemNotu) : "")
     + "<div class='belge-kart-ayrac'></div>"
@@ -512,7 +513,8 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     + urunTablosuHtmlStr
     + (typeof HareketTablo !== "undefined" ? HareketTablo.bakiyeNotuHtml(sepet) : "")
     + "</div>"
-    + genelToplamGorselHtml;
+    + genelToplamGorselHtml
+    + (kanal === "mail" ? "</div>" : "");
 }
 
 // PERFORMANS KAZANIMI (27.10.2026): html2canvas (büyük, nadiren kullanılan
