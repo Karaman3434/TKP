@@ -1041,3 +1041,20 @@ body.as-drawer-kilit { overflow: hidden; }
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu { background:#fff!important; border:2px solid #d62828!important; border-radius:12px!important; padding:7px 8px!important; margin:4px 0!important; }
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat,
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat { color:#c62828!important; }
+
+
+/* 23.11.2026 — ABDULLAH onayı: Mail önizleme + mail gövdesi cari bölümünün 1 mm sıkı yerleşimi ve kenar boşlukları. */
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-giden-yeni-form-tasarim,
+.mail-giden-yeni-form-tasarim { padding-left:1mm!important; padding-right:1mm!important; box-sizing:border-box!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve { margin:1mm 0!important; padding:1mm!important; box-sizing:border-box!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok { padding:1mm 0!important; margin:0!important; border-bottom:0!important; background:#fff!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok-etiket,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket { display:flex!important; align-items:center!important; gap:1mm!important; margin:0 0 1mm!important; padding:0!important; line-height:1.15!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-kart,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-kart { padding:1mm!important; margin:0!important; border:0!important; border-radius:0!important; background:#fff!important; box-shadow:none!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu { padding:1mm!important; margin:1mm 0!important; border:2px solid #d62828!important; border-radius:10px!important; background:#fff!important; }
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-kart--urun-cerceveli,
+.mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli { margin:1mm 0!important; }
