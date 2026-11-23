@@ -1021,3 +1021,10 @@ body.as-drawer-kilit { overflow: hidden; }
 .mail-giden-yeni-form-tasarim .teslimat-adres-vurgulu .ck-blok-etiket--teslimat { color:#c62828!important; }
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:not(:nth-child(5)):not(:nth-child(6)),
 .mail-giden-yeni-form-tasarim .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:not(:nth-child(5)):not(:nth-child(6)) { background:#073B70!important; color:#fff!important; }
+
+
+/* 23.11.2026 — Mail Önizleme: gönder ekranındaki İSK kırmızı / NET yeşil etiket ve hücre tasarımını eşleştir. */
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(5){background:#f0444b!important;color:#fff!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(6){background:#07852e!important;color:#fff!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin{background:#f0444b!important;color:#fff!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo tbody td:nth-child(6) .rozet-net{background:#07852e!important;color:#fff!important;}
