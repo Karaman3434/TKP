@@ -23,6 +23,20 @@
   },
   "history": [
     {
+      "id": "TKP.23.11.26-CARI-KOD-03",
+      "timestamp": "2026-11-23T19:00:00+03:00",
+      "dateTime": "23.11.2026",
+      "title": "Sepet cari paneli: kod %20 küçültüldü ve isim/konum sola yaklaştırıldı",
+      "summary": "Sepet Hesapla müşteri panelinde cari kodu %20 küçültülüp sol kenara yaklaştırıldı; kod ve isim/konum arasında dikey ayraç eklendi. İsim ve ilçe-il bilgileri ayraç tarafına yakın hizalandı. Yalnızca cart.html sayfası etkilenir.",
+      "changedFiles": [
+        "cart-style.css",
+        "cart.html",
+        "surum-kaydi.json"
+      ],
+      "approval": "Kullanıcı görsel tasarımı açıkça onayladı ve canlıya kodlama talimatı verdi.",
+      "deploymentStatus": "GitHub Pages dağıtımı tetiklendi."
+    },
+    {
       "id": "TKP.19.11.26-HAREKET-TUTAR-YANI.1670",
       "version": "TKP.19.11.26-HAREKET-TUTAR-YANI.1670",
       "date": "2026-11-19",
