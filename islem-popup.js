@@ -324,6 +324,10 @@ var IslemPopup = (function(){
           var k = secim.yetkili.indexOf(i);
           if(k >= 0){ if(secim.yetkili.length > 1) secim.yetkili.splice(k, 1); }   // en az 1 kişi kalır
           else { secim.yetkili.push(i); secim.yetkili.sort(function(a,b){ return a-b; }); }
+        } else if(alan === "teslimat"){
+          // TESLİMAT ADRESİ İSTEĞE BAĞLI: seçili adres tekrar dokunulursa
+          // -1 ile seçim kaldırılır; işlem yalnız fatura adresine gider.
+          secim.teslimat = (secim.teslimat === i) ? -1 : i;
         } else { secim[alan] = i; }
         secimiBoya();
       });
