@@ -459,30 +459,27 @@ var HareketTablo = (function(){
       if(musteri.eposta && musteri.eposta.trim()) faturaIletisimParcalari.push("<span class='ck-iletisim-parca'><span class='ck-kart-iletisim-ikon'>" + (ikonVarMi ? IkonSvg.svg("mail") : "✉️") + "</span>" + htmlEsc(musteri.eposta.trim()) + "</span>");
       faturaIletisimHtml = "<div class='ck-kart-iletisim'>" + faturaIletisimParcalari.join("<span class='ck-iletisim-ayrac'>·</span>") + "</div>";
     }
-    var adresYetkiliIcHtml = "<div class='ck-blok-etiket ck-blok-etiket--fatura'><span>" + etIk("dosya","📄") + "FATURA ADRESİ</span></div>"
+    var adresYetkiliIcHtml = "<div class='cari-form-bolum cari-form-bolum--fatura'><div class='ck-blok-etiket ck-blok-etiket--fatura'><span>" + etIk("dosya","📄") + "FATURA ADRESİ</span></div>"
       + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
       +   (faturaAdr ? htmlEsc(faturaAdr) + sehirEk : "<span class='belge-adres-bos'>Girilmemiş</span>")
       +   faturaIletisimHtml
-      + "</div></div></div>";
-    // HATA DÜZELTME (19.10.2026, Abdullah'ın bildirdiği hata): Teslimat
-    // Adresi, Fatura Adresi'nin aksine boşsa HİÇ basılmıyordu (kutu baştan
-    // kayboluyordu) — bu kaydın teslimatAdresi henüz girilmemişse (örn.
-    // eski bir Fiyat Teklifi), Belge Önizleme'de "neden görünmüyor" izlenimi
-    // veriyordu. Artık Fatura ile BİREBİR aynı kural: her zaman basılır,
-    // boşsa "Girilmemiş" yazar.
+      + "</div></div></div></div>";
+    // Yeni onaylı tasarım: bölümler tek dış çerçeve içinde, yalnız düz yatay ayraçlarla ayrılır.
     if(teslimatAdr || !teslimatBossaGizle){
       var teslimatVurgulu = !!(teslimatAdr && String(teslimatAdr).trim());
-      adresYetkiliIcHtml += (teslimatVurgulu ? "<div class='teslimat-adres-vurgulu'>" : "")
+      adresYetkiliIcHtml += "<div class='cari-form-ayrac' aria-hidden='true'></div><div class='cari-form-bolum cari-form-bolum--teslimat'>"
+        + (teslimatVurgulu ? "<div class='teslimat-adres-vurgulu'>" : "")
         + "<div class='ck-blok-etiket ck-blok-etiket--teslimat'><span>" + etIk("kargo","🚚") + "TESLİMAT ADRESİ</span></div>"
         + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>"
         +   (teslimatAdr ? htmlEsc(teslimatAdr) : "<span class='belge-adres-bos'>Girilmemiş</span>")
         + "</div></div></div>"
-        + (teslimatVurgulu ? "</div>" : "");
+        + (teslimatVurgulu ? "</div>" : "")
+        + "</div>";
     }
     var yetkiliIcHtml = (yetkiliListesi||[]).map(function(k){ return yetkiliSatiriHtml(k.isim, k.telefon, k.eposta); }).join("");
     if(yetkiliIcHtml){
-      adresYetkiliIcHtml += "<div class='ck-blok-etiket ck-blok-etiket--yetkili'><span>" + etIk("kisi","👤") + "YETKİLİ</span></div>"
-        + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>" + yetkiliIcHtml + "</div></div></div>";
+      adresYetkiliIcHtml += "<div class='cari-form-ayrac' aria-hidden='true'></div><div class='cari-form-bolum cari-form-bolum--yetkili'><div class='ck-blok-etiket ck-blok-etiket--yetkili'><span>" + etIk("kisi","👤") + "YETKİLİ</span></div>"
+        + "<div class='ck-blok'><div class='ck-kart-liste'><div class='ck-kart'>" + yetkiliIcHtml + "</div></div></div></div>";
     }
     // NOT AYRI ÇERÇEVE: adres/teslimat/yetkili çerçevesinden ayrılır.
     var notHtml = "";
