@@ -1921,3 +1921,42 @@ body.cart-sayfa .cart-cari-panel .cart-cari-ad,
 body.cart-sayfa .cart-cari-panel .cart-cari-konum{
   overflow:visible!important;
 }
+
+
+/* 23.11.2026 — Abdullah onayı: Sepet müşteri paneli son tasarım.
+   Cari kod %20 küçültüldü; kod sol kenara yakın, ayraçla ayrılıyor;
+   müşteri adı + il/il bilgisi ayraç tarafına daha yakın hizalanıyor. */
+body.cart-sayfa .cart-cari-panel .cart-cari-bilgi{
+  display:grid!important;
+  grid-template-columns:76px minmax(0,1fr)!important;
+  grid-template-rows:auto auto!important;
+  column-gap:6px!important;
+  row-gap:1px!important;
+  align-items:center!important;
+  justify-content:start!important;
+  width:100%!important;
+  flex:1 1 auto!important;
+  min-width:0!important;
+  text-align:left!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-kod{
+  grid-column:1!important;grid-row:1 / span 2!important;
+  align-self:stretch!important;display:flex!important;align-items:center!important;
+  justify-content:flex-start!important;
+  box-sizing:border-box!important;width:76px!important;
+  padding:0 7px 0 3px!important;margin:0!important;
+  border-right:2px solid rgba(255,255,255,.85)!important;
+  font-size:15.36px!important;line-height:1.1!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-ad{
+  grid-column:2!important;grid-row:1!important;
+  text-align:left!important;margin:0!important;padding:0!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-konum{
+  grid-column:2!important;grid-row:2!important;
+  text-align:left!important;margin:0!important;padding:0!important;
+}
+@media(max-width:380px){
+  body.cart-sayfa .cart-cari-panel .cart-cari-bilgi{grid-template-columns:70px minmax(0,1fr)!important;}
+  body.cart-sayfa .cart-cari-panel .cart-cari-kod{width:70px!important;font-size:15.36px!important;}
+}
