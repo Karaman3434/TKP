@@ -1116,3 +1116,9 @@ body.as-drawer-kilit { overflow: hidden; }
 #tamOnizlemeAlani .musteri-serit,
 #belgeGorselAlani .musteri-serit,
 .mail-giden-yeni-form-tasarim .musteri-serit{min-height:32px!important;padding:1.5px 6px!important;box-sizing:border-box!important;}
+
+
+/* 23.11.2026 — Mail önizleme/giden mail cari panelinde isim kırpılmasını düzelt; +1mm üst-alt dolgu ve merkezleme. */
+#mailOnizlemeTablo .musteri-serit,#tamOnizlemeAlani .musteri-serit,#belgeGorselAlani .musteri-serit,.mail-giden-yeni-form-tasarim .musteri-serit{height:auto!important;min-height:58px!important;padding:5.3px 6px!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;}
+#mailOnizlemeTablo .musteri-serit .ms-islem-bilgi,#tamOnizlemeAlani .musteri-serit .ms-islem-bilgi,#belgeGorselAlani .musteri-serit .ms-islem-bilgi,.mail-giden-yeni-form-tasarim .musteri-serit .ms-islem-bilgi{align-items:center!important;justify-content:center!important;text-align:center!important;}
+#mailOnizlemeTablo .musteri-serit .ms-islem-ad,#tamOnizlemeAlani .musteri-serit .ms-islem-ad,#belgeGorselAlani .musteri-serit .ms-islem-ad,.mail-giden-yeni-form-tasarim .musteri-serit .ms-islem-ad{text-align:center!important;}
