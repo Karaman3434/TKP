@@ -50,7 +50,7 @@
       // 23.11.2026 — BİM yalnız Mail Önizleme açıkken, önizlemeye özel not düzenler.
       { tur:"bilgi", aktifMi:function(){ var o=document.getElementById("mailOnizlemeOverlay"); return !!(o && !o.hidden); },
         tikla:function(){ if(typeof mailNotPaneliniAc === "function") mailNotPaneliniAc(); } },
-      { tur:"kaydet", aktifMi:function(){ return typeof sendIslemiKaydet === "function" && !!(sonKaydedilenBelge && sonKaydedilenBelge.kayit); },
+      { tur:"kaydet", aktifMi:function(){ var o=document.getElementById("mailOnizlemeOverlay"); return typeof sendIslemiKaydet === "function" && !!(sonKaydedilenBelge && sonKaydedilenBelge.kayit) && !!(o && !o.hidden); },
         tikla:function(){ sendIslemiKaydet(); } },
       { tur:"gonder",
         aktifMi:function(){ return typeof ustGonderTiklandi === "function"; },
