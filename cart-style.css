@@ -1860,3 +1860,40 @@ body.cart-sayfa #musterisizOnizlemeTablo.musterisiz-gorsel-kaynak{
     font-size:14px;
   }
 }
+
+/* 23.11.2026 — Sepet Hesapla cari şeridi: müşteri kodu kırmızı, %20 daha küçük,
+   sola yakın; müşteri adı sol hizalı ve konum ikinci satırda. Yalnız cart.html. */
+body.cart-sayfa .musteri-serit.cart-cari-panel{
+  position:relative!important;display:flex!important;align-items:center!important;
+  justify-content:flex-start!important;min-height:58px!important;height:auto!important;
+  box-sizing:border-box!important;padding:5px 8px!important;overflow:hidden!important;
+  background:#073B70!important;border:1.5px solid #073B70!important;
+  border-radius:12px!important;margin:0 0 1mm!important;gap:6px!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-bilgi{
+  position:static!important;transform:none!important;display:flex!important;flex:1 1 auto!important;
+  min-width:0!important;width:auto!important;max-width:none!important;pointer-events:none!important;
+  flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;
+  gap:2px!important;text-align:left!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-kod{
+  display:block!important;flex:0 0 auto!important;color:#ff5a55!important;
+  font-size:19.2px!important;font-weight:900!important;line-height:1.05!important;
+  text-align:left!important;white-space:nowrap!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-ad{
+  display:block!important;width:100%!important;min-width:0!important;overflow:hidden!important;
+  text-overflow:ellipsis!important;white-space:nowrap!important;color:#fff!important;
+  font-size:24px!important;font-weight:850!important;line-height:1.08!important;text-align:left!important;
+}
+body.cart-sayfa .cart-cari-panel .cart-cari-konum{
+  display:block!important;width:100%!important;min-width:0!important;overflow:hidden!important;
+  text-overflow:ellipsis!important;white-space:nowrap!important;color:#fff!important;
+  font-size:14px!important;font-weight:500!important;line-height:1.1!important;text-align:left!important;
+}
+body.cart-sayfa .cart-cari-panel .ms-gonder-btn,
+body.cart-sayfa .cart-cari-panel .ms-gecmis-btn{position:relative!important;flex:0 0 auto!important;z-index:1!important;}
+@media(max-width:380px){
+ body.cart-sayfa .cart-cari-panel .cart-cari-ad{font-size:22px!important;}
+ body.cart-sayfa .cart-cari-panel .cart-cari-kod{font-size:19.2px!important;}
+}
