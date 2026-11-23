@@ -910,3 +910,46 @@ body.as-drawer-kilit { overflow: hidden; }
 .mail-not-aciklama{font-size:14px;color:#596879;margin:0 0 12px;}
 .mail-not-giden{box-sizing:border-box;width:100%;margin:0 0 8px;padding:10px 12px;border:1px solid #e7c34a;border-radius:12px;background:#fff8dc;color:#101820;font-family:Arial,sans-serif;font-size:15px;line-height:1.35;}
 .mail-not-giden-baslik{font-weight:800;color:#173a78;margin-bottom:3px;}
+
+
+/* 23.11.2026 — MAIL ÖNIZLEME TABLO + NOT KARTI KORUMA DÜZELTMESİ.
+   Yalnız Mail Önizleme overlay'ine kapsamlı; ortak tablo, Sepet ve diğer ekranlar etkilenmez.
+   Dar ekranlarda sabit 7 sütun ölçülerinin içerik tarafından ezilip sıkışmasını önle. */
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-kart--urun-cerceveli {
+  width:100%; max-width:100%; min-width:0; box-sizing:border-box;
+  overflow:hidden; border:2px solid #073b70; border-radius:14px;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo .data-table-container {
+  width:100%; max-width:100%; min-width:0; overflow-x:auto; overflow-y:hidden;
+  box-sizing:border-box; margin:0; padding:0; -webkit-overflow-scrolling:touch;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) {
+  width:100%; min-width:560px; table-layout:fixed; border-collapse:collapse; box-sizing:border-box;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) th,
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) td {
+  box-sizing:border-box; padding:3px 2px!important; overflow-wrap:anywhere;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) th:nth-child(1),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) td:nth-child(1) {width:3%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) th:nth-child(2),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) td:nth-child(2) {width:34%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) th:nth-child(3),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) td:nth-child(3) {width:9%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) th:nth-child(4),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) td:nth-child(4) {width:10%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) th:nth-child(5),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) td:nth-child(5) {width:10%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) th:nth-child(6),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) td:nth-child(6) {width:16%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) th:nth-child(7),
+#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) td:nth-child(7) {width:18%!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-not-giden {
+  display:block; width:100%; max-width:100%; box-sizing:border-box;
+  margin:0 0 8px!important; padding:12px!important; border:1.5px solid #e7c34a!important;
+  border-radius:12px!important; background:#fff8dc!important; color:#101820!important;
+  white-space:normal; overflow-wrap:anywhere; line-height:1.45!important;
+}
+#mailOnizlemeOverlay #mailOnizlemeTablo .mail-not-giden-baslik {
+  display:block; margin:0 0 5px!important; color:#173a78!important; font-weight:900!important;
+}
