@@ -1122,3 +1122,38 @@ body.as-drawer-kilit { overflow: hidden; }
 #mailOnizlemeTablo .musteri-serit,#tamOnizlemeAlani .musteri-serit,#belgeGorselAlani .musteri-serit,.mail-giden-yeni-form-tasarim .musteri-serit{height:auto!important;min-height:58px!important;padding:5.3px 6px!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;}
 #mailOnizlemeTablo .musteri-serit .ms-islem-bilgi,#tamOnizlemeAlani .musteri-serit .ms-islem-bilgi,#belgeGorselAlani .musteri-serit .ms-islem-bilgi,.mail-giden-yeni-form-tasarim .musteri-serit .ms-islem-bilgi{align-items:center!important;justify-content:center!important;text-align:center!important;}
 #mailOnizlemeTablo .musteri-serit .ms-islem-ad,#tamOnizlemeAlani .musteri-serit .ms-islem-ad,#belgeGorselAlani .musteri-serit .ms-islem-ad,.mail-giden-yeni-form-tasarim .musteri-serit .ms-islem-ad{text-align:center!important;}
+
+
+/* 23.11.2026 — Son İşlemler referans cari adres paneli; mail önizlemesi ve kopyalanan işlem formu. Tek dış çerçeve, düz yatay ayraçlar, teslimat adresi kırmızı çerçevesi. */
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve,
+#belgeGorselAlani .belge-adres-yetkili-cerceve,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve{border:2px solid #073B70!important;border-radius:14px!important;background:#fff!important;padding:2mm!important;margin:1mm 0!important;box-sizing:border-box!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .cari-form-ayrac,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .cari-form-ayrac,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .cari-form-ayrac,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-ayrac{display:block!important;height:1px!important;min-height:1px!important;width:100%!important;background:#073B70!important;border:0!important;margin:1.5mm 0!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .cari-form-bolum,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .cari-form-bolum,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .cari-form-bolum,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .cari-form-bolum{display:block!important;width:100%!important;margin:0!important;padding:0!important;box-sizing:border-box!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok-etiket,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-blok-etiket,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok-etiket,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket{display:flex!important;align-items:center!important;gap:1mm!important;margin:0 0 1mm!important;padding:0 1mm!important;line-height:1.15!important;color:#073B70!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-blok,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok{margin:0!important;padding:0 1mm 1mm!important;border:0!important;background:#fff!important;box-shadow:none!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-kart,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-kart,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-kart,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-kart{padding:0 1mm!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu{border:2px solid #d62828!important;border-radius:11px!important;padding:2mm!important;margin:1mm 0!important;background:#fff!important;box-sizing:border-box!important;}
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat,
+#tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat,
+#belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat,
+.mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat{color:#c62828!important;}
