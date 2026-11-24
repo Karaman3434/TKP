@@ -263,7 +263,7 @@ body.cart-sayfa .belge-gt-kutu {
 
 /* 24.11.2026 — Sepet cari paneli: ortak tablo CSS çakışmasına karşı 100px sabit yükseklik. */
 body.cart-sayfa #cariBilgiAlani .musteri-serit.cart-cari-panel{
-  height:100px!important; min-height:100px!important; max-height:100px!important;
+  height:85px!important; min-height:85px!important; max-height:85px!important;
   box-sizing:border-box!important; padding:4px 8px!important;
   align-items:center!important; overflow:hidden!important;
 }
