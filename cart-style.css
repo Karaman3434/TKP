@@ -1970,8 +1970,8 @@ body.cart-sayfa .cart-cari-panel .ms-gecmis-btn{
   display:none!important;
 }
 body.cart-sayfa .musteri-serit.cart-cari-panel{
-  min-height:85px!important;
-  height:85px!important;
+  min-height:100px!important;
+  height:100px!important;
   padding:4px 8px!important;
   box-sizing:border-box!important;
   align-items:center!important;
