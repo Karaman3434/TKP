@@ -1387,7 +1387,14 @@ document.addEventListener("DOMContentLoaded", function(){
         if(!ok){hataGoster("Not kaydedilemedi: "+(err&&err.message||""));return;}
         mailIslemNotu=txt;kayit.mailNot=txt||null;
         try{var ls=JSON.parse(localStorage.getItem("weiconv2_son_kaydedilen_belge")||"null");if(ls&&ls.kayit){ls.kayit.mailNot=txt||null;localStorage.setItem("weiconv2_son_kaydedilen_belge",JSON.stringify(ls));}}catch(e){}
-        pop.remove();bilgiGoster(txt?"İşlem notu arşive kaydedildi":"İşlem notu kaldırıldı");
+        // BİM notu kaydedilince ana işlem formunu ve açık önizlemeleri anında yenile.
+        var anaForm=document.getElementById("tamOnizlemeAlani");
+        if(anaForm){anaForm.innerHTML=tamOnizlemeHtmlOlustur(g.musteri,g.sepet,g.tip,g.kur,g.kdv,null,g.kod);kosulSatirlariniSigdir(anaForm);}
+        var mailTablo=document.getElementById("mailOnizlemeTablo"),mailOverlay=document.getElementById("mailOnizlemeOverlay");
+        if(mailTablo&&mailOverlay&&!mailOverlay.hidden){mailTablo.innerHTML=tamOnizlemeHtmlOlustur(g.musteri,g.sepet,g.tip,g.kur,g.kdv,"mail",g.kod);kosulSatirlariniSigdir(mailTablo);}
+        var waTablo=document.getElementById("whatsappOnizlemeTablo"),waOverlay=document.getElementById("whatsappOnizlemeOverlay");
+        if(waTablo&&waOverlay&&!waOverlay.hidden){waTablo.innerHTML=tamOnizlemeHtmlOlustur(g.musteri,g.sepet,g.tip,g.kur,g.kdv,"whatsapp",g.kod);kosulSatirlariniSigdir(waTablo);}
+        pop.remove();bilgiGoster(txt?"İşlem notu kaydedildi ve işlem formuna eklendi":"İşlem notu kaldırıldı");
       });
     };
   }
