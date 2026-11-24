@@ -1707,3 +1707,16 @@ body.as-drawer-kilit { overflow: hidden; }
 .gonder-sayfa #mailOnizlemeTablo .belge-gt-kutu,
 .gonder-sayfa #tamOnizlemeAlani .belge-genel-toplam-serit,
 .gonder-sayfa #mailOnizlemeTablo .belge-genel-toplam-serit {box-sizing:border-box!important;border-radius:12px!important;margin-top:1mm!important;}
+
+
+/* 24.11.2026 — ABDULLAH ONAYI: Mail programına kopyalanan PNG işlem formu. PRİM sütunu ve Prim/işlem kuru panelleri yok; Genel Toplam paneli tek başına. */
+#belgeGorselAlani #mailOnizlemeTablo .belge-gt-prim-ic,
+#belgeGorselAlani #mailOnizlemeTablo .belge-gt-kur-ic{display:none!important;}
+#belgeGorselAlani #mailOnizlemeTablo .belge-gt-kutu{width:100%!important;box-sizing:border-box!important;margin-top:8px!important;}
+#belgeGorselAlani #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(1){width:2.5%!important;text-align:center!important;}
+#belgeGorselAlani #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(2){width:33.5%!important;}
+#belgeGorselAlani #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(3){width:10%!important;}
+#belgeGorselAlani #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(4){width:10%!important;}
+#belgeGorselAlani #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(5){width:10%!important;}
+#belgeGorselAlani #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(6){width:16%!important;}
+#belgeGorselAlani #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(7){width:18%!important;}
