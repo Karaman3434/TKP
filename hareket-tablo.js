@@ -187,7 +187,7 @@ var HareketTablo = (function(){
     var basHucreler = basit
       ? "<th style='width:46%;'>ÜRÜN BİLGİSİ</th><th style='width:12%;'>ADET</th><th style='width:19%;'>NET</th><th style='width:23%;'>TOPLAM</th>"
       : (primGizli
-          ? "<th style='width:2.5%;'>SR</th><th style='width:33.5%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:16%;'>NET</th><th style='width:18%;'>TOPLAM</th>"
+          ? "<th style='width:2.5%;'></th><th style='width:33.5%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:16%;'>NET</th><th style='width:18%;'>TOPLAM</th>"
           : "<th style='width:2.5%;'>SR</th><th style='width:30.3%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:13%;'>NET</th><th style='width:13%;'>TOPLAM</th><th style='width:11.2%;'>PRİM</th>");
     // ekSinif (opsiyonel): çağıran sayfaya özel EK bir CSS sınıfı (örn.
     // send-render.js'teki "belge-urun-tablo--giden" — table-layout:fixed —
