@@ -871,13 +871,17 @@ function sepetOturumAnahtarlariniTemizle(){
 // Kaydet tuşu (ust-bar-eylem.js -> kaydetTiklandi("kaydet")) bu fonksiyonu
 // yeniden kullanıyor.
 function kaydetSonrasiAnaSayfayaGit(){
-  // KRİTİK HATA DÜZELTMESİ (26.10.2026) — bkz. herSeyiSifirlaVeGit'teki aynı
-  // yorum: CartData.sifirla(callback) kullanılıyor — hem bellek içi "sepet"
-  // dizisini boşaltıyor HEM DE navigasyonu Firebase yedeği gerçekten
-  // boşalana (ya da en fazla 1.2sn sonra) kadar erteliyor; yoksa home.html'in
-  // kendi fbYukle()'si eski yedeği geri yükleyip burayı da etkileyebilirdi.
+  // KAYIT TAMAMLANDI: yeni işlem için sepet ve müşteri bağlamı kesin biçimde
+  // sıfırlanır. Önce ortak modülün belleği + Firebase yedeği temizlenir.
   sepetOturumAnahtarlariniTemizle();
   CartData.sifirla(function(){
+    // Savunma katmanı: callback sonrası yerel sepet/oturum işaretlerini de
+    // yeniden temizle; ana sayfa eski taslağı yeni işlem olarak başlatmasın.
+    try{ localStorage.setItem("weiconv2_sepet", "[]"); }catch(e){}
+    try{ localStorage.setItem("weiconv2_sepet_temizlendi_zamani", String(Date.now())); }catch(e){}
+    try{ localStorage.removeItem("weiconv2_sepet_baslangic_zamani"); }catch(e){}
+    try{ localStorage.removeItem("weiconv2_sepet_kur_override"); }catch(e){}
+    try{ localStorage.removeItem("weiconv2_sepet_musteri_baglantisi"); }catch(e){}
     window.location.href = "home.html";
   });
 }
