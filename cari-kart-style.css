@@ -805,3 +805,10 @@
 }
 .belge-not-cerceve .ck-blok-etiket { margin-top: 0; }
 .belge-not-cerceve .ck-blok { margin-bottom: 0; border-bottom: none; }
+
+/* 24.11.2026 — NOT paneli: kompakt, dinamik satır ve kırmızı etiket */
+.belge-not-cerceve{padding:3px 8px!important;margin:4px 0 6px!important;}
+.belge-not-satir{display:flex;align-items:flex-start;gap:7px;padding:0;margin:0;}
+.belge-not-satir+.belge-not-satir{margin-top:3px;}
+.belge-not-etiket{flex:0 0 auto;color:#dc2626;font-weight:900;font-size:12px;line-height:1.4;}
+.belge-not-metin{flex:1;min-width:0;font-size:12px;line-height:1.4;color:#1a2733;white-space:pre-line;overflow-wrap:anywhere;}
