@@ -388,6 +388,10 @@ function gonderKutusunuGoster(musteri, sepet, tip, kur, kdv, kod){
   try{
     gonderBaglam = {musteri:musteri, sepet:sepet, tip:tip, kur:kur, kdv:kdv, kod:kod};
     var metinKutusu = document.getElementById("gonderMetin");
+    var konuEtiketleri={numune:"NUMUNE",teklif:"FİYAT TEKLİFİ",proforma:"PROFORMA FATURA",siparis:"SİPARİŞ",kacan:"KAÇAN İŞLEM"};
+    var gonderKonuMetni="*** "+(konuEtiketleri[tip]||"SİPARİŞ")+" *** "+musteri.ad+(musteri.sehir?" - "+musteri.sehir:"");
+    var konuGorunum=document.getElementById("gonderKonuMetni");if(konuGorunum) konuGorunum.textContent=gonderKonuMetni;
+    var konuKopyaBtn=document.getElementById("gonderKonuKopyala");if(konuKopyaBtn) konuKopyaBtn.onclick=function(){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(gonderKonuMetni).then(function(){bilgiGoster("Mail konusu panoya kopyalandı");}).catch(function(){hataGoster("Konu panoya kopyalanamadı");});}else{var tmp=document.createElement("textarea");tmp.value=gonderKonuMetni;document.body.appendChild(tmp);tmp.select();try{document.execCommand("copy");bilgiGoster("Mail konusu panoya kopyalandı");}catch(e){hataGoster("Konu kopyalanamadı");}tmp.remove();}};
     metinKutusu.value = mesajMetniOlustur(musteri, sepet, tip, null);
     metinKutusuBoyutlandir(metinKutusu);
     // Başka cihazda (S22/iPhone/iPad) Mesaj Ayarları'nda yapılan son kayıt
@@ -944,7 +948,9 @@ function gonderTiklandi(kanal, ozelKonu){
     var TIP_ETIKET4 = {numune:"NUMUNE", teklif:"FİYAT TEKLİFİ", proforma:"PROFORMA FATURA", siparis:"SİPARİŞ"};
 
     var dosyaAdi = TIP_ETIKET4[g.tip].replace(/\s/g,"_") + "_" + g.musteri.ad.replace(/[^a-zA-Z0-9]+/g,"_") + ".png";
-    var konuMetni = ozelKonu || ("*** " + TIP_ETIKET4[g.tip] + " *** " + g.musteri.ad);
+    var konuMetni = ozelKonu || ("*** " + TIP_ETIKET4[g.tip] + " *** " + g.musteri.ad + (g.musteri.sehir ? " - " + g.musteri.sehir : ""));
+    // Mail gönderiminde ekrana gösterilen otomatik konu metnini panoya kopyala.
+    if(kanal === "mail" && navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(konuMetni).then(function(){bilgiGoster("Mail konusu panoya kopyalandı");}).catch(function(){hataGoster("Mail konusu panoya kopyalanamadı");});}
 
     belgeGorseliniOlustur(kanal, function(canvas){
       if(!canvas){
