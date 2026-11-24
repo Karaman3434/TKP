@@ -1399,6 +1399,8 @@ document.addEventListener("DOMContentLoaded", function(){
       });
     };
   }
+  // Üst bar eylem modülü bu sayfa özelindeki BİM not fonksiyonunu çağırabilsin.
+  window.sendSayfasiBimNotAc = sendSayfasiBimNotAc;
   document.addEventListener("click",function(ev){
     var btn=ev.target&&ev.target.closest?ev.target.closest(".ub-bar .ub-btn--bilgi"):null;
     if(!btn)return;
