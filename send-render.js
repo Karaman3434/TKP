@@ -351,9 +351,9 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
     hesapla: function(u){ return CartData.hesapla(u, kur, kdv); },
     genelToplam: tToplamEuro,
     kanal: kanal,
-    primGizli: true,
+    primGizli: false,
     kur: kur,
-    kurPanelGizli: true
+    kurPanelGizli: false
   });
   // "7. BELGE" TASARIMI (14.10.2026, Abdullah onayı): GENEL TOPLAM artık
   // tablo kartına yapışık değil, bağımsız/kendi köşeleri yuvarlak bir kutu
