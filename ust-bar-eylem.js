@@ -47,9 +47,9 @@
     // kalktı — üst bar Gönder'i açık Mail/WhatsApp önizlemesinin Gönder'ini
     // tetikler (send-render.js ustGonderTiklandi); önizleme yoksa İletişim'i açar.
     "send.html": [
-      // 23.11.2026 — BİM yalnız Mail Önizleme açıkken, önizlemeye özel not düzenler.
-      { tur:"bilgi", aktifMi:function(){ var o=document.getElementById("mailOnizlemeOverlay"); return !!(o && !o.hidden); },
-        tikla:function(){ if(typeof mailNotPaneliniAc === "function") mailNotPaneliniAc(); } },
+      // 24.11.2026 — Gönder sayfasında BİM işlem notu eklemek/düzenlemek için daima aktif.
+      { tur:"bilgi", aktifMi:function(){ return !!(sonKaydedilenBelge && sonKaydedilenBelge.kayit); },
+        tikla:function(){ if(typeof sendSayfasiBimNotAc === "function") sendSayfasiBimNotAc(); } },
       { tur:"kaydet", aktifMi:function(){ var o=document.getElementById("mailOnizlemeOverlay"); return typeof sendIslemiKaydet === "function" && !!(sonKaydedilenBelge && sonKaydedilenBelge.kayit) && !!(o && !o.hidden); },
         tikla:function(){ sendIslemiKaydet(); } },
       { tur:"gonder",
