@@ -489,10 +489,9 @@ var HareketTablo = (function(){
       notListesi = notListesi.filter(function(n){ return n && n.metin && String(n.metin).trim(); });
     }
     if(notListesi.length){
-      notHtml = "<div class='belge-not-cerceve'><div class='ck-blok-etiket ck-blok-etiket--not'><span>📝 NOT</span></div>"
-        + "<div class='ck-blok'><div class='ck-kart-liste'>" + notListesi.map(function(n){
-            return "<div class='ck-kart'><div class='ck-kart-ust'>" + htmlEsc(n.baslik||"Not") + "</div><div class='ck-kart-alt'>" + htmlEsc(n.metin||"") + "</div></div>";
-          }).join("") + "</div></div></div>";
+      notHtml = "<div class='belge-not-cerceve'>" + notListesi.map(function(n){
+            return "<div class='belge-not-satir'><span class='belge-not-etiket'>NOT</span><span class='belge-not-metin'>" + htmlEsc(n.metin||"") + "</span></div>";
+          }).join("") + "</div>";
     }
     html += "<div class='belge-adres-yetkili-cerceve'>" + adresYetkiliIcHtml + "</div>" + notHtml;
     return html;
