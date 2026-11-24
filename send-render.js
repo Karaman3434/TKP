@@ -1366,17 +1366,19 @@ document.addEventListener("DOMContentLoaded", function(){
     }catch(e){ console.error("Cari Kart açılamadı:", e); }
   });
 
-  // ÜST BAR "GÖNDER" (03.11.2026): alttaki Gönder tuşları kalktı; üst barın
-  // Gönder'i (bkz. ust-bar-eylem.js) açık önizlemenin Gönder'ini tetikler.
-  // Önizleme yoksa İletişim seçimini açar. Başka bir pencere açıksa işlemez.
+  // ABDULLAH ONAYI (24.11.2026): Send sayfasındaki üst Gönder,
+  // kanal seçimi popup'ını açmak yerine Android/OS paylaşım panelini doğrudan çağırır.
+  // Mail/WhatsApp önizlemesi açıksa kendi gönder düğmeleri korunur.
   window.ustGonderTiklandi = function(){
     function acik(id){ var e = document.getElementById(id); return !!e && !e.hidden; }
     if(acik("mailOnizlemeOverlay")){ document.getElementById("mailOnizlemeGonderBtn").click(); return; }
     if(acik("whatsappOnizlemeOverlay")){ document.getElementById("whatsappOnizlemeGonderBtn").click(); return; }
-    // İletişim açılır listesi açıkken Gönder'e tekrar basınca kapanır (04.11.2026).
-    if(acik("iletisimSheetOverlay")){ iletisimAcilirKapat(); return; }
     if(acik("tabloSadeceOverlay") || acik("pdfSecenekPopover")) return;
-    document.getElementById("btnIletisimAc").click();
+    if(typeof gonderTiklandi === "function" && gonderBaglam){
+      gonderTiklandi("whatsapp");
+      return;
+    }
+    hataGoster("Paylaşım içeriği hazır değil.");
   };
 
   document.getElementById("mailOnizlemeVazgecBtn").onclick = function(){ document.getElementById("mailOnizlemeOverlay").hidden = true; };
