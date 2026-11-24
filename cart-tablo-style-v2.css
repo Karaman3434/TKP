@@ -188,3 +188,74 @@ body.cart-sayfa .cart-tarih-paneli {
   background: #fff !important;
   color: #14243a !important;
 }
+
+
+/* ABDULLAH ONAYI — 2. SAYFA ORTAK TASARIM STANDARDI
+   24.11.2026: Sepet/Ürün Bul sayfasında yalnızca diğer işlem sayfalarıyla
+   ortak dört alan, İşlem Önizleme referans ölçülerine uyarlanır.
+   Vade/Fatura/Kargo ve adres/yetkili alanları bu sayfada kapsam dışıdır.
+   Arama, kur paneli, hesaplama ve sepet işlevleri etkilenmez. */
+
+/* 1) İşlem türü etiketi + tarih/saat şeridi */
+body.cart-sayfa .cart-islem-hareket-host .belge-belge-baslik-serit,
+body.cart-sayfa .cart-islem-hareket-host .belge-belge-baslik-serit--mavi {
+  box-sizing: border-box !important;
+  min-height: 40px !important;
+  padding: 4px 12px !important;
+  margin: 1mm 0 !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+/* 2) Cari adı + il/ilçe paneli */
+body.cart-sayfa #cariBilgiAlani .musteri-serit {
+  min-height: 40px !important;
+  box-sizing: border-box !important;
+  padding: 3px 12px !important;
+  margin: 1mm 0 !important;
+  border: 1.5px solid #073B70 !important;
+  border-radius: 10px !important;
+}
+
+/* 5) Ürün tablosu — referans ortak sütun başlıkları ve hücre ölçüleri */
+body.cart-sayfa .belge-urun-tablo {
+  width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+}
+body.cart-sayfa .belge-urun-tablo thead th {
+  padding: 5px 3px !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+body.cart-sayfa .belge-urun-tablo tbody td {
+  padding: 3px 2px !important;
+  vertical-align: middle !important;
+}
+body.cart-sayfa .belge-urun-tablo tbody td .belge-td-sayi,
+body.cart-sayfa .belge-urun-tablo tbody td .belge-para-sayi,
+body.cart-sayfa .belge-urun-tablo tbody td .belge-td-adet,
+body.cart-sayfa .belge-urun-tablo tbody td .belge-td-fiyat,
+body.cart-sayfa .belge-urun-tablo tbody td .belge-td-toplam {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+body.cart-sayfa .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
+body.cart-sayfa .belge-urun-tablo tbody td:nth-child(6) .rozet-net {
+  inset: 2px 2px !important;
+}
+
+/* 6) Genel toplam paneli — prim ve işlem kuru panel içi yerleşimi korunarak */
+body.cart-sayfa .belge-genel-toplam-serit,
+body.cart-sayfa .belge-gt-kutu {
+  box-sizing: border-box !important;
+  border-radius: 12px !important;
+  margin-top: 1mm !important;
+}
