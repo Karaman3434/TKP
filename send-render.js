@@ -452,6 +452,8 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
   // Mail çıktısında NET altındaki TL karşılığı korunur; WhatsApp görünümü eski davranışını sürdürür.
   var tabloKuru = kanal === "mail" ? kur : null;
   var urunTablosuHtmlStr = HareketTablo.urunTablosuHtml(sepet, hesaplaFn, "", basit, true, tabloKuru, "belge-urun-tablo--giden");
+  // 24.11.2026 — Mail PNG: gizli PRİM nedeniyle boş kalan SR başlığını görünür yap.
+  if(kanal === "mail") urunTablosuHtmlStr = urunTablosuHtmlStr.replace("<th style='width:2.5%;'></th>", "<th style='width:2.5%;'>SR</th>");
   var netEuro = sepet.reduce(function(s, u){ var h = hesaplaFn(u); return s + (h.toplamEuro||0); }, 0);
 
   // Yeni kaydedilen bir belge gönderiliyorsa "şu an" doğrudur (kayıt az
