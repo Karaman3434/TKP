@@ -1659,3 +1659,51 @@ body.as-drawer-kilit { overflow: hidden; }
 #mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(1),#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(1),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7){font-size:13px!important;font-weight:700!important;vertical-align:middle!important;font-variant-numeric:tabular-nums!important;line-height:1.15!important;}
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-isk-metin,#mailOnizlemeOverlay #mailOnizlemeTablo .rozet-net,#belgeGorselAlani .belge-isk-metin,#belgeGorselAlani .rozet-net{font-size:13px!important;font-weight:700!important;font-variant-numeric:tabular-nums!important;}
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-net-tl,#belgeGorselAlani .belge-net-tl{display:none!important;}
+
+
+/* ABDULLAH ONAYI — 3. SAYFA ORTAK TASARIM STANDARDI (24.11.2026)
+   Gönder sayfasında yalnızca ortak işlem formu alanları; işlem türü/tarih,
+   cari adı/şehir, ürün tablosu ve genel toplam paneli. Diğer içerik ve
+   gönderim işlevlerine dokunulmaz. */
+.gonder-sayfa #tamOnizlemeAlani .belge-belge-baslik-serit,
+.gonder-sayfa #tamOnizlemeAlani .belge-belge-baslik-serit--mavi,
+.gonder-sayfa #mailOnizlemeTablo .belge-belge-baslik-serit,
+.gonder-sayfa #mailOnizlemeTablo .belge-belge-baslik-serit--mavi {
+  box-sizing:border-box!important; min-height:40px!important; padding:4px 12px!important;
+  margin:1mm 0!important; border-radius:10px!important; display:flex!important;
+  align-items:center!important; justify-content:space-between!important; gap:8px!important;
+}
+.gonder-sayfa #tamOnizlemeAlani .musteri-serit,
+.gonder-sayfa #mailOnizlemeTablo .musteri-serit {
+  min-height:40px!important; box-sizing:border-box!important; padding:3px 12px!important;
+  margin:1mm 0!important; border:1.5px solid #073B70!important; border-radius:10px!important;
+}
+.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo,
+.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo {
+  width:100%!important; table-layout:fixed!important; border-collapse:collapse!important;
+}
+.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo thead th,
+.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo thead th {
+  padding:5px 3px!important; font-size:13px!important; font-weight:900!important;
+  line-height:1.15!important; text-align:center!important; vertical-align:middle!important;
+}
+.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td,
+.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td {padding:3px 2px!important;vertical-align:middle!important;}
+.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td .belge-td-sayi,
+.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td .belge-para-sayi,
+.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td .belge-td-adet,
+.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td .belge-td-fiyat,
+.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td .belge-td-toplam,
+.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td .belge-td-sayi,
+.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td .belge-para-sayi,
+.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td .belge-td-adet,
+.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td .belge-td-fiyat,
+.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td .belge-td-toplam {font-size:13px!important;font-weight:700!important;font-variant-numeric:tabular-nums!important;}
+.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
+.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td:nth-child(6) .rozet-net,
+.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
+.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td:nth-child(6) .rozet-net {inset:2px 2px!important;}
+.gonder-sayfa #tamOnizlemeAlani .belge-gt-kutu,
+.gonder-sayfa #mailOnizlemeTablo .belge-gt-kutu,
+.gonder-sayfa #tamOnizlemeAlani .belge-genel-toplam-serit,
+.gonder-sayfa #mailOnizlemeTablo .belge-genel-toplam-serit {box-sizing:border-box!important;border-radius:12px!important;margin-top:1mm!important;}
