@@ -366,7 +366,8 @@ function tamOnizlemeHtmlOlustur(musteri, sepet, tip, kur, kdv, kanal, kod){
   var tabloKismiHtml = gtIndex === -1 ? grupSonucHtml : grupSonucHtml.slice(0, gtIndex);
   var gtKismiHtml = gtIndex === -1 ? "" : grupSonucHtml.slice(gtIndex);
   html += tabloKismiHtml + "</div>" + gtKismiHtml;
-  if(kanal === "mail" && mailIslemNotu){
+  // Kalıcı işlem notu: ana Gönder formu ve Mail tablosunda aynı arşiv notu gösterilir.
+  if(kanal !== "whatsapp" && mailIslemNotu){
     var urunKartIndex=html.indexOf("<div class='belge-kart belge-kart--urun-cerceveli'>");
     if(urunKartIndex!==-1) html=html.slice(0,urunKartIndex)+mailNotHtml(mailIslemNotu)+html.slice(urunKartIndex);
   }
