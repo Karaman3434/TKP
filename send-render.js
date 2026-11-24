@@ -1423,11 +1423,17 @@ document.addEventListener("DOMContentLoaded", function(){
     if(acik("mailOnizlemeOverlay")){ document.getElementById("mailOnizlemeGonderBtn").click(); return; }
     if(acik("whatsappOnizlemeOverlay")){ document.getElementById("whatsappOnizlemeGonderBtn").click(); return; }
     if(acik("tabloSadeceOverlay") || acik("pdfSecenekPopover")) return;
-    if(typeof gonderTiklandi === "function" && gonderBaglam){
-      gonderTiklandi("whatsapp");
-      return;
-    }
-    hataGoster("Paylaşım içeriği hazır değil.");
+    if(typeof gonderTiklandi !== "function" || !gonderBaglam){ hataGoster("Paylaşım içeriği hazır değil."); return; }
+    var eski=document.getElementById("gonderKanalSecPopup");if(eski){eski.remove();return;}
+    var btn=gonderUstTusu(),r=btn?btn.getBoundingClientRect():{bottom:100,left:10,width:100};
+    var pop=document.createElement("div");pop.id="gonderKanalSecPopup";
+    pop.style.cssText="position:fixed;z-index:100000;left:12px;right:12px;top:"+Math.round(Math.min(r.bottom+10,window.innerHeight-150))+"px;background:#fff;border:2px solid #2c6498;border-radius:14px;padding:12px;box-shadow:0 6px 22px rgba(0,0,0,.24);box-sizing:border-box;font-family:Arial,sans-serif;color:#173a78;";
+    pop.innerHTML="<div style='font-weight:800;font-size:16px;margin:0 0 10px;'>Gönderim kanalını seç</div><div style='display:flex;gap:10px;'><button type='button' id='gonderKanalMail' style='flex:1;padding:14px 10px;border:0;border-radius:10px;background:#1769aa;color:white;font-weight:800;font-size:16px;'>✉ Mail</button><button type='button' id='gonderKanalWhatsApp' style='flex:1;padding:14px 10px;border:0;border-radius:10px;background:#168a49;color:white;font-weight:800;font-size:16px;'>WhatsApp</button></div><button type='button' id='gonderKanalVazgec' style='display:block;width:100%;margin-top:9px;padding:10px;border:1px solid #cbd5e1;border-radius:9px;background:#f1f5f9;color:#334155;font-weight:700;'>Vazgeç</button>";
+    document.body.appendChild(pop);
+    function sec(kanal){pop.remove();gonderTiklandi(kanal);}
+    document.getElementById("gonderKanalMail").onclick=function(){sec("mail");};
+    document.getElementById("gonderKanalWhatsApp").onclick=function(){sec("whatsapp");};
+    document.getElementById("gonderKanalVazgec").onclick=function(){pop.remove();};
   };
 
   document.getElementById("mailOnizlemeVazgecBtn").onclick = function(){ document.getElementById("mailOnizlemeOverlay").hidden = true; };
