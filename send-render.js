@@ -1366,6 +1366,39 @@ document.addEventListener("DOMContentLoaded", function(){
     }catch(e){ console.error("Cari Kart açılamadı:", e); }
   });
 
+  // BİM NOT PANELİ (24.11.2026 onayı): Send sayfasında önizleme dışında da
+  // işlem notu düzenlenebilir; mevcut arşiv alanı mailNot ile kaydedilir.
+  function sendSayfasiBimNotAc(){
+    if(document.getElementById("sendBimNotPopup")){document.getElementById("sendBimNotPopup").remove();return;}
+    var g=gonderBaglam, kayit=sonKaydedilenBelge&&sonKaydedilenBelge.kayit;
+    if(!g||!kayit){hataGoster("İşlem kaydı bulunamadı.");return;}
+    var btn=document.querySelector(".ub-bar .ub-btn--bilgi");
+    var rect=btn?btn.getBoundingClientRect():{bottom:54};
+    var pop=document.createElement("div");pop.id="sendBimNotPopup";
+    pop.style.cssText="position:fixed;z-index:100000;left:12px;right:12px;top:"+(Math.round(rect.bottom+8))+"px;padding:12px;background:#fff8dc;border:2px solid #e7c34a;border-radius:14px;box-shadow:0 5px 18px rgba(0,0,0,.22);box-sizing:border-box;color:#142f59;font-family:Arial,sans-serif;";
+    pop.innerHTML="<div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-weight:800;font-size:17px;'><span>📝 İŞLEM NOTU</span><button id='sendBimNotKapat' style='border:0;background:transparent;font-size:25px;'>×</button></div><textarea id='sendBimNotText' rows='4' placeholder='İşlem notunu yazınız...' style='width:100%;box-sizing:border-box;padding:10px;border:1.5px solid #9bb5d7;border-radius:10px;font:16px Arial;'></textarea><button id='sendBimNotKaydet' style='margin-top:9px;display:block;margin-left:auto;padding:11px 18px;border:0;border-radius:10px;background:#1769c2;color:#fff;font-weight:800;'>Notu Kaydet</button>";
+    document.body.appendChild(pop);
+    var ta=document.getElementById("sendBimNotText");ta.value=mailIslemNotu||kayit.mailNot||"";
+    document.getElementById("sendBimNotKapat").onclick=function(){pop.remove();};
+    document.getElementById("sendBimNotKaydet").onclick=function(){
+      var txt=ta.value.trim(),b=this;b.disabled=true;b.textContent="Kaydediliyor...";
+      SendData.alanlariGuncelle(g.tip,kayit.ts,{mailNot:txt||null},function(ok,err){
+        b.disabled=false;b.textContent="Notu Kaydet";
+        if(!ok){hataGoster("Not kaydedilemedi: "+(err&&err.message||""));return;}
+        mailIslemNotu=txt;kayit.mailNot=txt||null;
+        try{var ls=JSON.parse(localStorage.getItem("weiconv2_son_kaydedilen_belge")||"null");if(ls&&ls.kayit){ls.kayit.mailNot=txt||null;localStorage.setItem("weiconv2_son_kaydedilen_belge",JSON.stringify(ls));}}catch(e){}
+        pop.remove();bilgiGoster(txt?"İşlem notu arşive kaydedildi":"İşlem notu kaldırıldı");
+      });
+    };
+  }
+  document.addEventListener("click",function(ev){
+    var btn=ev.target&&ev.target.closest?ev.target.closest(".ub-bar .ub-btn--bilgi"):null;
+    if(!btn)return;
+    if(!document.getElementById("mailOnizlemeOverlay")||document.getElementById("mailOnizlemeOverlay").hidden){
+      ev.preventDefault();ev.stopImmediatePropagation();sendSayfasiBimNotAc();
+    }
+  },true);
+
   // ABDULLAH ONAYI (24.11.2026): Send sayfasındaki üst Gönder,
   // kanal seçimi popup'ını açmak yerine Android/OS paylaşım panelini doğrudan çağırır.
   // Mail/WhatsApp önizlemesi açıksa kendi gönder düğmeleri korunur.
