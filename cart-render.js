@@ -824,19 +824,15 @@ function asamaSecimPopupunuAc(devamFn){
 // vb.) BİRLİKTE temizlenir — bkz. kaydetSonrasiAnaSayfayaGit,
 // herSeyiSifirlaVeGit (bu dosyada) ve send-render.js anaSayfayaDonVeTemizle.
 function sepetMusteriBaglantisiniDogrula(){
+  // 24.11.2026 — müşteri panelinin görünmesi için Sepet sayfasında
+  // mevcut seçili cari, bağlantı bayrağı eksik diye otomatik silinmez.
+  // Müşteri bağlamı yalnız açık işlem sonlandırma/temizleme akışlarında silinir.
   try{
-    var baglantiliMi = localStorage.getItem("weiconv2_sepet_musteri_baglantisi") === "1" && !!CustomerData.seciliyiOku();
-    if(!baglantiliMi){
-      CustomerData.secimiKaldir();
-      // BAĞIMSIZ ÜRÜN HESABI GÜVENCESİ (16.11.2026):
-      // Müşteri/işlem akışı olmadan Sepet'e gelindiyse önceki oturumdan
-      // kalan işlem türü yeni WhatsApp görseline taşınmamalı.
-      // Gerçek müşteri akışında geçerli işlem türü korunur.
-      localStorage.removeItem("weiconv2_onceden_secilen_tip");
-      secilenTip = "siparis";
-      secilenTipBelli = false;
-      musterisizWhatsappTip = "";
-    }
+    if(CustomerData.seciliyiOku()) return;
+    localStorage.removeItem("weiconv2_onceden_secilen_tip");
+    secilenTip = "siparis";
+    secilenTipBelli = false;
+    musterisizWhatsappTip = "";
   }catch(e){}
 }
 
