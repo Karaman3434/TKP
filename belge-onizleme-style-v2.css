@@ -1062,3 +1062,24 @@
 }
 .belge-onizleme-sayfa .belge-gt-grup2,
 .belge-onizleme-sayfa .belge-gt-etiket-deger-grup{margin-left:auto!important;}
+
+
+/* 24.11.2026 — Abdullah onayı: Belge Önizleme referans tasarımında PRİM ve işlem kuru panel içinde görünür. */
+.belge-onizleme-sayfa .belge-gt-prim-ic{display:block!important;flex:0 0 auto!important;background:#16a085!important;color:#fff!important;border:1.5px solid rgba(255,255,255,.65)!important;border-radius:10px!important;padding:7px 9px!important;box-sizing:border-box!important;text-align:center!important;}
+.belge-onizleme-sayfa .belge-gt-kur-ic{display:block!important;flex:0 0 auto!important;background:rgba(255,255,255,.08)!important;color:#fff!important;border:1.5px solid rgba(255,255,255,.5)!important;border-radius:10px!important;padding:7px 9px!important;box-sizing:border-box!important;text-align:center!important;white-space:normal!important;}
+.belge-onizleme-sayfa .belge-gt-satir{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:8px!important;padding:8px!important;box-sizing:border-box!important;}
+.belge-onizleme-sayfa .belge-gt-satir--uclu{justify-content:flex-start!important;}
+.belge-onizleme-sayfa .belge-gt-grup2{margin-left:auto!important;min-width:0!important;gap:8px!important;}
+.belge-onizleme-sayfa .belge-gt-etiket2{font-size:13px!important;}
+.belge-onizleme-sayfa .belge-gt-euro2{font-size:19px!important;}
+.belge-onizleme-sayfa .belge-gt-kur-etiket{font-size:10px!important;}
+.belge-onizleme-sayfa .belge-gt-kur-deger{font-size:12px!important;}
+.belge-onizleme-sayfa .belge-gt-prim-etiket{font-size:10px!important;}
+.belge-onizleme-sayfa .belge-gt-prim-deger{font-size:12px!important;}
+@media(max-width:430px){
+ .belge-onizleme-sayfa .belge-gt-satir{gap:5px!important;padding:6px!important;}
+ .belge-onizleme-sayfa .belge-gt-prim-ic,.belge-onizleme-sayfa .belge-gt-kur-ic{padding:5px 6px!important;}
+ .belge-onizleme-sayfa .belge-gt-grup2{gap:5px!important;}
+ .belge-onizleme-sayfa .belge-gt-etiket2{font-size:11px!important;}
+ .belge-onizleme-sayfa .belge-gt-euro2{font-size:17px!important;}
+}
