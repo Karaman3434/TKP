@@ -1569,3 +1569,10 @@ body.as-drawer-kilit { overflow: hidden; }
 .mail-giden-yeni-form-tasarim .belge-td-urun-ad{
   white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important;
 }
+
+
+/* 24.11.2026 — Gönder sayfasında otomatik mail konusu */
+.gonder-konu-satiri{display:flex;align-items:center;gap:8px;border:1.5px solid #cbd5d9;border-radius:12px;background:#fff;padding:10px 12px;margin:0 0 8px;font-size:14px;box-sizing:border-box;}
+.gonder-konu-etiket{font-size:11px;font-weight:800;color:#687580;flex:0 0 auto;}
+.gonder-konu-metni{font-weight:700;color:#17212b;flex:1;min-width:0;overflow-wrap:anywhere;}
+.gonder-konu-kopyala{flex:0 0 auto;border:1px solid #8ba6c2;border-radius:9px;background:#eaf2fc;color:#123d69;font-weight:800;padding:8px 10px;font-size:12px;}
