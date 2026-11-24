@@ -720,7 +720,7 @@ function mailOnizlemeAc(){
     var g = gonderBaglam;
     var konu = mailKonuOlustur();
     document.getElementById("mailOnizlemeKonu").value = konu;
-    document.getElementById("mailOnizlemeMetin").textContent = document.getElementById("gonderMetin").value;
+    document.getElementById("mailOnizlemeMetin").textContent = mesajMetniOlustur(g.musteri, g.sepet, g.tip, "mail");
     var mailNotOnceki = mailIslemNotu; if(mailOnizlemeBimNotu!==null) mailIslemNotu=mailOnizlemeBimNotu;
     document.getElementById("mailOnizlemeTablo").innerHTML = tamOnizlemeHtmlOlustur(g.musteri, g.sepet, g.tip, g.kur, g.kdv, "mail", g.kod);
     mailIslemNotu=mailNotOnceki;
