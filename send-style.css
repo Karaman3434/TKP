@@ -1576,3 +1576,9 @@ body.as-drawer-kilit { overflow: hidden; }
 .gonder-konu-etiket{font-size:11px;font-weight:800;color:#687580;flex:0 0 auto;}
 .gonder-konu-metni{font-weight:700;color:#17212b;flex:1;min-width:0;overflow-wrap:anywhere;}
 .gonder-konu-kopyala{flex:0 0 auto;border:1px solid #8ba6c2;border-radius:9px;background:#eaf2fc;color:#123d69;font-weight:800;padding:8px 10px;font-size:12px;}
+
+
+/* 24.11.2026 — Mail'e eklenen PNG işlem tablosu: ADDET rakamı referans tasarımdaki gibi koyu ve belirgin; İSK başlığı kırmızı, NET başlığı yeşil. Yalnız yakalanan giden PNG'ye uygulanır. */
+#belgeGorselAlani table.belge-urun-tablo th:nth-child(5){background:#ef454d!important;color:#fff!important;border-color:#ef454d!important;}
+#belgeGorselAlani table.belge-urun-tablo th:nth-child(6){background:#07852f!important;color:#fff!important;border-color:#07852f!important;}
+#belgeGorselAlani table.belge-urun-tablo td:nth-child(3){font-size:clamp(12px,3.4vw,17px)!important;font-weight:900!important;color:#101828!important;text-shadow:none!important;}
