@@ -988,7 +988,7 @@ function kaydetGercekIslem(niyet){
         // Gönder'e basınca müşteri seçiliyse HER HALÜKARDA kayıt edilir (bu
         // fonksiyon zaten sadece müşteri seçiliyken çağrılır — bkz.
         // kaydetTiklandi), sonra iletişim kanalı seçimine geçiliyor.
-        window.location.href = "send.html?ac=iletisim";
+        window.location.href = "send.html";
       } else {
         var btn = gonderButonunuBul();
         if(btn) btn.disabled = false;
