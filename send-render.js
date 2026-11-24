@@ -1453,6 +1453,10 @@ document.addEventListener("DOMContentLoaded", function(){
   };
   document.getElementById("mailOnizlemeKaydetBtn").onclick = function(){ sendIslemiKaydet(); };
   document.getElementById("mailOnizlemeGonderBtn").onclick = function(){
+    // Mail önizlemesindeki otomatik şablon metni paylaşımın gerçek gövdesine aktar.
+    var mailGovde = document.getElementById("mailOnizlemeMetin");
+    var anaGovde = document.getElementById("gonderMetin");
+    if(mailGovde && anaGovde){ anaGovde.value = mailGovde.textContent || mailGovde.value || ""; metinKutusuBoyutlandir(anaGovde); }
     var konu = document.getElementById("mailOnizlemeKonu").value.trim() || "WEICON";
     // GÜVENLİK AĞI (28.09.2026, Abdullah'ın bildirdiği hata): bazı mail
     // uygulamaları (Outlook Android vb. — bkz. mailKonuKopyalaBtn'in
