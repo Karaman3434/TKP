@@ -705,19 +705,35 @@ function mailKonuOlustur(){
   return "*** " + TIP_ETIKET5[g.tip] + " *** " + g.musteri.ad + sehirEk;
 }
 
-// Mail önizlemesindeki Kaydet: Sepet aşamasında arşive kaydedilmiş belgeyi
-// mail göndermeden tamamlar; geçici gönderim bağlamını temizleyip Ana Sayfa'ya döner.
+// Mail önizlemesindeki Kaydet: zaten arşivlenmiş işlem kaydını,
+// mail/WhatsApp gönderimi olmadan tamamlar. Arşiv kaydına dokunmaz.
 function sendIslemiKaydet(){
   try{
-    if(!sonKaydedilenBelge || !sonKaydedilenBelge.kayit){
-      hataGoster("Kaydedilmiş işlem kaydı bulunamadı. Sepet aşamasındaki kayıt kontrol edilmeli.");return;
+    var kayit=sonKaydedilenBelge&&sonKaydedilenBelge.kayit;
+    if(!kayit || !kayit.ts){
+      hataGoster("İşlem arşiv kaydı doğrulanamadı. Kayıt tamamlanmadı.");return;
     }
+    var btn=document.getElementById("mailOnizlemeKaydetBtn");
+    if(btn){btn.disabled=true;btn.textContent="✓ Kaydediliyor";}
     var overlay=document.getElementById("mailOnizlemeOverlay");
     if(overlay) overlay.hidden=true;
-    bilgiGoster("İşlem kaydedildi. Mail gönderilmedi.");
-    try{localStorage.setItem("weiconv2_sepet","[]");localStorage.setItem("weiconv2_sepet_temizlendi_zamani",String(Date.now()));localStorage.removeItem("weiconv2_sepet_kur_override");localStorage.removeItem("weicon_secili_musteri");localStorage.removeItem("weiconv2_secili_iletisim");localStorage.removeItem("weiconv2_onceden_secilen_tip");localStorage.removeItem("weiconv2_son_kaydedilen_belge");localStorage.removeItem("weiconv2_sepet_musteri_baglantisi");}catch(e){}
+    try{
+      localStorage.setItem("weiconv2_sepet","[]");
+      localStorage.setItem("weiconv2_sepet_temizlendi_zamani",String(Date.now()));
+      localStorage.removeItem("weiconv2_sepet_kur_override");
+      localStorage.removeItem("weicon_secili_musteri");
+      localStorage.removeItem("weiconv2_secili_iletisim");
+      localStorage.removeItem("weiconv2_onceden_secilen_tip");
+      localStorage.removeItem("weiconv2_son_kaydedilen_belge");
+      localStorage.removeItem("weiconv2_sepet_musteri_baglantisi");
+    }catch(e){}
+    bilgiGoster("İşlem arşivde korundu. Mail/WhatsApp gönderilmeden tamamlandı.");
     window.location.href="home.html";
-  }catch(e){hataGoster("Mail göndermeden kayıt tamamlanamadı: "+e.message);}
+  }catch(e){
+    var btn2=document.getElementById("mailOnizlemeKaydetBtn");
+    if(btn2){btn2.disabled=false;btn2.textContent="✓ Kaydet (mail göndermeden)";}
+    hataGoster("Mail göndermeden kayıt tamamlanamadı: "+e.message);
+  }
 }
 
 function mailOnizlemeAc(){
