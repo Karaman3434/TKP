@@ -1083,3 +1083,11 @@
  .belge-onizleme-sayfa .belge-gt-etiket2{font-size:11px!important;}
  .belge-onizleme-sayfa .belge-gt-euro2{font-size:17px!important;}
 }
+
+
+/* 24.11.2026 — 4. sayfa Son İşlemler açılan kayıt ortak tasarım onayı.
+   WEICON logosu kaldırılır; ürün tablosunun PRİM sütunu görünür tutulur.
+   Yalnızca belge önizleme ekranı kapsamında. */
+.belge-onizleme-sayfa .belge-logo-mini{display:none!important;}
+.belge-onizleme-sayfa .belge-urun-tablo th:last-child,
+.belge-onizleme-sayfa .belge-urun-tablo td:last-child{display:table-cell!important;}
