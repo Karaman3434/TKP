@@ -1984,3 +1984,13 @@ body.as-drawer-kilit { overflow: hidden; }
 }
 #belgeGorselAlani td:nth-child(6) .rozet-net *{color:#fff!important;}
 #belgeGorselAlani .belge-net-tl{display:none!important;}
+
+
+/* 25.11.2026 — PNG tablo: ortak hizalamayı güçlendir, önceki PNG özel blokların çakışmasını son kuralla gider. */
+#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre,
+#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-td-toplam.belge-rakam-hucre{vertical-align:middle!important;text-align:center!important;padding:4px 2px!important;}
+#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;width:100%!important;margin:0 auto!important;padding:0!important;text-align:center!important;}
+#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-rakam-sayi,
+#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-para-sayi{height:auto!important;min-height:0!important;line-height:1.15!important;font-size:16px!important;text-align:center!important;margin:0!important;padding:0!important;}
+#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-para-birim{height:auto!important;min-height:0!important;line-height:1.05!important;font-size:10px!important;text-align:center!important;margin:0!important;padding:0!important;}
+#belgeGorselAlani .belge-urun-tablo--giden td:nth-child(5) .belge-isk-metin{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;}
