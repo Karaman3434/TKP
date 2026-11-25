@@ -1891,3 +1891,22 @@
  display:block!important;text-align:center!important;margin:0!important;padding:0!important;height:auto!important;min-height:0!important;
  line-height:1.05!important;font-size:10px!important;font-weight:800!important;white-space:nowrap!important;
 }
+
+
+/* 25.11.2026 — PNG MAIL ÇIKTISI: İSK hücresi, NET hücresinin rakam/birim hizasını referans alır. Sadece mail-giden PNG wrapper'ında uygulanır. */
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-urun-tablo tbody td:nth-child(5) .belge-mail-rakam-stack,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin{
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  gap:0!important;width:100%!important;margin:0!important;padding:0!important;text-align:center!important;
+  line-height:1.05!important;background:transparent!important;border:0!important;border-radius:0!important;
+}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-urun-tablo tbody td:nth-child(5) .belge-para-sayi,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-urun-tablo tbody td:nth-child(5) .belge-rakam-sayi{
+  display:block!important;line-height:1.15!important;font-size:16px!important;font-weight:800!important;
+  margin:0!important;padding:0!important;height:auto!important;min-height:0!important;text-align:center!important;
+  white-space:nowrap!important;font-variant-numeric:tabular-nums!important;
+}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-urun-tablo tbody td:nth-child(5) .belge-para-birim{
+  display:block!important;line-height:1.05!important;font-size:10px!important;font-weight:800!important;
+  margin:0!important;padding:0!important;height:auto!important;min-height:0!important;text-align:center!important;white-space:nowrap!important;
+}
