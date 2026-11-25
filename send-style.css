@@ -1906,3 +1906,33 @@ body.as-drawer-kilit { overflow: hidden; }
 .belge-urun-tablo--giden td.belge-rakam-hucre .rozet-net{
  display:block!important;line-height:1.35!important;
 }
+
+/* 25.11.2026 — Mail PNG rakam hizalama kök düzeltmesi:
+   her rakam aynı sabit ilk satırda, birim ikinci satırda. */
+#belgeGorselAlani .belge-urun-tablo--giden td.belge-rakam-hucre,
+#belgeGorselAlani .belge-urun-tablo--giden td.belge-td-toplam.belge-rakam-hucre{
+ vertical-align:top!important;padding:7px 2px 4px!important;text-align:center!important;
+}
+#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack{
+ display:block!important;width:100%!important;text-align:center!important;
+ line-height:normal!important;margin:0!important;padding:0!important;
+}
+#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-para-sayi,
+#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-rakam-sayi,
+#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-isk-metin{
+ display:block!important;height:18px!important;min-height:18px!important;
+ line-height:18px!important;margin:0!important;padding:0!important;
+ font-size:13px!important;font-weight:800!important;white-space:nowrap!important;
+ font-variant-numeric:tabular-nums!important;
+}
+#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-para-birim{
+ display:block!important;height:11px!important;min-height:11px!important;
+ line-height:11px!important;margin:0!important;padding:0!important;
+ font-size:8px!important;font-weight:700!important;white-space:nowrap!important;
+}
+#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .rozet-net{
+ display:block!important;margin:0!important;padding:0!important;
+ background:transparent!important;border:0!important;border-radius:0!important;
+ box-shadow:none!important;line-height:normal!important;
+}
+#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-net-tl{display:none!important;}
