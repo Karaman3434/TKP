@@ -58,3 +58,28 @@
   min-width: 0 !important;
   overflow-wrap: anywhere !important;
 }
+
+
+/* Aşama 4 — Ürün tablosu renkleri ortak tasarım tokenlarına bağlandı.
+   Sütun ölçüleri, padding, satır/ürün içeriği ve hesaplama mantığı korunur.
+   Yalnızca İşlem Önizleme kapsamındaki mevcut tablo görsel renkleri eşlenir. */
+.belge-onizleme-sayfa .belge-kart--urun-cerceveli {
+  border-color: var(--islem-formu-mavi) !important;
+  background: var(--islem-formu-beyaz) !important;
+}
+.belge-onizleme-sayfa .belge-urun-tablo thead th {
+  background: var(--islem-formu-mavi) !important;
+  color: var(--islem-formu-beyaz) !important;
+  border-color: var(--islem-formu-mavi) !important;
+}
+.belge-onizleme-sayfa .belge-urun-tablo tbody td {
+  border-color: var(--islem-formu-ayrac) !important;
+}
+.belge-onizleme-sayfa .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
+  background: #EF454D !important;
+  color: var(--islem-formu-beyaz) !important;
+}
+.belge-onizleme-sayfa .belge-urun-tablo tbody td:nth-child(6) .rozet-net {
+  background: #07843D !important;
+  color: var(--islem-formu-beyaz) !important;
+}
