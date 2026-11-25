@@ -1936,3 +1936,51 @@ body.as-drawer-kilit { overflow: hidden; }
  box-shadow:none!important;line-height:normal!important;
 }
 #belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-net-tl{display:none!important;}
+
+/* 25.11.2026 — ONAYLI MAIL PNG TASARIMI: rakam referans hizasi ve duz renkli hucreler */
+#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(3),
+#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
+#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
+#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
+#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(7){
+ box-sizing:border-box!important;vertical-align:top!important;text-align:center!important;
+ padding:8px 2px 5px!important;border-radius:0!important;
+}
+#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(5){
+ background:#f0444b!important;color:#fff!important;
+}
+#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(6){
+ background:#07852e!important;color:#fff!important;
+}
+#belgeGorselAlani .belge-mail-rakam-stack{
+ display:block!important;width:100%!important;text-align:center!important;
+ margin:0!important;padding:0!important;line-height:normal!important;
+}
+#belgeGorselAlani .belge-mail-rakam-stack .belge-rakam-sayi,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-para-sayi{
+ display:block!important;height:19px!important;min-height:19px!important;
+ line-height:19px!important;margin:0!important;padding:0!important;
+ font-size:13px!important;font-weight:800!important;white-space:nowrap!important;
+ font-variant-numeric:tabular-nums!important;
+}
+#belgeGorselAlani .belge-mail-rakam-stack .belge-para-birim{
+ display:block!important;height:12px!important;min-height:12px!important;
+ line-height:12px!important;margin:0!important;padding:0!important;
+ font-size:8px!important;font-weight:800!important;white-space:nowrap!important;
+}
+#belgeGorselAlani td:nth-child(5) .belge-isk-metin{
+ display:block!important;margin:0!important;padding:0!important;
+ background:transparent!important;color:#fff!important;border:0!important;
+ border-radius:0!important;box-shadow:none!important;line-height:normal!important;
+}
+#belgeGorselAlani td:nth-child(5) .belge-isk-metin .belge-para-sayi,
+#belgeGorselAlani td:nth-child(5) .belge-isk-metin .belge-para-birim{
+ color:#fff!important;
+}
+#belgeGorselAlani td:nth-child(6) .rozet-net{
+ display:block!important;margin:0!important;padding:0!important;
+ background:transparent!important;color:#fff!important;border:0!important;
+ border-radius:0!important;box-shadow:none!important;line-height:normal!important;
+}
+#belgeGorselAlani td:nth-child(6) .rozet-net *{color:#fff!important;}
+#belgeGorselAlani .belge-net-tl{display:none!important;}
