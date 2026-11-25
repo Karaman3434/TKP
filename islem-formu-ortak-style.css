@@ -42,3 +42,19 @@
 .belge-onizleme-sayfa .belge-kart--cari-ust .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat {
   color: var(--islem-formu-kirmizi) !important;
 }
+
+/* Aşama 3 — İşlem Önizleme NOT paneli ortak renk/spacing tokenlarına bağlandı.
+   Mevcut içerik, metin ve panel davranışı korunur; kapsam yalnızca belge önizlemesidir. */
+.belge-onizleme-sayfa .belge-kart--cari-ust .mail-not-giden {
+  background: var(--islem-formu-sari) !important;
+  border-color: #E7C34A !important;
+  border-radius: var(--islem-formu-radius) !important;
+  color: var(--islem-formu-metni) !important;
+}
+.belge-onizleme-sayfa .belge-kart--cari-ust .mail-not-giden-baslik {
+  color: var(--islem-formu-mavi) !important;
+}
+.belge-onizleme-sayfa .belge-kart--cari-ust .mail-not-giden-metin {
+  min-width: 0 !important;
+  overflow-wrap: anywhere !important;
+}
