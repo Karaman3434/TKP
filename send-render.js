@@ -58,7 +58,7 @@ var mailOnizlemeBimModu = false;
 function mailNotHtml(metin){
   var t = String(metin||"").trim();
   if(!t) return "";
-  return "<div class='mail-not-giden' style=\"background:#fff8dc;border:1px solid #e7c34a;border-radius:12px;padding:10px 12px;margin:0 0 8px;color:#101820;font-family:Arial,sans-serif;font-size:15px;line-height:1.35;\"><div class='mail-not-giden-baslik' style=\"font-weight:800;color:#173a78;margin-bottom:3px;\">📝 NOT</div>" + htmlEsc(t).replace(/\n/g,"<br>") + "</div>";
+  return "<div class='mail-not-giden' style=\"background:#fff8dc;border:1px solid #e7c34a;border-radius:12px;padding:10px 12px;margin:0 0 8px;color:#101820;font-family:Arial,sans-serif;font-size:15px;line-height:1.35;\"><span class='mail-not-giden-baslik' style=\"font-weight:800;color:#173a78;\">📝 NOT</span><span class='mail-not-giden-metin'>" + htmlEsc(t).replace(/\n/g,"<br>") + "</span></div>";
 }
 function mailNotPaneliniAc(){
   var preview=document.getElementById("mailOnizlemeOverlay"),tablo=document.getElementById("mailOnizlemeTablo");
