@@ -783,3 +783,43 @@ body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-oge {
 }
 
 
+
+
+/* 25.11.2026 — ONAYLI KOMPAKT HIZLI ARAMA: menüde tüm sekmelerin görünmesi */
+.as-drawer-overlay .as-drawer-hizli-arama{
+ margin:18px 0 10px!important;padding:23px 8px 8px!important;border-radius:22px!important;
+}
+.as-drawer-overlay .as-drawer-hizli-arama-baslik{height:38px!important;top:-19px!important;font-size:17px!important}
+.as-drawer-overlay .as-drawer-hizli-arama-icerik{gap:10px!important}
+.as-drawer-overlay .as-drawer-oge--miniarama-yeni{border-radius:18px!important}
+.as-drawer-overlay .as-drawer-mini-etiket-satir{
+ height:48px!important;min-height:48px!important;flex-basis:48px!important;padding:0 7px!important;
+}
+.as-drawer-overlay .as-drawer-mini-etiket-satir .as-drawer-ikon{
+ flex-basis:42px!important;width:42px!important;font-size:28px!important;
+}
+.as-drawer-overlay .as-drawer-mini-etiket-ayrac{height:30px!important;margin:0 8px 0 2px!important}
+.as-drawer-overlay .as-drawer-mini-etiket-metin{font-size:19px!important}
+.as-drawer-overlay .as-drawer-mini-islem{
+ height:40px!important;min-width:60px!important;width:60px!important;flex-basis:60px!important;
+ font-size:23px!important;letter-spacing:1px!important;border-radius:16px!important;
+}
+.as-drawer-overlay .as-drawer-mini-arama-kutu{padding:7px!important}
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit,
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{
+ height:52px!important;min-height:52px!important;border-radius:20px!important;font-size:18px!important;
+ padding-left:14px!important;padding-right:78px!important;
+}
+.as-drawer-overlay .as-drawer-mini-arama-ikon{
+ width:62px!important;max-width:62px!important;height:44px!important;right:11px!important;border-radius:16px!important;font-size:29px!important;
+}
+@media(max-width:430px){
+ .as-drawer-overlay .as-drawer-hizli-arama{margin:16px 0 8px!important;padding:22px 7px 7px!important}
+ .as-drawer-overlay .as-drawer-hizli-arama-icerik{gap:9px!important}
+ .as-drawer-overlay .as-drawer-mini-etiket-satir{height:46px!important;min-height:46px!important;flex-basis:46px!important}
+ .as-drawer-overlay .as-drawer-mini-etiket-metin{font-size:18px!important}
+ .as-drawer-overlay .as-drawer-mini-islem{height:38px!important;min-width:58px!important;width:58px!important;flex-basis:58px!important}
+ .as-drawer-overlay .as-drawer-mini-arama-input-sabit,
+ .as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{height:50px!important;min-height:50px!important}
+ .as-drawer-overlay .as-drawer-mini-arama-ikon{height:42px!important;width:58px!important;max-width:58px!important}
+}
