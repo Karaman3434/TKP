@@ -866,3 +866,33 @@ body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-oge {
  .as-drawer-overlay .as-drawer-mini-etiket-metin{font-size:15px!important}
  .as-drawer-overlay .as-drawer-mini-arama-input-sabit,.as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{font-size:15px!important;padding-left:10px!important}
 }
+
+
+/* 25.11.2026 — Hızlı Arama tasarım düzeltmesi: etiket-input çakışmasını gider
+   ve arama satırlarının toplam yüksekliğini yaklaşık %20 azalt. */
+.as-drawer-overlay .as-drawer-oge--miniarama-yeni{
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  gap:3px!important;min-height:0!important;padding:5px 7px!important;
+  box-sizing:border-box!important;border-radius:15px!important;
+}
+.as-drawer-overlay .as-drawer-mini-etiket-satir{
+  display:flex!important;flex:0 0 28px!important;width:100%!important;height:28px!important;
+  min-height:28px!important;box-sizing:border-box!important;align-items:center!important;
+  padding:0 4px!important;border:0!important;border-radius:9px!important;background:transparent!important;
+}
+.as-drawer-overlay .as-drawer-mini-etiket-satir .as-drawer-ikon{width:30px!important;flex:0 0 30px!important;font-size:21px!important}
+.as-drawer-overlay .as-drawer-mini-etiket-metin{flex:1!important;text-align:left!important;font-size:16px!important}
+.as-drawer-overlay .as-drawer-mini-islem{height:27px!important;width:36px!important;min-width:36px!important;border-radius:8px!important}
+.as-drawer-overlay .as-drawer-mini-arama-kutu{display:flex!important;position:relative!important;width:100%!important;flex:0 0 40px!important;height:40px!important;min-height:40px!important;align-items:center!important;box-sizing:border-box!important}
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit,
+.as-drawer-overlay .as-drawer-mini-arama-arama-input-sabit:focus,
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{
+  display:block!important;width:100%!important;height:40px!important;min-height:40px!important;
+  box-sizing:border-box!important;padding:0 40px 0 14px!important;border-radius:12px!important;
+  font-size:16px!important;
+}
+.as-drawer-overlay .as-drawer-mini-arama-ikon{right:12px!important;font-size:24px!important}
+@media(max-width:390px){
+ .as-drawer-overlay .as-drawer-mini-etiket-metin{font-size:15px!important}
+ .as-drawer-overlay .as-drawer-mini-arama-input-sabit{font-size:15px!important}
+}
