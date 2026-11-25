@@ -159,12 +159,12 @@ var HareketTablo = (function(){
       return "<tr class='" + (zeminSinifi||"") + "'>"
         + "<td class='belge-td-sira'>" + (i+1) + "</td>"
         + urunHucre
-        + "<td>" + (u.adet!=null ? u.adet : "-") + "</td>"
+        + "<td class='belge-rakam-hucre'><span class='belge-rakam-sayi'>" + (u.adet!=null ? u.adet : "-") + "</span></td>"
         + (bedelsizMi ? bdlCizgiTd + bdlCizgiTd + bdlCizgiTd : (
-            "<td>" + (u.listeFiyat!=null ? paraHtml(fmt(u.listeFiyat),"EURO") : "-") + "</td>"
-          + "<td>" + (iskYuz100 ? "-" : (u.iskonto!=null ? "<span class='belge-isk-metin'>"+paraHtml(u.iskonto,"%")+"</span>" : "-")) + "</td>"
-          + "<td>" + (toplamVarMi ? "<span class='rozet-net'>"+paraHtml(fmt(h.iskontoluFiyat),"EURO")+netTl+"</span>" : "-") + "</td>"))
-        + "<td class='belge-td-toplam'>" + toplamHucreIcerik + "</td>"
+            "<td class='belge-rakam-hucre'>" + (u.listeFiyat!=null ? paraHtml(fmt(u.listeFiyat),"EURO") : "-") + "</td>"
+          + "<td class='belge-rakam-hucre'>" + (iskYuz100 ? "-" : (u.iskonto!=null ? "<span class='belge-isk-metin'>"+paraHtml(u.iskonto,"%")+"</span>" : "-")) + "</td>"
+          + "<td class='belge-rakam-hucre'>" + (toplamVarMi ? "<span class='rozet-net'>"+paraHtml(fmt(h.iskontoluFiyat),"EURO")+netTl+"</span>" : "-") + "</td>"))
+        + "<td class='belge-td-toplam belge-rakam-hucre'>" + toplamHucreIcerik + "</td>"
         + (primGizli ? "" : "<td class='belge-td-prim'>" + primHucre + "</td>")
         + "</tr>";
     }).join("");
