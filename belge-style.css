@@ -1656,3 +1656,76 @@
 #tamOnizlemeAlani .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu {
   padding:1.5mm!important; margin:0!important;
 }
+
+/* 25.11.2026 — ABDULLAH ONAYLI RAKAM HIZASI TASARIMI
+   Yalnızca işlem tablosu alanlarında: Sepet/Ürün Bul-Hesapla, Gönder,
+   Belge Önizleme ve Mail PNG. Tablo kolon geometrisi değiştirilmez.
+   Rakam satırı ve alt birim ortak referans çizgisi; İSK/NET renkleri
+   hücre zemininde, daha az oval köşeli ve içerik rozetleri şeffaf. */
+.cart-sayfa .belge-urun-tablo tbody td:nth-child(3),
+.cart-sayfa .belge-urun-tablo tbody td:nth-child(4),
+.cart-sayfa .belge-urun-tablo tbody td:nth-child(5),
+.cart-sayfa .belge-urun-tablo tbody td:nth-child(6),
+.cart-sayfa .belge-urun-tablo tbody td:nth-child(7),
+.gonder-sayfa .belge-urun-tablo tbody td:nth-child(3),
+.gonder-sayfa .belge-urun-tablo tbody td:nth-child(4),
+.gonder-sayfa .belge-urun-tablo tbody td:nth-child(5),
+.gonder-sayfa .belge-urun-tablo tbody td:nth-child(6),
+.gonder-sayfa .belge-urun-tablo tbody td:nth-child(7),
+.belge-onizleme-sayfa .belge-urun-tablo tbody td:nth-child(3),
+.belge-onizleme-sayfa .belge-urun-tablo tbody td:nth-child(4),
+.belge-onizleme-sayfa .belge-urun-tablo tbody td:nth-child(5),
+.belge-onizleme-sayfa .belge-urun-tablo tbody td:nth-child(6),
+.belge-onizleme-sayfa .belge-urun-tablo tbody td:nth-child(7),
+#belgeGorselAlani .belge-urun-tablo tbody td:nth-child(3),
+#belgeGorselAlani .belge-urun-tablo tbody td:nth-child(4),
+#belgeGorselAlani .belge-urun-tablo tbody td:nth-child(5),
+#belgeGorselAlani .belge-urun-tablo tbody td:nth-child(6),
+#belgeGorselAlani .belge-urun-tablo tbody td:nth-child(7){
+ box-sizing:border-box!important;vertical-align:top!important;text-align:center!important;
+ padding:7px 2px 5px!important;border-radius:0!important;
+}
+.cart-sayfa .belge-urun-tablo tbody td:nth-child(5),
+.gonder-sayfa .belge-urun-tablo tbody td:nth-child(5),
+.belge-onizleme-sayfa .belge-urun-tablo tbody td:nth-child(5),
+#belgeGorselAlani .belge-urun-tablo tbody td:nth-child(5){background:#ef454d!important;color:#fff!important;}
+.cart-sayfa .belge-urun-tablo tbody td:nth-child(6),
+.gonder-sayfa .belge-urun-tablo tbody td:nth-child(6),
+.belge-onizleme-sayfa .belge-urun-tablo tbody td:nth-child(6),
+#belgeGorselAlani .belge-urun-tablo tbody td:nth-child(6){background:#07843d!important;color:#fff!important;}
+.cart-sayfa td:nth-child(5) .belge-isk-metin,
+.gonder-sayfa td:nth-child(5) .belge-isk-metin,
+.belge-onizleme-sayfa td:nth-child(5) .belge-isk-metin,
+#belgeGorselAlani td:nth-child(5) .belge-isk-metin,
+.cart-sayfa td:nth-child(6) .rozet-net,
+.gonder-sayfa td:nth-child(6) .rozet-net,
+.belge-onizleme-sayfa td:nth-child(6) .rozet-net,
+#belgeGorselAlani td:nth-child(6) .rozet-net{
+ display:block!important;margin:0!important;padding:0!important;
+ background:transparent!important;border:0!important;border-radius:3px!important;
+ box-shadow:none!important;line-height:normal!important;text-align:center!important;
+}
+.cart-sayfa td:nth-child(5) .belge-isk-metin *,
+.gonder-sayfa td:nth-child(5) .belge-isk-metin *,
+.belge-onizleme-sayfa td:nth-child(5) .belge-isk-metin *,
+#belgeGorselAlani td:nth-child(5) .belge-isk-metin *{color:#fff!important;}
+.cart-sayfa td:nth-child(6) .rozet-net *,
+.gonder-sayfa td:nth-child(6) .rozet-net *,
+.belge-onizleme-sayfa td:nth-child(6) .rozet-net *,
+#belgeGorselAlani td:nth-child(6) .rozet-net *{color:#fff!important;}
+.cart-sayfa .belge-mail-rakam-stack,
+.gonder-sayfa .belge-mail-rakam-stack,
+.belge-onizleme-sayfa .belge-mail-rakam-stack,
+#belgeGorselAlani .belge-mail-rakam-stack{display:block!important;width:100%!important;text-align:center!important;margin:0!important;padding:0!important;line-height:normal!important;}
+.cart-sayfa .belge-mail-rakam-stack .belge-para-sayi,
+.gonder-sayfa .belge-mail-rakam-stack .belge-para-sayi,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .belge-para-sayi,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-para-sayi,
+.cart-sayfa .belge-mail-rakam-stack .belge-rakam-sayi,
+.gonder-sayfa .belge-mail-rakam-stack .belge-rakam-sayi,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .belge-rakam-sayi,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-rakam-sayi{display:block!important;height:19px!important;min-height:19px!important;line-height:19px!important;margin:0!important;padding:0!important;font-size:13px!important;font-weight:800!important;white-space:nowrap!important;font-variant-numeric:tabular-nums!important;}
+.cart-sayfa .belge-mail-rakam-stack .belge-para-birim,
+.gonder-sayfa .belge-mail-rakam-stack .belge-para-birim,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .belge-para-birim,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-para-birim{display:block!important;height:12px!important;min-height:12px!important;line-height:12px!important;margin:0!important;padding:0!important;font-size:8px!important;font-weight:800!important;white-space:nowrap!important;}
