@@ -244,8 +244,9 @@ body.cart-sayfa .belge-gt-kur-ic {
 }
 
 
-/* GÖNDER sayfası — 26.11.2026, Abdullah onaylı referans form standardı.
-   Yalnızca Gönder sayfasındaki işlem formu görsel katmanı; gönderim/işlevler değişmez. */
+/* GÖNDER — İşlem Önizleme'de onaylanan ORTAK bileşenlerin birebir CSS eşlemesi.
+   Gönder formu aynı belge bileşenlerini kullanır; yeni/alternatif tasarım yok.
+   Sadece görsel kapsam, veri ve gönderim işlevleri değişmez. */
 body.gonder-sayfa {
   --islem-formu-mavi: #073B70;
   --islem-formu-acik-mavi: #E7E9EE;
@@ -270,48 +271,27 @@ body.gonder-sayfa {
 }
 body.gonder-sayfa .belge-kart--cari-ust,
 body.gonder-sayfa .belge-kart--urun-cerceveli,
-body.gonder-sayfa .belge-gt-kutu {
-  max-width: var(--islem-formu-genislik);
-  width: 100%;
-  box-sizing: border-box;
-}
-body.gonder-sayfa .belge-belge-baslik-serit--mavi { min-height: var(--islem-formu-baslik-yukseklik); box-sizing: border-box; }
-body.gonder-sayfa .belge-musteri-baslik { min-height: var(--islem-formu-musteri-yukseklik); box-sizing: border-box; }
-body.gonder-sayfa .belge-kosul-grid,
-body.gonder-sayfa .belge-kosul-alan { min-height: var(--islem-formu-bilgi-yukseklik); box-sizing: border-box; }
-body.gonder-sayfa .belge-adres-yetkili-cerceve { min-height: calc(var(--islem-formu-adres-yukseklik) + var(--islem-formu-yetkili-yukseklik)); box-sizing: border-box; }
-body.gonder-sayfa .teslimat-adres-vurgulu { border-color: var(--islem-formu-kirmizi) !important; }
-body.gonder-sayfa .mail-not-giden { min-height: var(--islem-formu-not-yukseklik); background: var(--islem-formu-sari) !important; border-color: #E7C34A !important; border-radius: var(--islem-formu-radius) !important; color: var(--islem-formu-metni) !important; box-sizing: border-box; }
-body.gonder-sayfa .mail-not-giden-baslik { color: var(--islem-formu-mavi) !important; }
-body.gonder-sayfa .mail-not-giden-metin { min-width: 0 !important; overflow-wrap: anywhere !important; }
-body.gonder-sayfa .belge-urun-tablo thead th { height: var(--islem-formu-tablo-baslik-yukseklik); box-sizing: border-box; background: var(--islem-formu-mavi) !important; color: var(--islem-formu-beyaz) !important; border-color: var(--islem-formu-mavi) !important; }
-body.gonder-sayfa .belge-urun-tablo tbody tr { min-height: var(--islem-formu-tablo-satir-yukseklik); }
-body.gonder-sayfa .belge-urun-tablo tbody td { box-sizing: border-box; border-color: var(--islem-formu-ayrac) !important; }
-body.gonder-sayfa .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin { background: #EF454D !important; color: var(--islem-formu-beyaz) !important; }
-body.gonder-sayfa .belge-urun-tablo tbody td:nth-child(6) .rozet-net { background: #07843D !important; color: var(--islem-formu-beyaz) !important; }
-body.gonder-sayfa .belge-gt-kutu { min-height: var(--islem-formu-toplam-yukseklik); box-sizing: border-box; background: var(--islem-formu-mavi) !important; border-color: var(--islem-formu-mavi) !important; }
-body.gonder-sayfa .belge-gt-prim-ic { background: var(--islem-formu-yesil) !important; color: var(--islem-formu-beyaz) !important; box-sizing: border-box; }
-body.gonder-sayfa .belge-gt-kur-ic { color: var(--islem-formu-beyaz) !important; border-color: rgba(255,255,255,.5) !important; box-sizing: border-box; }
+body.gonder-sayfa .belge-gt-kutu { max-width:var(--islem-formu-genislik);width:100%;box-sizing:border-box; }
+body.gonder-sayfa .belge-kart--urun-cerceveli,
+body.gonder-sayfa .belge-adres-yetkili-cerceve { border-color:var(--islem-formu-mavi)!important; }
+body.gonder-sayfa .belge-kart--cari-ust .belge-adres-yetkili-cerceve { border-color:var(--islem-formu-mavi)!important;border-radius:14px!important;background:var(--islem-formu-beyaz)!important; }
+body.gonder-sayfa .belge-kart--cari-ust .belge-adres-yetkili-cerceve .cari-form-ayrac { background:var(--islem-formu-mavi)!important; }
+body.gonder-sayfa .belge-kart--cari-ust .belge-adres-yetkili-cerceve .ck-blok-etiket { color:var(--islem-formu-mavi)!important; }
+body.gonder-sayfa .belge-kart--cari-ust .belge-adres-yetkili-cerceve .teslimat-adres-vurgulu { border-color:var(--islem-formu-kirmizi)!important;background:var(--islem-formu-beyaz)!important; }
+body.gonder-sayfa .belge-kart--cari-ust .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat { color:var(--islem-formu-kirmizi)!important; }
+body.gonder-sayfa .belge-kart--cari-ust .mail-not-giden { background:var(--islem-formu-sari)!important;border-color:#E7C34A!important;border-radius:var(--islem-formu-radius)!important;color:var(--islem-formu-metni)!important; }
+body.gonder-sayfa .mail-not-giden { min-height:var(--islem-formu-not-yukseklik);box-sizing:border-box;background:var(--islem-formu-sari)!important;border:1px solid #E7C34A!important;border-radius:var(--islem-formu-radius)!important;padding:8px 10px!important;color:var(--islem-formu-metni)!important; }
+body.gonder-sayfa .mail-not-giden-baslik { color:var(--islem-formu-mavi)!important; }
+body.gonder-sayfa .mail-not-giden-metin { min-width:0!important;overflow-wrap:anywhere!important;color:var(--islem-formu-metni)!important; }
+body.gonder-sayfa .belge-urun-tablo thead th { height:var(--islem-formu-tablo-baslik-yukseklik);box-sizing:border-box;background:var(--islem-formu-mavi)!important;color:var(--islem-formu-beyaz)!important;border-color:var(--islem-formu-mavi)!important; }
+body.gonder-sayfa .belge-urun-tablo tbody tr { min-height:var(--islem-formu-tablo-satir-yukseklik); }
+body.gonder-sayfa .belge-urun-tablo tbody td { box-sizing:border-box;border-color:var(--islem-formu-ayrac)!important; }
+body.gonder-sayfa .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin { background:#EF454D!important;color:var(--islem-formu-beyaz)!important; }
+body.gonder-sayfa .belge-urun-tablo tbody td:nth-child(6) .rozet-net { background:#07843D!important;color:var(--islem-formu-beyaz)!important; }
+body.gonder-sayfa .belge-gt-kutu { min-height:var(--islem-formu-toplam-yukseklik);box-sizing:border-box;background:var(--islem-formu-mavi)!important;border-color:var(--islem-formu-mavi)!important; }
+body.gonder-sayfa .belge-gt-prim-ic { background:var(--islem-formu-yesil)!important;color:var(--islem-formu-beyaz)!important;box-sizing:border-box; }
+body.gonder-sayfa .belge-gt-kur-ic { color:var(--islem-formu-beyaz)!important;border-color:rgba(255,255,255,.5)!important;box-sizing:border-box; }
 body.gonder-sayfa .belge-gt-etiket2,
 body.gonder-sayfa .belge-gt-euro2,
 body.gonder-sayfa .belge-gt-tl2,
-body.gonder-sayfa .belge-gt-kdv2 { color: var(--islem-formu-beyaz) !important; }
-
-
-/* GÖNDER NOT PANELİ — referans sarı panel düzeltmesi (26.11.2026).
-   Sadece Gönder ekranındaki NOT panelini hedefler; diğer sayfalar ve işlevler etkilenmez. */
-body.gonder-sayfa .mail-giden-yeni-form-tasarim .mail-not-giden,
-body.gonder-sayfa .mail-not-giden,
-body.gonder-sayfa .belge-not-cerceve {
-  background: #FFF4CC !important;
-  border: 1.5px solid #E7C34A !important;
-  border-radius: 10px !important;
-  padding: 8px 10px !important;
-  margin: 4px 0 6px !important;
-  color: #1A2A3A !important;
-  box-sizing: border-box !important;
-}
-body.gonder-sayfa .mail-not-giden-baslik,
-body.gonder-sayfa .belge-not-etiket { color: #073B70 !important; font-weight: 800 !important; }
-body.gonder-sayfa .mail-not-giden-metin,
-body.gonder-sayfa .belge-not-metin { color: #1A2A3A !important; min-width: 0 !important; overflow-wrap: anywhere !important; }
+body.gonder-sayfa .belge-gt-kdv2 { color:var(--islem-formu-beyaz)!important; }
