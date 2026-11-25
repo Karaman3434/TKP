@@ -612,48 +612,98 @@ body:has(.as-sayfa) .as-drawer-mini-tipmenu .cm-tipmenu-oge {
   .as-drawer-cikis{min-height:47px!important;}
 }
 
-/* ANA SAYFA — HIZLI ARAMA YENİ TASARIMI (18.11.2026, onaylı) */
-.as-drawer-overlay .as-drawer-hizli-arama{position:relative;box-sizing:border-box;margin:22px 0 14px;padding:29px 10px 10px;border:2px solid #08b9e8;border-radius:20px;background:linear-gradient(160deg,rgba(3,52,103,.82),rgba(2,31,70,.92));box-shadow:inset 0 1px 5px rgba(52,190,255,.12);flex:0 0 auto}
-.as-drawer-overlay .as-drawer-hizli-arama-baslik{position:absolute;top:-21px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:9px;min-width:64%;height:42px;padding:0 20px;box-sizing:border-box;border:1.5px solid #25c8f2;border-radius:999px;background:linear-gradient(105deg,#05aeea 0%,#0876dc 100%);color:#fff;font-size:18px;font-weight:900;letter-spacing:.25px;white-space:nowrap;box-shadow:0 3px 9px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.28)}
-.as-drawer-overlay .as-drawer-hizli-arama-baslik span:first-child{font-size:25px;line-height:1}
-.as-drawer-overlay .as-drawer-hizli-arama-icerik{display:flex;flex-direction:column;gap:12px}
-.as-drawer-overlay .as-drawer-oge--miniarama-yeni{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%;margin:0;padding:0;background:none;border:0}
-.as-drawer-overlay .as-drawer-mini-etiket-satir{display:flex;align-items:center;min-height:46px;width:100%;padding:0 8px 0 10px;box-sizing:border-box;border:1.5px solid #168ce6;border-radius:999px;background:linear-gradient(105deg,#0878d8 0%,#06418c 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 2px 5px rgba(0,0,0,.2)}
-.as-drawer-overlay .as-drawer-mini-etiket-satir .as-drawer-ikon{width:34px;flex:0 0 34px;margin:0;font-size:24px;transform:none}
-.as-drawer-overlay .as-drawer-mini-etiket-ayrac{width:1.5px;height:27px;flex:0 0 1.5px;background:rgba(255,255,255,.58);margin:0 11px 0 4px}
-.as-drawer-overlay .as-drawer-mini-etiket-metin{flex:1;min-width:0;color:#fff;font-size:17px;font-weight:900;line-height:1}
-.as-drawer-overlay .as-drawer-mini-islem{display:flex;align-items:center;justify-content:center;width:54px;min-width:54px;height:42px;margin:0;padding:0;border:0;border-left:1px solid rgba(255,255,255,.42);border-radius:0 999px 999px 0;background:transparent;color:#fff;font-family:inherit;font-size:25px;font-weight:900;letter-spacing:2px;line-height:1;cursor:pointer}
-.as-drawer-overlay .as-drawer-mini-islem:active,.as-drawer-overlay .as-drawer-mini-islem.as-drawer-oge--acik{background:rgba(255,255,255,.14)}
-.as-drawer-overlay .as-drawer-mini-arama-kutu{position:relative;width:100%}
-.as-drawer-overlay .as-drawer-mini-arama-input-sabit{display:block;width:100%;height:42px;padding:0 46px 0 16px;box-sizing:border-box;border:1.5px solid #3c8fdc;border-radius:999px;background:#fff;color:#173b68;font-size:17.28px;font-weight:650;outline:none;box-shadow:0 2px 5px rgba(0,0,0,.16)}
-.as-drawer-overlay .as-drawer-mini-arama-input-sabit::placeholder{color:#8492a4;font-weight:650}
-.as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{border-color:#19b9ee;box-shadow:0 0 0 2px rgba(25,185,238,.18),0 2px 5px rgba(0,0,0,.16)}
-.as-drawer-overlay .as-drawer-mini-arama-ikon{position:absolute;right:15px;top:50%;transform:translateY(-53%);color:#123b70;font-size:29px;font-weight:700;line-height:1;pointer-events:none}
-@media(max-width:390px){.as-drawer-overlay .as-drawer-hizli-arama{padding-left:8px;padding-right:8px}.as-drawer-overlay .as-drawer-hizli-arama-baslik{min-width:68%;font-size:16px}.as-drawer-overlay .as-drawer-mini-etiket-metin{font-size:16px}.as-drawer-overlay .as-drawer-mini-islem{width:48px;min-width:48px}}
-
-
-/* ANA SAYFA — ONAYLI HIZLI ARAMA ÖLÇÜ EŞİTLEME (18.11.2026) */
-/* Etiket satırları ve arama kutuları dış çerçevenin iç genişliğini eşit kullanır. */
+/* HIZLI ARAMA — ONAYLI MOCKUP UYGULAMASI (25.11.2026)
+   Yalnızca hızlı arama görsel katmanı. Arama JS/izin/işlem kuralları korunur. */
 .as-drawer-overlay .as-drawer-hizli-arama{
-  width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;
+ position:relative!important;display:block!important;flex:0 0 auto!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
+ box-sizing:border-box!important;margin:24px 0 16px!important;padding:30px 10px 12px!important;
+ border:2px solid #08c7f1!important;border-radius:25px!important;
+ background:linear-gradient(160deg,rgba(2,44,91,.94),rgba(1,24,56,.97))!important;
+ box-shadow:0 0 12px rgba(0,172,255,.14),inset 0 1px 5px rgba(56,192,255,.12)!important;
 }
+.as-drawer-overlay .as-drawer-hizli-arama-baslik{
+ position:absolute!important;top:-21px!important;left:50%!important;transform:translateX(-50%)!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;
+ height:42px!important;min-width:68%!important;padding:0 20px!important;box-sizing:border-box!important;
+ border:2px solid #2bd5f5!important;border-radius:999px!important;
+ background:linear-gradient(105deg,#05b6ed,#0876dc)!important;color:#fff!important;
+ font-size:18px!important;font-weight:900!important;white-space:nowrap!important;
+ box-shadow:0 3px 10px rgba(0,0,0,.25)!important;
+}
+.as-drawer-overlay .as-drawer-hizli-arama-baslik span:first-child{font-size:26px!important;line-height:1!important}
 .as-drawer-overlay .as-drawer-hizli-arama-icerik{
-  display:flex!important;flex-direction:column!important;align-items:stretch!important;
-  width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;
+ display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:16px!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;
 }
 .as-drawer-overlay .as-drawer-oge--miniarama-yeni{
-  display:flex!important;flex:0 0 100%!important;width:100%!important;max-width:100%!important;
-  min-width:0!important;align-items:stretch!important;box-sizing:border-box!important;
+ display:flex!important;flex:0 0 auto!important;flex-direction:column!important;align-items:stretch!important;gap:0!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;height:auto!important;
+ margin:0!important;padding:0!important;overflow:hidden!important;box-sizing:border-box!important;
+ border:2px solid #168ce6!important;border-radius:24px!important;
+ background:linear-gradient(160deg,#064b91,#032b59)!important;
+ box-shadow:0 4px 10px rgba(0,0,0,.24)!important;
 }
-.as-drawer-overlay .as-drawer-mini-etiket-satir,
+.as-drawer-overlay .as-drawer-oge--miniarama-yeni:nth-child(2){
+ border-color:#10c14b!important;background:linear-gradient(160deg,#087b32,#03451f)!important;
+}
+.as-drawer-overlay .as-drawer-mini-etiket-satir{
+ display:flex!important;position:static!important;align-items:center!important;gap:0!important;
+ flex:0 0 72px!important;width:100%!important;max-width:100%!important;height:72px!important;min-height:72px!important;
+ margin:0!important;padding:0 9px 0 12px!important;box-sizing:border-box!important;
+ border:0!important;border-bottom:1px solid rgba(255,255,255,.23)!important;border-radius:0!important;
+ background:linear-gradient(100deg,#087ee8,#06427f)!important;
+}
+.as-drawer-overlay .as-drawer-oge--miniarama-yeni:nth-child(2) .as-drawer-mini-etiket-satir{
+ background:linear-gradient(100deg,#08c54c,#06752f)!important;
+}
+.as-drawer-overlay .as-drawer-mini-etiket-satir .as-drawer-ikon{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ width:56px!important;flex:0 0 56px!important;margin:0!important;font-size:35px!important;transform:none!important;
+}
+.as-drawer-overlay .as-drawer-mini-etiket-ayrac{
+ width:2px!important;height:42px!important;flex:0 0 2px!important;margin:0 13px 0 4px!important;background:rgba(255,255,255,.7)!important;
+}
+.as-drawer-overlay .as-drawer-mini-etiket-metin{
+ flex:1 1 auto!important;min-width:0!important;color:#fff!important;font-size:22px!important;font-weight:900!important;line-height:1.1!important;
+}
+.as-drawer-overlay .as-drawer-mini-islem{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ flex:0 0 104px!important;width:104px!important;min-width:104px!important;height:58px!important;
+ margin:0!important;padding:0!important;border:1px solid rgba(255,255,255,.22)!important;border-radius:22px!important;
+ background:rgba(0,39,91,.32)!important;color:#fff!important;font-size:31px!important;font-weight:900!important;letter-spacing:4px!important;line-height:1!important;
+}
+.as-drawer-overlay .as-drawer-mini-islem:active,.as-drawer-overlay .as-drawer-mini-islem.as-drawer-oge--acik{background:rgba(255,255,255,.16)!important}
 .as-drawer-overlay .as-drawer-mini-arama-kutu{
-  flex:0 0 100%!important;width:100%!important;max-width:100%!important;
-  min-width:0!important;box-sizing:border-box!important;
+ position:relative!important;display:block!important;flex:0 0 auto!important;
+ width:100%!important;max-width:100%!important;height:auto!important;margin:0!important;padding:10px!important;box-sizing:border-box!important;
 }
-.as-drawer-overlay .as-drawer-mini-arama-kutu{display:block!important;}
-.as-drawer-overlay .as-drawer-mini-arama-input-sabit{
-  display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;
-  flex:0 0 100%!important;box-sizing:border-box!important;
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit,
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{
+ display:block!important;position:static!important;flex:0 0 auto!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;height:68px!important;min-height:68px!important;
+ margin:0!important;padding:0 120px 0 26px!important;box-sizing:border-box!important;
+ border:2px solid rgba(255,255,255,.94)!important;border-radius:28px!important;background:#fff!important;
+ color:#163d6d!important;font-size:22px!important;font-weight:750!important;outline:none!important;
+ box-shadow:0 2px 6px rgba(0,0,0,.18)!important;
+}
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit::placeholder{color:#7e8998!important;font-weight:750!important;opacity:1!important}
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{border-color:#20bdf2!important;box-shadow:0 0 0 2px rgba(20,183,239,.2),0 2px 6px rgba(0,0,0,.18)!important}
+.as-drawer-overlay .as-drawer-mini-arama-ikon{
+ position:absolute!important;right:16px!important;top:50%!important;transform:translateY(-50%)!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;z-index:2!important;
+ width:96px!important;height:58px!important;border-radius:23px!important;background:#087be0!important;
+ color:#fff!important;font-size:38px!important;font-weight:900!important;line-height:1!important;pointer-events:none!important;
+}
+.as-drawer-overlay .as-drawer-oge--miniarama-yeni:nth-child(2) .as-drawer-mini-arama-ikon{background:#08ad43!important}
+@media(max-width:430px){
+ .as-drawer-overlay .as-drawer-hizli-arama{padding-left:8px!important;padding-right:8px!important}
+ .as-drawer-overlay .as-drawer-mini-etiket-satir{height:66px!important;min-height:66px!important;flex-basis:66px!important}
+ .as-drawer-overlay .as-drawer-mini-etiket-metin{font-size:20px!important}
+ .as-drawer-overlay .as-drawer-mini-islem{flex-basis:88px!important;width:88px!important;min-width:88px!important;height:54px!important}
+ .as-drawer-overlay .as-drawer-mini-arama-input-sabit,
+ .as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{height:64px!important;min-height:64px!important;padding-left:20px!important;padding-right:104px!important;font-size:19px!important}
+ .as-drawer-overlay .as-drawer-mini-arama-ikon{width:82px!important;height:54px!important;right:14px!important;font-size:34px!important}
 }
 
 
