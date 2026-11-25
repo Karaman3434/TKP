@@ -931,7 +931,7 @@ function kaydetGercekIslem(niyet){
     var devralinanKod = (kaynak && kaynak.kod && !kaynak.bekleyenMod) ? kaynak.kod : null;
     var devralinanTarih = (kaynak && kaynak.tarih) ? kaynak.tarih : null;
     var devralinanRota = (kaynak && kaynak.rota) ? kaynak.rota : null;
-    var kayitSecenekleri = kaynak && kaynak.transactionCustomerInfo ? {transactionCustomerInfo:kaynak.transactionCustomerInfo} : null;
+    var kayitSecenekleri = kaynak ? Object.assign({ilerletmeKaynak:kaynak}, kaynak.transactionCustomerInfo ? {transactionCustomerInfo:kaynak.transactionCustomerInfo} : {}) : null;
     SendData.kaydet(secilenTip, musteri, sepet, kur, kdv, seciliAdresler, devralinanKod, devralinanTarih, devralinanRota, function(basarili, sonuc, revizeMi){
       if(basarili){
         var bekleyenAkisi = !!(kaynak && (kaynak.bekleyenMod || kaynak.bakiyeKaynak));
