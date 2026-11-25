@@ -1787,3 +1787,54 @@
 .gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .rozet-net *,
 .belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .rozet-net *,
 #belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .rozet-net *{color:#fff!important;}
+
+
+/* 25.11.2026 — ABDULLAH ONAYLI ÜRÜN TABLOSU REFERANS GÖRSELİ
+   Kaynak görsel: SR / ÜRÜN / ADET / LİSTE / İSK / NET / TOPLAM / PRİM
+   Sayısal değer ve birim aynı merkezli, yakın ve dikey stack; zeminler kare. */
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit),
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit),
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit),
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit){
+  table-layout:fixed!important;
+}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) th,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) th,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) th,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) th{ text-align:center!important; vertical-align:middle!important; }
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td{ text-align:center!important; vertical-align:middle!important; }
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-mail-rakam-stack,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-mail-rakam-stack,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-mail-rakam-stack,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-mail-rakam-stack{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;line-height:1.05!important;margin:0!important;padding:0!important;width:100%!important;text-align:center!important;background:transparent!important;border-radius:0!important;}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-para-sayi,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-para-sayi,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-para-sayi,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-para-sayi{display:block!important;line-height:1.12!important;margin:0!important;padding:0!important;font-size:clamp(12px,1em,17px)!important;font-weight:800!important;white-space:nowrap!important;font-variant-numeric:tabular-nums!important;}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-para-birim,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-para-birim,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-para-birim,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-para-birim{display:block!important;line-height:1.05!important;margin:0!important;padding:0!important;font-size:9px!important;font-weight:800!important;white-space:nowrap!important;}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .rozet-net,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .rozet-net,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .rozet-net,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) .rozet-net{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;width:100%!important;margin:0!important;padding:0!important;border-radius:0!important;background:transparent!important;line-height:1.05!important;}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5){background:#ed394b!important;color:#fff!important;border-radius:0!important;}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6){background:#07883e!important;color:#fff!important;border-radius:0!important;}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) *,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) *,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) *,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) *,
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) *,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) *,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) *,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) *{color:#fff!important;}
