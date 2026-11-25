@@ -823,3 +823,24 @@ body:has(.as-sayfa) .as-drawer-mini-sonuc-panel .cm-altmenu-oge {
  .as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{height:50px!important;min-height:50px!important}
  .as-drawer-overlay .as-drawer-mini-arama-ikon{height:42px!important;width:58px!important;max-width:58px!important}
 }
+
+/* 25.11.2026 — Hızlı arama panelleri dikey ölçülerinde ek %20 kompaktlaştırma */
+.as-drawer-overlay .as-drawer-mini-etiket-satir{
+ height:38px!important;min-height:38px!important;flex-basis:38px!important;
+}
+.as-drawer-overlay .as-drawer-mini-etiket-ayrac{height:25px!important}
+.as-drawer-overlay .as-drawer-mini-islem{height:32px!important}
+.as-drawer-overlay .as-drawer-mini-arama-kutu{padding:5px!important}
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit,
+.as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{
+ height:40px!important;min-height:40px!important;border-radius:16px!important;
+}
+.as-drawer-overlay .as-drawer-mini-arama-ikon{height:34px!important;border-radius:13px!important;font-size:26px!important}
+@media(max-width:430px){
+ .as-drawer-overlay .as-drawer-mini-etiket-satir{height:37px!important;min-height:37px!important;flex-basis:37px!important}
+ .as-drawer-overlay .as-drawer-mini-etiket-ayrac{height:24px!important}
+ .as-drawer-overlay .as-drawer-mini-islem{height:30px!important}
+ .as-drawer-overlay .as-drawer-mini-arama-input-sabit,
+ .as-drawer-overlay .as-drawer-mini-arama-input-sabit:focus{height:40px!important;min-height:40px!important}
+ .as-drawer-overlay .as-drawer-mini-arama-ikon{height:33px!important}
+}
