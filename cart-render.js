@@ -1005,7 +1005,17 @@ function kaydetTiklandi(niyet){
     return;
   }
   var devam = function(){ kurTazeligeGetir(function(){ kaydetGercekIslem(niyet); }); };
-  if(revizeSecimBekleniyor){ asamaSecimPopupunuAc(devam); return; }
+  // GÖNDER AKIŞI DÜZELTMESİ (25.11.2026, Abdullah onayı): Gönder sırasında aşama/işlem hareket popup'ı açılmaz. Revize/ilerlet seçenekleri varsa mevcut seçimi koru; uygun değilse ilk geçerli seçeneği sessizce kullan. Kaydet akışındaki popup davranışı korunur.
+  if(revizeSecimBekleniyor){
+    if(niyet === "gonder"){
+      var secenekler = revizeSecimBekleniyor;
+      if(secenekler && secenekler.length){
+        if(secenekler.indexOf(secilenTip) === -1) secilenTip = secenekler[0];
+        secilenTipBelli = true;
+      }
+      revizeSecimBekleniyor = null;
+    } else { asamaSecimPopupunuAc(devam); return; }
+  }
   devam();
 }
 
