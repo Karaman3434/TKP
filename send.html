@@ -159,16 +159,7 @@
                Mail'e dokununca bu küçük kutu açılıyor: Yeni Mail (mevcut
                otomatik akış) / Zinciri Cevapla (tek dokunuş, önizleme yok,
                panoya kopyalar). -->
-          <div class="mail-secenek-popover" id="mailSecenekPopover" hidden>
-            <button type="button" class="mail-secenek-popover-oge" id="mailSecenekYeniMail">
-              <span class="mail-secenek-popover-baslik">Yeni mail</span>
-              <span class="mail-secenek-popover-alt">Her şeyi otomatik doldurur</span>
-            </button>
-            <button type="button" class="mail-secenek-popover-oge" id="mailSecenekZincir">
-              <span class="mail-secenek-popover-baslik">Zinciri cevapla</span>
-              <span class="mail-secenek-popover-alt">Kopyalar, sen yapıştırırsın</span>
-            </button>
-          </div>
+
         </div>
         <button class="iletisim-secenek-btn iletisim-secenek-btn--whatsapp" id="btnUstWhatsapp">
           <span class="iletisim-secenek-ikon">💬</span>
@@ -308,6 +299,18 @@
   <div id="belgeGorselAlani" style="position:fixed; left:-9999px; top:0; width:600px;"></div>
 
 </main>
+
+<!-- MAİL ALT SEÇİM PENCERESİ: iletişim popup katmanından bağımsız, üst katmanda -->
+          <div class="mail-secenek-popover" id="mailSecenekPopover" hidden>
+            <button type="button" class="mail-secenek-popover-oge" id="mailSecenekYeniMail">
+              <span class="mail-secenek-popover-baslik">Yeni mail</span>
+              <span class="mail-secenek-popover-alt">Her şeyi otomatik doldurur</span>
+            </button>
+            <button type="button" class="mail-secenek-popover-oge" id="mailSecenekZincir">
+              <span class="mail-secenek-popover-baslik">Zinciri cevapla</span>
+              <span class="mail-secenek-popover-alt">Kopyalar, sen yapıştırırsın</span>
+            </button>
+          </div>
 
 <script src="tip-etiketleri.js?v=TKP.21.11.26-21:35.1671"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
