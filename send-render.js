@@ -1614,21 +1614,33 @@ document.addEventListener("DOMContentLoaded", function(){
   // aşağı açılsa altındaki WhatsApp/Tablo tuşlarını kapatırdı. Dar ekranda
   // (S22) sığması için genişlik gerekirse 190px'ten küçülür.
   function altKutuKonumla(pop, btn){
-    var r = btn.getBoundingClientRect();
-    var w = Math.max(140, Math.min(190, r.left - 12));
+    var r = btn.getBoundingClientRect(), vw = window.innerWidth, vh = window.innerHeight;
+    var w = Math.min(260, Math.max(210, vw - 24));
     pop.style.width = w + "px";
-    pop.style.top = r.top + "px";
-    pop.style.left = Math.max(6, r.left - 6 - w) + "px";
+    var left = Math.max(12, Math.min(r.left, vw - w - 12));
+    pop.style.left = left + "px";
+    pop.style.maxHeight = Math.min(300, vh - 24) + "px";
+    var top = r.bottom + 8;
+    if(top + pop.offsetHeight > vh - 12) top = Math.max(12, r.top - pop.offsetHeight - 8);
+    pop.style.top = top + "px";
   }
-  document.getElementById("btnUstMail").onclick = function(ev){
+  var mailSecenekBtn = document.getElementById("btnUstMail");
+  var mailSecenekPop = document.getElementById("mailSecenekPopover");
+  function mailSecenekKapat(){ if(mailSecenekPop) mailSecenekPop.hidden = true; }
+  mailSecenekBtn.onclick = function(ev){
     ev.stopPropagation();
-    var pop = document.getElementById("mailSecenekPopover");
-    var aciliyorMu = pop.hidden;
-    pop.hidden = !pop.hidden;
+    if(!mailSecenekPop) return;
+    var aciliyorMu = mailSecenekPop.hidden;
+    mailSecenekKapat();
     if(aciliyorMu){
-      altKutuKonumla(pop, this);
+      mailSecenekPop.hidden = false;
+      altKutuKonumla(mailSecenekPop, this);
     }
   };
+  window.addEventListener("resize", function(){ if(mailSecenekPop && !mailSecenekPop.hidden) altKutuKonumla(mailSecenekPop, mailSecenekBtn); });
+  document.addEventListener("click", function(ev){
+    if(mailSecenekPop && !mailSecenekPop.hidden && !mailSecenekPop.contains(ev.target) && ev.target !== mailSecenekBtn && !mailSecenekBtn.contains(ev.target)) mailSecenekKapat();
+  });
   // GERİ ALINDI (26.10.2026, Abdullah onayı — "seçim yapıldıktan sonra
   // otomatik önizleme açılsın" kesin kuralı): "Yeni mail" artık WhatsApp'la
   // SİMETRİK — doğrudan mail uygulamasını açmak yerine önce "Mail Önizleme"
