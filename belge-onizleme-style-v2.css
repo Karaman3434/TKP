@@ -1112,3 +1112,8 @@
   white-space:normal!important; overflow-wrap:anywhere!important; word-break:normal!important;
   margin:0!important; padding:0!important;
 }
+
+
+/* 25.11.2026 — Abdullah onayı: teslimat adresi etiketi tüm işlem önizlemelerinde kırmızı. */
+.belge-onizleme-sayfa .belge-kart--cari-ust .ck-blok-etiket--teslimat,
+.belge-onizleme-sayfa .ck-blok-etiket--teslimat { color:#c62828!important; }
