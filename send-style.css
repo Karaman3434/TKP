@@ -2094,3 +2094,36 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-para-birim{
   font-size:14px!important;line-height:1.15!important;
 }
+
+
+/* FINAL Mail PNG İSK düzeltmesi: scope wrapper yerine gerçek tabloda her seviyeyi
+   açıkça merkezle; küçük CSS yükseklik/overflow kurallarını etkisizleştir. */
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5),
+#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5){
+ text-align:center!important;vertical-align:middle!important;overflow:visible!important;
+ padding:3px 1px!important;white-space:normal!important;
+}
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5) span,
+#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5) span{
+ box-sizing:border-box!important;float:none!important;position:static!important;
+ text-align:center!important;overflow:visible!important;max-width:none!important;
+}
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5) .belge-mail-rakam-stack,
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5) .belge-isk-metin,
+#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5) .belge-mail-rakam-stack,
+#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5) .belge-isk-metin{
+ display:flex!important;flex-flow:column nowrap!important;align-items:center!important;
+ justify-content:center!important;width:100%!important;min-width:0!important;
+ height:auto!important;min-height:0!important;gap:0!important;margin:0!important;
+ padding:0!important;line-height:1.1!important;
+}
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5) .belge-para-sayi,
+#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5) .belge-para-sayi{
+ display:block!important;width:100%!important;font-size:16px!important;font-weight:800!important;
+ line-height:1.15!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;
+}
+.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5) .belge-para-birim,
+#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5) .belge-para-birim{
+ display:block!important;width:100%!important;font-size:13px!important;font-weight:800!important;
+ line-height:1.15!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;
+}
