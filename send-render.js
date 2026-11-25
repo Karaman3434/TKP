@@ -166,7 +166,13 @@ function adresleriBelirle(musteri){
 // gönderilen belge türüne göre değişir (bkz. mesaj-data.js — NUMUNE de
 // 28.09.2026'dan itibaren aynı ortak "mail" şablonunu kullanıyor).
 function mesajMetniOlustur(musteri, sepet, tip, kanal){
-  return MesajData.uygula(MesajData.oku(kanal === "whatsapp" ? "whatsapp" : "mail", tip), tip);
+  // 25.11.2026 Abdullah onayı: WhatsApp mesajı mail şablonlarından bağımsız ve ürün sayısına göre otomatik.
+  if(kanal === "whatsapp"){
+    return (sepet && sepet.length > 1)
+      ? "İstediğiniz ürünler için fiyat bilgisi ektedir."
+      : "İstediğiniz ürün için fiyat bilgisi ektedir.";
+  }
+  return MesajData.uygula(MesajData.oku("mail", tip), tip);
 }
 
 // Gönder ekranı yeniden düzeni (WG.210926.1512.583): 1) Cari Bilgi üst şeridi
@@ -504,9 +510,9 @@ function belgeGorselHtmlOlustur(musteri, sepet, tip, kur, kdv, kod, kanal, oriji
     // yalnızca büyük, ortalı işlem türü etiketi ve tarih-saat şeridi bulunur.
     // Mail kolu ve ürün tablosunun yapısı/hesaplamaları değiştirilmedi.
     cariBaslikHtml = "<div class='whatsapp-giden-hareket-baslik'>"
-      + formBaslikHtml(tip, null, null)
+      + "<div class='whatsapp-giden-tek-panel'><span class='whatsapp-giden-fiyat-teklifi'>FİYAT TEKLİFİ</span>"
       + whatsappGidenTarihSaatHtml(tarihStr)
-      + "</div>";
+      + "</div></div>";
     cariGovdeHtml = "";
   } else {
     // BİRLEŞİK CARİ KUTUSU (27.09.2026): giden görsel de artık Cari Bilgi
