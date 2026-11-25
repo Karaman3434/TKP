@@ -83,3 +83,26 @@
   background: #07843D !important;
   color: var(--islem-formu-beyaz) !important;
 }
+
+
+/* Aşama 5 — Genel Toplam / Kur / Prim panelinin renkleri ortak tokenlara bağlandı.
+   Mevcut yerleşim, boyut, tipografi, matematik ve veri üretimi aynen korunur.
+   Sadece belge-onizleme-sayfa kapsamındaki görsel renk eşlemesi. */
+.belge-onizleme-sayfa .belge-gt-kutu {
+  background: var(--islem-formu-mavi) !important;
+  border-color: var(--islem-formu-mavi) !important;
+}
+.belge-onizleme-sayfa .belge-gt-prim-ic {
+  background: var(--islem-formu-yesil) !important;
+  color: var(--islem-formu-beyaz) !important;
+}
+.belge-onizleme-sayfa .belge-gt-kur-ic {
+  color: var(--islem-formu-beyaz) !important;
+  border-color: rgba(255,255,255,.5) !important;
+}
+.belge-onizleme-sayfa .belge-gt-etiket2,
+.belge-onizleme-sayfa .belge-gt-euro2,
+.belge-onizleme-sayfa .belge-gt-tl2,
+.belge-onizleme-sayfa .belge-gt-kdv2 {
+  color: var(--islem-formu-beyaz) !important;
+}
