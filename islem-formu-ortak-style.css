@@ -1,0 +1,23 @@
+/* islem-formu-ortak-style.css — Ortak işlem formu tasarım katmanı (Aşama 1)
+   Yalnızca belge-onizleme-sayfa kapsamındadır. İş mantığı ve veri akışına dokunmaz.
+   Bu aşamada token altyapısı kurulur; görünüm değişiklikleri kontrollü olarak sonraki adımlarda yapılır. */
+.belge-onizleme-sayfa {
+  --islem-formu-mavi: #073B70;
+  --islem-formu-acik-mavi: #E7E9EE;
+  --islem-formu-kirmizi: #C0392B;
+  --islem-formu-yesil: #0E6B58;
+  --islem-formu-sari: #FFF4CC;
+  --islem-formu-beyaz: #FFFFFF;
+  --islem-formu-metni: #1A2A3A;
+  --islem-formu-etiket: #556170;
+  --islem-formu-ayrac: #E2E6EC;
+  --islem-formu-radius: 10px;
+  --islem-formu-aralik: 4px;
+}
+/* Aşama 1 token eşlemesi — sadece bu sayfada */
+.belge-onizleme-sayfa .belge-kart--urun-cerceveli {
+  border-color: var(--islem-formu-mavi);
+}
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve {
+  border-color: var(--islem-formu-mavi);
+}
