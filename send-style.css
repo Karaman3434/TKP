@@ -1802,3 +1802,34 @@ body.as-drawer-kilit { overflow: hidden; }
 #mailSecenekPopover[hidden] { display:none!important; }
 #mailSecenekPopover .mail-secenek-popover-oge { border-radius:9px; padding:14px 15px; min-height:58px; }
 #mailSecenekPopover .mail-secenek-popover-oge:active { background:#eaf2fc; }
+
+/* 25.11.2026 Abdullah onayı — WhatsApp PNG: başlık + tarih/saat tek panel; yalnız FİYAT TEKLİFİ. */
+#belgeGorselAlani .whatsapp-giden-tek-panel{
+  width:100%; box-sizing:border-box; display:flex; align-items:center; justify-content:space-between;
+  gap:8px; padding:7px 10px; margin:0 0 8px; border:2px solid #1674c5;
+  border-radius:12px; background:#fff; color:#071d4d;
+}
+#belgeGorselAlani .whatsapp-giden-fiyat-teklifi{
+  flex:0 1 auto; min-width:0; color:#16804a; font-size:20px; line-height:1.1;
+  font-weight:950; white-space:nowrap;
+}
+#belgeGorselAlani .whatsapp-giden-tek-panel .whatsapp-giden-tarih-saat{
+  flex:0 1 auto; min-width:0; width:auto; min-height:0; display:flex; align-items:center;
+  justify-content:flex-end; gap:7px; padding:0; margin:0; border:0; border-radius:0;
+  background:transparent; font-size:14px; white-space:nowrap;
+}
+#belgeGorselAlani .whatsapp-giden-tek-panel .whatsapp-giden-tarih-grup,
+#belgeGorselAlani .whatsapp-giden-tek-panel .whatsapp-giden-saat-grup{gap:4px;}
+#belgeGorselAlani .whatsapp-giden-tek-panel .whatsapp-giden-tarih-grup svg,
+#belgeGorselAlani .whatsapp-giden-tek-panel .whatsapp-giden-saat-grup svg{width:16px;height:16px;}
+#belgeGorselAlani .whatsapp-giden-tek-panel .whatsapp-giden-tarih-ayrac{height:18px;margin:0 1px;}
+@media(max-width:420px){
+  #belgeGorselAlani .whatsapp-giden-tek-panel{padding:6px 7px;gap:5px;}
+  #belgeGorselAlani .whatsapp-giden-fiyat-teklifi{font-size:16px;}
+  #belgeGorselAlani .whatsapp-giden-tek-panel .whatsapp-giden-tarih-saat{font-size:12px;gap:4px;}
+}
+/* WhatsApp PNG NET başlık hücresi: tam hücre zemin, oval köşe yok; sayısal NET hücreleri etkilenmez. */
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit thead th:nth-child(3){
+  background:#07852e!important; color:#fff!important; border-radius:0!important;
+  box-shadow:none!important; outline:0!important; padding:4px 2px!important;
+}
