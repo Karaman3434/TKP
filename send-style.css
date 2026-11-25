@@ -1720,3 +1720,24 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(5){width:10%!important;}
 #belgeGorselAlani #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(6){width:16%!important;}
 #belgeGorselAlani #mailOnizlemeTablo .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(7){width:18%!important;}
+
+
+/* 25.11.2026 — WhatsApp PNG 4 sütunlu sade tablo: sütun çakışmasını düzelt.
+   Yalnız belgeGorselAlani içindeki WhatsApp sade tablo; mail ve diğer tablolar etkilenmez. */
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit{
+  width:100%!important; max-width:100%!important; min-width:0!important;
+  table-layout:fixed!important; border-collapse:collapse!important;
+}
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th:nth-child(1),
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(1){width:46%!important;}
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th:nth-child(2),
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(2){width:12%!important;}
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th:nth-child(3),
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(3){width:19%!important;}
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th:nth-child(4),
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(4){width:23%!important;}
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th,
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td{
+  box-sizing:border-box!important; overflow-wrap:normal!important; word-break:normal!important;
+}
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(1){word-break:break-word!important;overflow-wrap:anywhere!important;}
