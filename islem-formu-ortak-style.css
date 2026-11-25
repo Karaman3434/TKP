@@ -185,3 +185,60 @@
   min-height: var(--islem-formu-toplam-yukseklik);
   box-sizing: border-box;
 }
+
+
+/* Sepet ortak tasarım bağlantısı — 26.11.2026.
+   Yalnızca onaylanan ortak bileşenler: işlem başlığı, cari başlığı,
+   İSK/NET hücre renk-hizalama ve prim/kur/genel toplam görünümü.
+   HESAPLANACAK/HESAPLANDI grup etiketleri ve işlevleri kapsam dışıdır. */
+body.cart-sayfa {
+  --islem-formu-mavi: #073B70;
+  --islem-formu-acik-mavi: #E7E9EE;
+  --islem-formu-kirmizi: #C0392B;
+  --islem-formu-yesil: #0E6B58;
+  --islem-formu-beyaz: #FFFFFF;
+  --islem-formu-metni: #1A2A3A;
+  --islem-formu-ayrac: #E2E6EC;
+  --islem-formu-radius: 10px;
+}
+/* İşlem türü/tarih/saat ortak paneli — Sepet'in tür renklerinin mevcut
+   tip-* sınıfları ve cart-tablo-style-v2.css kuralları korunur. */
+body.cart-sayfa #rotaSeridi .islem-hareket-paneli {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  border-radius: var(--islem-formu-radius);
+  align-items: center;
+}
+/* Cari başlığı: ortak müşteri başlığı bileşeninin karttaki kullanımı */
+body.cart-sayfa .cart-cari-panel {
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: var(--islem-formu-radius);
+}
+/* İSK ve NET: renk, metin ve rakam hizası ortak standardı */
+body.cart-sayfa .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+body.cart-sayfa .belge-urun-tablo tbody td:nth-child(6) .rozet-net {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+/* Prim / kur / genel toplam ortak bileşeni — Sepet'in etkileşimleri korunur. */
+body.cart-sayfa .belge-gt-kutu {
+  box-sizing: border-box;
+  border-radius: var(--islem-formu-radius);
+}
+body.cart-sayfa .belge-gt-prim-ic {
+  box-sizing: border-box;
+  text-align: center;
+}
+body.cart-sayfa .belge-gt-kur-ic {
+  box-sizing: border-box;
+}
