@@ -296,3 +296,22 @@ body.gonder-sayfa .belge-gt-etiket2,
 body.gonder-sayfa .belge-gt-euro2,
 body.gonder-sayfa .belge-gt-tl2,
 body.gonder-sayfa .belge-gt-kdv2 { color: var(--islem-formu-beyaz) !important; }
+
+
+/* GÖNDER NOT PANELİ — referans sarı panel düzeltmesi (26.11.2026).
+   Sadece Gönder ekranındaki NOT panelini hedefler; diğer sayfalar ve işlevler etkilenmez. */
+body.gonder-sayfa .mail-giden-yeni-form-tasarim .mail-not-giden,
+body.gonder-sayfa .mail-not-giden,
+body.gonder-sayfa .belge-not-cerceve {
+  background: #FFF4CC !important;
+  border: 1.5px solid #E7C34A !important;
+  border-radius: 10px !important;
+  padding: 8px 10px !important;
+  margin: 4px 0 6px !important;
+  color: #1A2A3A !important;
+  box-sizing: border-box !important;
+}
+body.gonder-sayfa .mail-not-giden-baslik,
+body.gonder-sayfa .belge-not-etiket { color: #073B70 !important; font-weight: 800 !important; }
+body.gonder-sayfa .mail-not-giden-metin,
+body.gonder-sayfa .belge-not-metin { color: #1A2A3A !important; min-width: 0 !important; overflow-wrap: anywhere !important; }
