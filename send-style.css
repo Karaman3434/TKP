@@ -1729,7 +1729,7 @@ body.as-drawer-kilit { overflow: hidden; }
   table-layout:fixed!important; border-collapse:collapse!important;
 }
 #belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th:nth-child(1),
-#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(1){width:46%!important;}
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(1){width:60%!important;}
 #belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th:nth-child(2),
 #belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(2){width:12%!important;}
 #belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th:nth-child(3),
