@@ -164,7 +164,7 @@ var SendData = (function(){
 
   // Snapshot: her yeni işlem için Cari bilgilerini bağımsız kayda sabitle.
   function cariSnapshotOlustur(musteri, adresler, ekSecenek){
-    // Aşama ilerlet/tekrar akışında kaynak snapshot varsa yeni aşamada tarihsel Cari bilgisi korunur.
+    // Aşama ilerlet/tekrar akışında kaynak snapshot varsa tarihsel Cari bilgisi korunur.
     var kaynakSnapshot = ekSecenek && ekSecenek.transactionCustomerInfo;
     if(kaynakSnapshot && typeof IslemCariSnapshot !== "undefined"){
       var kopya = IslemCariSnapshot.kayittanOku({transactionCustomerInfo:kaynakSnapshot});
@@ -174,10 +174,33 @@ var SendData = (function(){
     var secilen = adresler || {};
     var ek = {teslimatSecildi:!!secilen.teslimatAdresi,yetkililerSecildi:!!(secilen.yetkililer&&secilen.yetkililer.length),notSecildi:false};
     var r = IslemCariSnapshot.musteridenOlustur(musteri,secilen,ek);
-    if(!r || !r.gecerli) throw new Error("İşlem Cari snapshot eksik: "+((r&&r.eksik)||[]).join(", "));
-    return r.snapshot;
-  }
+    if(r && r.gecerli) return r.snapshot;
 
+    // LEGACY İLERLETME KORUMASI: Eski işlem kayıtlarında snapshot olmayabilir.
+    // Bu durumda yalnızca ilerletme akışında, cari kartta eksik alanlar nedeniyle
+    // sipariş/teklif kaydı engellenmesin. Kaynak kaydın fatura adresi de yedek alınır.
+    if(ekSecenek && ekSecenek.ilerletmeKaynak){
+      var kaynak = ekSecenek.ilerletmeKaynak || {};
+      var faturaAdres = secilen.faturaAdresi ||
+        (Array.isArray(musteri && musteri.faturaAdresleri) && musteri.faturaAdresleri.length ? musteri.faturaAdresleri[0] : null) ||
+        (musteri && musteri.acikAdres) || kaynak.faturaAdresi || "";
+      var yedek = IslemCariSnapshot.olustur({
+        musteriKodu:musteri && musteri.id,
+        musteriAdi:musteri && musteri.ad,
+        ilce:musteri && musteri.sehir,
+        sehir:musteri && musteri.il,
+        vade:(musteri && musteri.vade) || kaynak.vade || "",
+        fatura:(musteri && musteri.fatura) || kaynak.fatura || "",
+        kargo:(musteri && musteri.kargo) || kaynak.kargo || "",
+        faturaAdresi:faturaAdres,
+        teslimatAdresi:secilen.teslimatAdresi || kaynak.teslimatAdresi || "",
+        yetkililer:secilen.yetkililer || (secilen.yetkili ? [secilen.yetkili] : []),
+        not:""
+      });
+      if(yedek && yedek.snapshot) return yedek.snapshot;
+    }
+    throw new Error("İşlem Cari snapshot eksik: "+((r&&r.eksik)||[]).join(", "));
+  }
   function kaydet(tip, musteri, sepetUrunleri, kur, kdv, adresler, devralinanKod, devralinanTarih, devralinanRota, geriBildir, kurManuelMi, ekSecenek){
     var cb = typeof geriBildir === "function" ? geriBildir : function(){};
     try{
