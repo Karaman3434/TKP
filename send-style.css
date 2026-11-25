@@ -2030,9 +2030,7 @@ body.as-drawer-kilit { overflow: hidden; }
   background:#07852e!important;color:#fff!important;
 }
 #belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-prim-ic,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-kur-ic,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden th:last-child,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:last-child{
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-kur-ic{
   display:none!important;
 }
 #belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-kutu,
