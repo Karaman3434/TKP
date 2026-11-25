@@ -1791,3 +1791,14 @@ body.as-drawer-kilit { overflow: hidden; }
 #tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat,
 #belgeGorselAlani .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat,
 .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat { color:#c62828!important; }
+
+/* 25.11.2026 — Mail alt seçim penceresi yeniden kuruldu: iletişim panelinden bağımsız kök katmanda */
+#mailSecenekPopover.mail-secenek-popover {
+  position:fixed!important; z-index:1305!important; box-sizing:border-box;
+  background:#fff!important; border:1px solid #c8d4e2!important; border-radius:13px!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.28)!important; padding:5px!important;
+  display:block; max-height:60vh; overflow-y:auto;
+}
+#mailSecenekPopover[hidden] { display:none!important; }
+#mailSecenekPopover .mail-secenek-popover-oge { border-radius:9px; padding:14px 15px; min-height:58px; }
+#mailSecenekPopover .mail-secenek-popover-oge:active { background:#eaf2fc; }
