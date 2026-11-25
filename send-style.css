@@ -1833,3 +1833,8 @@ body.as-drawer-kilit { overflow: hidden; }
   background:#07852e!important; color:#fff!important; border-radius:0!important;
   box-shadow:none!important; outline:0!important; padding:4px 2px!important;
 }
+
+/* Abdullah onaylı ortak NOT paneli — etiket ve metin aynı satırda, uzun metin etiketten bağımsız sarılır. */
+.mail-not-giden{display:flex!important;flex-flow:row wrap!important;align-items:flex-start!important;gap:6px!important;box-sizing:border-box!important;width:100%!important;white-space:normal!important;overflow-wrap:anywhere!important;}
+.mail-not-giden .mail-not-giden-baslik{display:inline-flex!important;flex:0 0 auto!important;align-items:flex-start!important;margin:0!important;padding:0!important;white-space:nowrap!important;}
+.mail-not-giden .mail-not-giden-metin{display:inline!important;flex:1 1 0%!important;min-width:0!important;margin:0!important;padding:0!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;}
