@@ -2038,3 +2038,30 @@ body.as-drawer-kilit { overflow: hidden; }
   width:100%!important;box-sizing:border-box!important;border-radius:14px!important;
   margin-top:6px!important;background:#073B70!important;color:#fff!important;
 }
+
+
+/* 26.11.2026 — ORTAK REFERANSIN Mail PNG İSK hücresine birebir hizalama düzeltmesi.
+   Yalnız gerçek PNG yakalama alanındaki mail tablosunu hedefler. */
+#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5){
+  text-align:center!important;vertical-align:middle!important;padding:4px 2px!important;
+  background:#f0444b!important;color:#fff!important;
+}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-mail-rakam-stack,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-isk-metin{
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:center!important;text-align:center!important;width:100%!important;
+  margin:0 auto!important;padding:0!important;gap:0!important;line-height:1!important;
+}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-para-sayi,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-rakam-sayi{
+  display:block!important;width:100%!important;text-align:center!important;
+  font-size:18px!important;font-weight:800!important;line-height:1.15!important;
+  margin:0!important;padding:0!important;min-height:0!important;height:auto!important;
+  color:#fff!important;white-space:nowrap!important;
+}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-para-birim{
+  display:block!important;width:100%!important;text-align:center!important;
+  font-size:14px!important;font-weight:800!important;line-height:1.15!important;
+  margin:0!important;padding:0!important;min-height:0!important;height:auto!important;
+  color:#fff!important;white-space:nowrap!important;
+}
