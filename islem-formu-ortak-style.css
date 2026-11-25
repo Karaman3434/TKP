@@ -106,3 +106,82 @@
 .belge-onizleme-sayfa .belge-gt-kdv2 {
   color: var(--islem-formu-beyaz) !important;
 }
+
+
+/* Aşama 7 — Referans ölçü standardı (26.11.2026).
+   Ölçü tokenları yalnızca İşlem Önizleme sayfasında uygulanır.
+   Veri, hesaplama, HTML üretimi ve diğer sayfalar değiştirilmez. */
+.belge-onizleme-sayfa {
+  --islem-formu-genislik: 760px;
+  --islem-formu-baslik-yukseklik: 48px;
+  --islem-formu-musteri-yukseklik: 56px;
+  --islem-formu-bilgi-yukseklik: 40px;
+  --islem-formu-adres-yukseklik: 128px;
+  --islem-formu-yetkili-yukseklik: 48px;
+  --islem-formu-not-yukseklik: 40px;
+  --islem-formu-tablo-baslik-yukseklik: 44px;
+  --islem-formu-tablo-satir-yukseklik: 64px;
+  --islem-formu-toplam-yukseklik: 88px;
+}
+
+/* Referans form genişliği: 760 px; dar ekranlarda mevcut responsive genişlik korunur. */
+.belge-onizleme-sayfa .belge-kart--cari-ust,
+.belge-onizleme-sayfa .belge-kart--urun-cerceveli,
+.belge-onizleme-sayfa .belge-gt-kutu {
+  max-width: var(--islem-formu-genislik);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* İşlem başlık paneli */
+.belge-onizleme-sayfa .belge-belge-baslik-serit--mavi {
+  min-height: var(--islem-formu-baslik-yukseklik);
+  box-sizing: border-box;
+}
+
+/* Müşteri başlığı: referans 56 px, içerik taşarsa güvenli büyüme */
+.belge-onizleme-sayfa .belge-musteri-baslik {
+  min-height: var(--islem-formu-musteri-yukseklik);
+  box-sizing: border-box;
+}
+
+/* Vade / fatura / kargo satırı */
+.belge-onizleme-sayfa .belge-kosul-grid {
+  min-height: var(--islem-formu-bilgi-yukseklik);
+  box-sizing: border-box;
+  align-items: stretch;
+}
+.belge-onizleme-sayfa .belge-kosul-alan {
+  min-height: var(--islem-formu-bilgi-yukseklik);
+  box-sizing: border-box;
+}
+
+/* Cari adres ve yetkili paneli: 128 px adres alanı içerik nedeniyle gerektiğinde büyüyebilir. */
+.belge-onizleme-sayfa .belge-adres-yetkili-cerceve {
+  min-height: calc(var(--islem-formu-adres-yukseklik) + var(--islem-formu-yetkili-yukseklik));
+  box-sizing: border-box;
+}
+
+/* NOT paneli: 40 px taban; metin sarması paneli doğal biçimde büyütür. */
+.belge-onizleme-sayfa .mail-not-giden {
+  min-height: var(--islem-formu-not-yukseklik);
+  box-sizing: border-box;
+}
+
+/* Ürün tablosu: başlık 44 px, satırlar 64 px taban ölçüsü. */
+.belge-onizleme-sayfa .belge-urun-tablo thead th {
+  height: var(--islem-formu-tablo-baslik-yukseklik);
+  box-sizing: border-box;
+}
+.belge-onizleme-sayfa .belge-urun-tablo tbody tr {
+  min-height: var(--islem-formu-tablo-satir-yukseklik);
+}
+.belge-onizleme-sayfa .belge-urun-tablo tbody td {
+  box-sizing: border-box;
+}
+
+/* Genel toplam paneli: 88 px taban; içerik taşması kesilmez. */
+.belge-onizleme-sayfa .belge-gt-kutu {
+  min-height: var(--islem-formu-toplam-yukseklik);
+  box-sizing: border-box;
+}
