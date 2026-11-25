@@ -1091,3 +1091,24 @@
 .belge-onizleme-sayfa .belge-logo-mini{display:none!important;}
 .belge-onizleme-sayfa .belge-urun-tablo th:last-child,
 .belge-onizleme-sayfa .belge-urun-tablo td:last-child{display:table-cell!important;}
+
+
+/* 25.11.2026 Abdullah onayı — NOT paneli: NOT etiketi ve içerik aynı satırdan başlar; uzun içerik metin alanında doğal olarak sarar. Yalnız işlem formu NOT paneli. */
+.belge-not-cerceve .belge-not-satir,
+.mail-giden-yeni-form-tasarim .belge-not-satir,
+#belgeGorselAlani .belge-not-satir {
+  display:flex!important; flex-direction:row!important; align-items:flex-start!important;
+  flex-wrap:nowrap!important; gap:7px!important; width:100%!important; box-sizing:border-box!important;
+}
+.belge-not-cerceve .belge-not-etiket,
+.mail-giden-yeni-form-tasarim .belge-not-etiket,
+#belgeGorselAlani .belge-not-etiket {
+  flex:0 0 auto!important; white-space:nowrap!important; margin:0!important;
+}
+.belge-not-cerceve .belge-not-metin,
+.mail-giden-yeni-form-tasarim .belge-not-metin,
+#belgeGorselAlani .belge-not-metin {
+  display:block!important; flex:1 1 auto!important; min-width:0!important;
+  white-space:normal!important; overflow-wrap:anywhere!important; word-break:normal!important;
+  margin:0!important; padding:0!important;
+}
