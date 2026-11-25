@@ -1731,11 +1731,11 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th:nth-child(1),
 #belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(1){width:60%!important;}
 #belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th:nth-child(2),
-#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(2){width:12%!important;}
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(2){width:10%!important;}
 #belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th:nth-child(3),
-#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(3){width:19%!important;}
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(3){width:15%!important;}
 #belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th:nth-child(4),
-#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(4){width:23%!important;}
+#belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td:nth-child(4){width:15%!important;}
 #belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit th,
 #belgeGorselAlani table.belge-urun-tablo.belge-urun-tablo--basit td{
   box-sizing:border-box!important; overflow-wrap:normal!important; word-break:normal!important;
