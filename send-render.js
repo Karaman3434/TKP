@@ -918,24 +918,20 @@ function zinciriCevaplaKopyala(){
               var panoOgesi = new ClipboardItem({"image/png": blob});
               navigator.clipboard.write([panoOgesi]).then(function(){
                 gonderimKanaliniKaydet("mail");
-                // GÜNCELLEME (11.11.2026, Abdullah'ın isteğiyle): görsel panoya kopyalanınca,
-                // normal mail gönderimindeki gibi cihazın KENDİ paylaşım penceresi açılır —
-                // programdan çıkmadan oradan mail uygulaması seçilir, pano görseli yapıştırılır.
-                // Gönderilen şey SADECE bir boşluk (Web Share API en az bir alan ister): görsel
-                // dosya olarak eklenmez (pano zaten dolu), konu/metin de eklenmez.
-                // Pencere desteklenmiyorsa eski davranış: Android'de Outlook'u açmayı dene.
-                if(navigator.share){
-                  navigator.share({text:" "}).then(function(){
-                    basariEkraninaGit("panoya");
-                  }).catch(function(){
-                    // Pencere kapatıldı/iptal — pano yine dolu, eski akışla başarı ekranına geç.
-                    basariEkraninaGit("panoya");
-                  });
-                } else {
-                  basariBildirimGoster("Kopyalandı! Mail uygulamasına geçip zincire yapıştırabilirsin.");
-                  setTimeout(function(){ mailUygulamasiniAcmayiDene(); }, 350);
-                  setTimeout(function(){ basariEkraninaGit("panoya"); }, 1800);
+                // 25.11.2026 — ZİNCİR MAIL: PNG panoya kopyalandıktan sonra
+                // paylaşım/compose penceresi açılmaz. Android'in mail uygulaması
+                // ana ekranı (gelen kutusu) hedeflenir; kullanıcı mevcut zinciri seçer.
+                // Android intent desteği cihaz/app bazında değişebilir.
+                basariBildirimGoster("İşlem formu kopyalandı. Mail gelen kutusu açılıyor; ilgili zincire yapıştırabilirsiniz.");
+                var ua = navigator.userAgent || "";
+                if(/Android/i.test(ua)){
+                  try{
+                    window.location.href = "intent://#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_EMAIL;end";
+                  }catch(e){
+                    setTimeout(function(){ mailUygulamasiniAcmayiDene(); }, 350);
+                  }
                 }
+                setTimeout(function(){ basariEkraninaGit("panoya"); }, 1800);
               }).catch(function(err){
                 alert("Kopyalanamadı: " + (err && err.message ? err.message : "izin verilmedi"));
               });
