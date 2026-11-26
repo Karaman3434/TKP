@@ -224,12 +224,9 @@ body.cart-sayfa .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
   justify-content: center;
   text-align: center;
 }
-body.cart-sayfa .belge-urun-tablo tbody td:nth-child(6) .rozet-net {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
+/* NET hücresinin display/yerleşim kuralı belge-style.css'teki ortak Grid
+   standardından gelir. Sepet kapsamındaki eski inline-flex override kaldırıldı.
+   Renk ve diğer Sepet panel kuralları burada korunur. */
 /* Prim / kur / genel toplam ortak bileşeni — Sepet'in etkileşimleri korunur. */
 body.cart-sayfa .belge-gt-kutu {
   box-sizing: border-box;
