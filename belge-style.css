@@ -1912,12 +1912,16 @@
 }
 
 
-/* 26.11.2026 — BEDELSİZ satır çizgi kontrast düzeltmesi:
-   LİSTE/İSK/NET hücrelerindeki iptal çizgisi kırmızı/yeşil zemin üzerinde
-   kaybolmasın. İSK ve NET (5. ve 6. tablo sütunu) beyaz zeminde gösterilir;
-   kırmızı çizgi öğesi aynen korunur. Ortak tabloda tüm sayfalara uygulanır. */
+/* 26.11.2026 — Abdullah onayı: BEDELSİZ satırda LİSTE/İSK/NET bilgi hücrelerinin zemini beyaz; kırmızı çizgi kontrastı korunur. İSK/NET sütun başlıklarının özgün kırmızı/yeşil renkleri ve normal ürün satırları etkilenmez. */
+.belge-urun-tablo tbody td.belge-td-bdl-iptal:nth-child(4),
 .belge-urun-tablo tbody td.belge-td-bdl-iptal:nth-child(5),
 .belge-urun-tablo tbody td.belge-td-bdl-iptal:nth-child(6){
   background:#fff!important;
   background-color:#fff!important;
+}
+
+/* Bedelsiz satırın yatay çizgileri hücre genişliğini daha iyi kullanır. */
+.belge-td-bdl-iptal .belge-bdl-cizgi{
+  width:calc(100% - 4px)!important;
+  margin-inline:auto!important;
 }
