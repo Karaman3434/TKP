@@ -2103,3 +2103,33 @@
   background:rgba(25,35,45,.24)!important;
   display:block!important;
 }
+
+/* 26.11.2026 — Sayı ve birim span'larının iç içe İSK/NET yapılarında da
+   aynı sabit koordinatlara oturması; NET TL alt satırı ayrı konumlanır. */
+.cart-sayfa .belge-mail-rakam-stack .belge-para-sayi,
+.gonder-sayfa .belge-mail-rakam-stack .belge-para-sayi,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .belge-para-sayi,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-para-sayi,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack .belge-para-sayi{
+ position:absolute!important;top:0!important;left:0!important;right:0!important;
+ display:block!important;height:25px!important;line-height:25px!important;
+ margin:0!important;padding:0!important;text-align:center!important;
+}
+.cart-sayfa .belge-mail-rakam-stack .belge-para-birim,
+.gonder-sayfa .belge-mail-rakam-stack .belge-para-birim,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .belge-para-birim,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-para-birim,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack .belge-para-birim{
+ position:absolute!important;top:31px!important;left:0!important;right:0!important;
+ display:block!important;height:15px!important;line-height:15px!important;
+ margin:0!important;padding:0!important;text-align:center!important;
+}
+.cart-sayfa .belge-mail-rakam-stack .belge-net-tl,
+.gonder-sayfa .belge-mail-rakam-stack .belge-net-tl,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .belge-net-tl,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-net-tl,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack .belge-net-tl{
+ position:absolute!important;top:45px!important;left:0!important;right:0!important;
+ display:block!important;height:12px!important;line-height:12px!important;
+ margin:0!important;padding:0!important;text-align:center!important;
+}
