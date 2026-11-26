@@ -1910,3 +1910,14 @@
   display:block!important;line-height:1.05!important;font-size:10px!important;font-weight:800!important;
   margin:0!important;padding:0!important;height:auto!important;min-height:0!important;text-align:center!important;white-space:nowrap!important;
 }
+
+
+/* 26.11.2026 — BEDELSİZ satır çizgi kontrast düzeltmesi:
+   LİSTE/İSK/NET hücrelerindeki iptal çizgisi kırmızı/yeşil zemin üzerinde
+   kaybolmasın. İSK ve NET (5. ve 6. tablo sütunu) beyaz zeminde gösterilir;
+   kırmızı çizgi öğesi aynen korunur. Ortak tabloda tüm sayfalara uygulanır. */
+.belge-urun-tablo tbody td.belge-td-bdl-iptal:nth-child(5),
+.belge-urun-tablo tbody td.belge-td-bdl-iptal:nth-child(6){
+  background:#fff!important;
+  background-color:#fff!important;
+}
