@@ -2312,3 +2312,44 @@
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack > .rozet-net .belge-para-birim{
   position:absolute!important; top:31px!important; left:0!important; right:0!important; width:100%!important; height:16px!important; line-height:16px!important; display:block!important; text-align:center!important; z-index:3!important; color:#fff!important; font-weight:800!important; visibility:visible!important; opacity:1!important;
 }
+
+
+/* 26.11.2026 — ONAYLI İSK/NET BİRİM YERLEŞİMİ: rakam ortak referans
+   çizgisinin üstünde; % ve EURO etiketi çizginin ALTINDA; NET TL eşdeğeri
+   Euro etiketinin alt satırında. Sadece standart ürün tablosu, dört görünüm.
+   Mevcut tasarım/renk/kolon/hesaplama kuralları korunur. */
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-mail-rakam-stack,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-mail-rakam-stack,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-mail-rakam-stack,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-mail-rakam-stack,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(5) .belge-mail-rakam-stack,
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-mail-rakam-stack,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-mail-rakam-stack,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-mail-rakam-stack,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-mail-rakam-stack,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(6) .belge-mail-rakam-stack{
+  height:60px!important; min-height:60px!important; overflow:visible!important;
+}
+.cart-sayfa .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+.gonder-sayfa .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+.cart-sayfa .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+.gonder-sayfa .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+#belgeGorselAlani .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack .rozet-net .belge-para-birim{
+  top:31px!important; height:16px!important; min-height:16px!important;
+  line-height:16px!important; z-index:4!important; visibility:visible!important;
+  opacity:1!important; color:#fff!important; font-weight:800!important;
+}
+.cart-sayfa .belge-mail-rakam-stack .belge-net-tl,
+.gonder-sayfa .belge-mail-rakam-stack .belge-net-tl,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .belge-net-tl,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-net-tl,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack .belge-net-tl{
+  top:49px!important; height:11px!important; min-height:11px!important;
+  line-height:11px!important; z-index:4!important; visibility:visible!important;
+  opacity:1!important; display:block!important; text-align:center!important;
+}
