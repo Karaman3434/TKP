@@ -78,6 +78,16 @@ var HareketTablo = (function(){
     return "<span class='belge-para-sayi" + (buyukMu ? " belge-para-sayi--buyuk" : "") + "'>" + sayiStr + "</span><span class='belge-para-birim'>" + birim + "</span>";
   }
 
+  // Yeni ortak İSK/NET hücre mimarisi: sayı, ince kısa çizgi ve etiket doğal akışta.
+  function birimHucresiHtml(sayiStr, birim, tlHtml){
+    var buyukMu = String(sayiStr).indexOf(".") > -1;
+    return "<span class='belge-birim-hucresi'>"
+      + "<span class='belge-birim-deger belge-para-sayi" + (buyukMu ? " belge-para-sayi--buyuk" : "") + "'>" + sayiStr + "</span>"
+      + "<span class='belge-birim-cizgi' aria-hidden='true'></span>"
+      + "<span class='belge-birim-etiket'>" + birim + "</span>"
+      + (tlHtml || "") + "</span>";
+  }
+
   // urunler: [{ad, berta, abas, listeFiyat, dipFiyat, iskonto, adet}]
   // hesapla(u): CartData.hesapla ile aynı imzada fonksiyon — {iskontoluFiyat, toplamEuro, mudurPrim}
   // zeminSinifi: "hareket-satir--sari" | "hareket-satir--yesil" | ""
@@ -143,7 +153,7 @@ var HareketTablo = (function(){
         return "<tr class='" + (zeminSinifi||"") + "'>"
           + urunHucre
           + "<td>" + (u.adet!=null ? u.adet : "-") + "</td>"
-          + (bedelsizMi ? bdlCizgiTd : "<td>" + (toplamVarMi ? "<span class='rozet-net'>"+paraHtml(fmt(h.iskontoluFiyat),"EURO")+netTl+"</span>" : "-") + "</td>")
+          + (bedelsizMi ? bdlCizgiTd : "<td>" + (toplamVarMi ? "<span class='rozet-net'>"+birimHucresiHtml(fmt(h.iskontoluFiyat),"EURO",netTl)+"</span>" : "-") + "</td>")
           + "<td class='belge-td-toplam'>" + toplamHucreIcerik + "</td>"
           + "</tr>";
       }
@@ -162,7 +172,7 @@ var HareketTablo = (function(){
         + "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'><span class='belge-rakam-sayi'>" + (u.adet!=null ? u.adet : "-") + "</span></span></td>"
         + (bedelsizMi ? bdlCizgiTd + bdlCizgiTd + bdlCizgiTd : (
             "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (u.listeFiyat!=null ? paraHtml(fmt(u.listeFiyat),"EURO") : "-") + "</span></td>"
-          + "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (iskYuz100 ? "-" : (u.iskonto!=null ? "<span class='belge-isk-metin'>"+paraHtml(u.iskonto,"%")+"</span>" : "-")) + "</span></td>"
+          + "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (iskYuz100 ? "-" : (u.iskonto!=null ? "<span class='belge-isk-metin'>"+birimHucresiHtml(u.iskonto,"%")+"</span>" : "-")) + "</span></td>"
           + "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (toplamVarMi ? "<span class='rozet-net'>"+paraHtml(fmt(h.iskontoluFiyat),"EURO")+netTl+"</span>" : "-") + "</span></td>"))
         + "<td class='belge-td-toplam belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + toplamHucreIcerik + "</span></td>"
         + (primGizli ? "" : "<td class='belge-td-prim'>" + primHucre + "</td>")
