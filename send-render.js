@@ -618,13 +618,13 @@ function belgeGorseliniOlustur(kanal, callback){
         yakalama.style.top = "0px";
         yakalama.style.right = "auto";
         yakalama.style.bottom = "auto";
-        // 26.11.2026 — Mail'e kopyalanan PNG, cihazın kullanılabilir ekran
-        // genişliğini doldurur; yalnızca yaklaşık 1 mm kenar payı bırakılır.
-        // 26.11.2026 — kenar payı 1 mm (yaklaşık 4 CSS px, her iki kenarda).
-        var pngEkranGenisligi = Math.max(document.documentElement.clientWidth - 8, 320);
+        // 26.11.2026 — PNG yakalama alanı: cihazın kullanılabilir genişliği,
+        // yalnızca her kenarda 1 CSS px boşluk bırakacak şekilde ölçülür.
+        // İç wrapper'ın padding'i onclone içinde sıfırlanarak çift boşluk önlenir.
+        var pngEkranGenisligi = Math.max(document.documentElement.clientWidth - 2, 320);
         yakalama.style.width = pngEkranGenisligi + "px";
         yakalama.style.height = "auto";
-        yakalama.style.margin = "0 4px";
+        yakalama.style.margin = "0 1px";
         yakalama.style.zIndex = "2147483647";
         yakalama.style.opacity = "0.001";
         yakalama.style.pointerEvents = "none";
@@ -655,6 +655,15 @@ function belgeGorseliniOlustur(kanal, callback){
                 clonedArea.style.top = "0px";
                 clonedArea.style.opacity = "1";
                 clonedArea.style.position = "fixed";
+                clonedArea.style.width = pngEkranGenisligi + "px";
+                clonedArea.style.margin = "0 1px";
+                clonedArea.style.padding = "0";
+                var formWrap = clonedArea.querySelector(".mail-giden-yeni-form-tasarim");
+                if(formWrap){formWrap.style.width="100%";formWrap.style.maxWidth="none";formWrap.style.margin="0";formWrap.style.padding="0";formWrap.style.boxSizing="border-box";}
+                var inner = clonedArea.querySelector("#mailOnizlemeTablo");
+                if(inner){inner.style.width="100%";inner.style.maxWidth="none";inner.style.margin="0";inner.style.padding="0";inner.style.boxSizing="border-box";}
+                var table = clonedArea.querySelector("table.belge-urun-tablo--giden");
+                if(table){table.style.width="100%";table.style.maxWidth="100%";table.style.margin="0";table.style.boxSizing="border-box";}
               }
             }
           }).then(function(canvas){
