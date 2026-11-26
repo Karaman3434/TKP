@@ -309,3 +309,45 @@ body.gonder-sayfa .belge-gt-kdv2 { color:var(--islem-formu-beyaz)!important; }
   width:100%!important;max-width:100%!important;min-width:0!important;
   box-sizing:border-box!important;
 }
+
+
+/* 26.11.2026 — iPad/tablet işlem formu GENEL genişlik düzeltmesi.
+   Önceki düzeltme yalnız ürün kartını genişletiyordu; cari başlığı, vade/fatura/kargo,
+   adres/yetkili, NOT ve Genel Toplam alanları ortak gövdenin 640px sınırında kalıyordu.
+   Tabletlerde iki form ekranının gövde sınırı kaldırılır ve tüm paneller 1mm yan payla
+   kullanılabilir genişliği doldurur. Telefon ölçüleri (<=640px) değişmez. */
+@media (min-width:641px){
+  body.belge-onizleme-sayfa,
+  body.gonder-sayfa{
+    width:100%!important;max-width:none!important;margin:0!important;
+  }
+  body.belge-onizleme-sayfa .sayfa,
+  body.gonder-sayfa .sayfa{
+    width:100%!important;max-width:none!important;margin:0!important;
+    padding-left:1mm!important;padding-right:1mm!important;
+    box-sizing:border-box!important;
+  }
+  body.belge-onizleme-sayfa .belge-kart--cari-ust,
+  body.belge-onizleme-sayfa .belge-kart--urun-cerceveli,
+  body.belge-onizleme-sayfa .belge-gt-kutu,
+  body.gonder-sayfa .belge-kart--cari-ust,
+  body.gonder-sayfa .belge-kart--urun-cerceveli,
+  body.gonder-sayfa .belge-gt-kutu{
+    width:100%!important;max-width:none!important;min-width:0!important;
+    margin-left:0!important;margin-right:0!important;box-sizing:border-box!important;
+  }
+  body.belge-onizleme-sayfa .belge-form-baslik,
+  body.belge-onizleme-sayfa .musteri-serit.musteri-serit--islem,
+  body.belge-onizleme-sayfa .belge-kosul-grid,
+  body.belge-onizleme-sayfa .belge-kosul-alan,
+  body.belge-onizleme-sayfa .belge-adres-yetkili-cerceve,
+  body.belge-onizleme-sayfa .mail-not-giden,
+  body.gonder-sayfa .belge-form-baslik,
+  body.gonder-sayfa .musteri-serit.musteri-serit--islem,
+  body.gonder-sayfa .belge-kosul-grid,
+  body.gonder-sayfa .belge-kosul-alan,
+  body.gonder-sayfa .belge-adres-yetkili-cerceve,
+  body.gonder-sayfa .mail-not-giden{
+    width:100%!important;max-width:none!important;box-sizing:border-box!important;
+  }
+}
