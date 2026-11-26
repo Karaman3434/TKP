@@ -295,3 +295,17 @@ body.gonder-sayfa .belge-gt-etiket2,
 body.gonder-sayfa .belge-gt-euro2,
 body.gonder-sayfa .belge-gt-tl2,
 body.gonder-sayfa .belge-gt-kdv2 { color:var(--islem-formu-beyaz)!important; }
+
+
+/* 26.11.2026 — iPad 9 yatay tablo taşma/yarım görünme düzeltmesi.
+   Yalnız İşlem Önizleme ürün tablosu kartı: 760px referans sınırı kaldırılır,
+   sayfa kullanılabilir yatay alanını 1mm kenar payıyla doldurur. */
+.belge-onizleme-sayfa .belge-kart--urun-cerceveli{
+  width:100%!important;max-width:none!important;min-width:0!important;
+  box-sizing:border-box!important;
+}
+.belge-onizleme-sayfa .belge-kart--urun-cerceveli .data-table-container,
+.belge-onizleme-sayfa .belge-kart--urun-cerceveli .belge-urun-tablo{
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  box-sizing:border-box!important;
+}
