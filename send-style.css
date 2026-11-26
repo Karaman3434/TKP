@@ -2127,3 +2127,17 @@ body.as-drawer-kilit { overflow: hidden; }
  display:block!important;width:100%!important;font-size:13px!important;font-weight:800!important;
  line-height:1.15!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;
 }
+
+
+/* 26.11.2026 — iPad 9 Mail önizleme/PNG işlem tablosu genişlik düzeltmesi.
+   760px sabit PNG/form sınırı kaldırılır; ekran kullanılabilir genişliği dolar. */
+#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli{
+  width:100%!important;max-width:none!important;min-width:0!important;
+  box-sizing:border-box!important;
+}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .data-table-container,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden{
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  box-sizing:border-box!important;
+}
