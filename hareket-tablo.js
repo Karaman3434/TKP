@@ -184,16 +184,25 @@ var HareketTablo = (function(){
   // .belge-gt-kutu vs .belge-genel-toplam-serit / .belge-prim-serit vs
   // .belge-prim-toplam-serit) buna DAHİL DEĞİL — sadece bu adı geçen tablo.
   function urunTablosuHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur, ekSinif, weiconLink){
-    var basHucreler = basit
-      ? "<th style='width:46%;'>ÜRÜN BİLGİSİ</th><th style='width:12%;'>ADET</th><th style='width:19%;'>NET</th><th style='width:23%;'>TOPLAM</th>"
-      : (primGizli
-          ? "<th style='width:2.5%;'></th><th style='width:33.5%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:16%;'>NET</th><th style='width:18%;'>TOPLAM</th>"
-          : "<th style='width:2.5%;'>SR</th><th style='width:30.3%;'>ÜRÜN BİLGİSİ</th><th style='width:10%;'>ADET</th><th style='width:10%;'>LİSTE</th><th style='width:10%;'>İSK</th><th style='width:13%;'>NET</th><th style='width:13%;'>TOPLAM</th><th style='width:11.2%;'>PRİM</th>");
-    // ekSinif (opsiyonel): çağıran sayfaya özel EK bir CSS sınıfı (örn.
-    // send-render.js'teki "belge-urun-tablo--giden" — table-layout:fixed —
-    // giden görsel için) — tablo/sütun YAPISINI değiştirmez, sadece var
-    // olan sayfa-özel bir görsel kuralın üstüne eklenmesini sağlar.
+    // Abdullah'ın onayladığı 2042 px referans ölçülerinin yüzde oranları:
+    // 8 sütun: SR 3.57, Ürün 29.53, Adet 9.26, Liste 10.48,
+    // İSK 9.94, NET 12.83, Toplam 13.22, Prim 11.17.
+    // PRİM gizli müşteriye giden PNG'de kalan 7 sütun yeniden ölçeklenir.
+    var colgroup = "";
+    var basHucreler = "";
+    if(basit){
+      colgroup = "<colgroup><col style='width:46%;'><col style='width:12%;'><col style='width:19%;'><col style='width:23%;'></colgroup>";
+      basHucreler = "<th style='width:46%;'>ÜRÜN BİLGİSİ</th><th style='width:12%;'>ADET</th><th style='width:19%;'>NET</th><th style='width:23%;'>TOPLAM</th>";
+    } else if(primGizli){
+      // 8 sütunlu referans ölçüsünden PRİM sütunu çıkarılarak kalan oranlar normalize edildi.
+      colgroup = "<colgroup><col style='width:4.02%;'><col style='width:33.24%;'><col style='width:10.42%;'><col style='width:11.79%;'><col style='width:11.19%;'><col style='width:14.44%;'><col style='width:14.88%;'></colgroup>";
+      basHucreler = "<th style='width:4.02%;'></th><th style='width:33.24%;'>ÜRÜN BİLGİSİ</th><th style='width:10.42%;'>ADET</th><th style='width:11.79%;'>LİSTE</th><th style='width:11.19%;'>İSK</th><th style='width:14.44%;'>NET</th><th style='width:14.88%;'>TOPLAM</th>";
+    } else {
+      colgroup = "<colgroup><col style='width:3.57%;'><col style='width:29.53%;'><col style='width:9.26%;'><col style='width:10.48%;'><col style='width:9.94%;'><col style='width:12.83%;'><col style='width:13.22%;'><col style='width:11.17%;'></colgroup>";
+      basHucreler = "<th style='width:3.57%;'>SR</th><th style='width:29.53%;'>ÜRÜN BİLGİSİ</th><th style='width:9.26%;'>ADET</th><th style='width:10.48%;'>LİSTE</th><th style='width:9.94%;'>İSK</th><th style='width:12.83%;'>NET</th><th style='width:13.22%;'>TOPLAM</th><th style='width:11.17%;'>PRİM</th>";
+    }
     return "<div class='data-table-container'><table class='belge-urun-tablo" + (basit ? " belge-urun-tablo--basit" : "") + (ekSinif ? " " + ekSinif : "") + "'>"
+      + colgroup
       + "<thead><tr>" + basHucreler + "</tr></thead>"
       + "<tbody>" + satirlarHtml(urunler, hesapla, zeminSinifi, basit, primGizli, kur, weiconLink) + "</tbody></table></div>";
   }
