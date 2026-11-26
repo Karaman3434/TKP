@@ -2223,3 +2223,28 @@
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(6) .belge-mail-rakam-stack .belge-para-birim{
   color:#fff!important; font-weight:800!important; white-space:nowrap!important;
 }
+
+
+/* 26.11.2026 — Canlı görünüm doğrultusunda İSK (%) ve NET (EURO) etiketlerini
+   gerçek HTML yapısına (.belge-isk-metin / .rozet-net içindeki paraHtml)
+   hedefleyen düzeltme. Dört ortak görünüm. */
+.cart-sayfa .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+.gonder-sayfa .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim{
+  position:absolute!important; top:31px!important; left:0!important; right:0!important;
+  width:100%!important; height:15px!important; line-height:15px!important;
+  margin:0!important; padding:0!important; display:block!important;
+  text-align:center!important; color:#fff!important; font-weight:800!important;
+}
+.cart-sayfa .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+.gonder-sayfa .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+#belgeGorselAlani .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack .rozet-net .belge-para-birim{
+  position:absolute!important; top:31px!important; left:0!important; right:0!important;
+  width:100%!important; height:15px!important; line-height:15px!important;
+  margin:0!important; padding:0!important; display:block!important;
+  text-align:center!important; color:#fff!important; font-weight:800!important;
+}
