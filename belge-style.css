@@ -1971,3 +1971,11 @@
 .belge-urun-tablo--basit tbody tr:first-child td:nth-child(3) {
   border-top: 1px solid #ffffff !important;
 }
+
+
+/* 26.11.2026 — Abdullah onayı: ortak cari bilgi kartında YETKİLİ satırının alt boşluğu azaltıldı. Yetkili içeriği ile dış çerçeve arasında yaklaşık 1mm boşluk; yalnız ortak işlem formu cari kartı. */
+.belge-adres-yetkili-cerceve { padding-bottom: 1mm !important; }
+.belge-adres-yetkili-cerceve .cari-form-bolum--yetkili { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+.belge-adres-yetkili-cerceve .cari-form-bolum--yetkili .ck-blok,
+.belge-adres-yetkili-cerceve .cari-form-bolum--yetkili .ck-kart-liste,
+.belge-adres-yetkili-cerceve .cari-form-bolum--yetkili .ck-kart { margin-bottom: 0 !important; padding-bottom: 0 !important; }
