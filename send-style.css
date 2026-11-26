@@ -2152,7 +2152,7 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani table.belge-urun-tablo--giden thead th:nth-child(5){background:#f04444!important;color:#fff!important;}
 #belgeGorselAlani table.belge-urun-tablo--giden thead th:nth-child(6){background:#07852b!important;color:#fff!important;}
 #belgeGorselAlani table.belge-urun-tablo--basit thead th:nth-child(3){background:#07852b!important;color:#fff!important;}
-#belgeGorselAlani tbody td.belge-td-bdl-iptal.belge-bdl-beyaz-hucre {background:#fff!important;background-color:#fff!important;color:#fff!important;}
+#belgeGorselAlani tbody td.belge-td-bdl-iptal.belge-bdl-beyaz-hucre {background:#fff!important;color:#fff!important;}
 
 
 /* 26.11.2026 — Mail PNG yatay kenar boşluğu kök çözümü (yalnız PNG yakalama alanı).
