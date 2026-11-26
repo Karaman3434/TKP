@@ -2298,3 +2298,21 @@ body.as-drawer-kilit { overflow: hidden; }
   padding:0!important;
   text-align:center!important;
 }
+
+
+/* 26.11.2026 — kesin merkez hizası: mail PNG sayısal hücreleri ve alt birimler */
+#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) {
+ text-align:center!important; vertical-align:middle!important;
+}
+#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-mail-rakam-stack {
+ display:flex!important; flex-direction:column!important; align-items:center!important; justify-content:center!important;
+ width:100%!important; margin:0 auto!important; padding:0!important; text-align:center!important;
+}
+#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-mail-rakam-stack > span {
+ display:block!important; width:100%!important; box-sizing:border-box!important; margin:0 auto!important; text-align:center!important;
+}
+#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-para-sayi,
+#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-rakam-sayi,
+#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-para-birim {
+ text-align:center!important; align-self:center!important;
+}
