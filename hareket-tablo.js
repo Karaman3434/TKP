@@ -130,7 +130,7 @@ var HareketTablo = (function(){
       var bdlYazi = "<span class='belge-bdl-yazi'>BEDELSİZ</span>";
       // Bedelsizde LİSTE/İSK/NET hücreleri boş; sadece kırmızı çizgi (gerçek
       // eleman — ::after değil — çünkü Gönder'deki html2canvas görseli de çizsin).
-      var bdlCizgiTd = "<td class='belge-td-bdl-iptal'><span class='belge-bdl-cizgi'></span></td>";
+      var bdlCizgiTd = "<td class='belge-td-bdl-iptal belge-bdl-beyaz-hucre'><span class='belge-bdl-cizgi'></span></td>";
       var toplamHucreIcerik = !toplamVarMi ? "-" : (bedelsizMi ? bdlYazi : paraHtml(fmt(h.toplamEuro),"EURO"));
       var netTl = toplamVarMi ? netTlHtml(h.iskontoluFiyat, kur) : "";
       // DÜZELTME (15.10.2026, Abdullah onayı): harf (B/A) ile kod arasındaki
