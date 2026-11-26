@@ -1979,3 +1979,15 @@
 .belge-adres-yetkili-cerceve .cari-form-bolum--yetkili .ck-blok,
 .belge-adres-yetkili-cerceve .cari-form-bolum--yetkili .ck-kart-liste,
 .belge-adres-yetkili-cerceve .cari-form-bolum--yetkili .ck-kart { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+
+
+/* 26.11.2026 — HATA DÜZELTME: BEDELSİZ satırındaki çizgi hücreleri, tüm render/PNG bağlamlarında kesin beyaz zemin. */
+.belge-urun-tablo tbody tr td.belge-td-bdl-iptal,
+.belge-urun-tablo tbody tr td.belge-td-bdl-iptal.belge-bdl-beyaz-hucre,
+#belgeGorselAlani .belge-urun-tablo tbody tr td.belge-td-bdl-iptal,
+#belgeGorselAlani .belge-urun-tablo--giden tbody tr td.belge-td-bdl-iptal,
+#belgeGorselAlani .belge-urun-tablo--basit tbody tr td.belge-td-bdl-iptal {
+  background:#ffffff!important;background-color:#ffffff!important;color:#ffffff!important;background-image:none!important;box-shadow:none!important;
+}
+.belge-urun-tablo tbody tr td.belge-td-bdl-iptal .belge-bdl-cizgi,
+#belgeGorselAlani .belge-urun-tablo tbody tr td.belge-td-bdl-iptal .belge-bdl-cizgi {background:#d62828!important;background-color:#d62828!important;}
