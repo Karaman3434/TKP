@@ -2148,10 +2148,7 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani .mail-giden-yeni-form-tasarim {padding:1px!important;}
 
 
-/* 26.11.2026 — PNG kopyasında cihaz kenar boşluğu 1px: eski 8px kuralını düzelt, net tablo/header rengi ve bedelsiz çizgi hücreleri korunur. */
-#belgeGorselAlani #mailOnizlemeTablo,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim,
-#belgeGorselAlani table.belge-urun-tablo--giden {width:calc(100vw - 2px)!important;max-width:none!important;min-width:0!important;margin:0 1px!important;box-sizing:border-box!important;}
+/* 26.11.2026 — PNG yakalama alanında İSK/NET başlık renkleri ve bedelsiz hücre zemini. */
 #belgeGorselAlani table.belge-urun-tablo--giden thead th:nth-child(5){background:#f04444!important;color:#fff!important;}
 #belgeGorselAlani table.belge-urun-tablo--giden thead th:nth-child(6){background:#07852b!important;color:#fff!important;}
 #belgeGorselAlani table.belge-urun-tablo--basit thead th:nth-child(3){background:#07852b!important;color:#fff!important;}
