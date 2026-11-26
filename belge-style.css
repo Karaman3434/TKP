@@ -2353,3 +2353,33 @@
   line-height:11px!important; z-index:4!important; visibility:visible!important;
   opacity:1!important; display:block!important; text-align:center!important;
 }
+
+
+/* 26.11.2026 — ONAYLI SON HİZALAMA: birim etiketleri çizgiye yakın.
+   İSK % ve NET EURO, orta çizginin hemen altında; TL eşdeğeri EURO'nun
+   altında. Dört görünümde ortak. Önceki çakışan top değerlerini bastırır. */
+.cart-sayfa .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+.gonder-sayfa .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+.gonder-sayfa .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+#belgeGorselAlani .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack .belge-isk-metin .belge-para-birim,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack .rozet-net .belge-para-birim,
+.cart-sayfa .belge-mail-rakam-stack .rozet-net .belge-para-birim {
+  top:26px!important;
+  height:14px!important;
+  min-height:14px!important;
+  line-height:14px!important;
+}
+.cart-sayfa .belge-mail-rakam-stack .belge-net-tl,
+.gonder-sayfa .belge-mail-rakam-stack .belge-net-tl,
+.belge-onizleme-sayfa .belge-mail-rakam-stack .belge-net-tl,
+#belgeGorselAlani .belge-mail-rakam-stack .belge-net-tl,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack .belge-net-tl {
+  top:42px!important;
+  height:12px!important;
+  min-height:12px!important;
+  line-height:12px!important;
+}
