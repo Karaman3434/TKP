@@ -166,11 +166,10 @@ function adresleriBelirle(musteri){
 // gönderilen belge türüne göre değişir (bkz. mesaj-data.js — NUMUNE de
 // 28.09.2026'dan itibaren aynı ortak "mail" şablonunu kullanıyor).
 function mesajMetniOlustur(musteri, sepet, tip, kanal){
-  // 25.11.2026 Abdullah onayı: WhatsApp mesajı mail şablonlarından bağımsız ve ürün sayısına göre otomatik.
+  // 26.11.2026 Abdullah onayı: WhatsApp mesajı için tek ve sabit metin.
+  // Mail şablonlarına ve diğer kanallara müdahale edilmez.
   if(kanal === "whatsapp"){
-    return (sepet && sepet.length > 1)
-      ? "İstediğiniz ürünler için fiyat bilgisi ektedir."
-      : "İstediğiniz ürün için fiyat bilgisi ektedir.";
+    return "Merhaba,\\nİstediğiniz ürün için FİYAT BİLGİSİ ektedir.";
   }
   return MesajData.uygula(MesajData.oku("mail", tip), tip);
 }
