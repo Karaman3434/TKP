@@ -1985,8 +1985,7 @@ body.as-drawer-kilit { overflow: hidden; }
    uygulanır. Sadece belgeGorselAlani içindeki mail PNG sarmalayıcısı hedeflenir.
    HareketTablo ortak HTML'i korunur; yeni tablo/hesaplama motoru yoktur. */
 #belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo{
-  width:760px!important;max-width:760px!important;box-sizing:border-box!important;
-  padding:10px!important;background:#fff!important;color:#101820!important;
+  box-sizing:border-box!important;background:#fff!important;color:#101820!important;
   font-family:Roboto,"Segoe UI",Arial,sans-serif!important;
 }
 #belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-kart-ayrac{
