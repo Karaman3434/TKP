@@ -620,10 +620,10 @@ function belgeGorseliniOlustur(kanal, callback){
         yakalama.style.bottom = "auto";
         // 26.11.2026 — Mail'e kopyalanan PNG, cihazın kullanılabilir ekran
         // genişliğini doldurur; yalnızca yaklaşık 1 mm kenar payı bırakılır.
-        var pngEkranGenisligi = Math.max(document.documentElement.clientWidth - 8, 320);
+        var pngEkranGenisligi = Math.max(document.documentElement.clientWidth - 2, 320);
         yakalama.style.width = pngEkranGenisligi + "px";
         yakalama.style.height = "auto";
-        yakalama.style.margin = "0";
+        yakalama.style.margin = "0 1px";
         yakalama.style.zIndex = "2147483647";
         yakalama.style.opacity = "0.001";
         yakalama.style.pointerEvents = "none";
