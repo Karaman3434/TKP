@@ -2180,3 +2180,11 @@ body.as-drawer-kilit { overflow: hidden; }
   width:calc(100vw - 8px)!important;max-width:none!important;min-width:0!important;
   margin:0!important;padding:1mm!important;box-sizing:border-box!important;
 }
+
+
+/* 26.11.2026 — PNG mail genişliği: yakalama alanı/table kenarlarda 1px payla viewport genişliğini doldursun. */
+#belgeGorselAlani,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden {width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;box-sizing:border-box!important;}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim {padding:1px!important;}
