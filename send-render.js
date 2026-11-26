@@ -169,7 +169,7 @@ function mesajMetniOlustur(musteri, sepet, tip, kanal){
   // 26.11.2026 Abdullah onayı: WhatsApp mesajı için tek ve sabit metin.
   // Mail şablonlarına ve diğer kanallara müdahale edilmez.
   if(kanal === "whatsapp"){
-    return "Merhaba,\\nİstediğiniz ürün için FİYAT BİLGİSİ ektedir.";
+    return "Merhaba,\nİstediğiniz ürün için FİYAT BİLGİSİ ektedir.";
   }
   return MesajData.uygula(MesajData.oku("mail", tip), tip);
 }
