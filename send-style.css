@@ -2240,3 +2240,61 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam .belge-mail-rakam-stack * {
   text-align:center!important;
 }
+
+
+/* 26.11.2026 — PNG mail tablosu: ADET/LİSTE/İSK/NET/TOPLAM sayıları ve birimleri
+   tek, sabit merkez ekseninde hizalanır. Yalnız rakam taşıyan hücreler hedeflenir;
+   başlıklar, bedelsiz çizgi hücreleri, renkler ve tablo ölçüleri korunur. */
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) {
+  text-align:center!important;
+  vertical-align:middle!important;
+  padding-left:2px!important;
+  padding-right:2px!important;
+}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) > .belge-mail-rakam-stack {
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  text-align:center!important;
+}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-rakam-sayi,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-para-sayi {
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:18px!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+  line-height:18px!important;
+  font-variant-numeric:tabular-nums!important;
+  white-space:nowrap!important;
+}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-para-birim {
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:11px!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+  line-height:11px!important;
+  font-variant-numeric:tabular-nums!important;
+  white-space:nowrap!important;
+}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-isk-metin,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .rozet-net {
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+}
