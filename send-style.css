@@ -2214,3 +2214,29 @@ body.as-drawer-kilit { overflow: hidden; }
   width:100%!important;max-width:100%!important;margin-left:0!important;margin-right:0!important;
   box-sizing:border-box!important;
 }
+
+
+/* 26.11.2026 — Abdullah onayı: Mail PNG sayısal ürün hücreleri kesin merkez hizası.
+   Yalnız PNG yakalama alanındaki ürün satırlarının rakam hücreleri hedeflenir;
+   başlık satırı, renkler, bedelsiz çizgiler ve diğer sayfalar değiştirilmez. */
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam {
+  text-align:center!important;
+  vertical-align:middle!important;
+}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre .belge-mail-rakam-stack,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam .belge-mail-rakam-stack {
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  box-sizing:border-box!important;
+  margin:0 auto!important;
+  padding:0!important;
+  text-align:center!important;
+}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre .belge-mail-rakam-stack *,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam .belge-mail-rakam-stack * {
+  text-align:center!important;
+}
