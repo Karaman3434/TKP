@@ -701,3 +701,22 @@
 }
 /* 11.11.2026: Fatura ve Ödeme Takip artık genel Fatura Vade Takip sayfası gibi düz sayfa (kutu/gölge yok). */
 #faturaTakipOverlay .tip-secim-kutu { box-shadow: none; padding: 0 0 12px; }
+
+
+/* 26.11.2026 — Açık belge uyarısı ana ekran çekmecesi ve müşteri popup'larının
+   üstünde, bağımsız tam ekran modal olarak gösterilir. */
+#abkOverlay.tip-secim-overlay{
+  position:fixed!important; inset:0!important; top:0!important; left:0!important;
+  right:0!important; bottom:0!important; z-index:12000!important;
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  background:rgba(12,24,40,.72)!important;
+  padding:16px!important; box-sizing:border-box!important;
+}
+#abkOverlay.tip-secim-overlay[hidden]{display:none!important;}
+#abkOverlay .tip-secim-kutu{
+  width:min(520px,100%)!important; max-width:520px!important;
+  max-height:calc(100dvh - 32px)!important; overflow:auto!important;
+  box-sizing:border-box!important; border-radius:16px!important;
+  padding:18px!important; margin:auto!important;
+  box-shadow:0 14px 40px rgba(0,0,0,.35)!important;
+}
