@@ -1925,3 +1925,49 @@
   width:calc(100% - 4px)!important;
   margin-inline:auto!important;
 }
+
+
+/* ABDULLAH ONAYI — ORTAK ÜRÜN TABLOSU ETİKET SATIRI STANDARDI
+   26.11.2026: İşlem Önizleme / Ürün Bul-Hesapla-Sepet / Gönder / mail PNG
+   aynı etiket satırı zeminleri, yükseklik ve hücre ayrımıyla gösterilir.
+   Yalnızca görünüm; veri ve hesaplama etkilenmez. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th {
+  background: #073b70 !important;
+  color: #ffffff !important;
+  height: 44px !important;
+  box-sizing: border-box !important;
+  padding: 8px 3px !important;
+  vertical-align: middle !important;
+  border-bottom: 1px solid #ffffff !important;
+}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(5) {
+  background: var(--urun-isk-bg, #f04444) !important;
+  border-bottom: 1px solid #ffffff !important;
+}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(6) {
+  background: var(--urun-net-bg, #07852b) !important;
+  border-bottom: 1px solid #ffffff !important;
+}
+/* Etiket satırı ile ilk ürün hücreleri arasındaki beyaz ayırıcı;
+   özellikle İSK/NET renk bloklarının üst-alt hücreleri karışmasın. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody tr:first-child td:nth-child(5),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody tr:first-child td:nth-child(6) {
+  border-top: 1px solid #ffffff !important;
+}
+/* Müşteriye gönderilen sade PNG tablosunun NET etiketini de aynı yeşil standardında tut. */
+.belge-urun-tablo--basit thead th {
+  background: #073b70 !important;
+  color: #ffffff !important;
+  height: 44px !important;
+  box-sizing: border-box !important;
+  padding: 8px 3px !important;
+  vertical-align: middle !important;
+  border-bottom: 1px solid #ffffff !important;
+}
+.belge-urun-tablo--basit thead th:nth-child(3) {
+  background: var(--urun-net-bg, #07852b) !important;
+  border-bottom: 1px solid #ffffff !important;
+}
+.belge-urun-tablo--basit tbody tr:first-child td:nth-child(3) {
+  border-top: 1px solid #ffffff !important;
+}
