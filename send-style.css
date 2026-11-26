@@ -2141,3 +2141,17 @@ body.as-drawer-kilit { overflow: hidden; }
   width:100%!important;max-width:100%!important;min-width:0!important;
   box-sizing:border-box!important;
 }
+
+
+/* 26.11.2026 — Mail uygulamasına kopyalanan PNG: cihaz genişliği boyunca,
+   kenarlarda yaklaşık 1 mm pay. Sadece gerçek Mail PNG render alanı etkilenir. */
+#belgeGorselAlani .mail-giden-yeni-form-tasarim{
+  width:100%!important;max-width:none!important;margin:0!important;
+  padding:1mm!important;box-sizing:border-box!important;
+}
+#belgeGorselAlani #mailOnizlemeTablo,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-kart--cari-ust,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-kutu{
+  width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;
+  box-sizing:border-box!important;
+}
