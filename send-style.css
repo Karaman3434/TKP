@@ -2155,3 +2155,28 @@ body.as-drawer-kilit { overflow: hidden; }
   width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;
   box-sizing:border-box!important;
 }
+
+
+/* 26.11.2026 — Mail PNG: bedelsiz LİSTE/İSK/NET çizgi hücreleri
+   kesin beyaz zemin; aynı ölçülü, yatay ve hücre genişliğine eşit çizgiler. */
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td.belge-bdl-beyaz-hucre,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-bdl-beyaz-hucre{
+  background:#fff!important;color:#fff!important;padding:0 2px!important;
+  vertical-align:middle!important;text-align:center!important;box-sizing:border-box!important;
+  border:1px solid #c7cbd0!important;
+}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td.belge-bdl-beyaz-hucre .belge-bdl-cizgi,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-bdl-beyaz-hucre .belge-bdl-cizgi{
+  display:block!important;width:100%!important;max-width:none!important;height:2px!important;
+  margin:0!important;padding:0!important;background:#d62828!important;border-radius:1px!important;
+  box-sizing:border-box!important;
+}
+/* PNG capture: override legacy fixed 760px width rule and use viewport width. */
+#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo{
+  width:calc(100vw - 8px)!important;max-width:none!important;min-width:0!important;
+  margin:0!important;box-sizing:border-box!important;
+}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim{
+  width:calc(100vw - 8px)!important;max-width:none!important;min-width:0!important;
+  margin:0!important;padding:1mm!important;box-sizing:border-box!important;
+}
