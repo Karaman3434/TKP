@@ -2204,3 +2204,22 @@
   right:30%!important;width:40%!important;height:1px!important;background:rgba(25,35,45,.16)!important;
   display:block!important;
 }
+
+
+/* 26.11.2026 — ABDULLAH'IN REFERANS TASARIMI: İSK altı % ve NET altı EURO.
+   4 ortak görünümde (Sepet, Gönder, İşlem Önizleme, Mail PNG) yalnızca
+   İSK/NET değer-birim yerleşimi. Diğer sütunlar ve hesaplama değiştirilmez. */
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-mail-rakam-stack .belge-para-birim,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-mail-rakam-stack .belge-para-birim,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-mail-rakam-stack .belge-para-birim,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-mail-rakam-stack .belge-para-birim,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(5) .belge-mail-rakam-stack .belge-para-birim{
+  color:#fff!important; font-weight:800!important; white-space:nowrap!important;
+}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-mail-rakam-stack .belge-para-birim,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-mail-rakam-stack .belge-para-birim,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-mail-rakam-stack .belge-para-birim,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-mail-rakam-stack .belge-para-birim,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(6) .belge-mail-rakam-stack .belge-para-birim{
+  color:#fff!important; font-weight:800!important; white-space:nowrap!important;
+}
