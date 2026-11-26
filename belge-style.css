@@ -1395,16 +1395,6 @@
 }
 
 
-/* ABDULLAH SON İNCE AYAR — hücre içi boşluk 1px, köşe ovalitesi 6px.
-   Yalnızca İSK/NET renkli zeminlerinin iç yerleşimi değiştirilir. */
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net,
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  inset: 1px 1px !important;
-  border-radius: 6px !important;
-}
-
-
 /* ABDULLAH — SAYISAL ROZETLER VE İSK/NET BAŞLIKLARI İÇİN AYRI ÖLÇÜLER
    Sayısal İSK/NET kartları: 2px iç kenar payı, 8px oval köşe.
    İSK ve NET başlık etiketleri: 2px iç boşluk, 10px oval köşe.
@@ -1412,7 +1402,6 @@
 .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
 .belge-urun-tablo tbody td:nth-child(6) .rozet-net,
 .belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  inset: 2px 2px !important;
   padding: 2px !important;
   border-radius: 8px !important;
 }
