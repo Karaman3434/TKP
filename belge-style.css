@@ -2021,3 +2021,85 @@
 .belge-urun-tablo tbody td .belge-td-sayi,
 .belge-urun-tablo tbody td .belge-td-birim { text-align:center!important; margin-left:auto!important; margin-right:auto!important; }
 .belge-urun-tablo tbody td { font-variant-numeric: tabular-nums; }
+
+
+/* 26.11.2026 — Abdullah'ın onayladığı yeni rakam/birim ortak eksen düzeni.
+   Sadece ortak ürün tablosunun sayısal hücre içeriklerini kapsar; başlık,
+   kolon genişliği, İSK/NET zeminleri ve diğer tablo yapıları değiştirilmez. */
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack{
+  position:relative!important;
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-height:54px!important;
+  height:54px!important;
+  padding:0!important;
+  margin:0 auto!important;
+  text-align:center!important;
+  line-height:normal!important;
+  overflow:visible!important;
+}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .belge-para-sayi,
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .belge-isk-metin,
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .rozet-net,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .belge-para-sayi,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .belge-isk-metin,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .rozet-net,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .belge-para-sayi,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .belge-isk-metin,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .rozet-net,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .belge-para-sayi,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .belge-isk-metin,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .rozet-net,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .belge-para-sayi,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .belge-isk-metin,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack > .rozet-net{
+  position:absolute!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  width:100%!important;
+  height:25px!important;
+  min-height:25px!important;
+  line-height:25px!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+  display:block!important;
+  box-sizing:border-box!important;
+}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack .belge-para-birim,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack .belge-para-birim,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack .belge-para-birim,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack .belge-para-birim,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack .belge-para-birim{
+  position:absolute!important;
+  top:31px!important;
+  left:0!important;
+  right:0!important;
+  display:block!important;
+  height:15px!important;
+  min-height:15px!important;
+  line-height:15px!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack::after,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack::after,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack::after,
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack::after,
+#mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(n+4):nth-child(-n+7) .belge-mail-rakam-stack::after{
+  content:""!important;
+  position:absolute!important;
+  top:28px!important;
+  left:8%!important;
+  right:8%!important;
+  height:1px!important;
+  background:rgba(25,35,45,.24)!important;
+  display:block!important;
+}
