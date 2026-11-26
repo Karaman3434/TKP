@@ -1991,3 +1991,12 @@
 }
 .belge-urun-tablo tbody tr td.belge-td-bdl-iptal .belge-bdl-cizgi,
 #belgeGorselAlani .belge-urun-tablo tbody tr td.belge-td-bdl-iptal .belge-bdl-cizgi {background:#d62828!important;background-color:#d62828!important;}
+
+
+/* 26.11.2026 — Bedelsiz çizgi hücrelerinde sadece tbody içindeki özel hücre sınıfını beyaz yap; başlık ve normal ürün satırları kapsam dışıdır. */
+.belge-urun-tablo tbody td.belge-td-bdl-iptal.belge-bdl-beyaz-hucre {background:#fff!important;background-color:#fff!important;color:#fff!important;background-image:none!important;box-shadow:none!important;}
+.belge-urun-tablo tbody td.belge-td-bdl-iptal.belge-bdl-beyaz-hucre .belge-bdl-cizgi {display:block!important;background:#d62828!important;background-color:#d62828!important;}
+/* Başlık renkleri sabit: yalnızca standart tabloda İSK/NET; basit gönder tablosunda NET. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(5){background:#f04444!important;color:#fff!important;}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(6){background:#07852b!important;color:#fff!important;}
+.belge-urun-tablo--basit thead th:nth-child(3){background:#07852b!important;color:#fff!important;}
