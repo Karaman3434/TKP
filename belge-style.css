@@ -2200,7 +2200,7 @@
 .belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+3):nth-child(-n+7) .belge-mail-rakam-stack::after,
 #belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(n+3):nth-child(-n+7) .belge-mail-rakam-stack::after,
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(n+3):nth-child(-n+7) .belge-mail-rakam-stack::after{
-  content:""!important;position:absolute!important;top:28px!important;left:8%!important;
-  right:8%!important;height:1px!important;background:rgba(25,35,45,.24)!important;
+  content:""!important;position:absolute!important;top:25px!important;left:30%!important;
+  right:30%!important;width:40%!important;height:1px!important;background:rgba(25,35,45,.16)!important;
   display:block!important;
 }
