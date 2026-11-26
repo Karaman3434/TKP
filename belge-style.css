@@ -2008,3 +2008,16 @@
 .belge-not-cerceve .belge-not-metin{display:block!important;flex:1 1 0%!important;min-width:0!important;margin:0!important;padding:0!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;}
 /* BEDELSİZ etiketi TOPLAM hücresinin yatay ve dikey merkezinde. */
 .belge-urun-tablo td.belge-td-toplam .belge-bdl-yazi{display:block!important;width:100%!important;text-align:center!important;margin:0 auto!important;}
+
+
+/* ABDULLAH ONAYI — 2042px referans tablo sütun oranları (26.11.2026).
+   Kolon genişlikleri ortak HareketTablo üreticisinin colgroup'undan gelir.
+   Sayısal hücre ve birim yığınları kendi sütun merkezinde kalır; başlık
+   tasarımına/renklerine müdahale edilmez. */
+.belge-urun-tablo tbody td:not(:nth-child(2)) { text-align:center!important; }
+.belge-urun-tablo tbody td .belge-mail-rakam-stack,
+.belge-urun-tablo tbody td .belge-para-sayi,
+.belge-urun-tablo tbody td .belge-para-birim,
+.belge-urun-tablo tbody td .belge-td-sayi,
+.belge-urun-tablo tbody td .belge-td-birim { text-align:center!important; margin-left:auto!important; margin-right:auto!important; }
+.belge-urun-tablo tbody td { font-variant-numeric: tabular-nums; }
