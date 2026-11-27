@@ -1720,7 +1720,7 @@
 .gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-mail-rakam-stack,
 .belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-mail-rakam-stack,
 #belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-mail-rakam-stack{
- display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+ flex-direction:column!important;align-items:center!important;justify-content:center!important;
  width:100%!important;gap:0!important;margin:0 auto!important;padding:0!important;text-align:center!important;
 }
 .cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) .belge-mail-rakam-stack .belge-rakam-sayi,
