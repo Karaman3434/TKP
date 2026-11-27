@@ -261,3 +261,10 @@
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket {
   font-size:10.8px!important;
 }
+
+/* WHATSAPP PNG: sade tabloda (Ürün, ADET, NET, TOPLAM) sayısal hücreler üstten 8px hizalanır. */
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2),
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3),
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) {
+  padding-top:8px!important;
+}
