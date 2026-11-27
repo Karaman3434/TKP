@@ -141,7 +141,7 @@ var HareketTablo = (function(){
       // Bedelsizde LİSTE/İSK/NET hücreleri boş; sadece kırmızı çizgi (gerçek
       // eleman — ::after değil — çünkü Gönder'deki html2canvas görseli de çizsin).
       var bdlCizgiTd = "<td class='belge-td-bdl-iptal belge-bdl-beyaz-hucre' style='background:#fff!important;background-color:#fff!important;color:#fff!important;'><span class='belge-bdl-cizgi' style='display:block;width:100%;height:2px;background:#d62828!important;margin:0;padding:0;'></span></td>";
-      var toplamHucreIcerik = !toplamVarMi ? "-" : (bedelsizMi ? bdlYazi : paraHtml(fmt(h.toplamEuro),"EURO"));
+      var toplamHucreIcerik = !toplamVarMi ? "-" : (bedelsizMi ? bdlYazi : birimHucresiHtml(fmt(h.toplamEuro),"EURO"));
       var netTl = toplamVarMi ? netTlHtml(h.iskontoluFiyat, kur) : "";
       // DÜZELTME (15.10.2026, Abdullah onayı): harf (B/A) ile kod arasındaki
       // boşluk kaldırıldı — "B11550400 - A1000912233" gibi bitişik.
@@ -169,9 +169,9 @@ var HareketTablo = (function(){
       return "<tr class='" + (zeminSinifi||"") + "'>"
         + "<td class='belge-td-sira'>" + (i+1) + "</td>"
         + urunHucre
-        + "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'><span class='belge-rakam-sayi'>" + (u.adet!=null ? u.adet : "-") + "</span></span></td>"
+        + "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + birimHucresiHtml((u.adet!=null ? u.adet : "-"), "") + "</span></td>"
         + (bedelsizMi ? bdlCizgiTd + bdlCizgiTd + bdlCizgiTd : (
-            "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (u.listeFiyat!=null ? paraHtml(fmt(u.listeFiyat),"EURO") : "-") + "</span></td>"
+            "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (u.listeFiyat!=null ? birimHucresiHtml(fmt(u.listeFiyat),"EURO") : "-") + "</span></td>"
           + "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (iskYuz100 ? "-" : (u.iskonto!=null ? "<span class='belge-isk-metin'>"+birimHucresiHtml(u.iskonto,"%")+"</span>" : "-")) + "</span></td>"
           + "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (toplamVarMi ? "<span class='rozet-net'>"+birimHucresiHtml(fmt(h.iskontoluFiyat),"EURO",netTl)+"</span>" : "-") + "</span></td>"))
         + "<td class='belge-td-toplam belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + toplamHucreIcerik + "</span></td>"
