@@ -975,7 +975,7 @@ function gonderTiklandi(kanal, ozelKonu){
     // düzeltme yapmak isteyebilir. Sepet/müşteri sadece "✓ Gönderimi
     // Bitir"e basılınca veya Ana Sayfa/Menü'ye gidilince temizlenir
     // (bkz. İletişim - Gönder popup'ındaki "Kaydet çık" ve yarim-kalan-uyari.js).
-    var metin = kanal === "whatsapp" ? "Merhaba,\\nİstediğiniz ürün için FİYAT BİLGİSİ ektedir." : document.getElementById("gonderMetin").value;
+    var metin = kanal === "whatsapp" ? "Merhaba,\nİstediğiniz ürün için FİYAT BİLGİSİ ektedir." : document.getElementById("gonderMetin").value;
     var g = gonderBaglam;
     var TIP_ETIKET4 = {numune:"NUMUNE", teklif:"FİYAT TEKLİFİ", proforma:"PROFORMA FATURA", siparis:"SİPARİŞ"};
 
