@@ -97,6 +97,11 @@
   font-variant-numeric:tabular-nums!important;
 }
 
+/* NET rakamı: dört görünümde (Sepet, Gönder, İşlem Önizleme ve PNG) %20 büyütülür. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-deger {
+  font-size:19.2px!important;
+}
+
 /* Birim çizgisi — ortak ölçü; ADET/ISK/NET çizgisi ayrı aşağıda kapatılır */
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-cizgi,
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-cizgi,
