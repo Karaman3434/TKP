@@ -85,3 +85,70 @@ body.cart-sayfa #cariBilgiAlani .musteri-serit--islem{margin-top:0!important;mar
 .musteri-serit.musteri-serit--islem{height:auto!important;min-height:58px!important;padding:2mm 1mm!important;overflow:hidden!important;}
 .musteri-serit.musteri-serit--islem .ms-islem-bilgi{top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;align-items:center!important;justify-content:center!important;text-align:center!important;}
 .musteri-serit.musteri-serit--islem .ms-islem-ad,.musteri-serit.musteri-serit--islem .ms-islem-konum{text-align:center!important;}
+
+
+/* 27.11.2026 — LİSTE ve TOPLAM hücrelerinin ortak sayı/çizgi/EURO yapısı.
+   Sepet, Gönder ve İşlem Önizleme: legacy absolute konumlandırma sıfırlanır;
+   ortak birim hücresi doğal grid akışında tek geometriyle render edilir. */
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-mail-rakam-stack,
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-mail-rakam-stack,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-mail-rakam-stack,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-mail-rakam-stack,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-mail-rakam-stack,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-mail-rakam-stack {
+  display:block!important;position:static!important;inset:auto!important;transform:none!important;
+  width:100%!important;height:auto!important;min-height:0!important;overflow:visible!important;
+  margin:0!important;padding:0!important;text-align:center!important;line-height:normal!important;
+}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-hucresi,
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-hucresi,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-hucresi,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-hucresi,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-hucresi,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-hucresi {
+  display:grid!important;grid-template-columns:1fr!important;grid-template-rows:auto 1px auto!important;
+  justify-items:center!important;align-content:center!important;gap:0!important;
+  position:static!important;inset:auto!important;transform:none!important;
+  width:100%!important;height:auto!important;min-height:0!important;overflow:visible!important;
+  margin:0!important;padding:0!important;text-align:center!important;line-height:normal!important;
+}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-deger,
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-deger,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-deger,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-deger,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-deger,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-deger {
+  display:block!important;position:static!important;inset:auto!important;transform:none!important;
+  width:auto!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;
+  line-height:18px!important;text-align:center!important;white-space:nowrap!important;overflow:visible!important;
+}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-cizgi,
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-cizgi,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-cizgi,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-cizgi,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-cizgi,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-cizgi {
+  display:block!important;position:static!important;width:40%!important;height:1px!important;min-height:1px!important;
+  margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;
+  background:rgba(20,36,58,.28)!important;
+}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-etiket,
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-etiket,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-etiket,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-etiket,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-etiket,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-etiket {
+  display:block!important;position:static!important;inset:auto!important;transform:none!important;
+  width:auto!important;height:auto!important;min-height:0!important;margin:2px 0 0!important;padding:0!important;
+  line-height:12px!important;font-size:9px!important;font-weight:800!important;text-align:center!important;
+  white-space:nowrap!important;color:#66717d!important;visibility:visible!important;opacity:1!important;
+}
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-hucresi *,
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-hucresi *,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-hucresi *,
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-hucresi *,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-hucresi *,
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-hucresi * {
+  position:static!important;inset:auto!important;transform:none!important;float:none!important;
+  visibility:visible!important;opacity:1!important;z-index:auto!important;
+}
