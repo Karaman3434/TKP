@@ -81,8 +81,13 @@ var HareketTablo = (function(){
   // Yeni ortak İSK/NET hücre mimarisi: sayı, ince kısa çizgi ve etiket doğal akışta.
   function birimHucresiHtml(sayiStr, birim, tlHtml){
     var buyukMu = String(sayiStr).indexOf(".") > -1;
+    var degerHtml = "<span class='belge-birim-deger belge-para-sayi" + (buyukMu ? " belge-para-sayi--buyuk" : "") + "'>" + sayiStr + "</span>";
+    // Birimsiz ADET: boş etiket ve dekoratif çizgi üretme; sayı aynı ortak değer sınıfında kalır.
+    if(!birim){
+      return "<span class='belge-birim-hucresi belge-birim-hucresi--birimsiz'>" + degerHtml + (tlHtml || "") + "</span>";
+    }
     return "<span class='belge-birim-hucresi'>"
-      + "<span class='belge-birim-deger belge-para-sayi" + (buyukMu ? " belge-para-sayi--buyuk" : "") + "'>" + sayiStr + "</span>"
+      + degerHtml
       + "<span class='belge-birim-cizgi' aria-hidden='true'></span>"
       + "<span class='belge-birim-etiket'>" + birim + "</span>"
       + (tlHtml || "") + "</span>";
