@@ -2082,3 +2082,87 @@
   position:static!important; inset:auto!important; transform:none!important;
   visibility:visible!important; opacity:1!important; float:none!important;
 }
+
+
+/* TKP 27.11.2026 — 6 SAYISAL HÜCRE / TEK MERKEZ.
+   ADET, LİSTE, İSK, NET, TOPLAM ve PRİM aynı değer-çizgi-etiket
+   geometrisini kullanır. Sayfa bazlı ölçü tanımları bu standardı çoğaltmamalıdır. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) {
+  text-align:center!important; vertical-align:middle!important;
+  padding:3px 1px!important; box-sizing:border-box!important;
+}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-mail-rakam-stack,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-mail-rakam-stack,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-mail-rakam-stack,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-mail-rakam-stack,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-mail-rakam-stack,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-mail-rakam-stack,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-isk-metin,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .rozet-net,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-td-prim-tek {
+  display:block!important; position:static!important; inset:auto!important;
+  transform:none!important; width:100%!important; height:auto!important;
+  min-height:0!important; margin:0!important; padding:0!important;
+  overflow:visible!important; box-sizing:border-box!important;
+  text-align:center!important; line-height:normal!important;
+}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-hucresi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-hucresi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-hucresi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-hucresi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-hucresi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-birim-hucresi {
+  display:flex!important; flex-direction:column!important;
+  align-items:center!important; justify-content:center!important;
+  gap:0!important; position:static!important; inset:auto!important;
+  transform:none!important; width:100%!important; height:auto!important;
+  min-height:0!important; margin:0!important; padding:0!important;
+  overflow:visible!important; box-sizing:border-box!important;
+  text-align:center!important; line-height:normal!important;
+}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-deger,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-deger,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-deger,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-deger,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-deger,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-birim-deger {
+  display:block!important; position:static!important; width:auto!important;
+  height:auto!important; min-height:0!important; margin:0!important; padding:0!important;
+  transform:none!important; line-height:1.15!important; font-size:16px!important;
+  font-weight:800!important; text-align:center!important; white-space:nowrap!important;
+  font-variant-numeric:tabular-nums!important;
+}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-cizgi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-cizgi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-cizgi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-cizgi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-cizgi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-birim-cizgi {
+  display:block!important; position:static!important; flex:none!important;
+  width:40%!important; height:1px!important; min-height:1px!important;
+  margin:1px auto!important; padding:0!important; border:0!important;
+  box-shadow:none!important; background:rgba(255,255,255,.58)!important;
+}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-etiket,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-etiket,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-etiket,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-etiket,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-birim-etiket {
+  display:block!important; position:static!important; width:auto!important;
+  height:auto!important; min-height:0!important; margin:0!important; padding:0!important;
+  transform:none!important; line-height:1.1!important; font-size:9px!important;
+  font-weight:800!important; text-align:center!important; white-space:nowrap!important;
+}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-etiket:empty { display:none!important; }
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-net-tl {
+  display:block!important; position:static!important; width:auto!important;
+  height:auto!important; min-height:0!important; margin:2px 0 0!important;
+  padding:0!important; transform:none!important; line-height:1.1!important;
+  font-size:8px!important; text-align:center!important; white-space:nowrap!important;
+}
