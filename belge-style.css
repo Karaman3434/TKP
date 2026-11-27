@@ -1235,360 +1235,46 @@
 
 
 /* ================================================================
-   ABDULLAH ONAYI — ORTAK İSK / NET ÜRÜN TABLOSU TASARIMI
-   15.11.2026
-   Ortak HareketTablo çıktısını kullanan Sepet, Belge Önizleme,
-   Gönder/Mail ve cari işlem tablolarında aynı görünüm:
-   kırmızı İSK kartı, koyu yeşil NET kartı, beyaz kalın başlıklar,
-   ayrı/yuvarlatılmış hücreler. Yalnızca görünüm; hesaplama/veri değişmez.
+   İSK / NET — SEMANTİK RENK KURALLARI
+   Sayısal hücre geometrisi belge-sayisal-hucre-ortak.css dosyasına aittir.
+   Bu bölüm yalnız renk ve tipografi gibi görünüm anlamlarını tanımlar.
    ================================================================ */
-:root {
-  --urun-isk-bg: #f04444;
-  --urun-net-bg: #07852b;
-}
-.belge-urun-tablo thead th:nth-child(5) {
-  background: var(--urun-isk-bg) !important;
-  color: #ffffff !important;
-  font-weight: 900 !important;
-  border-radius: 9px !important;
-  border-bottom-color: var(--urun-isk-bg) !important;
-}
-.belge-urun-tablo thead th:nth-child(6) {
-  background: var(--urun-net-bg) !important;
-  color: #ffffff !important;
-  font-weight: 900 !important;
-  border-radius: 9px !important;
-  border-bottom-color: var(--urun-net-bg) !important;
-}
-/* İSK: kırmızı, ayrı kart; rakam önceki onaylı ölçüden %20 büyük,
-   yüzde işareti kendi normal ölçüsünden %40 küçük. */
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: calc(100% - 6px) !important;
-  min-height: 54px;
-  margin: 3px auto !important;
-  padding: 5px 2px !important;
-  box-sizing: border-box !important;
-  border-radius: 12px !important;
-  background: var(--urun-isk-bg) !important;
-  color: #ffffff !important;
-}
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-sayi,
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-td-sayi {
-  color: #ffffff !important;
-  font-size: 16.8px !important;
-  line-height: 1.05 !important;
-  font-weight: 900 !important;
-}
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-birim,
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-td-birim {
-  color: #ffffff !important;
-  font-size: 5.76px !important;
-  line-height: 1 !important;
-  font-weight: 800 !important;
-  margin-top: 2px !important;
-}
-/* NET: seçilen %10 daha koyu yeşil; beyaz tutar/birim ve beyaz TL alt satırı. */
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net {
-  display: block !important;
-  width: calc(100% - 6px) !important;
-  min-height: 54px;
-  margin: 3px auto !important;
-  padding: 6px 3px !important;
-  box-sizing: border-box !important;
-  border-radius: 12px !important;
-  background: var(--urun-net-bg) !important;
-  color: #ffffff !important;
-  text-align: center !important;
-}
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-para-sayi,
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-td-sayi,
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-para-birim,
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-td-birim,
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-net-tl {
-  color: #ffffff !important;
-  font-weight: 900 !important;
-}
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-net-tl {
-  font-size: 9px !important;
-  line-height: 1.1 !important;
-  opacity: .96;
-  margin-top: 2px !important;
-}
-/* Müşteriye giden sade tabloda LİSTE/İSK bulunmaz; üçüncü sütun NET'tir.
-   Bu tabloda da NET başlığı ve tutar kartı aynı yeşil standardı taşır. */
-.belge-urun-tablo--basit thead th:nth-child(3) {
-  background: var(--urun-net-bg) !important;
-  color: #ffffff !important;
-  font-weight: 900 !important;
-  border-radius: 9px !important;
-}
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  display: block !important;
-  width: calc(100% - 6px) !important;
-  margin: 3px auto !important;
-  padding: 6px 3px !important;
-  box-sizing: border-box !important;
-  border-radius: 12px !important;
-  background: var(--urun-net-bg) !important;
-  color: #ffffff !important;
-  text-align: center !important;
-}
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net * {
-  color: #ffffff !important;
-}
-
-
-/* ABDULLAH ONAYI — İSKONTO YÜZDE İŞARETİ ALT SATIR / A-STANDART
-   15.11.2026: Yalnızca İSK ve NET rozetlerinin görsel yerleşimi.
-   Veri, hesaplama, sütun yapısı ve dışa aktarım filtreleri değişmez. */
-.belge-urun-tablo tbody td:nth-child(5),
-.belge-urun-tablo tbody td:nth-child(6) {
-  padding-left: 1px !important;
-  padding-right: 1px !important;
-}
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
-  width: calc(100% - 2px) !important;
-  margin: 1px auto !important;
-  padding: 3px 1px !important;
-  gap: 1px !important;
-}
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-sayi,
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-td-sayi {
-  font-size: 14.5px !important;
-  line-height: 1.05 !important;
-  white-space: nowrap !important;
-}
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-birim,
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-td-birim {
-  display: block !important;
-  font-size: 7.5px !important;
-  line-height: 1 !important;
-  margin-top: 1px !important;
-}
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net {
-  width: calc(100% - 2px) !important;
-  margin: 1px auto !important;
-  padding: 4px 2px !important;
-}
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  width: calc(100% - 2px) !important;
-  margin: 1px auto !important;
-  padding: 4px 2px !important;
-}
-
-
-/* A-STANDART TASARIM — DÜZELTME 2
-   Canlı HTML'de yüzde karakteri paraHtml() tarafından .belge-para-birim
-   sınıfıyla üretiliyor. Bu nedenle yüzdeyi doğrudan hedefle; 7.5px
-   önceki kuralı kaldır ve rakamla dengeli, alt satırda okunur göster. */
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-birim {
-  display: block !important;
-  font-size: 14px !important;
-  line-height: 1 !important;
-  font-weight: 900 !important;
-  color: #ffffff !important;
-  margin-top: 1px !important;
-  letter-spacing: 0 !important;
-  white-space: nowrap !important;
-}
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-sayi {
-  font-size: 14.5px !important;
-  line-height: 1.05 !important;
-  font-weight: 900 !important;
-}
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
-  justify-content: center !important;
-  gap: 0 !important;
-  padding: 4px 1px !important;
-}
-
-
-/* ABDULLAH ONAYI — YÜZDE İŞARETİ %100 BÜYÜTÜLDÜ
-   Son canlı ekran kontrolü: yalnızca İSKONTO hücresindeki yüzde işareti.
-   Önceki 14px değerin iki katı; oran rakamı ve diğer alanlar değişmez. */
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-birim {
-  display: block !important;
-  font-size: 28px !important;
-  line-height: .9 !important;
-  font-weight: 900 !important;
-  color: #ffffff !important;
-  margin-top: 0 !important;
-  letter-spacing: 0 !important;
-  white-space: nowrap !important;
-  transform: none !important;
-}
-
-
-/* ABDULLAH ONAYI — YÜZDE İŞARETİ %50 KÜÇÜLTÜLDÜ
-   28px canlı ölçünün yarısı: 14px. Yalnızca yüzde karakteri etkilenir. */
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin .belge-para-birim {
-  font-size: 14px !important;
-  line-height: 1 !important;
-}
-
-
-/* ABDULLAH ONAYI — İSK/NET KARTLARI: +%5 DİKEY YÜKSEKLİK VE HAFİF YATAY AYRIM
-   Yalnızca renkli rozetlerin görsel ölçüsü; sütun genişliği/veri/işlev değişmez. */
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
-  min-height: 56.7px !important; /* mevcut 54px + %5 */
-  width: calc(100% - 10px) !important;
-  padding-top: 5.25px !important;
-  padding-bottom: 5.25px !important;
-}
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net {
-  min-height: 56.7px !important; /* mevcut 54px + %5 */
-  width: calc(100% - 10px) !important;
-  padding-top: 6.3px !important;
-  padding-bottom: 6.3px !important;
-}
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  min-height: 56.7px !important;
-  width: calc(100% - 10px) !important;
-  padding-top: 6.3px !important;
-  padding-bottom: 6.3px !important;
-}
-
-
-/* ABDULLAH — ONAYLI REFERANS GÖRSELLE BİREBİR EŞLEŞTİRME
-   Canlı ekran ile onaylı sepet mockup'ı karşılaştırıldı.
-   Kart yüksekliği 56.7px kuralından 68px'e çıkarıldı; her kartta
-   hafif yatay nefes payı korunuyor. Sadece İSK ve NET rozetleri. */
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
-  min-height: 68px !important;
-  height: 68px !important;
-  width: calc(100% - 4px) !important;
-  margin: 1px auto !important;
-  padding: 5px 1px !important;
-  box-sizing: border-box !important;
-}
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net {
-  min-height: 68px !important;
-  height: 68px !important;
-  width: calc(100% - 4px) !important;
-  margin: 1px auto !important;
-  padding: 5px 2px !important;
-  box-sizing: border-box !important;
-}
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  min-height: 68px !important;
-  height: 68px !important;
-  width: calc(100% - 4px) !important;
-  margin: 1px auto !important;
-  padding: 5px 2px !important;
-  box-sizing: border-box !important;
-}
-
-
-/* ABDULLAH SON ONAYI — İSK/NET RENKLİ ZEMİNLERİ HÜCREYİ TAM DOLDURUR
-   Oval köşeler, ince beyaz ayırıcı ve onaylı renk tonları.
-   Yalnızca ortak ürün tablosundaki İSK/NET rozetlerinin görsel katmanı. */
 :root {
   --urun-isk-bg: #f34b4b;
   --urun-net-bg: #07852b;
 }
-.belge-urun-tablo tbody td:nth-child(5),
-.belge-urun-tablo tbody td:nth-child(6),
-.belge-urun-tablo--basit tbody td:nth-child(3) {
-  position: relative !important;
-  padding: 0 !important;
-  background: #ffffff !important;
+.belge-urun-tablo thead th:nth-child(5) {
+  background: var(--urun-isk-bg) !important;
+  color: #fff !important;
+  font-weight: 900 !important;
 }
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net,
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  position: absolute !important;
-  inset: 2px 2px !important;
-  width: auto !important;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 4px 2px !important;
-  box-sizing: border-box !important;
-  border-radius: 12px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  overflow: hidden !important;
+.belge-urun-tablo thead th:nth-child(6),
+.belge-urun-tablo--basit thead th:nth-child(3) {
+  background: var(--urun-net-bg) !important;
+  color: #fff !important;
+  font-weight: 900 !important;
 }
 .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
-  background: #f34b4b !important;
-  color: #ffffff !important;
-  gap: 0 !important;
-}
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net,
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  background: #07852b !important;
-  color: #ffffff !important;
-  gap: 1px !important;
-  text-align: center !important;
+  background: var(--urun-isk-bg) !important;
+  color: #fff !important;
 }
 .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin *,
 .belge-urun-tablo tbody td:nth-child(6) .rozet-net *,
 .belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net * {
-  color: #ffffff !important;
-}
-
-
-/* ABDULLAH SON İNCE AYAR — hücre içi boşluk 1px, köşe ovalitesi 6px.
-   Yalnızca İSK/NET renkli zeminlerinin iç yerleşimi değiştirilir. */
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net,
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  inset: 1px 1px !important;
-  border-radius: 6px !important;
-}
-
-
-/* ABDULLAH — SAYISAL ROZETLER VE İSK/NET BAŞLIKLARI İÇİN AYRI ÖLÇÜLER
-   Sayısal İSK/NET kartları: 2px iç kenar payı, 8px oval köşe.
-   İSK ve NET başlık etiketleri: 2px iç boşluk, 10px oval köşe.
-   Yalnızca bu hücrelerin görsel ölçüleri güncellenir. */
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net,
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  inset: 2px 2px !important;
-  padding: 2px !important;
-  border-radius: 8px !important;
-}
-.belge-urun-tablo thead th:nth-child(5),
-.belge-urun-tablo thead th:nth-child(6),
-.belge-urun-tablo--basit thead th:nth-child(3) {
-  padding: 2px !important;
-  border-radius: 10px !important;
-}
-
-
-/* ABDULLAH — İSK/NET SAYISAL KARTLARININ ÜST VE ALT HÜCRE BOŞLUĞU 3px.
-   Yatay iç pay 2px, kart köşeleri 8px ve başlık etiketleri 2px/10px korunur. */
-.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net,
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  inset: 3px 2px !important;
-}
-
-
-/* ABDULLAH ONAYI — İSK / NET BAŞLIK RENKLERİ HÜCREYİ TAM DOLDURUR.
-   Yalnızca standart 7 sütunlu ürün tablosunun başlık satırını etkiler. */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(5) {
-  background: var(--urun-isk-bg, #f04444) !important;
   color: #fff !important;
-  border: 1px solid var(--urun-isk-bg, #f04444) !important;
-  border-radius: 0 !important;
-  background-clip: border-box !important;
+  font-weight: 900 !important;
 }
-.belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(6) {
-  background: var(--urun-net-bg, #07852b) !important;
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net,
+.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
+  background: var(--urun-net-bg) !important;
   color: #fff !important;
-  border: 1px solid var(--urun-net-bg, #07852b) !important;
-  border-radius: 0 !important;
-  background-clip: border-box !important;
+  text-align: center !important;
 }
-
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-net-tl {
+  font-size: 9px !important;
+  line-height: 1.1 !important;
+  opacity: .96 !important;
+}
 /* TESLİMAT ADRESİ VURGUSU (23.11.2026): teslimat mevcutsa başlık ve adres kırmızı çerçeve. */
 .teslimat-adres-vurgulu{border:2px solid #d62828!important;border-radius:12px!important;padding:7px 8px 8px!important;margin:4px 0!important;box-sizing:border-box!important;background:#fff!important;}
 .teslimat-adres-vurgulu .ck-blok-etiket--teslimat{color:#c62828!important;}
