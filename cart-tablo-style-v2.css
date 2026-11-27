@@ -238,19 +238,8 @@ body.cart-sayfa .belge-urun-tablo tbody td {
   padding: 3px 2px !important;
   vertical-align: middle !important;
 }
-body.cart-sayfa .belge-urun-tablo tbody td .belge-td-sayi,
-body.cart-sayfa .belge-urun-tablo tbody td .belge-para-sayi,
-body.cart-sayfa .belge-urun-tablo tbody td .belge-td-adet,
-body.cart-sayfa .belge-urun-tablo tbody td .belge-td-fiyat,
-body.cart-sayfa .belge-urun-tablo tbody td .belge-td-toplam {
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  font-variant-numeric: tabular-nums !important;
-}
-body.cart-sayfa .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
-body.cart-sayfa .belge-urun-tablo tbody td:nth-child(6) .rozet-net {
-  inset: 2px 2px !important;
-}
+/* Sayısal hücre font/yerleşim ölçüleri ortak CSS dosyasına devredildi.
+   Bu dosyada yalnız tablo genel görünüm ve yan boşluklar tanımlanır. */
 
 /* 6) Genel toplam paneli — prim ve işlem kuru panel içi yerleşimi korunarak */
 body.cart-sayfa .belge-genel-toplam-serit,
