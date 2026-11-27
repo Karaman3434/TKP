@@ -97,11 +97,19 @@
   font-variant-numeric:tabular-nums!important;
 }
 
-/* NET rakamı: dört görünümde (Sepet, Gönder, İşlem Önizleme ve PNG) %20 büyütülür. */
+/* NET ana rakamı: mevcut ölçüden %10 küçültülmüş. */
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-deger {
-  font-size:19.2px!important;
-  margin-top:4.5px!important; /* hücre üst boşluğu +%15 */
-  margin-bottom:2px!important; /* rakam ile EURO etiketi arası +%10 */
+  font-size:17.28px!important;
+  margin-top:4.5px!important;
+  margin-bottom:2px!important;
+}
+/* ADET rakamının hücre üst boşluğu %10 azaltılır. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) {
+  padding-top:2.7px!important;
+}
+/* İSK hücresindeki yüzde etiketi %10 büyütülür. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket {
+  font-size:9.9px!important;
 }
 
 /* Birim çizgisi — ortak ölçü; ADET/ISK/NET çizgisi ayrı aşağıda kapatılır */
