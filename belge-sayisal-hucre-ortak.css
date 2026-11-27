@@ -113,3 +113,32 @@
   display:flex!important;align-items:center!important;justify-content:center!important;
   width:100%!important;margin:0!important;padding:0!important;line-height:normal!important;
 }
+
+
+/* 27.11.2026 — KÖK ÇAKIŞMA DÜZELTMESİ: belge-style.css'teki eski 7px hücre padding/vertical-align:top kuralı sayfa-scoped seçicilerle ortak ölçüyü eziyordu. Tek kaynak bu dosya; dört görünümde standart sayısal hücre ölçüsü burada zorlanır. */
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7),
+.cart-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8),
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7),
+.gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8),
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7),
+.belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8),
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
+#belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) {
+  box-sizing:border-box!important; text-align:center!important; vertical-align:middle!important;
+  padding:3px 1px!important; border-radius:0!important;
+}
