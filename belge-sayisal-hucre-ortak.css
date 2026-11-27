@@ -272,3 +272,11 @@
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) {
   padding-top:6.4px!important;
 }
+
+/* FINAL OVERRIDE — approved: ADET top gap reduced 20% from 8px; discount % label +20%. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) {
+  padding-top:6.4px!important;
+}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket {
+  font-size:10.8px!important;
+}
