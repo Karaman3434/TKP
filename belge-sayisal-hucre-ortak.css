@@ -92,3 +92,18 @@
   padding:0!important; transform:none!important; line-height:1.1!important;
   font-size:8px!important; text-align:center!important; white-space:nowrap!important;
 }
+
+/* PNG ve mail tablo render alanı: aynı ortak hücre geometrisi, PRİM sütunu gizli.
+   Render tablosunda SR/Ürün ilk iki sütun olduğundan sayısal alanlar 3-7. */
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(3) .belge-birim-hucresi,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(4) .belge-birim-hucresi,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-hucresi,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-hucresi,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(7) .belge-birim-hucresi { color:#fff!important; }
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-net-tl {
+ display:block!important;position:static!important;width:auto!important;height:auto!important;
+ min-height:0!important;margin:2px 0 0!important;padding:0!important;transform:none!important;
+ line-height:1.1!important;font-size:8px!important;font-weight:800!important;
+ text-align:center!important;white-space:nowrap!important;color:#fff!important;
+ visibility:visible!important;opacity:1!important;
+}
