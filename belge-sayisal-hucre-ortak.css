@@ -1,38 +1,11 @@
-/* TKP ortak sayısal hücre standardı — 27.11.2026
-   Tek HTML yapısı: .belge-birim-hucresi (değer / çizgi / birim / TL alt satırı)
-   Sayfa bazlı nth-child hizalama yamaları yerine bu bileşen normalize edilir. */
-.belge-urun-tablo tbody .belge-birim-hucresi,
-#mailOnizlemeOverlay #mailOnizlemeTablo .belge-birim-hucresi {
-  display:flex!important; flex-direction:column!important; align-items:center!important;
-  justify-content:flex-start!important; gap:0!important; width:100%!important;
-  margin:0!important; padding:0!important; text-align:center!important;
-  line-height:normal!important; box-sizing:border-box!important;
-}
-.belge-urun-tablo tbody .belge-birim-hucresi .belge-birim-deger,
-#mailOnizlemeOverlay #mailOnizlemeTablo .belge-birim-deger {
-  display:block!important; height:auto!important; min-height:0!important;
-  margin:0!important; padding:0!important; line-height:1.15!important;
-  white-space:nowrap!important; text-align:center!important;
-}
-.belge-urun-tablo tbody .belge-birim-hucresi .belge-birim-cizgi,
-#mailOnizlemeOverlay #mailOnizlemeTablo .belge-birim-cizgi {
-  display:block!important; width:70%!important; max-width:70%!important;
-  height:1px!important; min-height:1px!important; flex:none!important;
-  background:currentColor!important; margin:1px auto!important; padding:0!important;
-}
-.belge-urun-tablo tbody .belge-birim-hucresi .belge-birim-etiket,
-#mailOnizlemeOverlay #mailOnizlemeTablo .belge-birim-etiket {
-  display:block!important; height:auto!important; min-height:0!important;
-  margin:1px 0 0!important; padding:0!important; line-height:1.1!important;
-  white-space:nowrap!important; text-align:center!important;
-}
-.belge-urun-tablo tbody .belge-birim-hucresi .belge-net-tl,
-#mailOnizlemeOverlay #mailOnizlemeTablo .belge-net-tl {
-  display:block!important; margin:2px 0 0!important; padding:0!important;
-  line-height:1.1!important; white-space:nowrap!important; text-align:center!important;
-}
-.belge-urun-tablo tbody .belge-mail-rakam-stack,
+/* TKP.27.11.2026 — Sayısal hücre ortak stylesheet.
+   Tek stil kaynağı belge-style.css içindeki kanonik sayısal hücre kurallarıdır.
+   Bu dosya yükleme sırası uyumluluğu için tutulur; değer/çizgi/birim/TL
+   ölçülerini tekrar tanımlamaz ve kanonik ölçüleri ezmez. */
+.belge-urun-tablo .belge-mail-rakam-stack,
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack {
-  display:block!important; width:100%!important; margin:0!important; padding:0!important;
-  line-height:normal!important; text-align:center!important; box-sizing:border-box!important;
+  display:block!important;position:static!important;width:100%!important;
+  height:auto!important;min-height:0!important;margin:0!important;padding:0!important;
+  overflow:visible!important;text-align:center!important;line-height:normal!important;
+  box-sizing:border-box!important;
 }
