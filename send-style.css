@@ -1884,479 +1884,112 @@ body.as-drawer-kilit { overflow: hidden; }
 #tamOnizlemeAlani .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat,
 #belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-adres-yetkili-cerceve .ck-blok-etiket--teslimat{color:#c62828!important;}
 
-/* 25.11.2026 — ABDULLAH ONAYI: Mail işlem formu rakamları tek yatay referans çizgisine hizalanır.
-   Yalnızca gönderilen mail PNG tablosu; ortak tablo/işlev/hesaplama değişmez. */
-.belge-urun-tablo--giden td.belge-rakam-hucre{
- vertical-align:top!important;padding-top:12px!important;padding-bottom:5px!important;
- font-variant-numeric:tabular-nums!important;
-}
-.belge-urun-tablo--giden td.belge-rakam-hucre .belge-para-sayi,
-.belge-urun-tablo--giden td.belge-rakam-hucre .belge-rakam-sayi{
- display:block!important;line-height:1.35!important;min-height:1.35em!important;
- font-size:13px!important;font-weight:800!important;white-space:nowrap!important;
- font-variant-numeric:tabular-nums!important;
-}
-.belge-urun-tablo--giden td.belge-rakam-hucre .belge-para-birim{
- display:block!important;line-height:1.15!important;min-height:1.15em!important;
- margin-top:1px!important;font-size:8px!important;font-weight:700!important;
-}
-.belge-urun-tablo--giden td.belge-rakam-hucre .belge-isk-metin{
- display:block!important;line-height:1.35!important;
-}
-.belge-urun-tablo--giden td.belge-rakam-hucre .rozet-net{
- display:block!important;line-height:1.35!important;
-}
-
-/* 25.11.2026 — Mail PNG rakam hizalama kök düzeltmesi:
-   her rakam aynı sabit ilk satırda, birim ikinci satırda. */
-#belgeGorselAlani .belge-urun-tablo--giden td.belge-rakam-hucre,
-#belgeGorselAlani .belge-urun-tablo--giden td.belge-td-toplam.belge-rakam-hucre{
- vertical-align:top!important;padding:7px 2px 4px!important;text-align:center!important;
-}
-#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack{
- display:block!important;width:100%!important;text-align:center!important;
- line-height:normal!important;margin:0!important;padding:0!important;
-}
-#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-para-sayi,
-#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-rakam-sayi,
-#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-isk-metin{
- display:block!important;height:18px!important;min-height:18px!important;
- line-height:18px!important;margin:0!important;padding:0!important;
- font-size:13px!important;font-weight:800!important;white-space:nowrap!important;
- font-variant-numeric:tabular-nums!important;
-}
-#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-para-birim{
- display:block!important;height:11px!important;min-height:11px!important;
- line-height:11px!important;margin:0!important;padding:0!important;
- font-size:8px!important;font-weight:700!important;white-space:nowrap!important;
-}
-#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .rozet-net{
- display:block!important;margin:0!important;padding:0!important;
- background:transparent!important;border:0!important;border-radius:0!important;
- box-shadow:none!important;line-height:normal!important;
-}
-#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-net-tl{display:none!important;}
-
-/* 25.11.2026 — ONAYLI MAIL PNG TASARIMI: rakam referans hizasi ve duz renkli hucreler */
-#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(3),
-#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
-#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
-#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
-#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(7){
- box-sizing:border-box!important;vertical-align:top!important;text-align:center!important;
- padding:8px 2px 5px!important;border-radius:0!important;
-}
-#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(5){
- background:#f0444b!important;color:#fff!important;
-}
-#belgeGorselAlani table.belge-urun-tablo--giden:not(.belge-urun-tablo--basit) tbody td:nth-child(6){
- background:#07852e!important;color:#fff!important;
-}
-#belgeGorselAlani .belge-mail-rakam-stack{
- display:block!important;width:100%!important;text-align:center!important;
- margin:0!important;padding:0!important;line-height:normal!important;
-}
-#belgeGorselAlani .belge-mail-rakam-stack .belge-rakam-sayi,
-#belgeGorselAlani .belge-mail-rakam-stack .belge-para-sayi{
- display:block!important;height:19px!important;min-height:19px!important;
- line-height:19px!important;margin:0!important;padding:0!important;
- font-size:13px!important;font-weight:800!important;white-space:nowrap!important;
- font-variant-numeric:tabular-nums!important;
-}
-#belgeGorselAlani .belge-mail-rakam-stack .belge-para-birim{
- display:block!important;height:12px!important;min-height:12px!important;
- line-height:12px!important;margin:0!important;padding:0!important;
- font-size:8px!important;font-weight:800!important;white-space:nowrap!important;
-}
-#belgeGorselAlani td:nth-child(5) .belge-isk-metin{
- display:block!important;margin:0!important;padding:0!important;
- background:transparent!important;color:#fff!important;border:0!important;
- border-radius:0!important;box-shadow:none!important;line-height:normal!important;
-}
-#belgeGorselAlani td:nth-child(5) .belge-isk-metin .belge-para-sayi,
-#belgeGorselAlani td:nth-child(5) .belge-isk-metin .belge-para-birim{
- color:#fff!important;
-}
-#belgeGorselAlani td:nth-child(6) .rozet-net{
- display:block!important;margin:0!important;padding:0!important;
- background:transparent!important;color:#fff!important;border:0!important;
- border-radius:0!important;box-shadow:none!important;line-height:normal!important;
-}
-#belgeGorselAlani td:nth-child(6) .rozet-net *{color:#fff!important;}
-#belgeGorselAlani .belge-net-tl{display:none!important;}
-
-
-/* 25.11.2026 — PNG tablo: ortak hizalamayı güçlendir, önceki PNG özel blokların çakışmasını son kuralla gider. */
-#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre,
-#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-td-toplam.belge-rakam-hucre{vertical-align:middle!important;text-align:center!important;padding:4px 2px!important;}
-#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;width:100%!important;margin:0 auto!important;padding:0!important;text-align:center!important;}
-#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-rakam-sayi,
-#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-para-sayi{height:auto!important;min-height:0!important;line-height:1.15!important;font-size:16px!important;text-align:center!important;margin:0!important;padding:0!important;}
-#belgeGorselAlani .belge-urun-tablo--giden .belge-mail-rakam-stack .belge-para-birim{height:auto!important;min-height:0!important;line-height:1.05!important;font-size:10px!important;text-align:center!important;margin:0!important;padding:0!important;}
-#belgeGorselAlani .belge-urun-tablo--giden td:nth-child(5) .belge-isk-metin{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:0!important;}
-
-
-/* 26.11.2026 — Abdullah onayı: ortak referans tasarım Mail PNG gerçek çıktısına
-   uygulanır. Sadece belgeGorselAlani içindeki mail PNG sarmalayıcısı hedeflenir.
-   HareketTablo ortak HTML'i korunur; yeni tablo/hesaplama motoru yoktur. */
+/* MAIL PNG NUMERIC CELL STRUCTURE — consolidated source
+   Only generated Mail PNG capture. The common table HTML emits numeric value,
+   separator line, currency/percent label and optional net TL equivalence.
+   This replaces the conflicting Mail PNG numeric positioning rules. */
 #belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo{
-  width:760px!important;max-width:760px!important;box-sizing:border-box!important;
-  padding:10px!important;background:#fff!important;color:#101820!important;
-  font-family:Roboto,"Segoe UI",Arial,sans-serif!important;
+ width:100%!important;max-width:none!important;min-width:0!important;box-sizing:border-box!important;
 }
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-kart-ayrac{
-  margin:5px 0!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli{
-  margin:0!important;padding:0!important;border:2px solid #073B70!important;
-  border-radius:14px!important;overflow:hidden!important;background:#fff!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden{
-  width:100%!important;table-layout:fixed!important;border-collapse:collapse!important;
-  border-radius:0!important;margin:0!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden thead th{
-  background:#073B70!important;color:#fff!important;text-align:center!important;
-  vertical-align:middle!important;font-weight:800!important;padding:7px 3px!important;
-  border:1px solid #b7c5d5!important;line-height:1.15!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td{
-  border:1px solid #c7cbd0!important;border-radius:0!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5){
-  background:#f0444b!important;color:#fff!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6){
-  background:#07852e!important;color:#fff!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-prim-ic,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-kur-ic{
-  display:none!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-kutu,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-genel-toplam-serit{
-  width:100%!important;box-sizing:border-box!important;border-radius:14px!important;
-  margin-top:6px!important;background:#073B70!important;color:#fff!important;
-}
-
-
-/* 26.11.2026 — ORTAK REFERANSIN Mail PNG İSK hücresine birebir hizalama düzeltmesi.
-   Yalnız gerçek PNG yakalama alanındaki mail tablosunu hedefler. */
-#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5){
-  text-align:center!important;vertical-align:middle!important;padding:4px 2px!important;
-  background:#f0444b!important;color:#fff!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-mail-rakam-stack,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-isk-metin{
-  display:flex!important;flex-direction:column!important;align-items:center!important;
-  justify-content:center!important;text-align:center!important;width:100%!important;
-  margin:0 auto!important;padding:0!important;gap:0!important;line-height:1!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-para-sayi,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-rakam-sayi{
-  display:block!important;width:100%!important;text-align:center!important;
-  font-size:18px!important;font-weight:800!important;line-height:1.15!important;
-  margin:0!important;padding:0!important;min-height:0!important;height:auto!important;
-  color:#fff!important;white-space:nowrap!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-para-birim{
-  display:block!important;width:100%!important;text-align:center!important;
-  font-size:14px!important;font-weight:800!important;line-height:1.15!important;
-  margin:0!important;padding:0!important;min-height:0!important;height:auto!important;
-  color:#fff!important;white-space:nowrap!important;
-}
-
-
-/* 26.11.2026 — Mail PNG İSK sütunu: önceki dar seçici yerine gerçek tablo hücresine
-   yüksek öncelikli hizalama. Rakam ve % işareti ayrı satırda, birlikte ortalı. */
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5){
-  text-align:center!important;vertical-align:middle!important;overflow:visible!important;
-  padding:5px 2px!important;background:#f0444b!important;color:#fff!important;
-}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-mail-rakam-stack,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-isk-metin{
-  display:flex!important;flex-direction:column!important;align-items:center!important;
-  justify-content:center!important;text-align:center!important;width:100%!important;
-  box-sizing:border-box!important;margin:0!important;padding:0!important;gap:0!important;
-  line-height:1.1!important;overflow:visible!important;
-}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-para-sayi,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-para-birim{
-  display:block!important;flex:none!important;width:100%!important;box-sizing:border-box!important;
-  text-align:center!important;white-space:nowrap!important;color:#fff!important;
-  font-family:Roboto,"Segoe UI",Arial,sans-serif!important;font-weight:800!important;
-  margin:0!important;padding:0!important;min-height:0!important;height:auto!important;
-  overflow:visible!important;
-}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-para-sayi{
-  font-size:17px!important;line-height:1.15!important;
-}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-para-birim{
-  font-size:14px!important;line-height:1.15!important;
-}
-
-
-/* FINAL Mail PNG İSK düzeltmesi: scope wrapper yerine gerçek tabloda her seviyeyi
-   açıkça merkezle; küçük CSS yükseklik/overflow kurallarını etkisizleştir. */
-.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5),
-#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5){
- text-align:center!important;vertical-align:middle!important;overflow:visible!important;
- padding:3px 1px!important;white-space:normal!important;
-}
-.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5) span,
-#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5) span{
- box-sizing:border-box!important;float:none!important;position:static!important;
- text-align:center!important;overflow:visible!important;max-width:none!important;
-}
-.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5) .belge-mail-rakam-stack,
-.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5) .belge-isk-metin,
-#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5) .belge-mail-rakam-stack,
-#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5) .belge-isk-metin{
- display:flex!important;flex-flow:column nowrap!important;align-items:center!important;
- justify-content:center!important;width:100%!important;min-width:0!important;
- height:auto!important;min-height:0!important;gap:0!important;margin:0!important;
- padding:0!important;line-height:1.1!important;
-}
-.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5) .belge-para-sayi,
-#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5) .belge-para-sayi{
- display:block!important;width:100%!important;font-size:16px!important;font-weight:800!important;
- line-height:1.15!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;
-}
-.mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden td:nth-child(5) .belge-para-birim,
-#belgeGorselAlani table.belge-urun-tablo--giden td:nth-child(5) .belge-para-birim{
- display:block!important;width:100%!important;font-size:13px!important;font-weight:800!important;
- line-height:1.15!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;
-}
-
-
-/* 26.11.2026 — iPad 9 Mail önizleme/PNG işlem tablosu genişlik düzeltmesi.
-   760px sabit PNG/form sınırı kaldırılır; ekran kullanılabilir genişliği dolar. */
-#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli{
-  width:100%!important;max-width:none!important;min-width:0!important;
-  box-sizing:border-box!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .data-table-container,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden{
-  width:100%!important;max-width:100%!important;min-width:0!important;
-  box-sizing:border-box!important;
-}
-
-
-/* 26.11.2026 — Mail uygulamasına kopyalanan PNG: cihaz genişliği boyunca,
-   kenarlarda yaklaşık 1 mm pay. Sadece gerçek Mail PNG render alanı etkilenir. */
-#belgeGorselAlani .mail-giden-yeni-form-tasarim{
-  width:100%!important;max-width:none!important;margin:0!important;
-  padding:1mm!important;box-sizing:border-box!important;
-}
-#belgeGorselAlani #mailOnizlemeTablo,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-kart--cari-ust,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-kutu{
-  width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;
-  box-sizing:border-box!important;
-}
-
-
-/* 26.11.2026 — Mail PNG: bedelsiz LİSTE/İSK/NET çizgi hücreleri
-   kesin beyaz zemin; aynı ölçülü, yatay ve hücre genişliğine eşit çizgiler. */
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td.belge-bdl-beyaz-hucre,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-bdl-beyaz-hucre{
-  background:#fff!important;color:#fff!important;padding:0 2px!important;
-  vertical-align:middle!important;text-align:center!important;box-sizing:border-box!important;
-  border:1px solid #c7cbd0!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td.belge-bdl-beyaz-hucre .belge-bdl-cizgi,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-bdl-beyaz-hucre .belge-bdl-cizgi{
-  display:block!important;width:100%!important;max-width:none!important;height:2px!important;
-  margin:0!important;padding:0!important;background:#d62828!important;border-radius:1px!important;
-  box-sizing:border-box!important;
-}
-/* PNG capture: override legacy fixed 760px width rule and use viewport width. */
-#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo{
-  width:calc(100vw - 8px)!important;max-width:none!important;min-width:0!important;
-  margin:0!important;box-sizing:border-box!important;
-}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim{
-  width:calc(100vw - 8px)!important;max-width:none!important;min-width:0!important;
-  margin:0!important;padding:1mm!important;box-sizing:border-box!important;
-}
-
-
-/* 26.11.2026 — PNG mail genişliği: yakalama alanı/table kenarlarda 1px payla viewport genişliğini doldursun. */
-#belgeGorselAlani,
 #belgeGorselAlani .mail-giden-yeni-form-tasarim,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden {width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;box-sizing:border-box!important;}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim {padding:1px!important;}
-
-
-/* 26.11.2026 — PNG kopyasında cihaz kenar boşluğu 1px: eski 8px kuralını düzelt, net tablo/header rengi ve bedelsiz çizgi hücreleri korunur. */
-#belgeGorselAlani #mailOnizlemeTablo,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim,
-#belgeGorselAlani table.belge-urun-tablo--giden {width:calc(100vw - 2px)!important;max-width:none!important;min-width:0!important;margin:0 1px!important;box-sizing:border-box!important;}
-#belgeGorselAlani table.belge-urun-tablo--giden thead th:nth-child(5){background:#f04444!important;color:#fff!important;}
-#belgeGorselAlani table.belge-urun-tablo--giden thead th:nth-child(6){background:#07852b!important;color:#fff!important;}
-#belgeGorselAlani table.belge-urun-tablo--basit thead th:nth-child(3){background:#07852b!important;color:#fff!important;}
-#belgeGorselAlani tbody td.belge-td-bdl-iptal.belge-bdl-beyaz-hucre {background:#fff!important;background-color:#fff!important;color:#fff!important;}
-
-
-/* 26.11.2026 — Mail PNG yatay kenar boşluğu kök çözümü (yalnız PNG yakalama alanı).
-   Sabit 760px/padding 10px kalıntılarını yakalama kopyasında etkisizleştirir. */
-#belgeGorselAlani .mail-giden-yeni-form-tasarim,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim #mailOnizlemeTablo,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden {
-  width:100%!important;max-width:none!important;min-width:0!important;
-  margin:0!important;padding:0!important;box-sizing:border-box!important;
-}
 #belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli,
 #belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-kutu,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-genel-toplam-serit {
-  width:100%!important;max-width:100%!important;margin-left:0!important;margin-right:0!important;
-  box-sizing:border-box!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-genel-toplam-serit,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .data-table-container,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden{
+ width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;box-sizing:border-box!important;
 }
-
-
-/* 26.11.2026 — Abdullah onayı: Mail PNG sayısal ürün hücreleri kesin merkez hizası.
-   Yalnız PNG yakalama alanındaki ürün satırlarının rakam hücreleri hedeflenir;
-   başlık satırı, renkler, bedelsiz çizgiler ve diğer sayfalar değiştirilmez. */
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam {
-  text-align:center!important;
-  vertical-align:middle!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim{padding:1px!important;}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli{
+ padding:0!important;border:2px solid #073B70!important;border-radius:14px!important;overflow:hidden!important;background:#fff!important;
 }
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre .belge-mail-rakam-stack,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam .belge-mail-rakam-stack {
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  justify-content:center!important;
-  width:100%!important;
-  box-sizing:border-box!important;
-  margin:0 auto!important;
-  padding:0!important;
-  text-align:center!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden{
+ table-layout:fixed!important;border-collapse:collapse!important;border-radius:0!important;
 }
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre .belge-mail-rakam-stack *,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam .belge-mail-rakam-stack * {
-  text-align:center!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden thead th{
+ background:#073B70!important;color:#fff!important;text-align:center!important;vertical-align:middle!important;
+ font-weight:800!important;padding:7px 3px!important;border:1px solid #b7c5d5!important;line-height:1.15!important;
 }
-
-
-/* 26.11.2026 — PNG mail tablosu: ADET/LİSTE/İSK/NET/TOPLAM sayıları ve birimleri
-   tek, sabit merkez ekseninde hizalanır. Yalnız rakam taşıyan hücreler hedeflenir;
-   başlıklar, bedelsiz çizgi hücreleri, renkler ve tablo ölçüleri korunur. */
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) {
-  text-align:center!important;
-  vertical-align:middle!important;
-  padding-left:2px!important;
-  padding-right:2px!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td{
+ border:1px solid #c7cbd0!important;border-radius:0!important;box-sizing:border-box!important;
+ text-align:center!important;vertical-align:middle!important;padding:4px 2px!important;
 }
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) > .belge-mail-rakam-stack {
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  justify-content:center!important;
-  width:100%!important;
-  margin:0!important;
-  padding:0!important;
-  box-sizing:border-box!important;
-  text-align:center!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5){
+ background:#f0444b!important;color:#fff!important;
 }
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-rakam-sayi,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-para-sayi {
-  display:block!important;
-  width:100%!important;
-  height:auto!important;
-  min-height:18px!important;
-  margin:0!important;
-  padding:0!important;
-  text-align:center!important;
-  line-height:18px!important;
-  font-variant-numeric:tabular-nums!important;
-  white-space:nowrap!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6){
+ background:#07852e!important;color:#fff!important;
 }
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-para-birim {
-  display:block!important;
-  width:100%!important;
-  height:auto!important;
-  min-height:11px!important;
-  margin:0!important;
-  padding:0!important;
-  text-align:center!important;
-  line-height:11px!important;
-  font-variant-numeric:tabular-nums!important;
-  white-space:nowrap!important;
+/* Legacy wrappers are flattened so layout comes from the shared cell element. */
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-mail-rakam-stack,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-mail-rakam-stack{
+ display:block!important;position:static!important;inset:auto!important;transform:none!important;
+ width:100%!important;height:auto!important;min-height:0!important;overflow:visible!important;
+ margin:0!important;padding:0!important;text-align:center!important;line-height:normal!important;
 }
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-isk-metin,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .rozet-net {
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  justify-content:center!important;
-  width:100%!important;
-  margin:0!important;
-  padding:0!important;
-  text-align:center!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-isk-metin,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .rozet-net{
+ display:contents!important;position:static!important;inset:auto!important;transform:none!important;
+ height:auto!important;min-height:0!important;overflow:visible!important;
 }
-
-
-/* 26.11.2026 — kesin merkez hizası: mail PNG sayısal hücreleri ve alt birimler */
-#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) {
- text-align:center!important; vertical-align:middle!important;
+/* Single layout contract: value -> line -> label -> optional NET TL */
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-hucresi,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-hucresi{
+ display:grid!important;grid-template-columns:1fr!important;grid-template-rows:auto 1px auto auto!important;
+ justify-items:center!important;align-content:center!important;gap:0!important;
+ position:static!important;inset:auto!important;transform:none!important;width:100%!important;
+ height:auto!important;min-height:0!important;overflow:visible!important;margin:0!important;padding:0!important;
+ text-align:center!important;line-height:normal!important;
 }
-#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-mail-rakam-stack {
- display:flex!important; flex-direction:column!important; align-items:center!important; justify-content:center!important;
- width:100%!important; margin:0 auto!important; padding:0!important; text-align:center!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-deger,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-deger{
+ display:block!important;position:static!important;inset:auto!important;transform:none!important;
+ width:auto!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;
+ line-height:18px!important;text-align:center!important;white-space:nowrap!important;font-size:16px!important;font-weight:800!important;
 }
-#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-mail-rakam-stack > span {
- display:block!important; width:100%!important; box-sizing:border-box!important; margin:0 auto!important; text-align:center!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-cizgi,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-cizgi{
+ display:block!important;position:static!important;width:42%!important;height:1px!important;min-height:1px!important;
+ margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;background:rgba(255,255,255,.65)!important;
 }
-#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-para-sayi,
-#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-rakam-sayi,
-#belgeGorselAlani .belge-urun-tablo--giden tbody td.belge-rakam-hucre:not(.belge-bdl-beyaz-hucre) .belge-para-birim {
- text-align:center!important; align-self:center!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-etiket,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-etiket{
+ display:block!important;position:static!important;inset:auto!important;transform:none!important;width:auto!important;
+ height:auto!important;min-height:0!important;margin:0!important;padding:0!important;line-height:12px!important;
+ font-size:9px!important;font-weight:800!important;text-align:center!important;white-space:nowrap!important;
+ color:#fff!important;visibility:visible!important;opacity:1!important;
 }
-
-
-/* 26.11.2026 — PNG BEDELSİZ hizalama düzeltmesi (yalnız Mail PNG)
-   Bedelsiz etiketi TOPLAM hücresinde merkez çizginin hemen üstüne yerleşir;
-   hücre çizgileri daha silik ve hücre genişliğinin %40'ı kadar kısaltılır.
-*/
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam .belge-bdl-yazi {
-  display:block!important; position:relative!important; width:100%!important;
-  margin:0!important; padding:0!important; text-align:center!important;
-  white-space:nowrap!important; line-height:1.05!important;
-  transform:translateY(-1px)!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-net-tl{
+ display:block!important;position:static!important;inset:auto!important;transform:none!important;width:auto!important;
+ height:auto!important;min-height:0!important;margin:0!important;padding:0!important;line-height:12px!important;
+ font-size:9px!important;font-weight:800!important;text-align:center!important;white-space:nowrap!important;
+ color:#fff!important;visibility:visible!important;opacity:1!important;
 }
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam:has(.belge-bdl-yazi) {
-  position:relative!important; text-align:center!important; vertical-align:middle!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-hucresi *,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-hucresi *{
+ position:static!important;inset:auto!important;transform:none!important;float:none!important;visibility:visible!important;opacity:1!important;
 }
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam:has(.belge-bdl-yazi)::after {
-  content:""!important; position:absolute!important; left:30%!important; right:30%!important;
-  top:50%!important; height:.5px!important; background:rgba(35,45,55,.16)!important;
-  pointer-events:none!important;
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-prim-ic,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-kur-ic{display:none!important;}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-gt-kutu,
+#belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-genel-toplam-serit{
+ border-radius:14px!important;margin-top:6px!important;background:#073B70!important;color:#fff!important;
 }
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-bdl-iptal .belge-bdl-cizgi {
-  width:40%!important; max-width:40%!important; height:.6px!important;
-  margin:0 auto!important; opacity:.38!important; background:#b6b6b6!important;
+/* Bedelsiz line cells and their text remain separate from numeric layout. */
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-bdl-beyaz-hucre{
+ background:#fff!important;color:#fff!important;padding:0 2px!important;vertical-align:middle!important;text-align:center!important;
+ box-sizing:border-box!important;border:1px solid #c7cbd0!important;
 }
-
-
-/* KANONIK MAIL PNG HUCRESI — 27.11.2026
-   İSK ve NET hücrelerinde legacy absolute/flex katmanlarını kaldırır.
-   Yalnız gerçek PNG yakalama tablosu: belge-urun-tablo--giden. */
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-mail-rakam-stack,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-mail-rakam-stack {display:block!important;position:static!important;height:auto!important;min-height:0!important;overflow:visible!important;width:100%!important;margin:0!important;padding:0!important;}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-isk-metin,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .rozet-net {display:contents!important;position:static!important;inset:auto!important;transform:none!important;height:auto!important;min-height:0!important;overflow:visible!important;}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-hucresi,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-hucresi {display:grid!important;grid-template-columns:1fr!important;grid-template-rows:auto 1px auto auto!important;justify-items:center!important;align-content:center!important;gap:0!important;position:static!important;inset:auto!important;transform:none!important;width:100%!important;height:auto!important;min-height:0!important;overflow:visible!important;margin:0!important;padding:0!important;line-height:normal!important;text-align:center!important;}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-deger,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-deger {display:block!important;position:static!important;inset:auto!important;transform:none!important;height:auto!important;min-height:0!important;width:auto!important;margin:0!important;padding:0!important;line-height:19px!important;text-align:center!important;white-space:nowrap!important;font-weight:800!important;}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-cizgi,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-cizgi {display:block!important;position:static!important;width:42%!important;height:1px!important;min-height:1px!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;background:rgba(255,255,255,.65)!important;}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-etiket,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-etiket {display:block!important;position:static!important;inset:auto!important;transform:none!important;height:auto!important;min-height:0!important;width:auto!important;margin:0!important;padding:0!important;line-height:12px!important;font-size:8px!important;font-weight:800!important;text-align:center!important;white-space:nowrap!important;color:#fff!important;visibility:visible!important;opacity:1!important;}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-net-tl {display:block!important;position:static!important;inset:auto!important;transform:none!important;height:auto!important;min-height:0!important;width:auto!important;margin:0!important;padding:0!important;line-height:12px!important;font-size:8px!important;font-weight:800!important;text-align:center!important;white-space:nowrap!important;color:#fff!important;visibility:visible!important;opacity:1!important;}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-hucresi *,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-hucresi * {position:static!important;inset:auto!important;top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;transform:none!important;float:none!important;visibility:visible!important;opacity:1!important;}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-bdl-beyaz-hucre .belge-bdl-cizgi{
+ display:block!important;width:100%!important;height:2px!important;margin:0!important;padding:0!important;
+ background:#d62828!important;border-radius:1px!important;box-sizing:border-box!important;
+}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam .belge-bdl-yazi{
+ display:block!important;position:relative!important;width:100%!important;margin:0!important;padding:0!important;
+ text-align:center!important;white-space:nowrap!important;line-height:1.05!important;transform:translateY(-1px)!important;
+}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam:has(.belge-bdl-yazi){position:relative!important;text-align:center!important;vertical-align:middle!important;}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td.belge-td-toplam:has(.belge-bdl-yazi)::after{
+ content:""!important;position:absolute!important;left:30%!important;right:30%!important;top:50%!important;
+ height:1px!important;background:rgba(0,0,0,.2)!important;
+}
