@@ -161,3 +161,12 @@
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-td-prim-tek .belge-birim-hucresi {
   flex:0 0 auto!important;align-self:center!important;
 }
+
+
+/* 27.11.2026 — ADET / İSK / NET hizası: LISTE-TOPLAM-PRIM referansındaki temiz stack görünümü. Dekoratif çizgi kaldırılır; merkez hizası ve etiket/TL satırları korunur. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-cizgi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-cizgi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-cizgi,
+#belgeGorselAlani .belge-urun-tablo--giden tbody td:nth-child(3) .belge-birim-cizgi,
+#belgeGorselAlani .belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-cizgi,
+#belgeGorselAlani .belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-cizgi {display:none!important;width:0!important;height:0!important;margin:0!important;}
