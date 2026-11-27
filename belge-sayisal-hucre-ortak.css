@@ -218,3 +218,13 @@
   line-height:normal!important;
   box-sizing:border-box!important;
 }
+
+/* WhatsApp sade tablosu: NET rakamı görünür, %20 büyütülmüş ölçü ve boşluk ayarları. */
+.belge-urun-tablo--basit tbody td:nth-child(3) .belge-birim-deger {
+  font-size:19.2px!important;
+  margin-top:4.5px!important;
+  margin-bottom:2px!important;
+  color:#fff!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
