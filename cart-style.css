@@ -1850,7 +1850,6 @@ body.cart-sayfa #musterisizOnizlemeTablo.musterisiz-gorsel-kaynak{
 }
 @media (max-width:380px){
   body.cart-sayfa #musterisizGonderOverlay .musterisiz-hareket-popup{
-    min-width:0;
     width:52vw !important;
     min-width:200px !important;
     max-width:288px !important;
