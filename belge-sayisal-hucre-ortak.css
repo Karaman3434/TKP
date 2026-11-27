@@ -247,3 +247,17 @@
   color:#fff!important;
 }
 
+
+/* ONAYLI TASARIM: sayısal hücreler üst çizgiden 8px sabit konumlanır. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) {
+  padding-top:8px!important;
+}
+/* İSK yüzde etiketi: mevcut 9px ölçüden %20 büyütülmüş 10.8px. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket {
+  font-size:10.8px!important;
+}
