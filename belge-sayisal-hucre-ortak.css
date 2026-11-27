@@ -1,267 +1,109 @@
-/* TKP — SAYISAL HÜCRELER: TEK GEOMETRİ KAYNAĞI
-   Standart tablo (3-8): ADET/LİSTE/İSK/NET/TOPLAM/PRİM
-   PNG tablo (3-7): ADET/LİSTE/İSK/NET/TOPLAM
-   Görsel renkleri ayrı semantik kurallarda korunur. Bu dosya geometrinin tek kaynağıdır. */
+/* TKP — SAYISAL HÜCRE GEOMETRİSİ: TEK KANONİK KURAL
+   Beş görünüm: İşlem Önizleme, Ürün Bul/Sepet, Gönder, PNG Mail, PNG WhatsApp.
+   Sayısal hücre rakamı: 16px; üst çizgiden 8px.
+   Renk/başlık tasarımı belge-style.css içinde ayrı tutulur. */
 
-/* Hücre kutusu ve içerik alanı */
+/* Standart tabloda ADET, LİSTE, İSK, NET, TOPLAM, PRİM (3–8) */
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7),
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) {
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8),
+/* Sade WhatsApp PNG: ADET, NET, TOPLAM (2–4) */
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2),
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3),
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) {
   box-sizing:border-box!important;
   text-align:center!important;
   vertical-align:middle!important;
-  padding:3px 1px!important;
+  padding-top:8px!important;
 }
 
-/* Hücre içindeki tüm ortak rakam yığınları */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-mail-rakam-stack,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-mail-rakam-stack,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-mail-rakam-stack,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-mail-rakam-stack,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-mail-rakam-stack,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-mail-rakam-stack,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-isk-metin,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .rozet-net,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-td-prim-tek {
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:0!important;
-  position:static!important;
-  inset:auto!important;
-  transform:none!important;
-  float:none!important;
-  width:100%!important;
-  height:auto!important;
-  min-height:0!important;
-  margin:0!important;
-  padding:0!important;
-  overflow:visible!important;
-  box-sizing:border-box!important;
-  text-align:center!important;
+/* Rakamın üst boşluğu hücre padding'inden gelir; iç stack margin/padding sıfır. */
+.belge-urun-tablo tbody td:nth-child(3) .belge-mail-rakam-stack,
+.belge-urun-tablo tbody td:nth-child(4) .belge-mail-rakam-stack,
+.belge-urun-tablo tbody td:nth-child(5) .belge-mail-rakam-stack,
+.belge-urun-tablo tbody td:nth-child(6) .belge-mail-rakam-stack,
+.belge-urun-tablo tbody td:nth-child(7) .belge-mail-rakam-stack,
+.belge-urun-tablo tbody td:nth-child(8) .belge-mail-rakam-stack,
+.belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net,
+.belge-urun-tablo tbody td:nth-child(8) .belge-td-prim-tek,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2) .belge-mail-rakam-stack,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) .belge-mail-rakam-stack {
+  display:flex!important; flex-direction:column!important; align-items:center!important;
+  justify-content:center!important; gap:0!important; position:static!important;
+  inset:auto!important; transform:none!important; float:none!important; width:100%!important;
+  height:auto!important; min-height:0!important; margin:0!important; padding:0!important;
+  overflow:visible!important; box-sizing:border-box!important; text-align:center!important;
   line-height:normal!important;
 }
 
-/* Değer/birim/etiket: tek dikey stack ve tek yatay merkez */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-hucresi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-hucresi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-hucresi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-hucresi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-hucresi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-birim-hucresi {
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:0!important;
-  flex:0 0 auto!important;
-  align-self:center!important;
-  position:static!important;
-  inset:auto!important;
-  transform:none!important;
-  width:100%!important;
-  height:auto!important;
-  min-height:0!important;
-  margin:0!important;
-  padding:0!important;
-  overflow:visible!important;
+/* Birim hücreleri: doğal akış */
+.belge-urun-tablo .belge-birim-hucresi {
+  display:flex!important; flex-direction:column!important; align-items:center!important;
+  justify-content:center!important; gap:0!important; position:static!important;
+  width:100%!important; height:auto!important; min-height:0!important;
+  margin:0!important; padding:0!important; overflow:visible!important;
+  transform:none!important; text-align:center!important; line-height:normal!important;
   box-sizing:border-box!important;
-  text-align:center!important;
-  line-height:normal!important;
 }
 
-/* Rakam satırı */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-deger,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-deger,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-deger,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-deger,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-deger,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-birim-deger {
-  display:block!important;
-  position:static!important;
-  width:auto!important;
-  height:auto!important;
-  min-height:0!important;
-  margin:0!important;
-  padding:0!important;
-  transform:none!important;
-  line-height:1.15!important;
-  font-size:16px!important;
-  font-weight:800!important;
-  text-align:center!important;
-  white-space:nowrap!important;
+/* Altı sayısal sütunun tek rakam ölçüsü: 16px */
+.belge-urun-tablo tbody td:nth-child(3) .belge-birim-deger,
+.belge-urun-tablo tbody td:nth-child(4) .belge-birim-deger,
+.belge-urun-tablo tbody td:nth-child(5) .belge-birim-deger,
+.belge-urun-tablo tbody td:nth-child(6) .belge-birim-deger,
+.belge-urun-tablo tbody td:nth-child(7) .belge-birim-deger,
+.belge-urun-tablo tbody td:nth-child(8) .belge-birim-deger,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2) .belge-birim-deger,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .belge-birim-deger,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) .belge-birim-deger {
+  display:block!important; position:static!important; width:auto!important; height:auto!important;
+  min-height:0!important; margin:0!important; padding:0!important; transform:none!important;
+  line-height:1.15!important; font-size:16px!important; font-weight:800!important;
+  text-align:center!important; white-space:nowrap!important;
   font-variant-numeric:tabular-nums!important;
 }
 
-/* NET ana rakamı: mevcut ölçüden %10 küçültülmüş. */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-deger {
-  font-size:17.28px!important;
-  margin-top:4.5px!important;
-  margin-bottom:2px!important;
+/* Etiket/birim satırları; ölçüler rakam ölçüsünden ayrı */
+.belge-urun-tablo .belge-birim-cizgi {
+  display:block!important; position:static!important; flex:none!important; width:40%!important;
+  height:1px!important; min-height:1px!important; margin:1px auto!important; padding:0!important;
+  border:0!important; box-shadow:none!important; background:rgba(255,255,255,.58)!important;
 }
-
-
-/* Birim çizgisi — ortak ölçü; ADET/ISK/NET çizgisi ayrı aşağıda kapatılır */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-cizgi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-cizgi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-cizgi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-cizgi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-cizgi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-birim-cizgi {
-  display:block!important;
-  position:static!important;
-  flex:none!important;
-  width:40%!important;
-  height:1px!important;
-  min-height:1px!important;
-  margin:1px auto!important;
-  padding:0!important;
-  border:0!important;
-  box-shadow:none!important;
-  background:rgba(255,255,255,.58)!important;
+.belge-urun-tablo .belge-birim-etiket {
+  display:block!important; position:static!important; width:auto!important; height:auto!important;
+  min-height:0!important; margin:0!important; padding:0!important; transform:none!important;
+  line-height:1.1!important; font-size:9px!important; font-weight:800!important;
+  text-align:center!important; white-space:nowrap!important;
 }
-
-/* Etiket satırı */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-etiket,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4) .belge-birim-etiket,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-etiket,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7) .belge-birim-etiket,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-birim-etiket {
-  display:block!important;
-  position:static!important;
-  width:auto!important;
-  height:auto!important;
-  min-height:0!important;
-  margin:0!important;
-  padding:0!important;
-  transform:none!important;
-  line-height:1.1!important;
-  font-size:9px!important;
-  font-weight:800!important;
-  text-align:center!important;
-  white-space:nowrap!important;
-}
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-etiket:empty {display:none!important;}
-
-/* NET hücresinin TL karşılığı */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-net-tl {
-  display:block!important;
-  position:static!important;
-  width:auto!important;
-  height:auto!important;
-  min-height:0!important;
-  margin:2px 0 0!important;
-  padding:0!important;
-  transform:none!important;
-  line-height:1.1!important;
-  font-size:8px!important;
-  text-align:center!important;
+.belge-urun-tablo .belge-birim-etiket:empty {display:none!important;}
+.belge-urun-tablo .belge-net-tl {
+  display:block!important; position:static!important; width:auto!important; height:auto!important;
+  min-height:0!important; margin:2px 0 0!important; padding:0!important; transform:none!important;
+  line-height:1.1!important; font-size:8px!important; text-align:center!important;
   white-space:nowrap!important;
 }
 
-/* Birimsiz ADET: çizgi ve etiket yok, sayı hücre merkezinde */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-hucresi--birimsiz {
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  width:100%!important;
-  margin:0!important;
-  padding:0!important;
-  line-height:normal!important;
+/* ADET birimsiz hücre ve çizgi olmayan hücreler */
+.belge-urun-tablo tbody td:nth-child(3) .belge-birim-hucresi--birimsiz,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2) .belge-birim-hucresi--birimsiz {
+  display:flex!important; align-items:center!important; justify-content:center!important;
+  width:100%!important; margin:0!important; padding:0!important; line-height:normal!important;
 }
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-cizgi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-cizgi,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-cizgi {display:none!important;width:0!important;height:0!important;margin:0!important;}
+.belge-urun-tablo tbody td:nth-child(3) .belge-birim-cizgi,
+.belge-urun-tablo tbody td:nth-child(5) .belge-birim-cizgi,
+.belge-urun-tablo tbody td:nth-child(6) .belge-birim-cizgi,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2) .belge-birim-cizgi,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .belge-birim-cizgi {display:none!important;width:0!important;height:0!important;margin:0!important;}
 
-/* Müşteriye giden PNG: PRİM sütunu yok, 3-7 sayısal kolonları aynı stack */
-/* PNG: beyaz rakam yalnızca renkli İSK (5) ve NET (6) hücrelerinde.
-   ADET (3), LİSTE (4) ve TOPLAM (7) beyaz zeminde koyu rakam kullanır. */
+/* Mail PNG: renk ve TL görünürlüğü korunur; geometri yukarıdaki ortak kurallardan gelir. */
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-hucresi,
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-hucresi {color:#fff!important;}
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(3) .belge-birim-hucresi,
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(4) .belge-birim-hucresi,
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(7) .belge-birim-hucresi {color:#17324d!important;}
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-net-tl {
-  display:block!important;
-  position:static!important;
-  width:auto!important;
-  height:auto!important;
-  min-height:0!important;
-  margin:2px 0 0!important;
-  padding:0!important;
-  transform:none!important;
-  line-height:1.1!important;
-  font-size:8px!important;
-  font-weight:800!important;
-  text-align:center!important;
-  white-space:nowrap!important;
-  color:#fff!important;
-  visibility:visible!important;
-  opacity:1!important;
-}
-
-/* Mail/PNG render wrapper — renderer'daki stack'i doğal akışta tut */
-#mailOnizlemeOverlay #mailOnizlemeTablo .belge-mail-rakam-stack {
-  display:block!important;
-  position:static!important;
-  width:100%!important;
-  height:auto!important;
-  min-height:0!important;
-  margin:0!important;
-  padding:0!important;
-  overflow:visible!important;
-  text-align:center!important;
-  line-height:normal!important;
-  box-sizing:border-box!important;
-}
-
-/* WhatsApp sade tablosunda NET rakamı: html2canvas yakalama için yüksek özgüllük. */
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net .belge-birim-deger {
-  display:block!important;
-  position:static!important;
-  visibility:visible!important;
-  opacity:1!important;
-  color:#fff!important;
-  font-size:19.2px!important;
-  font-weight:900!important;
-  line-height:1.25!important;
-  height:auto!important;
-  min-height:0!important;
-  width:auto!important;
-  margin:4.5px 0 2px!important;
-  padding:0!important;
-  transform:none!important;
-  text-align:center!important;
-  white-space:nowrap!important;
-}
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  justify-content:center!important;
-  color:#fff!important;
-}
-
-/* ONAYLI GEOMETRİ: standart tabloda rakamlar üst çizgiden 8px; ADET 4px */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7),
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) { padding-top:8px!important; }
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) { padding-top:4px!important; }
-
-/* İSK: rakam %20 büyütme ve yüzde etiketi 12px */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-deger { font-size:19.2px!important; }
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket { font-size:12px!important; }
-
-/* WhatsApp PNG sade tablosu: üst boşluk */
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2),
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3),
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) { padding-top:8px!important; }
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2) { padding-top:4px!important; }
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-net-tl {color:#fff!important;visibility:visible!important;opacity:1!important;}
