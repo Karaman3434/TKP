@@ -173,7 +173,7 @@ var HareketTablo = (function(){
         + (bedelsizMi ? bdlCizgiTd + bdlCizgiTd + bdlCizgiTd : (
             "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (u.listeFiyat!=null ? paraHtml(fmt(u.listeFiyat),"EURO") : "-") + "</span></td>"
           + "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (iskYuz100 ? "-" : (u.iskonto!=null ? "<span class='belge-isk-metin'>"+birimHucresiHtml(u.iskonto,"%")+"</span>" : "-")) + "</span></td>"
-          + "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (toplamVarMi ? "<span class='rozet-net'>"+paraHtml(fmt(h.iskontoluFiyat),"EURO")+netTl+"</span>" : "-") + "</span></td>"))
+          + "<td class='belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + (toplamVarMi ? "<span class='rozet-net'>"+birimHucresiHtml(fmt(h.iskontoluFiyat),"EURO",netTl)+"</span>" : "-") + "</span></td>"))
         + "<td class='belge-td-toplam belge-rakam-hucre'><span class='belge-mail-rakam-stack'>" + toplamHucreIcerik + "</span></td>"
         + (primGizli ? "" : "<td class='belge-td-prim'>" + primHucre + "</td>")
         + "</tr>";
