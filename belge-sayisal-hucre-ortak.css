@@ -103,14 +103,7 @@
   margin-top:4.5px!important;
   margin-bottom:2px!important;
 }
-/* ADET rakamının hücre üst boşluğu %10 azaltılır. */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) {
-  padding-top:2.7px!important;
-}
-/* İSK hücresindeki yüzde etiketi %10 büyütülür. */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket {
-  font-size:9.9px!important;
-}
+
 
 /* Birim çizgisi — ortak ölçü; ADET/ISK/NET çizgisi ayrı aşağıda kapatılır */
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-cizgi,
