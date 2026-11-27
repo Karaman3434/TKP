@@ -1907,7 +1907,7 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-mail-rakam-stack,
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(7) .belge-mail-rakam-stack{display:block!important;position:static!important;inset:auto!important;transform:none!important;width:100%!important;height:auto!important;min-height:0!important;overflow:visible!important;margin:0!important;padding:0!important;text-align:center!important;line-height:normal!important;}
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-isk-metin,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .rozet-net{display:contents!important;position:static!important;inset:auto!important;transform:none!important;height:auto!important;min-height:0!important;overflow:visible!important;}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .rozet-net{display:block!important;position:static!important;inset:auto!important;transform:none!important;width:100%!important;height:auto!important;min-height:0!important;overflow:visible!important;margin:0!important;padding:0!important;box-sizing:border-box!important;text-align:center!important;line-height:normal!important;}
 /* All five columns use identical geometry: value hugs line; label is 2px below. */
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(3) .belge-birim-hucresi,
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(4) .belge-birim-hucresi,
