@@ -1918,7 +1918,7 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(4) .belge-birim-deger,
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-deger,
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-deger,
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(7) .belge-birim-deger{display:block!important;position:static!important;inset:auto!important;transform:none!important;width:auto!important;height:auto!important;min-height:0!important;margin:0 0 -1px!important;padding:0!important;line-height:16px!important;text-align:center!important;white-space:nowrap!important;font-size:16px!important;font-weight:800!important;}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(7) .belge-birim-deger{display:block!important;position:static!important;inset:auto!important;transform:none!important;width:auto!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;line-height:16px!important;text-align:center!important;white-space:nowrap!important;font-size:16px!important;font-weight:800!important;}
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(3) .belge-birim-cizgi,
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(4) .belge-birim-cizgi,
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-cizgi,
