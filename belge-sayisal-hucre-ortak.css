@@ -280,3 +280,9 @@
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket {
   font-size:10.8px!important;
 }
+
+/* 27.11.2026 ONAYLI: ADET üst boşluğu 4px; İSK rakamı +20%; yüzde etiketi 12px */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) { padding-top:4px!important; }
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-deger { font-size:19.2px!important; }
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket { font-size:12px!important; }
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2) { padding-top:4px!important; }
