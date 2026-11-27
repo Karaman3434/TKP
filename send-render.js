@@ -1051,6 +1051,11 @@ function gonderTiklandi(kanal, ozelKonu){
           paylasimMetni = "." + satirAyiriciOzelKarakter + metin.split("\n").join(satirAyiriciOzelKarakter);
         }
 
+        // WhatsApp Android dosya paylaşımında caption/text alanını bazı sürümlerde taşımıyor.
+        // Metni önceden panoya kopyala; kullanıcı WhatsApp açıklama alanına yapıştırabilir.
+        if(kanal === "whatsapp" && navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(paylasimMetni).then(function(){bilgiGoster("WhatsApp mesaj metni kopyalandı; WhatsApp açıklama alanına yapıştırabilirsiniz.");}).catch(function(){});
+        }
         if(navigator.canShare && navigator.canShare({files:[dosya]})){
           navigator.share({files:[dosya], title:konuMetni, text:paylasimMetni}).then(function(){
             basariEkraninaGit(kanal);
