@@ -13,7 +13,8 @@
 /* Sade WhatsApp PNG: ADET, NET, TOPLAM (2–4) */
 .belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2),
 .belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3),
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) {
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4),
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(5) {
   box-sizing:border-box!important;
   text-align:center!important;
   vertical-align:middle!important;
@@ -30,9 +31,9 @@
 .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
 .belge-urun-tablo tbody td:nth-child(6) .rozet-net,
 .belge-urun-tablo tbody td:nth-child(8) .belge-td-prim-tek,
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2) .belge-mail-rakam-stack,
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net,
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) .belge-mail-rakam-stack {
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .belge-mail-rakam-stack,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) .rozet-net,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(5) .belge-mail-rakam-stack {
   display:flex!important; flex-direction:column!important; align-items:center!important;
   justify-content:center!important; gap:0!important; position:static!important;
   inset:auto!important; transform:none!important; float:none!important; width:100%!important;
@@ -58,9 +59,9 @@
 .belge-urun-tablo tbody td:nth-child(6) .belge-birim-deger,
 .belge-urun-tablo tbody td:nth-child(7) .belge-birim-deger,
 .belge-urun-tablo tbody td:nth-child(8) .belge-birim-deger,
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2) .belge-birim-deger,
 .belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .belge-birim-deger,
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) .belge-birim-deger {
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) .belge-birim-deger,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(5) .belge-birim-deger {
   display:block!important; position:static!important; width:auto!important; height:auto!important;
   min-height:0!important; margin:0!important; padding:0!important; transform:none!important;
   line-height:1.15!important; font-size:16px!important; font-weight:800!important;
@@ -90,15 +91,15 @@
 
 /* ADET birimsiz hücre ve çizgi olmayan hücreler */
 .belge-urun-tablo tbody td:nth-child(3) .belge-birim-hucresi--birimsiz,
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2) .belge-birim-hucresi--birimsiz {
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .belge-birim-hucresi--birimsiz {
   display:flex!important; align-items:center!important; justify-content:center!important;
   width:100%!important; margin:0!important; padding:0!important; line-height:normal!important;
 }
 .belge-urun-tablo tbody td:nth-child(3) .belge-birim-cizgi,
 .belge-urun-tablo tbody td:nth-child(5) .belge-birim-cizgi,
 .belge-urun-tablo tbody td:nth-child(6) .belge-birim-cizgi,
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2) .belge-birim-cizgi,
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .belge-birim-cizgi {display:none!important;width:0!important;height:0!important;margin:0!important;}
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .belge-birim-cizgi,
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) .belge-birim-cizgi {display:none!important;width:0!important;height:0!important;margin:0!important;}
 
 /* Mail PNG: renk ve TL görünürlüğü korunur; geometri yukarıdaki ortak kurallardan gelir. */
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-hucresi,
