@@ -1795,7 +1795,6 @@
   border-bottom: 1px solid #ffffff !important;
 }
 .belge-urun-tablo:not(.belge-urun-tablo--basit) thead th:nth-child(6) {
-  background: var(--urun-net-bg, #07852b) !important;
   border-bottom: 1px solid #ffffff !important;
 }
 /* Etiket satırı ile ilk ürün hücreleri arasındaki beyaz ayırıcı;
