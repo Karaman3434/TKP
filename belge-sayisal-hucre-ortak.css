@@ -107,3 +107,9 @@
  text-align:center!important;white-space:nowrap!important;color:#fff!important;
  visibility:visible!important;opacity:1!important;
 }
+
+/* Birimsiz hücre (ADET): ortak değer hizası; çizgi/etiket oluşturulmaz. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) .belge-birim-hucresi--birimsiz {
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;margin:0!important;padding:0!important;line-height:normal!important;
+}
