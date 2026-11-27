@@ -247,42 +247,21 @@
   color:#fff!important;
 }
 
-
-/* ONAYLI TASARIM: sayısal hücreler üst çizgiden 8px sabit konumlanır. */
+/* ONAYLI GEOMETRİ: standart tabloda rakamlar üst çizgiden 8px; ADET 4px */
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7),
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) {
-  padding-top:8px!important;
-}
-/* İSK yüzde etiketi: mevcut 9px ölçüden %20 büyütülmüş 10.8px. */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket {
-  font-size:10.8px!important;
-}
-
-/* WHATSAPP PNG: sade tabloda (Ürün, ADET, NET, TOPLAM) sayısal hücreler üstten 8px hizalanır. */
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2),
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3),
-.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) {
-  padding-top:8px!important;
-}
-/* ADET hücresindeki rakamın üst boşluğu: 8px ortak referanstan %20 azaltılır. */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) {
-  padding-top:6.4px!important;
-}
-
-/* FINAL OVERRIDE — approved: ADET top gap reduced 20% from 8px; discount % label +20%. */
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) {
-  padding-top:6.4px!important;
-}
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket {
-  font-size:10.8px!important;
-}
-
-/* 27.11.2026 ONAYLI: ADET üst boşluğu 4px; İSK rakamı +20%; yüzde etiketi 12px */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) { padding-top:8px!important; }
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) { padding-top:4px!important; }
+
+/* İSK: rakam %20 büyütme ve yüzde etiketi 12px */
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-deger { font-size:19.2px!important; }
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket { font-size:12px!important; }
+
+/* WhatsApp PNG sade tablosu: üst boşluk */
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2),
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3),
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) { padding-top:8px!important; }
 .belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(2) { padding-top:4px!important; }
