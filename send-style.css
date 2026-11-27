@@ -2340,3 +2340,23 @@ body.as-drawer-kilit { overflow: hidden; }
   width:40%!important; max-width:40%!important; height:.6px!important;
   margin:0 auto!important; opacity:.38!important; background:#b6b6b6!important;
 }
+
+
+/* KANONIK MAIL PNG HUCRESI — 27.11.2026
+   İSK ve NET hücrelerinde legacy absolute/flex katmanlarını kaldırır.
+   Yalnız gerçek PNG yakalama tablosu: belge-urun-tablo--giden. */
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-mail-rakam-stack,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-mail-rakam-stack {display:block!important;position:static!important;height:auto!important;min-height:0!important;overflow:visible!important;width:100%!important;margin:0!important;padding:0!important;}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-isk-metin,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .rozet-net {display:contents!important;position:static!important;inset:auto!important;transform:none!important;height:auto!important;min-height:0!important;overflow:visible!important;}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-hucresi,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-hucresi {display:grid!important;grid-template-columns:1fr!important;grid-template-rows:auto 1px auto auto!important;justify-items:center!important;align-content:center!important;gap:0!important;position:static!important;inset:auto!important;transform:none!important;width:100%!important;height:auto!important;min-height:0!important;overflow:visible!important;margin:0!important;padding:0!important;line-height:normal!important;text-align:center!important;}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-deger,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-deger {display:block!important;position:static!important;inset:auto!important;transform:none!important;height:auto!important;min-height:0!important;width:auto!important;margin:0!important;padding:0!important;line-height:19px!important;text-align:center!important;white-space:nowrap!important;font-weight:800!important;}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-cizgi,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-cizgi {display:block!important;position:static!important;width:42%!important;height:1px!important;min-height:1px!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;background:rgba(255,255,255,.65)!important;}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-etiket,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-etiket {display:block!important;position:static!important;inset:auto!important;transform:none!important;height:auto!important;min-height:0!important;width:auto!important;margin:0!important;padding:0!important;line-height:12px!important;font-size:8px!important;font-weight:800!important;text-align:center!important;white-space:nowrap!important;color:#fff!important;visibility:visible!important;opacity:1!important;}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-net-tl {display:block!important;position:static!important;inset:auto!important;transform:none!important;height:auto!important;min-height:0!important;width:auto!important;margin:0!important;padding:0!important;line-height:12px!important;font-size:8px!important;font-weight:800!important;text-align:center!important;white-space:nowrap!important;color:#fff!important;visibility:visible!important;opacity:1!important;}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-hucresi *,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-hucresi * {position:static!important;inset:auto!important;top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;transform:none!important;float:none!important;visibility:visible!important;opacity:1!important;}
