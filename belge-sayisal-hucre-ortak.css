@@ -171,11 +171,13 @@
 .belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .belge-birim-cizgi {display:none!important;width:0!important;height:0!important;margin:0!important;}
 
 /* Müşteriye giden PNG: PRİM sütunu yok, 3-7 sayısal kolonları aynı stack */
+/* PNG: beyaz rakam yalnızca renkli İSK (5) ve NET (6) hücrelerinde.
+   ADET (3), LİSTE (4) ve TOPLAM (7) beyaz zeminde koyu rakam kullanır. */
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-hucresi,
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-hucresi {color:#fff!important;}
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(3) .belge-birim-hucresi,
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(4) .belge-birim-hucresi,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(5) .belge-birim-hucresi,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-birim-hucresi,
-#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(7) .belge-birim-hucresi {color:#fff!important;}
+#belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(7) .belge-birim-hucresi {color:#17324d!important;}
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-net-tl {
   display:block!important;
   position:static!important;
