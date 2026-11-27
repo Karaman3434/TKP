@@ -142,3 +142,22 @@
   box-sizing:border-box!important; text-align:center!important; vertical-align:middle!important;
   padding:3px 1px!important; border-radius:0!important;
 }
+
+
+/* 27.11.2026 — İKİNCİ KÖK DÜZELTME: İSK/NET/PRİM ara sarmalayıcıları blok/flex
+   çakışması nedeniyle ortak hücre yığınını farklı genişliklerde bırakıyordu.
+   Wrapper ve iç birim stack'leri tek merkezli flex hizasına alındı; bedelsiz
+   hücreleri ve basit müşteri PNG tablosu kapsam dışıdır. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-isk-metin,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .rozet-net,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-td-prim-tek {
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  gap:0!important;width:100%!important;margin:0!important;padding:0!important;
+  position:static!important;transform:none!important;float:none!important;
+  text-align:center!important;line-height:normal!important;box-sizing:border-box!important;
+}
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-isk-metin .belge-birim-hucresi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .rozet-net .belge-birim-hucresi,
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8) .belge-td-prim-tek .belge-birim-hucresi {
+  flex:0 0 auto!important;align-self:center!important;
+}
