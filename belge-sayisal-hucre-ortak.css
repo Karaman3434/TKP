@@ -268,3 +268,7 @@
 .belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) {
   padding-top:8px!important;
 }
+/* ADET hücresindeki rakamın üst boşluğu: 8px ortak referanstan %20 azaltılır. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3) {
+  padding-top:6.4px!important;
+}
