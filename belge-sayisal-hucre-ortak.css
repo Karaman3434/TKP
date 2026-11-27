@@ -219,12 +219,30 @@
   box-sizing:border-box!important;
 }
 
-/* WhatsApp sade tablosu: NET rakamı görünür, %20 büyütülmüş ölçü ve boşluk ayarları. */
-.belge-urun-tablo--basit tbody td:nth-child(3) .belge-birim-deger {
-  font-size:19.2px!important;
-  margin-top:4.5px!important;
-  margin-bottom:2px!important;
-  color:#fff!important;
+/* WhatsApp sade tablosunda NET rakamı: html2canvas yakalama için yüksek özgüllük. */
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net .belge-birim-deger {
+  display:block!important;
+  position:static!important;
   visibility:visible!important;
   opacity:1!important;
+  color:#fff!important;
+  font-size:19.2px!important;
+  font-weight:900!important;
+  line-height:1.25!important;
+  height:auto!important;
+  min-height:0!important;
+  width:auto!important;
+  margin:4.5px 0 2px!important;
+  padding:0!important;
+  transform:none!important;
+  text-align:center!important;
+  white-space:nowrap!important;
 }
+.belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:#fff!important;
+}
+
