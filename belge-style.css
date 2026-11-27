@@ -1682,8 +1682,8 @@
 #belgeGorselAlani .belge-urun-tablo tbody td:nth-child(5),
 #belgeGorselAlani .belge-urun-tablo tbody td:nth-child(6),
 #belgeGorselAlani .belge-urun-tablo tbody td:nth-child(7){
- box-sizing:border-box!important;vertical-align:top!important;text-align:center!important;
- padding:7px 2px 5px!important;border-radius:0!important;
+ box-sizing:border-box!important;vertical-align:middle!important;text-align:center!important;
+ padding:3px 1px!important;border-radius:0!important;
 }
 .cart-sayfa .belge-urun-tablo tbody td:nth-child(5),
 .gonder-sayfa .belge-urun-tablo tbody td:nth-child(5),
