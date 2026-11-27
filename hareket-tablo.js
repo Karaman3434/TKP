@@ -165,7 +165,7 @@ var HareketTablo = (function(){
       // küçük font (.belge-td-prim-bedelsiz) ile sarmalandı.
       else if(u.ozelEtiket === "bedelsiz"){ primHucre = bdlYazi; }
       else if(u.iskonto>60){ primHucre = "Ö.F"; }
-      else { primHucre = "<span class='belge-td-prim-tek'>" + paraHtml(Math.round(h.mudurPrimTL).toLocaleString("tr-TR"),"TL") + "</span>"; }
+      else { primHucre = "<span class='belge-td-prim-tek belge-mail-rakam-stack'>" + birimHucresiHtml(Math.round(h.mudurPrimTL).toLocaleString("tr-TR"),"TL") + "</span>"; }
       return "<tr class='" + (zeminSinifi||"") + "'>"
         + "<td class='belge-td-sira'>" + (i+1) + "</td>"
         + urunHucre
