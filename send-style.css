@@ -1865,7 +1865,7 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani .mail-giden-yeni-form-tasarim .belge-kart--urun-cerceveli{padding:0!important;border:2px solid #073B70!important;border-radius:14px!important;overflow:hidden!important;background:#fff!important;}
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden{table-layout:fixed!important;border-collapse:collapse!important;border-radius:0!important;}
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden thead th{background:#073B70!important;color:#fff!important;text-align:center!important;vertical-align:middle!important;font-weight:800!important;padding:7px 3px!important;border:1px solid #b7c5d5!important;line-height:1.15!important;}
-#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td{border:1px solid #c7cbd0!important;border-radius:0!important;box-sizing:border-box!important;text-align:center!important;vertical-align:middle!important;padding:4px 2px!important;}
+#belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td{border:1px solid #c7cbd0!important;border-radius:0!important;box-sizing:border-box!important;text-align:center!important;
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(5){background:#f0444b!important;color:#fff!important;}
 #belgeGorselAlani .mail-giden-yeni-form-tasarim table.belge-urun-tablo--giden tbody td:nth-child(6){background:#07852e!important;color:#fff!important;}
 /* Sayısal hücre ölçüleri belge-sayisal-hucre-ortak.css dosyasından yönetilir. */
