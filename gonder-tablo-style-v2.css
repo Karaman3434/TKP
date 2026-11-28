@@ -106,20 +106,4 @@ body.gonder-sayfa .belge-form-baslik.tip-numune   { color:#d96b78; }
 body.gonder-sayfa .belge-form-baslik.tip-kacan    { color:#8b42b5; }
 
 
-/* 26.11.2026 — Mail PNG İSK hücresi hizalama düzeltmesi (Abdullah onayı).
-   Yalnızca Mail'e kopyalanan PNG sarmalayıcısındaki giden tablo İSK değeri
-   ve yüzde birimi birlikte merkezlenir. Diğer kanallar/tablo hücreleri değişmez. */
-.mail-giden-yeni-form-tasarim #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(5) .belge-isk-metin {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 100% !important;
-  text-align: center !important;
-  margin: 0 auto !important;
-}
-.mail-giden-yeni-form-tasarim #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(5) .belge-isk-metin .belge-para-sayi,
-.mail-giden-yeni-form-tasarim #mailOnizlemeTablo .belge-urun-tablo--giden tbody td:nth-child(5) .belge-isk-metin .belge-para-birim {
-  text-align: center !important;
-  align-self: center !important;
-}
+/* Mail PNG İSK hücre geometrisi ortak sayısal CSS tarafından yönetilir. */
