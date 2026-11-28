@@ -1,6 +1,6 @@
 /* TKP — SAYISAL HÜCRE GEOMETRİSİ: TEK KANONİK KURAL
    Beş görünüm: İşlem Önizleme, Ürün Bul/Sepet, Gönder, PNG Mail, PNG WhatsApp.
-   Sayısal hücre rakamı: 16px; üst çizgiden 8px.
+   Sayısal hücre rakamı: 15px; rakam-etike arası 3px.
    Renk/başlık tasarımı belge-style.css içinde ayrı tutulur. */
 
 /* Standart tabloda ADET, LİSTE, İSK, NET, TOPLAM, PRİM (3–8) */
@@ -35,7 +35,7 @@
 .belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net,
 .belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) .belge-mail-rakam-stack {
   display:flex!important; flex-direction:column!important; align-items:center!important;
-  justify-content:center!important; gap:0!important; position:static!important;
+  justify-content:center!important; gap:3px!important; position:static!important;
   inset:auto!important; transform:none!important; float:none!important; width:100%!important;
   height:auto!important; min-height:0!important; margin:0!important; padding:0!important;
   overflow:visible!important; box-sizing:border-box!important; text-align:center!important;
@@ -64,7 +64,7 @@
 .belge-urun-tablo.belge-urun-tablo--basit tbody td:nth-child(4) .belge-birim-deger {
   display:block!important; position:static!important; width:auto!important; height:auto!important;
   min-height:0!important; margin:0!important; padding:0!important; transform:none!important;
-  line-height:1.15!important; font-size:16px!important; font-weight:800!important;
+  line-height:1.15!important; font-size:15px!important; font-weight:800!important;
   text-align:center!important; white-space:nowrap!important;
   font-variant-numeric:tabular-nums!important;
 }
@@ -108,3 +108,9 @@
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(4) .belge-birim-hucresi,
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(7) .belge-birim-hucresi {color:#17324d!important;}
 #belgeGorselAlani table.belge-urun-tablo--giden tbody td:nth-child(6) .belge-net-tl {color:#fff!important;visibility:visible!important;opacity:1!important;}
+
+/* İSK yüzde etiketi: temel 9px ölçüsünün %20 büyütülmesi = 10.8px */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-birim-etiket {font-size:10.8px!important;}
+
+/* SR sayısal değeri de 15px standardına dahil */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(1) {font-size:15px!important;font-variant-numeric:tabular-nums!important;}
