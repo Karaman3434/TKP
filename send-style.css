@@ -1581,7 +1581,7 @@ body.as-drawer-kilit { overflow: hidden; }
 /* 24.11.2026 — Mail'e eklenen PNG işlem tablosu: ADDET rakamı referans tasarımdaki gibi koyu ve belirgin; İSK başlığı kırmızı, NET başlığı yeşil. Yalnız yakalanan giden PNG'ye uygulanır. */
 #belgeGorselAlani table.belge-urun-tablo th:nth-child(5){background:#ef454d!important;color:#fff!important;border-color:#ef454d!important;}
 #belgeGorselAlani table.belge-urun-tablo th:nth-child(6){background:#07852f!important;color:#fff!important;border-color:#07852f!important;}
-#belgeGorselAlani table.belge-urun-tablo td:nth-child(3){font-size:clamp(12px,3.4vw,17px)!important;font-weight:900!important;color:#101828!important;text-shadow:none!important;}
+/* Sayısal hücre geometri/tipografi override'ı kaldırıldı; ortak standart belge-sayisal-hucre-ortak.css yönetir. */
 
 
 /* 24.11.2026 — Onaylı kompakt Mail PNG başlık ölçüleri: padding 3px üst/alt, font 12–15px, line-height 1.2; satır hedefi ~30–34px (font/cihaz ölçeğine bağlı). */
@@ -1595,13 +1595,7 @@ body.as-drawer-kilit { overflow: hidden; }
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-not-metin{flex:1;min-width:0;font-size:12px;line-height:1.4;white-space:pre-line;overflow-wrap:anywhere;}
 
 /* 24.11.2026 — Mail PNG tablosunda SR başlığı boş; sütun ve sıra numaraları korunur, sayısal hücre tipografisi standart. */
-#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),
-#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
-#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
-#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7),
-#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(8){font-size:13px!important;font-weight:800!important;line-height:1.15!important;font-variant-numeric:tabular-nums!important;}
-#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) .belge-isk-metin,
-#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) .rozet-net{font-size:13px!important;font-weight:800!important;line-height:1.15!important;font-variant-numeric:tabular-nums!important;}
+/* Sayısal hücre geometri/tipografi override'ı kaldırıldı; ortak standart belge-sayisal-hucre-ortak.css yönetir. */
 /* Mail/PNG NOT: etiket ve not aynı satır, metin uzunluğunda otomatik sarılır. */
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-not-satir,#belgeGorselAlani .belge-not-satir{display:flex!important;flex-wrap:nowrap!important;align-items:flex-start!important;}
 #mailOnizlemeOverlay #mailOnizlemeTablo .belge-not-metin,#belgeGorselAlani .belge-not-metin{white-space:normal!important;overflow-wrap:anywhere!important;min-width:0!important;flex:1!important;}
@@ -1646,19 +1640,8 @@ body.as-drawer-kilit { overflow: hidden; }
 #belgeGorselAlani .belge-urun-tablo th:nth-child(6) {
   background: #07852f !important; color: #fff !important;
 }
-.gonder-sayfa .belge-urun-tablo td,
-#belgeGorselAlani .belge-urun-tablo td {
-  padding: 7px 4px !important;
-  font-size: 12.5px !important;
-  font-weight: 700 !important;
-  vertical-align: middle !important;
-  font-variant-numeric: tabular-nums !important;
-}
-
-/* Mail preview and PNG table figures: 13px, weight 700, tabular nums. TL equivalent hidden in mail only. */
-#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(1),#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),#mailOnizlemeOverlay #mailOnizlemeTablo table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(1),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(3),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(4),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),#belgeGorselAlani table.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(7){font-size:13px!important;font-weight:700!important;vertical-align:middle!important;font-variant-numeric:tabular-nums!important;line-height:1.15!important;}
-#mailOnizlemeOverlay #mailOnizlemeTablo .belge-isk-metin,#mailOnizlemeOverlay #mailOnizlemeTablo .rozet-net,#belgeGorselAlani .belge-isk-metin,#belgeGorselAlani .rozet-net{font-size:13px!important;font-weight:700!important;font-variant-numeric:tabular-nums!important;}
-#mailOnizlemeOverlay #mailOnizlemeTablo .belge-net-tl,#belgeGorselAlani .belge-net-tl{display:block!important;}
+/* Sayısal hücre geometri/tipografi override'ı kaldırıldı; ortak standart belge-sayisal-hucre-ortak.css yönetir. */
+/* Sayısal hücre geometri/tipografi override'ı kaldırıldı; ortak standart belge-sayisal-hucre-ortak.css yönetir. */
 
 
 /* ABDULLAH ONAYI — 3. SAYFA ORTAK TASARIM STANDARDI (24.11.2026)
@@ -1687,22 +1670,7 @@ body.as-drawer-kilit { overflow: hidden; }
   padding:5px 3px!important; font-size:13px!important; font-weight:900!important;
   line-height:1.15!important; text-align:center!important; vertical-align:middle!important;
 }
-.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td,
-.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td {padding:3px 2px!important;vertical-align:middle!important;}
-.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td .belge-td-sayi,
-.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td .belge-para-sayi,
-.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td .belge-td-adet,
-.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td .belge-td-fiyat,
-.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td .belge-td-toplam,
-.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td .belge-td-sayi,
-.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td .belge-para-sayi,
-.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td .belge-td-adet,
-.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td .belge-td-fiyat,
-.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td .belge-td-toplam {font-size:13px!important;font-weight:700!important;font-variant-numeric:tabular-nums!important;}
-.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
-.gonder-sayfa #tamOnizlemeAlani .belge-urun-tablo tbody td:nth-child(6) .rozet-net,
-.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin,
-.gonder-sayfa #mailOnizlemeTablo .belge-urun-tablo tbody td:nth-child(6) .rozet-net {inset:2px 2px!important;}
+/* Sayısal hücre geometri/tipografi override'ı kaldırıldı; ortak standart belge-sayisal-hucre-ortak.css yönetir. */
 .gonder-sayfa #tamOnizlemeAlani .belge-gt-kutu,
 .gonder-sayfa #mailOnizlemeTablo .belge-gt-kutu,
 .gonder-sayfa #tamOnizlemeAlani .belge-genel-toplam-serit,
