@@ -1185,7 +1185,7 @@
 :root {
   --urun-isk-bg: #ed394b;
   --urun-net-bg: #07883e;
-  --urun-renk-yuzey-bosluk: 1px;
+  --urun-renk-yuzey-bosluk: 2px;
 }
 .belge-urun-tablo thead th:nth-child(5) {
   background: var(--urun-isk-bg) !important;
