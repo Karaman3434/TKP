@@ -216,20 +216,7 @@ body.cart-sayfa .cart-cari-panel {
   width: 100%;
   border-radius: var(--islem-formu-radius);
 }
-/* İSK ve NET: renk, metin ve rakam hizası ortak standardı */
-body.cart-sayfa .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-body.cart-sayfa .belge-urun-tablo tbody td:nth-child(6) .rozet-net {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
+/* Sayısal hücre geometri belge-sayisal-hucre-ortak.css tarafından yönetilir. */
 /* Prim / kur / genel toplam ortak bileşeni — Sepet'in etkileşimleri korunur. */
 body.cart-sayfa .belge-gt-kutu {
   box-sizing: border-box;
