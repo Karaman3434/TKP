@@ -52,7 +52,7 @@
   box-sizing:border-box!important;
 }
 
-/* Altı sayısal sütunun tek rakam ölçüsü: 16px */
+/* Altı sayısal sütunun tek rakam ölçüsü: 15px */
 .belge-urun-tablo tbody td:nth-child(3) .belge-birim-deger,
 .belge-urun-tablo tbody td:nth-child(4) .belge-birim-deger,
 .belge-urun-tablo tbody td:nth-child(5) .belge-birim-deger,
