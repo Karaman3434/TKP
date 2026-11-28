@@ -548,24 +548,10 @@
 /* İSK ve NET artık ayrı bir rozet/kutu DEĞİL — sadece renk taşıyor, LİSTE ve
    TOPLAM ile birebir aynı yapı/boyut/hiza. % işareti, EURO/TL gibi rakamın
    ALTINDA küçük birim satırı. */
-/* İSKONTO GÖSTERİMİ (07.10.2026, Abdullah'ın isteğiyle) — kırmızı zeminli
-   rozet KALDIRILDI: html2canvas ile mail/WhatsApp'a gönderilen görselde,
-   zemin içindeki BEYAZ yazı görünmüyordu (sadece kırmızı kutu çıkıyordu).
-   Kutuyu tamamen kaldırıp sayı/%'i DÜZ KIRMIZI METİN yapmak, bu rozetin
-   html2canvas'ta sorunsuz çizilmesini sağlıyor. Satır rengine göre
-   (sarı/yeşil, aşağıdaki .hareket-satir--sari/--yesil kuralları) ezilmesin
-   diye !important. */
-.belge-isk-metin {
-  display: inline-block;
-  background: none;
-  border-radius: 0;
-  padding: 0;
-}
-.belge-isk-metin .belge-para-sayi,
-.belge-isk-metin .belge-para-birim,
-.belge-isk-metin .belge-td-sayi,
-.belge-isk-metin .belge-td-birim { color: #c0392b !important; font-weight: 800 !important; }
-.rozet-net { color: #0e6b34; }
+/* İSK/NET renkli yüzeylerinin geometrisi ve semantik rengi, aşağıdaki
+   ortak İSK/NET standardı tarafından tek merkezden yönetilir. */
+.belge-isk-metin,
+.rozet-net { box-sizing: border-box; }
 /* NET FİYAT RENGİ (19.10.2026, Abdullah onayı — "7 fotoğraf" turu):
    Sepet'in HESAPLANACAK/HESAPLANDI (turuncu/yeşil zemin) satırlarında
    ".rozet-net" eskiden okunabilirlik için kahverengi/siyaha boyanıyordu
@@ -1191,13 +1177,15 @@
 .belge-urun-tablo .belge-td-kod {font-size:11px!important;}
 
 /* ================================================================
-   İSK / NET — SEMANTİK RENK KURALLARI
-   Sayısal hücre geometrisi belge-sayisal-hucre-ortak.css dosyasına aittir.
-   Bu bölüm yalnız renk ve tipografi gibi görünüm anlamlarını tanımlar.
+   İSK / NET — TEK ORTAK RENK VE YÜZEY STANDARDI
+   Hücre (td) beyaz/şeffaf kalır. Renk yalnız hücre içindeki yüzeye
+   uygulanır. 1px iç boşluk grid çizgisini açık bırakır. Köşe oval değil.
+   Sayısal geometri belge-sayisal-hucre-ortak.css dosyasına aittir.
    ================================================================ */
 :root {
-  --urun-isk-bg: #f34b4b;
-  --urun-net-bg: #07852b;
+  --urun-isk-bg: #ed394b;
+  --urun-net-bg: #07883e;
+  --urun-renk-yuzey-bosluk: 1px;
 }
 .belge-urun-tablo thead th:nth-child(5) {
   background: var(--urun-isk-bg) !important;
@@ -1210,21 +1198,47 @@
   color: #fff !important;
   font-weight: 900 !important;
 }
+/* Hücre yüzeyi değil: td'nin kendisi boyanmaz ve çizgileri korunur. */
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5),
+.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6),
+.belge-urun-tablo--basit tbody td:nth-child(3) {
+  background: #fff !important;
+  padding: var(--urun-renk-yuzey-bosluk) !important;
+}
+/* İSK renkli yüzeyi */
 .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
   background: var(--urun-isk-bg) !important;
+  border-radius: 0 !important;
+  padding: 5px 2px !important;
   color: #fff !important;
 }
+/* NET renkli yüzeyi — standart ve sade WhatsApp tablosu */
+.belge-urun-tablo tbody td:nth-child(6) .rozet-net,
+.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  background: var(--urun-net-bg) !important;
+  border-radius: 0 !important;
+  padding: 5px 2px !important;
+  text-align: center !important;
+  color: #fff !important;
+}
+/* Yüzey içindeki metinler tek standart: beyaz ve kalın. */
 .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin *,
 .belge-urun-tablo tbody td:nth-child(6) .rozet-net *,
 .belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net * {
   color: #fff !important;
   font-weight: 900 !important;
-}
-.belge-urun-tablo tbody td:nth-child(6) .rozet-net,
-.belge-urun-tablo--basit tbody td:nth-child(3) .rozet-net {
-  background: var(--urun-net-bg) !important;
-  color: #fff !important;
-  text-align: center !important;
 }
 .belge-urun-tablo tbody td:nth-child(6) .rozet-net .belge-net-tl {
   font-size: 9px !important;
@@ -1305,10 +1319,7 @@
 .gonder-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit),
 .belge-onizleme-sayfa .belge-urun-tablo:not(.belge-urun-tablo--basit),
 #belgeGorselAlani .belge-urun-tablo:not(.belge-urun-tablo--basit){table-layout:fixed!important;}
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5){background:#ed394b!important;color:#fff!important;border-radius:0!important;}
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6){background:#07883e!important;color:#fff!important;border-radius:0!important;}
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(5) *,
-.belge-urun-tablo:not(.belge-urun-tablo--basit) tbody td:nth-child(6) *{color:#fff!important;}
+/* İSK/NET hücre boyama override'ları kaldırıldı; tek ortak standarda taşındı. */
 26.11.2026 — HATA DÜZELTME: BEDELSİZ satırındaki çizgi hücreleri, tüm render/PNG bağlamlarında kesin beyaz zemin. */
 .belge-urun-tablo tbody tr td.belge-td-bdl-iptal,
 .belge-urun-tablo tbody tr td.belge-td-bdl-iptal.belge-bdl-beyaz-hucre,
