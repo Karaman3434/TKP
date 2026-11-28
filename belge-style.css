@@ -1205,18 +1205,7 @@
   background: #fff !important;
   padding: var(--urun-renk-yuzey-bosluk) !important;
 }
-/* İSK/NET başlıkları da aynı standardın parçasıdır. */
-.belge-urun-tablo thead th:nth-child(5) {
-  background: var(--urun-isk-bg) !important;
-  color: #fff !important;
-  font-weight: 900 !important;
-}
-.belge-urun-tablo thead th:nth-child(6),
-.belge-urun-tablo--basit thead th:nth-child(3) {
-  background: var(--urun-net-bg) !important;
-  color: #fff !important;
-  font-weight: 900 !important;
-}
+
 /* İSK renkli yüzeyi */
 .belge-urun-tablo tbody td:nth-child(5) .belge-isk-metin {
   display: flex !important;
