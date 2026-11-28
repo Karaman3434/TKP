@@ -234,10 +234,7 @@ body.cart-sayfa .belge-urun-tablo thead th {
   text-align: center !important;
   vertical-align: middle !important;
 }
-body.cart-sayfa .belge-urun-tablo tbody td {
-  padding: 3px 2px !important;
-  vertical-align: middle !important;
-}
+/* Sayısal hücre geometrisi ortak CSS tarafından yönetilir. */
 /* Sayısal hücre font/yerleşim ölçüleri ortak CSS dosyasına devredildi.
    Bu dosyada yalnız tablo genel görünüm ve yan boşluklar tanımlanır. */
 
